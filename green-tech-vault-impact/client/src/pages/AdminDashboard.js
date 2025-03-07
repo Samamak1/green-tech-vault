@@ -23,7 +23,8 @@ import {
   DialogActions,
   IconButton,
   Tabs,
-  Tab
+  Tab,
+  Chip
 } from '@mui/material';
 import {
   Add as AddIcon,
