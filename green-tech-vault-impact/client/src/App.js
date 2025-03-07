@@ -9,6 +9,7 @@ import Layout from './components/layout/Layout';
 
 // Pages
 import Dashboard from './pages/Dashboard';
+import SimpleDashboard from './pages/SimpleDashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import CompanyProfile from './pages/CompanyProfile';
@@ -99,7 +100,7 @@ function App() {
             <Layout />
           </ProtectedRoute>
         }>
-          <Route index element={<Dashboard />} />
+          <Route index element={<SimpleDashboard />} />
           <Route path="company-profile" element={<CompanyProfile />} />
           <Route path="pickups" element={<Pickups />} />
           <Route path="pickups/:id" element={<PickupDetail />} />
