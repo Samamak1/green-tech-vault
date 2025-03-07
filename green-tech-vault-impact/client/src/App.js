@@ -20,6 +20,14 @@ import Reports from './pages/Reports';
 import ReportDetail from './pages/ReportDetail';
 import NotFound from './pages/NotFound';
 
+// Admin Pages
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
+import Unauthorized from './pages/Unauthorized';
+
+// Route Protection
+import AdminRoute from './components/routing/AdminRoute';
+
 // Create a theme instance
 const theme = createTheme({
   palette: {
@@ -93,8 +101,13 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Routes>
+        {/* Public Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+        
+        {/* Client Routes */}
         <Route path="/" element={
           <ProtectedRoute>
             <Layout />
@@ -108,6 +121,15 @@ function App() {
           <Route path="reports" element={<Reports />} />
           <Route path="reports/:id" element={<ReportDetail />} />
         </Route>
+        
+        {/* Admin Routes */}
+        <Route path="/admin" element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        } />
+        
+        {/* 404 Route */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </ThemeProvider>

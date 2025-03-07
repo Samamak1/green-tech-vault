@@ -9,6 +9,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -27,6 +28,7 @@ export const AuthProvider = ({ children }) => {
             // Token expired
             localStorage.removeItem('token');
             setIsAuthenticated(false);
+            setIsAdmin(false);
             setUser(null);
           } else {
             // Set auth token header
@@ -37,11 +39,15 @@ export const AuthProvider = ({ children }) => {
             
             setUser(res.data.data);
             setIsAuthenticated(true);
+            
+            // Check if user is admin
+            setIsAdmin(res.data.data.role === 'admin');
           }
         }
       } catch (err) {
         localStorage.removeItem('token');
         setIsAuthenticated(false);
+        setIsAdmin(false);
         setUser(null);
         setError(err.response?.data?.error || 'Authentication error');
       } finally {
@@ -61,13 +67,16 @@ export const AuthProvider = ({ children }) => {
       const res = await axios.post('/api/auth/register', formData);
       
       // Save token to localStorage
-      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('token', res.data.data.token);
       
       // Set auth token header
-      axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
+      axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.data.token}`;
       
-      setUser(res.data.data);
+      setUser(res.data.data.user);
       setIsAuthenticated(true);
+      
+      // Check if user is admin
+      setIsAdmin(res.data.data.user.role === 'admin');
       
       return res.data;
     } catch (err) {
@@ -87,17 +96,51 @@ export const AuthProvider = ({ children }) => {
       const res = await axios.post('/api/auth/login', formData);
       
       // Save token to localStorage
-      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('token', res.data.data.token);
       
       // Set auth token header
-      axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
+      axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.data.token}`;
       
-      setUser(res.data.data);
+      setUser(res.data.data.user);
       setIsAuthenticated(true);
+      
+      // Check if user is admin
+      setIsAdmin(res.data.data.user.role === 'admin');
       
       return res.data;
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Admin login
+  const adminLogin = async (formData) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Add admin flag to login request
+      const res = await axios.post('/api/auth/login', {
+        ...formData,
+        isAdminLogin: true
+      });
+      
+      // Save token to localStorage
+      localStorage.setItem('token', res.data.data.token);
+      
+      // Set auth token header
+      axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.data.token}`;
+      
+      setUser(res.data.data.user);
+      setIsAuthenticated(true);
+      setIsAdmin(true);
+      
+      return res.data;
+    } catch (err) {
+      setError(err.response?.data?.error || 'Admin login failed');
       throw err;
     } finally {
       setLoading(false);
@@ -114,6 +157,7 @@ export const AuthProvider = ({ children }) => {
     
     setUser(null);
     setIsAuthenticated(false);
+    setIsAdmin(false);
   };
 
   return (
@@ -121,10 +165,12 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         isAuthenticated,
+        isAdmin,
         loading,
         error,
         register,
         login,
+        adminLogin,
         logout
       }}
     >
