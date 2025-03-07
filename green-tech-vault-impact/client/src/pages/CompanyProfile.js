@@ -37,8 +37,6 @@ import {
   Delete as DeleteIcon,
   Publish as PublishIcon
 } from '@mui/icons-material';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { reportAPI } from '../services/api';
 import { formatCO2, formatWeight } from '../utils/environmentalImpact';
 
@@ -109,10 +107,11 @@ const Reports = () => {
     }
   };
 
-  const handleDateChange = (name, date) => {
+  const handleDateChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: date
+      [name]: value
     });
     
     // Clear error for this field
@@ -442,40 +441,32 @@ const Reports = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    label="Start Date"
-                    value={formData.startDate}
-                    onChange={(date) => handleDateChange('startDate', date)}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        fullWidth
-                        error={!!formErrors.startDate}
-                        helperText={formErrors.startDate}
-                        required
-                      />
-                    )}
-                  />
-                </LocalizationProvider>
+                <TextField
+                  fullWidth
+                  label="Start Date"
+                  name="startDate"
+                  type="date"
+                  value={formData.startDate ? new Date(formData.startDate).toISOString().split('T')[0] : ''}
+                  onChange={handleInputChange}
+                  InputLabelProps={{ shrink: true }}
+                  error={!!formErrors.startDate}
+                  helperText={formErrors.startDate}
+                  required
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    label="End Date"
-                    value={formData.endDate}
-                    onChange={(date) => handleDateChange('endDate', date)}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        fullWidth
-                        error={!!formErrors.endDate}
-                        helperText={formErrors.endDate}
-                        required
-                      />
-                    )}
-                  />
-                </LocalizationProvider>
+                <TextField
+                  fullWidth
+                  label="End Date"
+                  name="endDate"
+                  type="date"
+                  value={formData.endDate ? new Date(formData.endDate).toISOString().split('T')[0] : ''}
+                  onChange={handleInputChange}
+                  InputLabelProps={{ shrink: true }}
+                  error={!!formErrors.endDate}
+                  helperText={formErrors.endDate}
+                  required
+                />
               </Grid>
             </Grid>
           </Box>
