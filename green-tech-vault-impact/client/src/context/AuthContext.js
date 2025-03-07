@@ -20,21 +20,11 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem('token');
         
         if (token) {
-          // Verify token is valid and not expired
-          const decoded = jwtDecode(token);
-          const currentTime = Date.now() / 1000;
+          // Set auth token header
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
           
-          if (decoded.exp < currentTime) {
-            // Token expired
-            localStorage.removeItem('token');
-            setIsAuthenticated(false);
-            setIsAdmin(false);
-            setUser(null);
-          } else {
-            // Set auth token header
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            
-            // Get user data
+          // Try to get user data
+          try {
             const res = await axios.get('/api/auth/me');
             
             setUser(res.data.data);
@@ -42,6 +32,32 @@ export const AuthProvider = ({ children }) => {
             
             // Check if user is admin
             setIsAdmin(res.data.data.role === 'admin');
+          } catch (err) {
+            // If API call fails, still try to use the token data
+            try {
+              // Verify token is valid and not expired
+              const decoded = jwtDecode(token);
+              const currentTime = Date.now() / 1000;
+              
+              if (decoded.exp && decoded.exp < currentTime) {
+                // Token expired
+                localStorage.removeItem('token');
+                setIsAuthenticated(false);
+                setIsAdmin(false);
+                setUser(null);
+              } else {
+                // Use the token data
+                setUser(decoded);
+                setIsAuthenticated(true);
+                setIsAdmin(decoded.role === 'admin');
+              }
+            } catch (tokenErr) {
+              // Invalid token
+              localStorage.removeItem('token');
+              setIsAuthenticated(false);
+              setIsAdmin(false);
+              setUser(null);
+            }
           }
         }
       } catch (err) {

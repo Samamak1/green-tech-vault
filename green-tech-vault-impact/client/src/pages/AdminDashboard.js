@@ -24,15 +24,19 @@ import {
   IconButton,
   Tabs,
   Tab,
-  Chip
+  Chip,
+  AppBar,
+  Toolbar
 } from '@mui/material';
 import {
   Add as AddIcon,
   Edit as EditIcon,
   Delete as DeleteIcon,
-  Visibility as VisibilityIcon
+  Visibility as VisibilityIcon,
+  Logout as LogoutIcon
 } from '@mui/icons-material';
 import { dashboardAPI, companyAPI } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const AdminDashboard = () => {
   const [clients, setClients] = useState([]);
@@ -52,6 +56,12 @@ const AdminDashboard = () => {
   });
   
   const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/admin/login');
+  };
 
   useEffect(() => {
     fetchAdminData();
@@ -282,6 +292,22 @@ const AdminDashboard = () => {
 
   return (
     <Box sx={{ p: 3 }}>
+      <AppBar position="fixed" color="primary" sx={{ top: 0, left: 0, right: 0 }}>
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Green Tech Vault Admin
+          </Typography>
+          <Button 
+            color="inherit" 
+            onClick={handleLogout}
+            startIcon={<LogoutIcon />}
+          >
+            Logout
+          </Button>
+        </Toolbar>
+      </AppBar>
+      <Toolbar /> {/* Empty toolbar to create space below the AppBar */}
+      
       <Typography variant="h4" component="h1" gutterBottom>
         Admin Dashboard
       </Typography>

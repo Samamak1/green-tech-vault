@@ -129,6 +129,11 @@ const Login = () => {
                 </Link>
               </Grid>
             </Grid>
+            <Box mt={2} textAlign="center">
+              <Link component={RouterLink} to="/admin/login" variant="body2" sx={{ fontWeight: 'medium' }}>
+                Admin Login
+              </Link>
+            </Box>
             <Box mt={5}>
               <Typography variant="body2" color="text.secondary" align="center">
                 {'Copyright © '}
