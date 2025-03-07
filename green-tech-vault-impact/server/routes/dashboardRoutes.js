@@ -15,7 +15,26 @@ router.get('/summary', (req, res) => {
       co2Saved: 3750.8,
       pickupsCompleted: 12,
       refurbishedDevices: 87,
-      recycledDevices: 69
+      recycledDevices: 69,
+      // Additional properties that might be needed
+      totalDevicesCollected: 156,
+      totalWeightCollected: 1250.5,
+      totalCO2Saved: 3750.8,
+      totalRefurbished: 87,
+      totalRecycled: 69,
+      landfillDiversionRate: 92.5,
+      materialsRecovered: {
+        metals: 625.25,
+        plastics: 375.15,
+        glass: 125.05,
+        rareEarthMetals: 62.53,
+        other: 62.52
+      },
+      environmentalEquivalents: {
+        treesSaved: 187,
+        carEmissions: 15000,
+        homeEnergy: 9500
+      }
     }
   });
 });
