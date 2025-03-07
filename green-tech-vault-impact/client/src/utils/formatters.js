@@ -110,6 +110,69 @@ export const formatPercentage = (value, decimals = 1) => {
 };
 
 /**
+ * Format weight values (kg) to appropriate units
+ * @param {number} weight - Weight in kilograms
+ * @param {number} decimals - Number of decimal places (default: 1)
+ * @returns {string} Formatted weight string with units
+ */
+export const formatWeight = (weight, decimals = 1) => {
+  if (weight === null || weight === undefined) return '-';
+  
+  try {
+    const numWeight = Number(weight);
+    
+    if (isNaN(numWeight)) {
+      return '-';
+    }
+    
+    // Convert to appropriate units
+    if (numWeight >= 1000) {
+      // Convert to metric tons for large weights
+      return `${(numWeight / 1000).toFixed(decimals)} tonnes`;
+    } else if (numWeight < 0.1) {
+      // Convert to grams for very small weights
+      return `${(numWeight * 1000).toFixed(0)} g`;
+    } else {
+      // Use kilograms for normal weights
+      return `${numWeight.toFixed(decimals)} kg`;
+    }
+  } catch (error) {
+    console.error('Weight formatting error:', error);
+    return '-';
+  }
+};
+
+/**
+ * Format CO2 emissions values (kg) to appropriate units
+ * @param {number} co2 - CO2 in kilograms
+ * @param {number} decimals - Number of decimal places (default: 1)
+ * @returns {string} Formatted CO2 string with units
+ */
+export const formatCO2 = (co2, decimals = 1) => {
+  if (co2 === null || co2 === undefined) return '-';
+  
+  try {
+    const numCO2 = Number(co2);
+    
+    if (isNaN(numCO2)) {
+      return '-';
+    }
+    
+    // Convert to appropriate units
+    if (numCO2 >= 1000) {
+      // Convert to metric tons for large amounts
+      return `${(numCO2 / 1000).toFixed(decimals)} tonnes CO₂`;
+    } else {
+      // Use kilograms for normal amounts
+      return `${numCO2.toFixed(decimals)} kg CO₂`;
+    }
+  } catch (error) {
+    console.error('CO2 formatting error:', error);
+    return '-';
+  }
+};
+
+/**
  * Truncate a string to a maximum length and add ellipsis if needed
  * @param {string} str - The string to truncate
  * @param {number} maxLength - Maximum length (default: 50)
