@@ -28,60 +28,30 @@ router.get('/summary', (req, res) => {
 router.get('/chart', (req, res) => {
   const { metric, period } = req.query;
   
-  let data = [];
+  let labels = [];
+  let values = [];
   
   // Generate sample data based on metric and period
   if (metric === 'ewaste') {
-    data = [
-      { label: 'Jan', value: 120 },
-      { label: 'Feb', value: 150 },
-      { label: 'Mar', value: 180 },
-      { label: 'Apr', value: 110 },
-      { label: 'May', value: 160 },
-      { label: 'Jun', value: 140 },
-      { label: 'Jul', value: 170 },
-      { label: 'Aug', value: 190 },
-      { label: 'Sep', value: 210 },
-      { label: 'Oct', value: 230 },
-      { label: 'Nov', value: 250 },
-      { label: 'Dec', value: 270 }
-    ];
+    labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    values = [120, 150, 180, 110, 160, 140, 170, 190, 210, 230, 250, 270];
   } else if (metric === 'co2') {
-    data = [
-      { label: 'Jan', value: 350 },
-      { label: 'Feb', value: 420 },
-      { label: 'Mar', value: 510 },
-      { label: 'Apr', value: 320 },
-      { label: 'May', value: 480 },
-      { label: 'Jun', value: 390 },
-      { label: 'Jul', value: 510 },
-      { label: 'Aug', value: 570 },
-      { label: 'Sep', value: 630 },
-      { label: 'Oct', value: 690 },
-      { label: 'Nov', value: 750 },
-      { label: 'Dec', value: 810 }
-    ];
+    labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    values = [350, 420, 510, 320, 480, 390, 510, 570, 630, 690, 750, 810];
   } else if (metric === 'deviceTypes') {
-    data = [
-      { label: 'Laptops', value: 45 },
-      { label: 'Desktops', value: 25 },
-      { label: 'Monitors', value: 30 },
-      { label: 'Phones', value: 20 },
-      { label: 'Tablets', value: 15 },
-      { label: 'Printers', value: 10 },
-      { label: 'Other', value: 5 }
-    ];
+    labels = ['Laptops', 'Desktops', 'Monitors', 'Phones', 'Tablets', 'Printers', 'Other'];
+    values = [45, 25, 30, 20, 15, 10, 5];
   } else if (metric === 'disposition') {
-    data = [
-      { label: 'Refurbished', value: 55 },
-      { label: 'Recycled', value: 35 },
-      { label: 'Pending', value: 10 }
-    ];
+    labels = ['Refurbished', 'Recycled', 'Pending'];
+    values = [55, 35, 10];
   }
   
   res.json({
     success: true,
-    data
+    data: {
+      labels,
+      values
+    }
   });
 });
 
@@ -133,6 +103,59 @@ router.get('/recent-pickups', (req, res) => {
         status: 'scheduled',
         devices: 0,
         weight: 0
+      }
+    ]
+  });
+});
+
+/**
+ * @route   GET /api/dashboard/recent-devices
+ * @desc    Get recent devices for dashboard
+ * @access  Private
+ */
+router.get('/recent-devices', (req, res) => {
+  res.json({
+    success: true,
+    data: [
+      {
+        id: '1',
+        type: 'Laptop',
+        manufacturer: 'Dell',
+        model: 'XPS 13',
+        status: 'Refurbished',
+        date: '2025-03-01'
+      },
+      {
+        id: '2',
+        type: 'Desktop',
+        manufacturer: 'HP',
+        model: 'EliteDesk 800',
+        status: 'Recycled',
+        date: '2025-03-02'
+      },
+      {
+        id: '3',
+        type: 'Monitor',
+        manufacturer: 'LG',
+        model: '27UK850-W',
+        status: 'Refurbished',
+        date: '2025-03-03'
+      },
+      {
+        id: '4',
+        type: 'Printer',
+        manufacturer: 'Brother',
+        model: 'HL-L2350DW',
+        status: 'Recycled',
+        date: '2025-03-04'
+      },
+      {
+        id: '5',
+        type: 'Phone',
+        manufacturer: 'Apple',
+        model: 'iPhone 12',
+        status: 'Refurbished',
+        date: '2025-03-05'
       }
     ]
   });
