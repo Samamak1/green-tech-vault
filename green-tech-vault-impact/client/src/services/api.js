@@ -53,7 +53,10 @@ export const pickupAPI = {
   update: (id, data) => apiClient.put(`/pickups/${id}`, data),
   delete: (id) => apiClient.delete(`/pickups/${id}`),
   getImpact: (id) => apiClient.get(`/pickups/${id}/impact`),
-  complete: (id) => apiClient.put(`/pickups/${id}/complete`)
+  complete: (id) => apiClient.put(`/pickups/${id}/complete`),
+  getPickups: (params) => apiClient.get('/pickups', { params }),
+  getPickupById: (id) => apiClient.get(`/pickups/${id}`),
+  createPickup: (data) => apiClient.post('/pickups', data)
 };
 
 // Device API
@@ -63,7 +66,10 @@ export const deviceAPI = {
   create: (data) => apiClient.post('/devices', data),
   update: (id, data) => apiClient.put(`/devices/${id}`, data),
   delete: (id) => apiClient.delete(`/devices/${id}`),
-  updateDisposition: (id, disposition) => apiClient.put(`/devices/${id}/disposition`, { disposition })
+  updateDisposition: (id, disposition) => apiClient.put(`/devices/${id}/disposition`, { disposition }),
+  getDevices: (params) => apiClient.get('/devices', { params }),
+  getDeviceById: (id) => apiClient.get(`/devices/${id}`),
+  createDevice: (data) => apiClient.post('/devices', data)
 };
 
 // Report API
@@ -76,7 +82,10 @@ export const reportAPI = {
   generate: (data) => apiClient.post('/reports/generate', data),
   publish: (id) => apiClient.put(`/reports/${id}/publish`),
   downloadPdf: (id) => apiClient.get(`/reports/${id}/pdf`, { responseType: 'blob' }),
-  downloadCsv: (id) => apiClient.get(`/reports/${id}/csv`, { responseType: 'blob' })
+  downloadCsv: (id) => apiClient.get(`/reports/${id}/csv`, { responseType: 'blob' }),
+  getReports: (params) => apiClient.get('/reports', { params }),
+  getReportById: (id) => apiClient.get(`/reports/${id}`),
+  createReport: (data) => apiClient.post('/reports', data)
 };
 
 // Dashboard API

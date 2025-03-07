@@ -128,6 +128,11 @@ export const AuthProvider = ({ children }) => {
         isAdminLogin: true
       });
       
+      // Verify that the user is actually an admin
+      if (res.data.data.user.role !== 'admin') {
+        throw new Error('Not authorized as admin');
+      }
+      
       // Save token to localStorage
       localStorage.setItem('token', res.data.data.token);
       
@@ -140,7 +145,7 @@ export const AuthProvider = ({ children }) => {
       
       return res.data;
     } catch (err) {
-      setError(err.response?.data?.error || 'Admin login failed');
+      setError(err.response?.data?.error || err.message || 'Admin login failed');
       throw err;
     } finally {
       setLoading(false);

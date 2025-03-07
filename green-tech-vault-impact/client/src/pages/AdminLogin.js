@@ -35,8 +35,14 @@ const AdminLogin = () => {
 
     try {
       setLoading(true);
-      await adminLogin(formData);
-      navigate('/admin');
+      const result = await adminLogin(formData);
+      
+      // Check if the user is actually an admin before redirecting
+      if (result.data.user.role === 'admin') {
+        navigate('/admin');
+      } else {
+        setError('You do not have admin privileges.');
+      }
     } catch (err) {
       setError(err.response?.data?.error || authError || 'Admin login failed. Please check your credentials.');
       console.error('Admin login error:', err);

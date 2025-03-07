@@ -97,6 +97,8 @@ const ProtectedRoute = ({ children }) => {
 };
 
 function App() {
+  const { isAdmin } = useAuth();
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -113,7 +115,7 @@ function App() {
             <Layout />
           </ProtectedRoute>
         }>
-          <Route index element={<SimpleDashboard />} />
+          <Route index element={isAdmin ? <Navigate to="/admin" /> : <SimpleDashboard />} />
           <Route path="company-profile" element={<CompanyProfile />} />
           <Route path="pickups" element={<Pickups />} />
           <Route path="pickups/:id" element={<PickupDetail />} />

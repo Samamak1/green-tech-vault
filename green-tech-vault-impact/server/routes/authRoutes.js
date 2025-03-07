@@ -37,16 +37,23 @@ router.post('/login', (req, res) => {
   // For now, we'll return a mock response
   
   // For demo purposes, let's consider admin@greentech.com with password 'admin123' as admin credentials
-  const isAdmin = isAdminLogin && 
-                 (req.body.email === 'admin@greentech.com' && 
+  const isAdmin = (req.body.email === 'admin@greentech.com' && 
                   req.body.password === 'admin123');
+  
+  // If it's an admin login attempt but credentials don't match
+  if (isAdminLogin && !isAdmin) {
+    return res.status(401).json({
+      success: false,
+      error: 'Invalid admin credentials'
+    });
+  }
   
   res.json({ 
     success: true, 
     data: {
-      token: 'sample-jwt-token',
+      token: isAdmin ? 'admin-jwt-token' : 'client-jwt-token',
       user: {
-        id: '1',
+        id: isAdmin ? 'admin-1' : 'client-1',
         name: isAdmin ? 'Admin User' : 'Demo User',
         email: req.body.email || 'demo@example.com',
         role: isAdmin ? 'admin' : 'client'
@@ -67,12 +74,12 @@ router.get('/me', (req, res) => {
   
   // For demo purposes, let's check if the Authorization header contains 'admin'
   const authHeader = req.headers.authorization || '';
-  const isAdmin = authHeader.toLowerCase().includes('admin');
+  const isAdmin = authHeader.includes('admin-jwt-token');
   
   res.json({ 
     success: true, 
     data: {
-      id: '1',
+      id: isAdmin ? 'admin-1' : 'client-1',
       name: isAdmin ? 'Admin User' : 'Demo User',
       email: isAdmin ? 'admin@greentech.com' : 'demo@example.com',
       role: isAdmin ? 'admin' : 'client'
