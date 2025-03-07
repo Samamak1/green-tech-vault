@@ -7,35 +7,66 @@ const router = express.Router();
  * @access  Private
  */
 router.get('/summary', (req, res) => {
+  // Create a complete summary object with all possible properties
+  const summaryData = {
+    // Core metrics
+    totalDevices: 156,
+    totalWeight: 1250.5,
+    co2Saved: 3750.8,
+    pickupsCompleted: 12,
+    refurbishedDevices: 87,
+    recycledDevices: 69,
+    
+    // Additional metrics
+    totalDevicesCollected: 156,
+    totalWeightCollected: 1250.5,
+    totalCO2Saved: 3750.8,
+    totalRefurbished: 87,
+    totalRecycled: 69,
+    landfillDiversionRate: 92.5,
+    
+    // Environmental impact
+    environmentalEquivalents: {
+      treesSaved: 187,
+      carEmissions: 15000,
+      homeEnergy: 9500
+    },
+    
+    // Materials recovered
+    materialsRecovered: {
+      metals: 625.25,
+      plastics: 375.15,
+      glass: 125.05,
+      rareEarthMetals: 62.53,
+      other: 62.52
+    },
+    
+    // Ensure all properties that might be used with toFixed() are numbers
+    ewasteDiverted: 1250.5,
+    co2Reduction: 3750.8,
+    treesPlanted: 187,
+    waterSaved: 25000,
+    energySaved: 45000,
+    
+    // Time-based metrics
+    monthlyCollection: 125.5,
+    quarterlyCollection: 375.8,
+    yearlyCollection: 1250.5,
+    
+    // Percentage metrics
+    refurbishedPercentage: 55.8,
+    recycledPercentage: 44.2,
+    
+    // Add any other properties that might be needed
+    impactScore: 85.7,
+    sustainabilityRating: 'A',
+    complianceStatus: 'Compliant',
+    nextPickupDate: '2025-04-01'
+  };
+  
   res.json({
     success: true,
-    data: {
-      totalDevices: 156,
-      totalWeight: 1250.5,
-      co2Saved: 3750.8,
-      pickupsCompleted: 12,
-      refurbishedDevices: 87,
-      recycledDevices: 69,
-      // Additional properties that might be needed
-      totalDevicesCollected: 156,
-      totalWeightCollected: 1250.5,
-      totalCO2Saved: 3750.8,
-      totalRefurbished: 87,
-      totalRecycled: 69,
-      landfillDiversionRate: 92.5,
-      materialsRecovered: {
-        metals: 625.25,
-        plastics: 375.15,
-        glass: 125.05,
-        rareEarthMetals: 62.53,
-        other: 62.52
-      },
-      environmentalEquivalents: {
-        treesSaved: 187,
-        carEmissions: 15000,
-        homeEnergy: 9500
-      }
-    }
+    data: summaryData
   });
 });
 
