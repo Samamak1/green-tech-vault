@@ -30,7 +30,7 @@ import {
   ArrowBack as ArrowBackIcon,
   PieChart as PieChartIcon,
   BarChart as BarChartIcon,
-  Eco as EcoIcon,
+  Park as ParkIcon,
   Devices as DevicesIcon,
   Recycling as RecyclingIcon,
   LocalShipping as ShippingIcon
@@ -278,7 +278,7 @@ const ReportDetail = () => {
                     <Typography variant="h5" sx={{ mr: 1 }}>
                       {report.landfillDiversionRate?.toFixed(1) || 0}%
                     </Typography>
-                    <EcoIcon color="success" />
+                    <ParkIcon color="success" />
                   </Box>
                 </Grid>
               </Grid>
@@ -371,7 +371,7 @@ const ReportDetail = () => {
                         <List dense>
                           <ListItem>
                             <ListItemIcon>
-                              <EcoIcon color="success" />
+                              <ParkIcon color="success" />
                             </ListItemIcon>
                             <ListItemText 
                               primary="Reduced Mining Impact" 
@@ -380,7 +380,7 @@ const ReportDetail = () => {
                           </ListItem>
                           <ListItem>
                             <ListItemIcon>
-                              <EcoIcon color="success" />
+                              <ParkIcon color="success" />
                             </ListItemIcon>
                             <ListItemText 
                               primary="Energy Conservation" 
@@ -389,7 +389,7 @@ const ReportDetail = () => {
                           </ListItem>
                           <ListItem>
                             <ListItemIcon>
-                              <EcoIcon color="success" />
+                              <ParkIcon color="success" />
                             </ListItemIcon>
                             <ListItemText 
                               primary="Reduced Landfill Waste" 
