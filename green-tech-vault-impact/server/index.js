@@ -12,6 +12,7 @@ const deviceRoutes = require('./routes/deviceRoutes');
 const impactRoutes = require('./routes/impactRoutes');
 const authRoutes = require('./routes/authRoutes');
 const reportRoutes = require('./routes/reportRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 
 // Load environment variables
 dotenv.config();
@@ -34,6 +35,7 @@ app.use('/api/devices', deviceRoutes);
 app.use('/api/impact', impactRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
