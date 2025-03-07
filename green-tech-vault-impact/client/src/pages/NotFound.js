@@ -1,44 +1,47 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Box, Typography, Button, Container } from '@mui/material';
-import { Recycling as RecyclingIcon } from '@mui/icons-material';
+import { Box, Typography, Button, Paper } from '@mui/material';
+import { Home as HomeIcon } from '@mui/icons-material';
 
 const NotFound = () => {
   return (
-    <Container maxWidth="md">
-      <Box
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '80vh',
+        p: 3
+      }}
+    >
+      <Paper
+        elevation={3}
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-          textAlign: 'center',
-          py: 4
+          p: 4,
+          maxWidth: 500,
+          textAlign: 'center'
         }}
       >
-        <RecyclingIcon sx={{ fontSize: 100, color: 'primary.main', mb: 2 }} />
-        <Typography variant="h1" component="h1" gutterBottom>
+        <Typography variant="h1" color="primary" sx={{ fontSize: '6rem', fontWeight: 'bold' }}>
           404
         </Typography>
-        <Typography variant="h4" component="h2" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           Page Not Found
         </Typography>
-        <Typography variant="body1" color="text.secondary" paragraph sx={{ maxWidth: 600, mb: 4 }}>
-          The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
-          Let's get you back on track to saving the environment!
+        <Typography variant="body1" color="text.secondary" paragraph>
+          The page you are looking for doesn't exist or has been moved.
         </Typography>
         <Button
-          variant="contained"
-          color="primary"
           component={RouterLink}
           to="/"
-          size="large"
+          variant="contained"
+          startIcon={<HomeIcon />}
+          sx={{ mt: 2 }}
         >
           Back to Dashboard
         </Button>
-      </Box>
-    </Container>
+      </Paper>
+    </Box>
   );
 };
 
