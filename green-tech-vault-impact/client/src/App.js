@@ -24,6 +24,7 @@ import NotFound from './pages/NotFound';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminClientDetail from './pages/AdminClientDetail';
+import AdminPickupDetail from './pages/AdminPickupDetail';
 import AdminPickupCalendar from './pages/AdminPickupCalendar';
 import Unauthorized from './pages/Unauthorized';
 
@@ -142,6 +143,18 @@ function App() {
         <Route path="/admin/pickup-calendar" element={
           <AdminRoute>
             <AdminPickupCalendar />
+          </AdminRoute>
+        } />
+        
+        <Route path="/admin/pickup-detail" element={
+          <AdminRoute>
+            <AdminPickupDetail />
+          </AdminRoute>
+        } />
+        
+        <Route path="/admin/pickups/:pickupId" element={
+          <AdminRoute>
+            <AdminPickupDetail />
           </AdminRoute>
         } />
         

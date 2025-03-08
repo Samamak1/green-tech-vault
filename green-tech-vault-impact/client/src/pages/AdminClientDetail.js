@@ -102,7 +102,10 @@ const AdminClientDetail = () => {
         devicesCollected: 45,
         totalWeight: 156.8,
         createdAt: '2025-01-01T10:00:00Z',
-        updatedAt: '2025-03-01T14:30:00Z'
+        updatedAt: '2025-03-01T14:30:00Z',
+        lastContactedDate: '2025-03-15T16:30:00Z',
+        lastContactMethod: 'Email',
+        conversationNotes: 'Discussed new project proposal'
       };
       
       // Mock pickups data
@@ -140,11 +143,24 @@ const AdminClientDetail = () => {
           location: 'Data Center',
           contactPerson: 'Michael Brown',
           contactPhone: '(555) 456-7890',
-          status: 'completed',
+          status: 'processing',
           devices: 15,
           weight: 78.3,
           createdAt: '2025-02-25T14:30:00Z',
           updatedAt: '2025-03-10T17:45:00Z'
+        },
+        {
+          id: '4',
+          clientId: clientId,
+          scheduledDate: '2025-02-15',
+          location: 'Warehouse',
+          contactPerson: 'John Smith',
+          contactPhone: '(555) 123-4567',
+          status: 'completed',
+          devices: 18,
+          weight: 65.7,
+          createdAt: '2025-02-01T10:00:00Z',
+          updatedAt: '2025-02-15T15:30:00Z'
         }
       ];
       
@@ -186,39 +202,80 @@ const AdminClientDetail = () => {
           manufacturer: 'LG',
           model: '27UK850-W',
           serialNumber: 'LG98765432',
-          status: 'Refurbished',
+          status: 'Processing',
           weight: 6.2,
           notes: 'Minor scratches on screen, otherwise good',
           createdAt: '2025-03-10T17:45:00Z',
           updatedAt: '2025-03-18T11:30:00Z'
+        },
+        {
+          id: '4',
+          clientId: clientId,
+          pickupId: '4',
+          type: 'Laptop',
+          manufacturer: 'Lenovo',
+          model: 'ThinkPad X1',
+          serialNumber: 'LN12345678',
+          status: 'Refurbished',
+          weight: 1.8,
+          notes: 'Excellent condition, minimal wear',
+          createdAt: '2025-02-15T15:30:00Z',
+          updatedAt: '2025-02-20T09:45:00Z'
+        },
+        {
+          id: '5',
+          clientId: clientId,
+          pickupId: '4',
+          type: 'Printer',
+          manufacturer: 'HP',
+          model: 'LaserJet Pro',
+          serialNumber: 'HP98765432',
+          status: 'Recycled',
+          weight: 12.5,
+          notes: 'Non-functional, recycled for parts',
+          createdAt: '2025-02-15T15:30:00Z',
+          updatedAt: '2025-02-22T14:15:00Z'
         }
       ];
       
-      // Mock impact data
+      // Calculate impact data from completed pickups only
+      const completedPickups = mockPickups.filter(pickup => pickup.status === 'completed');
+      const completedDevices = mockDevices.filter(device => 
+        completedPickups.some(pickup => pickup.id === device.pickupId)
+      );
+      
+      // Calculate total weight from completed pickups
+      const totalWeight = completedPickups.reduce((sum, pickup) => sum + pickup.weight, 0);
+      
+      // Calculate refurbished and recycled counts
+      const refurbishedCount = completedDevices.filter(device => device.status === 'Refurbished').length;
+      const recycledCount = completedDevices.filter(device => device.status === 'Recycled').length;
+      
+      // Mock impact data based on completed pickups only
       const mockImpact = {
-        totalDevices: 45,
-        totalWeight: 156.8,
-        co2Saved: 470.4,
-        treesPlanted: 24,
-        waterSaved: 12500,
-        energySaved: 18750,
-        landfillDiverted: 156.8,
+        totalDevices: completedDevices.length,
+        totalWeight: totalWeight,
+        co2Saved: totalWeight * 3, // Assuming 3kg of CO2 saved per 1kg of e-waste
+        treesPlanted: Math.round(totalWeight / 5), // Assuming 1 tree per 5kg of e-waste
+        waterSaved: totalWeight * 100, // Assuming 100L of water saved per 1kg of e-waste
+        energySaved: totalWeight * 150, // Assuming 150kWh of energy saved per 1kg of e-waste
+        landfillDiverted: totalWeight,
         materialsRecovered: {
-          metals: 78.4,
-          plastics: 47.0,
-          glass: 15.7,
-          other: 15.7
+          metals: totalWeight * 0.5, // Assuming 50% metals
+          plastics: totalWeight * 0.3, // Assuming 30% plastics
+          glass: totalWeight * 0.1, // Assuming 10% glass
+          other: totalWeight * 0.1 // Assuming 10% other materials
         },
         deviceBreakdown: {
-          laptops: 18,
-          desktops: 12,
-          monitors: 8,
-          printers: 4,
-          phones: 3
+          laptops: completedDevices.filter(device => device.type === 'Laptop').length,
+          desktops: completedDevices.filter(device => device.type === 'Desktop').length,
+          monitors: completedDevices.filter(device => device.type === 'Monitor').length,
+          printers: completedDevices.filter(device => device.type === 'Printer').length,
+          phones: completedDevices.filter(device => device.type === 'Phone').length
         },
         dispositionBreakdown: {
-          refurbished: 28,
-          recycled: 17
+          refurbished: refurbishedCount,
+          recycled: recycledCount
         }
       };
       
@@ -421,6 +478,46 @@ const AdminClientDetail = () => {
                   {client.employeeCount}
                 </Typography>
               </Grid>
+              
+              <Grid item xs={12}>
+                <Divider sx={{ my: 1 }} />
+                <Typography variant="subtitle1" gutterBottom sx={{ mt: 1 }}>
+                  Contact History
+                </Typography>
+              </Grid>
+              
+              <Grid item xs={4}>
+                <Typography variant="body2" color="text.secondary">
+                  Last Contacted
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography variant="body1">
+                  {client.lastContactedDate ? formatDate(client.lastContactedDate) : 'Not contacted yet'}
+                </Typography>
+              </Grid>
+              
+              <Grid item xs={4}>
+                <Typography variant="body2" color="text.secondary">
+                  Contact Method
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography variant="body1">
+                  {client.lastContactMethod || 'N/A'}
+                </Typography>
+              </Grid>
+              
+              <Grid item xs={4}>
+                <Typography variant="body2" color="text.secondary">
+                  Conversation Notes
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>
+                  {client.conversationNotes || 'No notes available'}
+                </Typography>
+              </Grid>
             </Grid>
             
             <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
@@ -554,7 +651,12 @@ const AdminClientDetail = () => {
                     </TableHead>
                     <TableBody>
                       {pickups.map((pickup) => (
-                        <TableRow key={pickup.id}>
+                        <TableRow 
+                          key={pickup.id}
+                          hover
+                          sx={{ cursor: 'pointer' }}
+                          onClick={() => navigate(`/admin/pickups/${pickup.id}`)}
+                        >
                           <TableCell>{formatDate(pickup.scheduledDate)}</TableCell>
                           <TableCell>{pickup.location}</TableCell>
                           <TableCell>{pickup.contactPerson}</TableCell>
@@ -575,7 +677,10 @@ const AdminClientDetail = () => {
                             <IconButton
                               size="small"
                               color="primary"
-                              onClick={() => alert(`View pickup ${pickup.id} details`)}
+                              onClick={(e) => {
+                                e.stopPropagation(); // Prevent row click event
+                                navigate(`/admin/pickups/${pickup.id}`);
+                              }}
                             >
                               <EditIcon />
                             </IconButton>
