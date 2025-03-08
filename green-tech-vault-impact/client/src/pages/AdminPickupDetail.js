@@ -36,7 +36,8 @@ import {
   Edit as EditIcon,
   Delete as DeleteIcon,
   Save as SaveIcon,
-  Logout as LogoutIcon
+  Logout as LogoutIcon,
+  Add as AddIcon
 } from '@mui/icons-material';
 import { pickupAPI, deviceAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -75,6 +76,7 @@ const AdminPickupDetail = () => {
   
   const [editingDevice, setEditingDevice] = useState(null);
   const [deviceDialogOpen, setDeviceDialogOpen] = useState(false);
+  const [addingDevice, setAddingDevice] = useState(false);
   const [deviceFormData, setDeviceFormData] = useState({
     type: '',
     manufacturer: '',
@@ -121,7 +123,7 @@ const AdminPickupDetail = () => {
         phone: '(555) 123-4567'
       };
       
-      // Mock devices data
+      // Mock devices data - expanded to 12 devices to match the pickup count
       const mockDevices = [
         {
           id: '1',
@@ -178,6 +180,118 @@ const AdminPickupDetail = () => {
           notes: 'Non-functional, recycled for parts',
           createdAt: '2025-03-15T16:30:00Z',
           updatedAt: '2025-03-25T11:15:00Z'
+        },
+        {
+          id: '5',
+          pickupId: pickupId,
+          clientId: mockPickup.clientId,
+          type: 'Laptop',
+          manufacturer: 'Lenovo',
+          model: 'ThinkPad X1',
+          serialNumber: 'LN12345678',
+          status: 'In Processing',
+          weight: 1.8,
+          notes: 'Good condition, needs new battery',
+          createdAt: '2025-03-15T16:30:00Z',
+          updatedAt: '2025-03-18T09:45:00Z'
+        },
+        {
+          id: '6',
+          pickupId: pickupId,
+          clientId: mockPickup.clientId,
+          type: 'Desktop',
+          manufacturer: 'Dell',
+          model: 'OptiPlex 7050',
+          serialNumber: 'DL87654321',
+          status: 'Received',
+          weight: 7.5,
+          notes: 'Needs assessment',
+          createdAt: '2025-03-15T16:30:00Z',
+          updatedAt: '2025-03-15T16:30:00Z'
+        },
+        {
+          id: '7',
+          pickupId: pickupId,
+          clientId: mockPickup.clientId,
+          type: 'Monitor',
+          manufacturer: 'Dell',
+          model: 'UltraSharp U2719D',
+          serialNumber: 'DL56781234',
+          status: 'Received',
+          weight: 5.8,
+          notes: 'Good condition',
+          createdAt: '2025-03-15T16:30:00Z',
+          updatedAt: '2025-03-15T16:30:00Z'
+        },
+        {
+          id: '8',
+          pickupId: pickupId,
+          clientId: mockPickup.clientId,
+          type: 'Tablet',
+          manufacturer: 'Apple',
+          model: 'iPad Pro',
+          serialNumber: 'AP12345678',
+          status: 'Refurbished',
+          weight: 0.7,
+          notes: 'Minor scratches, replaced battery',
+          createdAt: '2025-03-15T16:30:00Z',
+          updatedAt: '2025-03-21T13:20:00Z'
+        },
+        {
+          id: '9',
+          pickupId: pickupId,
+          clientId: mockPickup.clientId,
+          type: 'Phone',
+          manufacturer: 'Samsung',
+          model: 'Galaxy S21',
+          serialNumber: 'SG87654321',
+          status: 'Recycled',
+          weight: 0.2,
+          notes: 'Cracked screen, recycled for parts',
+          createdAt: '2025-03-15T16:30:00Z',
+          updatedAt: '2025-03-23T10:10:00Z'
+        },
+        {
+          id: '10',
+          pickupId: pickupId,
+          clientId: mockPickup.clientId,
+          type: 'Laptop',
+          manufacturer: 'Apple',
+          model: 'MacBook Pro',
+          serialNumber: 'AP98765432',
+          status: 'In Processing',
+          weight: 2.0,
+          notes: 'Water damage, assessing for parts',
+          createdAt: '2025-03-15T16:30:00Z',
+          updatedAt: '2025-03-19T14:30:00Z'
+        },
+        {
+          id: '11',
+          pickupId: pickupId,
+          clientId: mockPickup.clientId,
+          type: 'Server',
+          manufacturer: 'Dell',
+          model: 'PowerEdge R740',
+          serialNumber: 'DL24681357',
+          status: 'Received',
+          weight: 15.6,
+          notes: 'Needs assessment',
+          createdAt: '2025-03-15T16:30:00Z',
+          updatedAt: '2025-03-15T16:30:00Z'
+        },
+        {
+          id: '12',
+          pickupId: pickupId,
+          clientId: mockPickup.clientId,
+          type: 'Network Switch',
+          manufacturer: 'Cisco',
+          model: 'Catalyst 3850',
+          serialNumber: 'CS13579246',
+          status: 'Disposed',
+          weight: 4.2,
+          notes: 'Non-functional, disposed safely',
+          createdAt: '2025-03-15T16:30:00Z',
+          updatedAt: '2025-03-24T09:15:00Z'
         }
       ];
       
@@ -216,6 +330,7 @@ const AdminPickupDetail = () => {
 
   const handleEditDevice = (device) => {
     setEditingDevice(device);
+    setAddingDevice(false);
     setDeviceFormData({
       type: device.type,
       manufacturer: device.manufacturer,
@@ -224,6 +339,21 @@ const AdminPickupDetail = () => {
       status: device.status,
       weight: device.weight,
       notes: device.notes || ''
+    });
+    setDeviceDialogOpen(true);
+  };
+
+  const handleAddDevice = () => {
+    setEditingDevice(null);
+    setAddingDevice(true);
+    setDeviceFormData({
+      type: '',
+      manufacturer: '',
+      model: '',
+      serialNumber: '',
+      status: 'Received',
+      weight: 0,
+      notes: ''
     });
     setDeviceDialogOpen(true);
   };
@@ -237,17 +367,40 @@ const AdminPickupDetail = () => {
   };
 
   const handleSaveDevice = () => {
-    // In a real implementation, this would make an API call
-    const updatedDevices = devices.map(device => 
-      device.id === editingDevice.id 
-        ? { ...device, ...deviceFormData, updatedAt: new Date().toISOString() } 
-        : device
-    );
-    setDevices(updatedDevices);
+    if (addingDevice) {
+      // Add new device
+      const newDevice = {
+        id: Date.now().toString(),
+        pickupId: pickupId,
+        clientId: client.id,
+        ...deviceFormData,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      setDevices([...devices, newDevice]);
+      
+      // Update pickup device count
+      const updatedPickup = {
+        ...pickup,
+        devices: pickup.devices + 1,
+        weight: pickup.weight + newDevice.weight,
+        updatedAt: new Date().toISOString()
+      };
+      setPickup(updatedPickup);
+    } else {
+      // Update existing device
+      const updatedDevices = devices.map(device => 
+        device.id === editingDevice.id 
+          ? { ...device, ...deviceFormData, updatedAt: new Date().toISOString() } 
+          : device
+      );
+      setDevices(updatedDevices);
+    }
+    
     setDeviceDialogOpen(false);
     
-    // Check if all devices are either Refurbished or Recycled
-    const allProcessed = updatedDevices.every(device => 
+    // Check if all devices are either Refurbished, Recycled, or Disposed
+    const allProcessed = devices.every(device => 
       device.status === 'Refurbished' || device.status === 'Recycled' || device.status === 'Disposed'
     );
     
@@ -308,6 +461,21 @@ const AdminPickupDetail = () => {
       default:
         return 'default';
     }
+  };
+
+  // Calculate processing status
+  const getProcessingStatus = () => {
+    if (!devices || devices.length === 0) return { percent: 0, text: '0%' };
+    
+    const processedDevices = devices.filter(device => 
+      device.status === 'Refurbished' || device.status === 'Recycled' || device.status === 'Disposed'
+    ).length;
+    
+    const percent = Math.round((processedDevices / devices.length) * 100);
+    return { 
+      percent, 
+      text: `${percent}% (${processedDevices}/${devices.length} devices processed)`
+    };
   };
 
   if (loading) {
@@ -560,10 +728,36 @@ const AdminPickupDetail = () => {
         
         <Grid item xs={12} md={8}>
           <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              Devices
-            </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Typography variant="h6" gutterBottom>
+                Devices
+              </Typography>
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                onClick={handleAddDevice}
+              >
+                Add Device
+              </Button>
+            </Box>
             <Divider sx={{ mb: 2 }} />
+            
+            {/* Processing Status */}
+            <Box sx={{ mb: 3 }}>
+              <Typography variant="subtitle1" gutterBottom>
+                Processing Status: {getProcessingStatus().text}
+              </Typography>
+              <Box sx={{ width: '100%', bgcolor: 'grey.300', borderRadius: 1, height: 10 }}>
+                <Box 
+                  sx={{ 
+                    width: `${getProcessingStatus().percent}%`, 
+                    bgcolor: 'primary.main', 
+                    height: 10,
+                    borderRadius: 1
+                  }} 
+                />
+              </Box>
+            </Box>
             
             <TableContainer>
               <Table>
@@ -618,10 +812,10 @@ const AdminPickupDetail = () => {
         </Grid>
       </Grid>
       
-      {/* Device Edit Dialog */}
+      {/* Device Edit/Add Dialog */}
       <Dialog open={deviceDialogOpen} onClose={() => setDeviceDialogOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle>
-          Edit Device
+          {addingDevice ? 'Add New Device' : 'Edit Device'}
         </DialogTitle>
         <DialogContent>
           <Grid container spacing={2} sx={{ mt: 1 }}>
@@ -713,8 +907,9 @@ const AdminPickupDetail = () => {
             onClick={handleSaveDevice} 
             variant="contained"
             startIcon={<SaveIcon />}
+            disabled={!deviceFormData.type || !deviceFormData.manufacturer || !deviceFormData.model || !deviceFormData.serialNumber}
           >
-            Save Changes
+            {addingDevice ? 'Add Device' : 'Save Changes'}
           </Button>
         </DialogActions>
       </Dialog>

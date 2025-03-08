@@ -121,7 +121,9 @@ const AdminClientDetail = () => {
           devices: 12,
           weight: 45.2,
           createdAt: '2025-03-01T12:00:00Z',
-          updatedAt: '2025-03-15T16:30:00Z'
+          updatedAt: '2025-03-15T16:30:00Z',
+          processedDevices: 12, // All devices processed
+          processingStatus: 100 // 100% complete
         },
         {
           id: '2',
@@ -134,7 +136,9 @@ const AdminClientDetail = () => {
           devices: 0,
           weight: 0,
           createdAt: '2025-03-05T09:15:00Z',
-          updatedAt: '2025-03-05T09:15:00Z'
+          updatedAt: '2025-03-05T09:15:00Z',
+          processedDevices: 0, // No devices yet
+          processingStatus: 0 // 0% complete
         },
         {
           id: '3',
@@ -147,7 +151,9 @@ const AdminClientDetail = () => {
           devices: 15,
           weight: 78.3,
           createdAt: '2025-02-25T14:30:00Z',
-          updatedAt: '2025-03-10T17:45:00Z'
+          updatedAt: '2025-03-10T17:45:00Z',
+          processedDevices: 6, // 6 out of 15 devices processed
+          processingStatus: 40 // 40% complete
         },
         {
           id: '4',
@@ -160,7 +166,9 @@ const AdminClientDetail = () => {
           devices: 18,
           weight: 65.7,
           createdAt: '2025-02-01T10:00:00Z',
-          updatedAt: '2025-02-15T15:30:00Z'
+          updatedAt: '2025-02-15T15:30:00Z',
+          processedDevices: 18, // All devices processed
+          processingStatus: 100 // 100% complete
         }
       ];
       
@@ -240,20 +248,28 @@ const AdminClientDetail = () => {
       
       // Calculate impact data from completed pickups only
       const completedPickups = mockPickups.filter(pickup => pickup.status === 'completed');
-      const completedDevices = mockDevices.filter(device => 
+      
+      // Get all devices from completed pickups
+      const completedPickupDevices = mockDevices.filter(device => 
         completedPickups.some(pickup => pickup.id === device.pickupId)
       );
       
-      // Calculate total weight from completed pickups
-      const totalWeight = completedPickups.reduce((sum, pickup) => sum + pickup.weight, 0);
+      // Count only processed devices (Refurbished, Recycled, or Disposed)
+      const processedDevices = completedPickupDevices.filter(device => 
+        device.status === 'Refurbished' || device.status === 'Recycled' || device.status === 'Disposed'
+      );
+      
+      // Calculate total weight from processed devices
+      const totalWeight = processedDevices.reduce((sum, device) => sum + device.weight, 0);
       
       // Calculate refurbished and recycled counts
-      const refurbishedCount = completedDevices.filter(device => device.status === 'Refurbished').length;
-      const recycledCount = completedDevices.filter(device => device.status === 'Recycled').length;
+      const refurbishedCount = processedDevices.filter(device => device.status === 'Refurbished').length;
+      const recycledCount = processedDevices.filter(device => device.status === 'Recycled').length;
+      const disposedCount = processedDevices.filter(device => device.status === 'Disposed').length;
       
-      // Mock impact data based on completed pickups only
+      // Mock impact data based on processed devices only
       const mockImpact = {
-        totalDevices: completedDevices.length,
+        totalDevices: processedDevices.length,
         totalWeight: totalWeight,
         co2Saved: totalWeight * 3, // Assuming 3kg of CO2 saved per 1kg of e-waste
         treesPlanted: Math.round(totalWeight / 5), // Assuming 1 tree per 5kg of e-waste
@@ -267,15 +283,16 @@ const AdminClientDetail = () => {
           other: totalWeight * 0.1 // Assuming 10% other materials
         },
         deviceBreakdown: {
-          laptops: completedDevices.filter(device => device.type === 'Laptop').length,
-          desktops: completedDevices.filter(device => device.type === 'Desktop').length,
-          monitors: completedDevices.filter(device => device.type === 'Monitor').length,
-          printers: completedDevices.filter(device => device.type === 'Printer').length,
-          phones: completedDevices.filter(device => device.type === 'Phone').length
+          laptops: processedDevices.filter(device => device.type === 'Laptop').length,
+          desktops: processedDevices.filter(device => device.type === 'Desktop').length,
+          monitors: processedDevices.filter(device => device.type === 'Monitor').length,
+          printers: processedDevices.filter(device => device.type === 'Printer').length,
+          phones: processedDevices.filter(device => device.type === 'Phone').length
         },
         dispositionBreakdown: {
           refurbished: refurbishedCount,
-          recycled: recycledCount
+          recycled: recycledCount,
+          disposed: disposedCount
         }
       };
       
@@ -545,7 +562,7 @@ const AdminClientDetail = () => {
                       {impact.totalDevices}
                     </Typography>
                     <Typography variant="body2" align="center" color="text.secondary">
-                      Devices Collected
+                      Devices Processed
                     </Typography>
                   </CardContent>
                 </Card>
@@ -606,6 +623,11 @@ const AdminClientDetail = () => {
                     Recycled: {impact.dispositionBreakdown.recycled}
                   </Typography>
                 </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body2">
+                    Disposed: {impact.dispositionBreakdown.disposed}
+                  </Typography>
+                </Grid>
               </Grid>
             </Box>
           </Paper>
@@ -646,6 +668,7 @@ const AdminClientDetail = () => {
                         <TableCell>Status</TableCell>
                         <TableCell align="right">Devices</TableCell>
                         <TableCell align="right">Weight (kg)</TableCell>
+                        <TableCell>Processing</TableCell>
                         <TableCell align="right">Actions</TableCell>
                       </TableRow>
                     </TableHead>
@@ -673,6 +696,25 @@ const AdminClientDetail = () => {
                           </TableCell>
                           <TableCell align="right">{pickup.devices}</TableCell>
                           <TableCell align="right">{pickup.weight.toFixed(1)}</TableCell>
+                          <TableCell>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                              <Box sx={{ width: '100%', mr: 1 }}>
+                                <Box sx={{ width: '100%', bgcolor: 'grey.300', borderRadius: 1, height: 8 }}>
+                                  <Box 
+                                    sx={{ 
+                                      width: `${pickup.processingStatus}%`, 
+                                      bgcolor: 'primary.main', 
+                                      height: 8,
+                                      borderRadius: 1
+                                    }} 
+                                  />
+                                </Box>
+                              </Box>
+                              <Typography variant="caption">
+                                {pickup.processingStatus}%
+                              </Typography>
+                            </Box>
+                          </TableCell>
                           <TableCell align="right">
                             <IconButton
                               size="small"
