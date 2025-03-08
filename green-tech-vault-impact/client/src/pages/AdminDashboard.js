@@ -261,6 +261,7 @@ const AdminDashboard = () => {
 
   const handleViewClient = (clientId) => {
     // Navigate to client detail page
+    console.log('Navigating to client detail page:', `/admin/clients/${clientId}`);
     navigate(`/admin/clients/${clientId}`);
   };
 
@@ -413,6 +414,10 @@ const AdminDashboard = () => {
             </Button>
           </Box>
           
+          <Alert severity="info" sx={{ mb: 2 }}>
+            Click on any client row to view detailed information and manage their devices.
+          </Alert>
+          
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -428,8 +433,20 @@ const AdminDashboard = () => {
               </TableHead>
               <TableBody>
                 {clients.map((client) => (
-                  <TableRow key={client.id}>
-                    <TableCell>{client.name}</TableCell>
+                  <TableRow 
+                    key={client.id}
+                    hover
+                    sx={{ cursor: 'pointer' }}
+                    onClick={() => handleViewClient(client.id)}
+                  >
+                    <TableCell>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        {client.name}
+                        <Typography variant="caption" color="primary" sx={{ ml: 1 }}>
+                          (Click to view details)
+                        </Typography>
+                      </Box>
+                    </TableCell>
                     <TableCell>{client.contactPerson}</TableCell>
                     <TableCell>{client.email}</TableCell>
                     <TableCell>{client.phone}</TableCell>
@@ -439,28 +456,40 @@ const AdminDashboard = () => {
                       <IconButton
                         size="small"
                         color="primary"
-                        onClick={() => handleViewClient(client.id)}
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent row click event
+                          handleViewClient(client.id);
+                        }}
                       >
                         <VisibilityIcon />
                       </IconButton>
                       <IconButton
                         size="small"
                         color="primary"
-                        onClick={() => handleOpenDialog(client)}
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent row click event
+                          handleOpenDialog(client);
+                        }}
                       >
                         <EditIcon />
                       </IconButton>
                       <IconButton
                         size="small"
                         color="error"
-                        onClick={() => handleDeleteClient(client.id)}
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent row click event
+                          handleDeleteClient(client.id);
+                        }}
                       >
                         <DeleteIcon />
                       </IconButton>
                       <Button
                         size="small"
                         variant="outlined"
-                        onClick={() => handleAddPickup(client.id)}
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent row click event
+                          handleAddPickup(client.id);
+                        }}
                         sx={{ ml: 1 }}
                       >
                         Schedule Pickup
