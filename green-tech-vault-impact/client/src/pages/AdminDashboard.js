@@ -260,8 +260,8 @@ const AdminDashboard = () => {
   };
 
   const handleViewClient = (clientId) => {
-    // In a real implementation, this would navigate to a client detail page
-    alert(`Viewing client ${clientId}`);
+    // Navigate to client detail page
+    navigate(`/admin/clients/${clientId}`);
   };
 
   const handleAddPickup = (clientId) => {
@@ -311,6 +311,83 @@ const AdminDashboard = () => {
       <Typography variant="h4" component="h1" gutterBottom>
         Admin Dashboard
       </Typography>
+      
+      {/* Summary Cards */}
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid item xs={12} sm={6} md={3}>
+          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
+            <Typography variant="h3" color="primary" gutterBottom>
+              156
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Total Devices Collected
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
+            <Typography variant="h3" color="primary" gutterBottom>
+              1,250.5
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Total Weight (kg)
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
+            <Typography variant="h3" color="primary" gutterBottom>
+              87
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Devices Refurbished
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
+            <Typography variant="h3" color="primary" gutterBottom>
+              69
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Devices Recycled
+            </Typography>
+          </Paper>
+        </Grid>
+      </Grid>
+      
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid item xs={12} sm={6} md={4}>
+          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
+            <Typography variant="h3" color="primary" gutterBottom>
+              3,750.8
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              CO2 Saved (kg)
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
+            <Typography variant="h3" color="primary" gutterBottom>
+              187
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Trees Planted
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
+            <Typography variant="h3" color="primary" gutterBottom>
+              92.5%
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Landfill Diversion Rate
+            </Typography>
+          </Paper>
+        </Grid>
+      </Grid>
       
       <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
         <Tabs value={tabValue} onChange={handleTabChange} aria-label="admin tabs">
@@ -448,9 +525,27 @@ const AdminDashboard = () => {
       {/* Pickups Tab */}
       {tabValue === 2 && (
         <>
-          <Typography variant="h5" gutterBottom>
-            All Pickups
-          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Typography variant="h5">
+              All Pickups
+            </Typography>
+            <Box>
+              <Button
+                variant="outlined"
+                onClick={() => navigate('/admin/pickup-calendar')}
+                sx={{ mr: 2 }}
+              >
+                View Calendar
+              </Button>
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                onClick={() => alert('Schedule pickup functionality would go here')}
+              >
+                Schedule Pickup
+              </Button>
+            </Box>
+          </Box>
           
           <TableContainer component={Paper}>
             <Table>

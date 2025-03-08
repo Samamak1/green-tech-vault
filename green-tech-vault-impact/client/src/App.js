@@ -23,6 +23,8 @@ import NotFound from './pages/NotFound';
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminClientDetail from './pages/AdminClientDetail';
+import AdminPickupCalendar from './pages/AdminPickupCalendar';
 import Unauthorized from './pages/Unauthorized';
 
 // Route Protection
@@ -128,6 +130,18 @@ function App() {
         <Route path="/admin" element={
           <AdminRoute>
             <AdminDashboard />
+          </AdminRoute>
+        } />
+        
+        <Route path="/admin/clients/:clientId" element={
+          <AdminRoute>
+            <AdminClientDetail />
+          </AdminRoute>
+        } />
+        
+        <Route path="/admin/pickup-calendar" element={
+          <AdminRoute>
+            <AdminPickupCalendar />
           </AdminRoute>
         } />
         
