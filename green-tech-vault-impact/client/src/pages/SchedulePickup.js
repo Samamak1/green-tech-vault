@@ -21,8 +21,6 @@ import {
   Alert
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import BrandedHeader from '../components/layout/BrandedHeader';
 import BrandedFooter from '../components/layout/BrandedFooter';
 
@@ -268,22 +266,19 @@ const SchedulePickup = () => {
         return (
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  label="Pickup Date"
-                  value={formData.pickupDate}
-                  onChange={handleDateChange}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      fullWidth
-                      required
-                      error={!!errors.pickupDate}
-                      helperText={errors.pickupDate}
-                    />
-                  )}
-                />
-              </LocalizationProvider>
+              <DatePicker
+                label="Pickup Date"
+                value={formData.pickupDate}
+                onChange={handleDateChange}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    required: true,
+                    error: !!errors.pickupDate,
+                    helperText: errors.pickupDate
+                  }
+                }}
+              />
             </Grid>
             <Grid item xs={12} md={6}>
               <FormControl component="fieldset">

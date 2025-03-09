@@ -1,6 +1,86 @@
 # Green Tech Vault - Environmental Impact Tracking System
 
-A comprehensive web application for tracking, measuring, and showcasing the environmental impact of e-waste management efforts by Green Tech Vault.
+A comprehensive platform for tracking the environmental impact of e-waste recycling efforts.
+
+## Overview
+
+Green Tech Vault is a full-stack application designed to help organizations track and visualize the environmental impact of their e-waste recycling initiatives. The platform provides dashboards for monitoring key metrics such as e-waste collection, CO2 emissions saved, and materials recovered.
+
+## Features
+
+- **User Authentication**: Secure login for both clients and administrators
+- **Environmental Impact Dashboard**: Visualize key metrics and environmental impact
+- **Pickup Management**: Schedule and track e-waste pickups
+- **Device Tracking**: Monitor the lifecycle of recycled devices
+- **Reporting**: Generate detailed environmental impact reports
+- **Admin Dashboard**: Comprehensive management tools for administrators
+
+## Tech Stack
+
+- **Frontend**: React, Material-UI, Chart.js
+- **Backend**: Node.js, Express
+- **Database**: MongoDB
+- **Authentication**: JWT
+
+## Deployment to Render
+
+This application is configured for deployment on Render.com. Follow these steps to deploy:
+
+1. **Create a new Web Service on Render**:
+   - Connect your GitHub repository
+   - Select the branch to deploy
+   - Set the build command to: `npm install && npm run build:client`
+   - Set the start command to: `npm start`
+
+2. **Environment Variables**:
+   - `NODE_ENV`: Set to `production`
+   - `MONGODB_URI`: Your MongoDB connection string
+   - `JWT_SECRET`: Secret key for JWT authentication
+   - `PORT`: Default is 5000, but Render will provide its own
+
+3. **Database Setup**:
+   - Create a MongoDB database (Atlas recommended)
+   - Add the connection string to your environment variables
+
+## Local Development
+
+1. **Clone the repository**:
+   ```
+   git clone https://github.com/yourusername/green-tech-vault.git
+   cd green-tech-vault
+   ```
+
+2. **Install dependencies**:
+   ```
+   npm install
+   cd client && npm install
+   ```
+
+3. **Start the development server**:
+   ```
+   npm run dev:full
+   ```
+
+4. **Access the application**:
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:5000
+
+## Troubleshooting Deployment Issues
+
+If you encounter build errors related to missing dependencies:
+
+1. Check the build logs to identify the missing package
+2. Add the package to the appropriate package.json file
+3. If using date pickers or other specialized components, ensure all peer dependencies are installed
+4. For MUI date pickers, make sure the LocalizationProvider is properly set up in your application
+
+## License
+
+ISC
+
+## Contact
+
+Green Tech Vault - support@greentechvault.com
 
 ## Project Overview
 
@@ -34,38 +114,6 @@ From 1 metric ton (1,000 kg) of mixed e-waste, typical recovery rates:
 - Plastics: ~100–250 kg
 - Glass: ~50–100 kg
 - Rare Earth Metals: Varies by device type
-
-## Features
-
-- **Company Management**: Create and manage company profiles
-- **Pickup Tracking**: Record details of e-waste pickups from companies
-- **Device Inventory**: Track individual devices collected, their condition, and disposition
-- **Environmental Impact Calculation**: Automatically calculate CO2 savings, materials recovered, and landfill diversion
-- **Reporting**: Generate detailed reports for companies showing their environmental impact
-- **Dashboard**: Visual representation of impact metrics with charts and comparisons
-- **User Authentication**: Secure access for both Green Tech Vault staff and client companies
-
-## Technology Stack
-
-- **Backend**: Node.js, Express.js, MongoDB
-- **Frontend**: React.js, Chart.js
-- **Authentication**: JWT (JSON Web Tokens)
-- **Reporting**: PDF generation for downloadable reports
-
-## Installation
-
-1. Clone the repository
-2. Install dependencies:
-   ```
-   npm install
-   cd client
-   npm install
-   ```
-3. Set up environment variables (see .env.example)
-4. Start the development server:
-   ```
-   npm run dev:full
-   ```
 
 ## Project Structure
 

@@ -3,6 +3,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useAuth } from './context/AuthContext';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 // Layout components
 import Layout from './components/layout/Layout';
@@ -133,65 +135,67 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<BrandedLanding />} />
-        <Route path="/login" element={<BrandedLogin />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/admin/login" element={<BrandedAdminLogin />} />
-        <Route path="/unauthorized" element={<Unauthorized />} />
-        <Route path="/schedule-pickup" element={<SchedulePickup />} />
-        
-        {/* Client Routes */}
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <Layout />
-          </ProtectedRoute>
-        }>
-          <Route index element={isAdmin ? <Navigate to="/admin" /> : <SimpleDashboard />} />
-          <Route path="company-profile" element={<CompanyProfile />} />
-          <Route path="pickups" element={<Pickups />} />
-          <Route path="pickups/:id" element={<PickupDetail />} />
-          <Route path="devices" element={<Devices />} />
-          <Route path="reports" element={<Reports />} />
-          <Route path="reports/:id" element={<ReportDetail />} />
-        </Route>
-        
-        {/* Admin Routes */}
-        <Route path="/admin" element={
-          <AdminRoute>
-            <AdminDashboard />
-          </AdminRoute>
-        } />
-        
-        <Route path="/admin/clients/:clientId" element={
-          <AdminRoute>
-            <AdminClientDetail />
-          </AdminRoute>
-        } />
-        
-        <Route path="/admin/pickup-calendar" element={
-          <AdminRoute>
-            <AdminPickupCalendar />
-          </AdminRoute>
-        } />
-        
-        <Route path="/admin/pickup-detail" element={
-          <AdminRoute>
-            <AdminPickupDetail />
-          </AdminRoute>
-        } />
-        
-        <Route path="/admin/pickups/:pickupId" element={
-          <AdminRoute>
-            <AdminPickupDetail />
-          </AdminRoute>
-        } />
-        
-        {/* 404 Route */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <CssBaseline />
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<BrandedLanding />} />
+          <Route path="/login" element={<BrandedLogin />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/admin/login" element={<BrandedAdminLogin />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route path="/schedule-pickup" element={<SchedulePickup />} />
+          
+          {/* Client Routes */}
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }>
+            <Route index element={isAdmin ? <Navigate to="/admin" /> : <SimpleDashboard />} />
+            <Route path="company-profile" element={<CompanyProfile />} />
+            <Route path="pickups" element={<Pickups />} />
+            <Route path="pickups/:id" element={<PickupDetail />} />
+            <Route path="devices" element={<Devices />} />
+            <Route path="reports" element={<Reports />} />
+            <Route path="reports/:id" element={<ReportDetail />} />
+          </Route>
+          
+          {/* Admin Routes */}
+          <Route path="/admin" element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          } />
+          
+          <Route path="/admin/clients/:clientId" element={
+            <AdminRoute>
+              <AdminClientDetail />
+            </AdminRoute>
+          } />
+          
+          <Route path="/admin/pickup-calendar" element={
+            <AdminRoute>
+              <AdminPickupCalendar />
+            </AdminRoute>
+          } />
+          
+          <Route path="/admin/pickup-detail" element={
+            <AdminRoute>
+              <AdminPickupDetail />
+            </AdminRoute>
+          } />
+          
+          <Route path="/admin/pickups/:pickupId" element={
+            <AdminRoute>
+              <AdminPickupDetail />
+            </AdminRoute>
+          } />
+          
+          {/* 404 Route */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </LocalizationProvider>
     </ThemeProvider>
   );
 }
