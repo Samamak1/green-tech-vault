@@ -41,15 +41,15 @@ import AdminRoute from './components/routing/AdminRoute';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#2e7d32', // Green Tech Vault's primary green
-      light: '#60ad5e',
-      dark: '#005005',
+      main: '#8cc63f', // Green Tech Vault's primary green from the logo
+      light: '#a9d965',
+      dark: '#6b9c30',
       contrastText: '#fff',
     },
     secondary: {
-      main: '#00796b', // Teal as secondary color
-      light: '#48a999',
-      dark: '#004c40',
+      main: '#0e1001', // Dark background color from the logo
+      light: '#2a2c21',
+      dark: '#000000',
       contrastText: '#fff',
     },
     background: {
@@ -57,9 +57,13 @@ const theme = createTheme({
       paper: '#ffffff',
     },
     success: {
-      main: '#4caf50',
-      light: '#80e27e',
-      dark: '#087f23',
+      main: '#8cc63f',
+      light: '#a9d965',
+      dark: '#6b9c30',
+    },
+    text: {
+      primary: '#333333',
+      secondary: '#666666',
     },
   },
   typography: {
@@ -97,9 +101,9 @@ const theme = createTheme({
           padding: '8px 24px',
         },
         containedPrimary: {
-          boxShadow: '0 4px 8px rgba(46, 125, 50, 0.2)',
+          boxShadow: '0 4px 8px rgba(140, 198, 63, 0.2)',
           '&:hover': {
-            boxShadow: '0 6px 12px rgba(46, 125, 50, 0.3)',
+            boxShadow: '0 6px 12px rgba(140, 198, 63, 0.3)',
           },
         },
       },

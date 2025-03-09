@@ -19,7 +19,7 @@ const BrandedLanding = () => {
       {/* Hero Section */}
       <Box 
         sx={{ 
-          bgcolor: 'primary.main', 
+          bgcolor: '#0e1001', 
           color: 'white',
           py: { xs: 6, md: 10 },
           position: 'relative',
@@ -38,7 +38,7 @@ const BrandedLanding = () => {
               <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                 <Button 
                   variant="contained" 
-                  color="secondary" 
+                  color="primary" 
                   size="large"
                   component={RouterLink}
                   to="/schedule-pickup"
@@ -52,7 +52,7 @@ const BrandedLanding = () => {
                   size="large"
                   component={RouterLink}
                   to="/login"
-                  sx={{ fontWeight: 'bold' }}
+                  sx={{ fontWeight: 'bold', borderColor: 'rgba(255,255,255,0.5)' }}
                 >
                   CLIENT LOGIN
                 </Button>
@@ -97,7 +97,7 @@ const BrandedLanding = () => {
                   borderRadius: 2
                 }}
               >
-                <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'secondary.main', mb: 1 }}>
+                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#8cc63f', mb: 1 }}>
                   {stat.number}
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'text.secondary' }}>
@@ -116,7 +116,7 @@ const BrandedLanding = () => {
       <AcceptedItems />
       
       {/* CTA Section */}
-      <Box sx={{ bgcolor: 'primary.dark', color: 'white', py: 6 }}>
+      <Box sx={{ bgcolor: '#0e1001', color: 'white', py: 6 }}>
         <Container maxWidth="md" sx={{ textAlign: 'center' }}>
           <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
             Ready to Make an Impact?
@@ -126,7 +126,7 @@ const BrandedLanding = () => {
           </Typography>
           <Button 
             variant="contained" 
-            color="secondary" 
+            color="primary" 
             size="large"
             component={RouterLink}
             to="/schedule-pickup"

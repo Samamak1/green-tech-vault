@@ -1,6 +1,6 @@
 {
   "short_name": "Green Tech Vault",
-  "name": "Green Tech Vault - E-Waste Management",
+  "name": "Green Tech Vault - Keep it green. Keep it safe. Keep it connected.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#2e7d32",
-  "background_color": "#ffffff"
+  "theme_color": "#8cc63f",
+  "background_color": "#0e1001"
 } 
