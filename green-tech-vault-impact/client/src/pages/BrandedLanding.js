@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, Button, Container, Grid, Paper } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import BrandedHeader from '../components/layout/BrandedHeader';
 import BrandedFooter from '../components/layout/BrandedFooter';
 import ProcessFlow from '../components/branding/ProcessFlow';
 import AcceptedItems from '../components/branding/AcceptedItems';
+import EwasteHeroFallback from '../components/branding/EwasteHeroFallback';
 
 const BrandedLanding = () => {
+  const [imageError, setImageError] = useState(false);
+
   return (
     <Box sx={{ 
       display: 'flex', 
@@ -59,17 +62,33 @@ const BrandedLanding = () => {
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Box 
-                component="img"
-                src="/images/e-waste-hero.jpg"
-                alt="E-waste collection"
-                sx={{ 
-                  width: '100%',
-                  borderRadius: 2,
-                  boxShadow: 4,
-                  display: { xs: 'none', md: 'block' }
-                }}
-              />
+              {imageError ? (
+                <EwasteHeroFallback />
+              ) : (
+                <Box 
+                  component="img"
+                  src="/images/e-waste-hero.svg"
+                  alt="E-waste collection"
+                  onError={(e) => {
+                    // If the SVG fails to load, try the PNG
+                    if (e.target.src.endsWith('svg')) {
+                      e.target.src = "/images/e-waste-hero.png";
+                    } else {
+                      // If both fail, show the fallback component
+                      setImageError(true);
+                    }
+                  }}
+                  sx={{ 
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    borderRadius: 2,
+                    boxShadow: 4,
+                    display: { xs: 'none', md: 'block' },
+                    bgcolor: '#1a1a1a' // Fallback background color if image fails to load
+                  }}
+                />
+              )}
             </Grid>
           </Grid>
         </Container>

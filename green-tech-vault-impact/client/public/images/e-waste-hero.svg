@@ -1,0 +1,25 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="400" fill="#1a1a1a"/>
+  
+  <!-- Green Tech Vault Logo Elements -->
+  <circle cx="400" cy="200" r="120" fill="#0e1001" stroke="#8cc63f" stroke-width="8"/>
+  <circle cx="400" cy="200" r="40" fill="#8cc63f"/>
+  <line x1="280" y1="200" x2="520" y2="200" stroke="#8cc63f" stroke-width="8"/>
+  <line x1="400" y1="80" x2="400" y2="320" stroke="#8cc63f" stroke-width="8"/>
+  
+  <!-- E-waste elements -->
+  <rect x="100" y="250" width="80" height="60" fill="#555" rx="5"/>
+  <rect x="110" y="230" width="60" height="20" fill="#333" rx="2"/>
+  
+  <rect x="600" y="230" width="100" height="80" fill="#444" rx="5"/>
+  <rect x="620" y="250" width="60" height="40" fill="#222" rx="2"/>
+  
+  <rect x="200" y="270" width="120" height="20" fill="#666" rx="3"/>
+  <rect x="220" y="290" width="80" height="30" fill="#555" rx="3"/>
+  
+  <rect x="500" y="280" width="70" height="40" fill="#777" rx="4"/>
+  
+  <!-- Text -->
+  <text x="400" y="380" font-family="Arial" font-size="24" fill="#8cc63f" text-anchor="middle">E-Waste Collection and Recycling</text>
+</svg> 
