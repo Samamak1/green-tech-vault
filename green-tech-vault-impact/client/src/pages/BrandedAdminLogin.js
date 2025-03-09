@@ -67,12 +67,25 @@ const BrandedAdminLogin = () => {
     
     if (validateForm()) {
       setLoading(true);
+      setLoginError('');
+      
       try {
-        // In a real application, this would call your authentication API
+        console.log('Attempting admin login with:', {
+          email: formData.email,
+          password: formData.password ? '[REDACTED]' : 'missing'
+        });
+        
+        // Call the adminLogin function with email and password
         await adminLogin(formData.email, formData.password);
+        console.log('Admin login successful, redirecting to admin dashboard');
         navigate('/admin');
       } catch (error) {
-        setLoginError('Invalid admin credentials. Please try again.');
+        console.error('Admin login error:', error);
+        setLoginError(
+          error.response?.data?.error || 
+          error.message || 
+          'Invalid admin credentials. Please try again.'
+        );
       } finally {
         setLoading(false);
       }

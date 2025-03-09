@@ -30,23 +30,38 @@ router.post('/register', (req, res) => {
  * @access  Public
  */
 router.post('/login', (req, res) => {
+  console.log('Login request received:', req.body);
+  
   // Check if this is an admin login attempt
-  const isAdminLogin = req.body.isAdminLogin;
+  const isAdminLogin = req.body.isAdminLogin === true;
+  const email = req.body.email || '';
+  const password = req.body.password || '';
+  
+  console.log('Login details:', { 
+    email, 
+    isAdminLogin, 
+    passwordProvided: !!password 
+  });
   
   // In a real implementation, this would verify credentials against the database
   // For now, we'll return a mock response
   
   // For demo purposes, let's consider admin@greentech.com with password 'admin123' as admin credentials
-  const isAdmin = (req.body.email === 'admin@greentech.com' && 
-                  req.body.password === 'admin123');
+  const isAdmin = (email.toLowerCase() === 'admin@greentech.com' && 
+                  password === 'admin123');
+  
+  console.log('Is admin credentials valid:', isAdmin);
   
   // If it's an admin login attempt but credentials don't match
   if (isAdminLogin && !isAdmin) {
+    console.log('Admin login failed: Invalid credentials');
     return res.status(401).json({
       success: false,
       error: 'Invalid admin credentials'
     });
   }
+  
+  console.log('Login successful, returning token');
   
   res.json({ 
     success: true, 
@@ -55,7 +70,7 @@ router.post('/login', (req, res) => {
       user: {
         id: isAdmin ? 'admin-1' : 'client-1',
         name: isAdmin ? 'Admin User' : 'Demo User',
-        email: req.body.email || 'demo@example.com',
+        email: email || 'demo@example.com',
         role: isAdmin ? 'admin' : 'client'
       }
     },

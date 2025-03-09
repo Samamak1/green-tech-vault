@@ -133,14 +133,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Admin login
-  const adminLogin = async (formData) => {
+  const adminLogin = async (email, password) => {
     try {
       setLoading(true);
       setError(null);
       
       // Add admin flag to login request
       const res = await axios.post('/api/auth/login', {
-        ...formData,
+        email,
+        password,
         isAdminLogin: true
       });
       
