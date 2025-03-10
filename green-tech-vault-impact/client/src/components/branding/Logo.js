@@ -28,35 +28,32 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
   // Variant configurations
   const variantConfig = {
     default: {
-      iconBgColor: '#0e1001', // Dark green/black background
-      iconRingColor: '#8cc63f', // Bright green ring
-      iconCenterColor: '#8cc63f', // Bright green center
-      textColor: '#8cc63f', // Green text
-      textSecondaryColor: 'white', // White for "VAULT"
-      taglineColor: '#8cc63f', // Green tagline
+      iconBgColor: 'transparent',
+      iconColor: '#8a9a5b', // Olive green
+      textColor: '#8a9a5b', // Olive green
+      textSecondaryColor: '#8a9a5b', // Olive green
+      taglineColor: '#8a9a5b', // Olive green
     },
     light: {
-      iconBgColor: '#0e1001',
-      iconRingColor: '#8cc63f',
-      iconCenterColor: '#8cc63f',
-      textColor: 'white',
-      textSecondaryColor: 'white',
-      taglineColor: 'white',
+      iconBgColor: 'transparent',
+      iconColor: '#ffffff',
+      textColor: '#ffffff',
+      textSecondaryColor: '#ffffff',
+      taglineColor: '#ffffff',
     },
     dark: {
-      iconBgColor: '#0e1001',
-      iconRingColor: '#8cc63f',
-      iconCenterColor: '#8cc63f',
-      textColor: '#8cc63f',
-      textSecondaryColor: 'white',
-      taglineColor: '#8cc63f',
+      iconBgColor: 'transparent',
+      iconColor: '#8a9a5b',
+      textColor: '#8a9a5b',
+      textSecondaryColor: '#8a9a5b',
+      taglineColor: '#8a9a5b',
     },
   };
 
   const { iconSize, textVariant, taglineVariant, spacing } = sizeConfig[size] || sizeConfig.medium;
-  const { iconBgColor, iconRingColor, iconCenterColor, textColor, textSecondaryColor, taglineColor } = variantConfig[variant] || variantConfig.default;
+  const { iconBgColor, iconColor, textColor, textSecondaryColor, taglineColor } = variantConfig[variant] || variantConfig.default;
 
-  // Custom logo icon that matches the image
+  // Custom logo icon that matches the Arowwai Industries logo
   const LogoIcon = () => (
     <Box 
       sx={{ 
@@ -64,52 +61,23 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
         width: iconSize * 1.5,
         height: iconSize * 1.5,
         bgcolor: iconBgColor,
-        borderRadius: '50%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
-      {/* Outer ring */}
-      <Box 
-        sx={{ 
-          position: 'absolute',
-          width: '80%',
-          height: '80%',
-          border: `2px solid ${iconRingColor}`,
-          borderRadius: '50%',
-        }}
-      />
-      
-      {/* Inner circle */}
-      <Box 
-        sx={{ 
-          width: '40%',
-          height: '40%',
-          bgcolor: iconCenterColor,
-          borderRadius: '50%',
-        }}
-      />
-      
-      {/* Cross lines */}
-      <Box 
-        sx={{ 
-          position: 'absolute',
+      {/* Triangular logo shape */}
+      <Box
+        component="svg"
+        viewBox="0 0 100 100"
+        sx={{
           width: '100%',
-          height: '2px',
-          bgcolor: iconRingColor,
-          transform: 'rotate(45deg)',
+          height: '100%',
+          fill: iconColor,
         }}
-      />
-      <Box 
-        sx={{ 
-          position: 'absolute',
-          width: '100%',
-          height: '2px',
-          bgcolor: iconRingColor,
-          transform: 'rotate(-45deg)',
-        }}
-      />
+      >
+        <polygon points="50,10 90,90 10,90" />
+      </Box>
     </Box>
   );
 
@@ -132,55 +100,37 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
         <LogoIcon />
         
         {showText && (
-          <Stack direction="column" spacing={0}>
-            <Typography 
-              variant={textVariant} 
-              component="span" 
-              sx={{ 
-                fontWeight: 'bold', 
-                letterSpacing: 1,
-                color: textColor,
-                textDecoration: 'none',
-                lineHeight: 1,
-                textTransform: 'uppercase',
-              }}
-            >
-              <span style={{ color: textColor }}>GREEN</span>
-              <span style={{ color: textColor }}>TECH</span>
-            </Typography>
-            <Typography 
-              variant={textVariant} 
-              component="span" 
-              sx={{ 
-                fontWeight: 'bold', 
-                letterSpacing: 1,
-                color: textSecondaryColor,
-                textDecoration: 'none',
-                lineHeight: 1,
-                textTransform: 'uppercase',
-              }}
-            >
-              VAULT
-            </Typography>
-            
-            {showTagline && (
-              <Typography 
-                variant={taglineVariant} 
-                component="span" 
-                sx={{ 
-                  color: taglineColor,
-                  textTransform: 'uppercase',
-                  letterSpacing: 0.5,
-                  mt: 0.5,
-                  fontSize: '0.7rem',
-                }}
-              >
-                KEEP IT GREEN. KEEP IT SAFE. KEEP IT CONNECTED.
-              </Typography>
-            )}
-          </Stack>
+          <Typography 
+            variant={textVariant} 
+            component="span" 
+            sx={{ 
+              fontWeight: 500, 
+              letterSpacing: 0.5,
+              color: textColor,
+              textDecoration: 'none',
+              lineHeight: 1.2,
+            }}
+          >
+            Arowwai Industries
+          </Typography>
         )}
       </Box>
+      
+      {showTagline && (
+        <Typography 
+          variant={taglineVariant} 
+          component="span" 
+          sx={{ 
+            color: taglineColor,
+            letterSpacing: 0.5,
+            mt: 0.5,
+            fontSize: '0.7rem',
+            ml: iconSize * 1.5 + spacing * 8, // Align with the text above
+          }}
+        >
+          Sustainable solutions for tomorrow
+        </Typography>
+      )}
     </Box>
   );
 

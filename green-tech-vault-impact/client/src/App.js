@@ -8,6 +8,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 // Layout components
 import Layout from './components/layout/Layout';
+import DashboardLayout from './components/layout/DashboardLayout';
 
 // Pages
 import Dashboard from './pages/Dashboard';
@@ -41,54 +42,77 @@ import AdminRoute from './components/routing/AdminRoute';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#8cc63f', // Green Tech Vault's primary green from the logo
-      light: '#a9d965',
-      dark: '#6b9c30',
+      main: '#8a9a5b', // Olive green from the dashboard
+      light: '#a9b77c',
+      dark: '#5c6639',
       contrastText: '#fff',
     },
     secondary: {
-      main: '#0e1001', // Dark background color from the logo
-      light: '#2a2c21',
-      dark: '#000000',
+      main: '#2c3e2e', // Dark green background from the dashboard
+      light: '#4a5c4c',
+      dark: '#1a2a1c',
       contrastText: '#fff',
     },
     background: {
       default: '#f5f5f5',
       paper: '#ffffff',
+      card: '#2c3e2e', // Dark green for cards like in the dashboard
+      sidebar: '#1e1e1e', // Dark sidebar background
     },
     success: {
-      main: '#8cc63f',
-      light: '#a9d965',
-      dark: '#6b9c30',
+      main: '#8a9a5b',
+      light: '#a9b77c',
+      dark: '#5c6639',
     },
     text: {
       primary: '#333333',
       secondary: '#666666',
+      light: '#ffffff',
+      accent: '#8a9a5b', // Olive green for accent text
     },
+    chart: {
+      clothing: '#8a9a5b', // Olive green for clothing category
+      cosmetics: '#2c3e2e', // Dark green for cosmetics category
+      others: '#a0a0a0', // Gray for others category
+    }
   },
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     h1: {
-      fontWeight: 700,
+      fontWeight: 500,
+      fontSize: '2.5rem',
     },
     h2: {
-      fontWeight: 700,
+      fontWeight: 500,
+      fontSize: '2rem',
     },
     h3: {
-      fontWeight: 600,
+      fontWeight: 500,
+      fontSize: '1.75rem',
     },
     h4: {
-      fontWeight: 600,
+      fontWeight: 500,
+      fontSize: '1.5rem',
     },
     h5: {
       fontWeight: 500,
+      fontSize: '1.25rem',
     },
     h6: {
       fontWeight: 500,
+      fontSize: '1rem',
     },
     button: {
-      fontWeight: 600,
-      textTransform: 'uppercase',
+      fontWeight: 500,
+      textTransform: 'none', // Dashboard buttons don't use uppercase
+    },
+    subtitle1: {
+      fontSize: '1rem',
+      fontWeight: 400,
+    },
+    subtitle2: {
+      fontSize: '0.875rem',
+      fontWeight: 400,
     },
   },
   components: {
@@ -96,14 +120,13 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 4,
-          textTransform: 'uppercase',
-          fontWeight: 600,
-          padding: '8px 24px',
+          fontWeight: 500,
+          padding: '8px 16px',
         },
         containedPrimary: {
-          boxShadow: '0 4px 8px rgba(140, 198, 63, 0.2)',
+          boxShadow: 'none', // Dashboard buttons don't have shadows
           '&:hover': {
-            boxShadow: '0 6px 12px rgba(140, 198, 63, 0.3)',
+            boxShadow: 'none',
           },
         },
       },
@@ -113,6 +136,23 @@ const theme = createTheme({
         root: {
           borderRadius: 8,
           boxShadow: '0 4px 12px 0 rgba(0,0,0,0.05)',
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+        },
+      },
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 4,
+          '&.Mui-selected': {
+            backgroundColor: 'rgba(138, 154, 91, 0.2)',
+          },
         },
       },
     },
@@ -153,7 +193,7 @@ function App() {
           {/* Client Routes */}
           <Route path="/dashboard" element={
             <ProtectedRoute>
-              <Layout />
+              <DashboardLayout />
             </ProtectedRoute>
           }>
             <Route index element={isAdmin ? <Navigate to="/admin" /> : <SimpleDashboard />} />
@@ -163,38 +203,29 @@ function App() {
             <Route path="devices" element={<Devices />} />
             <Route path="reports" element={<Reports />} />
             <Route path="reports/:id" element={<ReportDetail />} />
+            <Route path="statistics" element={<Dashboard />} />
+            <Route path="database" element={<h1>Database</h1>} />
+            <Route path="team" element={<h1>Team</h1>} />
+            <Route path="promotion" element={<h1>Promotion</h1>} />
+            <Route path="store" element={<h1>My Store</h1>} />
+            <Route path="notifications" element={<h1>Notifications</h1>} />
+            <Route path="settings" element={<h1>Settings</h1>} />
+            <Route path="trash" element={<h1>Trash</h1>} />
+            <Route path="help" element={<h1>Help</h1>} />
           </Route>
           
           {/* Admin Routes */}
           <Route path="/admin" element={
             <AdminRoute>
-              <AdminDashboard />
+              <DashboardLayout />
             </AdminRoute>
-          } />
-          
-          <Route path="/admin/clients/:clientId" element={
-            <AdminRoute>
-              <AdminClientDetail />
-            </AdminRoute>
-          } />
-          
-          <Route path="/admin/pickup-calendar" element={
-            <AdminRoute>
-              <AdminPickupCalendar />
-            </AdminRoute>
-          } />
-          
-          <Route path="/admin/pickup-detail" element={
-            <AdminRoute>
-              <AdminPickupDetail />
-            </AdminRoute>
-          } />
-          
-          <Route path="/admin/pickups/:pickupId" element={
-            <AdminRoute>
-              <AdminPickupDetail />
-            </AdminRoute>
-          } />
+          }>
+            <Route index element={<AdminDashboard />} />
+            <Route path="clients/:clientId" element={<AdminClientDetail />} />
+            <Route path="pickup-calendar" element={<AdminPickupCalendar />} />
+            <Route path="pickup-detail" element={<AdminPickupDetail />} />
+            <Route path="pickups/:pickupId" element={<AdminPickupDetail />} />
+          </Route>
           
           {/* 404 Route */}
           <Route path="*" element={<NotFound />} />
