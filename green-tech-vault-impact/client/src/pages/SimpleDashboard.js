@@ -15,9 +15,14 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  IconButton
 } from '@mui/material';
 import { dashboardAPI } from '../services/api';
+import { useTheme } from '@mui/material/styles';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import ClientAnalysis from '../components/dashboard/ClientAnalysis';
 
 const SimpleDashboard = () => {
   const [summary, setSummary] = useState(null);
@@ -25,6 +30,7 @@ const SimpleDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const theme = useTheme();
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -85,54 +91,95 @@ const SimpleDashboard = () => {
       {/* Summary Cards */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={6} md={3}>
-          <Card>
+          <Card sx={{ 
+            background: theme.palette.background.gradient,
+            color: 'white',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
             <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Total Devices
-              </Typography>
-              <Typography variant="h3">
-                {summary?.totalDevices || 0}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                <Typography variant="h6">Total Devices</Typography>
+                <IconButton size="small" sx={{ color: 'white' }}>
+                  <MoreVertIcon />
+                </IconButton>
+              </Box>
+              
+              <Typography variant="h3" component="div" sx={{ mb: 1 }}>
+                <Box component="span" sx={{ fontSize: '1.5rem', verticalAlign: 'top', mr: 1 }}>{summary?.totalDevices || 0}</Box>
               </Typography>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-          <Card>
+          <Card sx={{ 
+            background: theme.palette.background.gradient,
+            color: 'white',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
             <CardContent>
-              <Typography variant="h6" gutterBottom>
-                E-Waste Collected
-              </Typography>
-              <Typography variant="h3">
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                <Typography variant="h6">E-Waste Collected</Typography>
+                <IconButton size="small" sx={{ color: 'white' }}>
+                  <MoreVertIcon />
+                </IconButton>
+              </Box>
+              
+              <Typography variant="h3" component="div" sx={{ mb: 1 }}>
+                <Box component="span" sx={{ fontSize: '1.5rem', verticalAlign: 'top', mr: 1 }}>$</Box>
                 {summary?.totalWeight ? `${summary.totalWeight.toFixed(1)} kg` : '0 kg'}
               </Typography>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-          <Card>
+          <Card sx={{ 
+            background: theme.palette.background.gradient,
+            color: 'white',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
             <CardContent>
-              <Typography variant="h6" gutterBottom>
-                CO₂ Saved
-              </Typography>
-              <Typography variant="h3">
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                <Typography variant="h6">CO₂ Saved</Typography>
+                <IconButton size="small" sx={{ color: 'white' }}>
+                  <MoreVertIcon />
+                </IconButton>
+              </Box>
+              
+              <Typography variant="h3" component="div" sx={{ mb: 1 }}>
+                <Box component="span" sx={{ fontSize: '1.5rem', verticalAlign: 'top', mr: 1 }}>$</Box>
                 {summary?.co2Saved ? `${summary.co2Saved.toFixed(1)} kg` : '0 kg'}
               </Typography>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-          <Card>
+          <Card sx={{ 
+            background: theme.palette.background.gradient,
+            color: 'white',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
             <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Pickups Completed
-              </Typography>
-              <Typography variant="h3">
-                {summary?.pickupsCompleted || 0}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                <Typography variant="h6">Pickups Completed</Typography>
+                <IconButton size="small" sx={{ color: 'white' }}>
+                  <MoreVertIcon />
+                </IconButton>
+              </Box>
+              
+              <Typography variant="h3" component="div" sx={{ mb: 1 }}>
+                <Box component="span" sx={{ fontSize: '1.5rem', verticalAlign: 'top', mr: 1 }}>{summary?.pickupsCompleted || 0}</Box>
               </Typography>
             </CardContent>
           </Card>
         </Grid>
       </Grid>
+      
+      {/* Client Analysis Section */}
+      <ClientAnalysis />
       
       {/* Recent Pickups */}
       <Typography variant="h5" gutterBottom>

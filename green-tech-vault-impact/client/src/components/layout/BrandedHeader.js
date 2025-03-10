@@ -1,10 +1,12 @@
 import React from 'react';
-import { Box, Typography, Container, Button, AppBar, Toolbar, InputBase, Avatar, IconButton } from '@mui/material';
+import { Box, Typography, Container, Button, AppBar, Toolbar, InputBase, Avatar, IconButton, useTheme } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import Logo from '../branding/Logo';
 
 const BrandedHeader = ({ userName = "Anna Katrina Marchesi", userRole = "Head of Administrator", userAvatar = null }) => {
+  const theme = useTheme();
+  
   return (
     <AppBar position="static" sx={{ bgcolor: '#1e1e1e', boxShadow: 'none', borderBottom: '1px solid rgba(255,255,255,0.1)' }} elevation={0}>
       <Toolbar>
@@ -59,8 +61,8 @@ const BrandedHeader = ({ userName = "Anna Katrina Marchesi", userRole = "Head of
                   {userName}
                 </Typography>
                 <Typography variant="caption" sx={{ 
-                  color: '#8a9a5b', 
-                  bgcolor: 'rgba(138, 154, 91, 0.1)', 
+                  color: 'white', 
+                  background: theme.palette.background.gradient,
                   px: 1, 
                   py: 0.5, 
                   borderRadius: 1,
@@ -72,7 +74,7 @@ const BrandedHeader = ({ userName = "Anna Katrina Marchesi", userRole = "Head of
                     width: 8, 
                     height: 8, 
                     borderRadius: '50%', 
-                    bgcolor: '#8a9a5b',
+                    bgcolor: 'white',
                     display: 'inline-block'
                   }}></Box>
                   {userRole}

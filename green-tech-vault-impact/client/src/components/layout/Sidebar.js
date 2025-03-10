@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider } from '@mui/material';
+import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, useTheme } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import BarChartIcon from '@mui/icons-material/BarChart';
@@ -18,6 +18,7 @@ import Logo from '../branding/Logo';
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const theme = useTheme();
   
   const menuItems = [
     { icon: <DashboardIcon />, text: 'Dashboard', path: '/dashboard' },
@@ -66,9 +67,9 @@ const Sidebar = () => {
                 sx={{ 
                   borderRadius: 1,
                   '&.Mui-selected': {
-                    bgcolor: 'rgba(138, 154, 91, 0.2)',
+                    background: location.pathname === item.path ? theme.palette.background.gradient : 'rgba(138, 154, 91, 0.2)',
                     '&:hover': {
-                      bgcolor: 'rgba(138, 154, 91, 0.3)',
+                      background: location.pathname === item.path ? theme.palette.background.gradient : 'rgba(138, 154, 91, 0.3)',
                     }
                   },
                   '&:hover': {
@@ -77,7 +78,7 @@ const Sidebar = () => {
                 }}
               >
                 <ListItemIcon sx={{ 
-                  color: location.pathname === item.path ? '#8a9a5b' : 'rgba(255,255,255,0.7)',
+                  color: location.pathname === item.path ? '#ffffff' : 'rgba(255,255,255,0.7)',
                   minWidth: 40
                 }}>
                   {item.icon}
@@ -86,7 +87,7 @@ const Sidebar = () => {
                   primary={item.text} 
                   sx={{ 
                     '& .MuiListItemText-primary': {
-                      color: location.pathname === item.path ? '#8a9a5b' : 'rgba(255,255,255,0.7)',
+                      color: location.pathname === item.path ? '#ffffff' : 'rgba(255,255,255,0.7)',
                       fontWeight: location.pathname === item.path ? 500 : 400
                     }
                   }}

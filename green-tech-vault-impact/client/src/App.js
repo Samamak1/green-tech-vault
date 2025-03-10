@@ -58,6 +58,7 @@ const theme = createTheme({
       paper: '#ffffff',
       card: '#2c3e2e', // Dark green for cards like in the dashboard
       sidebar: '#1e1e1e', // Dark sidebar background
+      gradient: 'radial-gradient(circle at 0% 0%, #2a4a3d, #2a4a3d, #6e7848)', // Circular gradient
     },
     success: {
       main: '#8a9a5b',
