@@ -1,8 +1,19 @@
 import React from 'react';
-import { Box, Typography, Paper, Grid, useTheme } from '@mui/material';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { Box, Typography, Paper, Grid, useTheme, CircularProgress } from '@mui/material';
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
+
+// Try to import recharts, but provide a fallback if it fails
+let PieChart, Pie, Cell, ResponsiveContainer;
+try {
+  const recharts = require('recharts');
+  PieChart = recharts.PieChart;
+  Pie = recharts.Pie;
+  Cell = recharts.Cell;
+  ResponsiveContainer = recharts.ResponsiveContainer;
+} catch (error) {
+  console.warn('Recharts not available, using fallback chart');
+}
 
 const ClientAnalysis = () => {
   const theme = useTheme();
@@ -14,6 +25,40 @@ const ClientAnalysis = () => {
   ];
   
   const COLORS = [theme.palette.primary.main, theme.palette.secondary.main];
+  
+  // Fallback chart component if recharts is not available
+  const FallbackChart = () => (
+    <Box sx={{ 
+      position: 'relative', 
+      width: 120, 
+      height: 120,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      <Box sx={{ 
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        borderRadius: '50%',
+        background: `conic-gradient(${theme.palette.primary.main} 0% 70%, ${theme.palette.secondary.main} 70% 100%)`,
+      }} />
+      <Box sx={{ 
+        position: 'absolute',
+        width: '60%',
+        height: '60%',
+        borderRadius: '50%',
+        bgcolor: 'rgba(0,0,0,0.3)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <Typography variant="body2" sx={{ color: 'white', fontWeight: 'bold' }}>
+          70%
+        </Typography>
+      </Box>
+    </Box>
+  );
   
   return (
     <Box sx={{ mb: 4 }}>
@@ -130,23 +175,27 @@ const ClientAnalysis = () => {
               height: 150,
               opacity: 0.8
             }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={data}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={40}
-                    outerRadius={60}
-                    fill="#8884d8"
-                    dataKey="value"
-                  >
-                    {data.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
+              {PieChart && Pie && Cell && ResponsiveContainer ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={data}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={40}
+                      outerRadius={60}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {data.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+              ) : (
+                <FallbackChart />
+              )}
             </Box>
           </Paper>
         </Grid>

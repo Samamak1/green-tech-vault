@@ -17,7 +17,7 @@ Green Tech Vault is a full-stack application designed to help organizations trac
 
 ## Tech Stack
 
-- **Frontend**: React, Material-UI, Chart.js
+- **Frontend**: React, Material-UI, Chart.js, Recharts
 - **Backend**: Node.js, Express
 - **Database**: MongoDB
 - **Authentication**: JWT
@@ -42,6 +42,40 @@ This application is configured for deployment on Render.com. Follow these steps 
    - Create a MongoDB database (Atlas recommended)
    - Add the connection string to your environment variables
 
+## Troubleshooting Deployment Issues
+
+### Missing Recharts Dependency
+
+If you encounter a build error related to the `recharts` library:
+
+```
+Failed to compile.
+Module not found: Error: Can't resolve 'recharts' in '/opt/render/project/src/green-tech-vault-impact/client/src/components/dashboard'
+```
+
+Fix it by adding the recharts dependency to your client's package.json:
+
+1. Add recharts to your dependencies:
+   ```
+   cd client
+   npm install --save recharts
+   ```
+
+2. Commit and push the changes:
+   ```
+   git add .
+   git commit -m "Add recharts dependency"
+   git push
+   ```
+
+3. Redeploy your application on Render
+
+### Other Common Issues
+
+- **Missing Dependencies**: Make sure all dependencies are properly listed in package.json
+- **Build Script Issues**: Verify that the build script in package.json is correct
+- **Environment Variables**: Check that all required environment variables are set in Render
+
 ## Local Development
 
 1. **Clone the repository**:
@@ -52,8 +86,7 @@ This application is configured for deployment on Render.com. Follow these steps 
 
 2. **Install dependencies**:
    ```
-   npm install
-   cd client && npm install
+   npm run install:all
    ```
 
 3. **Start the development server**:
@@ -64,15 +97,6 @@ This application is configured for deployment on Render.com. Follow these steps 
 4. **Access the application**:
    - Frontend: http://localhost:3000
    - Backend API: http://localhost:5000
-
-## Troubleshooting Deployment Issues
-
-If you encounter build errors related to missing dependencies:
-
-1. Check the build logs to identify the missing package
-2. Add the package to the appropriate package.json file
-3. If using date pickers or other specialized components, ensure all peer dependencies are installed
-4. For MUI date pickers, make sure the LocalizationProvider is properly set up in your application
 
 ## License
 
