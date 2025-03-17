@@ -12,7 +12,9 @@
     "build": "cd client && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:client": "cd client && npm install && npm run build",
-    "heroku-postbuild": "npm run build:client"
+    "heroku-postbuild": "npm run build:client",
+    "render-build": "npm install && cd client && npm install && npm run build",
+    "render-start": "node server/index.js"
   },
   "keywords": [
     "e-waste",
