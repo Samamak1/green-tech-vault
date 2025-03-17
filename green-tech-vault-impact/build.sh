@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# Make script executable
+chmod +x ./build.sh
+
 echo "Current directory: $(pwd)"
 echo "Listing files: $(ls -la)"
 
