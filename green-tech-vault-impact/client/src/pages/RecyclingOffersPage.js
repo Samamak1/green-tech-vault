@@ -10,8 +10,7 @@ import {
   useTheme
 } from '@mui/material';
 
-// Import header component
-import LandingHeader from '../components/branding/LandingHeader';
+// Import components
 import RecyclingIcon from '../components/branding/RecyclingIcon';
 
 const RecyclingOffersPage = () => {
@@ -43,9 +42,6 @@ const RecyclingOffersPage = () => {
 
   return (
     <Box>
-      {/* Header */}
-      <LandingHeader />
-      
       {/* Hero Section with Call to Action */}
       <Box 
         sx={{

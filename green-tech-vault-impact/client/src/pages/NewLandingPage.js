@@ -3,8 +3,7 @@ import { Box, Container, Typography, Grid, Button, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
 
-// Import our custom header and components
-import LandingHeader from '../components/branding/LandingHeader';
+// Import our custom components
 import RecyclingIcon from '../components/branding/RecyclingIcon';
 
 // Styled wave divider for the hero section
@@ -31,9 +30,6 @@ const TealSection = styled(Box)(({ theme }) => ({
 const NewLandingPage = () => {
   return (
     <Box>
-      {/* Header */}
-      <LandingHeader />
-      
       {/* Hero Section */}
       <Box sx={{ 
         background: 'url(https://source.unsplash.com/random?ewaste,recycling) no-repeat center center', 

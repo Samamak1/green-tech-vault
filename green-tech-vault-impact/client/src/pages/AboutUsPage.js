@@ -15,7 +15,6 @@ import {
 } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 import RecyclingIcon from '../components/branding/RecyclingIcon';
-import LandingHeader from '../components/branding/LandingHeader';
 
 // Images
 const heroBackground = 'teal';
@@ -165,9 +164,6 @@ const AboutUsPage = () => {
 
   return (
     <Box>
-      {/* Header */}
-      <LandingHeader />
-      
       {/* Hero Section */}
       <Box
         sx={{

@@ -9,6 +9,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // Layout components
 import Layout from './components/layout/Layout';
 import DashboardLayout from './components/layout/DashboardLayout';
+import MainLayout from './components/layout/MainLayout';
 
 // Pages
 import Dashboard from './pages/Dashboard';
@@ -194,17 +195,48 @@ function App() {
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <CssBaseline />
         <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<NewLandingPage />} />
-          <Route path="/old" element={<BrandedLanding />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/recycling-offers" element={<RecyclingOffersPage />} />
-          <Route path="/about-us" element={<AboutUsPage />} />
+          {/* Public Routes with MainLayout */}
+          <Route path="/" element={
+            <MainLayout>
+              <NewLandingPage />
+            </MainLayout>
+          } />
+          
+          <Route path="/old" element={
+            <MainLayout>
+              <BrandedLanding />
+            </MainLayout>
+          } />
+          
+          <Route path="/contact" element={
+            <MainLayout>
+              <ContactPage />
+            </MainLayout>
+          } />
+          
+          <Route path="/recycling-offers" element={
+            <MainLayout>
+              <RecyclingOffersPage />
+            </MainLayout>
+          } />
+          
+          <Route path="/about-us" element={
+            <MainLayout>
+              <AboutUsPage />
+            </MainLayout>
+          } />
+          
+          <Route path="/schedule-pickup" element={
+            <MainLayout>
+              <SchedulePickup />
+            </MainLayout>
+          } />
+          
+          {/* Auth Routes */}
           <Route path="/login" element={<BrandedLogin />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin/login" element={<BrandedAdminLogin />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
-          <Route path="/schedule-pickup" element={<SchedulePickup />} />
           
           {/* Client Routes */}
           <Route path="/dashboard" element={
@@ -244,7 +276,11 @@ function App() {
           </Route>
           
           {/* 404 Route */}
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={
+            <MainLayout>
+              <NotFound />
+            </MainLayout>
+          } />
         </Routes>
       </LocalizationProvider>
     </ThemeProvider>
