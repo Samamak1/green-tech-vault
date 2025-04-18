@@ -48,6 +48,8 @@ import CableIcon from '@mui/icons-material/Cable';
 
 // Import our custom RecyclingIcon
 import RecyclingIcon from '../components/branding/RecyclingIcon';
+// Import our scroll to hash hook
+import useScrollToHash from '../hooks/useScrollToHash';
 
 // Styled components
 const ProcessIcon = styled(Box)(({ theme }) => ({
@@ -89,6 +91,9 @@ const StyledTableCell = styled(TableCell)(({ theme, type }) => ({
 const HowItWorksPage = () => {
   const theme = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
+  
+  // Use the scroll to hash hook to enable scrolling to sections
+  useScrollToHash();
   
   // Process steps data
   const processSteps = [
@@ -350,7 +355,7 @@ const HowItWorksPage = () => {
       </Container>
       
       {/* What Items Do We Accept Section */}
-      <Box sx={{ bgcolor: '#f5f5f5', py: 6 }}>
+      <Box id="accepted-items" sx={{ bgcolor: '#f5f5f5', py: 6 }}>
         <Container maxWidth="lg">
           <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mb: 3 }}>
             What Items Do We Accept?

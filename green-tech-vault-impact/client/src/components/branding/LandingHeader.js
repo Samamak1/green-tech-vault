@@ -75,7 +75,7 @@ const LandingHeader = () => {
     {
       text: 'What Items Do We Accept?',
       icon: <ChecklistIcon />,
-      link: '/accepted-items'
+      link: '/how-it-works#accepted-items'
     },
     {
       text: 'Recycling Offers',
