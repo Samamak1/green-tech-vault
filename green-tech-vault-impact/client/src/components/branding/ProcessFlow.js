@@ -37,7 +37,7 @@ const ProcessStep = ({ icon, title, description, isLast }) => {
             alignItems: 'center',
             width: '100%',
             height: '100%',
-            bgcolor: 'primary.light',
+            bgcolor: '#c70039',
             color: 'white',
             borderRadius: 2
           }}

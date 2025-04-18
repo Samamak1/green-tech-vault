@@ -42,38 +42,38 @@ import AdminRoute from './components/routing/AdminRoute';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#8a9a5b', // Olive green from the dashboard
-      light: '#a9b77c',
-      dark: '#5c6639',
+      main: '#c70039', // Changed from olive green to rich red
+      light: '#dd3361', // Lighter version of primary
+      dark: '#a1002e', // Darker version of primary
       contrastText: '#fff',
     },
     secondary: {
-      main: '#2c3e2e', // Dark green background from the dashboard
-      light: '#4a5c4c',
-      dark: '#1a2a1c',
+      main: '#3e0315', // Dark red background complementing the primary color
+      light: '#5c142a',
+      dark: '#2a000d',
       contrastText: '#fff',
     },
     background: {
       default: '#f5f5f5',
       paper: '#ffffff',
-      card: '#2c3e2e', // Dark green for cards like in the dashboard
+      card: '#3e0315', // Dark red for cards
       sidebar: '#1e1e1e', // Dark sidebar background
-      gradient: 'radial-gradient(circle at 0% 0%, #2a4a3d, #2a4a3d, #6e7848)', // Circular gradient
+      gradient: 'radial-gradient(circle at 0% 0%, #3e0315, #3e0315, #c70039)', // Circular gradient
     },
     success: {
-      main: '#8a9a5b',
-      light: '#a9b77c',
-      dark: '#5c6639',
+      main: '#c70039',
+      light: '#dd3361',
+      dark: '#a1002e',
     },
     text: {
       primary: '#333333',
       secondary: '#666666',
       light: '#ffffff',
-      accent: '#8a9a5b', // Olive green for accent text
+      accent: '#c70039', // Rich red for accent text
     },
     chart: {
-      clothing: '#8a9a5b', // Olive green for clothing category
-      cosmetics: '#2c3e2e', // Dark green for cosmetics category
+      clothing: '#c70039', // Rich red for clothing category
+      cosmetics: '#3e0315', // Dark red for cosmetics category
       others: '#a0a0a0', // Gray for others category
     }
   },
@@ -152,7 +152,7 @@ const theme = createTheme({
         root: {
           borderRadius: 4,
           '&.Mui-selected': {
-            backgroundColor: 'rgba(138, 154, 91, 0.2)',
+            backgroundColor: 'rgba(199, 0, 57, 0.2)',
           },
         },
       },

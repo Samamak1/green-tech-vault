@@ -29,10 +29,10 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
   const variantConfig = {
     default: {
       iconBgColor: 'transparent',
-      iconColor: '#8a9a5b', // Olive green
-      textColor: '#8a9a5b', // Olive green
-      textSecondaryColor: '#8a9a5b', // Olive green
-      taglineColor: '#8a9a5b', // Olive green
+      iconColor: '#c70039', // Changed from olive green to rich red
+      textColor: '#c70039', // Changed from olive green to rich red
+      textSecondaryColor: '#c70039', // Changed from olive green to rich red
+      taglineColor: '#c70039', // Changed from olive green to rich red
     },
     light: {
       iconBgColor: 'transparent',
@@ -43,10 +43,10 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
     },
     dark: {
       iconBgColor: 'transparent',
-      iconColor: '#8a9a5b',
-      textColor: '#8a9a5b',
-      textSecondaryColor: '#8a9a5b',
-      taglineColor: '#8a9a5b',
+      iconColor: '#c70039', // Changed from olive green to rich red
+      textColor: '#c70039', // Changed from olive green to rich red
+      textSecondaryColor: '#c70039', // Changed from olive green to rich red
+      taglineColor: '#c70039', // Changed from olive green to rich red
     },
   };
 

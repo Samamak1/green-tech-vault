@@ -23,12 +23,12 @@ code {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #c70039;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #a1002e;
 }
 
 /* Global styles */
@@ -104,4 +104,11 @@ code {
 .auth-link {
   text-align: center;
   margin-top: 16px;
+  color: #c70039;
+}
+
+/* Highlight color for selected text */
+::selection {
+  background-color: rgba(199, 0, 57, 0.3);
+  color: #333;
 } 
