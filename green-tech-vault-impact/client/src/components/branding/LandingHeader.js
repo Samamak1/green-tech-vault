@@ -117,7 +117,17 @@ const LandingHeader = () => {
 
   return (
     <>
-      <AppBar position="static" color="transparent" elevation={0} sx={{ borderBottom: '1px solid rgba(0,0,0,0.1)' }}>
+      <AppBar 
+        position="static" 
+        color="transparent" 
+        elevation={3} 
+        sx={{ 
+          borderBottom: '1px solid rgba(0,0,0,0.1)',
+          boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07), 0px 1px 10px 0px rgba(0,0,0,0.06)',
+          backgroundColor: 'white',
+          zIndex: 1100
+        }}
+      >
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           {/* Left side - Menu button and Logo */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
