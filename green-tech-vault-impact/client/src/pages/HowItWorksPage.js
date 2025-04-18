@@ -461,7 +461,7 @@ const HowItWorksPage = () => {
       </Box>
       
       {/* How Do We Sort Your E-Waste Section */}
-      <Container maxWidth="lg" sx={{ py: 6 }}>
+      <Container id="sorting-ewaste" maxWidth="lg" sx={{ py: 6 }}>
         <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}>
           How Do We Sort Your E-Waste?
         </Typography>

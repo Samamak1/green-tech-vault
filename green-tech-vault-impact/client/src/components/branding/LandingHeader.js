@@ -65,7 +65,7 @@ const LandingHeader = () => {
     {
       text: 'Sorting Your E-Waste',
       icon: <SortIcon />,
-      link: '/services/sorting'
+      link: '/how-it-works#sorting-ewaste'
     },
     {
       text: 'What Items Do We Accept?',
