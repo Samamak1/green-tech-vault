@@ -32,6 +32,7 @@ import HowItWorksPage from './pages/HowItWorksPage';
 import SchedulePickup from './pages/SchedulePickup';
 import BrandedLogin from './pages/BrandedLogin';
 import ClientLogin from './pages/ClientLogin';
+import ClientRegister from './pages/ClientRegister';
 import BrandedAdminLogin from './pages/BrandedAdminLogin';
 
 // Admin Pages
@@ -242,7 +243,7 @@ function App() {
           
           {/* Auth Routes */}
           <Route path="/login" element={<ClientLogin />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<ClientRegister />} />
           <Route path="/admin/login" element={<BrandedAdminLogin />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           
