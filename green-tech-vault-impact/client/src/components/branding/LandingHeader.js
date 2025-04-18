@@ -80,7 +80,7 @@ const LandingHeader = () => {
   ];
 
   const navItems = [
-    { text: 'Join Us', link: '/join-us' },
+    { text: 'Join Us', link: '/recycling-offers' },
     { text: 'Education', link: '/education' },
     { text: 'About Us', link: '/about-us' },
     { text: 'Contact', link: '/contact' }
