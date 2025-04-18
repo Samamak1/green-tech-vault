@@ -58,6 +58,11 @@ const LandingHeader = () => {
       link: '/our-process'
     },
     {
+      text: 'How It Works',
+      icon: <AccessTimeIcon />,
+      link: '/how-it-works'
+    },
+    {
       text: 'Secure Data Destruction',
       icon: <LockIcon />,
       link: '/services/data-destruction'
@@ -81,6 +86,7 @@ const LandingHeader = () => {
 
   const navItems = [
     { text: 'Join Us', link: '/recycling-offers' },
+    { text: 'How It Works', link: '/how-it-works' },
     { text: 'Education', link: '/education' },
     { text: 'About Us', link: '/about-us' },
     { text: 'Contact', link: '/contact' }
