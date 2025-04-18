@@ -163,42 +163,49 @@ const LandingHeader = () => {
             
             <Button 
               variant="outlined" 
-              color="primary" 
               component={RouterLink} 
               to="/login"
               sx={{ 
                 mx: 1, 
-                borderRadius: 6,
-                px: 2,
-                py: 0.5,
-                fontSize: '0.85rem',
+                borderRadius: 8,
+                px: 4,
+                py: 1,
+                fontSize: '1.1rem',
+                fontWeight: 'normal',
                 textTransform: 'none',
-                height: 32,
-                borderColor: '#e0e0e0',
-                color: 'text.primary',
+                backgroundColor: '#e6e6e6',
+                borderColor: '#333333',
+                color: '#333333',
+                minWidth: '130px',
                 '&:hover': {
-                  borderColor: 'primary.main',
-                  backgroundColor: 'transparent'
+                  borderColor: '#333333',
+                  backgroundColor: '#dbdbdb'
                 }
               }}
             >
-              Sign in
+              Sign In
             </Button>
             
             <Button 
               variant="contained" 
-              color="primary"
               component={RouterLink}
               to="/register"
               sx={{ 
                 ml: 1, 
-                borderRadius: 6,
-                px: 2,
-                py: 0.5,
-                fontSize: '0.85rem',
+                borderRadius: 8,
+                px: 4,
+                py: 1,
+                fontSize: '1.1rem',
+                fontWeight: 'normal',
                 textTransform: 'none',
-                height: 32,
-                boxShadow: 'none'
+                backgroundColor: '#333333',
+                color: 'white',
+                minWidth: '130px',
+                boxShadow: 'none',
+                '&:hover': {
+                  backgroundColor: '#222222',
+                  boxShadow: 'none'
+                }
               }}
             >
               Register
