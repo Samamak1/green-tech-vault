@@ -48,45 +48,45 @@ import AdminRoute from './components/routing/AdminRoute';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#c70039', // Changed from olive green to rich red
-      light: '#dd3361', // Lighter version of primary
-      dark: '#a1002e', // Darker version of primary
+      main: '#1C392B', // Dark green
+      light: '#2D6356', // Medium green
+      dark: '#142B21', // Darker green
       contrastText: '#fff',
     },
     secondary: {
-      main: '#3e0315', // Dark red background complementing the primary color
-      light: '#5c142a',
-      dark: '#2a000d',
+      main: '#2D6356', // Medium green
+      light: '#4ECDC4', // Teal
+      dark: '#1C392B', // Dark green
       contrastText: '#fff',
     },
     background: {
       default: '#f5f5f5',
       paper: '#ffffff',
-      card: '#3e0315', // Dark red for cards
+      card: '#1C392B', // Dark green for cards
       sidebar: '#1e1e1e', // Dark sidebar background
-      gradient: 'radial-gradient(circle at 0% 0%, #3e0315, #3e0315, #c70039)', // Circular gradient
+      gradient: 'linear-gradient(90deg, #1C392B, #2D6356, #3C8975, #4ECDC4, #7FE0D9)', // Linear gradient of all shades
     },
     success: {
-      main: '#c70039',
-      light: '#dd3361',
-      dark: '#a1002e',
+      main: '#4ECDC4', // Teal
+      light: '#7FE0D9', // Light teal
+      dark: '#3C8975', // Medium-dark teal/green
     },
     text: {
       primary: '#333333',
       secondary: '#666666',
       light: '#ffffff',
-      accent: '#c70039', // Rich red for accent text
+      accent: '#4ECDC4', // Teal for accent text
     },
     chart: {
-      clothing: '#c70039', // Rich red for clothing category
-      cosmetics: '#3e0315', // Dark red for cosmetics category
+      clothing: '#1C392B', // Dark green
+      cosmetics: '#4ECDC4', // Teal
       others: '#a0a0a0', // Gray for others category
     },
-    // Add teal color for the landing page
+    // Update teal color palette
     teal: {
       main: '#4ECDC4',
-      light: '#6ED7D1',
-      dark: '#3AA39B',
+      light: '#7FE0D9',
+      dark: '#3C8975',
       contrastText: '#ffffff',
     }
   },
@@ -165,7 +165,7 @@ const theme = createTheme({
         root: {
           borderRadius: 4,
           '&.Mui-selected': {
-            backgroundColor: 'rgba(199, 0, 57, 0.2)',
+            backgroundColor: 'rgba(28, 57, 43, 0.2)', // Dark green with transparency
           },
         },
       },
