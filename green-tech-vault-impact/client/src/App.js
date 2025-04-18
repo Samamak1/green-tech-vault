@@ -28,6 +28,7 @@ import NewLandingPage from './pages/NewLandingPage';
 import ContactPage from './pages/ContactPage';
 import RecyclingOffersPage from './pages/RecyclingOffersPage';
 import AboutUsPage from './pages/AboutUsPage';
+import HowItWorksPage from './pages/HowItWorksPage';
 import SchedulePickup from './pages/SchedulePickup';
 import BrandedLogin from './pages/BrandedLogin';
 import BrandedAdminLogin from './pages/BrandedAdminLogin';
@@ -223,6 +224,12 @@ function App() {
           <Route path="/about-us" element={
             <MainLayout>
               <AboutUsPage />
+            </MainLayout>
+          } />
+          
+          <Route path="/how-it-works" element={
+            <MainLayout>
+              <HowItWorksPage />
             </MainLayout>
           } />
           
