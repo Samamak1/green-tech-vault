@@ -166,9 +166,23 @@ const LandingHeader = () => {
               color="primary" 
               component={RouterLink} 
               to="/login"
-              sx={{ mx: 1, borderRadius: 1 }}
+              sx={{ 
+                mx: 1, 
+                borderRadius: 6,
+                px: 2,
+                py: 0.5,
+                fontSize: '0.85rem',
+                textTransform: 'none',
+                height: 32,
+                borderColor: '#e0e0e0',
+                color: 'text.primary',
+                '&:hover': {
+                  borderColor: 'primary.main',
+                  backgroundColor: 'transparent'
+                }
+              }}
             >
-              Sign In
+              Sign in
             </Button>
             
             <Button 
@@ -176,7 +190,16 @@ const LandingHeader = () => {
               color="primary"
               component={RouterLink}
               to="/register"
-              sx={{ ml: 1, borderRadius: 1 }}
+              sx={{ 
+                ml: 1, 
+                borderRadius: 6,
+                px: 2,
+                py: 0.5,
+                fontSize: '0.85rem',
+                textTransform: 'none',
+                height: 32,
+                boxShadow: 'none'
+              }}
             >
               Register
             </Button>
