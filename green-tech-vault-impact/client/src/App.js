@@ -244,7 +244,7 @@ function App() {
           {/* Auth Routes */}
           <Route path="/login" element={<ClientLogin />} />
           <Route path="/register" element={<ClientRegister />} />
-          <Route path="/admin/login" element={<BrandedAdminLogin />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           
           {/* Client Routes */}
