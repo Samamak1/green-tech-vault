@@ -25,6 +25,7 @@ import NotFound from './pages/NotFound';
 import BrandedLanding from './pages/BrandedLanding';
 import NewLandingPage from './pages/NewLandingPage';
 import ContactPage from './pages/ContactPage';
+import RecyclingOffersPage from './pages/RecyclingOffersPage';
 import SchedulePickup from './pages/SchedulePickup';
 import BrandedLogin from './pages/BrandedLogin';
 import BrandedAdminLogin from './pages/BrandedAdminLogin';
@@ -196,6 +197,7 @@ function App() {
           <Route path="/" element={<NewLandingPage />} />
           <Route path="/old" element={<BrandedLanding />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/recycling-offers" element={<RecyclingOffersPage />} />
           <Route path="/login" element={<BrandedLogin />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin/login" element={<BrandedAdminLogin />} />

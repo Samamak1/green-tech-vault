@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Container, Typography, Grid, Button, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { Link as RouterLink } from 'react-router-dom';
 
 // Import our custom header and components
 import LandingHeader from '../components/branding/LandingHeader';
@@ -91,6 +92,8 @@ const NewLandingPage = () => {
                 <Button 
                   variant="outlined" 
                   color="inherit" 
+                  component={RouterLink}
+                  to="/login"
                   sx={{ 
                     mr: 2, 
                     borderColor: 'white', 
@@ -100,13 +103,15 @@ const NewLandingPage = () => {
                   Sign in
                 </Button>
                 <Button 
-                  variant="contained" 
+                  variant="contained"
+                  component={RouterLink}
+                  to="/recycling-offers"
                   sx={{ 
                     backgroundColor: '#333', 
                     '&:hover': { backgroundColor: '#555' } 
                   }}
                 >
-                  Register
+                  Explore Offers
                 </Button>
               </Box>
             </Grid>

@@ -23,6 +23,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LockIcon from '@mui/icons-material/Lock';
 import SortIcon from '@mui/icons-material/Sort';
 import ChecklistIcon from '@mui/icons-material/Checklist';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 
 // Import or create a logo component
 import Logo from './Logo';
@@ -70,6 +71,11 @@ const LandingHeader = () => {
       text: 'What Items Do We Accept?',
       icon: <ChecklistIcon />,
       link: '/accepted-items'
+    },
+    {
+      text: 'Recycling Offers',
+      icon: <CardGiftcardIcon />,
+      link: '/recycling-offers'
     }
   ];
 
