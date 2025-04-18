@@ -53,30 +53,40 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
   const { iconSize, textVariant, taglineVariant, spacing } = sizeConfig[size] || sizeConfig.medium;
   const { iconBgColor, iconColor, textColor, textSecondaryColor, taglineColor } = variantConfig[variant] || variantConfig.default;
 
-  // Custom logo icon that matches the Arowwai Industries logo
+  // Custom logo icon that matches the E-Waste company logo in the images
   const LogoIcon = () => (
     <Box 
       sx={{ 
         position: 'relative',
-        width: iconSize * 1.5,
-        height: iconSize * 1.5,
+        width: iconSize * 1.8,
+        height: iconSize * 1.8,
         bgcolor: iconBgColor,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        border: `2px solid ${iconColor}`,
+        borderRadius: '4px',
       }}
     >
-      {/* Triangular logo shape */}
+      {/* Camera-like logo shape with mountains inside */}
       <Box
         component="svg"
         viewBox="0 0 100 100"
         sx={{
-          width: '100%',
-          height: '100%',
+          width: '80%',
+          height: '80%',
           fill: iconColor,
         }}
       >
-        <polygon points="50,10 90,90 10,90" />
+        {/* Outer border */}
+        <rect x="10" y="15" width="80" height="70" fill="none" stroke={iconColor} strokeWidth="4" />
+        
+        {/* Camera-like circle */}
+        <circle cx="30" cy="35" r="8" />
+        
+        {/* Mountains */}
+        <polygon points="20,65 40,45 60,65" />
+        <polygon points="45,65 65,45 85,65" />
       </Box>
     </Box>
   );
@@ -111,7 +121,7 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
               lineHeight: 1.2,
             }}
           >
-            Arowwai Industries
+            EcoCycle Solutions
           </Typography>
         )}
       </Box>
@@ -128,7 +138,7 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
             ml: iconSize * 1.5 + spacing * 8, // Align with the text above
           }}
         >
-          Sustainable solutions for tomorrow
+          Responsible E-Waste Recycling
         </Typography>
       )}
     </Box>

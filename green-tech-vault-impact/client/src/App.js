@@ -23,6 +23,7 @@ import Reports from './pages/Reports';
 import ReportDetail from './pages/ReportDetail';
 import NotFound from './pages/NotFound';
 import BrandedLanding from './pages/BrandedLanding';
+import NewLandingPage from './pages/NewLandingPage';
 import SchedulePickup from './pages/SchedulePickup';
 import BrandedLogin from './pages/BrandedLogin';
 import BrandedAdminLogin from './pages/BrandedAdminLogin';
@@ -75,6 +76,13 @@ const theme = createTheme({
       clothing: '#c70039', // Rich red for clothing category
       cosmetics: '#3e0315', // Dark red for cosmetics category
       others: '#a0a0a0', // Gray for others category
+    },
+    // Add teal color for the landing page
+    teal: {
+      main: '#4ECDC4',
+      light: '#6ED7D1',
+      dark: '#3AA39B',
+      contrastText: '#ffffff',
     }
   },
   typography: {
@@ -184,7 +192,8 @@ function App() {
         <CssBaseline />
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<BrandedLanding />} />
+          <Route path="/" element={<NewLandingPage />} />
+          <Route path="/old" element={<BrandedLanding />} />
           <Route path="/login" element={<BrandedLogin />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin/login" element={<BrandedAdminLogin />} />
