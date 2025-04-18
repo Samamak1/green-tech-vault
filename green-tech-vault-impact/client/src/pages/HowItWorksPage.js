@@ -325,7 +325,7 @@ const HowItWorksPage = () => {
       </Box>
       
       {/* Our Process Section */}
-      <Container maxWidth="lg" sx={{ py: 6 }}>
+      <Container id="our-process" maxWidth="lg" sx={{ py: 6 }}>
         <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mb: 1 }}>
           Our Process
         </Typography>

@@ -55,12 +55,7 @@ const LandingHeader = () => {
     {
       text: 'Our Process',
       icon: <AccessTimeIcon />,
-      link: '/our-process'
-    },
-    {
-      text: 'How It Works',
-      icon: <AccessTimeIcon />,
-      link: '/how-it-works'
+      link: '/how-it-works#our-process'
     },
     {
       text: 'Secure Data Destruction',
