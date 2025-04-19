@@ -138,6 +138,10 @@ const theme = createTheme({
           borderRadius: 4,
           fontWeight: 500,
           padding: '8px 16px',
+          transition: 'all 0.3s ease',
+          '&:hover': {
+            transform: 'scale(1.05)',
+          },
         },
         containedPrimary: {
           boxShadow: 'none', // Dashboard buttons don't have shadows

@@ -278,10 +278,12 @@ const ClientRegister = () => {
                   fontSize: '1.1rem',
                   backgroundColor: theme.palette.teal.main,
                   '&:hover': {
-                    backgroundColor: theme.palette.teal.dark
+                    backgroundColor: theme.palette.teal.dark,
+                    transform: 'scale(1.05)'
                   },
                   borderRadius: 50,
-                  width: '140px'
+                  width: '140px',
+                  transition: 'all 0.3s ease'
                 }}
               >
                 Sign up

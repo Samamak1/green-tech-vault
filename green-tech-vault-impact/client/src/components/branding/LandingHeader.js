@@ -177,9 +177,11 @@ const LandingHeader = () => {
                 borderColor: '#333333',
                 color: '#333333',
                 minWidth: '130px',
+                transition: 'all 0.3s ease',
                 '&:hover': {
                   borderColor: '#333333',
-                  backgroundColor: '#dbdbdb'
+                  backgroundColor: '#dbdbdb',
+                  transform: 'scale(1.05)'
                 }
               }}
             >
@@ -202,9 +204,11 @@ const LandingHeader = () => {
                 color: 'white',
                 minWidth: '130px',
                 boxShadow: 'none',
+                transition: 'all 0.3s ease',
                 '&:hover': {
                   backgroundColor: '#222222',
-                  boxShadow: 'none'
+                  boxShadow: 'none',
+                  transform: 'scale(1.05)'
                 }
               }}
             >

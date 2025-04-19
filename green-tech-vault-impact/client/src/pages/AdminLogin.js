@@ -213,11 +213,13 @@ const AdminLogin = () => {
                 fontSize: '1.1rem',
                 backgroundColor: theme.palette.teal.main,
                 '&:hover': {
-                  backgroundColor: theme.palette.teal.dark
+                  backgroundColor: theme.palette.teal.dark,
+                  transform: 'scale(1.05)'
                 },
                 borderRadius: 50,
                 alignSelf: 'flex-end',
-                width: '140px'
+                width: '140px',
+                transition: 'all 0.3s ease'
               }}
             >
               Sign in
@@ -236,8 +238,10 @@ const AdminLogin = () => {
                   color: 'text.secondary',
                   '&:hover': {
                     borderColor: '#bdbdbd',
-                    backgroundColor: 'transparent'
-                  }
+                    backgroundColor: 'transparent',
+                    transform: 'scale(1.05)'
+                  },
+                  transition: 'all 0.3s ease'
                 }}
               >
                 Client Login
