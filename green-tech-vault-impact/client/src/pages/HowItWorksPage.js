@@ -410,23 +410,26 @@ const HowItWorksPage = () => {
               onChange={handleSearchChange}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">
+                  <InputAdornment position="start" sx={{ ml: 1 }}>
                     <SearchIcon sx={{ color: 'text.secondary' }} />
                   </InputAdornment>
                 ),
               }}
               sx={{
                 bgcolor: 'white',
-                borderRadius: 20,
+                borderRadius: 1.5,
                 '& .MuiOutlinedInput-root': {
-                  borderRadius: 20,
+                  borderRadius: 1.5,
+                  height: 56,
                   '& fieldset': {
                     borderColor: 'rgba(0, 0, 0, 0.1)',
+                    borderWidth: 1,
                   },
                   '&:hover fieldset': {
                     borderColor: 'rgba(0, 0, 0, 0.2)',
                   },
                 },
+                boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
               }}
             />
           </Box>
