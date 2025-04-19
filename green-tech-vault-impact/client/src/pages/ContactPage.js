@@ -100,7 +100,7 @@ const ContactPage = () => {
         <Grid container spacing={4}>
           {/* Get in Touch Section */}
           <Grid item xs={12} md={5}>
-            <Box sx={{ pr: { md: 4 }, bgcolor: 'white', p: 3, borderRadius: 2 }}>
+            <Box sx={{ pr: { md: 4 } }}>
               <Typography variant="h4" component="h2" gutterBottom>
                 Get In Touch
               </Typography>
@@ -264,11 +264,12 @@ const ContactPage = () => {
           <Grid item xs={12} md={7}>
             <Paper 
               component="form" 
-              elevation={0} 
+              elevation={3} 
               sx={{ 
                 p: 3, 
                 borderRadius: 2,
-                border: '1px solid rgba(0,0,0,0.1)'
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                border: 'none'
               }}
               onSubmit={handleSubmit}
             >
