@@ -167,16 +167,17 @@ const LandingHeader = () => {
               to="/login"
               sx={{ 
                 mx: 1, 
-                borderRadius: 10,
-                px: 3,
-                py: 1.5,
+                borderRadius: 30,
+                px: 4,
+                py: 1,
                 fontSize: '0.875rem',
                 fontWeight: 'normal',
                 textTransform: 'none',
                 backgroundColor: '#e6e6e6',
-                borderColor: '#333333',
+                borderColor: '#9c9c9c',
                 color: '#333333',
-                minWidth: '120px',
+                minWidth: '110px',
+                height: '38px',
                 transition: 'all 0.3s ease',
                 '&:hover': {
                   borderColor: '#333333',
@@ -185,7 +186,7 @@ const LandingHeader = () => {
                 }
               }}
             >
-              Sign In
+              Sign in
             </Button>
             
             <Button 
@@ -194,15 +195,16 @@ const LandingHeader = () => {
               to="/register"
               sx={{ 
                 ml: 1, 
-                borderRadius: 10,
-                px: 3,
-                py: 1.5,
+                borderRadius: 30,
+                px: 4,
+                py: 1,
                 fontSize: '0.875rem',
                 fontWeight: 'normal',
                 textTransform: 'none',
                 backgroundColor: '#333333',
                 color: 'white',
-                minWidth: '120px',
+                minWidth: '110px',
+                height: '38px',
                 boxShadow: 'none',
                 transition: 'all 0.3s ease',
                 '&:hover': {
