@@ -100,7 +100,7 @@ const ContactPage = () => {
         <Grid container spacing={4}>
           {/* Get in Touch Section */}
           <Grid item xs={12} md={5}>
-            <Box sx={{ pr: { md: 4 } }}>
+            <Box sx={{ pr: { md: 4 }, bgcolor: 'white', p: 3, borderRadius: 2 }}>
               <Typography variant="h4" component="h2" gutterBottom>
                 Get In Touch
               </Typography>
@@ -327,9 +327,9 @@ const ContactPage = () => {
                   <Button 
                     type="submit" 
                     variant="contained" 
-                    color="primary"
                     fullWidth
                     size="large"
+                    sx={{ bgcolor: '#256B65', '&:hover': { bgcolor: '#1e5550' } }}
                   >
                     Submit
                   </Button>
@@ -353,16 +353,15 @@ const ContactPage = () => {
         ></iframe>
       </Box>
       
-      {/* CTA Section */}
-      <Box 
-        sx={{ 
-          bgcolor: theme.palette.teal.main, 
-          color: 'white', 
-          py: 6,
-          position: 'relative'
-        }}
-      >
+      {/* Call to Action Section */}
+      <Box sx={{ bgcolor: '#256B65', color: 'white', py: 6, px: 2 }}>
         <Container maxWidth="lg">
+          <Typography variant="h4" component="h2" gutterBottom align="center">
+            Ready to responsibly manage your e-waste?
+          </Typography>
+          <Typography variant="body1" paragraph align="center" sx={{ mb: 4 }}>
+            Schedule a pickup today and take a step toward a greener future. By recycling with us, you're helping reduce landfill waste and conserving valuable resources.
+          </Typography>
           <Grid container spacing={4} alignItems="center">
             <Grid item xs={12} md={8}>
               <Typography variant="h4" component="h2" gutterBottom>
