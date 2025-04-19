@@ -325,19 +325,19 @@ const HowItWorksPage = () => {
       </Box>
       
       {/* Our Process Section */}
-      <Container id="our-process" maxWidth="lg" sx={{ py: 6 }}>
+      <Container id="our-process" maxWidth="lg" sx={{ py: 8 }}>
         <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mb: 1 }}>
           Our Process
         </Typography>
-        <Typography variant="body1" paragraph sx={{ textAlign: 'center', maxWidth: 800, mx: 'auto', mb: 5 }}>
+        <Typography variant="body1" paragraph sx={{ textAlign: 'center', maxWidth: 800, mx: 'auto', mb: 8 }}>
           From collection to refurbishment, reuse to responsible recycling, our process is designed with care. Whether you're an individual or an organization, we make it simple—so you can be part of the solution, every step of the way.
         </Typography>
         
-        <Grid container spacing={4}>
+        <Grid container spacing={5}>
           {processSteps.map((step, index) => (
             <Grid item xs={12} sm={6} md={4} lg={2.4} key={index}>
               <ProcessCard elevation={2}>
-                <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', py: 3 }}>
                   <ProcessIcon>
                     {step.icon}
                   </ProcessIcon>
@@ -355,12 +355,12 @@ const HowItWorksPage = () => {
       </Container>
       
       {/* What Items Do We Accept Section */}
-      <Box id="accepted-items" sx={{ bgcolor: '#f5f5f5', py: 6 }}>
+      <Box id="accepted-items" sx={{ bgcolor: theme.palette.teal.light, py: 8 }}>
         <Container maxWidth="lg">
           <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mb: 3 }}>
             What Items Do We Accept?
           </Typography>
-          <Typography variant="body1" paragraph sx={{ textAlign: 'center', mb: 4 }}>
+          <Typography variant="body1" paragraph sx={{ textAlign: 'center', mb: 5 }}>
             Aren't sure if you can turn in a specific item? Use our search tool below to look up specific items!
           </Typography>
           
@@ -392,27 +392,37 @@ const HowItWorksPage = () => {
                   </Button>
                 ),
               }}
+              sx={{
+                bgcolor: 'white',
+                borderRadius: 1,
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'rgba(0, 0, 0, 0.1)',
+                  },
+                },
+              }}
             />
           </Box>
           
-          <Typography variant="body2" sx={{ textAlign: 'center', mb: 4, color: 'text.secondary' }}>
+          <Typography variant="body2" sx={{ textAlign: 'center', mb: 6, color: 'text.secondary' }}>
             For further questions, please reach us at support@ecocycle.com or call (555) 123-4567
           </Typography>
           
           {/* Items Categories */}
-          <Grid container spacing={4}>
+          <Grid container spacing={5}>
             {acceptedItems.map((category, index) => (
               <Grid item xs={12} sm={6} md={3} key={index}>
                 <Card sx={{ 
                   height: '100%', 
                   boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                   transition: 'transform 0.2s',
+                  bgcolor: 'white',
                   '&:hover': {
                     transform: 'translateY(-5px)',
                     boxShadow: '0 5px 15px rgba(0,0,0,0.1)'
                   }
                 }}>
-                  <CardContent>
+                  <CardContent sx={{ p: 3 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                       <Box 
                         sx={{ 
@@ -461,15 +471,15 @@ const HowItWorksPage = () => {
       </Box>
       
       {/* How Do We Sort Your E-Waste Section */}
-      <Container id="sorting-ewaste" maxWidth="lg" sx={{ py: 6 }}>
+      <Container id="sorting-ewaste" maxWidth="lg" sx={{ py: 8 }}>
         <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}>
           How Do We Sort Your E-Waste?
         </Typography>
-        <Typography variant="body1" paragraph sx={{ textAlign: 'center', mb: 5 }}>
+        <Typography variant="body1" paragraph sx={{ textAlign: 'center', maxWidth: 800, mx: 'auto', mb: 8 }}>
           At EcoCycle Solutions, we sort your e-waste into three categories described in the table below
         </Typography>
         
-        <TableContainer component={Paper} sx={{ mb: 6, overflow: 'hidden', borderRadius: 2 }}>
+        <TableContainer component={Paper} sx={{ mb: 6, overflow: 'hidden', borderRadius: 2, boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
           <Table>
             <TableHead>
               <TableRow>
@@ -542,16 +552,16 @@ const HowItWorksPage = () => {
       </Container>
       
       {/* Recycling Reports Section */}
-      <Box sx={{ bgcolor: '#f5f5f5', py: 6 }}>
+      <Box sx={{ bgcolor: '#f5f5f5', py: 8 }}>
         <Container maxWidth="lg">
           <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}>
             Recycling Reports You Can Rely On
           </Typography>
-          <Typography variant="body1" paragraph sx={{ textAlign: 'center', maxWidth: 700, mx: 'auto', mb: 5 }}>
+          <Typography variant="body1" paragraph sx={{ textAlign: 'center', maxWidth: 800, mx: 'auto', mb: 8 }}>
             We provide detailed documentation with every pickup and processing job. Our reporting is complete, transparent, and eco-conscious.
           </Typography>
           
-          <Grid container spacing={3} justifyContent="center">
+          <Grid container spacing={5} justifyContent="center">
             {reportTypes.map((report, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
                 <Card sx={{ 
@@ -559,7 +569,7 @@ const HowItWorksPage = () => {
                   display: 'flex',
                   flexDirection: 'column',
                   borderRadius: 2,
-                  boxShadow: '0 4px 8px rgba(0,0,0,0.05)',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
                   transition: 'transform 0.3s',
                   '&:hover': {
                     transform: 'translateY(-5px)',
@@ -567,7 +577,7 @@ const HowItWorksPage = () => {
                   }
                 }}>
                   <CardContent sx={{ p: 3 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
                       <Box 
                         sx={{ 
                           width: 50, 
@@ -599,15 +609,15 @@ const HowItWorksPage = () => {
       </Box>
       
       {/* CTA Section */}
-      <Box sx={{ bgcolor: theme.palette.teal.main, color: 'white', py: 5 }}>
+      <Box sx={{ bgcolor: theme.palette.teal.main, color: 'white', py: 8 }}>
         <Container maxWidth="md" sx={{ textAlign: 'center' }}>
-          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
+          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 2 }}>
             Ready to start recycling?
           </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
+          <Typography variant="body1" sx={{ mb: 5, maxWidth: 700, mx: 'auto' }}>
             Join us in our mission to make e-waste recycling accessible, secure, and sustainable for everyone.
           </Typography>
-          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
+          <Box sx={{ display: 'flex', gap: 3, justifyContent: 'center' }}>
             <Button 
               variant="contained" 
               size="large"
@@ -615,10 +625,14 @@ const HowItWorksPage = () => {
                 bgcolor: 'white', 
                 color: theme.palette.teal.main,
                 '&:hover': {
-                  bgcolor: 'rgba(255,255,255,0.9)'
+                  bgcolor: 'rgba(255,255,255,0.9)',
+                  transform: 'scale(1.05)'
                 },
                 fontWeight: 'bold',
-                px: 4
+                px: 4,
+                py: 1.5,
+                transition: 'all 0.3s ease',
+                borderRadius: 2
               }}
             >
               SCHEDULE A PICKUP
@@ -631,10 +645,14 @@ const HowItWorksPage = () => {
                 borderColor: 'white',
                 '&:hover': {
                   borderColor: 'white',
-                  bgcolor: 'rgba(255,255,255,0.1)'
+                  bgcolor: 'rgba(255,255,255,0.1)',
+                  transform: 'scale(1.05)'
                 },
                 fontWeight: 'bold',
-                px: 4
+                px: 4,
+                py: 1.5,
+                transition: 'all 0.3s ease',
+                borderRadius: 2
               }}
             >
               LEARN MORE
