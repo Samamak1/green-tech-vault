@@ -21,7 +21,8 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  styled
+  styled,
+  InputAdornment
 } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -355,13 +356,39 @@ const HowItWorksPage = () => {
       </Container>
       
       {/* What Items Do We Accept Section */}
-      <Box id="accepted-items" sx={{ bgcolor: theme.palette.teal.light, py: 8 }}>
+      <Box id="accepted-items" sx={{ 
+        bgcolor: theme.palette.teal.light, 
+        py: 10,
+        textAlign: 'center'
+      }}>
         <Container maxWidth="lg">
-          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mb: 3 }}>
-            What Items Do We Accept?
+          <Typography 
+            variant="h2" 
+            component="h2" 
+            sx={{ 
+              fontWeight: 'bold', 
+              fontSize: '2.5rem',
+              mb: 3, 
+              color: '#000'
+            }}
+          >
+            What Items do we Accept?
           </Typography>
-          <Typography variant="body1" paragraph sx={{ textAlign: 'center', mb: 5 }}>
-            Aren't sure if you can turn in a specific item? Use our search tool below to look up specific items!
+          
+          <Typography 
+            variant="body1" 
+            paragraph 
+            sx={{ 
+              textAlign: 'center', 
+              mb: 5, 
+              fontSize: '1.25rem',
+              maxWidth: 800, 
+              mx: 'auto',
+              lineHeight: 1.4
+            }}
+          >
+            Aren't sure if you can turn in a specific item?<br />
+            Use our search tool below to look up specific items!
           </Typography>
           
           {/* Search tool */}
@@ -370,42 +397,50 @@ const HowItWorksPage = () => {
             sx={{ 
               display: 'flex', 
               justifyContent: 'center', 
-              mb: 6,
+              mb: 4,
               maxWidth: 600,
               mx: 'auto'
             }}
           >
             <TextField
               fullWidth
-              placeholder="Search items..."
+              placeholder="Search here..."
               variant="outlined"
               value={searchQuery}
               onChange={handleSearchChange}
               InputProps={{
-                endAdornment: (
-                  <Button 
-                    variant="contained" 
-                    color="primary"
-                    sx={{ ml: 1 }}
-                  >
-                    <SearchIcon />
-                  </Button>
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon sx={{ color: 'text.secondary' }} />
+                  </InputAdornment>
                 ),
               }}
               sx={{
                 bgcolor: 'white',
-                borderRadius: 1,
+                borderRadius: 20,
                 '& .MuiOutlinedInput-root': {
+                  borderRadius: 20,
                   '& fieldset': {
                     borderColor: 'rgba(0, 0, 0, 0.1)',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'rgba(0, 0, 0, 0.2)',
                   },
                 },
               }}
             />
           </Box>
           
-          <Typography variant="body2" sx={{ textAlign: 'center', mb: 6, color: 'text.secondary' }}>
-            For further questions, please reach us at support@ecocycle.com or call (555) 123-4567
+          <Typography 
+            variant="body2" 
+            sx={{ 
+              textAlign: 'center', 
+              mb: 8, 
+              color: 'text.secondary',
+              fontSize: '0.9rem'
+            }}
+          >
+            For further questions, please reach us at ourcompany@email.com or call (555) 123-4567
           </Typography>
           
           {/* Items Categories */}
