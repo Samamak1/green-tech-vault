@@ -167,16 +167,16 @@ const LandingHeader = () => {
               to="/login"
               sx={{ 
                 mx: 1, 
-                borderRadius: 8,
-                px: 4,
-                py: 1,
-                fontSize: '1.1rem',
+                borderRadius: 10,
+                px: 3,
+                py: 1.5,
+                fontSize: '0.875rem',
                 fontWeight: 'normal',
                 textTransform: 'none',
                 backgroundColor: '#e6e6e6',
                 borderColor: '#333333',
                 color: '#333333',
-                minWidth: '130px',
+                minWidth: '120px',
                 transition: 'all 0.3s ease',
                 '&:hover': {
                   borderColor: '#333333',
@@ -194,15 +194,15 @@ const LandingHeader = () => {
               to="/register"
               sx={{ 
                 ml: 1, 
-                borderRadius: 8,
-                px: 4,
-                py: 1,
-                fontSize: '1.1rem',
+                borderRadius: 10,
+                px: 3,
+                py: 1.5,
+                fontSize: '0.875rem',
                 fontWeight: 'normal',
                 textTransform: 'none',
                 backgroundColor: '#333333',
                 color: 'white',
-                minWidth: '130px',
+                minWidth: '120px',
                 boxShadow: 'none',
                 transition: 'all 0.3s ease',
                 '&:hover': {
