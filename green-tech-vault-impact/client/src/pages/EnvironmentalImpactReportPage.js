@@ -303,7 +303,7 @@ const EnvironmentalImpactReportPage = () => {
         </Grid>
       </Container>
       
-      {/* Zebo the Robot Section */}
+      {/* VIBA the Robot Section */}
       <Box sx={{ bgcolor: theme.palette.teal.light, py: 8 }}>
         <Container maxWidth="lg">
           <Grid container spacing={6} alignItems="center">
@@ -330,7 +330,7 @@ const EnvironmentalImpactReportPage = () => {
                 Community-Fueled Change
               </Typography>
               <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', mb: 3 }}>
-                Our mascot, ⚙️ Zebo the Robot, helps schools and local organizations learn just how powerful e-waste recycling can be. When you recycle with us, you're part of a movement—and we want you to see the difference you're making.
+                Our mascot, ⚙️ VIBA the Robot, helps schools and local organizations learn just how powerful e-waste recycling can be. When you recycle with us, you're part of a movement—and we want you to see the difference you're making.
               </Typography>
               <Typography variant="body1" sx={{ fontSize: '1.1rem', mb: 4 }}>
                 Want to feature your report at a school assembly, team meeting, or on social media? We'll help you share it in a way that inspires others to join the mission!
