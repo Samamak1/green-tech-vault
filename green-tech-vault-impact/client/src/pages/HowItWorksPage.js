@@ -46,6 +46,8 @@ import NetworkWifiIcon from '@mui/icons-material/NetworkWifi';
 import KeyboardIcon from '@mui/icons-material/Keyboard';
 import BatteryFullIcon from '@mui/icons-material/BatteryFull';
 import CableIcon from '@mui/icons-material/Cable';
+import { Link as RouterLink } from 'react-router-dom';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 // Import our custom RecyclingIcon
 import RecyclingIcon from '../components/branding/RecyclingIcon';
@@ -119,9 +121,10 @@ const HowItWorksPage = () => {
       description: "Devices are examined, refurbished, or responsibly recycled."
     },
     {
-      icon: <BarChartIcon fontSize="large" />,
-      title: "Impact",
-      description: "Receive detailed reports on your environmental impact and data security."
+      title: "Environmental Impact Report",
+      description: "See your positive impact in resources saved and waste diverted from landfills.",
+      icon: <ParkIcon />,
+      link: "/environmental-impact-report"
     }
   ];
   
@@ -253,7 +256,8 @@ const HowItWorksPage = () => {
     {
       title: "Environmental Impact Report",
       description: "See your positive impact in resources saved and waste diverted from landfills.",
-      icon: <ParkIcon />
+      icon: <ParkIcon />,
+      link: "/environmental-impact-report"
     },
     {
       title: "Chain of Custody",
@@ -638,6 +642,27 @@ const HowItWorksPage = () => {
                     <Typography variant="body2">
                       {report.description}
                     </Typography>
+                    {report.link && (
+                      <Box sx={{ mt: 2 }}>
+                        <Button
+                          component={RouterLink}
+                          to={report.link}
+                          variant="text"
+                          color="primary"
+                          endIcon={<ArrowForwardIcon />}
+                          sx={{ 
+                            fontSize: '0.875rem',
+                            color: theme.palette.teal.main,
+                            '&:hover': {
+                              backgroundColor: 'transparent',
+                              color: theme.palette.teal.dark
+                            }
+                          }}
+                        >
+                          Learn More
+                        </Button>
+                      </Box>
+                    )}
                   </CardContent>
                 </Card>
               </Grid>

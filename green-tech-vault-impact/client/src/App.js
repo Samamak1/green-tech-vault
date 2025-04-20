@@ -34,6 +34,7 @@ import BrandedLogin from './pages/BrandedLogin';
 import ClientLogin from './pages/ClientLogin';
 import ClientRegister from './pages/ClientRegister';
 import BrandedAdminLogin from './pages/BrandedAdminLogin';
+import EnvironmentalImpactReportPage from './pages/EnvironmentalImpactReportPage';
 
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
@@ -236,6 +237,12 @@ function App() {
           <Route path="/how-it-works" element={
             <MainLayout>
               <HowItWorksPage />
+            </MainLayout>
+          } />
+          
+          <Route path="/environmental-impact-report" element={
+            <MainLayout>
+              <EnvironmentalImpactReportPage />
             </MainLayout>
           } />
           
