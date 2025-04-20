@@ -246,7 +246,8 @@ const HowItWorksPage = () => {
     {
       title: "Asset Tracking Report",
       description: "Itemized list with serial numbers and descriptions of every device collected.",
-      icon: <DevicesIcon />
+      icon: <DevicesIcon />,
+      link: "/asset-tracking-report"
     },
     {
       title: "Weight Summary",
