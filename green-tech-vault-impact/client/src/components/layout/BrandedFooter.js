@@ -8,7 +8,13 @@ import Logo from '../branding/Logo';
 
 const BrandedFooter = () => {
   return (
-    <Box sx={{ bgcolor: '#0e1001', color: 'white', py: 6, mt: 'auto' }}>
+    <Box sx={{ 
+      bgcolor: '#0e1001', 
+      color: 'white', 
+      py: 6, 
+      mt: 'auto',
+      boxShadow: '0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06)'
+    }}>
       <Container maxWidth="lg">
         <Grid container spacing={4}>
           <Grid item xs={12} md={4}>
