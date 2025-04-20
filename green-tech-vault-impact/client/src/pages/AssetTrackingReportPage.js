@@ -36,6 +36,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { Link as RouterLink } from 'react-router-dom';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import LinkIcon from '@mui/icons-material/Link';
 
 // Import our custom RecyclingIcon component
 import RecyclingIconCustom from '../components/branding/RecyclingIcon';
@@ -120,6 +121,51 @@ const AssetTrackingReportPage = () => {
       title: "You Receive Your Report",
       description: "Delivered digitally within days, with the option for a call to review details.",
       icon: <EmailIcon fontSize="large" />
+    }
+  ];
+  
+  // Chain of Custody components
+  const custodyComponents = [
+    {
+      title: "Pickup Details",
+      icon: <InventoryIcon fontSize="large" />,
+      items: [
+        "Date, time, and pickup location",
+        "Authorized personnel signatures"
+      ]
+    },
+    {
+      title: "Inventory Log",
+      icon: <FactCheckIcon fontSize="large" />,
+      items: [
+        "Device types, quantities, serial numbers",
+        "Condition (working, damaged, end-of-life)"
+      ]
+    },
+    {
+      title: "Secure Transport Tracking",
+      icon: <ShieldIcon fontSize="large" />,
+      items: [
+        "Tamper-proof storage & GPS-tracked transit (when applicable)"
+      ]
+    },
+    {
+      title: "Processing Milestones",
+      icon: <AssignmentIcon fontSize="large" />,
+      items: [
+        "Arrival at facility",
+        "Data sanitization or destruction status",
+        "Sorting for recycling, reuse, or resale"
+      ]
+    },
+    {
+      title: "Final Disposition",
+      icon: <LinkIcon fontSize="large" />,
+      items: [
+        "Recycled components, donated items, or refurbished devices",
+        "Certificate of Destruction (if applicable)",
+        "Environmental Impact Summary"
+      ]
     }
   ];
   
@@ -307,6 +353,138 @@ const AssetTrackingReportPage = () => {
               </Grid>
             ))}
           </Grid>
+        </Container>
+      </Box>
+      
+      {/* Chain of Custody Section */}
+      <Box sx={{ bgcolor: 'white', py: 8 }}>
+        <Container maxWidth="lg">
+          <Grid container spacing={6} alignItems="center">
+            <Grid item xs={12} md={5}>
+              <Box 
+                component="img" 
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                alt="Chain of Custody" 
+                sx={{ 
+                  width: '100%', 
+                  height: 'auto',
+                  borderRadius: 4,
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.15)'
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} md={7}>
+              <Typography variant="h3" component="h2" id="chain-of-custody" gutterBottom sx={{ color: theme.palette.teal.main, fontWeight: 'bold' }}>
+                Chain of Custody
+              </Typography>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
+                Your Electronics. Tracked, Secured, Verified.
+              </Typography>
+              <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', mb: 3 }}>
+                We know how important it is to feel confident in where your electronics go and how they're handled. Our Chain of Custody system gives you that peace of mind — from the moment your items are collected to their final destination.
+              </Typography>
+              <Typography variant="body1" sx={{ fontSize: '1.1rem', mb: 4 }}>
+                Whether you're a business, school, or nonprofit, we provide a clear, step-by-step breakdown of how your e-waste was processed, ensuring full transparency and accountability.
+              </Typography>
+            </Grid>
+          </Grid>
+          
+          <Typography variant="h4" sx={{ textAlign: 'center', fontWeight: 'bold', mt: 8, mb: 4 }}>
+            What You'll See in a Chain of Custody Report
+          </Typography>
+          
+          <Grid container spacing={3}>
+            {custodyComponents.map((component, index) => (
+              <Grid item xs={12} sm={6} md={index === custodyComponents.length - 1 ? 12 : 6} key={index}>
+                <Card sx={{ 
+                  height: '100%',
+                  borderRadius: 3,
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+                  transition: 'transform 0.3s',
+                  '&:hover': {
+                    transform: 'translateY(-4px)',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.1)'
+                  }
+                }}>
+                  <CardContent sx={{ p: 3 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
+                      <Box 
+                        sx={{ 
+                          bgcolor: theme.palette.teal.main, 
+                          color: 'white', 
+                          width: 48, 
+                          height: 48,
+                          borderRadius: '12px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          mr: 2,
+                          flexShrink: 0
+                        }}
+                      >
+                        {component.icon}
+                      </Box>
+                      <Typography variant="h6" component="h3" sx={{ fontWeight: 'bold' }}>
+                        {component.title}
+                      </Typography>
+                    </Box>
+                    <Divider sx={{ mb: 2 }} />
+                    <List disablePadding>
+                      {component.items.map((item, idx) => (
+                        <ListItem key={idx} disablePadding sx={{ py: 0.75 }}>
+                          <ListItemIcon sx={{ minWidth: 32 }}>
+                            <Box 
+                              sx={{ 
+                                width: 16, 
+                                height: 16, 
+                                bgcolor: theme.palette.teal.light,
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: 'white',
+                                fontSize: '0.7rem',
+                                fontWeight: 'bold'
+                              }}
+                            >
+                              ✓
+                            </Box>
+                          </ListItemIcon>
+                          <ListItemText 
+                            primary={item}
+                            primaryTypographyProps={{
+                              variant: 'body2',
+                              sx: { fontWeight: 'medium' } 
+                            }}
+                          />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+          
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
+            <Button
+              variant="contained"
+              component={RouterLink}
+              to="/contact"
+              sx={{
+                bgcolor: theme.palette.teal.main,
+                color: 'white',
+                px: 4,
+                py: 1.5,
+                fontWeight: 'bold',
+                '&:hover': {
+                  bgcolor: theme.palette.teal.dark
+                }
+              }}
+            >
+              REQUEST A SAMPLE REPORT
+            </Button>
+          </Box>
         </Container>
       </Box>
       

@@ -263,7 +263,8 @@ const HowItWorksPage = () => {
     {
       title: "Chain of Custody",
       description: "A full record of how your e-waste was handled throughout processing.",
-      icon: <LinkIcon />
+      icon: <LinkIcon />,
+      link: "/asset-tracking-report#chain-of-custody"
     }
   ];
   
