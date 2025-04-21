@@ -13,7 +13,13 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
-  Paper
+  Paper,
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell
 } from '@mui/material';
 import ParkIcon from '@mui/icons-material/Park';
 import BarChartIcon from '@mui/icons-material/BarChart';
@@ -253,6 +259,160 @@ const EnvironmentalImpactReportPage = () => {
                 </Card>
               </Grid>
             ))}
+          </Grid>
+        </Container>
+      </Box>
+      
+      {/* Weight Summary Section */}
+      <Box id="weight-summary" sx={{ py: 8, bgcolor: '#f5f5f5' }}>
+        <Container maxWidth="lg">
+          <Typography variant="h3" component="h2" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold', mb: 2 }}>
+            🌍 Weight Summary
+          </Typography>
+          <Typography variant="body1" paragraph sx={{ textAlign: 'center', maxWidth: 800, mx: 'auto', mb: 6, fontSize: '1.1rem' }}>
+            A transparent look at what we've collected — and what we've saved.
+          </Typography>
+          
+          <Box sx={{ mb: 6 }}>
+            <Typography variant="h4" component="h3" gutterBottom sx={{ fontWeight: 'bold', color: theme.palette.teal.main, mb: 2 }}>
+              ♻️ Total Materials Recovered
+            </Typography>
+            <Typography variant="body1" paragraph sx={{ maxWidth: 800, mb: 4 }}>
+              Here's a categorized breakdown of all materials collected through our recycling program. This summary helps you (and us) understand the volume and impact of every recycled item.
+            </Typography>
+            
+            <Typography variant="h5" component="h4" gutterBottom sx={{ fontWeight: 'bold', mb: 3 }}>
+              📊 By Material Type
+            </Typography>
+            
+            <TableContainer component={Paper} sx={{ mb: 4, borderRadius: 2, boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+              <Table>
+                <TableHead>
+                  <TableRow sx={{ bgcolor: theme.palette.teal.main }}>
+                    <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Material Type</TableCell>
+                    <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Weight Collected</TableCell>
+                    <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Description</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>Plastics</TableCell>
+                    <TableCell>1,200 lbs</TableCell>
+                    <TableCell>Sourced from device casings, wiring insulation, and peripherals.</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Ferrous Metals</TableCell>
+                    <TableCell>980 lbs</TableCell>
+                    <TableCell>Includes steel and iron parts from older electronics.</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Non-Ferrous Metals</TableCell>
+                    <TableCell>640 lbs</TableCell>
+                    <TableCell>Such as aluminum, copper, and lead from internal components.</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Circuit Boards</TableCell>
+                    <TableCell>420 lbs</TableCell>
+                    <TableCell>High-value materials like gold, palladium, and critical rare earths.</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Batteries</TableCell>
+                    <TableCell>250 lbs</TableCell>
+                    <TableCell>Safely removed and processed for hazardous materials control.</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Displays & Glass</TableCell>
+                    <TableCell>330 lbs</TableCell>
+                    <TableCell>CRTs, LCDs, and protective glass elements.</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
+          
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={6}>
+              <Box>
+                <Typography variant="h5" component="h4" gutterBottom sx={{ fontWeight: 'bold', color: theme.palette.teal.main }}>
+                  🔍 Why It Matters
+                </Typography>
+                <Typography variant="body1" paragraph sx={{ mb: 3 }}>
+                  Each pound of e-waste recycled means fewer toxins in landfills and more resources re-entering the supply chain.
+                </Typography>
+                <List>
+                  <ListItem sx={{ py: 0.5 }}>
+                    <ListItemIcon sx={{ minWidth: 40 }}>
+                      <Box sx={{ color: theme.palette.teal.main }}>✅</Box>
+                    </ListItemIcon>
+                    <ListItemText primary="Reduces mining demand" />
+                  </ListItem>
+                  <ListItem sx={{ py: 0.5 }}>
+                    <ListItemIcon sx={{ minWidth: 40 }}>
+                      <Box sx={{ color: theme.palette.teal.main }}>✅</Box>
+                    </ListItemIcon>
+                    <ListItemText primary="Minimizes greenhouse gas emissions" />
+                  </ListItem>
+                  <ListItem sx={{ py: 0.5 }}>
+                    <ListItemIcon sx={{ minWidth: 40 }}>
+                      <Box sx={{ color: theme.palette.teal.main }}>✅</Box>
+                    </ListItemIcon>
+                    <ListItemText primary="Supports a circular economy" />
+                  </ListItem>
+                </List>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Card sx={{ 
+                height: '100%', 
+                p: 3, 
+                borderRadius: 3,
+                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                bgcolor: 'white'
+              }}>
+                <Typography variant="h5" component="h4" gutterBottom sx={{ fontWeight: 'bold', color: theme.palette.teal.main }}>
+                  🧠 Did You Know?
+                </Typography>
+                <Typography variant="body1" paragraph sx={{ mb: 4 }}>
+                  Recycling 1 million laptops saves the energy equivalent of powering 3,500 U.S. homes for a year.
+                </Typography>
+                <Typography variant="h5" component="h4" gutterBottom sx={{ fontWeight: 'bold', color: theme.palette.teal.main }}>
+                  📥 Want to See Your Impact?
+                </Typography>
+                <Typography variant="body1" paragraph>
+                  Clients receive a customized Weight Summary Report after each collection.
+                </Typography>
+                <List dense>
+                  <ListItem sx={{ py: 0.5 }}>
+                    <ListItemIcon sx={{ minWidth: 30 }}>
+                      <Box sx={{ color: theme.palette.teal.main }}>🧾</Box>
+                    </ListItemIcon>
+                    <ListItemText primary="Track what you've contributed." />
+                  </ListItem>
+                  <ListItem sx={{ py: 0.5 }}>
+                    <ListItemIcon sx={{ minWidth: 30 }}>
+                      <Box sx={{ color: theme.palette.teal.main }}>🌱</Box>
+                    </ListItemIcon>
+                    <ListItemText primary="Show your sustainability progress." />
+                  </ListItem>
+                </List>
+                <Box sx={{ mt: 3 }}>
+                  <Button
+                    variant="contained"
+                    component={RouterLink}
+                    to="/contact"
+                    sx={{
+                      bgcolor: theme.palette.teal.main,
+                      color: 'white',
+                      '&:hover': {
+                        bgcolor: theme.palette.teal.dark
+                      }
+                    }}
+                  >
+                    Contact us to get started with a pickup today!
+                  </Button>
+                </Box>
+              </Card>
+            </Grid>
           </Grid>
         </Container>
       </Box>

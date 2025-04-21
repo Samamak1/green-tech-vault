@@ -252,7 +252,8 @@ const HowItWorksPage = () => {
     {
       title: "Weight Summary",
       description: "Breakdown of total materials collected, categorized by type.",
-      icon: <ScaleIcon />
+      icon: <ScaleIcon />,
+      link: "/environmental-impact-report#weight-summary"
     },
     {
       title: "Environmental Impact Report",
