@@ -100,7 +100,7 @@ const ContactPage = () => {
         <Grid container spacing={4}>
           {/* Get in Touch Section */}
           <Grid item xs={12} md={5}>
-            <Box sx={{ pr: { md: 4 } }}>
+            <Box sx={{ pr: { md: 4 }, bgcolor: 'white', p: 3, borderRadius: 2 }}>
               <Typography variant="h4" component="h2" gutterBottom>
                 Get In Touch
               </Typography>
@@ -269,7 +269,8 @@ const ContactPage = () => {
                 p: 3, 
                 borderRadius: 2,
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                border: 'none'
+                border: 'none',
+                backgroundColor: 'white'
               }}
               onSubmit={handleSubmit}
             >
@@ -325,14 +326,22 @@ const ContactPage = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Button 
-                    type="submit" 
-                    variant="contained" 
+                  <Button
+                    type="submit"
                     fullWidth
+                    variant="contained"
                     size="large"
-                    sx={{ bgcolor: '#256B65', '&:hover': { bgcolor: '#1e5550' } }}
+                    sx={{
+                      mt: 3,
+                      mb: 2,
+                      py: 1.5,
+                      bgcolor: '#256B65',
+                      '&:hover': {
+                        bgcolor: '#1D5751',
+                      }
+                    }}
                   >
-                    Submit
+                    Submit Message
                   </Button>
                 </Grid>
               </Grid>

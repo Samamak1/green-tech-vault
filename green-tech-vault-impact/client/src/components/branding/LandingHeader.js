@@ -82,8 +82,8 @@ const LandingHeader = () => {
   const navItems = [
     { text: 'Join Us', link: '/recycling-offers' },
     { text: 'How It Works', link: '/how-it-works' },
-    { text: 'Education', link: '/education' },
     { text: 'About Us', link: '/about-us' },
+    { text: 'Education', link: '/education' },
     { text: 'Contact', link: '/contact' }
   ];
 
