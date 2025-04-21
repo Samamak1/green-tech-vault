@@ -393,9 +393,9 @@ const AssetTrackingReportPage = () => {
             What's Included in Your Chain of Custody Reports
           </Typography>
           
-          <Grid container spacing={3} justifyContent="center">
+          <Grid container spacing={3}>
             {custodyComponents.map((component, index) => (
-              <Grid item xs={12} sm={6} md={2.25} lg={2.2} key={index} sx={{ minWidth: 240 }}>
+              <Grid item xs={12} sm={6} md={2.4} key={index}>
                 <Card sx={{ 
                   height: '100%',
                   borderRadius: 3,
@@ -412,8 +412,8 @@ const AssetTrackingReportPage = () => {
                         sx={{ 
                           bgcolor: theme.palette.teal.main, 
                           color: 'white', 
-                          width: 40, 
-                          height: 40,
+                          width: 48, 
+                          height: 48,
                           borderRadius: '12px',
                           display: 'flex',
                           alignItems: 'center',
@@ -424,21 +424,8 @@ const AssetTrackingReportPage = () => {
                       >
                         {component.icon}
                       </Box>
-                      <Typography 
-                        variant="h6" 
-                        component="h3" 
-                        sx={{ 
-                          fontWeight: 'bold', 
-                          lineHeight: 1.3, 
-                          width: 'calc(100% - 60px)',
-                          ...(component.title === "Secure Transport Tracking" && {
-                            whiteSpace: 'pre-line'
-                          })
-                        }}
-                      >
-                        {component.title === "Secure Transport Tracking" ? 
-                          "Secure Transport\nTracking" : 
-                          component.title}
+                      <Typography variant="h6" component="h3" sx={{ fontWeight: 'bold' }}>
+                        {component.title}
                       </Typography>
                     </Box>
                     <Divider sx={{ mb: 2 }} />
