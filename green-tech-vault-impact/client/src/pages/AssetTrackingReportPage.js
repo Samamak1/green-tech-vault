@@ -390,12 +390,12 @@ const AssetTrackingReportPage = () => {
           </Grid>
           
           <Typography variant="h4" sx={{ textAlign: 'center', fontWeight: 'bold', mt: 8, mb: 4 }}>
-            What You'll See in a Chain of Custody Report
+            What's Included in Your Chain of Custody Reports
           </Typography>
           
           <Grid container spacing={3}>
             {custodyComponents.map((component, index) => (
-              <Grid item xs={12} sm={6} md={index === custodyComponents.length - 1 ? 12 : 6} key={index}>
+              <Grid item xs={12} sm={6} md={2.4} key={index}>
                 <Card sx={{ 
                   height: '100%',
                   borderRadius: 3,
