@@ -395,7 +395,7 @@ const AssetTrackingReportPage = () => {
           
           <Grid container spacing={3} justifyContent="center">
             {custodyComponents.map((component, index) => (
-              <Grid item xs={12} sm={6} md={2.3} lg={2.2} key={index} sx={{ minWidth: 220 }}>
+              <Grid item xs={12} sm={6} md={2.25} lg={2.2} key={index} sx={{ minWidth: 240 }}>
                 <Card sx={{ 
                   height: '100%',
                   borderRadius: 3,
@@ -412,8 +412,8 @@ const AssetTrackingReportPage = () => {
                         sx={{ 
                           bgcolor: theme.palette.teal.main, 
                           color: 'white', 
-                          width: 42, 
-                          height: 42,
+                          width: 40, 
+                          height: 40,
                           borderRadius: '12px',
                           display: 'flex',
                           alignItems: 'center',
@@ -424,8 +424,21 @@ const AssetTrackingReportPage = () => {
                       >
                         {component.icon}
                       </Box>
-                      <Typography variant="h6" component="h3" sx={{ fontWeight: 'bold', lineHeight: 1.3, width: 'calc(100% - 60px)' }}>
-                        {component.title}
+                      <Typography 
+                        variant="h6" 
+                        component="h3" 
+                        sx={{ 
+                          fontWeight: 'bold', 
+                          lineHeight: 1.3, 
+                          width: 'calc(100% - 60px)',
+                          ...(component.title === "Secure Transport Tracking" && {
+                            whiteSpace: 'pre-line'
+                          })
+                        }}
+                      >
+                        {component.title === "Secure Transport Tracking" ? 
+                          "Secure Transport\nTracking" : 
+                          component.title}
                       </Typography>
                     </Box>
                     <Divider sx={{ mb: 2 }} />
