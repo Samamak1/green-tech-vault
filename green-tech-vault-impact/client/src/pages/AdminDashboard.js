@@ -293,41 +293,73 @@ const AdminDashboard = () => {
         {/* Summary Cards */}
         <Grid container spacing={3} sx={{ mb: 4 }}>
           <Grid item xs={12} sm={6} md={3}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
-              <Typography variant="h3" color="primary" gutterBottom>
+            <Paper sx={{ 
+              p: 2, 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              height: '220px', // Make it square-shaped
+              aspectRatio: '1/1'
+            }}>
+              <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
                 156
               </Typography>
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="body1" sx={{ color: '#686868' }}>
                 Total Devices Collected
               </Typography>
             </Paper>
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
-              <Typography variant="h3" color="primary" gutterBottom>
+            <Paper sx={{ 
+              p: 2, 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center',
+              justifyContent: 'center', 
+              height: '220px', // Make it square-shaped
+              aspectRatio: '1/1'
+            }}>
+              <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
                 1,250.5
               </Typography>
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="body1" sx={{ color: '#686868' }}>
                 Total Weight (kg)
               </Typography>
             </Paper>
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
-              <Typography variant="h3" color="primary" gutterBottom>
+            <Paper sx={{ 
+              p: 2, 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center',
+              justifyContent: 'center', 
+              height: '220px', // Make it square-shaped
+              aspectRatio: '1/1'
+            }}>
+              <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
                 87
               </Typography>
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="body1" sx={{ color: '#686868' }}>
                 Devices Refurbished
               </Typography>
             </Paper>
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
-              <Typography variant="h3" color="primary" gutterBottom>
+            <Paper sx={{ 
+              p: 2, 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center',
+              justifyContent: 'center', 
+              height: '220px', // Make it square-shaped
+              aspectRatio: '1/1'
+            }}>
+              <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
                 69
               </Typography>
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="body1" sx={{ color: '#686868' }}>
                 Devices Recycled
               </Typography>
             </Paper>
@@ -336,31 +368,55 @@ const AdminDashboard = () => {
         
         <Grid container spacing={3} sx={{ mb: 4 }}>
           <Grid item xs={12} sm={6} md={4}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
-              <Typography variant="h3" color="primary" gutterBottom>
+            <Paper sx={{ 
+              p: 2, 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center',
+              justifyContent: 'center', 
+              height: '220px', // Make it square-shaped
+              aspectRatio: '1/1'
+            }}>
+              <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
                 3,750.8
               </Typography>
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="body1" sx={{ color: '#686868' }}>
                 CO2 Saved (kg)
               </Typography>
             </Paper>
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
-              <Typography variant="h3" color="primary" gutterBottom>
+            <Paper sx={{ 
+              p: 2, 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center',
+              justifyContent: 'center', 
+              height: '220px', // Make it square-shaped
+              aspectRatio: '1/1'
+            }}>
+              <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
                 187
               </Typography>
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="body1" sx={{ color: '#686868' }}>
                 Trees Planted
               </Typography>
             </Paper>
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
-              <Typography variant="h3" color="primary" gutterBottom>
+            <Paper sx={{ 
+              p: 2, 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center',
+              justifyContent: 'center', 
+              height: '220px', // Make it square-shaped
+              aspectRatio: '1/1'
+            }}>
+              <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
                 92.5%
               </Typography>
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="body1" sx={{ color: '#686868' }}>
                 Landfill Diversion Rate
               </Typography>
             </Paper>
