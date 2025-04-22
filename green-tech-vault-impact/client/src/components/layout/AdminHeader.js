@@ -198,7 +198,7 @@ const AdminHeader = () => {
         <ListItemIcon>
           <CampaignIcon fontSize="small" />
         </ListItemIcon>
-        Anouncements
+        Announcements
       </MenuItem>
       
       <Divider />
