@@ -40,6 +40,7 @@ import {
 import { pickupAPI, deviceAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { formatDate } from '../utils/formatters';
+import AdminLayout from '../components/layout/AdminLayout';
 
 const pickupStatuses = [
   'scheduled',
@@ -476,442 +477,434 @@ const AdminPickupDetail = () => {
     };
   };
 
-  if (loading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (error) {
-    return (
-      <Box sx={{ p: 3 }}>
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {error}
-        </Alert>
-        <Button variant="contained" onClick={() => fetchPickupData()}>
-          Retry
-        </Button>
-      </Box>
-    );
-  }
-
-  return (
-    <Box sx={{ p: 3 }}>
-      <AppBar position="fixed" color="primary" sx={{ top: 0, left: 0, right: 0 }}>
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Green Tech Vault Admin
-          </Typography>
-          <Button 
-            color="inherit" 
-            onClick={handleLogout}
-            startIcon={<LogoutIcon />}
-          >
-            Logout
+  const renderPickupContent = () => {
+    if (loading) {
+      return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+          <CircularProgress />
+        </Box>
+      );
+    }
+  
+    if (error) {
+      return (
+        <Box sx={{ p: 3 }}>
+          <Alert severity="error" sx={{ mb: 3 }}>
+            {error}
+          </Alert>
+          <Button variant="contained" onClick={() => fetchPickupData()}>
+            Retry
           </Button>
-        </Toolbar>
-      </AppBar>
-      <Toolbar /> {/* Empty toolbar to create space below the AppBar */}
-      
-      <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
-        <Button 
-          variant="outlined" 
-          startIcon={<ArrowBackIcon />} 
-          onClick={() => navigate('/admin/clients/' + client.id)}
-          sx={{ mr: 2 }}
-        >
-          Back to Client
-        </Button>
-        <Typography variant="h4" component="h1">
-          Pickup Details
-        </Typography>
-      </Box>
-      
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 3, mb: 3 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <Typography variant="h6" gutterBottom>
-                Pickup Information
-              </Typography>
-              {!editingStatus ? (
-                <Button 
-                  variant="outlined" 
-                  size="small"
-                  startIcon={<EditIcon />}
-                  onClick={() => setEditingStatus(true)}
-                >
-                  Edit Status
-                </Button>
-              ) : (
-                <Button 
-                  variant="contained" 
-                  size="small"
-                  startIcon={<SaveIcon />}
-                  onClick={handleSaveStatus}
-                >
-                  Save
-                </Button>
-              )}
-            </Box>
-            <Divider sx={{ mb: 2 }} />
-            
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Client
+        </Box>
+      );
+    }
+    
+    return (
+      <>
+        <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
+          <Button 
+            variant="outlined" 
+            startIcon={<ArrowBackIcon />} 
+            onClick={() => navigate('/admin/clients/' + client.id)}
+            sx={{ mr: 2 }}
+          >
+            Back to Client
+          </Button>
+          <Typography variant="h4" component="h1">
+            Pickup Details
+          </Typography>
+        </Box>
+        
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={4}>
+            <Paper sx={{ p: 3, mb: 3 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <Typography variant="h6" gutterBottom>
+                  Pickup Information
                 </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body1">
-                  {client.name}
-                </Typography>
-              </Grid>
-              
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Date
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body1">
-                  {formatDate(pickup.scheduledDate)}
-                </Typography>
-              </Grid>
-              
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Location
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body1">
-                  {pickup.location}
-                </Typography>
-              </Grid>
-              
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Contact
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body1">
-                  {pickup.contactPerson}
-                </Typography>
-              </Grid>
-              
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Phone
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body1">
-                  {pickup.contactPhone}
-                </Typography>
-              </Grid>
-              
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Status
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
                 {!editingStatus ? (
-                  <Chip 
-                    label={pickup.status} 
-                    color={getStatusColor(pickup.status)}
+                  <Button 
+                    variant="outlined" 
                     size="small"
-                  />
+                    startIcon={<EditIcon />}
+                    onClick={() => setEditingStatus(true)}
+                  >
+                    Edit Status
+                  </Button>
                 ) : (
-                  <FormControl fullWidth size="small">
-                    <Select
-                      value={newStatus}
-                      onChange={handleStatusChange}
-                    >
-                      {pickupStatuses.map((status) => (
-                        <MenuItem key={status} value={status}>
-                          {status}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                  <Button 
+                    variant="contained" 
+                    size="small"
+                    startIcon={<SaveIcon />}
+                    onClick={handleSaveStatus}
+                  >
+                    Save
+                  </Button>
                 )}
-              </Grid>
+              </Box>
+              <Divider sx={{ mb: 2 }} />
               
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Notes
-                </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Client
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="body1">
+                    {client.name}
+                  </Typography>
+                </Grid>
+                
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Date
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="body1">
+                    {formatDate(pickup.scheduledDate)}
+                  </Typography>
+                </Grid>
+                
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Location
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="body1">
+                    {pickup.location}
+                  </Typography>
+                </Grid>
+                
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Contact
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="body1">
+                    {pickup.contactPerson}
+                  </Typography>
+                </Grid>
+                
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Phone
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="body1">
+                    {pickup.contactPhone}
+                  </Typography>
+                </Grid>
+                
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Status
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  {!editingStatus ? (
+                    <Chip 
+                      label={pickup.status} 
+                      color={getStatusColor(pickup.status)}
+                      size="small"
+                    />
+                  ) : (
+                    <FormControl fullWidth size="small">
+                      <Select
+                        value={newStatus}
+                        onChange={handleStatusChange}
+                      >
+                        {pickupStatuses.map((status) => (
+                          <MenuItem key={status} value={status}>
+                            {status}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  )}
+                </Grid>
+                
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Notes
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>
+                    {pickup.notes || 'No notes available'}
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>
-                  {pickup.notes || 'No notes available'}
-                </Typography>
-              </Grid>
-            </Grid>
-          </Paper>
-          
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              Summary
-            </Typography>
-            <Divider sx={{ mb: 2 }} />
+            </Paper>
             
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h4" align="center" color="primary">
-                      {devices.length}
-                    </Typography>
-                    <Typography variant="body2" align="center" color="text.secondary">
-                      Total Devices
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              
-              <Grid item xs={6}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h4" align="center" color="primary">
-                      {devices.reduce((sum, device) => sum + device.weight, 0).toFixed(1)}
-                    </Typography>
-                    <Typography variant="body2" align="center" color="text.secondary">
-                      Total Weight (kg)
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-            
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="subtitle1" gutterBottom>
-                Device Status
+            <Paper sx={{ p: 3 }}>
+              <Typography variant="h6" gutterBottom>
+                Summary
               </Typography>
-              <Grid container spacing={1}>
+              <Divider sx={{ mb: 2 }} />
+              
+              <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <Typography variant="body2">
-                    Received: {devices.filter(d => d.status === 'Received').length}
-                  </Typography>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h4" align="center" color="primary">
+                        {devices.length}
+                      </Typography>
+                      <Typography variant="body2" align="center" color="text.secondary">
+                        Total Devices
+                      </Typography>
+                    </CardContent>
+                  </Card>
                 </Grid>
+                
                 <Grid item xs={6}>
-                  <Typography variant="body2">
-                    In Processing: {devices.filter(d => d.status === 'In Processing').length}
-                  </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2">
-                    Refurbished: {devices.filter(d => d.status === 'Refurbished').length}
-                  </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2">
-                    Recycled: {devices.filter(d => d.status === 'Recycled').length}
-                  </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2">
-                    Disposed: {devices.filter(d => d.status === 'Disposed').length}
-                  </Typography>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h4" align="center" color="primary">
+                        {devices.reduce((sum, device) => sum + device.weight, 0).toFixed(1)}
+                      </Typography>
+                      <Typography variant="body2" align="center" color="text.secondary">
+                        Total Weight (kg)
+                      </Typography>
+                    </CardContent>
+                  </Card>
                 </Grid>
               </Grid>
-            </Box>
-          </Paper>
+              
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="subtitle1" gutterBottom>
+                  Device Status
+                </Typography>
+                <Grid container spacing={1}>
+                  <Grid item xs={6}>
+                    <Typography variant="body2">
+                      Received: {devices.filter(d => d.status === 'Received').length}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2">
+                      In Processing: {devices.filter(d => d.status === 'In Processing').length}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2">
+                      Refurbished: {devices.filter(d => d.status === 'Refurbished').length}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2">
+                      Recycled: {devices.filter(d => d.status === 'Recycled').length}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2">
+                      Disposed: {devices.filter(d => d.status === 'Disposed').length}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Paper>
+          </Grid>
+          
+          <Grid item xs={12} md={8}>
+            <Paper sx={{ p: 3 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Typography variant="h6" gutterBottom>
+                  Devices
+                </Typography>
+                <Button
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  onClick={handleAddDevice}
+                >
+                  Add Device
+                </Button>
+              </Box>
+              <Divider sx={{ mb: 2 }} />
+              
+              {/* Processing Status */}
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="subtitle1" gutterBottom>
+                  Processing Status: {getProcessingStatus().text}
+                </Typography>
+                <Box sx={{ width: '100%', bgcolor: 'grey.300', borderRadius: 1, height: 10 }}>
+                  <Box 
+                    sx={{ 
+                      width: `${getProcessingStatus().percent}%`, 
+                      bgcolor: 'primary.main', 
+                      height: 10,
+                      borderRadius: 1
+                    }} 
+                  />
+                </Box>
+              </Box>
+              
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Type</TableCell>
+                      <TableCell>Manufacturer</TableCell>
+                      <TableCell>Model</TableCell>
+                      <TableCell>Serial Number</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell align="right">Weight (kg)</TableCell>
+                      <TableCell align="right">Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {devices.map((device) => (
+                      <TableRow key={device.id}>
+                        <TableCell>{device.type}</TableCell>
+                        <TableCell>{device.manufacturer}</TableCell>
+                        <TableCell>{device.model}</TableCell>
+                        <TableCell>{device.serialNumber}</TableCell>
+                        <TableCell>
+                          <Chip 
+                            label={device.status} 
+                            color={getDeviceStatusColor(device.status)}
+                            size="small"
+                          />
+                        </TableCell>
+                        <TableCell align="right">{device.weight.toFixed(1)}</TableCell>
+                        <TableCell align="right">
+                          <IconButton
+                            size="small"
+                            color="primary"
+                            onClick={() => handleEditDevice(device)}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            size="small"
+                            color="error"
+                            onClick={() => handleDeleteDevice(device.id)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+          </Grid>
         </Grid>
         
-        <Grid item xs={12} md={8}>
-          <Paper sx={{ p: 3 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant="h6" gutterBottom>
-                Devices
-              </Typography>
-              <Button
-                variant="contained"
-                startIcon={<AddIcon />}
-                onClick={handleAddDevice}
-              >
-                Add Device
-              </Button>
-            </Box>
-            <Divider sx={{ mb: 2 }} />
-            
-            {/* Processing Status */}
-            <Box sx={{ mb: 3 }}>
-              <Typography variant="subtitle1" gutterBottom>
-                Processing Status: {getProcessingStatus().text}
-              </Typography>
-              <Box sx={{ width: '100%', bgcolor: 'grey.300', borderRadius: 1, height: 10 }}>
-                <Box 
-                  sx={{ 
-                    width: `${getProcessingStatus().percent}%`, 
-                    bgcolor: 'primary.main', 
-                    height: 10,
-                    borderRadius: 1
-                  }} 
+        {/* Device Edit/Add Dialog */}
+        <Dialog open={deviceDialogOpen} onClose={() => setDeviceDialogOpen(false)} maxWidth="sm" fullWidth>
+          <DialogTitle>
+            {addingDevice ? 'Add New Device' : 'Edit Device'}
+          </DialogTitle>
+          <DialogContent>
+            <Grid container spacing={2} sx={{ mt: 1 }}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Type"
+                  name="type"
+                  value={deviceFormData.type}
+                  onChange={handleDeviceFormChange}
+                  required
                 />
-              </Box>
-            </Box>
-            
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Type</TableCell>
-                    <TableCell>Manufacturer</TableCell>
-                    <TableCell>Model</TableCell>
-                    <TableCell>Serial Number</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell align="right">Weight (kg)</TableCell>
-                    <TableCell align="right">Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {devices.map((device) => (
-                    <TableRow key={device.id}>
-                      <TableCell>{device.type}</TableCell>
-                      <TableCell>{device.manufacturer}</TableCell>
-                      <TableCell>{device.model}</TableCell>
-                      <TableCell>{device.serialNumber}</TableCell>
-                      <TableCell>
-                        <Chip 
-                          label={device.status} 
-                          color={getDeviceStatusColor(device.status)}
-                          size="small"
-                        />
-                      </TableCell>
-                      <TableCell align="right">{device.weight.toFixed(1)}</TableCell>
-                      <TableCell align="right">
-                        <IconButton
-                          size="small"
-                          color="primary"
-                          onClick={() => handleEditDevice(device)}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          size="small"
-                          color="error"
-                          onClick={() => handleDeleteDevice(device.id)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Manufacturer"
+                  name="manufacturer"
+                  value={deviceFormData.manufacturer}
+                  onChange={handleDeviceFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Model"
+                  name="model"
+                  value={deviceFormData.model}
+                  onChange={handleDeviceFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Serial Number"
+                  name="serialNumber"
+                  value={deviceFormData.serialNumber}
+                  onChange={handleDeviceFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  select
+                  label="Status"
+                  name="status"
+                  value={deviceFormData.status}
+                  onChange={handleDeviceFormChange}
+                  required
+                >
+                  {deviceStatuses.map((status) => (
+                    <MenuItem key={status} value={status}>
+                      {status}
+                    </MenuItem>
                   ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Paper>
-        </Grid>
-      </Grid>
-      
-      {/* Device Edit/Add Dialog */}
-      <Dialog open={deviceDialogOpen} onClose={() => setDeviceDialogOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>
-          {addingDevice ? 'Add New Device' : 'Edit Device'}
-        </DialogTitle>
-        <DialogContent>
-          <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Type"
-                name="type"
-                value={deviceFormData.type}
-                onChange={handleDeviceFormChange}
-                required
-              />
+                </TextField>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Weight (kg)"
+                  name="weight"
+                  type="number"
+                  value={deviceFormData.weight}
+                  onChange={handleDeviceFormChange}
+                  required
+                  inputProps={{ step: 0.1 }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Notes"
+                  name="notes"
+                  value={deviceFormData.notes}
+                  onChange={handleDeviceFormChange}
+                  multiline
+                  rows={3}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Manufacturer"
-                name="manufacturer"
-                value={deviceFormData.manufacturer}
-                onChange={handleDeviceFormChange}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Model"
-                name="model"
-                value={deviceFormData.model}
-                onChange={handleDeviceFormChange}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Serial Number"
-                name="serialNumber"
-                value={deviceFormData.serialNumber}
-                onChange={handleDeviceFormChange}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                select
-                label="Status"
-                name="status"
-                value={deviceFormData.status}
-                onChange={handleDeviceFormChange}
-                required
-              >
-                {deviceStatuses.map((status) => (
-                  <MenuItem key={status} value={status}>
-                    {status}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Weight (kg)"
-                name="weight"
-                type="number"
-                value={deviceFormData.weight}
-                onChange={handleDeviceFormChange}
-                required
-                inputProps={{ step: 0.1 }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Notes"
-                name="notes"
-                value={deviceFormData.notes}
-                onChange={handleDeviceFormChange}
-                multiline
-                rows={3}
-              />
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeviceDialogOpen(false)}>Cancel</Button>
-          <Button 
-            onClick={handleSaveDevice} 
-            variant="contained"
-            startIcon={<SaveIcon />}
-            disabled={!deviceFormData.type || !deviceFormData.manufacturer || !deviceFormData.model || !deviceFormData.serialNumber}
-          >
-            {addingDevice ? 'Add Device' : 'Save Changes'}
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setDeviceDialogOpen(false)}>Cancel</Button>
+            <Button 
+              onClick={handleSaveDevice} 
+              variant="contained"
+              startIcon={<SaveIcon />}
+              disabled={!deviceFormData.type || !deviceFormData.manufacturer || !deviceFormData.model || !deviceFormData.serialNumber}
+            >
+              {addingDevice ? 'Add Device' : 'Save Changes'}
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    );
+  };
+
+  return (
+    <AdminLayout>
+      {renderPickupContent()}
+    </AdminLayout>
   );
 };
 
