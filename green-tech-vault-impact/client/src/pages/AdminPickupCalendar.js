@@ -37,6 +37,38 @@ import AdminLayout from '../components/layout/AdminLayout';
 // Set up the localizer for react-big-calendar
 const localizer = momentLocalizer(moment);
 
+// Event styling function
+const eventStyleGetter = (event) => {
+  let style = {
+    backgroundColor: '#1C392B',
+    color: 'white',
+    borderRadius: '3px',
+    border: 'none',
+    padding: '2px 5px'
+  };
+
+  if (event.status === 'completed') {
+    style.backgroundColor = '#4caf50'; // Green for completed
+  } else if (event.status === 'processing') {
+    style.backgroundColor = '#ff9800'; // Orange for processing
+  } else if (event.status === 'scheduled') {
+    style.backgroundColor = '#2196f3'; // Blue for scheduled
+  }
+
+  return {
+    style
+  };
+};
+
+// Custom event component
+const EventComponent = ({ event }) => (
+  <Box sx={{ fontSize: '0.85rem', padding: '2px' }}>
+    <strong>{event.clientName}</strong>
+    <br />
+    {event.location}
+  </Box>
+);
+
 const AdminPickupCalendar = () => {
   const navigate = useNavigate();
   const { logout } = useAuth();
@@ -241,6 +273,11 @@ const AdminPickupCalendar = () => {
   const handleLogout = () => {
     logout();
     navigate('/admin/login');
+  };
+
+  const handleSelectEvent = (event) => {
+    // Navigate to the pickup detail page
+    navigate(`/admin/pickups/${event.id}`);
   };
 
   const renderCalendarContent = () => {
