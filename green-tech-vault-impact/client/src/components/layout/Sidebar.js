@@ -10,48 +10,58 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 import StoreIcon from '@mui/icons-material/Store';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
-import DeleteIcon from '@mui/icons-material/Delete';
-import LogoutIcon from '@mui/icons-material/Logout';
-import HelpIcon from '@mui/icons-material/Help';
 import Logo from '../branding/Logo';
+import { useAuth } from '../../context/AuthContext';
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
+  const { logout } = useAuth();
   
   const menuItems = [
-    { icon: <DashboardIcon />, text: 'Dashboard', path: '/dashboard' },
-    { icon: <BarChartIcon />, text: 'Statistics', path: '/statistics' },
-    { icon: <DescriptionIcon />, text: 'Reports', path: '/reports' },
-    { icon: <StorageIcon />, text: 'Database', path: '/database' },
-    { icon: <GroupIcon />, text: 'Team', path: '/team' },
-    { icon: <CampaignIcon />, text: 'Promotion', path: '/promotion' },
+    { icon: <DashboardIcon />, text: 'Dashboard', path: '/admin/dashboard' },
+    { icon: <BarChartIcon />, text: 'Statistics', path: '/admin/statistics' },
+    { icon: <DescriptionIcon />, text: 'Reports', path: '/admin/reports' },
+    { icon: <StorageIcon />, text: 'Database', path: '/admin/database' },
+    { icon: <GroupIcon />, text: 'Team', path: '/admin/team' },
+    { icon: <CampaignIcon />, text: 'Promotion', path: '/admin/promotion' },
     { divider: true },
-    { icon: <StoreIcon />, text: 'My Store', path: '/store' },
-    { icon: <NotificationsIcon />, text: 'Notifications', path: '/notifications' },
-    { icon: <SettingsIcon />, text: 'Settings', path: '/settings' },
-    { icon: <DeleteIcon />, text: 'Trash', path: '/trash' },
-    { divider: true },
-    { icon: <LogoutIcon />, text: 'Log Out', path: '/logout' },
-    { icon: <HelpIcon />, text: 'Help', path: '/help' },
+    { icon: <StoreIcon />, text: 'My Store', path: '/admin/store' },
+    { icon: <NotificationsIcon />, text: 'Notifications', path: '/admin/notifications' },
+    { icon: <SettingsIcon />, text: 'Settings', path: '/admin/settings' },
   ];
 
   const handleNavigation = (path) => {
-    navigate(path);
+    if (path === '/logout') {
+      logout();
+      navigate('/admin/login');
+    } else {
+      navigate(path);
+    }
   };
 
   return (
     <Box sx={{ 
-      width: 276,
+      width: 240,
       height: '100vh',
-      bgcolor: '#1e1e1e',
+      bgcolor: '#1C392B',
       color: 'white',
-      borderRight: '1px solid rgba(255,255,255,0.1)',
-      display: 'flex',
-      flexDirection: 'column'
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      zIndex: 1200,
+      boxShadow: '2px 0 10px rgba(0,0,0,0.1)'
     }}>
-      <Box sx={{ p: 2, mb: 2 }}>
+      <Box sx={{ 
+        p: 2, 
+        mb: 2, 
+        display: 'flex', 
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 64,  // Match header height
+        borderBottom: '1px solid rgba(255,255,255,0.1)'
+      }}>
         <Logo variant="light" size="medium" />
       </Box>
       
@@ -67,13 +77,13 @@ const Sidebar = () => {
                 sx={{ 
                   borderRadius: 1,
                   '&.Mui-selected': {
-                    background: location.pathname === item.path ? theme.palette.background.gradient : 'rgba(138, 154, 91, 0.2)',
+                    background: 'rgba(255, 255, 255, 0.15)',
                     '&:hover': {
-                      background: location.pathname === item.path ? theme.palette.background.gradient : 'rgba(138, 154, 91, 0.3)',
+                      background: 'rgba(255, 255, 255, 0.2)',
                     }
                   },
                   '&:hover': {
-                    bgcolor: 'rgba(255, 255, 255, 0.05)',
+                    bgcolor: 'rgba(255, 255, 255, 0.1)',
                   }
                 }}
               >

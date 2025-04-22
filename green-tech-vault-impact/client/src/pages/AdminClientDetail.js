@@ -42,6 +42,7 @@ import {
 import { companyAPI, pickupAPI, deviceAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { formatDate } from '../utils/formatters';
+import AdminLayout from '../components/layout/AdminLayout';
 
 const deviceStatuses = [
   'Received',
@@ -357,561 +358,553 @@ const AdminClientDetail = () => {
     navigate('/admin/login');
   };
 
-  if (loading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (error) {
-    return (
-      <Box sx={{ p: 3 }}>
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {error}
-        </Alert>
-        <Button variant="contained" onClick={() => fetchClientData()}>
-          Retry
-        </Button>
-      </Box>
-    );
-  }
-
-  return (
-    <Box sx={{ p: 3 }}>
-      <AppBar position="fixed" color="primary" sx={{ top: 0, left: 0, right: 0 }}>
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Green Tech Vault Admin
-          </Typography>
-          <Button 
-            color="inherit" 
-            onClick={handleLogout}
-            startIcon={<LogoutIcon />}
-          >
-            Logout
+  const renderClientDetails = () => {
+    if (loading) {
+      return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+          <CircularProgress />
+        </Box>
+      );
+    }
+  
+    if (error) {
+      return (
+        <Box sx={{ p: 3 }}>
+          <Alert severity="error" sx={{ mb: 3 }}>
+            {error}
+          </Alert>
+          <Button variant="contained" onClick={() => fetchClientData()}>
+            Retry
           </Button>
-        </Toolbar>
-      </AppBar>
-      <Toolbar /> {/* Empty toolbar to create space below the AppBar */}
-      
-      <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
-        <Button 
-          variant="outlined" 
-          startIcon={<ArrowBackIcon />} 
-          onClick={() => navigate('/admin')}
-          sx={{ mr: 2 }}
-        >
-          Back to Dashboard
-        </Button>
-        <Typography variant="h4" component="h1">
-          Client Profile: {client.name}
-        </Typography>
-      </Box>
-      
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 3, mb: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              Company Information
-            </Typography>
-            <Divider sx={{ mb: 2 }} />
-            
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Contact Person
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body1">
-                  {client.contactPerson}
-                </Typography>
-              </Grid>
-              
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Email
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body1">
-                  {client.email}
-                </Typography>
-              </Grid>
-              
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Phone
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body1">
-                  {client.phone}
-                </Typography>
-              </Grid>
-              
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Address
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body1">
-                  {client.address}
-                </Typography>
-              </Grid>
-              
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Website
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body1">
-                  {client.website}
-                </Typography>
-              </Grid>
-              
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Industry
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body1">
-                  {client.industry}
-                </Typography>
-              </Grid>
-              
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Employees
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body1">
-                  {client.employeeCount}
-                </Typography>
-              </Grid>
-              
-              <Grid item xs={12}>
-                <Divider sx={{ my: 1 }} />
-                <Typography variant="subtitle1" gutterBottom sx={{ mt: 1 }}>
-                  Contact History
-                </Typography>
-              </Grid>
-              
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Last Contacted
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body1">
-                  {client.lastContactedDate ? formatDate(client.lastContactedDate) : 'Not contacted yet'}
-                </Typography>
-              </Grid>
-              
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Contact Method
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body1">
-                  {client.lastContactMethod || 'N/A'}
-                </Typography>
-              </Grid>
-              
-              <Grid item xs={4}>
-                <Typography variant="body2" color="text.secondary">
-                  Conversation Notes
-                </Typography>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>
-                  {client.conversationNotes || 'No notes available'}
-                </Typography>
-              </Grid>
-            </Grid>
-            
-            <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
-              <Button 
-                variant="outlined" 
-                startIcon={<EditIcon />}
-                onClick={() => alert('Edit client functionality would go here')}
-              >
-                Edit Client
-              </Button>
-            </Box>
-          </Paper>
-          
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              Environmental Impact
-            </Typography>
-            <Divider sx={{ mb: 2 }} />
-            
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h4" align="center" color="primary">
-                      {impact.totalDevices}
-                    </Typography>
-                    <Typography variant="body2" align="center" color="text.secondary">
-                      Devices Processed
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              
-              <Grid item xs={6}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h4" align="center" color="primary">
-                      {impact.totalWeight.toFixed(1)}
-                    </Typography>
-                    <Typography variant="body2" align="center" color="text.secondary">
-                      Total Weight (kg)
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              
-              <Grid item xs={6}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h4" align="center" color="primary">
-                      {impact.co2Saved.toFixed(1)}
-                    </Typography>
-                    <Typography variant="body2" align="center" color="text.secondary">
-                      CO2 Saved (kg)
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              
-              <Grid item xs={6}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h4" align="center" color="primary">
-                      {impact.treesPlanted}
-                    </Typography>
-                    <Typography variant="body2" align="center" color="text.secondary">
-                      Trees Planted
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-            
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="subtitle1" gutterBottom>
-                Device Disposition
+        </Box>
+      );
+    }
+  
+    return (
+      <>
+        <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
+          <Button 
+            variant="outlined" 
+            startIcon={<ArrowBackIcon />} 
+            onClick={() => navigate('/admin/dashboard')}
+            sx={{ mr: 2 }}
+          >
+            Back to Dashboard
+          </Button>
+          <Typography variant="h4" component="h1">
+            Client Profile: {client.name}
+          </Typography>
+        </Box>
+        
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={4}>
+            <Paper sx={{ p: 3, mb: 3 }}>
+              <Typography variant="h6" gutterBottom>
+                Company Information
               </Typography>
-              <Grid container spacing={1}>
-                <Grid item xs={6}>
-                  <Typography variant="body2">
-                    Refurbished: {impact.dispositionBreakdown.refurbished}
+              <Divider sx={{ mb: 2 }} />
+              
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Contact Person
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2">
-                    Recycled: {impact.dispositionBreakdown.recycled}
+                <Grid item xs={8}>
+                  <Typography variant="body1">
+                    {client.contactPerson}
                   </Typography>
                 </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="body2">
-                    Disposed: {impact.dispositionBreakdown.disposed}
+                
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Email
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="body1">
+                    {client.email}
+                  </Typography>
+                </Grid>
+                
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Phone
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="body1">
+                    {client.phone}
+                  </Typography>
+                </Grid>
+                
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Address
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="body1">
+                    {client.address}
+                  </Typography>
+                </Grid>
+                
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Website
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="body1">
+                    {client.website}
+                  </Typography>
+                </Grid>
+                
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Industry
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="body1">
+                    {client.industry}
+                  </Typography>
+                </Grid>
+                
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Employees
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="body1">
+                    {client.employeeCount}
+                  </Typography>
+                </Grid>
+                
+                <Grid item xs={12}>
+                  <Divider sx={{ my: 1 }} />
+                  <Typography variant="subtitle1" gutterBottom sx={{ mt: 1 }}>
+                    Contact History
+                  </Typography>
+                </Grid>
+                
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Last Contacted
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="body1">
+                    {client.lastContactedDate ? formatDate(client.lastContactedDate) : 'Not contacted yet'}
+                  </Typography>
+                </Grid>
+                
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Contact Method
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="body1">
+                    {client.lastContactMethod || 'N/A'}
+                  </Typography>
+                </Grid>
+                
+                <Grid item xs={4}>
+                  <Typography variant="body2" color="text.secondary">
+                    Conversation Notes
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>
+                    {client.conversationNotes || 'No notes available'}
                   </Typography>
                 </Grid>
               </Grid>
-            </Box>
-          </Paper>
+              
+              <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
+                <Button 
+                  variant="outlined" 
+                  startIcon={<EditIcon />}
+                  onClick={() => alert('Edit client functionality would go here')}
+                >
+                  Edit Client
+                </Button>
+              </Box>
+            </Paper>
+            
+            <Paper sx={{ p: 3 }}>
+              <Typography variant="h6" gutterBottom>
+                Environmental Impact
+              </Typography>
+              <Divider sx={{ mb: 2 }} />
+              
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h4" align="center" color="primary">
+                        {impact.totalDevices}
+                      </Typography>
+                      <Typography variant="body2" align="center" color="text.secondary">
+                        Devices Processed
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                
+                <Grid item xs={6}>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h4" align="center" color="primary">
+                        {impact.totalWeight.toFixed(1)}
+                      </Typography>
+                      <Typography variant="body2" align="center" color="text.secondary">
+                        Total Weight (kg)
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                
+                <Grid item xs={6}>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h4" align="center" color="primary">
+                        {impact.co2Saved.toFixed(1)}
+                      </Typography>
+                      <Typography variant="body2" align="center" color="text.secondary">
+                        CO2 Saved (kg)
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                
+                <Grid item xs={6}>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h4" align="center" color="primary">
+                        {impact.treesPlanted}
+                      </Typography>
+                      <Typography variant="body2" align="center" color="text.secondary">
+                        Trees Planted
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+              
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="subtitle1" gutterBottom>
+                  Device Disposition
+                </Typography>
+                <Grid container spacing={1}>
+                  <Grid item xs={6}>
+                    <Typography variant="body2">
+                      Refurbished: {impact.dispositionBreakdown.refurbished}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2">
+                      Recycled: {impact.dispositionBreakdown.recycled}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant="body2">
+                      Disposed: {impact.dispositionBreakdown.disposed}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Paper>
+          </Grid>
+          
+          <Grid item xs={12} md={8}>
+            <Paper sx={{ p: 3 }}>
+              <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+                <Tabs value={tabValue} onChange={handleTabChange} aria-label="client tabs">
+                  <Tab label="Pickups" />
+                  <Tab label="Devices" />
+                </Tabs>
+              </Box>
+              
+              {/* Pickups Tab */}
+              {tabValue === 0 && (
+                <>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                    <Typography variant="h6">
+                      Pickups
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      startIcon={<AddIcon />}
+                      onClick={() => alert('Schedule pickup functionality would go here')}
+                    >
+                      Schedule Pickup
+                    </Button>
+                  </Box>
+                  
+                  <TableContainer>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Date</TableCell>
+                          <TableCell>Location</TableCell>
+                          <TableCell>Contact</TableCell>
+                          <TableCell>Status</TableCell>
+                          <TableCell align="right">Devices</TableCell>
+                          <TableCell align="right">Weight (kg)</TableCell>
+                          <TableCell>Processing</TableCell>
+                          <TableCell align="right">Actions</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {pickups.map((pickup) => (
+                          <TableRow 
+                            key={pickup.id}
+                            hover
+                            sx={{ cursor: 'pointer' }}
+                            onClick={() => navigate(`/admin/pickups/${pickup.id}`)}
+                          >
+                            <TableCell>{formatDate(pickup.scheduledDate)}</TableCell>
+                            <TableCell>{pickup.location}</TableCell>
+                            <TableCell>{pickup.contactPerson}</TableCell>
+                            <TableCell>
+                              <Chip 
+                                label={pickup.status} 
+                                color={
+                                  pickup.status === 'completed' ? 'success' :
+                                  pickup.status === 'in-progress' ? 'warning' :
+                                  'info'
+                                }
+                                size="small"
+                              />
+                            </TableCell>
+                            <TableCell align="right">{pickup.devices}</TableCell>
+                            <TableCell align="right">{pickup.weight.toFixed(1)}</TableCell>
+                            <TableCell>
+                              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <Box sx={{ width: '100%', mr: 1 }}>
+                                  <Box sx={{ width: '100%', bgcolor: 'grey.300', borderRadius: 1, height: 8 }}>
+                                    <Box 
+                                      sx={{ 
+                                        width: `${pickup.processingStatus}%`, 
+                                        bgcolor: 'primary.main', 
+                                        height: 8,
+                                        borderRadius: 1
+                                      }} 
+                                    />
+                                  </Box>
+                                </Box>
+                                <Typography variant="caption">
+                                  {pickup.processingStatus}%
+                                </Typography>
+                              </Box>
+                            </TableCell>
+                            <TableCell align="right">
+                              <IconButton
+                                size="small"
+                                color="primary"
+                                onClick={(e) => {
+                                  e.stopPropagation(); // Prevent row click event
+                                  navigate(`/admin/pickups/${pickup.id}`);
+                                }}
+                              >
+                                <EditIcon />
+                              </IconButton>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </>
+              )}
+              
+              {/* Devices Tab */}
+              {tabValue === 1 && (
+                <>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                    <Typography variant="h6">
+                      Devices
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      startIcon={<AddIcon />}
+                      onClick={() => alert('Add device functionality would go here')}
+                    >
+                      Add Device
+                    </Button>
+                  </Box>
+                  
+                  <TableContainer>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Type</TableCell>
+                          <TableCell>Manufacturer</TableCell>
+                          <TableCell>Model</TableCell>
+                          <TableCell>Serial Number</TableCell>
+                          <TableCell>Status</TableCell>
+                          <TableCell align="right">Weight (kg)</TableCell>
+                          <TableCell align="right">Actions</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {devices.map((device) => (
+                          <TableRow key={device.id}>
+                            <TableCell>{device.type}</TableCell>
+                            <TableCell>{device.manufacturer}</TableCell>
+                            <TableCell>{device.model}</TableCell>
+                            <TableCell>{device.serialNumber}</TableCell>
+                            <TableCell>
+                              <Chip 
+                                label={device.status} 
+                                color={
+                                  device.status === 'Refurbished' ? 'success' :
+                                  device.status === 'Recycled' ? 'primary' :
+                                  device.status === 'In Processing' ? 'warning' :
+                                  'default'
+                                }
+                                size="small"
+                              />
+                            </TableCell>
+                            <TableCell align="right">{device.weight.toFixed(1)}</TableCell>
+                            <TableCell align="right">
+                              <IconButton
+                                size="small"
+                                color="primary"
+                                onClick={() => handleEditDevice(device)}
+                              >
+                                <EditIcon />
+                              </IconButton>
+                              <IconButton
+                                size="small"
+                                color="error"
+                                onClick={() => handleDeleteDevice(device.id)}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </>
+              )}
+            </Paper>
+          </Grid>
         </Grid>
         
-        <Grid item xs={12} md={8}>
-          <Paper sx={{ p: 3 }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
-              <Tabs value={tabValue} onChange={handleTabChange} aria-label="client tabs">
-                <Tab label="Pickups" />
-                <Tab label="Devices" />
-              </Tabs>
-            </Box>
-            
-            {/* Pickups Tab */}
-            {tabValue === 0 && (
-              <>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                  <Typography variant="h6">
-                    Pickups
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    startIcon={<AddIcon />}
-                    onClick={() => alert('Schedule pickup functionality would go here')}
-                  >
-                    Schedule Pickup
-                  </Button>
-                </Box>
-                
-                <TableContainer>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Date</TableCell>
-                        <TableCell>Location</TableCell>
-                        <TableCell>Contact</TableCell>
-                        <TableCell>Status</TableCell>
-                        <TableCell align="right">Devices</TableCell>
-                        <TableCell align="right">Weight (kg)</TableCell>
-                        <TableCell>Processing</TableCell>
-                        <TableCell align="right">Actions</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {pickups.map((pickup) => (
-                        <TableRow 
-                          key={pickup.id}
-                          hover
-                          sx={{ cursor: 'pointer' }}
-                          onClick={() => navigate(`/admin/pickups/${pickup.id}`)}
-                        >
-                          <TableCell>{formatDate(pickup.scheduledDate)}</TableCell>
-                          <TableCell>{pickup.location}</TableCell>
-                          <TableCell>{pickup.contactPerson}</TableCell>
-                          <TableCell>
-                            <Chip 
-                              label={pickup.status} 
-                              color={
-                                pickup.status === 'completed' ? 'success' :
-                                pickup.status === 'in-progress' ? 'warning' :
-                                'info'
-                              }
-                              size="small"
-                            />
-                          </TableCell>
-                          <TableCell align="right">{pickup.devices}</TableCell>
-                          <TableCell align="right">{pickup.weight.toFixed(1)}</TableCell>
-                          <TableCell>
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                              <Box sx={{ width: '100%', mr: 1 }}>
-                                <Box sx={{ width: '100%', bgcolor: 'grey.300', borderRadius: 1, height: 8 }}>
-                                  <Box 
-                                    sx={{ 
-                                      width: `${pickup.processingStatus}%`, 
-                                      bgcolor: 'primary.main', 
-                                      height: 8,
-                                      borderRadius: 1
-                                    }} 
-                                  />
-                                </Box>
-                              </Box>
-                              <Typography variant="caption">
-                                {pickup.processingStatus}%
-                              </Typography>
-                            </Box>
-                          </TableCell>
-                          <TableCell align="right">
-                            <IconButton
-                              size="small"
-                              color="primary"
-                              onClick={(e) => {
-                                e.stopPropagation(); // Prevent row click event
-                                navigate(`/admin/pickups/${pickup.id}`);
-                              }}
-                            >
-                              <EditIcon />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </>
-            )}
-            
-            {/* Devices Tab */}
-            {tabValue === 1 && (
-              <>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                  <Typography variant="h6">
-                    Devices
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    startIcon={<AddIcon />}
-                    onClick={() => alert('Add device functionality would go here')}
-                  >
-                    Add Device
-                  </Button>
-                </Box>
-                
-                <TableContainer>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Type</TableCell>
-                        <TableCell>Manufacturer</TableCell>
-                        <TableCell>Model</TableCell>
-                        <TableCell>Serial Number</TableCell>
-                        <TableCell>Status</TableCell>
-                        <TableCell align="right">Weight (kg)</TableCell>
-                        <TableCell align="right">Actions</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {devices.map((device) => (
-                        <TableRow key={device.id}>
-                          <TableCell>{device.type}</TableCell>
-                          <TableCell>{device.manufacturer}</TableCell>
-                          <TableCell>{device.model}</TableCell>
-                          <TableCell>{device.serialNumber}</TableCell>
-                          <TableCell>
-                            <Chip 
-                              label={device.status} 
-                              color={
-                                device.status === 'Refurbished' ? 'success' :
-                                device.status === 'Recycled' ? 'primary' :
-                                device.status === 'In Processing' ? 'warning' :
-                                'default'
-                              }
-                              size="small"
-                            />
-                          </TableCell>
-                          <TableCell align="right">{device.weight.toFixed(1)}</TableCell>
-                          <TableCell align="right">
-                            <IconButton
-                              size="small"
-                              color="primary"
-                              onClick={() => handleEditDevice(device)}
-                            >
-                              <EditIcon />
-                            </IconButton>
-                            <IconButton
-                              size="small"
-                              color="error"
-                              onClick={() => handleDeleteDevice(device.id)}
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </>
-            )}
-          </Paper>
-        </Grid>
-      </Grid>
-      
-      {/* Device Edit Dialog */}
-      <Dialog open={deviceDialogOpen} onClose={() => setDeviceDialogOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>
-          Edit Device
-        </DialogTitle>
-        <DialogContent>
-          <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Type"
-                name="type"
-                value={deviceFormData.type}
-                onChange={handleDeviceFormChange}
-                required
-              />
+        {/* Device Edit Dialog */}
+        <Dialog open={deviceDialogOpen} onClose={() => setDeviceDialogOpen(false)} maxWidth="sm" fullWidth>
+          <DialogTitle>
+            Edit Device
+          </DialogTitle>
+          <DialogContent>
+            <Grid container spacing={2} sx={{ mt: 1 }}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Type"
+                  name="type"
+                  value={deviceFormData.type}
+                  onChange={handleDeviceFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Manufacturer"
+                  name="manufacturer"
+                  value={deviceFormData.manufacturer}
+                  onChange={handleDeviceFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Model"
+                  name="model"
+                  value={deviceFormData.model}
+                  onChange={handleDeviceFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Serial Number"
+                  name="serialNumber"
+                  value={deviceFormData.serialNumber}
+                  onChange={handleDeviceFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  select
+                  label="Status"
+                  name="status"
+                  value={deviceFormData.status}
+                  onChange={handleDeviceFormChange}
+                  required
+                >
+                  {deviceStatuses.map((status) => (
+                    <MenuItem key={status} value={status}>
+                      {status}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Weight (kg)"
+                  name="weight"
+                  type="number"
+                  value={deviceFormData.weight}
+                  onChange={handleDeviceFormChange}
+                  required
+                  inputProps={{ step: 0.1 }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Notes"
+                  name="notes"
+                  value={deviceFormData.notes}
+                  onChange={handleDeviceFormChange}
+                  multiline
+                  rows={3}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Manufacturer"
-                name="manufacturer"
-                value={deviceFormData.manufacturer}
-                onChange={handleDeviceFormChange}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Model"
-                name="model"
-                value={deviceFormData.model}
-                onChange={handleDeviceFormChange}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Serial Number"
-                name="serialNumber"
-                value={deviceFormData.serialNumber}
-                onChange={handleDeviceFormChange}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                select
-                label="Status"
-                name="status"
-                value={deviceFormData.status}
-                onChange={handleDeviceFormChange}
-                required
-              >
-                {deviceStatuses.map((status) => (
-                  <MenuItem key={status} value={status}>
-                    {status}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Weight (kg)"
-                name="weight"
-                type="number"
-                value={deviceFormData.weight}
-                onChange={handleDeviceFormChange}
-                required
-                inputProps={{ step: 0.1 }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Notes"
-                name="notes"
-                value={deviceFormData.notes}
-                onChange={handleDeviceFormChange}
-                multiline
-                rows={3}
-              />
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeviceDialogOpen(false)}>Cancel</Button>
-          <Button 
-            onClick={handleSaveDevice} 
-            variant="contained"
-            startIcon={<SaveIcon />}
-          >
-            Save Changes
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setDeviceDialogOpen(false)}>Cancel</Button>
+            <Button 
+              onClick={handleSaveDevice} 
+              variant="contained"
+              startIcon={<SaveIcon />}
+            >
+              Save Changes
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    );
+  };
+
+  return (
+    <AdminLayout>
+      {renderClientDetails()}
+    </AdminLayout>
   );
 };
 

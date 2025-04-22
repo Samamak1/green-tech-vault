@@ -24,19 +24,17 @@ import {
   IconButton,
   Tabs,
   Tab,
-  Chip,
-  AppBar,
-  Toolbar
+  Chip
 } from '@mui/material';
 import {
   Add as AddIcon,
   Edit as EditIcon,
   Delete as DeleteIcon,
-  Visibility as VisibilityIcon,
-  Logout as LogoutIcon
+  Visibility as VisibilityIcon
 } from '@mui/icons-material';
 import { dashboardAPI, companyAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import AdminLayout from '../components/layout/AdminLayout';
 
 const AdminDashboard = () => {
   const [clients, setClients] = useState([]);
@@ -56,12 +54,6 @@ const AdminDashboard = () => {
   });
   
   const navigate = useNavigate();
-  const { logout } = useAuth();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/admin/login');
-  };
 
   useEffect(() => {
     fetchAdminData();
@@ -270,421 +262,413 @@ const AdminDashboard = () => {
     alert(`Adding pickup for client ${clientId}`);
   };
 
-  if (loading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (error) {
-    return (
-      <Box sx={{ p: 3 }}>
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {error}
-        </Alert>
-        <Button variant="contained" onClick={() => fetchAdminData()}>
-          Retry
-        </Button>
-      </Box>
-    );
-  }
-
-  return (
-    <Box sx={{ p: 3 }}>
-      <AppBar position="fixed" color="primary" sx={{ top: 0, left: 0, right: 0 }}>
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Green Tech Vault Admin
-          </Typography>
-          <Button 
-            color="inherit" 
-            onClick={handleLogout}
-            startIcon={<LogoutIcon />}
-          >
-            Logout
-          </Button>
-        </Toolbar>
-      </AppBar>
-      <Toolbar /> {/* Empty toolbar to create space below the AppBar */}
-      
-      <Typography variant="h4" component="h1" gutterBottom>
-        Admin Dashboard
-      </Typography>
-      
-      {/* Summary Cards */}
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={6} md={3}>
-          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
-            <Typography variant="h3" color="primary" gutterBottom>
-              156
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              Total Devices Collected
-            </Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
-            <Typography variant="h3" color="primary" gutterBottom>
-              1,250.5
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              Total Weight (kg)
-            </Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
-            <Typography variant="h3" color="primary" gutterBottom>
-              87
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              Devices Refurbished
-            </Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
-            <Typography variant="h3" color="primary" gutterBottom>
-              69
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              Devices Recycled
-            </Typography>
-          </Paper>
-        </Grid>
-      </Grid>
-      
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={6} md={4}>
-          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
-            <Typography variant="h3" color="primary" gutterBottom>
-              3,750.8
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              CO2 Saved (kg)
-            </Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
-            <Typography variant="h3" color="primary" gutterBottom>
-              187
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              Trees Planted
-            </Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
-            <Typography variant="h3" color="primary" gutterBottom>
-              92.5%
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              Landfill Diversion Rate
-            </Typography>
-          </Paper>
-        </Grid>
-      </Grid>
-      
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
-        <Tabs value={tabValue} onChange={handleTabChange} aria-label="admin tabs">
-          <Tab label="Clients" />
-          <Tab label="Devices" />
-          <Tab label="Pickups" />
-        </Tabs>
-      </Box>
-      
-      {/* Clients Tab */}
-      {tabValue === 0 && (
-        <>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-            <Typography variant="h5">
-              Clients
-            </Typography>
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              onClick={() => handleOpenDialog()}
-            >
-              Add Client
-            </Button>
-          </Box>
-          
-          <Alert severity="info" sx={{ mb: 2 }}>
-            Click on any client row to view detailed information and manage their devices.
+  const renderDashboardContent = () => {
+    if (loading) {
+      return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+          <CircularProgress />
+        </Box>
+      );
+    }
+  
+    if (error) {
+      return (
+        <Box sx={{ p: 3 }}>
+          <Alert severity="error" sx={{ mb: 3 }}>
+            {error}
           </Alert>
-          
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Company Name</TableCell>
-                  <TableCell>Contact Person</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Phone</TableCell>
-                  <TableCell align="right">Devices Collected</TableCell>
-                  <TableCell align="right">Total Weight (kg)</TableCell>
-                  <TableCell align="right">Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {clients.map((client) => (
-                  <TableRow 
-                    key={client.id}
-                    hover
-                    sx={{ cursor: 'pointer' }}
-                    onClick={() => handleViewClient(client.id)}
-                  >
-                    <TableCell>
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        {client.name}
-                        <Typography variant="caption" color="primary" sx={{ ml: 1 }}>
-                          (Click to view details)
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell>{client.contactPerson}</TableCell>
-                    <TableCell>{client.email}</TableCell>
-                    <TableCell>{client.phone}</TableCell>
-                    <TableCell align="right">{client.devicesCollected}</TableCell>
-                    <TableCell align="right">{client.totalWeight.toFixed(1)}</TableCell>
-                    <TableCell align="right">
-                      <IconButton
-                        size="small"
-                        color="primary"
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent row click event
-                          handleViewClient(client.id);
-                        }}
-                      >
-                        <VisibilityIcon />
-                      </IconButton>
-                      <IconButton
-                        size="small"
-                        color="primary"
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent row click event
-                          handleOpenDialog(client);
-                        }}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton
-                        size="small"
-                        color="error"
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent row click event
-                          handleDeleteClient(client.id);
-                        }}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent row click event
-                          handleAddPickup(client.id);
-                        }}
-                        sx={{ ml: 1 }}
-                      >
-                        Schedule Pickup
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
-      )}
-      
-      {/* Devices Tab */}
-      {tabValue === 1 && (
-        <>
-          <Typography variant="h5" gutterBottom>
-            All Devices
-          </Typography>
-          
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Client</TableCell>
-                  <TableCell>Type</TableCell>
-                  <TableCell>Manufacturer</TableCell>
-                  <TableCell>Model</TableCell>
-                  <TableCell>Serial Number</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell align="right">Weight (kg)</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {devices.map((device) => (
-                  <TableRow key={device.id}>
-                    <TableCell>{device.clientName}</TableCell>
-                    <TableCell>{device.type}</TableCell>
-                    <TableCell>{device.manufacturer}</TableCell>
-                    <TableCell>{device.model}</TableCell>
-                    <TableCell>{device.serialNumber}</TableCell>
-                    <TableCell>
-                      <Chip 
-                        label={device.status} 
-                        color={
-                          device.status === 'Refurbished' ? 'success' :
-                          device.status === 'Recycled' ? 'primary' :
-                          'default'
-                        }
-                        size="small"
-                      />
-                    </TableCell>
-                    <TableCell align="right">{device.weight.toFixed(1)}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
-      )}
-      
-      {/* Pickups Tab */}
-      {tabValue === 2 && (
-        <>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-            <Typography variant="h5">
-              All Pickups
-            </Typography>
-            <Box>
-              <Button
-                variant="outlined"
-                onClick={() => navigate('/admin/pickup-calendar')}
-                sx={{ mr: 2 }}
-              >
-                View Calendar
-              </Button>
+          <Button variant="contained" onClick={() => fetchAdminData()}>
+            Retry
+          </Button>
+        </Box>
+      );
+    }
+
+    return (
+      <>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Admin Dashboard
+        </Typography>
+        
+        {/* Summary Cards */}
+        <Grid container spacing={3} sx={{ mb: 4 }}>
+          <Grid item xs={12} sm={6} md={3}>
+            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
+              <Typography variant="h3" color="primary" gutterBottom>
+                156
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                Total Devices Collected
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
+              <Typography variant="h3" color="primary" gutterBottom>
+                1,250.5
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                Total Weight (kg)
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
+              <Typography variant="h3" color="primary" gutterBottom>
+                87
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                Devices Refurbished
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
+              <Typography variant="h3" color="primary" gutterBottom>
+                69
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                Devices Recycled
+              </Typography>
+            </Paper>
+          </Grid>
+        </Grid>
+        
+        <Grid container spacing={3} sx={{ mb: 4 }}>
+          <Grid item xs={12} sm={6} md={4}>
+            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
+              <Typography variant="h3" color="primary" gutterBottom>
+                3,750.8
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                CO2 Saved (kg)
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
+              <Typography variant="h3" color="primary" gutterBottom>
+                187
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                Trees Planted
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', height: 140 }}>
+              <Typography variant="h3" color="primary" gutterBottom>
+                92.5%
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                Landfill Diversion Rate
+              </Typography>
+            </Paper>
+          </Grid>
+        </Grid>
+        
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+          <Tabs value={tabValue} onChange={handleTabChange} aria-label="admin tabs">
+            <Tab label="Clients" />
+            <Tab label="Devices" />
+            <Tab label="Pickups" />
+          </Tabs>
+        </Box>
+        
+        {/* Clients Tab */}
+        {tabValue === 0 && (
+          <>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+              <Typography variant="h5">
+                Clients
+              </Typography>
               <Button
                 variant="contained"
                 startIcon={<AddIcon />}
-                onClick={() => alert('Schedule pickup functionality would go here')}
+                onClick={() => handleOpenDialog()}
               >
-                Schedule Pickup
+                Add Client
               </Button>
             </Box>
-          </Box>
-          
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Client</TableCell>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Location</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell align="right">Devices</TableCell>
-                  <TableCell align="right">Weight (kg)</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {pickups.map((pickup) => (
-                  <TableRow key={pickup.id}>
-                    <TableCell>{pickup.clientName}</TableCell>
-                    <TableCell>{pickup.date}</TableCell>
-                    <TableCell>{pickup.location}</TableCell>
-                    <TableCell>
-                      <Chip 
-                        label={pickup.status} 
-                        color={
-                          pickup.status === 'completed' ? 'success' :
-                          pickup.status === 'in-progress' ? 'warning' :
-                          'info'
-                        }
-                        size="small"
-                      />
-                    </TableCell>
-                    <TableCell align="right">{pickup.devices}</TableCell>
-                    <TableCell align="right">{pickup.weight.toFixed(1)}</TableCell>
+            
+            <Alert severity="info" sx={{ mb: 2 }}>
+              Click on any client row to view detailed information and manage their devices.
+            </Alert>
+            
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Company Name</TableCell>
+                    <TableCell>Contact Person</TableCell>
+                    <TableCell>Email</TableCell>
+                    <TableCell>Phone</TableCell>
+                    <TableCell align="right">Devices Collected</TableCell>
+                    <TableCell align="right">Total Weight (kg)</TableCell>
+                    <TableCell align="right">Actions</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
-      )}
-      
-      {/* Client Dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-        <DialogTitle>
-          {selectedClient ? 'Edit Client' : 'Add New Client'}
-        </DialogTitle>
-        <DialogContent>
-          <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Company Name"
-                name="name"
-                value={formData.name}
-                onChange={handleFormChange}
-                required
-              />
+                </TableHead>
+                <TableBody>
+                  {clients.map((client) => (
+                    <TableRow 
+                      key={client.id}
+                      hover
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => handleViewClient(client.id)}
+                    >
+                      <TableCell>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          {client.name}
+                          <Typography variant="caption" color="primary" sx={{ ml: 1 }}>
+                            (Click to view details)
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell>{client.contactPerson}</TableCell>
+                      <TableCell>{client.email}</TableCell>
+                      <TableCell>{client.phone}</TableCell>
+                      <TableCell align="right">{client.devicesCollected}</TableCell>
+                      <TableCell align="right">{client.totalWeight.toFixed(1)}</TableCell>
+                      <TableCell align="right">
+                        <IconButton
+                          size="small"
+                          color="primary"
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent row click event
+                            handleViewClient(client.id);
+                          }}
+                        >
+                          <VisibilityIcon />
+                        </IconButton>
+                        <IconButton
+                          size="small"
+                          color="primary"
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent row click event
+                            handleOpenDialog(client);
+                          }}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                          size="small"
+                          color="error"
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent row click event
+                            handleDeleteClient(client.id);
+                          }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent row click event
+                            handleAddPickup(client.id);
+                          }}
+                          sx={{ ml: 1 }}
+                        >
+                          Schedule Pickup
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        )}
+        
+        {/* Devices Tab */}
+        {tabValue === 1 && (
+          <>
+            <Typography variant="h5" gutterBottom>
+              All Devices
+            </Typography>
+            
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Client</TableCell>
+                    <TableCell>Type</TableCell>
+                    <TableCell>Manufacturer</TableCell>
+                    <TableCell>Model</TableCell>
+                    <TableCell>Serial Number</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell align="right">Weight (kg)</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {devices.map((device) => (
+                    <TableRow key={device.id}>
+                      <TableCell>{device.clientName}</TableCell>
+                      <TableCell>{device.type}</TableCell>
+                      <TableCell>{device.manufacturer}</TableCell>
+                      <TableCell>{device.model}</TableCell>
+                      <TableCell>{device.serialNumber}</TableCell>
+                      <TableCell>
+                        <Chip 
+                          label={device.status} 
+                          color={
+                            device.status === 'Refurbished' ? 'success' :
+                            device.status === 'Recycled' ? 'primary' :
+                            'default'
+                          }
+                          size="small"
+                        />
+                      </TableCell>
+                      <TableCell align="right">{device.weight.toFixed(1)}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        )}
+        
+        {/* Pickups Tab */}
+        {tabValue === 2 && (
+          <>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+              <Typography variant="h5">
+                All Pickups
+              </Typography>
+              <Box>
+                <Button
+                  variant="outlined"
+                  onClick={() => navigate('/admin/pickup-calendar')}
+                  sx={{ mr: 2 }}
+                >
+                  View Calendar
+                </Button>
+                <Button
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  onClick={() => alert('Schedule pickup functionality would go here')}
+                >
+                  Schedule Pickup
+                </Button>
+              </Box>
+            </Box>
+            
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Client</TableCell>
+                    <TableCell>Date</TableCell>
+                    <TableCell>Location</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell align="right">Devices</TableCell>
+                    <TableCell align="right">Weight (kg)</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {pickups.map((pickup) => (
+                    <TableRow key={pickup.id}>
+                      <TableCell>{pickup.clientName}</TableCell>
+                      <TableCell>{pickup.date}</TableCell>
+                      <TableCell>{pickup.location}</TableCell>
+                      <TableCell>
+                        <Chip 
+                          label={pickup.status} 
+                          color={
+                            pickup.status === 'completed' ? 'success' :
+                            pickup.status === 'in-progress' ? 'warning' :
+                            'info'
+                          }
+                          size="small"
+                        />
+                      </TableCell>
+                      <TableCell align="right">{pickup.devices}</TableCell>
+                      <TableCell align="right">{pickup.weight.toFixed(1)}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        )}
+        
+        {/* Client Dialog */}
+        <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+          <DialogTitle>
+            {selectedClient ? 'Edit Client' : 'Add New Client'}
+          </DialogTitle>
+          <DialogContent>
+            <Grid container spacing={2} sx={{ mt: 1 }}>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Company Name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Contact Person"
+                  name="contactPerson"
+                  value={formData.contactPerson}
+                  onChange={handleFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Address"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleFormChange}
+                  multiline
+                  rows={2}
+                  required
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Contact Person"
-                name="contactPerson"
-                value={formData.contactPerson}
-                onChange={handleFormChange}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleFormChange}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleFormChange}
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Address"
-                name="address"
-                value={formData.address}
-                onChange={handleFormChange}
-                multiline
-                rows={2}
-                required
-              />
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={handleSubmitClient} variant="contained">
-            {selectedClient ? 'Update' : 'Add'}
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog}>Cancel</Button>
+            <Button onClick={handleSubmitClient} variant="contained">
+              {selectedClient ? 'Update' : 'Add'}
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    );
+  };
+
+  return (
+    <AdminLayout>
+      {renderDashboardContent()}
+    </AdminLayout>
   );
 };
 

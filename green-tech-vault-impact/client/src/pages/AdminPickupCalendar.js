@@ -29,6 +29,13 @@ import {
 import { pickupAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { formatDate } from '../utils/formatters';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import AdminLayout from '../components/layout/AdminLayout';
+
+// Set up the localizer for react-big-calendar
+const localizer = momentLocalizer(moment);
 
 const AdminPickupCalendar = () => {
   const navigate = useNavigate();
@@ -236,278 +243,167 @@ const AdminPickupCalendar = () => {
     navigate('/admin/login');
   };
 
-  const generateCalendar = () => {
-    const firstDay = new Date(currentYear, currentMonth, 1);
-    const lastDay = new Date(currentYear, currentMonth + 1, 0);
-    const daysInMonth = lastDay.getDate();
-    const startingDayOfWeek = firstDay.getDay(); // 0 = Sunday, 1 = Monday, etc.
-    
-    const monthNames = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
-    ];
-    
-    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    
-    // Filter pickups for the current month
-    const currentMonthPickups = pickups.filter(pickup => {
-      const pickupDate = new Date(pickup.scheduledDate);
-      return pickupDate.getMonth() === currentMonth && pickupDate.getFullYear() === currentYear;
-    });
-    
-    // Create calendar grid
-    const calendarDays = [];
-    
-    // Add empty cells for days before the first day of the month
-    for (let i = 0; i < startingDayOfWeek; i++) {
-      calendarDays.push(null);
+  const renderCalendarContent = () => {
+    if (loading) {
+      return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+          <CircularProgress />
+        </Box>
+      );
     }
-    
-    // Add cells for each day of the month
-    for (let day = 1; day <= daysInMonth; day++) {
-      const date = new Date(currentYear, currentMonth, day);
-      const dateString = date.toISOString().split('T')[0];
-      
-      // Find pickups for this day
-      const dayPickups = currentMonthPickups.filter(pickup => {
-        return pickup.scheduledDate === dateString;
-      });
-      
-      calendarDays.push({
-        day,
-        date,
-        pickups: dayPickups
-      });
+  
+    if (error) {
+      return (
+        <Box sx={{ p: 3 }}>
+          <Alert severity="error" sx={{ mb: 3 }}>
+            {error}
+          </Alert>
+          <Button variant="contained" onClick={() => fetchPickups()}>
+            Retry
+          </Button>
+        </Box>
+      );
     }
-    
+  
     return (
-      <Box>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-          <IconButton onClick={handlePrevMonth}>
-            <ChevronLeftIcon />
-          </IconButton>
-          <Typography variant="h5">
-            {monthNames[currentMonth]} {currentYear}
-          </Typography>
-          <IconButton onClick={handleNextMonth}>
-            <ChevronRightIcon />
-          </IconButton>
+      <>
+        <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Button 
+              variant="outlined" 
+              startIcon={<ArrowBackIcon />} 
+              onClick={() => navigate('/admin/dashboard')}
+              sx={{ mr: 2 }}
+            >
+              Back to Dashboard
+            </Button>
+            <Typography variant="h4" component="h1">
+              Pickup Calendar
+            </Typography>
+          </Box>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={handleOpenDialog}
+          >
+            Schedule Pickup
+          </Button>
         </Box>
         
-        <Grid container spacing={1}>
-          {/* Day headers */}
-          {dayNames.map((day, index) => (
-            <Grid item xs={12/7} key={`header-${index}`}>
-              <Typography variant="subtitle2" align="center" sx={{ fontWeight: 'bold' }}>
-                {day}
-              </Typography>
-            </Grid>
-          ))}
-          
-          {/* Calendar days */}
-          {calendarDays.map((dayData, index) => (
-            <Grid item xs={12/7} key={`day-${index}`}>
-              {dayData ? (
-                <Paper 
-                  sx={{ 
-                    p: 1, 
-                    height: 120, 
-                    overflow: 'auto',
-                    bgcolor: dayData.date.toDateString() === new Date().toDateString() ? 'rgba(46, 125, 50, 0.1)' : 'white'
-                  }}
+        <Paper sx={{ p: 2, mb: 3, height: 'calc(100vh - 200px)' }}>
+          <Calendar
+            localizer={localizer}
+            events={pickups}
+            startAccessor="scheduledDate"
+            endAccessor="scheduledDate"
+            views={['month', 'week', 'day', 'agenda']}
+            style={{ height: '100%' }}
+            eventPropGetter={eventStyleGetter}
+            onSelectEvent={handleSelectEvent}
+            components={{
+              event: EventComponent
+            }}
+          />
+        </Paper>
+        
+        {/* Schedule Dialog */}
+        <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+          <DialogTitle>
+            Schedule New Pickup
+          </DialogTitle>
+          <DialogContent>
+            <Grid container spacing={2} sx={{ mt: 1 }}>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  select
+                  label="Client"
+                  name="clientId"
+                  value={formData.clientId}
+                  onChange={handleFormChange}
+                  required
                 >
-                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                    {dayData.day}
-                  </Typography>
-                  
-                  {dayData.pickups.map(pickup => (
-                    <Box 
-                      key={pickup.id} 
-                      sx={{ 
-                        p: 0.5, 
-                        mb: 0.5, 
-                        borderRadius: 1,
-                        bgcolor: 
-                          pickup.status === 'completed' ? 'success.light' :
-                          pickup.status === 'in-progress' ? 'warning.light' :
-                          'info.light'
-                      }}
-                    >
-                      <Typography variant="caption" sx={{ display: 'block', fontWeight: 'bold' }}>
-                        {pickup.clientName}
-                      </Typography>
-                      <Typography variant="caption" sx={{ display: 'block' }}>
-                        {pickup.location}
-                      </Typography>
-                    </Box>
+                  {clients.map((client) => (
+                    <MenuItem key={client.id} value={client.id}>
+                      {client.name}
+                    </MenuItem>
                   ))}
-                </Paper>
-              ) : (
-                <Paper sx={{ p: 1, height: 120, bgcolor: 'grey.100' }} />
-              )}
+                </TextField>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Scheduled Date"
+                  name="scheduledDate"
+                  type="date"
+                  value={formData.scheduledDate}
+                  onChange={handleFormChange}
+                  InputLabelProps={{ shrink: true }}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Location"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Contact Person"
+                  name="contactPerson"
+                  value={formData.contactPerson}
+                  onChange={handleFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Contact Phone"
+                  name="contactPhone"
+                  value={formData.contactPhone}
+                  onChange={handleFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Notes"
+                  name="notes"
+                  value={formData.notes}
+                  onChange={handleFormChange}
+                  multiline
+                  rows={3}
+                />
+              </Grid>
             </Grid>
-          ))}
-        </Grid>
-      </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog}>Cancel</Button>
+            <Button 
+              onClick={handleSubmit} 
+              variant="contained"
+              disabled={!formData.clientId || !formData.scheduledDate || !formData.location}
+            >
+              Schedule
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </>
     );
   };
 
-  if (loading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (error) {
-    return (
-      <Box sx={{ p: 3 }}>
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {error}
-        </Alert>
-        <Button variant="contained" onClick={() => fetchPickups()}>
-          Retry
-        </Button>
-      </Box>
-    );
-  }
-
   return (
-    <Box sx={{ p: 3 }}>
-      <AppBar position="fixed" color="primary" sx={{ top: 0, left: 0, right: 0 }}>
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Green Tech Vault Admin
-          </Typography>
-          <Button 
-            color="inherit" 
-            onClick={handleLogout}
-            startIcon={<LogoutIcon />}
-          >
-            Logout
-          </Button>
-        </Toolbar>
-      </AppBar>
-      <Toolbar /> {/* Empty toolbar to create space below the AppBar */}
-      
-      <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
-        <Button 
-          variant="outlined" 
-          startIcon={<ArrowBackIcon />} 
-          onClick={() => navigate('/admin')}
-          sx={{ mr: 2 }}
-        >
-          Back to Dashboard
-        </Button>
-        <Typography variant="h4" component="h1">
-          Pickup Calendar
-        </Typography>
-        <Box sx={{ flexGrow: 1 }} />
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={handleOpenDialog}
-        >
-          Schedule Pickup
-        </Button>
-      </Box>
-      
-      <Paper sx={{ p: 3 }}>
-        {generateCalendar()}
-      </Paper>
-      
-      {/* Schedule Pickup Dialog */}
-      <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-        <DialogTitle>
-          Schedule New Pickup
-        </DialogTitle>
-        <DialogContent>
-          <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                select
-                label="Client"
-                name="clientId"
-                value={formData.clientId}
-                onChange={handleFormChange}
-                required
-              >
-                {clients.map((client) => (
-                  <MenuItem key={client.id} value={client.id}>
-                    {client.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Scheduled Date"
-                name="scheduledDate"
-                type="date"
-                value={formData.scheduledDate}
-                onChange={handleFormChange}
-                InputLabelProps={{ shrink: true }}
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Location"
-                name="location"
-                value={formData.location}
-                onChange={handleFormChange}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Contact Person"
-                name="contactPerson"
-                value={formData.contactPerson}
-                onChange={handleFormChange}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Contact Phone"
-                name="contactPhone"
-                value={formData.contactPhone}
-                onChange={handleFormChange}
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Notes"
-                name="notes"
-                value={formData.notes}
-                onChange={handleFormChange}
-                multiline
-                rows={3}
-              />
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button 
-            onClick={handleSubmit} 
-            variant="contained"
-            disabled={!formData.clientId || !formData.scheduledDate || !formData.location}
-          >
-            Schedule
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+    <AdminLayout>
+      {renderCalendarContent()}
+    </AdminLayout>
   );
 };
 

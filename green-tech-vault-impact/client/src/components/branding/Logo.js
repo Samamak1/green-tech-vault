@@ -48,6 +48,13 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
       textSecondaryColor: '#c70039', // Changed from olive green to rich red
       taglineColor: '#c70039', // Changed from olive green to rich red
     },
+    admin: {
+      iconBgColor: 'transparent',
+      iconColor: '#1C392B',
+      textColor: '#1C392B',
+      textSecondaryColor: '#1C392B',
+      taglineColor: '#1C392B',
+    }
   };
 
   const { iconSize, textVariant, taglineVariant, spacing } = sizeConfig[size] || sizeConfig.medium;
@@ -121,7 +128,7 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
               lineHeight: 1.2,
             }}
           >
-            EcoCycle Solutions
+            {variant === 'admin' ? 'Green Tech Vault' : 'EcoCycle Solutions'}
           </Typography>
         )}
       </Box>
@@ -138,7 +145,7 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
             ml: iconSize * 1.5 + spacing * 8, // Align with the text above
           }}
         >
-          Responsible E-Waste Recycling
+          {variant === 'admin' ? 'Admin Portal' : 'Responsible E-Waste Recycling'}
         </Typography>
       )}
     </Box>
