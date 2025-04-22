@@ -198,7 +198,7 @@ const AdminHeader = () => {
         <ListItemIcon>
           <CampaignIcon fontSize="small" />
         </ListItemIcon>
-        Green Tech Vault Anouncements
+        Anouncements
       </MenuItem>
       
       <Divider />
