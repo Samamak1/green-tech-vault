@@ -478,38 +478,122 @@ const AdminDashboard = () => {
           {/* Clients Tab */}
           {tabValue === 0 && (
             <>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h6" sx={{ fontWeight: 'medium', color: '#333' }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                <Typography variant="h6" sx={{ fontWeight: '500', color: '#333', fontSize: '1.1rem' }}>
                   Clients
                 </Typography>
                 <Button
                   variant="contained"
-                  startIcon={<AddIcon />}
+                  startIcon={null}
                   onClick={() => handleOpenDialog()}
                   sx={{ 
                     bgcolor: '#4ECDC4', 
                     '&:hover': { bgcolor: '#3dbdb5' }, 
                     borderRadius: '50px',
-                    px: 2,
+                    px: 3,
+                    py: 1.2,
                     textTransform: 'none',
-                    boxShadow: 'none'
+                    boxShadow: 'none',
+                    fontSize: '0.9rem',
+                    fontWeight: 'normal',
+                    height: 40
                   }}
                 >
-                  + Add Client
+                  <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+                    <AddIcon sx={{ mr: 0.5, fontSize: '1.2rem' }} /> Add Client
+                  </span>
                 </Button>
               </Box>
               
-              <TableContainer sx={{ boxShadow: 'none', borderRadius: '8px' }}>
-                <Table>
+              <Box sx={{ 
+                overflowX: 'auto',
+                '&::-webkit-scrollbar': {
+                  height: 8,
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  backgroundColor: '#e0e0e0',
+                  borderRadius: 4,
+                }
+              }}>
+                <Table size="medium" sx={{ minWidth: 1100 }}>
                   <TableHead>
                     <TableRow sx={{ bgcolor: '#f9f9f9' }}>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Company Name</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Contact Person</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Email</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Phone</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Status</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Weight (kg)</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Actions</TableCell>
+                      <TableCell sx={{ 
+                        fontWeight: '500', 
+                        color: '#555', 
+                        py: 2.2,
+                        px: 2,
+                        whiteSpace: 'nowrap',
+                        width: '16%',
+                        borderBottom: '1px solid #eee'
+                      }}>
+                        Company Name
+                      </TableCell>
+                      <TableCell sx={{ 
+                        fontWeight: '500', 
+                        color: '#555', 
+                        py: 2.2,
+                        px: 2,
+                        whiteSpace: 'nowrap',
+                        width: '14%',
+                        borderBottom: '1px solid #eee'
+                      }}>
+                        Contact Person
+                      </TableCell>
+                      <TableCell sx={{ 
+                        fontWeight: '500', 
+                        color: '#555', 
+                        py: 2.2,
+                        px: 2,
+                        width: '20%',
+                        borderBottom: '1px solid #eee'
+                      }}>
+                        Email
+                      </TableCell>
+                      <TableCell sx={{ 
+                        fontWeight: '500', 
+                        color: '#555', 
+                        py: 2.2,
+                        px: 2,
+                        whiteSpace: 'nowrap',
+                        width: '13%',
+                        borderBottom: '1px solid #eee'
+                      }}>
+                        Phone
+                      </TableCell>
+                      <TableCell sx={{ 
+                        fontWeight: '500', 
+                        color: '#555', 
+                        py: 2.2,
+                        px: 2,
+                        whiteSpace: 'nowrap',
+                        width: '7%',
+                        borderBottom: '1px solid #eee'
+                      }}>
+                        Status
+                      </TableCell>
+                      <TableCell sx={{ 
+                        fontWeight: '500', 
+                        color: '#555', 
+                        py: 2.2,
+                        px: 2,
+                        whiteSpace: 'nowrap',
+                        width: '10%',
+                        borderBottom: '1px solid #eee'
+                      }}>
+                        Weight (kg)
+                      </TableCell>
+                      <TableCell sx={{ 
+                        fontWeight: '500', 
+                        color: '#555', 
+                        py: 2.2,
+                        px: 2,
+                        whiteSpace: 'nowrap',
+                        width: '20%',
+                        borderBottom: '1px solid #eee'
+                      }}>
+                        Actions
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -517,24 +601,29 @@ const AdminDashboard = () => {
                       <TableRow 
                         key={client.id}
                         hover
-                        sx={{ '&:hover': { bgcolor: '#f5f5f5' } }}
+                        sx={{ '&:hover': { bgcolor: '#f5f5f5' }, borderBottom: '1px solid #eee' }}
                       >
-                        <TableCell sx={{ py: 1.5 }}>{client.name}</TableCell>
-                        <TableCell sx={{ py: 1.5 }}>{client.contactPerson}</TableCell>
-                        <TableCell sx={{ py: 1.5 }}>{client.email}</TableCell>
-                        <TableCell sx={{ py: 1.5 }}>{client.phone}</TableCell>
-                        <TableCell sx={{ py: 1.5 }}>{client.devicesCollected > 0 ? '45' : '32'}</TableCell>
-                        <TableCell sx={{ py: 1.5 }}>{client.totalWeight.toFixed(1)}</TableCell>
-                        <TableCell sx={{ py: 1.5 }}>
-                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <TableCell sx={{ py: 2.5, px: 2 }}>{client.name}</TableCell>
+                        <TableCell sx={{ py: 2.5, px: 2 }}>{client.contactPerson}</TableCell>
+                        <TableCell sx={{ py: 2.5, px: 2 }}>{client.email}</TableCell>
+                        <TableCell sx={{ py: 2.5, px: 2 }}>{client.phone}</TableCell>
+                        <TableCell sx={{ py: 2.5, px: 2 }}>{client.devicesCollected > 0 ? '45' : '32'}</TableCell>
+                        <TableCell sx={{ py: 2.5, px: 2 }}>{client.totalWeight.toFixed(1)}</TableCell>
+                        <TableCell sx={{ py: 2, px: 2 }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
                             <IconButton
                               size="small"
                               sx={{ 
                                 color: '#56C3C9', 
                                 border: '1px solid #e0e0e0',
                                 borderRadius: '50%',
-                                p: 0.7,
-                                mr: 0.5
+                                p: 1,
+                                mr: 0.75,
+                                width: 36,
+                                height: 36,
+                                '&:hover': {
+                                  bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                }
                               }}
                               onClick={() => handleViewClient(client.id)}
                             >
@@ -546,8 +635,13 @@ const AdminDashboard = () => {
                                 color: '#56C3C9', 
                                 border: '1px solid #e0e0e0',
                                 borderRadius: '50%',
-                                p: 0.7,
-                                mr: 0.5
+                                p: 1,
+                                mr: 0.75,
+                                width: 36,
+                                height: 36,
+                                '&:hover': {
+                                  bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                }
                               }}
                               onClick={() => handleOpenDialog(client)}
                             >
@@ -559,8 +653,13 @@ const AdminDashboard = () => {
                                 color: '#F44336', 
                                 border: '1px solid #e0e0e0',
                                 borderRadius: '50%',
-                                p: 0.7,
-                                mr: 0.5
+                                p: 1,
+                                mr: 0.75,
+                                width: 36,
+                                height: 36,
+                                '&:hover': {
+                                  bgcolor: 'rgba(244, 67, 54, 0.08)',
+                                }
                               }}
                               onClick={() => handleDeleteClient(client.id)}
                             >
@@ -576,7 +675,11 @@ const AdminDashboard = () => {
                                 textTransform: 'none',
                                 color: '#56C3C9',
                                 borderColor: '#56C3C9',
-                                fontSize: '0.75rem',
+                                fontSize: '0.8rem',
+                                whiteSpace: 'nowrap',
+                                px: 2.5,
+                                py: 0.8,
+                                height: 36,
                                 '&:hover': {
                                   borderColor: '#3dbdb5',
                                   bgcolor: 'rgba(86, 195, 201, 0.04)'
@@ -591,7 +694,7 @@ const AdminDashboard = () => {
                     ))}
                   </TableBody>
                 </Table>
-              </TableContainer>
+              </Box>
             </>
           )}
           
