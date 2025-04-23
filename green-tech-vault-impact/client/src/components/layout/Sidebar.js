@@ -5,6 +5,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import DescriptionIcon from '@mui/icons-material/Description';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EmailIcon from '@mui/icons-material/Email';
+import CampaignIcon from '@mui/icons-material/Campaign';
 import Logo from '../branding/Logo';
 import { useAuth } from '../../context/AuthContext';
 
@@ -19,6 +20,7 @@ const Sidebar = () => {
     { icon: <DescriptionIcon />, text: 'Reports', path: '/admin/reports' },
     { icon: <CalendarMonthIcon />, text: 'Calendar', path: '/admin/calendar' },
     { icon: <EmailIcon />, text: 'Messages', path: '/admin/messages' },
+    { icon: <CampaignIcon />, text: 'Announcements', path: '/admin/announcements' },
   ];
 
   const handleNavigation = (path) => {
@@ -55,42 +57,46 @@ const Sidebar = () => {
       </Box>
       
       <List sx={{ px: 2, flex: 1 }}>
-        {menuItems.map((item, index) => (
-          <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
-            <ListItemButton 
-              onClick={() => handleNavigation(item.path)}
-              selected={location.pathname === item.path}
-              sx={{ 
-                borderRadius: 1,
-                '&.Mui-selected': {
-                  background: 'rgba(255, 255, 255, 0.15)',
-                  '&:hover': {
-                    background: 'rgba(255, 255, 255, 0.2)',
-                  }
-                },
-                '&:hover': {
-                  bgcolor: 'rgba(255, 255, 255, 0.1)',
-                }
-              }}
-            >
-              <ListItemIcon sx={{ 
-                color: location.pathname === item.path ? '#ffffff' : 'rgba(255,255,255,0.7)',
-                minWidth: 40
-              }}>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText 
-                primary={item.text} 
+        {menuItems.map((item, index) => {
+          const isSelected = location.pathname === item.path;
+          return (
+            <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
+              <ListItemButton 
+                onClick={() => handleNavigation(item.path)}
+                selected={isSelected}
                 sx={{ 
-                  '& .MuiListItemText-primary': {
-                    color: location.pathname === item.path ? '#ffffff' : 'rgba(255,255,255,0.7)',
-                    fontWeight: location.pathname === item.path ? 500 : 400
+                  borderRadius: 1,
+                  backgroundColor: isSelected ? '#0F261D' : 'transparent',
+                  '&.Mui-selected': {
+                    backgroundColor: '#0F261D',
+                    '&:hover': {
+                      backgroundColor: '#0F261D',
+                    }
+                  },
+                  '&:hover': {
+                    bgcolor: isSelected ? '#0F261D' : 'rgba(255, 255, 255, 0.1)',
                   }
                 }}
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
+              >
+                <ListItemIcon sx={{ 
+                  color: isSelected ? '#ffffff' : 'rgba(255,255,255,0.7)',
+                  minWidth: 40
+                }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText 
+                  primary={item.text} 
+                  sx={{ 
+                    '& .MuiListItemText-primary': {
+                      color: isSelected ? '#ffffff' : 'rgba(255,255,255,0.7)',
+                      fontWeight: isSelected ? 500 : 400
+                    }
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
       </List>
     </Box>
   );

@@ -296,6 +296,11 @@ function App() {
             </AdminRoute>
           }>
             <Route index element={<AdminDashboard />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="reports" element={<h1>Admin Reports</h1>} />
+            <Route path="calendar" element={<h1>Admin Calendar</h1>} />
+            <Route path="messages" element={<h1>Admin Messages</h1>} />
+            <Route path="announcements" element={<h1>Admin Announcements</h1>} />
             <Route path="clients/:clientId" element={<AdminClientDetail />} />
             <Route path="pickup-calendar" element={<AdminPickupCalendar />} />
             <Route path="pickup-detail" element={<AdminPickupDetail />} />
