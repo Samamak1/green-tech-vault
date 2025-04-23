@@ -40,7 +40,7 @@ const Sidebar = () => {
       top: 0,
       left: 0,
       zIndex: 1200,
-      boxShadow: '2px 0 10px rgba(0,0,0,0.1)'
+      boxShadow: 'none'
     }}>
       <Box sx={{ 
         p: 2, 
