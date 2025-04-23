@@ -999,28 +999,38 @@ const AdminDashboard = () => {
                     onClick={() => navigate('/admin/pickup-calendar')}
                     sx={{ 
                       mr: 2, 
-                      borderRadius: '50px', 
+                      borderRadius: '8px', 
                       textTransform: 'none',
                       color: '#56C3C9',
-                      borderColor: '#56C3C9'
+                      borderColor: '#56C3C9',
+                      px: 3,
+                      py: 1.2,
+                      fontSize: '0.9rem',
+                      height: 40
                     }}
                   >
                     View Calendar
                   </Button>
                   <Button
                     variant="contained"
-                    startIcon={<AddIcon />}
+                    startIcon={null}
                     onClick={() => alert('Schedule pickup functionality would go here')}
                     sx={{ 
                       bgcolor: '#4ECDC4', 
                       '&:hover': { bgcolor: '#3dbdb5' }, 
-                      borderRadius: '50px',
-                      px: 2,
+                      borderRadius: '8px',
+                      px: 3,
+                      py: 1.2,
                       textTransform: 'none',
-                      boxShadow: 'none'
+                      boxShadow: 'none',
+                      fontSize: '0.9rem',
+                      fontWeight: 'normal',
+                      height: 40
                     }}
                   >
-                    Schedule Pickup
+                    <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+                      <AddIcon sx={{ mr: 0.5, fontSize: '1.2rem' }} /> Schedule Pickup
+                    </span>
                   </Button>
                 </Box>
               </Box>
@@ -1035,6 +1045,7 @@ const AdminDashboard = () => {
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Status</TableCell>
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Devices</TableCell>
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Weight (kg)</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -1063,6 +1074,64 @@ const AdminDashboard = () => {
                         </TableCell>
                         <TableCell sx={{ py: 1.5 }}>{pickup.devices}</TableCell>
                         <TableCell sx={{ py: 1.5 }}>{pickup.weight.toFixed(1)}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
+                            <IconButton
+                              size="small"
+                              sx={{ 
+                                color: '#56C3C9', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 1,
+                                mr: 0.75,
+                                width: 36,
+                                height: 36,
+                                '&:hover': {
+                                  bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                }
+                              }}
+                              onClick={() => alert(`View pickup ${pickup.id}`)}
+                            >
+                              <EyeIcon fontSize="small" />
+                            </IconButton>
+                            <IconButton
+                              size="small"
+                              sx={{ 
+                                color: '#56C3C9', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 1,
+                                mr: 0.75,
+                                width: 36,
+                                height: 36,
+                                '&:hover': {
+                                  bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                }
+                              }}
+                              onClick={() => alert(`Edit pickup ${pickup.id}`)}
+                            >
+                              <EditIcon fontSize="small" />
+                            </IconButton>
+                            <IconButton
+                              size="small"
+                              sx={{ 
+                                color: '#F44336', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 1,
+                                mr: 0.75,
+                                width: 36,
+                                height: 36,
+                                '&:hover': {
+                                  bgcolor: 'rgba(244, 67, 54, 0.08)',
+                                }
+                              }}
+                              onClick={() => alert(`Delete pickup ${pickup.id}`)}
+                            >
+                              <DeleteIcon fontSize="small" />
+                            </IconButton>
+                          </Box>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
