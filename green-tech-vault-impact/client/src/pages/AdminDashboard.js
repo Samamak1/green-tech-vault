@@ -438,42 +438,43 @@ const AdminDashboard = () => {
           </Grid>
         </Grid>
         
+        {/* Tab navigation - outside the Paper component */}
+        <Box sx={{ borderBottom: 1, borderColor: '#e0e0e0', mb: 3 }}>
+          <Tabs 
+            value={tabValue} 
+            onChange={handleTabChange} 
+            aria-label="admin tabs"
+            sx={{
+              '& .MuiTab-root': {
+                textTransform: 'none',
+                fontSize: '16px',
+                fontWeight: 'normal',
+                color: '#666',
+                mx: 1,
+                '&.Mui-selected': {
+                  color: '#4ECDC4',
+                  fontWeight: 'medium',
+                }
+              },
+              '& .MuiTabs-indicator': {
+                backgroundColor: '#4ECDC4',
+                height: 3
+              }
+            }}
+          >
+            <Tab label="Clients" />
+            <Tab label="Devices" />
+            <Tab label="Pickups" />
+          </Tabs>
+        </Box>
+
+        {/* Content in Paper - separate from tabs */}
         <Paper sx={{ 
           p: 3, 
           borderRadius: '8px', 
           boxShadow: '0px 2px 4px rgba(0,0,0,0.05)',
           mb: 4
         }}>
-          {/* Tab navigation */}
-          <Box sx={{ borderBottom: 1, borderColor: '#e0e0e0', mb: 3 }}>
-            <Tabs 
-              value={tabValue} 
-              onChange={handleTabChange} 
-              aria-label="admin tabs"
-              sx={{
-                '& .MuiTab-root': {
-                  textTransform: 'none',
-                  fontSize: '16px',
-                  fontWeight: 'normal',
-                  color: '#666',
-                  mx: 1,
-                  '&.Mui-selected': {
-                    color: '#4ECDC4',
-                    fontWeight: 'medium',
-                  }
-                },
-                '& .MuiTabs-indicator': {
-                  backgroundColor: '#4ECDC4',
-                  height: 3
-                }
-              }}
-            >
-              <Tab label="Clients" />
-              <Tab label="Devices" />
-              <Tab label="Pickups" />
-            </Tabs>
-          </Box>
-
           {/* Clients Tab */}
           {tabValue === 0 && (
             <>
