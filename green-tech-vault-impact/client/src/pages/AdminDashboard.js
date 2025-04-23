@@ -24,14 +24,17 @@ import {
   IconButton,
   Tabs,
   Tab,
-  Chip
+  Chip,
+  InputBase
 } from '@mui/material';
 import {
   Add as AddIcon,
   Edit as EditIcon,
   Delete as DeleteIcon,
   Visibility as VisibilityIcon,
-  RemoveRedEye as EyeIcon
+  RemoveRedEye as EyeIcon,
+  Search as SearchIcon,
+  FilterList as FilterListIcon
 } from '@mui/icons-material';
 import { dashboardAPI, companyAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -489,7 +492,7 @@ const AdminDashboard = () => {
                   sx={{ 
                     bgcolor: '#4ECDC4', 
                     '&:hover': { bgcolor: '#3dbdb5' }, 
-                    borderRadius: '50px',
+                    borderRadius: '8px',
                     px: 3,
                     py: 1.2,
                     textTransform: 'none',
@@ -702,54 +705,273 @@ const AdminDashboard = () => {
           {tabValue === 1 && (
             <>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h6" sx={{ fontWeight: 'medium', color: '#333' }}>
+                <Typography variant="h6" sx={{ fontWeight: '500', color: '#333', fontSize: '1.1rem' }}>
                   All Devices
                 </Typography>
+                <Button
+                  variant="contained"
+                  startIcon={null}
+                  onClick={() => alert('Add device functionality would go here')}
+                  sx={{ 
+                    bgcolor: '#4ECDC4', 
+                    '&:hover': { bgcolor: '#3dbdb5' }, 
+                    borderRadius: '8px',
+                    px: 3,
+                    py: 1.2,
+                    textTransform: 'none',
+                    boxShadow: 'none',
+                    fontSize: '0.9rem',
+                    fontWeight: 'normal',
+                    height: 40
+                  }}
+                >
+                  <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+                    <AddIcon sx={{ mr: 0.5, fontSize: '1.2rem' }} /> Add Device
+                  </span>
+                </Button>
               </Box>
               
-              <TableContainer sx={{ boxShadow: 'none', borderRadius: '8px' }}>
-                <Table>
+              {/* Processing Status Bar */}
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="body2" sx={{ mb: 1, color: '#666', fontSize: '0.85rem' }}>
+                  Processing Status: 42% (512 devices processed)
+                </Typography>
+                <Box sx={{ width: '100%', height: 8, bgcolor: '#f0f0f0', borderRadius: 4, overflow: 'hidden' }}>
+                  <Box sx={{ width: '42%', height: '100%', bgcolor: '#4ECDC4', borderRadius: 4 }}></Box>
+                </Box>
+              </Box>
+              
+              {/* Search and Filter Row */}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
+                <Box sx={{ 
+                  display: 'flex',
+                  alignItems: 'center',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '4px',
+                  width: 220,
+                  px: 2,
+                  py: 0.5
+                }}>
+                  <SearchIcon sx={{ color: '#aaa', fontSize: '1.2rem', mr: 1 }} />
+                  <InputBase placeholder="Search devices" sx={{ fontSize: '0.9rem' }} />
+                </Box>
+                
+                <Button
+                  variant="outlined"
+                  startIcon={null}
+                  sx={{
+                    border: '1px solid #e0e0e0',
+                    color: '#666',
+                    textTransform: 'none',
+                    borderRadius: '4px',
+                    '&:hover': {
+                      border: '1px solid #ccc',
+                      bgcolor: '#f9f9f9'
+                    }
+                  }}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    Filter
+                    <Box component="span" sx={{ 
+                      display: 'inline-flex', 
+                      ml: 1,
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '4px',
+                      p: 0.5
+                    }}>
+                      <FilterListIcon sx={{ fontSize: '1rem' }} />
+                    </Box>
+                  </Box>
+                </Button>
+              </Box>
+              
+              <Box sx={{ 
+                overflowX: 'auto',
+                '&::-webkit-scrollbar': {
+                  height: 8,
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  backgroundColor: '#e0e0e0',
+                  borderRadius: 4,
+                }
+              }}>
+                <Table size="medium" sx={{ minWidth: 1100 }}>
                   <TableHead>
                     <TableRow sx={{ bgcolor: '#f9f9f9' }}>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Client</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Type</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Manufacturer</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Model</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Serial Number</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Status</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Weight (kg)</TableCell>
+                      <TableCell sx={{ 
+                        fontWeight: '500', 
+                        color: '#555', 
+                        py: 2.2,
+                        px: 2,
+                        whiteSpace: 'nowrap',
+                        width: '15%',
+                        borderBottom: '1px solid #eee'
+                      }}>
+                        Type
+                      </TableCell>
+                      <TableCell sx={{ 
+                        fontWeight: '500', 
+                        color: '#555', 
+                        py: 2.2,
+                        px: 2,
+                        whiteSpace: 'nowrap',
+                        width: '15%',
+                        borderBottom: '1px solid #eee'
+                      }}>
+                        Manufacturer
+                      </TableCell>
+                      <TableCell sx={{ 
+                        fontWeight: '500', 
+                        color: '#555', 
+                        py: 2.2,
+                        px: 2,
+                        whiteSpace: 'nowrap',
+                        width: '15%',
+                        borderBottom: '1px solid #eee'
+                      }}>
+                        Model
+                      </TableCell>
+                      <TableCell sx={{ 
+                        fontWeight: '500', 
+                        color: '#555', 
+                        py: 2.2,
+                        px: 2,
+                        whiteSpace: 'nowrap',
+                        width: '20%',
+                        borderBottom: '1px solid #eee'
+                      }}>
+                        Serial Number
+                      </TableCell>
+                      <TableCell sx={{ 
+                        fontWeight: '500', 
+                        color: '#555', 
+                        py: 2.2,
+                        px: 2,
+                        whiteSpace: 'nowrap',
+                        width: '15%',
+                        borderBottom: '1px solid #eee'
+                      }}>
+                        Status
+                      </TableCell>
+                      <TableCell sx={{ 
+                        fontWeight: '500', 
+                        color: '#555', 
+                        py: 2.2,
+                        px: 2,
+                        whiteSpace: 'nowrap',
+                        width: '10%',
+                        borderBottom: '1px solid #eee'
+                      }}>
+                        Weight (kg)
+                      </TableCell>
+                      <TableCell sx={{ 
+                        fontWeight: '500', 
+                        color: '#555', 
+                        py: 2.2,
+                        px: 2,
+                        whiteSpace: 'nowrap',
+                        width: '10%',
+                        borderBottom: '1px solid #eee'
+                      }}>
+                        Actions
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {devices.map((device) => (
-                      <TableRow key={device.id} hover sx={{ '&:hover': { bgcolor: '#f5f5f5' } }}>
-                        <TableCell sx={{ py: 1.5 }}>{device.clientName}</TableCell>
-                        <TableCell sx={{ py: 1.5 }}>{device.type}</TableCell>
-                        <TableCell sx={{ py: 1.5 }}>{device.manufacturer}</TableCell>
-                        <TableCell sx={{ py: 1.5 }}>{device.model}</TableCell>
-                        <TableCell sx={{ py: 1.5 }}>{device.serialNumber}</TableCell>
-                        <TableCell sx={{ py: 1.5 }}>
-                          <Chip 
-                            label={device.status} 
-                            color={
-                              device.status === 'Refurbished' ? 'success' :
-                              device.status === 'Recycled' ? 'primary' :
-                              'default'
-                            }
-                            size="small"
-                            sx={{ 
-                              bgcolor: device.status === 'Refurbished' ? '#e3f7f5' : '#e3f2ff',
-                              color: device.status === 'Refurbished' ? '#4ECDC4' : '#2196f3',
-                              border: 'none'
-                            }}
-                          />
-                        </TableCell>
-                        <TableCell sx={{ py: 1.5 }}>{device.weight.toFixed(1)}</TableCell>
-                      </TableRow>
-                    ))}
+                    {devices.map((device) => {
+                      // Status styling based on status
+                      const getStatusStyle = (status) => {
+                        switch(status) {
+                          case 'Refurbished':
+                            return { bgcolor: '#4ECDC4', color: 'white' };
+                          case 'Recycled':
+                            return { bgcolor: '#4ECDA4', color: 'white' };
+                          case 'In Processing':
+                            return { bgcolor: '#FDA458', color: 'white' };
+                          case 'Received':
+                            return { bgcolor: '#5D7CE5', color: 'white' };
+                          case 'Disposed':
+                            return { bgcolor: '#E45858', color: 'white' };
+                          default:
+                            return { bgcolor: '#4ECDC4', color: 'white' };
+                        }
+                      };
+
+                      // Randomly assign statuses for demo
+                      const statuses = ['Refurbished', 'Recycled', 'In Processing', 'Received', 'Disposed'];
+                      const randomStatus = device.id % 5 === 0 ? 'Disposed' : 
+                                           device.id % 4 === 0 ? 'Received' : 
+                                           device.id % 3 === 0 ? 'In Processing' : 
+                                           device.id % 2 === 0 ? 'Recycled' : 'Refurbished';
+                      
+                      return (
+                        <TableRow key={device.id} hover sx={{ '&:hover': { bgcolor: '#f5f5f5' }, borderBottom: '1px solid #eee' }}>
+                          <TableCell sx={{ py: 2.5, px: 2 }}>{device.type}</TableCell>
+                          <TableCell sx={{ py: 2.5, px: 2 }}>{device.manufacturer}</TableCell>
+                          <TableCell sx={{ py: 2.5, px: 2 }}>{device.model}</TableCell>
+                          <TableCell sx={{ py: 2.5, px: 2 }}>{device.serialNumber}</TableCell>
+                          <TableCell sx={{ py: 2.5, px: 2 }}>
+                            <Chip 
+                              label={device.status} 
+                              size="small"
+                              sx={{ 
+                                ...getStatusStyle(device.status),
+                                borderRadius: '4px',
+                                px: 1,
+                                height: 28,
+                                '& .MuiChip-label': {
+                                  px: 1
+                                }
+                              }}
+                            />
+                          </TableCell>
+                          <TableCell sx={{ py: 2.5, px: 2 }}>{device.weight.toFixed(1)}</TableCell>
+                          <TableCell sx={{ py: 2, px: 2 }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
+                              <IconButton
+                                size="small"
+                                sx={{ 
+                                  color: '#56C3C9', 
+                                  border: '1px solid #e0e0e0',
+                                  borderRadius: '50%',
+                                  p: 1,
+                                  mr: 0.75,
+                                  width: 36,
+                                  height: 36,
+                                  '&:hover': {
+                                    bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                  }
+                                }}
+                                onClick={() => alert(`Edit device ${device.id}`)}
+                              >
+                                <EditIcon fontSize="small" />
+                              </IconButton>
+                              <IconButton
+                                size="small"
+                                sx={{ 
+                                  color: '#F44336', 
+                                  border: '1px solid #e0e0e0',
+                                  borderRadius: '50%',
+                                  p: 1,
+                                  mr: 0.75,
+                                  width: 36,
+                                  height: 36,
+                                  '&:hover': {
+                                    bgcolor: 'rgba(244, 67, 54, 0.08)',
+                                  }
+                                }}
+                                onClick={() => alert(`Delete device ${device.id}`)}
+                              >
+                                <DeleteIcon fontSize="small" />
+                              </IconButton>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
                   </TableBody>
                 </Table>
-              </TableContainer>
+              </Box>
             </>
           )}
           
