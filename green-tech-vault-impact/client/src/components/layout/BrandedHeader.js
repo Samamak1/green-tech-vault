@@ -8,7 +8,11 @@ const BrandedHeader = ({ userName = "Anna Katrina Marchesi", userRole = "Head of
   const theme = useTheme();
   
   return (
-    <AppBar position="static" sx={{ bgcolor: '#1e1e1e', boxShadow: 'none', borderBottom: '1px solid rgba(255,255,255,0.1)' }} elevation={0}>
+    <AppBar position="static" sx={{ 
+      bgcolor: '#1e1e1e', 
+      boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07), 0px 1px 10px 0px rgba(0,0,0,0.06)', 
+      borderBottom: '1px solid rgba(255,255,255,0.1)' 
+    }} elevation={0}>
       <Toolbar>
         <Container maxWidth="xl" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', py: 1 }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
