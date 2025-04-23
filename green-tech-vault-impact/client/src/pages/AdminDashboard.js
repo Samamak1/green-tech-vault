@@ -30,7 +30,8 @@ import {
   Add as AddIcon,
   Edit as EditIcon,
   Delete as DeleteIcon,
-  Visibility as VisibilityIcon
+  Visibility as VisibilityIcon,
+  RemoveRedEye as EyeIcon
 } from '@mui/icons-material';
 import { dashboardAPI, companyAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -437,230 +438,302 @@ const AdminDashboard = () => {
           </Grid>
         </Grid>
         
-        <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
-          <Tabs value={tabValue} onChange={handleTabChange} aria-label="admin tabs">
-            <Tab label="Clients" />
-            <Tab label="Devices" />
-            <Tab label="Pickups" />
-          </Tabs>
-        </Box>
-        
-        {/* Clients Tab */}
-        {tabValue === 0 && (
-          <>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-              <Typography variant="h5">
-                Clients
-              </Typography>
-              <Button
-                variant="contained"
-                startIcon={<AddIcon />}
-                onClick={() => handleOpenDialog()}
-              >
-                Add Client
-              </Button>
-            </Box>
-            
-            <Alert severity="info" sx={{ mb: 2 }}>
-              Click on any client row to view detailed information and manage their devices.
-            </Alert>
-            
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Company Name</TableCell>
-                    <TableCell>Contact Person</TableCell>
-                    <TableCell>Email</TableCell>
-                    <TableCell>Phone</TableCell>
-                    <TableCell align="right">Devices Collected</TableCell>
-                    <TableCell align="right">Total Weight (kg)</TableCell>
-                    <TableCell align="right">Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {clients.map((client) => (
-                    <TableRow 
-                      key={client.id}
-                      hover
-                      sx={{ cursor: 'pointer' }}
-                      onClick={() => handleViewClient(client.id)}
-                    >
-                      <TableCell>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          {client.name}
-                          <Typography variant="caption" color="primary" sx={{ ml: 1 }}>
-                            (Click to view details)
-                          </Typography>
-                        </Box>
-                      </TableCell>
-                      <TableCell>{client.contactPerson}</TableCell>
-                      <TableCell>{client.email}</TableCell>
-                      <TableCell>{client.phone}</TableCell>
-                      <TableCell align="right">{client.devicesCollected}</TableCell>
-                      <TableCell align="right">{client.totalWeight.toFixed(1)}</TableCell>
-                      <TableCell align="right">
-                        <IconButton
-                          size="small"
-                          color="primary"
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent row click event
-                            handleViewClient(client.id);
-                          }}
-                        >
-                          <VisibilityIcon />
-                        </IconButton>
-                        <IconButton
-                          size="small"
-                          color="primary"
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent row click event
-                            handleOpenDialog(client);
-                          }}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          size="small"
-                          color="error"
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent row click event
-                            handleDeleteClient(client.id);
-                          }}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent row click event
-                            handleAddPickup(client.id);
-                          }}
-                          sx={{ ml: 1 }}
-                        >
-                          Schedule Pickup
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </>
-        )}
-        
-        {/* Devices Tab */}
-        {tabValue === 1 && (
-          <>
-            <Typography variant="h5" gutterBottom>
-              All Devices
-            </Typography>
-            
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Client</TableCell>
-                    <TableCell>Type</TableCell>
-                    <TableCell>Manufacturer</TableCell>
-                    <TableCell>Model</TableCell>
-                    <TableCell>Serial Number</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell align="right">Weight (kg)</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {devices.map((device) => (
-                    <TableRow key={device.id}>
-                      <TableCell>{device.clientName}</TableCell>
-                      <TableCell>{device.type}</TableCell>
-                      <TableCell>{device.manufacturer}</TableCell>
-                      <TableCell>{device.model}</TableCell>
-                      <TableCell>{device.serialNumber}</TableCell>
-                      <TableCell>
-                        <Chip 
-                          label={device.status} 
-                          color={
-                            device.status === 'Refurbished' ? 'success' :
-                            device.status === 'Recycled' ? 'primary' :
-                            'default'
-                          }
-                          size="small"
-                        />
-                      </TableCell>
-                      <TableCell align="right">{device.weight.toFixed(1)}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </>
-        )}
-        
-        {/* Pickups Tab */}
-        {tabValue === 2 && (
-          <>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-              <Typography variant="h5">
-                All Pickups
-              </Typography>
-              <Box>
-                <Button
-                  variant="outlined"
-                  onClick={() => navigate('/admin/pickup-calendar')}
-                  sx={{ mr: 2 }}
-                >
-                  View Calendar
-                </Button>
+        <Paper sx={{ 
+          p: 3, 
+          borderRadius: '8px', 
+          boxShadow: '0px 2px 4px rgba(0,0,0,0.05)',
+          mb: 4
+        }}>
+          {/* Tab navigation */}
+          <Box sx={{ borderBottom: 1, borderColor: '#e0e0e0', mb: 3 }}>
+            <Tabs 
+              value={tabValue} 
+              onChange={handleTabChange} 
+              aria-label="admin tabs"
+              sx={{
+                '& .MuiTab-root': {
+                  textTransform: 'none',
+                  fontSize: '16px',
+                  fontWeight: 'normal',
+                  color: '#666',
+                  mx: 1,
+                  '&.Mui-selected': {
+                    color: '#4ECDC4',
+                    fontWeight: 'medium',
+                  }
+                },
+                '& .MuiTabs-indicator': {
+                  backgroundColor: '#4ECDC4',
+                  height: 3
+                }
+              }}
+            >
+              <Tab label="Clients" />
+              <Tab label="Devices" />
+              <Tab label="Pickups" />
+            </Tabs>
+          </Box>
+
+          {/* Clients Tab */}
+          {tabValue === 0 && (
+            <>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: 'medium', color: '#333' }}>
+                  Clients
+                </Typography>
                 <Button
                   variant="contained"
                   startIcon={<AddIcon />}
-                  onClick={() => alert('Schedule pickup functionality would go here')}
+                  onClick={() => handleOpenDialog()}
+                  sx={{ 
+                    bgcolor: '#4ECDC4', 
+                    '&:hover': { bgcolor: '#3dbdb5' }, 
+                    borderRadius: '50px',
+                    px: 2,
+                    textTransform: 'none',
+                    boxShadow: 'none'
+                  }}
                 >
-                  Schedule Pickup
+                  + Add Client
                 </Button>
               </Box>
-            </Box>
-            
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Client</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Location</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell align="right">Devices</TableCell>
-                    <TableCell align="right">Weight (kg)</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {pickups.map((pickup) => (
-                    <TableRow key={pickup.id}>
-                      <TableCell>{pickup.clientName}</TableCell>
-                      <TableCell>{pickup.date}</TableCell>
-                      <TableCell>{pickup.location}</TableCell>
-                      <TableCell>
-                        <Chip 
-                          label={pickup.status} 
-                          color={
-                            pickup.status === 'completed' ? 'success' :
-                            pickup.status === 'in-progress' ? 'warning' :
-                            'info'
-                          }
-                          size="small"
-                        />
-                      </TableCell>
-                      <TableCell align="right">{pickup.devices}</TableCell>
-                      <TableCell align="right">{pickup.weight.toFixed(1)}</TableCell>
+              
+              <TableContainer sx={{ boxShadow: 'none', borderRadius: '8px' }}>
+                <Table>
+                  <TableHead>
+                    <TableRow sx={{ bgcolor: '#f9f9f9' }}>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Company Name</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Contact Person</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Email</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Phone</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Status</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Weight (kg)</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Actions</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </>
-        )}
+                  </TableHead>
+                  <TableBody>
+                    {clients.map((client) => (
+                      <TableRow 
+                        key={client.id}
+                        hover
+                        sx={{ '&:hover': { bgcolor: '#f5f5f5' } }}
+                      >
+                        <TableCell sx={{ py: 1.5 }}>{client.name}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{client.contactPerson}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{client.email}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{client.phone}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{client.devicesCollected > 0 ? '45' : '32'}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{client.totalWeight.toFixed(1)}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <IconButton
+                              size="small"
+                              sx={{ 
+                                color: '#56C3C9', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 0.7,
+                                mr: 0.5
+                              }}
+                              onClick={() => handleViewClient(client.id)}
+                            >
+                              <EyeIcon fontSize="small" />
+                            </IconButton>
+                            <IconButton
+                              size="small"
+                              sx={{ 
+                                color: '#56C3C9', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 0.7,
+                                mr: 0.5
+                              }}
+                              onClick={() => handleOpenDialog(client)}
+                            >
+                              <EditIcon fontSize="small" />
+                            </IconButton>
+                            <IconButton
+                              size="small"
+                              sx={{ 
+                                color: '#F44336', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 0.7,
+                                mr: 0.5
+                              }}
+                              onClick={() => handleDeleteClient(client.id)}
+                            >
+                              <DeleteIcon fontSize="small" />
+                            </IconButton>
+                            <Button
+                              size="small"
+                              variant="outlined"
+                              onClick={() => handleAddPickup(client.id)}
+                              sx={{ 
+                                ml: 1, 
+                                borderRadius: '50px', 
+                                textTransform: 'none',
+                                color: '#56C3C9',
+                                borderColor: '#56C3C9',
+                                fontSize: '0.75rem',
+                                '&:hover': {
+                                  borderColor: '#3dbdb5',
+                                  bgcolor: 'rgba(86, 195, 201, 0.04)'
+                                }
+                              }}
+                            >
+                              Schedule Pickup
+                            </Button>
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </>
+          )}
+          
+          {/* Devices Tab */}
+          {tabValue === 1 && (
+            <>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: 'medium', color: '#333' }}>
+                  All Devices
+                </Typography>
+              </Box>
+              
+              <TableContainer sx={{ boxShadow: 'none', borderRadius: '8px' }}>
+                <Table>
+                  <TableHead>
+                    <TableRow sx={{ bgcolor: '#f9f9f9' }}>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Client</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Type</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Manufacturer</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Model</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Serial Number</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Status</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Weight (kg)</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {devices.map((device) => (
+                      <TableRow key={device.id} hover sx={{ '&:hover': { bgcolor: '#f5f5f5' } }}>
+                        <TableCell sx={{ py: 1.5 }}>{device.clientName}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{device.type}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{device.manufacturer}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{device.model}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{device.serialNumber}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>
+                          <Chip 
+                            label={device.status} 
+                            color={
+                              device.status === 'Refurbished' ? 'success' :
+                              device.status === 'Recycled' ? 'primary' :
+                              'default'
+                            }
+                            size="small"
+                            sx={{ 
+                              bgcolor: device.status === 'Refurbished' ? '#e3f7f5' : '#e3f2ff',
+                              color: device.status === 'Refurbished' ? '#4ECDC4' : '#2196f3',
+                              border: 'none'
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{device.weight.toFixed(1)}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </>
+          )}
+          
+          {/* Pickups Tab */}
+          {tabValue === 2 && (
+            <>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: 'medium', color: '#333' }}>
+                  All Pickups
+                </Typography>
+                <Box>
+                  <Button
+                    variant="outlined"
+                    onClick={() => navigate('/admin/pickup-calendar')}
+                    sx={{ 
+                      mr: 2, 
+                      borderRadius: '50px', 
+                      textTransform: 'none',
+                      color: '#56C3C9',
+                      borderColor: '#56C3C9'
+                    }}
+                  >
+                    View Calendar
+                  </Button>
+                  <Button
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    onClick={() => alert('Schedule pickup functionality would go here')}
+                    sx={{ 
+                      bgcolor: '#4ECDC4', 
+                      '&:hover': { bgcolor: '#3dbdb5' }, 
+                      borderRadius: '50px',
+                      px: 2,
+                      textTransform: 'none',
+                      boxShadow: 'none'
+                    }}
+                  >
+                    Schedule Pickup
+                  </Button>
+                </Box>
+              </Box>
+              
+              <TableContainer sx={{ boxShadow: 'none', borderRadius: '8px' }}>
+                <Table>
+                  <TableHead>
+                    <TableRow sx={{ bgcolor: '#f9f9f9' }}>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Client</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Date</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Location</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Status</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Devices</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Weight (kg)</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {pickups.map((pickup) => (
+                      <TableRow key={pickup.id} hover sx={{ '&:hover': { bgcolor: '#f5f5f5' } }}>
+                        <TableCell sx={{ py: 1.5 }}>{pickup.clientName}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{pickup.date}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{pickup.location}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>
+                          <Chip 
+                            label={pickup.status} 
+                            size="small"
+                            sx={{ 
+                              bgcolor: 
+                                pickup.status === 'completed' ? '#e3f7f5' :
+                                pickup.status === 'in-progress' ? '#fff8e0' :
+                                '#e3f2ff',
+                              color: 
+                                pickup.status === 'completed' ? '#4ECDC4' :
+                                pickup.status === 'in-progress' ? '#ffa000' :
+                                '#2196f3',
+                              borderRadius: '50px',
+                              textTransform: 'capitalize'
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{pickup.devices}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{pickup.weight.toFixed(1)}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </>
+          )}
+        </Paper>
         
         {/* Client Dialog */}
         <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
