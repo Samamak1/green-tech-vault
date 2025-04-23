@@ -580,7 +580,6 @@ const AdminDashboard = () => {
                         color: '#555', 
                         py: 2.2,
                         px: 2,
-                        whiteSpace: 'nowrap',
                         width: '10%',
                         borderBottom: '1px solid #eee'
                       }}>
@@ -804,7 +803,18 @@ const AdminDashboard = () => {
                         py: 2.2,
                         px: 2,
                         whiteSpace: 'nowrap',
-                        width: '15%',
+                        width: '12%',
+                        borderBottom: '1px solid #eee'
+                      }}>
+                        Client
+                      </TableCell>
+                      <TableCell sx={{ 
+                        fontWeight: '500', 
+                        color: '#555', 
+                        py: 2.2,
+                        px: 2,
+                        whiteSpace: 'nowrap',
+                        width: '13%',
                         borderBottom: '1px solid #eee'
                       }}>
                         Type
@@ -906,6 +916,7 @@ const AdminDashboard = () => {
                       
                       return (
                         <TableRow key={device.id} hover sx={{ '&:hover': { bgcolor: '#f5f5f5' }, borderBottom: '1px solid #eee' }}>
+                          <TableCell sx={{ py: 2.5, px: 2 }}>{device.clientName}</TableCell>
                           <TableCell sx={{ py: 2.5, px: 2 }}>{device.type}</TableCell>
                           <TableCell sx={{ py: 2.5, px: 2 }}>{device.manufacturer}</TableCell>
                           <TableCell sx={{ py: 2.5, px: 2 }}>{device.model}</TableCell>
