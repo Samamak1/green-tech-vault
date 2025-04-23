@@ -1210,7 +1210,8 @@ const AdminDashboard = () => {
           sx={{
             '& .MuiPopover-paper': {
               p: 3,
-              minWidth: 350,
+              width: 450,
+              maxWidth: '90vw',
               borderRadius: 2,
               boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.15)',
             }
@@ -1225,9 +1226,18 @@ const AdminDashboard = () => {
           </Typography>
           
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-            {deleteType === 'Client' && 'contact person, email, phone, status, weight (kg)'}
-            {deleteType === 'Device' && 'type, manufacturer, serial number, status'}
-            {deleteType === 'Pickup' && 'date, location, status, devices'}
+            {deleteType === 'Client' && deleteItemId && (() => {
+              const client = clients.find(c => c.id === deleteItemId);
+              return `${client.contactPerson}, ${client.email}, ${client.phone}, ${client.devicesCollected > 0 ? '45' : '32'}, ${client.totalWeight.toFixed(1)} kg`;
+            })()}
+            {deleteType === 'Device' && deleteItemId && (() => {
+              const device = devices.find(d => d.id === deleteItemId);
+              return `${device.type}, ${device.manufacturer}, ${device.serialNumber}, ${device.status}`;
+            })()}
+            {deleteType === 'Pickup' && deleteItemId && (() => {
+              const pickup = pickups.find(p => p.id === deleteItemId);
+              return `${pickup.date}, ${pickup.location}, ${pickup.status}, ${pickup.devices} devices`;
+            })()}
           </Typography>
           
           <Typography variant="body2" sx={{ mb: 3 }}>
