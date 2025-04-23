@@ -217,13 +217,33 @@ const AdminHeader = () => {
         sx={{ 
           bgcolor: 'white', 
           color: 'black',
-          boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07), 0px 1px 10px 0px rgba(0,0,0,0.06)',
-          borderBottom: 'none',
+          // No shadow at the bottom
+          boxShadow: 'none',
+          // White border at the bottom
+          borderBottom: '4px solid white',
           minHeight: '64px',
-          mb: '-1px'
+          mb: '-1px',
+          position: 'relative'
         }}
       >
-        <Toolbar sx={{ bgcolor: 'white' }}>
+        <Toolbar sx={{ 
+          bgcolor: 'white', 
+          height: '66px', 
+          mb: '-2px',
+          overflow: 'visible'
+        }}>
+          {/* White bar to cover any potential black line */}
+          <Box 
+            sx={{
+              position: 'absolute',
+              bottom: -1,
+              left: 0,
+              right: 0,
+              height: '2px',
+              bgcolor: 'white',
+              zIndex: 10
+            }}
+          />
           <Box
             sx={{ 
               height: 40,
