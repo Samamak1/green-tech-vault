@@ -14,7 +14,7 @@ import {
   ListItemIcon
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { styled, alpha } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import PersonIcon from '@mui/icons-material/Person';
@@ -29,21 +29,13 @@ import Logo from '../branding/Logo';
 // Styled search component
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
+  borderRadius: 20,
+  backgroundColor: '#f5f5f5',
+  border: '1px solid #e0e0e0',
   width: '100%',
   maxWidth: '400px',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-  border: '1px solid #ddd',
-  borderRadius: '4px',
+  display: 'flex',
+  alignItems: 'center'
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -54,18 +46,18 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: 'gray',
+  color: '#757575',
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
+  color: '#333333',
   width: '100%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
+    height: '20px',
   },
 }));
 
@@ -82,9 +74,7 @@ const AdminHeader = () => {
 
   const handleSearchSubmit = (e) => {
     if (e.key === 'Enter') {
-      // Implement search functionality
       console.log('Searching for:', searchQuery);
-      // You would typically navigate to search results or filter the current view
     }
   };
 
@@ -103,8 +93,8 @@ const AdminHeader = () => {
   };
 
   const isMenuOpen = Boolean(anchorEl);
-
   const menuId = 'primary-admin-account-menu';
+  
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -211,85 +201,61 @@ const AdminHeader = () => {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar 
-        position="fixed" 
-        sx={{ 
-          bgcolor: 'white', 
-          color: 'black',
-          // No shadow at the bottom
-          boxShadow: 'none',
-          // White border at the bottom
-          borderBottom: '4px solid white',
-          minHeight: '64px',
-          mb: '-1px',
-          position: 'relative'
-        }}
-      >
-        <Toolbar sx={{ 
-          bgcolor: 'white', 
-          height: '66px', 
-          mb: '-2px',
-          overflow: 'visible'
-        }}>
-          {/* White bar to cover any potential black line */}
-          <Box 
-            sx={{
-              position: 'absolute',
-              bottom: -1,
-              left: 0,
-              right: 0,
-              height: '2px',
-              bgcolor: 'white',
-              zIndex: 10
-            }}
-          />
-          <Box
-            sx={{ 
-              height: 40,
-              width: 40,
-              mr: 1,
-              display: { xs: 'none', sm: 'block' } 
-            }}
-          >
-            <Logo size="small" variant="admin" />
+    <AppBar 
+      position="fixed" 
+      sx={{ 
+        backgroundColor: 'white',
+        color: 'black',
+        boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07), 0px 1px 10px 0px rgba(0,0,0,0.06)',
+        height: '64px',
+        zIndex: 1300
+      }}
+    >
+      <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+          {/* Left side - Logo */}
+          <Box sx={{ display: 'flex', alignItems: 'center', mr: 4 }}>
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+              <Logo size="small" variant="admin" />
+            </Box>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ 
+                display: { xs: 'none', md: 'block' },
+                color: '#1C392B',
+                fontWeight: 'bold',
+                ml: 1
+              }}
+            >
+              EcoCycle Solutions
+            </Typography>
           </Box>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ 
-              display: { xs: 'none', sm: 'block' },
-              color: '#1C392B',
-              fontWeight: 'bold',
-              mr: 2
-            }}
-          >
-            Green Tech Vault Admin
-          </Typography>
-          
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search here"
-              inputProps={{ 'aria-label': 'search' }}
-              value={searchQuery}
-              onChange={handleSearchChange}
-              onKeyPress={handleSearchSubmit}
-            />
-          </Search>
-          
-          <Box sx={{ flexGrow: 1 }} />
-          
+
+          {/* Center - Search */}
+          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search here"
+                inputProps={{ 'aria-label': 'search' }}
+                value={searchQuery}
+                onChange={handleSearchChange}
+                onKeyPress={handleSearchSubmit}
+              />
+            </Search>
+          </Box>
+
+          {/* Right side - User info */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'flex-end',
               mr: 1,
-              display: { xs: 'none', sm: 'flex' }
+              display: { xs: 'none', md: 'flex' },
+              flexDirection: 'column',
+              alignItems: 'flex-end',
             }}>
               <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
                 Full Name
@@ -299,28 +265,25 @@ const AdminHeader = () => {
               </Typography>
             </Box>
             
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
+            <Avatar
+              onClick={handleProfileMenuOpen}
               aria-controls={menuId}
               aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
               sx={{ 
-                ml: 1,
-                border: '1px solid #ddd', 
-                borderRadius: '50%', 
-                p: 0.5
+                cursor: 'pointer',
+                bgcolor: '#f5f5f5',
+                color: '#333',
+                width: 36,
+                height: 36
               }}
             >
-              <Avatar sx={{ bgcolor: '#f5f5f5', color: '#333' }}>
-                <PersonIcon />
-              </Avatar>
-            </IconButton>
+              <PersonIcon fontSize="small" />
+            </Avatar>
           </Box>
-        </Toolbar>
-      </AppBar>
+        </Box>
+      </Toolbar>
       {renderMenu}
-    </Box>
+    </AppBar>
   );
 };
 
