@@ -25,7 +25,8 @@ import {
   Tabs,
   Tab,
   Chip,
-  InputBase
+  InputBase,
+  Popover
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -56,6 +57,11 @@ const AdminDashboard = () => {
     phone: '',
     address: ''
   });
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteType, setDeleteType] = useState('');
+  const [deleteItemId, setDeleteItemId] = useState(null);
+  const [deleteItemName, setDeleteItemName] = useState('');
+  const [deleteAnchorEl, setDeleteAnchorEl] = useState(null);
   
   const navigate = useNavigate();
 
@@ -249,10 +255,59 @@ const AdminDashboard = () => {
     handleCloseDialog();
   };
 
-  const handleDeleteClient = (clientId) => {
-    // In a real implementation, this would make an API call
-    const updatedClients = clients.filter(client => client.id !== clientId);
-    setClients(updatedClients);
+  const handleDeleteClient = (clientId, event) => {
+    // Get the client object
+    const client = clients.find(c => c.id === clientId);
+    setDeleteType('Client');
+    setDeleteItemId(clientId);
+    setDeleteItemName(client.name);
+    setDeleteAnchorEl(event.currentTarget);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteDevice = (deviceId, event) => {
+    // Get the device object
+    const device = devices.find(d => d.id === deviceId);
+    setDeleteType('Device');
+    setDeleteItemId(deviceId);
+    setDeleteItemName(`${device.manufacturer} ${device.model}`);
+    setDeleteAnchorEl(event.currentTarget);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeletePickup = (pickupId, event) => {
+    // Get the pickup object
+    const pickup = pickups.find(p => p.id === pickupId);
+    setDeleteType('Pickup');
+    setDeleteItemId(pickupId);
+    setDeleteItemName(`${pickup.clientName} - ${pickup.date}`);
+    setDeleteAnchorEl(event.currentTarget);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (deleteType === 'Client') {
+      // Delete client logic
+      const updatedClients = clients.filter(client => client.id !== deleteItemId);
+      setClients(updatedClients);
+    } else if (deleteType === 'Device') {
+      // Delete device logic
+      const updatedDevices = devices.filter(device => device.id !== deleteItemId);
+      setDevices(updatedDevices);
+    } else if (deleteType === 'Pickup') {
+      // Delete pickup logic
+      const updatedPickups = pickups.filter(pickup => pickup.id !== deleteItemId);
+      setPickups(updatedPickups);
+    }
+    handleCloseDeleteDialog();
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+    setDeleteAnchorEl(null);
+    setDeleteItemId(null);
+    setDeleteItemName('');
+    setDeleteType('');
   };
 
   const handleViewClient = (clientId) => {
@@ -520,7 +575,7 @@ const AdminDashboard = () => {
               }}>
                 <Table size="medium" sx={{ minWidth: 1100 }}>
                   <TableHead>
-                    <TableRow sx={{ bgcolor: '#f9f9f9' }}>
+                    <TableRow sx={{ bgcolor: '#e0e0e0' }}>
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
@@ -645,25 +700,7 @@ const AdminDashboard = () => {
                                   bgcolor: 'rgba(86, 195, 201, 0.08)',
                                 }
                               }}
-                              onClick={() => handleOpenDialog(client)}
-                            >
-                              <EditIcon fontSize="small" />
-                            </IconButton>
-                            <IconButton
-                              size="small"
-                              sx={{ 
-                                color: '#F44336', 
-                                border: '1px solid #e0e0e0',
-                                borderRadius: '50%',
-                                p: 1,
-                                mr: 0.75,
-                                width: 36,
-                                height: 36,
-                                '&:hover': {
-                                  bgcolor: 'rgba(244, 67, 54, 0.08)',
-                                }
-                              }}
-                              onClick={() => handleDeleteClient(client.id)}
+                              onClick={(event) => handleDeleteClient(client.id, event)}
                             >
                               <DeleteIcon fontSize="small" />
                             </IconButton>
@@ -796,7 +833,7 @@ const AdminDashboard = () => {
               }}>
                 <Table size="medium" sx={{ minWidth: 1100 }}>
                   <TableHead>
-                    <TableRow sx={{ bgcolor: '#f9f9f9' }}>
+                    <TableRow sx={{ bgcolor: '#e0e0e0' }}>
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
@@ -953,25 +990,7 @@ const AdminDashboard = () => {
                                     bgcolor: 'rgba(86, 195, 201, 0.08)',
                                   }
                                 }}
-                                onClick={() => alert(`Edit device ${device.id}`)}
-                              >
-                                <EditIcon fontSize="small" />
-                              </IconButton>
-                              <IconButton
-                                size="small"
-                                sx={{ 
-                                  color: '#F44336', 
-                                  border: '1px solid #e0e0e0',
-                                  borderRadius: '50%',
-                                  p: 1,
-                                  mr: 0.75,
-                                  width: 36,
-                                  height: 36,
-                                  '&:hover': {
-                                    bgcolor: 'rgba(244, 67, 54, 0.08)',
-                                  }
-                                }}
-                                onClick={() => alert(`Delete device ${device.id}`)}
+                                onClick={(event) => handleDeleteDevice(device.id, event)}
                               >
                                 <DeleteIcon fontSize="small" />
                               </IconButton>
@@ -1038,7 +1057,7 @@ const AdminDashboard = () => {
               <TableContainer sx={{ boxShadow: 'none', borderRadius: '8px' }}>
                 <Table>
                   <TableHead>
-                    <TableRow sx={{ bgcolor: '#f9f9f9' }}>
+                    <TableRow sx={{ bgcolor: '#e0e0e0' }}>
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Client</TableCell>
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Date</TableCell>
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5 }}>Location</TableCell>
@@ -1090,43 +1109,7 @@ const AdminDashboard = () => {
                                   bgcolor: 'rgba(86, 195, 201, 0.08)',
                                 }
                               }}
-                              onClick={() => alert(`View pickup ${pickup.id}`)}
-                            >
-                              <EyeIcon fontSize="small" />
-                            </IconButton>
-                            <IconButton
-                              size="small"
-                              sx={{ 
-                                color: '#56C3C9', 
-                                border: '1px solid #e0e0e0',
-                                borderRadius: '50%',
-                                p: 1,
-                                mr: 0.75,
-                                width: 36,
-                                height: 36,
-                                '&:hover': {
-                                  bgcolor: 'rgba(86, 195, 201, 0.08)',
-                                }
-                              }}
-                              onClick={() => alert(`Edit pickup ${pickup.id}`)}
-                            >
-                              <EditIcon fontSize="small" />
-                            </IconButton>
-                            <IconButton
-                              size="small"
-                              sx={{ 
-                                color: '#F44336', 
-                                border: '1px solid #e0e0e0',
-                                borderRadius: '50%',
-                                p: 1,
-                                mr: 0.75,
-                                width: 36,
-                                height: 36,
-                                '&:hover': {
-                                  bgcolor: 'rgba(244, 67, 54, 0.08)',
-                                }
-                              }}
-                              onClick={() => alert(`Delete pickup ${pickup.id}`)}
+                              onClick={(event) => handleDeletePickup(pickup.id, event)}
                             >
                               <DeleteIcon fontSize="small" />
                             </IconButton>
@@ -1210,6 +1193,77 @@ const AdminDashboard = () => {
             </Button>
           </DialogActions>
         </Dialog>
+        
+        {/* Delete Confirmation Popover */}
+        <Popover
+          open={deleteDialogOpen}
+          anchorEl={deleteAnchorEl}
+          onClose={handleCloseDeleteDialog}
+          anchorOrigin={{
+            vertical: 'center',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'center',
+            horizontal: 'left',
+          }}
+          sx={{
+            '& .MuiPopover-paper': {
+              p: 3,
+              minWidth: 350,
+              borderRadius: 2,
+              boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.15)',
+            }
+          }}
+        >
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 500 }}>
+            Are you sure you want to archive this {deleteType}?
+          </Typography>
+          
+          <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 1 }}>
+            {deleteItemName}
+          </Typography>
+          
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+            {deleteType === 'Client' && 'contact person, email, phone, status, weight (kg)'}
+            {deleteType === 'Device' && 'type, manufacturer, serial number, status'}
+            {deleteType === 'Pickup' && 'date, location, status, devices'}
+          </Typography>
+          
+          <Typography variant="body2" sx={{ mb: 3 }}>
+            Even though it will no longer appear in Your {deleteType}s, you can still view the {deleteType} in Archived {deleteType}s from your account
+          </Typography>
+          
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+            <Button
+              variant="contained"
+              onClick={confirmDelete}
+              sx={{ 
+                bgcolor: '#686868', 
+                '&:hover': { bgcolor: '#4d4d4d' },
+                borderRadius: 2,
+                color: 'white',
+                px: 2
+              }}
+              startIcon={<DeleteIcon />}
+            >
+              Archived
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleCloseDeleteDialog}
+              sx={{ 
+                bgcolor: '#f0f0f0', 
+                color: '#686868',
+                '&:hover': { bgcolor: '#e0e0e0' },
+                borderRadius: 2,
+                px: 2
+              }}
+            >
+              Cancel
+            </Button>
+          </Box>
+        </Popover>
       </>
     );
   };
