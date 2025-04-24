@@ -11,19 +11,16 @@ import {
   Stepper,
   Step,
   StepLabel,
-  StepContent,
-  Alert
+  StepContent
 } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { useAuth } from '../context/AuthContext';
 
-const SchedulePickup = ({ isClientSide = false }) => {
+const SchedulePickup = () => {
   const { clientId } = useParams();
   const navigate = useNavigate();
-  const { isAdmin } = useAuth();
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({
     // Company Information
@@ -49,13 +46,6 @@ const SchedulePickup = ({ isClientSide = false }) => {
     pickupZipCode: ''
   });
   
-  // Redirect admin users if they try to access the client-side page directly
-  useEffect(() => {
-    if (isClientSide && isAdmin) {
-      navigate('/admin/dashboard');
-    }
-  }, [isAdmin, isClientSide, navigate]);
-
   // If clientId is provided, fetch client data and pre-populate the form
   useEffect(() => {
     if (clientId) {
@@ -560,17 +550,6 @@ const SchedulePickup = ({ isClientSide = false }) => {
         return 'Unknown step';
     }
   };
-
-  // If an admin user somehow reaches this page, show an error
-  if (isAdmin && isClientSide) {
-    return (
-      <Container maxWidth="md" sx={{ py: 4 }}>
-        <Alert severity="error">
-          This page is only available to clients. Administrators should use the admin dashboard.
-        </Alert>
-      </Container>
-    );
-  }
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
