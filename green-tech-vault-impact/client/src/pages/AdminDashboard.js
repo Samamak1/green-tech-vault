@@ -312,7 +312,6 @@ const AdminDashboard = () => {
 
   const handleViewClient = (clientId) => {
     // Navigate to client detail page
-    console.log('Navigating to client detail page:', `/admin/clients/${clientId}`);
     navigate(`/admin/clients/${clientId}`);
   };
 
@@ -661,7 +660,21 @@ const AdminDashboard = () => {
                         hover
                         sx={{ '&:hover': { bgcolor: '#f5f5f5' }, borderBottom: '1px solid #eee', height: '60px' }}
                       >
-                        <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.name}</TableCell>
+                        <TableCell 
+                          sx={{ 
+                            py: 2, 
+                            px: 2, 
+                            textOverflow: 'ellipsis', 
+                            overflow: 'hidden',
+                            cursor: 'pointer',
+                            color: '#1C392B',
+                            fontWeight: 500,
+                            '&:hover': { textDecoration: 'underline' }
+                          }} 
+                          onClick={() => handleViewClient(client.id)}
+                        >
+                          {client.name}
+                        </TableCell>
                         <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.contactPerson}</TableCell>
                         <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.email}</TableCell>
                         <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.phone}</TableCell>
