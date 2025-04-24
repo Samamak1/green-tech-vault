@@ -317,8 +317,8 @@ const AdminDashboard = () => {
   };
 
   const handleAddPickup = (clientId) => {
-    // In a real implementation, this would navigate to a pickup creation page
-    alert(`Adding pickup for client ${clientId}`);
+    // Navigate to the pickup scheduling page instead of showing an alert
+    navigate(`/schedule-pickup/${clientId}`);
   };
 
   const renderDashboardContent = () => {
@@ -728,7 +728,7 @@ const AdminDashboard = () => {
                               onClick={() => handleAddPickup(client.id)}
                               sx={{ 
                                 ml: 1, 
-                                borderRadius: '50px', 
+                                borderRadius: '8px', 
                                 textTransform: 'none',
                                 color: '#56C3C9',
                                 borderColor: '#56C3C9',
@@ -1069,7 +1069,7 @@ const AdminDashboard = () => {
                   <Button
                     variant="contained"
                     startIcon={null}
-                    onClick={() => alert('Schedule pickup functionality would go here')}
+                    onClick={() => navigate('/schedule-pickup')}
                     sx={{ 
                       bgcolor: '#4ECDC4', 
                       '&:hover': { bgcolor: '#3dbdb5' }, 

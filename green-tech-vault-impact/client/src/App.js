@@ -259,6 +259,12 @@ function App() {
             </MainLayout>
           } />
           
+          <Route path="/schedule-pickup/:clientId" element={
+            <MainLayout>
+              <SchedulePickup />
+            </MainLayout>
+          } />
+          
           {/* Auth Routes */}
           <Route path="/login" element={<ClientLogin />} />
           <Route path="/register" element={<ClientRegister />} />
