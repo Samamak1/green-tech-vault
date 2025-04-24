@@ -20,7 +20,7 @@ import {
   Cancel as CancelIcon,
   Business as BusinessIcon
 } from '@mui/icons-material';
-import { userAPI } from '../services/api';
+import { companyAPI } from '../services/api';
 import ClientDashboardLayout from '../components/layout/ClientDashboardLayout';
 
 const CompanyProfile = () => {
@@ -60,7 +60,7 @@ const CompanyProfile = () => {
   const fetchCompanyProfile = async () => {
     try {
       setLoading(true);
-      const res = await userAPI.getCompanyProfile();
+      const res = await companyAPI.getProfile();
       setProfile(res.data.data);
       setEditedProfile(res.data.data);
       setError(null);
@@ -103,7 +103,7 @@ const CompanyProfile = () => {
   const handleSaveProfile = async () => {
     try {
       setSaving(true);
-      await userAPI.updateCompanyProfile(editedProfile);
+      await companyAPI.updateProfile(editedProfile);
       
       // Update the profile state with saved data
       setProfile(editedProfile);
