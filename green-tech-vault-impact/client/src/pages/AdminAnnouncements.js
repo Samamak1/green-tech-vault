@@ -50,11 +50,6 @@ const AdminAnnouncements = () => {
         return (
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Typography variant="body2" sx={{ mb: 3, color: '#555' }}>
-                Fill out the form below to schedule your electronic waste pick up.
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
               <TextField
                 fullWidth
                 placeholder="Company Name*"
@@ -302,61 +297,67 @@ const AdminAnnouncements = () => {
           Fill out the form below to schedule your electronic waste pick up.
         </Typography>
         
-        {/* Custom stepper implementation */}
+        {/* Custom stepper implementation with gray lines between the circles */}
         <Box sx={{ 
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           width: '100%',
           mb: 5,
-          position: 'relative',
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 20,
-            left: '15%',
-            right: '15%',
-            height: 1,
-            backgroundColor: '#e0e0e0',
-            zIndex: 1
-          }
+          position: 'relative'
         }}>
           {steps.map((step, index) => (
-            <Box 
-              key={index} 
-              sx={{ 
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                width: '33%',
-                position: 'relative',
-                zIndex: 2
-              }}
-            >
-              <Box sx={{ 
-                width: 40,
-                height: 40,
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: activeStep === index || activeStep > index ? '#1C392B' : '#ccc',
-                color: 'white',
-                fontSize: 16,
-                fontWeight: 500,
-                mb: 1,
-              }}>
-                {index + 1}
+            <React.Fragment key={index}>
+              <Box 
+                sx={{ 
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  position: 'relative',
+                  zIndex: 2
+                }}
+              >
+                <Box sx={{ 
+                  width: 40,
+                  height: 40,
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: activeStep === index ? '#1C392B' : 
+                                activeStep > index ? '#1C392B' : '#ccc',
+                  color: 'white',
+                  fontSize: 16,
+                  fontWeight: 500,
+                  mb: 1,
+                }}>
+                  {index + 1}
+                </Box>
+                <Typography sx={{ 
+                  color: activeStep === index ? '#1C392B' : '#666',
+                  fontSize: '0.9rem',
+                  fontWeight: activeStep === index ? 500 : 400,
+                  textAlign: 'center',
+                }}>
+                  {step.label}
+                </Typography>
               </Box>
-              <Typography sx={{ 
-                color: activeStep === index ? '#1C392B' : '#666',
-                fontSize: '0.9rem',
-                fontWeight: activeStep === index ? 500 : 400,
-                textAlign: 'center',
-              }}>
-                {step.label}
-              </Typography>
-            </Box>
+              
+              {/* Add line between circles, except after the last circle */}
+              {index < steps.length - 1 && (
+                <Box 
+                  sx={{ 
+                    flex: 1,
+                    height: 1,
+                    backgroundColor: '#e0e0e0',
+                    margin: '0 10px',
+                    position: 'relative',
+                    top: -20,
+                    zIndex: 1
+                  }}
+                />
+              )}
+            </React.Fragment>
           ))}
         </Box>
         
