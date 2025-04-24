@@ -9,8 +9,94 @@ import {
   StepLabel, 
   TextField,
   Button,
-  Divider
+  styled
 } from '@mui/material';
+
+// Styled components to match the design in the second image
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(4),
+  borderRadius: '8px',
+  boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)',
+  maxWidth: '900px',
+  margin: '0 auto'
+}));
+
+const StyledStep = styled(Step)(({ theme }) => ({
+  '& .MuiStepLabel-root .Mui-active': {
+    backgroundColor: '#1C392B',
+    color: 'white',
+    borderRadius: '50%',
+    padding: '4px',
+    width: '30px',
+    height: '30px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  '& .MuiStepLabel-root .Mui-completed': {
+    backgroundColor: '#1C392B',
+    color: 'white',
+    borderRadius: '50%',
+    padding: '4px',
+    width: '30px',
+    height: '30px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  '& .MuiStepLabel-root .Mui-disabled': {
+    backgroundColor: '#ccc',
+    color: 'white',
+    borderRadius: '50%',
+    padding: '4px',
+    width: '30px',
+    height: '30px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  '& .MuiStepLabel-label': {
+    marginTop: theme.spacing(1),
+  }
+}));
+
+const StyledTextField = styled(TextField)({
+  '& .MuiOutlinedInput-root': {
+    borderRadius: '4px',
+    backgroundColor: 'white',
+    '& fieldset': {
+      borderColor: '#e0e0e0',
+    },
+    '&:hover fieldset': {
+      borderColor: '#1C392B',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: '#1C392B',
+    },
+  },
+});
+
+const StyledNextButton = styled(Button)({
+  backgroundColor: '#1C392B',
+  color: 'white',
+  '&:hover': {
+    backgroundColor: '#0F261D',
+  },
+  borderRadius: '4px',
+  padding: '8px 24px',
+  boxShadow: 'none',
+});
+
+const StyledBackButton = styled(Button)({
+  backgroundColor: '#f5f5f5',
+  color: '#333',
+  '&:hover': {
+    backgroundColor: '#e0e0e0',
+  },
+  borderRadius: '4px',
+  padding: '8px 24px',
+  boxShadow: 'none',
+});
 
 const AdminAnnouncements = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -49,111 +135,112 @@ const AdminAnnouncements = () => {
         return (
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Typography variant="body2" sx={{ mb: 3 }}>
-                Fill out the form below to schedule your electronic waste pickup.
+              <Typography variant="body2" sx={{ mb: 3, color: '#555' }}>
+                Fill out the form below to schedule your electronic waste pick up.
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <TextField
+              <StyledTextField
                 fullWidth
-                label="Company Name"
+                placeholder="Company Name*"
                 name="companyName"
                 value={formData.companyName}
                 onChange={handleChange}
                 variant="outlined"
-                placeholder="Tech Solutions Inc."
+                InputLabelProps={{ shrink: false }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <StyledTextField
                 fullWidth
-                label="Contact Name"
+                placeholder="Contact Name*"
                 name="contactName"
                 value={formData.contactName}
                 onChange={handleChange}
                 variant="outlined"
-                placeholder="John Smith"
+                InputLabelProps={{ shrink: false }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <StyledTextField
                 fullWidth
-                label="Email"
+                placeholder="Email*"
                 name="email"
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
                 variant="outlined"
-                placeholder="john@techsolutions.com"
+                InputLabelProps={{ shrink: false }}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
+              <StyledTextField
                 fullWidth
-                label="Phone"
+                placeholder="Phone*"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
                 variant="outlined"
-                placeholder="(555) 123-4567"
+                InputLabelProps={{ shrink: false }}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
+              <StyledTextField
                 fullWidth
-                label="Address"
+                placeholder="Address*"
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
                 variant="outlined"
-                placeholder="123 Tech Blvd"
+                InputLabelProps={{ shrink: false }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <TextField
+              <StyledTextField
                 fullWidth
-                label="City"
+                placeholder="City*"
                 name="city"
                 value={formData.city}
                 onChange={handleChange}
                 variant="outlined"
-                placeholder="San Francisco"
+                InputLabelProps={{ shrink: false }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <TextField
+              <StyledTextField
                 fullWidth
-                label="State"
+                placeholder="State*"
                 name="state"
                 value={formData.state}
                 onChange={handleChange}
                 variant="outlined"
-                placeholder="CA"
+                InputLabelProps={{ shrink: false }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <TextField
+              <StyledTextField
                 fullWidth
-                label="Zip Code"
+                placeholder="Zip Code*"
                 name="zipCode"
                 value={formData.zipCode}
                 onChange={handleChange}
                 variant="outlined"
-                placeholder="94105"
+                InputLabelProps={{ shrink: false }}
               />
             </Grid>
-            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-              <Button
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+              <StyledBackButton
+                onClick={handleBack}
+                disabled={activeStep === 0}
+              >
+                Back
+              </StyledBackButton>
+              <StyledNextButton
                 variant="contained"
                 onClick={handleNext}
-                sx={{ 
-                  bgcolor: '#1C392B', 
-                  '&:hover': { bgcolor: '#142B21' },
-                  px: 4
-                }}
               >
                 Next
-              </Button>
+              </StyledNextButton>
             </Grid>
           </Grid>
         );
@@ -161,7 +248,7 @@ const AdminAnnouncements = () => {
         return (
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Typography variant="body2" sx={{ mb: 3 }}>
+              <Typography variant="body2" sx={{ mb: 3, color: '#555' }}>
                 Provide details about the pickup.
               </Typography>
               {/* Pickup Details form fields will go here */}
@@ -170,20 +257,15 @@ const AdminAnnouncements = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-              <Button onClick={handleBack}>
+              <StyledBackButton onClick={handleBack}>
                 Back
-              </Button>
-              <Button
+              </StyledBackButton>
+              <StyledNextButton
                 variant="contained"
                 onClick={handleNext}
-                sx={{ 
-                  bgcolor: '#1C392B', 
-                  '&:hover': { bgcolor: '#142B21' },
-                  px: 4
-                }}
               >
                 Next
-              </Button>
+              </StyledNextButton>
             </Grid>
           </Grid>
         );
@@ -191,7 +273,7 @@ const AdminAnnouncements = () => {
         return (
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Typography variant="body2" sx={{ mb: 3 }}>
+              <Typography variant="body2" sx={{ mb: 3, color: '#555' }}>
                 Review your information before submitting.
               </Typography>
               {/* Review information */}
@@ -200,19 +282,14 @@ const AdminAnnouncements = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-              <Button onClick={handleBack}>
+              <StyledBackButton onClick={handleBack}>
                 Back
-              </Button>
-              <Button
+              </StyledBackButton>
+              <StyledNextButton
                 variant="contained"
-                sx={{ 
-                  bgcolor: '#1C392B', 
-                  '&:hover': { bgcolor: '#142B21' },
-                  px: 4
-                }}
               >
                 Submit
-              </Button>
+              </StyledNextButton>
             </Grid>
           </Grid>
         );
@@ -223,25 +300,25 @@ const AdminAnnouncements = () => {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Paper sx={{ p: 4, borderRadius: 2 }}>
-        <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 500, color: '#1C392B', mb: 3 }}>
-          Schedule E-Waste Pickup
+      <StyledPaper>
+        <Typography variant="h5" component="h1" gutterBottom sx={{ fontWeight: 500, color: '#1C392B', mb: 2, textAlign: 'center' }}>
+          Schedule E-Waste Pick-Up
         </Typography>
         
-        <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
-          {steps.map((label, index) => {
-            const stepProps = {};
-            const labelProps = {};
-            return (
-              <Step key={label} {...stepProps}>
-                <StepLabel {...labelProps}>{label}</StepLabel>
-              </Step>
-            );
-          })}
+        <Typography variant="body2" sx={{ mb: 4, color: '#555', textAlign: 'center' }}>
+          Fill out the form below to schedule your electronic waste pick up.
+        </Typography>
+        
+        <Stepper activeStep={activeStep} sx={{ mb: 5 }} alternativeLabel>
+          {steps.map((label, index) => (
+            <StyledStep key={label}>
+              <StepLabel>{label}</StepLabel>
+            </StyledStep>
+          ))}
         </Stepper>
         
         {renderStepContent(activeStep)}
-      </Paper>
+      </StyledPaper>
     </Box>
   );
 };
