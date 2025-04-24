@@ -21,43 +21,63 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   margin: '0 auto'
 }));
 
-const StyledStep = styled(Step)(({ theme }) => ({
-  '& .MuiStepLabel-root .Mui-active': {
-    backgroundColor: '#1C392B',
-    color: 'white',
-    borderRadius: '50%',
-    padding: '4px',
-    width: '30px',
-    height: '30px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  '& .MuiStepLabel-root .Mui-completed': {
-    backgroundColor: '#1C392B',
-    color: 'white',
-    borderRadius: '50%',
-    padding: '4px',
-    width: '30px',
-    height: '30px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  '& .MuiStepLabel-root .Mui-disabled': {
-    backgroundColor: '#ccc',
-    color: 'white',
-    borderRadius: '50%',
-    padding: '4px',
-    width: '30px',
-    height: '30px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  '& .MuiStepLabel-label': {
-    marginTop: theme.spacing(1),
+// Custom stepper styles
+const CustomStepper = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  marginBottom: theme.spacing(5),
+  position: 'relative',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 20,
+    left: '15%',
+    right: '15%',
+    height: 1,
+    backgroundColor: '#e0e0e0',
+    zIndex: 1
   }
+}));
+
+const StepItem = styled(Box)(({ theme, active, completed }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  width: '33%',
+  position: 'relative',
+  zIndex: 2
+}));
+
+const StepCircle = styled(Box)(({ theme, active, completed }) => ({
+  width: 40,
+  height: 40,
+  borderRadius: '50%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: active || completed ? '#1C392B' : '#ccc',
+  color: 'white',
+  fontSize: 16,
+  fontWeight: 500,
+  marginBottom: theme.spacing(1),
+}));
+
+const StepIcon = styled(Box)(({ theme, icon }) => ({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  fontSize: '0.8rem',
+  color: 'white'
+}));
+
+const StepText = styled(Typography)(({ theme, active }) => ({
+  color: active ? '#1C392B' : '#666',
+  fontSize: '0.9rem',
+  fontWeight: active ? 500 : 400,
+  textAlign: 'center',
 }));
 
 const StyledTextField = styled(TextField)({
@@ -127,7 +147,11 @@ const AdminAnnouncements = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const steps = ['Company Information', 'Pickup Details', 'Review & Submit'];
+  const steps = [
+    { label: 'Company Information', icon: 'info' },
+    { label: 'Pickup Details', icon: 'detail' },
+    { label: 'Review & Submit', icon: '&' }
+  ];
 
   const renderStepContent = (step) => {
     switch (step) {
@@ -298,6 +322,21 @@ const AdminAnnouncements = () => {
     }
   };
 
+  // Custom stepper component
+  const customStepper = (
+    <CustomStepper>
+      {steps.map((step, index) => (
+        <StepItem key={index} active={activeStep === index} completed={activeStep > index}>
+          <StepCircle active={activeStep === index} completed={activeStep > index}>
+            {index + 1}
+            <StepIcon icon={step.icon} />
+          </StepCircle>
+          <StepText active={activeStep === index}>{step.label}</StepText>
+        </StepItem>
+      ))}
+    </CustomStepper>
+  );
+
   return (
     <Box sx={{ p: 3 }}>
       <StyledPaper>
@@ -309,13 +348,7 @@ const AdminAnnouncements = () => {
           Fill out the form below to schedule your electronic waste pick up.
         </Typography>
         
-        <Stepper activeStep={activeStep} sx={{ mb: 5 }} alternativeLabel>
-          {steps.map((label, index) => (
-            <StyledStep key={label}>
-              <StepLabel>{label}</StepLabel>
-            </StyledStep>
-          ))}
-        </Stepper>
+        {customStepper}
         
         {renderStepContent(activeStep)}
       </StyledPaper>
