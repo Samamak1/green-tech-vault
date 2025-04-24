@@ -4,120 +4,11 @@ import {
   Paper, 
   Typography, 
   Grid, 
-  Stepper, 
-  Step, 
-  StepLabel, 
   TextField,
-  Button,
-  styled
+  Button
 } from '@mui/material';
 
-// Styled components to match the design in the second image
-const StyledPaper = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(4),
-  borderRadius: '8px',
-  boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)',
-  maxWidth: '900px',
-  margin: '0 auto'
-}));
-
-// Custom stepper styles
-const CustomStepper = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '100%',
-  marginBottom: theme.spacing(5),
-  position: 'relative',
-  '&::before': {
-    content: '""',
-    position: 'absolute',
-    top: 20,
-    left: '15%',
-    right: '15%',
-    height: 1,
-    backgroundColor: '#e0e0e0',
-    zIndex: 1
-  }
-}));
-
-const StepItem = styled(Box)(({ theme, active, completed }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  width: '33%',
-  position: 'relative',
-  zIndex: 2
-}));
-
-const StepCircle = styled(Box)(({ theme, active, completed }) => ({
-  width: 40,
-  height: 40,
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: active || completed ? '#1C392B' : '#ccc',
-  color: 'white',
-  fontSize: 16,
-  fontWeight: 500,
-  marginBottom: theme.spacing(1),
-}));
-
-const StepIcon = styled(Box)(({ theme, icon }) => ({
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  fontSize: '0.8rem',
-  color: 'white'
-}));
-
-const StepText = styled(Typography)(({ theme, active }) => ({
-  color: active ? '#1C392B' : '#666',
-  fontSize: '0.9rem',
-  fontWeight: active ? 500 : 400,
-  textAlign: 'center',
-}));
-
-const StyledTextField = styled(TextField)({
-  '& .MuiOutlinedInput-root': {
-    borderRadius: '4px',
-    backgroundColor: 'white',
-    '& fieldset': {
-      borderColor: '#e0e0e0',
-    },
-    '&:hover fieldset': {
-      borderColor: '#1C392B',
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: '#1C392B',
-    },
-  },
-});
-
-const StyledNextButton = styled(Button)({
-  backgroundColor: '#1C392B',
-  color: 'white',
-  '&:hover': {
-    backgroundColor: '#0F261D',
-  },
-  borderRadius: '4px',
-  padding: '8px 24px',
-  boxShadow: 'none',
-});
-
-const StyledBackButton = styled(Button)({
-  backgroundColor: '#f5f5f5',
-  color: '#333',
-  '&:hover': {
-    backgroundColor: '#e0e0e0',
-  },
-  borderRadius: '4px',
-  padding: '8px 24px',
-  boxShadow: 'none',
-});
-
+// Styled components for the form
 const AdminAnnouncements = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({
@@ -164,7 +55,7 @@ const AdminAnnouncements = () => {
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <StyledTextField
+              <TextField
                 fullWidth
                 placeholder="Company Name*"
                 name="companyName"
@@ -172,10 +63,11 @@ const AdminAnnouncements = () => {
                 onChange={handleChange}
                 variant="outlined"
                 InputLabelProps={{ shrink: false }}
+                sx={{ bgcolor: 'white' }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <StyledTextField
+              <TextField
                 fullWidth
                 placeholder="Contact Name*"
                 name="contactName"
@@ -183,10 +75,11 @@ const AdminAnnouncements = () => {
                 onChange={handleChange}
                 variant="outlined"
                 InputLabelProps={{ shrink: false }}
+                sx={{ bgcolor: 'white' }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <StyledTextField
+              <TextField
                 fullWidth
                 placeholder="Email*"
                 name="email"
@@ -195,10 +88,11 @@ const AdminAnnouncements = () => {
                 onChange={handleChange}
                 variant="outlined"
                 InputLabelProps={{ shrink: false }}
+                sx={{ bgcolor: 'white' }}
               />
             </Grid>
             <Grid item xs={12}>
-              <StyledTextField
+              <TextField
                 fullWidth
                 placeholder="Phone*"
                 name="phone"
@@ -206,10 +100,11 @@ const AdminAnnouncements = () => {
                 onChange={handleChange}
                 variant="outlined"
                 InputLabelProps={{ shrink: false }}
+                sx={{ bgcolor: 'white' }}
               />
             </Grid>
             <Grid item xs={12}>
-              <StyledTextField
+              <TextField
                 fullWidth
                 placeholder="Address*"
                 name="address"
@@ -217,10 +112,11 @@ const AdminAnnouncements = () => {
                 onChange={handleChange}
                 variant="outlined"
                 InputLabelProps={{ shrink: false }}
+                sx={{ bgcolor: 'white' }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <StyledTextField
+              <TextField
                 fullWidth
                 placeholder="City*"
                 name="city"
@@ -228,10 +124,11 @@ const AdminAnnouncements = () => {
                 onChange={handleChange}
                 variant="outlined"
                 InputLabelProps={{ shrink: false }}
+                sx={{ bgcolor: 'white' }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <StyledTextField
+              <TextField
                 fullWidth
                 placeholder="State*"
                 name="state"
@@ -239,10 +136,11 @@ const AdminAnnouncements = () => {
                 onChange={handleChange}
                 variant="outlined"
                 InputLabelProps={{ shrink: false }}
+                sx={{ bgcolor: 'white' }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <StyledTextField
+              <TextField
                 fullWidth
                 placeholder="Zip Code*"
                 name="zipCode"
@@ -250,21 +148,42 @@ const AdminAnnouncements = () => {
                 onChange={handleChange}
                 variant="outlined"
                 InputLabelProps={{ shrink: false }}
+                sx={{ bgcolor: 'white' }}
               />
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-              <StyledBackButton
+              <Button
                 onClick={handleBack}
                 disabled={activeStep === 0}
+                sx={{
+                  backgroundColor: '#f5f5f5',
+                  color: '#333',
+                  '&:hover': {
+                    backgroundColor: '#e0e0e0',
+                  },
+                  borderRadius: '4px',
+                  padding: '8px 24px',
+                  boxShadow: 'none',
+                }}
               >
                 Back
-              </StyledBackButton>
-              <StyledNextButton
+              </Button>
+              <Button
                 variant="contained"
                 onClick={handleNext}
+                sx={{
+                  backgroundColor: '#1C392B',
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: '#0F261D',
+                  },
+                  borderRadius: '4px',
+                  padding: '8px 24px',
+                  boxShadow: 'none',
+                }}
               >
                 Next
-              </StyledNextButton>
+              </Button>
             </Grid>
           </Grid>
         );
@@ -281,15 +200,37 @@ const AdminAnnouncements = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-              <StyledBackButton onClick={handleBack}>
+              <Button
+                onClick={handleBack}
+                sx={{
+                  backgroundColor: '#f5f5f5',
+                  color: '#333',
+                  '&:hover': {
+                    backgroundColor: '#e0e0e0',
+                  },
+                  borderRadius: '4px',
+                  padding: '8px 24px',
+                  boxShadow: 'none',
+                }}
+              >
                 Back
-              </StyledBackButton>
-              <StyledNextButton
+              </Button>
+              <Button
                 variant="contained"
                 onClick={handleNext}
+                sx={{
+                  backgroundColor: '#1C392B',
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: '#0F261D',
+                  },
+                  borderRadius: '4px',
+                  padding: '8px 24px',
+                  boxShadow: 'none',
+                }}
               >
                 Next
-              </StyledNextButton>
+              </Button>
             </Grid>
           </Grid>
         );
@@ -306,14 +247,36 @@ const AdminAnnouncements = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-              <StyledBackButton onClick={handleBack}>
+              <Button
+                onClick={handleBack}
+                sx={{
+                  backgroundColor: '#f5f5f5',
+                  color: '#333',
+                  '&:hover': {
+                    backgroundColor: '#e0e0e0',
+                  },
+                  borderRadius: '4px',
+                  padding: '8px 24px',
+                  boxShadow: 'none',
+                }}
+              >
                 Back
-              </StyledBackButton>
-              <StyledNextButton
+              </Button>
+              <Button
                 variant="contained"
+                sx={{
+                  backgroundColor: '#1C392B',
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: '#0F261D',
+                  },
+                  borderRadius: '4px',
+                  padding: '8px 24px',
+                  boxShadow: 'none',
+                }}
               >
                 Submit
-              </StyledNextButton>
+              </Button>
             </Grid>
           </Grid>
         );
@@ -322,24 +285,15 @@ const AdminAnnouncements = () => {
     }
   };
 
-  // Custom stepper component
-  const customStepper = (
-    <CustomStepper>
-      {steps.map((step, index) => (
-        <StepItem key={index} active={activeStep === index} completed={activeStep > index}>
-          <StepCircle active={activeStep === index} completed={activeStep > index}>
-            {index + 1}
-            <StepIcon icon={step.icon} />
-          </StepCircle>
-          <StepText active={activeStep === index}>{step.label}</StepText>
-        </StepItem>
-      ))}
-    </CustomStepper>
-  );
-
   return (
     <Box sx={{ p: 3 }}>
-      <StyledPaper>
+      <Paper sx={{ 
+        p: 4, 
+        borderRadius: '8px', 
+        boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)',
+        maxWidth: '900px',
+        margin: '0 auto'
+      }}>
         <Typography variant="h5" component="h1" gutterBottom sx={{ fontWeight: 500, color: '#1C392B', mb: 2, textAlign: 'center' }}>
           Schedule E-Waste Pick-Up
         </Typography>
@@ -348,10 +302,66 @@ const AdminAnnouncements = () => {
           Fill out the form below to schedule your electronic waste pick up.
         </Typography>
         
-        {customStepper}
+        {/* Custom stepper implementation */}
+        <Box sx={{ 
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          mb: 5,
+          position: 'relative',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 20,
+            left: '15%',
+            right: '15%',
+            height: 1,
+            backgroundColor: '#e0e0e0',
+            zIndex: 1
+          }
+        }}>
+          {steps.map((step, index) => (
+            <Box 
+              key={index} 
+              sx={{ 
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                width: '33%',
+                position: 'relative',
+                zIndex: 2
+              }}
+            >
+              <Box sx={{ 
+                width: 40,
+                height: 40,
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: activeStep === index || activeStep > index ? '#1C392B' : '#ccc',
+                color: 'white',
+                fontSize: 16,
+                fontWeight: 500,
+                mb: 1,
+              }}>
+                {index + 1}
+              </Box>
+              <Typography sx={{ 
+                color: activeStep === index ? '#1C392B' : '#666',
+                fontSize: '0.9rem',
+                fontWeight: activeStep === index ? 500 : 400,
+                textAlign: 'center',
+              }}>
+                {step.label}
+              </Typography>
+            </Box>
+          ))}
+        </Box>
         
         {renderStepContent(activeStep)}
-      </StyledPaper>
+      </Paper>
     </Box>
   );
 };
