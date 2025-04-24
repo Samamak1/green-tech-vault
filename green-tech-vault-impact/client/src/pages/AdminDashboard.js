@@ -700,6 +700,24 @@ const AdminDashboard = () => {
                                   bgcolor: 'rgba(86, 195, 201, 0.08)',
                                 }
                               }}
+                              onClick={() => handleOpenDialog(client)}
+                            >
+                              <EditIcon fontSize="small" />
+                            </IconButton>
+                            <IconButton
+                              size="small"
+                              sx={{ 
+                                color: '#E05050', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 1,
+                                mr: 0.75,
+                                width: 36,
+                                height: 36,
+                                '&:hover': {
+                                  bgcolor: 'rgba(224, 80, 80, 0.08)',
+                                }
+                              }}
                               onClick={(event) => handleDeleteClient(client.id, event)}
                             >
                               <DeleteIcon fontSize="small" />
@@ -990,6 +1008,24 @@ const AdminDashboard = () => {
                                     bgcolor: 'rgba(86, 195, 201, 0.08)',
                                   }
                                 }}
+                                onClick={() => alert(`Edit device ${device.id}`)}
+                              >
+                                <EditIcon fontSize="small" />
+                              </IconButton>
+                              <IconButton
+                                size="small"
+                                sx={{ 
+                                  color: '#E05050', 
+                                  border: '1px solid #e0e0e0',
+                                  borderRadius: '50%',
+                                  p: 1,
+                                  mr: 0.75,
+                                  width: 36,
+                                  height: 36,
+                                  '&:hover': {
+                                    bgcolor: 'rgba(224, 80, 80, 0.08)',
+                                  }
+                                }}
                                 onClick={(event) => handleDeleteDevice(device.id, event)}
                               >
                                 <DeleteIcon fontSize="small" />
@@ -1107,6 +1143,42 @@ const AdminDashboard = () => {
                                 height: 36,
                                 '&:hover': {
                                   bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                }
+                              }}
+                              onClick={() => alert(`View pickup ${pickup.id}`)}
+                            >
+                              <EyeIcon fontSize="small" />
+                            </IconButton>
+                            <IconButton
+                              size="small"
+                              sx={{ 
+                                color: '#56C3C9', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 1,
+                                mr: 0.75,
+                                width: 36,
+                                height: 36,
+                                '&:hover': {
+                                  bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                }
+                              }}
+                              onClick={() => alert(`Edit pickup ${pickup.id}`)}
+                            >
+                              <EditIcon fontSize="small" />
+                            </IconButton>
+                            <IconButton
+                              size="small"
+                              sx={{ 
+                                color: '#E05050', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 1,
+                                mr: 0.75,
+                                width: 36,
+                                height: 36,
+                                '&:hover': {
+                                  bgcolor: 'rgba(224, 80, 80, 0.08)',
                                 }
                               }}
                               onClick={(event) => handleDeletePickup(pickup.id, event)}
