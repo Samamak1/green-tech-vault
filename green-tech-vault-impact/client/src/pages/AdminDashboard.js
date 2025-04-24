@@ -986,7 +986,21 @@ const AdminDashboard = () => {
                       return (
                         <TableRow key={device.id} hover sx={{ '&:hover': { bgcolor: '#f5f5f5' }, borderBottom: '1px solid #eee', height: '60px' }}>
                           <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{device.clientName}</TableCell>
-                          <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{device.type}</TableCell>
+                          <TableCell 
+                            sx={{ 
+                              py: 2, 
+                              px: 2, 
+                              textOverflow: 'ellipsis', 
+                              overflow: 'hidden', 
+                              cursor: 'pointer',
+                              color: '#1C392B',
+                              fontWeight: 500,
+                              '&:hover': { textDecoration: 'underline' }
+                            }}
+                            onClick={() => navigate(`/admin/devices/${device.id}`)}
+                          >
+                            {device.type}
+                          </TableCell>
                           <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{device.manufacturer}</TableCell>
                           <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{device.model}</TableCell>
                           <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{device.serialNumber}</TableCell>

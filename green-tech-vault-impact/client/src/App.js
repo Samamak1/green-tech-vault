@@ -44,6 +44,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import AdminClientDetail from './pages/AdminClientDetail';
 import AdminClientProfile from './pages/AdminClientProfile';
 import AdminPickupDetail from './pages/AdminPickupDetail';
+import AdminDeviceDetail from './pages/AdminDeviceDetail';
 import AdminPickupCalendar from './pages/AdminPickupCalendar';
 import AdminAnnouncements from './pages/AdminAnnouncements';
 import Unauthorized from './pages/Unauthorized';
@@ -314,6 +315,7 @@ function App() {
             <Route path="pickup-calendar" element={<AdminPickupCalendar />} />
             <Route path="pickup-detail" element={<AdminPickupDetail />} />
             <Route path="pickups/:pickupId" element={<AdminPickupDetail />} />
+            <Route path="devices/:deviceId" element={<AdminDeviceDetail />} />
           </Route>
           
           {/* 404 Route */}
