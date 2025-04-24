@@ -10,6 +10,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import Layout from './components/layout/Layout';
 import DashboardLayout from './components/layout/DashboardLayout';
 import MainLayout from './components/layout/MainLayout';
+import ClientDashboardLayout from './components/layout/ClientDashboardLayout';
 
 // Pages
 import Dashboard from './pages/Dashboard';
@@ -274,7 +275,7 @@ function App() {
           {/* Client Routes */}
           <Route path="/dashboard" element={
             <ProtectedRoute>
-              <DashboardLayout />
+              <ClientDashboardLayout />
             </ProtectedRoute>
           }>
             <Route index element={isAdmin ? <Navigate to="/admin" /> : <SimpleDashboard />} />
