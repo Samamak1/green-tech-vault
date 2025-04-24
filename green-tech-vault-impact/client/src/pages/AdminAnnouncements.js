@@ -281,13 +281,19 @@ const AdminAnnouncements = () => {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ 
+      p: 3, 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center',
+      minHeight: '80vh'
+    }}>
       <Paper sx={{ 
         p: 4, 
         borderRadius: '8px', 
         boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)',
         maxWidth: '900px',
-        margin: '0 auto'
+        width: '100%'
       }}>
         <Typography variant="h5" component="h1" gutterBottom sx={{ fontWeight: 500, color: '#1C392B', mb: 2, textAlign: 'center' }}>
           Schedule E-Waste Pick-Up
@@ -324,8 +330,9 @@ const AdminAnnouncements = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  backgroundColor: activeStep === index ? '#1C392B' : 
-                                activeStep > index ? '#1C392B' : '#ccc',
+                  backgroundColor: index === 0 ? '#4ecdc4' : // Turquoise for first step 
+                                 activeStep === index ? '#1C392B' : 
+                                 activeStep > index ? '#1C392B' : '#ccc',
                   color: 'white',
                   fontSize: 16,
                   fontWeight: 500,
@@ -348,8 +355,8 @@ const AdminAnnouncements = () => {
                 <Box 
                   sx={{ 
                     flex: 1,
-                    height: 1,
-                    backgroundColor: '#e0e0e0',
+                    height: 0.5,
+                    backgroundColor: '#e8e8e8',
                     margin: '0 10px',
                     position: 'relative',
                     top: -20,
