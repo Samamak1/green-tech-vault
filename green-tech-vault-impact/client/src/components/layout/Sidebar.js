@@ -20,7 +20,7 @@ const Sidebar = () => {
     { icon: <DescriptionIcon />, text: 'Reports', path: '/admin/reports' },
     { icon: <CalendarMonthIcon />, text: 'Calendar', path: '/admin/calendar' },
     { icon: <EmailIcon />, text: 'Messages', path: '/admin/messages' },
-    { icon: <CampaignIcon />, text: 'Announcements', path: '/admin/announcements' },
+    { icon: <CampaignIcon />, text: 'Schedule Pickup', path: '/admin/announcements' },
   ];
 
   const handleNavigation = (path) => {

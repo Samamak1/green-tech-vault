@@ -44,6 +44,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import AdminClientDetail from './pages/AdminClientDetail';
 import AdminPickupDetail from './pages/AdminPickupDetail';
 import AdminPickupCalendar from './pages/AdminPickupCalendar';
+import AdminAnnouncements from './pages/AdminAnnouncements';
 import Unauthorized from './pages/Unauthorized';
 
 // Route Protection
@@ -307,7 +308,7 @@ function App() {
             <Route path="reports" element={<h1>Admin Reports</h1>} />
             <Route path="calendar" element={<h1>Admin Calendar</h1>} />
             <Route path="messages" element={<h1>Admin Messages</h1>} />
-            <Route path="announcements" element={<h1>Admin Announcements</h1>} />
+            <Route path="announcements" element={<AdminAnnouncements />} />
             <Route path="clients/:clientId" element={<AdminClientDetail />} />
             <Route path="pickup-calendar" element={<AdminPickupCalendar />} />
             <Route path="pickup-detail" element={<AdminPickupDetail />} />
