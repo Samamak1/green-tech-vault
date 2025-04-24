@@ -27,7 +27,10 @@ import {
   CardContent,
   Select,
   FormControl,
-  InputLabel
+  InputLabel,
+  Tabs,
+  Tab,
+  InputAdornment
 } from '@mui/material';
 import {
   ArrowBack as ArrowBackIcon,
@@ -35,7 +38,9 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
   Logout as LogoutIcon,
-  Add as AddIcon
+  Add as AddIcon,
+  Search as SearchIcon,
+  FilterList as FilterListIcon
 } from '@mui/icons-material';
 import { pickupAPI, deviceAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -85,6 +90,8 @@ const AdminPickupDetail = () => {
     weight: 0,
     notes: ''
   });
+
+  const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
     fetchPickupData();
@@ -475,6 +482,32 @@ const AdminPickupDetail = () => {
       percent, 
       text: `${percent}% (${processedDevices}/${devices.length} devices processed)`
     };
+  };
+
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
+
+  const getStatusChipStyle = (status) => {
+    switch(status.toLowerCase()) {
+      case 'complete':
+      case 'completed':
+        return { bgcolor: '#e3f7f5', color: '#4ECDC4', borderRadius: '16px' };
+      case 'processing':
+      case 'in-processing':
+      case 'in-progress':
+        return { bgcolor: '#fff8e0', color: '#ffa000', borderRadius: '16px' };
+      case 'refurbished':
+        return { bgcolor: '#e3f7f5', color: '#4ECDC4', borderRadius: '16px' };
+      case 'recycled':
+        return { bgcolor: '#e3f2ff', color: '#2196f3', borderRadius: '16px' };
+      case 'disposed':
+        return { bgcolor: '#ffebee', color: '#f44336', borderRadius: '16px' };
+      case 'received':
+        return { bgcolor: '#e3f2ff', color: '#2196f3', borderRadius: '16px' };
+      default:
+        return { bgcolor: '#e0e0e0', color: '#616161', borderRadius: '16px' };
+    }
   };
 
   const renderPickupContent = () => {

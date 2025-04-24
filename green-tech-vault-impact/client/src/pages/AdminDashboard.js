@@ -1120,7 +1120,20 @@ const AdminDashboard = () => {
                   <TableBody>
                     {pickups.map((pickup) => (
                       <TableRow key={pickup.id} hover sx={{ '&:hover': { bgcolor: '#f5f5f5' }, height: '60px' }}>
-                        <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.clientName}</TableCell>
+                        <TableCell 
+                          sx={{ 
+                            py: 2, 
+                            textOverflow: 'ellipsis', 
+                            overflow: 'hidden',
+                            cursor: 'pointer',
+                            color: '#1C392B',
+                            fontWeight: 500,
+                            '&:hover': { textDecoration: 'underline' }
+                          }}
+                          onClick={() => navigate(`/admin/pickups/${pickup.id}`)}
+                        >
+                          {pickup.clientName}
+                        </TableCell>
                         <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.date}</TableCell>
                         <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.location}</TableCell>
                         <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>
@@ -1159,7 +1172,7 @@ const AdminDashboard = () => {
                                   bgcolor: 'rgba(86, 195, 201, 0.08)',
                                 }
                               }}
-                              onClick={() => alert(`View pickup ${pickup.id}`)}
+                              onClick={() => navigate(`/admin/pickups/${pickup.id}`)}
                             >
                               <EyeIcon fontSize="small" />
                             </IconButton>
