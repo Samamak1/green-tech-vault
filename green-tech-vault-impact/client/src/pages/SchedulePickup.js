@@ -289,7 +289,6 @@ const SchedulePickup = () => {
                       <TextField
                         {...params}
                         fullWidth
-                        sx={{ width: '100%' }}
                       />
                     )}
                   />
@@ -356,60 +355,193 @@ const SchedulePickup = () => {
       case 2:
         return (
           <Box sx={{ py: 3 }}>
-            <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
+            <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 500 }}>
               Company Information
             </Typography>
             
-            <Grid container spacing={2} sx={{ mb: 4 }}>
-              <Grid item xs={12}>
-                <Typography variant="subtitle1" fontWeight={500}>
-                  {formData.companyName}
-                </Typography>
+            <TextField
+              fullWidth
+              label="Company Name"
+              name="companyName"
+              value={formData.companyName}
+              InputProps={{ readOnly: true }}
+              sx={{ mb: 3 }}
+            />
+            
+            <Grid container spacing={3} sx={{ mb: 3 }}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Contact Name"
+                  name="contactName"
+                  value={formData.contactName}
+                  InputProps={{ readOnly: true }}
+                />
               </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body2" color="text.secondary">
-                  {formData.contactName}, {formData.email}, {formData.phone}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body2" color="text.secondary">
-                  {formData.address}, {formData.city}, {formData.state} {formData.zipCode}
-                </Typography>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Email"
+                  name="email"
+                  value={formData.email}
+                  InputProps={{ readOnly: true }}
+                />
               </Grid>
             </Grid>
             
-            <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
+            <TextField
+              fullWidth
+              label="Phone"
+              name="phone"
+              value={formData.phone}
+              InputProps={{ readOnly: true }}
+              sx={{ mb: 3 }}
+            />
+            
+            <TextField
+              fullWidth
+              label="Address"
+              name="address"
+              value={formData.address}
+              InputProps={{ readOnly: true }}
+              sx={{ mb: 3 }}
+            />
+            
+            <Grid container spacing={3} sx={{ mb: 4 }}>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  fullWidth
+                  label="City"
+                  name="city"
+                  value={formData.city}
+                  InputProps={{ readOnly: true }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  fullWidth
+                  label="State"
+                  name="state"
+                  value={formData.state}
+                  InputProps={{ readOnly: true }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  fullWidth
+                  label="Zip Code"
+                  name="zipCode"
+                  value={formData.zipCode}
+                  InputProps={{ readOnly: true }}
+                />
+              </Grid>
+            </Grid>
+            
+            <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 500 }}>
               On-Site Contact (Person Present at Pickup)
             </Typography>
             
-            <Grid container spacing={2} sx={{ mb: 4 }}>
-              <Grid item xs={12}>
-                <Typography variant="subtitle1" fontWeight={500}>
-                  {formData.onSiteContactName}, {formData.onSiteContactJobTitle}
-                </Typography>
+            <Grid container spacing={3} sx={{ mb: 3 }}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Full Name"
+                  name="onSiteContactName"
+                  value={formData.onSiteContactName}
+                  InputProps={{ readOnly: true }}
+                />
               </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body2" color="text.secondary">
-                  {formData.onSiteContactEmail}, {formData.onSiteContactPhone}
-                </Typography>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Job Title"
+                  name="onSiteContactJobTitle"
+                  value={formData.onSiteContactJobTitle}
+                  InputProps={{ readOnly: true }}
+                />
               </Grid>
             </Grid>
             
-            <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
+            <Grid container spacing={3} sx={{ mb: 3 }}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Phone Number"
+                  name="onSiteContactPhone"
+                  value={formData.onSiteContactPhone}
+                  InputProps={{ readOnly: true }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Email"
+                  name="onSiteContactEmail"
+                  value={formData.onSiteContactEmail}
+                  InputProps={{ readOnly: true }}
+                />
+              </Grid>
+            </Grid>
+            
+            <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 500 }}>
               Pickup Details
             </Typography>
             
-            <Grid container spacing={2} sx={{ mb: 4 }}>
-              <Grid item xs={12}>
-                <Typography variant="subtitle1" fontWeight={500}>
-                  {formData.preferredDate ? formData.preferredDate.toLocaleDateString() : 'No date selected'}
-                  {formData.preferredTimeWindow ? `, ${formData.preferredTimeWindow.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : ''}
-                </Typography>
+            <Grid container spacing={3} sx={{ mb: 3 }}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Preferred Date"
+                  value={formData.preferredDate ? formData.preferredDate.toLocaleDateString() : ''}
+                  InputProps={{ readOnly: true }}
+                />
               </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body2" color="text.secondary">
-                  {formData.pickupAddress}, {formData.pickupCity}, {formData.pickupState} {formData.pickupZipCode}
-                </Typography>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Preferred Time"
+                  value={formData.preferredTimeWindow ? formData.preferredTimeWindow.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
+                  InputProps={{ readOnly: true }}
+                />
+              </Grid>
+            </Grid>
+            
+            <TextField
+              fullWidth
+              label="Pickup Address"
+              name="pickupAddress"
+              value={formData.pickupAddress}
+              InputProps={{ readOnly: true }}
+              sx={{ mb: 3 }}
+            />
+            
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  fullWidth
+                  label="City"
+                  name="pickupCity"
+                  value={formData.pickupCity}
+                  InputProps={{ readOnly: true }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  fullWidth
+                  label="State"
+                  name="pickupState"
+                  value={formData.pickupState}
+                  InputProps={{ readOnly: true }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  fullWidth
+                  label="Zip Code"
+                  name="pickupZipCode"
+                  value={formData.pickupZipCode}
+                  InputProps={{ readOnly: true }}
+                />
               </Grid>
             </Grid>
           </Box>
@@ -425,10 +557,10 @@ const SchedulePickup = () => {
       <Container maxWidth="md" sx={{ py: 4 }}>
         <Paper sx={{ p: 4, borderRadius: 2, boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.05)' }}>
           <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 500 }}>
-            Schedule E-Waste Pick-Up
+            Schedule E-Waste Pickup
           </Typography>
           <Typography variant="body1" align="center" color="text.secondary" sx={{ mb: 4 }}>
-            Fill out the form below to schedule your electronic waste pick up.
+            Fill out the form below to schedule your electronic waste pickup.
           </Typography>
           
           <Box sx={{ mb: 4 }}>
