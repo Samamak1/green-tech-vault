@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -7,500 +6,402 @@ import {
   Card,
   CardContent,
   Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
   IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   TextField,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
   CircularProgress,
-  Tooltip,
-  Chip
+  Alert,
+  Snackbar,
+  Divider,
+  Avatar
 } from '@mui/material';
 import { 
-  Add as AddIcon,
-  Visibility as VisibilityIcon,
-  GetApp as DownloadIcon,
-  PictureAsPdf as PdfIcon,
-  TableChart as CsvIcon,
-  Delete as DeleteIcon,
-  Publish as PublishIcon
+  Edit as EditIcon,
+  Save as SaveIcon,
+  Cancel as CancelIcon,
+  Business as BusinessIcon
 } from '@mui/icons-material';
-import { reportAPI } from '../services/api';
-import { formatCO2, formatWeight } from '../utils/environmentalImpact';
+import { userAPI } from '../services/api';
+import ClientDashboardLayout from '../components/layout/ClientDashboardLayout';
 
-const Reports = () => {
-  const [reports, setReports] = useState([]);
+const CompanyProfile = () => {
+  const [profile, setProfile] = useState({
+    companyName: '',
+    industry: '',
+    employeeCount: '',
+    address: {
+      street: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: ''
+    },
+    contactPerson: {
+      name: '',
+      email: '',
+      phone: ''
+    },
+    logo: null,
+    sustainabilityGoals: '',
+    carbonFootprintTarget: '',
+  });
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [formData, setFormData] = useState({
-    type: 'Monthly',
-    title: '',
-    startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)),
-    endDate: new Date()
-  });
-  const [formErrors, setFormErrors] = useState({});
-  const [generating, setGenerating] = useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [reportToDelete, setReportToDelete] = useState(null);
-  
-  const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedProfile, setEditedProfile] = useState({});
+  const [saving, setSaving] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   useEffect(() => {
-    fetchReports();
+    fetchCompanyProfile();
   }, []);
 
-  const fetchReports = async () => {
+  const fetchCompanyProfile = async () => {
     try {
       setLoading(true);
-      const res = await reportAPI.getAll();
-      setReports(res.data.data);
+      const res = await userAPI.getCompanyProfile();
+      setProfile(res.data.data);
+      setEditedProfile(res.data.data);
       setError(null);
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to load reports');
-      console.error('Reports fetch error:', err);
+      setError(err.response?.data?.error || 'Failed to load company profile');
+      console.error('Company profile fetch error:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-    setFormData({
-      type: 'Monthly',
-      title: '',
-      startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)),
-      endDate: new Date()
-    });
-    setFormErrors({});
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
     
-    // Clear error for this field
-    if (formErrors[name]) {
-      setFormErrors({
-        ...formErrors,
-        [name]: null
+    if (name.includes('.')) {
+      const [section, field] = name.split('.');
+      setEditedProfile({
+        ...editedProfile,
+        [section]: {
+          ...editedProfile[section],
+          [field]: value
+        }
+      });
+    } else {
+      setEditedProfile({
+        ...editedProfile,
+        [name]: value
       });
     }
   };
 
-  const handleDateChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-    
-    // Clear error for this field
-    if (formErrors[name]) {
-      setFormErrors({
-        ...formErrors,
-        [name]: null
-      });
+  const handleEditToggle = () => {
+    if (isEditing) {
+      // Cancel editing - revert changes
+      setEditedProfile(profile);
     }
+    setIsEditing(!isEditing);
   };
 
-  const validateForm = () => {
-    const errors = {};
-    
-    if (!formData.title.trim()) {
-      errors.title = 'Title is required';
-    }
-    
-    if (!formData.startDate) {
-      errors.startDate = 'Start date is required';
-    }
-    
-    if (!formData.endDate) {
-      errors.endDate = 'End date is required';
-    }
-    
-    if (formData.startDate && formData.endDate && formData.startDate > formData.endDate) {
-      errors.endDate = 'End date must be after start date';
-    }
-    
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
-  const handleGenerateReport = async () => {
-    if (!validateForm()) {
-      return;
-    }
-    
+  const handleSaveProfile = async () => {
     try {
-      setGenerating(true);
+      setSaving(true);
+      await userAPI.updateCompanyProfile(editedProfile);
       
-      const reportData = {
-        type: formData.type,
-        title: formData.title,
-        startDate: formData.startDate.toISOString(),
-        endDate: formData.endDate.toISOString()
-      };
+      // Update the profile state with saved data
+      setProfile(editedProfile);
       
-      await reportAPI.generate(reportData);
+      // Exit edit mode
+      setIsEditing(false);
       
-      // Refresh reports list
-      await fetchReports();
-      
-      // Close dialog
-      handleCloseDialog();
+      // Show success message
+      setSuccessMessage('Company profile updated successfully!');
+      setOpenSnackbar(true);
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to generate report');
-      console.error('Report generation error:', err);
+      setError(err.response?.data?.error || 'Failed to update company profile');
+      console.error('Company profile update error:', err);
     } finally {
-      setGenerating(false);
+      setSaving(false);
     }
   };
 
-  const handleViewReport = (id) => {
-    navigate(`/reports/${id}`);
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
-  const handleDownloadPdf = async (id) => {
-    try {
-      const res = await reportAPI.downloadPdf(id);
-      
-      // Create a blob from the PDF data
-      const blob = new Blob([res.data], { type: 'application/pdf' });
-      
-      // Create a link and click it to trigger download
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      
-      // Find the report to use its title for the filename
-      const report = reports.find(r => r._id === id);
-      const filename = report ? `${report.title.replace(/\s+/g, '_')}.pdf` : `report_${id}.pdf`;
-      
-      link.setAttribute('download', filename);
-      document.body.appendChild(link);
-      link.click();
-      
-      // Clean up
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(link);
-    } catch (err) {
-      setError('Failed to download PDF');
-      console.error('PDF download error:', err);
-    }
-  };
-
-  const handleDownloadCsv = async (id) => {
-    try {
-      const res = await reportAPI.downloadCsv(id);
-      
-      // Create a blob from the CSV data
-      const blob = new Blob([res.data], { type: 'text/csv' });
-      
-      // Create a link and click it to trigger download
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      
-      // Find the report to use its title for the filename
-      const report = reports.find(r => r._id === id);
-      const filename = report ? `${report.title.replace(/\s+/g, '_')}.csv` : `report_${id}.csv`;
-      
-      link.setAttribute('download', filename);
-      document.body.appendChild(link);
-      link.click();
-      
-      // Clean up
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(link);
-    } catch (err) {
-      setError('Failed to download CSV');
-      console.error('CSV download error:', err);
-    }
-  };
-
-  const handleOpenDeleteDialog = (report) => {
-    setReportToDelete(report);
-    setDeleteDialogOpen(true);
-  };
-
-  const handleCloseDeleteDialog = () => {
-    setDeleteDialogOpen(false);
-    setReportToDelete(null);
-  };
-
-  const handleDeleteReport = async () => {
-    if (!reportToDelete) return;
-    
-    try {
-      await reportAPI.delete(reportToDelete._id);
-      
-      // Refresh reports list
-      await fetchReports();
-      
-      // Close dialog
-      handleCloseDeleteDialog();
-    } catch (err) {
-      setError('Failed to delete report');
-      console.error('Report deletion error:', err);
-    }
-  };
-
-  const handlePublishReport = async (id) => {
-    try {
-      await reportAPI.publish(id);
-      
-      // Refresh reports list
-      await fetchReports();
-    } catch (err) {
-      setError('Failed to publish report');
-      console.error('Report publishing error:', err);
-    }
-  };
-
-  if (loading && reports.length === 0) {
+  if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
-        <CircularProgress />
-      </Box>
+      <ClientDashboardLayout>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+          <CircularProgress />
+        </Box>
+      </ClientDashboardLayout>
     );
   }
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Environmental Impact Reports
-        </Typography>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={handleOpenDialog}
-        >
-          Generate New Report
-        </Button>
-      </Box>
-
-      {error && (
-        <Box sx={{ mb: 3 }}>
-          <Typography color="error" variant="body1">
-            {error}
+    <ClientDashboardLayout>
+      <Box sx={{ p: 3 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Company Profile
           </Typography>
-        </Box>
-      )}
-
-      {reports.length === 0 ? (
-        <Card>
-          <CardContent>
-            <Box sx={{ textAlign: 'center', py: 4 }}>
-              <Typography variant="h6" color="text.secondary" gutterBottom>
-                No reports found
-              </Typography>
-              <Typography variant="body1" color="text.secondary" paragraph>
-                Generate your first environmental impact report to track your e-waste management efforts.
-              </Typography>
-              <Button
-                variant="contained"
-                startIcon={<AddIcon />}
-                onClick={handleOpenDialog}
-              >
-                Generate New Report
-              </Button>
-            </Box>
-          </CardContent>
-        </Card>
-      ) : (
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="reports table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Title</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Date Range</TableCell>
-                <TableCell align="right">Devices</TableCell>
-                <TableCell align="right">CO₂ Saved</TableCell>
-                <TableCell align="center">Status</TableCell>
-                <TableCell align="center">Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {reports.map((report) => (
-                <TableRow key={report._id}>
-                  <TableCell component="th" scope="row">
-                    {report.title}
-                  </TableCell>
-                  <TableCell>{report.type}</TableCell>
-                  <TableCell>
-                    {new Date(report.dateRange.startDate).toLocaleDateString()} - {new Date(report.dateRange.endDate).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell align="right">
-                    {report.impactSummary.totalDevicesCollected}
-                  </TableCell>
-                  <TableCell align="right">
-                    {formatCO2(report.impactSummary.totalCO2Saved)}
-                  </TableCell>
-                  <TableCell align="center">
-                    <Chip 
-                      label={report.status} 
-                      color={report.status === 'Published' ? 'success' : 'default'} 
-                      size="small" 
-                    />
-                  </TableCell>
-                  <TableCell align="center">
-                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                      <Tooltip title="View Report">
-                        <IconButton size="small" onClick={() => handleViewReport(report._id)}>
-                          <VisibilityIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Download PDF">
-                        <IconButton size="small" onClick={() => handleDownloadPdf(report._id)}>
-                          <PdfIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Download CSV">
-                        <IconButton size="small" onClick={() => handleDownloadCsv(report._id)}>
-                          <CsvIcon />
-                        </IconButton>
-                      </Tooltip>
-                      {report.status === 'Draft' && (
-                        <Tooltip title="Publish Report">
-                          <IconButton size="small" onClick={() => handlePublishReport(report._id)}>
-                            <PublishIcon />
-                          </IconButton>
-                        </Tooltip>
-                      )}
-                      <Tooltip title="Delete Report">
-                        <IconButton size="small" onClick={() => handleOpenDeleteDialog(report)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
-
-      {/* Generate Report Dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-        <DialogTitle>Generate Environmental Impact Report</DialogTitle>
-        <DialogContent>
-          <Box sx={{ mt: 2 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Report Title"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleInputChange}
-                  error={!!formErrors.title}
-                  helperText={formErrors.title}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel id="report-type-label">Report Type</InputLabel>
-                  <Select
-                    labelId="report-type-label"
-                    id="report-type"
-                    name="type"
-                    value={formData.type}
-                    label="Report Type"
-                    onChange={handleInputChange}
-                  >
-                    <MenuItem value="Pickup">Pickup</MenuItem>
-                    <MenuItem value="Monthly">Monthly</MenuItem>
-                    <MenuItem value="Quarterly">Quarterly</MenuItem>
-                    <MenuItem value="Annual">Annual</MenuItem>
-                    <MenuItem value="Custom">Custom</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Start Date"
-                  name="startDate"
-                  type="date"
-                  value={formData.startDate ? new Date(formData.startDate).toISOString().split('T')[0] : ''}
-                  onChange={handleInputChange}
-                  InputLabelProps={{ shrink: true }}
-                  error={!!formErrors.startDate}
-                  helperText={formErrors.startDate}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="End Date"
-                  name="endDate"
-                  type="date"
-                  value={formData.endDate ? new Date(formData.endDate).toISOString().split('T')[0] : ''}
-                  onChange={handleInputChange}
-                  InputLabelProps={{ shrink: true }}
-                  error={!!formErrors.endDate}
-                  helperText={formErrors.endDate}
-                  required
-                />
-              </Grid>
-            </Grid>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
           <Button
-            onClick={handleGenerateReport}
-            variant="contained"
-            disabled={generating}
-            startIcon={generating ? <CircularProgress size={20} /> : null}
+            variant={isEditing ? "outlined" : "contained"}
+            color={isEditing ? "error" : "primary"}
+            startIcon={isEditing ? <CancelIcon /> : <EditIcon />}
+            onClick={handleEditToggle}
+            disabled={saving}
           >
-            {generating ? 'Generating...' : 'Generate Report'}
+            {isEditing ? 'Cancel' : 'Edit Profile'}
           </Button>
-        </DialogActions>
-      </Dialog>
+        </Box>
 
-      {/* Delete Confirmation Dialog */}
-      <Dialog open={deleteDialogOpen} onClose={handleCloseDeleteDialog}>
-        <DialogTitle>Delete Report</DialogTitle>
-        <DialogContent>
-          <Typography variant="body1">
-            Are you sure you want to delete the report "{reportToDelete?.title}"? This action cannot be undone.
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
-          <Button onClick={handleDeleteReport} color="error">
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+        {error && (
+          <Alert severity="error" sx={{ mb: 3 }}>
+            {error}
+          </Alert>
+        )}
+
+        <Grid container spacing={3}>
+          {/* Company Information Card */}
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <Avatar sx={{ bgcolor: 'primary.main', mr: 2 }}>
+                    <BusinessIcon />
+                  </Avatar>
+                  <Typography variant="h6">Company Information</Typography>
+                </Box>
+                <Divider sx={{ mb: 2 }} />
+                
+                <Box sx={{ mb: 2 }}>
+                  <TextField
+                    fullWidth
+                    label="Company Name"
+                    name="companyName"
+                    value={isEditing ? editedProfile.companyName : profile.companyName}
+                    onChange={handleInputChange}
+                    margin="normal"
+                    disabled={!isEditing}
+                  />
+                </Box>
+                
+                <Box sx={{ mb: 2 }}>
+                  <TextField
+                    fullWidth
+                    label="Industry"
+                    name="industry"
+                    value={isEditing ? editedProfile.industry : profile.industry}
+                    onChange={handleInputChange}
+                    margin="normal"
+                    disabled={!isEditing}
+                  />
+                </Box>
+                
+                <Box sx={{ mb: 2 }}>
+                  <TextField
+                    fullWidth
+                    label="Employee Count"
+                    name="employeeCount"
+                    type="number"
+                    value={isEditing ? editedProfile.employeeCount : profile.employeeCount}
+                    onChange={handleInputChange}
+                    margin="normal"
+                    disabled={!isEditing}
+                  />
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* Address Card */}
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Company Address
+                </Typography>
+                <Divider sx={{ mb: 2 }} />
+                
+                <Box sx={{ mb: 2 }}>
+                  <TextField
+                    fullWidth
+                    label="Street Address"
+                    name="address.street"
+                    value={isEditing ? editedProfile.address?.street : profile.address?.street}
+                    onChange={handleInputChange}
+                    margin="normal"
+                    disabled={!isEditing}
+                  />
+                </Box>
+                
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <TextField
+                      fullWidth
+                      label="City"
+                      name="address.city"
+                      value={isEditing ? editedProfile.address?.city : profile.address?.city}
+                      onChange={handleInputChange}
+                      margin="normal"
+                      disabled={!isEditing}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      fullWidth
+                      label="State/Province"
+                      name="address.state"
+                      value={isEditing ? editedProfile.address?.state : profile.address?.state}
+                      onChange={handleInputChange}
+                      margin="normal"
+                      disabled={!isEditing}
+                    />
+                  </Grid>
+                </Grid>
+                
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <TextField
+                      fullWidth
+                      label="Zip/Postal Code"
+                      name="address.zipCode"
+                      value={isEditing ? editedProfile.address?.zipCode : profile.address?.zipCode}
+                      onChange={handleInputChange}
+                      margin="normal"
+                      disabled={!isEditing}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      fullWidth
+                      label="Country"
+                      name="address.country"
+                      value={isEditing ? editedProfile.address?.country : profile.address?.country}
+                      onChange={handleInputChange}
+                      margin="normal"
+                      disabled={!isEditing}
+                    />
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* Contact Person Card */}
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Primary Contact
+                </Typography>
+                <Divider sx={{ mb: 2 }} />
+                
+                <Box sx={{ mb: 2 }}>
+                  <TextField
+                    fullWidth
+                    label="Contact Name"
+                    name="contactPerson.name"
+                    value={isEditing ? editedProfile.contactPerson?.name : profile.contactPerson?.name}
+                    onChange={handleInputChange}
+                    margin="normal"
+                    disabled={!isEditing}
+                  />
+                </Box>
+                
+                <Box sx={{ mb: 2 }}>
+                  <TextField
+                    fullWidth
+                    label="Contact Email"
+                    name="contactPerson.email"
+                    type="email"
+                    value={isEditing ? editedProfile.contactPerson?.email : profile.contactPerson?.email}
+                    onChange={handleInputChange}
+                    margin="normal"
+                    disabled={!isEditing}
+                  />
+                </Box>
+                
+                <Box sx={{ mb: 2 }}>
+                  <TextField
+                    fullWidth
+                    label="Contact Phone"
+                    name="contactPerson.phone"
+                    value={isEditing ? editedProfile.contactPerson?.phone : profile.contactPerson?.phone}
+                    onChange={handleInputChange}
+                    margin="normal"
+                    disabled={!isEditing}
+                  />
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* Sustainability Goals Card */}
+          <Grid item xs={12}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Sustainability Goals
+                </Typography>
+                <Divider sx={{ mb: 2 }} />
+                
+                <Box sx={{ mb: 2 }}>
+                  <TextField
+                    fullWidth
+                    label="Sustainability Goals"
+                    name="sustainabilityGoals"
+                    value={isEditing ? editedProfile.sustainabilityGoals : profile.sustainabilityGoals}
+                    onChange={handleInputChange}
+                    margin="normal"
+                    multiline
+                    rows={3}
+                    disabled={!isEditing}
+                  />
+                </Box>
+                
+                <Box sx={{ mb: 2 }}>
+                  <TextField
+                    fullWidth
+                    label="Carbon Footprint Reduction Target"
+                    name="carbonFootprintTarget"
+                    value={isEditing ? editedProfile.carbonFootprintTarget : profile.carbonFootprintTarget}
+                    onChange={handleInputChange}
+                    margin="normal"
+                    disabled={!isEditing}
+                  />
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+
+        {isEditing && (
+          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={saving ? <CircularProgress size={20} /> : <SaveIcon />}
+              onClick={handleSaveProfile}
+              disabled={saving}
+              sx={{ ml: 2 }}
+            >
+              {saving ? 'Saving...' : 'Save Changes'}
+            </Button>
+          </Box>
+        )}
+
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+        >
+          <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+            {successMessage}
+          </Alert>
+        </Snackbar>
+      </Box>
+    </ClientDashboardLayout>
   );
 };
 
-export default Reports; 
+export default CompanyProfile; 

@@ -53,7 +53,7 @@ const ReportDetail = () => {
   const fetchReportDetails = async () => {
     try {
       setLoading(true);
-      const res = await reportAPI.getReportById(id);
+      const res = await reportAPI.getById(id);
       setReport(res.data.data);
       setError(null);
     } catch (err) {
@@ -66,7 +66,7 @@ const ReportDetail = () => {
 
   const handleDownloadReport = async () => {
     try {
-      const res = await reportAPI.downloadReport(id);
+      const res = await reportAPI.downloadPdf(id);
       
       // Create a blob from the response data
       const blob = new Blob([res.data], { type: res.headers['content-type'] });

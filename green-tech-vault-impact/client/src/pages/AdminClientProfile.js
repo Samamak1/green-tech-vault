@@ -1,0 +1,671 @@
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import {
+  Box,
+  Typography,
+  Paper,
+  Grid,
+  Tabs,
+  Tab,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Button,
+  IconButton,
+  Chip,
+  TextField,
+  InputAdornment
+} from '@mui/material';
+import {
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+  Search as SearchIcon,
+  FilterList as FilterListIcon,
+  ArrowBack as ArrowBackIcon
+} from '@mui/icons-material';
+
+const AdminClientProfile = () => {
+  const { clientId } = useParams();
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState(0);
+  const [client, setClient] = useState(null);
+  const [pickups, setPickups] = useState([]);
+  const [devices, setDevices] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // In a real app, you would fetch the actual client data
+    // For now, we'll use mock data
+    const mockClient = {
+      id: '3',
+      name: 'EcoFriendly Inc',
+      contactPerson: 'James Harold',
+      email: 'jamesharold44@gmail.com',
+      phone: '(555) 123-4567',
+      address: '123 Green St, Cincinnati OH, 51729',
+      website: 'www.ecofriendly.com',
+      industry: 'Technology',
+      employees: '223',
+      lastContacted: 'March 15, 2025',
+      contactMethod: 'Email',
+      conversationNotes: 'Discussion of new proposal',
+      devicesProcessed: 4,
+      totalWeight: 25.1,
+      co2Saved: 73.5,
+      treesPlanted: 5,
+      refurbished: 2,
+      recycled: 2,
+      disposed: 0
+    };
+
+    const mockPickups = [
+      {
+        id: '1',
+        date: '01/24/2025',
+        location: 'Cincinnati Warehouse',
+        status: 'complete',
+        weight: 2.5,
+        personName: 'John Smith',
+        personTitle: 'Table Head'
+      },
+      {
+        id: '2',
+        date: 'Table Head',
+        location: 'Table Head',
+        status: 'in-processing',
+        weight: null,
+        personName: 'Table Head',
+        personTitle: 'Table Head'
+      },
+      {
+        id: '3',
+        date: 'Table Head',
+        location: 'Table Head',
+        status: 'recycled',
+        weight: null,
+        personName: 'Table Head',
+        personTitle: 'Table Head'
+      },
+      {
+        id: '4',
+        date: 'Table Head',
+        location: 'Table Head',
+        status: 'complete',
+        weight: null,
+        personName: 'Table Head',
+        personTitle: 'Table Head'
+      }
+    ];
+
+    const mockDevices = [
+      {
+        id: '1',
+        type: 'Laptop',
+        manufacturer: 'Dell',
+        model: 'XPS 15',
+        serialNumber: 'DL1234567B',
+        status: 'refurbished',
+        weight: 2.5
+      },
+      {
+        id: '2',
+        type: 'Table Head',
+        manufacturer: 'Table Head',
+        model: 'Table Head',
+        serialNumber: 'Table Head',
+        status: 'in-processing',
+        weight: null
+      },
+      {
+        id: '3',
+        type: 'Table Head',
+        manufacturer: 'Table Head',
+        model: 'Table Head',
+        serialNumber: 'Table Head',
+        status: 'recycled',
+        weight: null
+      },
+      {
+        id: '4',
+        type: 'Table Head',
+        manufacturer: 'Table Head',
+        model: 'Table Head',
+        serialNumber: 'Table Head',
+        status: 'recycled',
+        weight: null
+      },
+      {
+        id: '5',
+        type: 'Table Head',
+        manufacturer: 'Table Head',
+        model: 'Table Head',
+        serialNumber: 'Table Head',
+        status: 'in-processing',
+        weight: null
+      },
+      {
+        id: '6',
+        type: 'Table Head',
+        manufacturer: 'Table Head',
+        model: 'Table Head',
+        serialNumber: 'Table Head',
+        status: 'refurbished',
+        weight: null
+      },
+      {
+        id: '7',
+        type: 'Table Head',
+        manufacturer: 'Table Head',
+        model: 'Table Head',
+        serialNumber: 'Table Head',
+        status: 'disposed',
+        weight: null
+      },
+      {
+        id: '8',
+        type: 'Table Head',
+        manufacturer: 'Table Head',
+        model: 'Table Head',
+        serialNumber: 'Table Head',
+        status: 'recycled',
+        weight: null
+      },
+      {
+        id: '9',
+        type: 'Table Head',
+        manufacturer: 'Table Head',
+        model: 'Table Head',
+        serialNumber: 'Table Head',
+        status: 'in-processing',
+        weight: null
+      },
+      {
+        id: '10',
+        type: 'Table Head',
+        manufacturer: 'Table Head',
+        model: 'Table Head',
+        serialNumber: 'Table Head',
+        status: 'recycled',
+        weight: null
+      },
+      {
+        id: '11',
+        type: 'Table Head',
+        manufacturer: 'Table Head',
+        model: 'Table Head',
+        serialNumber: 'Table Head',
+        status: 'refurbished',
+        weight: null
+      }
+    ];
+
+    setClient(mockClient);
+    setPickups(mockPickups);
+    setDevices(mockDevices);
+    setLoading(false);
+  }, [clientId]);
+
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
+
+  const handleGoBack = () => {
+    navigate('/admin/dashboard');
+  };
+
+  const handleSchedulePickup = () => {
+    navigate(`/schedule-pickup/${clientId}`);
+  };
+
+  const getStatusChipStyle = (status) => {
+    switch(status.toLowerCase()) {
+      case 'complete':
+      case 'completed':
+        return { bgcolor: '#e3f7f5', color: '#4ECDC4', borderRadius: '16px' };
+      case 'in-processing':
+      case 'in-progress':
+        return { bgcolor: '#fff8e0', color: '#ffa000', borderRadius: '16px' };
+      case 'refurbished':
+        return { bgcolor: '#e3f7f5', color: '#4ECDC4', borderRadius: '16px' };
+      case 'recycled':
+        return { bgcolor: '#e3f2ff', color: '#2196f3', borderRadius: '16px' };
+      case 'disposed':
+        return { bgcolor: '#ffebee', color: '#f44336', borderRadius: '16px' };
+      default:
+        return { bgcolor: '#e0e0e0', color: '#616161', borderRadius: '16px' };
+    }
+  };
+
+  if (loading) {
+    return <Box sx={{ p: 3 }}>Loading...</Box>;
+  }
+
+  return (
+    <Box sx={{ p: 3 }}>
+      {/* Header */}
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+        <Button 
+          startIcon={<ArrowBackIcon />} 
+          onClick={handleGoBack}
+          sx={{ color: '#888', fontSize: '0.9rem', fontWeight: 'normal', textTransform: 'none' }}
+        >
+          Back to Dashboard
+        </Button>
+        <Typography variant="h6" sx={{ ml: 2, color: '#444', fontWeight: 500 }}>
+          Client Profile: {client.name}
+        </Typography>
+      </Box>
+
+      <Grid container spacing={3}>
+        {/* Left Column - Company Information */}
+        <Grid item xs={12} md={4}>
+          <Paper sx={{ p: 3, borderRadius: 2, height: '100%' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+              <Typography variant="h6" sx={{ color: '#444', fontWeight: 500 }}>
+                Company Information
+              </Typography>
+              <Button 
+                startIcon={<EditIcon />} 
+                size="small"
+                sx={{ 
+                  color: '#4ECDC4', 
+                  fontSize: '0.8rem', 
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '8px',
+                  py: 0.5,
+                  px: 1.5,
+                }}
+              >
+                Edit
+              </Button>
+            </Box>
+
+            <Box sx={{ mt: 3 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={5}>
+                  <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact Person</Typography>
+                </Grid>
+                <Grid item xs={7}>
+                  <Typography variant="body2">{client.contactPerson}</Typography>
+                </Grid>
+
+                <Grid item xs={5}>
+                  <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Email</Typography>
+                </Grid>
+                <Grid item xs={7}>
+                  <Typography variant="body2">{client.email}</Typography>
+                </Grid>
+
+                <Grid item xs={5}>
+                  <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
+                </Grid>
+                <Grid item xs={7}>
+                  <Typography variant="body2">{client.phone}</Typography>
+                </Grid>
+
+                <Grid item xs={5}>
+                  <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Address</Typography>
+                </Grid>
+                <Grid item xs={7}>
+                  <Typography variant="body2">{client.address}</Typography>
+                </Grid>
+
+                <Grid item xs={5}>
+                  <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Website</Typography>
+                </Grid>
+                <Grid item xs={7}>
+                  <Typography variant="body2">{client.website}</Typography>
+                </Grid>
+
+                <Grid item xs={5}>
+                  <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Industry</Typography>
+                </Grid>
+                <Grid item xs={7}>
+                  <Typography variant="body2">{client.industry}</Typography>
+                </Grid>
+
+                <Grid item xs={5}>
+                  <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Employees</Typography>
+                </Grid>
+                <Grid item xs={7}>
+                  <Typography variant="body2">{client.employees}</Typography>
+                </Grid>
+              </Grid>
+            </Box>
+
+            <Box sx={{ mt: 4 }}>
+              <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 2 }}>
+                Contact History
+              </Typography>
+              
+              <Grid container spacing={2}>
+                <Grid item xs={5}>
+                  <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Last Contacted</Typography>
+                </Grid>
+                <Grid item xs={7}>
+                  <Typography variant="body2">{client.lastContacted}</Typography>
+                </Grid>
+
+                <Grid item xs={5}>
+                  <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact Method</Typography>
+                </Grid>
+                <Grid item xs={7}>
+                  <Typography variant="body2">{client.contactMethod}</Typography>
+                </Grid>
+
+                <Grid item xs={5}>
+                  <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Conversation Notes</Typography>
+                </Grid>
+                <Grid item xs={7}>
+                  <Typography variant="body2">{client.conversationNotes}</Typography>
+                </Grid>
+              </Grid>
+            </Box>
+
+            <Box sx={{ mt: 4 }}>
+              <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 2 }}>
+                Environmental Impact
+              </Typography>
+
+              <Grid container spacing={3}>
+                <Grid item xs={6}>
+                  <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
+                    <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
+                      {client.devicesProcessed}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: '#666' }}>
+                      Devices Processed
+                    </Typography>
+                  </Paper>
+                </Grid>
+                <Grid item xs={6}>
+                  <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
+                    <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
+                      {client.totalWeight}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: '#666' }}>
+                      Total weight (kg)
+                    </Typography>
+                  </Paper>
+                </Grid>
+                <Grid item xs={6}>
+                  <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
+                    <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
+                      {client.co2Saved}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: '#666' }}>
+                      CO2 Saved (kg)
+                    </Typography>
+                  </Paper>
+                </Grid>
+                <Grid item xs={6}>
+                  <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
+                    <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
+                      {client.treesPlanted}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: '#666' }}>
+                      Trees Planted
+                    </Typography>
+                  </Paper>
+                </Grid>
+              </Grid>
+
+              <Box sx={{ mt: 3 }}>
+                <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, mb: 1 }}>
+                  Device Disposition:
+                </Typography>
+                <Grid container spacing={1}>
+                  <Grid item xs={4}>
+                    <Typography variant="body2">
+                      Refurbished: {client.refurbished}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography variant="body2">
+                      Recycled: {client.recycled}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography variant="body2">
+                      Disposed: {client.disposed}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
+          </Paper>
+        </Grid>
+
+        {/* Right Column - Tabs */}
+        <Grid item xs={12} md={8}>
+          <Paper sx={{ borderRadius: 2, overflow: 'hidden' }}>
+            {/* Tabs */}
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Tabs 
+                value={activeTab} 
+                onChange={handleTabChange}
+                sx={{
+                  '& .MuiTab-root': { 
+                    textTransform: 'none',
+                    fontSize: '16px',
+                    fontWeight: 'normal',
+                    color: '#666',
+                    '&.Mui-selected': {
+                      color: '#4ECDC4',
+                      fontWeight: 'medium',
+                    }
+                  },
+                  '& .MuiTabs-indicator': {
+                    backgroundColor: '#4ECDC4'
+                  }
+                }}
+              >
+                <Tab label="Pickups" />
+                <Tab label="Devices" />
+              </Tabs>
+            </Box>
+
+            {/* Pickups Tab */}
+            {activeTab === 0 && (
+              <Box sx={{ p: 2 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <TextField
+                      placeholder="Search specifics"
+                      size="small"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <SearchIcon fontSize="small" sx={{ color: '#aaa' }} />
+                          </InputAdornment>
+                        ),
+                      }}
+                      sx={{ mr: 1, width: '200px' }}
+                    />
+                    <Button 
+                      startIcon={<FilterListIcon />}
+                      size="small"
+                      sx={{ 
+                        color: '#666', 
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '4px',
+                        textTransform: 'none'
+                      }}
+                    >
+                      Filter
+                    </Button>
+                  </Box>
+                  <Button
+                    variant="contained"
+                    onClick={handleSchedulePickup}
+                    sx={{ 
+                      bgcolor: '#4ECDC4', 
+                      color: 'white',
+                      '&:hover': { bgcolor: '#3dbdb5' },
+                      borderRadius: '8px',
+                      textTransform: 'none'
+                    }}
+                  >
+                    + Schedule a Pickup
+                  </Button>
+                </Box>
+
+                <TableContainer>
+                  <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
+                    <TableHead>
+                      <TableRow sx={{ bgcolor: '#f5f5f5' }}>
+                        <TableCell padding="checkbox" width="40px">
+                          <input type="checkbox" />
+                        </TableCell>
+                        <TableCell width="15%">Person</TableCell>
+                        <TableCell width="12%">Date</TableCell>
+                        <TableCell width="15%">Time</TableCell>
+                        <TableCell width="15%">Location</TableCell>
+                        <TableCell width="15%">Status</TableCell>
+                        <TableCell width="12%">Weight (kg)</TableCell>
+                        <TableCell width="15%">Actions</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {pickups.map((pickup) => (
+                        <TableRow key={pickup.id} hover>
+                          <TableCell padding="checkbox">
+                            <input type="checkbox" />
+                          </TableCell>
+                          <TableCell>{pickup.personName}</TableCell>
+                          <TableCell>{pickup.date}</TableCell>
+                          <TableCell>{pickup.personTitle}</TableCell>
+                          <TableCell>{pickup.location}</TableCell>
+                          <TableCell>
+                            <Chip 
+                              label={pickup.status === 'complete' ? 'Complete' : 
+                                     pickup.status === 'in-processing' ? 'In Processing' : 
+                                     pickup.status === 'recycled' ? 'Recycled' : pickup.status}
+                              size="small"
+                              sx={{ ...getStatusChipStyle(pickup.status), textTransform: 'capitalize' }}
+                            />
+                          </TableCell>
+                          <TableCell>{pickup.weight}</TableCell>
+                          <TableCell>
+                            <IconButton size="small" sx={{ color: '#4ECDC4' }}>
+                              <EditIcon fontSize="small" />
+                            </IconButton>
+                            <IconButton size="small" sx={{ color: '#f44336' }}>
+                              <DeleteIcon fontSize="small" />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+            )}
+
+            {/* Devices Tab */}
+            {activeTab === 1 && (
+              <Box sx={{ p: 2 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <TextField
+                      placeholder="Search devices"
+                      size="small"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <SearchIcon fontSize="small" sx={{ color: '#aaa' }} />
+                          </InputAdornment>
+                        ),
+                      }}
+                      sx={{ mr: 1, width: '200px' }}
+                    />
+                    <Button 
+                      startIcon={<FilterListIcon />}
+                      size="small"
+                      sx={{ 
+                        color: '#666', 
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '4px',
+                        textTransform: 'none'
+                      }}
+                    >
+                      Filter
+                    </Button>
+                  </Box>
+                  <Button
+                    variant="contained"
+                    sx={{ 
+                      bgcolor: '#4ECDC4', 
+                      color: 'white',
+                      '&:hover': { bgcolor: '#3dbdb5' },
+                      borderRadius: '8px',
+                      textTransform: 'none'
+                    }}
+                  >
+                    + Add Device
+                  </Button>
+                </Box>
+
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+                    John Smith's 01/24/2025 Pickup
+                  </Typography>
+                </Box>
+
+                <TableContainer>
+                  <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
+                    <TableHead>
+                      <TableRow sx={{ bgcolor: '#f5f5f5' }}>
+                        <TableCell width="15%">Type</TableCell>
+                        <TableCell width="15%">Manufacturer</TableCell>
+                        <TableCell width="15%">Model</TableCell>
+                        <TableCell width="20%">Serial Number</TableCell>
+                        <TableCell width="15%">Status</TableCell>
+                        <TableCell width="10%">Weight (kg)</TableCell>
+                        <TableCell width="10%">Actions</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {devices.map((device) => (
+                        <TableRow key={device.id} hover>
+                          <TableCell>{device.type}</TableCell>
+                          <TableCell>{device.manufacturer}</TableCell>
+                          <TableCell>{device.model}</TableCell>
+                          <TableCell>{device.serialNumber}</TableCell>
+                          <TableCell>
+                            <Chip 
+                              label={device.status === 'refurbished' ? 'Refurbished' : 
+                                     device.status === 'in-processing' ? 'In Processing' : 
+                                     device.status === 'recycled' ? 'Recycled' :
+                                     device.status === 'disposed' ? 'Disposed' : device.status}
+                              size="small"
+                              sx={{ ...getStatusChipStyle(device.status), textTransform: 'capitalize' }}
+                            />
+                          </TableCell>
+                          <TableCell>{device.weight}</TableCell>
+                          <TableCell>
+                            <IconButton size="small" sx={{ color: '#4ECDC4' }}>
+                              <EditIcon fontSize="small" />
+                            </IconButton>
+                            <IconButton size="small" sx={{ color: '#f44336' }}>
+                              <DeleteIcon fontSize="small" />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+            )}
+          </Paper>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+export default AdminClientProfile; 

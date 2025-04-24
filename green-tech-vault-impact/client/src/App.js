@@ -42,6 +42,7 @@ import AssetTrackingReportPage from './pages/AssetTrackingReportPage';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminClientDetail from './pages/AdminClientDetail';
+import AdminClientProfile from './pages/AdminClientProfile';
 import AdminPickupDetail from './pages/AdminPickupDetail';
 import AdminPickupCalendar from './pages/AdminPickupCalendar';
 import AdminAnnouncements from './pages/AdminAnnouncements';
@@ -309,7 +310,7 @@ function App() {
             <Route path="calendar" element={<h1>Admin Calendar</h1>} />
             <Route path="messages" element={<h1>Admin Messages</h1>} />
             <Route path="announcements" element={<AdminAnnouncements />} />
-            <Route path="clients/:clientId" element={<AdminClientDetail />} />
+            <Route path="clients/:clientId" element={<AdminClientProfile />} />
             <Route path="pickup-calendar" element={<AdminPickupCalendar />} />
             <Route path="pickup-detail" element={<AdminPickupDetail />} />
             <Route path="pickups/:pickupId" element={<AdminPickupDetail />} />

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Typography,
+  Button,
   Card,
   CardContent,
   Grid,
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -15,10 +15,6 @@ import {
   TableRow,
   Paper,
   IconButton,
-  CircularProgress,
-  Alert,
-  Pagination,
-  Divider,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -27,47 +23,51 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  Select
+  Select,
+  CircularProgress,
+  Tooltip,
+  Chip,
+  Alert
 } from '@mui/material';
 import { 
-  Add as AddIcon, 
-  Download as DownloadIcon,
-  Visibility as ViewIcon,
-  Share as ShareIcon,
-  Delete as DeleteIcon
+  Add as AddIcon,
+  Visibility as VisibilityIcon,
+  GetApp as DownloadIcon,
+  PictureAsPdf as PdfIcon,
+  TableChart as CsvIcon,
+  Delete as DeleteIcon,
+  Publish as PublishIcon
 } from '@mui/icons-material';
 import { reportAPI } from '../services/api';
-import { formatDate } from '../utils/formatters';
+import { formatCO2, formatWeight } from '../utils/environmentalImpact';
 
 const Reports = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [openDialog, setOpenDialog] = useState(false);
   const [formData, setFormData] = useState({
+    type: 'Monthly',
     title: '',
-    type: 'monthly',
-    dateRange: {
-      startDate: '',
-      endDate: ''
-    },
-    format: 'pdf'
+    startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+    endDate: new Date()
   });
-  const [formError, setFormError] = useState(null);
+  const [formErrors, setFormErrors] = useState({});
   const [generating, setGenerating] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [reportToDelete, setReportToDelete] = useState(null);
+  
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchReports();
-  }, [page]);
+  }, []);
 
   const fetchReports = async () => {
     try {
       setLoading(true);
-      const res = await reportAPI.getReports({ page, limit: 10 });
+      const res = await reportAPI.getAll();
       setReports(res.data.data);
-      setTotalPages(Math.ceil(res.data.total / 10) || 1);
       setError(null);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to load reports');
@@ -77,159 +77,203 @@ const Reports = () => {
     }
   };
 
-  const handlePageChange = (event, value) => {
-    setPage(value);
-  };
-
   const handleOpenDialog = () => {
     setOpenDialog(true);
-    // Set default date range to current month
-    const today = new Date();
-    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-    const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    
-    setFormData({
-      title: `Environmental Impact Report - ${formatDate(firstDay, 'MMM YYYY')}`,
-      type: 'monthly',
-      dateRange: {
-        startDate: firstDay.toISOString().split('T')[0],
-        endDate: lastDay.toISOString().split('T')[0]
-      },
-      format: 'pdf'
-    });
-    setFormError(null);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
+    setFormData({
+      type: 'Monthly',
+      title: '',
+      startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+      endDate: new Date()
+    });
+    setFormErrors({});
   };
 
-  const handleFormChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
     
-    if (name.includes('.')) {
-      const [parent, child] = name.split('.');
-      setFormData({
-        ...formData,
-        [parent]: {
-          ...formData[parent],
-          [child]: value
-        }
-      });
-    } else if (name === 'type') {
-      // Adjust date range based on report type
-      const today = new Date();
-      let startDate, endDate, title;
-      
-      switch (value) {
-        case 'monthly':
-          startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-          endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-          title = `Environmental Impact Report - ${formatDate(startDate, 'MMM YYYY')}`;
-          break;
-        case 'quarterly':
-          const quarter = Math.floor(today.getMonth() / 3);
-          startDate = new Date(today.getFullYear(), quarter * 3, 1);
-          endDate = new Date(today.getFullYear(), (quarter + 1) * 3, 0);
-          title = `Quarterly Environmental Impact Report - Q${quarter + 1} ${today.getFullYear()}`;
-          break;
-        case 'annual':
-          startDate = new Date(today.getFullYear(), 0, 1);
-          endDate = new Date(today.getFullYear(), 11, 31);
-          title = `Annual Environmental Impact Report - ${today.getFullYear()}`;
-          break;
-        case 'custom':
-          // Keep existing dates for custom
-          startDate = new Date(formData.dateRange.startDate);
-          endDate = new Date(formData.dateRange.endDate);
-          title = `Custom Environmental Impact Report`;
-          break;
-        default:
-          startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-          endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-          title = `Environmental Impact Report - ${formatDate(startDate, 'MMM YYYY')}`;
-      }
-      
-      setFormData({
-        ...formData,
-        title,
-        type: value,
-        dateRange: {
-          startDate: startDate.toISOString().split('T')[0],
-          endDate: endDate.toISOString().split('T')[0]
-        }
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value
+    // Clear error for this field
+    if (formErrors[name]) {
+      setFormErrors({
+        ...formErrors,
+        [name]: null
       });
     }
   };
 
+  const validateForm = () => {
+    const errors = {};
+    
+    if (!formData.title.trim()) {
+      errors.title = 'Title is required';
+    }
+    
+    if (!formData.startDate) {
+      errors.startDate = 'Start date is required';
+    }
+    
+    if (!formData.endDate) {
+      errors.endDate = 'End date is required';
+    }
+    
+    if (formData.startDate && formData.endDate && formData.startDate > formData.endDate) {
+      errors.endDate = 'End date must be after start date';
+    }
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleGenerateReport = async () => {
+    if (!validateForm()) {
+      return;
+    }
+    
     try {
-      setFormError(null);
       setGenerating(true);
       
-      await reportAPI.generateReport(formData);
+      const reportData = {
+        type: formData.type,
+        title: formData.title,
+        startDate: formData.startDate.toISOString(),
+        endDate: formData.endDate.toISOString()
+      };
+      
+      await reportAPI.generate(reportData);
+      
+      // Refresh reports list
+      await fetchReports();
+      
+      // Close dialog
       handleCloseDialog();
-      fetchReports();
     } catch (err) {
-      setFormError(err.response?.data?.error || 'Failed to generate report');
+      setError(err.response?.data?.error || 'Failed to generate report');
       console.error('Report generation error:', err);
     } finally {
       setGenerating(false);
     }
   };
 
-  const handleDownloadReport = async (reportId) => {
+  const handleViewReport = (id) => {
+    navigate(`/reports/${id}`);
+  };
+
+  const handleDownloadPdf = async (id) => {
     try {
-      const res = await reportAPI.downloadReport(reportId);
+      const res = await reportAPI.downloadPdf(id);
       
-      // Create a blob from the response data
-      const blob = new Blob([res.data], { type: res.headers['content-type'] });
+      // Create a blob from the PDF data
+      const blob = new Blob([res.data], { type: 'application/pdf' });
       
-      // Create a link element and trigger download
+      // Create a link and click it to trigger download
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       
-      // Get filename from content-disposition header or use default
-      const contentDisposition = res.headers['content-disposition'];
-      let filename = 'report';
-      
-      if (contentDisposition) {
-        const filenameMatch = contentDisposition.match(/filename="(.+)"/);
-        if (filenameMatch.length === 2) {
-          filename = filenameMatch[1];
-        }
-      }
+      // Find the report to use its title for the filename
+      const report = reports.find(r => r._id === id);
+      const filename = report ? `${report.title.replace(/\s+/g, '_')}.pdf` : `report_${id}.pdf`;
       
       link.setAttribute('download', filename);
       document.body.appendChild(link);
       link.click();
-      link.remove();
+      
+      // Clean up
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(link);
     } catch (err) {
-      console.error('Report download error:', err);
-      setError('Failed to download report. Please try again.');
+      setError('Failed to download PDF');
+      console.error('PDF download error:', err);
     }
   };
 
-  const getReportTypeLabel = (type) => {
-    switch (type) {
-      case 'monthly': return 'Monthly';
-      case 'quarterly': return 'Quarterly';
-      case 'annual': return 'Annual';
-      case 'custom': return 'Custom';
-      default: return type;
+  const handleDownloadCsv = async (id) => {
+    try {
+      const res = await reportAPI.downloadCsv(id);
+      
+      // Create a blob from the CSV data
+      const blob = new Blob([res.data], { type: 'text/csv' });
+      
+      // Create a link and click it to trigger download
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      
+      // Find the report to use its title for the filename
+      const report = reports.find(r => r._id === id);
+      const filename = report ? `${report.title.replace(/\s+/g, '_')}.csv` : `report_${id}.csv`;
+      
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+      
+      // Clean up
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(link);
+    } catch (err) {
+      setError('Failed to download CSV');
+      console.error('CSV download error:', err);
     }
   };
+
+  const handleOpenDeleteDialog = (report) => {
+    setReportToDelete(report);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+    setReportToDelete(null);
+  };
+
+  const handleDeleteReport = async () => {
+    if (!reportToDelete) return;
+    
+    try {
+      await reportAPI.delete(reportToDelete._id);
+      
+      // Refresh reports list
+      await fetchReports();
+      
+      // Close dialog
+      handleCloseDeleteDialog();
+    } catch (err) {
+      setError('Failed to delete report');
+      console.error('Report deletion error:', err);
+    }
+  };
+
+  const handlePublishReport = async (id) => {
+    try {
+      await reportAPI.publish(id);
+      
+      // Refresh reports list
+      await fetchReports();
+    } catch (err) {
+      setError('Failed to publish report');
+      console.error('Report publishing error:', err);
+    }
+  };
+
+  if (loading && reports.length === 0) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h4" component="h1">
+        <Typography variant="h4" component="h1" gutterBottom>
           Environmental Impact Reports
         </Typography>
         <Button
@@ -237,103 +281,117 @@ const Reports = () => {
           startIcon={<AddIcon />}
           onClick={handleOpenDialog}
         >
-          Generate Report
+          Generate New Report
         </Button>
       </Box>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {error}
-        </Alert>
+        <Box sx={{ mb: 3 }}>
+          <Typography color="error" variant="body1">
+            {error}
+          </Typography>
+        </Box>
       )}
 
-      <Card>
-        <CardContent>
-          {loading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
-              <CircularProgress />
-            </Box>
-          ) : reports.length === 0 ? (
-            <Box sx={{ textAlign: 'center', p: 3 }}>
-              <Typography variant="body1" color="text.secondary">
-                No reports generated yet. Click "Generate Report" to create your first report.
+      {reports.length === 0 ? (
+        <Card>
+          <CardContent>
+            <Box sx={{ textAlign: 'center', py: 4 }}>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                No reports found
               </Typography>
+              <Typography variant="body1" color="text.secondary" paragraph>
+                Generate your first environmental impact report to track your e-waste management efforts.
+              </Typography>
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                onClick={handleOpenDialog}
+              >
+                Generate New Report
+              </Button>
             </Box>
-          ) : (
-            <>
-              <TableContainer component={Paper} variant="outlined">
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Title</TableCell>
-                      <TableCell>Type</TableCell>
-                      <TableCell>Date Range</TableCell>
-                      <TableCell>Created</TableCell>
-                      <TableCell>Format</TableCell>
-                      <TableCell align="right">Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {reports.map((report) => (
-                      <TableRow key={report._id}>
-                        <TableCell>{report.title}</TableCell>
-                        <TableCell>{getReportTypeLabel(report.type)}</TableCell>
-                        <TableCell>
-                          {formatDate(report.dateRange.startDate)} - {formatDate(report.dateRange.endDate)}
-                        </TableCell>
-                        <TableCell>{formatDate(report.createdAt)}</TableCell>
-                        <TableCell>{report.format.toUpperCase()}</TableCell>
-                        <TableCell align="right">
-                          <IconButton 
-                            component={RouterLink} 
-                            to={`/reports/${report._id}`}
-                            size="small"
-                            color="primary"
-                          >
-                            <ViewIcon />
+          </CardContent>
+        </Card>
+      ) : (
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="reports table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Title</TableCell>
+                <TableCell>Type</TableCell>
+                <TableCell>Date Range</TableCell>
+                <TableCell align="right">Devices</TableCell>
+                <TableCell align="right">CO₂ Saved</TableCell>
+                <TableCell align="center">Status</TableCell>
+                <TableCell align="center">Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {reports.map((report) => (
+                <TableRow key={report._id}>
+                  <TableCell component="th" scope="row">
+                    {report.title}
+                  </TableCell>
+                  <TableCell>{report.type}</TableCell>
+                  <TableCell>
+                    {new Date(report.dateRange.startDate).toLocaleDateString()} - {new Date(report.dateRange.endDate).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell align="right">
+                    {report.impactSummary.totalDevicesCollected}
+                  </TableCell>
+                  <TableCell align="right">
+                    {formatCO2(report.impactSummary.totalCO2Saved)}
+                  </TableCell>
+                  <TableCell align="center">
+                    <Chip 
+                      label={report.status} 
+                      color={report.status === 'Published' ? 'success' : 'default'} 
+                      size="small" 
+                    />
+                  </TableCell>
+                  <TableCell align="center">
+                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                      <Tooltip title="View Report">
+                        <IconButton size="small" onClick={() => handleViewReport(report._id)}>
+                          <VisibilityIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Download PDF">
+                        <IconButton size="small" onClick={() => handleDownloadPdf(report._id)}>
+                          <PdfIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Download CSV">
+                        <IconButton size="small" onClick={() => handleDownloadCsv(report._id)}>
+                          <CsvIcon />
+                        </IconButton>
+                      </Tooltip>
+                      {report.status === 'Draft' && (
+                        <Tooltip title="Publish Report">
+                          <IconButton size="small" onClick={() => handlePublishReport(report._id)}>
+                            <PublishIcon />
                           </IconButton>
-                          <IconButton 
-                            size="small"
-                            color="primary"
-                            onClick={() => handleDownloadReport(report._id)}
-                          >
-                            <DownloadIcon />
-                          </IconButton>
-                          <IconButton 
-                            size="small"
-                            color="primary"
-                          >
-                            <ShareIcon />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              
-              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-                <Pagination 
-                  count={totalPages} 
-                  page={page} 
-                  onChange={handlePageChange} 
-                  color="primary" 
-                />
-              </Box>
-            </>
-          )}
-        </CardContent>
-      </Card>
+                        </Tooltip>
+                      )}
+                      <Tooltip title="Delete Report">
+                        <IconButton size="small" onClick={() => handleOpenDeleteDialog(report)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
 
       {/* Generate Report Dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
         <DialogTitle>Generate Environmental Impact Report</DialogTitle>
         <DialogContent>
-          {formError && (
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {formError}
-            </Alert>
-          )}
           <Box sx={{ mt: 2 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -342,23 +400,28 @@ const Reports = () => {
                   label="Report Title"
                   name="title"
                   value={formData.title}
-                  onChange={handleFormChange}
+                  onChange={handleInputChange}
+                  error={!!formErrors.title}
+                  helperText={formErrors.title}
                   required
                 />
               </Grid>
               <Grid item xs={12}>
                 <FormControl fullWidth>
-                  <InputLabel>Report Type</InputLabel>
+                  <InputLabel id="report-type-label">Report Type</InputLabel>
                   <Select
+                    labelId="report-type-label"
+                    id="report-type"
                     name="type"
                     value={formData.type}
-                    onChange={handleFormChange}
                     label="Report Type"
+                    onChange={handleInputChange}
                   >
-                    <MenuItem value="monthly">Monthly</MenuItem>
-                    <MenuItem value="quarterly">Quarterly</MenuItem>
-                    <MenuItem value="annual">Annual</MenuItem>
-                    <MenuItem value="custom">Custom Date Range</MenuItem>
+                    <MenuItem value="Pickup">Pickup</MenuItem>
+                    <MenuItem value="Monthly">Monthly</MenuItem>
+                    <MenuItem value="Quarterly">Quarterly</MenuItem>
+                    <MenuItem value="Annual">Annual</MenuItem>
+                    <MenuItem value="Custom">Custom</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -366,55 +429,58 @@ const Reports = () => {
                 <TextField
                   fullWidth
                   label="Start Date"
-                  name="dateRange.startDate"
+                  name="startDate"
                   type="date"
-                  value={formData.dateRange.startDate}
-                  onChange={handleFormChange}
+                  value={formData.startDate ? new Date(formData.startDate).toISOString().split('T')[0] : ''}
+                  onChange={handleInputChange}
                   InputLabelProps={{ shrink: true }}
+                  error={!!formErrors.startDate}
+                  helperText={formErrors.startDate}
                   required
-                  disabled={formData.type !== 'custom'}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label="End Date"
-                  name="dateRange.endDate"
+                  name="endDate"
                   type="date"
-                  value={formData.dateRange.endDate}
-                  onChange={handleFormChange}
+                  value={formData.endDate ? new Date(formData.endDate).toISOString().split('T')[0] : ''}
+                  onChange={handleInputChange}
                   InputLabelProps={{ shrink: true }}
+                  error={!!formErrors.endDate}
+                  helperText={formErrors.endDate}
                   required
-                  disabled={formData.type !== 'custom'}
                 />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel>Report Format</InputLabel>
-                  <Select
-                    name="format"
-                    value={formData.format}
-                    onChange={handleFormChange}
-                    label="Report Format"
-                  >
-                    <MenuItem value="pdf">PDF</MenuItem>
-                    <MenuItem value="csv">CSV</MenuItem>
-                    <MenuItem value="xlsx">Excel</MenuItem>
-                  </Select>
-                </FormControl>
               </Grid>
             </Grid>
           </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button 
-            onClick={handleGenerateReport} 
-            variant="contained" 
+          <Button
+            onClick={handleGenerateReport}
+            variant="contained"
             disabled={generating}
             startIcon={generating ? <CircularProgress size={20} /> : null}
           >
             {generating ? 'Generating...' : 'Generate Report'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteDialogOpen} onClose={handleCloseDeleteDialog}>
+        <DialogTitle>Delete Report</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">
+            Are you sure you want to delete the report "{reportToDelete?.title}"? This action cannot be undone.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
+          <Button onClick={handleDeleteReport} color="error">
+            Delete
           </Button>
         </DialogActions>
       </Dialog>
