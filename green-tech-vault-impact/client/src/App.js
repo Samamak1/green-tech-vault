@@ -261,7 +261,7 @@ function App() {
           
           <Route path="/schedule-pickup/:clientId" element={
             <MainLayout hideFooter={true}>
-              <SchedulePickup />
+              <SchedulePickup isClientSide={true} />
             </MainLayout>
           } />
           
@@ -311,6 +311,7 @@ function App() {
             <Route path="pickup-calendar" element={<AdminPickupCalendar />} />
             <Route path="pickup-detail" element={<AdminPickupDetail />} />
             <Route path="pickups/:pickupId" element={<AdminPickupDetail />} />
+            <Route path="schedule-pickup/:clientId" element={<AdminPickupDetail />} />
           </Route>
           
           {/* 404 Route */}

@@ -317,8 +317,8 @@ const AdminDashboard = () => {
   };
 
   const handleAddPickup = (clientId) => {
-    // Navigate to the pickup scheduling page instead of showing an alert
-    navigate(`/schedule-pickup/${clientId}`);
+    // Redirect to admin-specific pickup scheduler instead of the SMS page
+    navigate(`/admin/schedule-pickup/${clientId}`);
   };
 
   const renderDashboardContent = () => {

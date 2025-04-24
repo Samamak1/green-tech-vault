@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -59,9 +59,13 @@ const deviceStatuses = [
 ];
 
 const AdminPickupDetail = () => {
-  const { pickupId } = useParams();
+  const { pickupId, clientId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { logout } = useAuth();
+  
+  // Determine if we're in scheduling mode
+  const isScheduling = location.pathname.includes('/admin/schedule-pickup/');
   
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -69,6 +73,15 @@ const AdminPickupDetail = () => {
   const [pickup, setPickup] = useState(null);
   const [devices, setDevices] = useState([]);
   const [client, setClient] = useState(null);
+  
+  // Add state for scheduling
+  const [schedulingForm, setSchedulingForm] = useState({
+    scheduledDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Default to 1 week from now
+    location: '',
+    contactPerson: '',
+    contactPhone: '',
+    notes: ''
+  });
   
   const [editingStatus, setEditingStatus] = useState(false);
   const [newStatus, setNewStatus] = useState('');
@@ -87,8 +100,47 @@ const AdminPickupDetail = () => {
   });
 
   useEffect(() => {
-    fetchPickupData();
-  }, [pickupId]);
+    if (isScheduling) {
+      fetchClientData();
+    } else if (pickupId) {
+      fetchPickupData();
+    }
+  }, [pickupId, clientId, isScheduling]);
+
+  const fetchClientData = async () => {
+    try {
+      setLoading(true);
+      
+      // In a real implementation, this would be an actual API call
+      // For now, we'll use mock data based on clientId
+      
+      // Mock client data
+      const mockClient = {
+        id: clientId,
+        name: 'Tech Solutions Inc.',
+        contactPerson: 'John Smith',
+        email: 'john@techsolutions.com',
+        phone: '(555) 123-4567',
+        address: '123 Tech Blvd, San Francisco, CA'
+      };
+      
+      setClient(mockClient);
+      
+      // Pre-fill the scheduling form with client contact info
+      setSchedulingForm(prev => ({
+        ...prev,
+        contactPerson: mockClient.contactPerson,
+        contactPhone: mockClient.phone
+      }));
+      
+      setError(null);
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to load client data');
+      console.error('Client data fetch error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchPickupData = async () => {
     try {
@@ -111,15 +163,6 @@ const AdminPickupDetail = () => {
         weight: 45.2,
         createdAt: '2025-03-01T12:00:00Z',
         updatedAt: '2025-03-15T16:30:00Z'
-      };
-      
-      // Mock client data
-      const mockClient = {
-        id: mockPickup.clientId,
-        name: 'Tech Solutions Inc.',
-        contactPerson: 'John Smith',
-        email: 'john@techsolutions.com',
-        phone: '(555) 123-4567'
       };
       
       // Mock devices data - expanded to 12 devices to match the pickup count
@@ -295,7 +338,6 @@ const AdminPickupDetail = () => {
       ];
       
       setPickup(mockPickup);
-      setClient(mockClient);
       setDevices(mockDevices);
       setNewStatus(mockPickup.status);
       setError(null);
@@ -477,6 +519,49 @@ const AdminPickupDetail = () => {
     };
   };
 
+  // Add handling for scheduling form changes
+  const handleSchedulingFormChange = (e) => {
+    const { name, value } = e.target;
+    setSchedulingForm({
+      ...schedulingForm,
+      [name]: value
+    });
+  };
+
+  // Add function to handle date change
+  const handleDateChange = (date) => {
+    setSchedulingForm({
+      ...schedulingForm,
+      scheduledDate: date
+    });
+  };
+
+  // Add function to handle schedule submission
+  const handleScheduleSubmit = async () => {
+    try {
+      // In a real implementation, this would make an API call
+      // For now, we'll simulate success
+      
+      const newPickup = {
+        id: Date.now().toString(),
+        clientId: clientId,
+        ...schedulingForm,
+        status: 'scheduled',
+        devices: 0,
+        weight: 0,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      
+      // Show success and redirect
+      alert('Pickup scheduled successfully');
+      navigate('/admin/dashboard');
+    } catch (err) {
+      console.error('Schedule submission error:', err);
+      setError('Failed to schedule pickup');
+    }
+  };
+
   const renderPickupContent = () => {
     if (loading) {
       return (
@@ -496,6 +581,127 @@ const AdminPickupDetail = () => {
             Retry
           </Button>
         </Box>
+      );
+    }
+    
+    // Handle scheduling mode
+    if (isScheduling) {
+      return (
+        <>
+          <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
+            <IconButton onClick={() => navigate('/admin/dashboard')} sx={{ mr: 1 }}>
+              <ArrowBackIcon />
+            </IconButton>
+            <Typography variant="h4" component="h1">
+              Schedule Pickup for {client?.name}
+            </Typography>
+          </Box>
+          
+          <Paper sx={{ p: 3, mb: 4 }}>
+            <Typography variant="h6" gutterBottom>
+              Client Information
+            </Typography>
+            <Grid container spacing={2} sx={{ mb: 3 }}>
+              <Grid item xs={12} md={6}>
+                <Typography variant="subtitle2">Company:</Typography>
+                <Typography variant="body1">{client?.name}</Typography>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Typography variant="subtitle2">Contact Person:</Typography>
+                <Typography variant="body1">{client?.contactPerson}</Typography>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Typography variant="subtitle2">Email:</Typography>
+                <Typography variant="body1">{client?.email}</Typography>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Typography variant="subtitle2">Phone:</Typography>
+                <Typography variant="body1">{client?.phone}</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="subtitle2">Address:</Typography>
+                <Typography variant="body1">{client?.address}</Typography>
+              </Grid>
+            </Grid>
+            
+            <Divider sx={{ my: 3 }} />
+            
+            <Typography variant="h6" gutterBottom>
+              Pickup Details
+            </Typography>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  name="location"
+                  label="Pickup Location"
+                  fullWidth
+                  value={schedulingForm.location}
+                  onChange={handleSchedulingFormChange}
+                  required
+                  sx={{ mb: 3 }}
+                />
+                <TextField
+                  name="contactPerson"
+                  label="On-site Contact Person"
+                  fullWidth
+                  value={schedulingForm.contactPerson}
+                  onChange={handleSchedulingFormChange}
+                  required
+                  sx={{ mb: 3 }}
+                />
+                <TextField
+                  name="contactPhone"
+                  label="Contact Phone"
+                  fullWidth
+                  value={schedulingForm.contactPhone}
+                  onChange={handleSchedulingFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  name="scheduledDate"
+                  label="Pickup Date"
+                  type="date"
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  value={schedulingForm.scheduledDate instanceof Date 
+                    ? schedulingForm.scheduledDate.toISOString().split('T')[0] 
+                    : schedulingForm.scheduledDate}
+                  onChange={handleSchedulingFormChange}
+                  required
+                  sx={{ mb: 3 }}
+                />
+                <TextField
+                  name="notes"
+                  label="Notes"
+                  fullWidth
+                  multiline
+                  rows={4}
+                  value={schedulingForm.notes}
+                  onChange={handleSchedulingFormChange}
+                />
+              </Grid>
+            </Grid>
+            
+            <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
+              <Button 
+                variant="outlined" 
+                onClick={() => navigate('/admin/dashboard')}
+                sx={{ mr: 2 }}
+              >
+                Cancel
+              </Button>
+              <Button 
+                variant="contained" 
+                color="primary"
+                onClick={handleScheduleSubmit}
+              >
+                Schedule Pickup
+              </Button>
+            </Box>
+          </Paper>
+        </>
       );
     }
     
@@ -903,7 +1109,9 @@ const AdminPickupDetail = () => {
 
   return (
     <AdminLayout>
-      {renderPickupContent()}
+      <Box sx={{ py: 3, px: 3 }}>
+        {renderPickupContent()}
+      </Box>
     </AdminLayout>
   );
 };
