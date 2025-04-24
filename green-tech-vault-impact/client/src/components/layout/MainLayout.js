@@ -6,7 +6,7 @@ import Footer from './Footer';
 /**
  * Main layout component that wraps all pages with consistent header and footer
  */
-const MainLayout = ({ children }) => {
+const MainLayout = ({ children, hideFooter = false }) => {
   return (
     <Box
       sx={{
@@ -28,7 +28,7 @@ const MainLayout = ({ children }) => {
         {children}
       </Box>
       
-      <Footer />
+      {!hideFooter && <Footer />}
     </Box>
   );
 };

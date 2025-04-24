@@ -254,13 +254,13 @@ function App() {
           } />
           
           <Route path="/schedule-pickup" element={
-            <MainLayout>
+            <MainLayout hideFooter={true}>
               <SchedulePickup />
             </MainLayout>
           } />
           
           <Route path="/schedule-pickup/:clientId" element={
-            <MainLayout>
+            <MainLayout hideFooter={true}>
               <SchedulePickup />
             </MainLayout>
           } />

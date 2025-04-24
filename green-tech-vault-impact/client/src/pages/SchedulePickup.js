@@ -17,7 +17,6 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import AdminLayout from '../components/layout/AdminLayout';
 
 const SchedulePickup = () => {
   const { clientId } = useParams();
@@ -553,53 +552,68 @@ const SchedulePickup = () => {
   };
 
   return (
-    <AdminLayout>
-      <Container maxWidth="md" sx={{ py: 4 }}>
-        <Paper sx={{ p: 4, borderRadius: 2, boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.05)' }}>
-          <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 500 }}>
-            Schedule E-Waste Pickup
-          </Typography>
-          <Typography variant="body1" align="center" color="text.secondary" sx={{ mb: 4 }}>
-            Fill out the form below to schedule your electronic waste pickup.
-          </Typography>
-          
-          <Box sx={{ mb: 4 }}>
-            <Stepper activeStep={activeStep} alternativeLabel>
-              {steps.map((step, index) => (
-                <Step key={step.label}>
-                  <StepLabel
-                    sx={{
-                      '& .MuiStepLabel-iconContainer': {
-                        '& .MuiStepIcon-root.Mui-active, & .MuiStepIcon-root.Mui-completed': {
-                          color: '#56C3C9',
-                        },
+    <Container maxWidth="md" sx={{ py: 4 }}>
+      <Paper sx={{ p: 4, borderRadius: 2, boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.05)' }}>
+        <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 500 }}>
+          Schedule E-Waste Pickup
+        </Typography>
+        <Typography variant="body1" align="center" color="text.secondary" sx={{ mb: 4 }}>
+          Fill out the form below to schedule your electronic waste pickup.
+        </Typography>
+        
+        <Box sx={{ mb: 4 }}>
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((step, index) => (
+              <Step key={step.label}>
+                <StepLabel
+                  sx={{
+                    '& .MuiStepLabel-iconContainer': {
+                      '& .MuiStepIcon-root.Mui-active, & .MuiStepIcon-root.Mui-completed': {
+                        color: '#56C3C9',
                       },
-                    }}
+                    },
+                  }}
+                >
+                  <Typography 
+                    variant="body2" 
+                    color={activeStep === index ? '#56C3C9' : 'text.secondary'}
+                    fontWeight={activeStep === index ? 500 : 400}
                   >
-                    <Typography 
-                      variant="body2" 
-                      color={activeStep === index ? '#56C3C9' : 'text.secondary'}
-                      fontWeight={activeStep === index ? 500 : 400}
-                    >
-                      {step.label}
-                    </Typography>
-                  </StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-          </Box>
-          
-          {getStepContent(activeStep)}
-          
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+                    {step.label}
+                  </Typography>
+                </StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        </Box>
+        
+        {getStepContent(activeStep)}
+        
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+          <Button
+            variant="contained"
+            onClick={handleBack}
+            disabled={activeStep === 0}
+            sx={{ 
+              bgcolor: '#f0f0f0', 
+              color: '#686868',
+              '&:hover': { bgcolor: '#e0e0e0' },
+              borderRadius: 2,
+              px: 3,
+              py: 1,
+              textTransform: 'none',
+              fontWeight: 'normal'
+            }}
+          >
+            Back
+          </Button>
+          {activeStep === steps.length - 1 ? (
             <Button
               variant="contained"
-              onClick={handleBack}
-              disabled={activeStep === 0}
+              onClick={handleSubmit}
               sx={{ 
-                bgcolor: '#f0f0f0', 
-                color: '#686868',
-                '&:hover': { bgcolor: '#e0e0e0' },
+                bgcolor: '#005F56', 
+                '&:hover': { bgcolor: '#004d46' },
                 borderRadius: 2,
                 px: 3,
                 py: 1,
@@ -607,45 +621,28 @@ const SchedulePickup = () => {
                 fontWeight: 'normal'
               }}
             >
-              Back
+              Submit
             </Button>
-            {activeStep === steps.length - 1 ? (
-              <Button
-                variant="contained"
-                onClick={handleSubmit}
-                sx={{ 
-                  bgcolor: '#005F56', 
-                  '&:hover': { bgcolor: '#004d46' },
-                  borderRadius: 2,
-                  px: 3,
-                  py: 1,
-                  textTransform: 'none',
-                  fontWeight: 'normal'
-                }}
-              >
-                Submit
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                onClick={handleNext}
-                sx={{ 
-                  bgcolor: '#005F56', 
-                  '&:hover': { bgcolor: '#004d46' },
-                  borderRadius: 2,
-                  px: 3,
-                  py: 1,
-                  textTransform: 'none',
-                  fontWeight: 'normal'
-                }}
-              >
-                Next
-              </Button>
-            )}
-          </Box>
-        </Paper>
-      </Container>
-    </AdminLayout>
+          ) : (
+            <Button
+              variant="contained"
+              onClick={handleNext}
+              sx={{ 
+                bgcolor: '#005F56', 
+                '&:hover': { bgcolor: '#004d46' },
+                borderRadius: 2,
+                px: 3,
+                py: 1,
+                textTransform: 'none',
+                fontWeight: 'normal'
+              }}
+            >
+              Next
+            </Button>
+          )}
+        </Box>
+      </Paper>
+    </Container>
   );
 };
 
