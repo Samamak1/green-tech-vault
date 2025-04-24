@@ -5,7 +5,11 @@ import {
   Typography, 
   Grid, 
   TextField,
-  Button
+  Button,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel
 } from '@mui/material';
 
 // Styled components for the form
@@ -19,7 +23,18 @@ const AdminAnnouncements = () => {
     address: '',
     city: '',
     state: '',
-    zipCode: ''
+    zipCode: '',
+    // Pickup details fields
+    fullName: '',
+    jobTitle: '',
+    contactPhone: '',
+    contactEmail: '',
+    preferredDate: '',
+    preferredTime: '',
+    pickupAddress: '',
+    pickupCity: '',
+    pickupState: '',
+    pickupZipCode: ''
   });
 
   const handleChange = (e) => {
@@ -186,13 +201,174 @@ const AdminAnnouncements = () => {
         return (
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Typography variant="body2" sx={{ mb: 3, color: '#555' }}>
-                Provide details about the pickup.
+              <Typography variant="body1" sx={{ fontWeight: 500, color: '#333', mb: 3 }}>
+                On-Site Contact (Person Present at Pickup)
               </Typography>
-              {/* Pickup Details form fields will go here */}
-              <Typography variant="body1">
-                Pickup details form coming soon...
-              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                placeholder="Full Name*"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                variant="outlined"
+                InputLabelProps={{ shrink: false }}
+                sx={{ bgcolor: 'white' }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                placeholder="Job Title*"
+                name="jobTitle"
+                value={formData.jobTitle}
+                onChange={handleChange}
+                variant="outlined"
+                InputLabelProps={{ shrink: false }}
+                sx={{ bgcolor: 'white' }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                placeholder="Phone Number*"
+                name="contactPhone"
+                value={formData.contactPhone}
+                onChange={handleChange}
+                variant="outlined"
+                InputLabelProps={{ shrink: false }}
+                sx={{ bgcolor: 'white' }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                placeholder="Email*"
+                name="contactEmail"
+                type="email"
+                value={formData.contactEmail}
+                onChange={handleChange}
+                variant="outlined"
+                InputLabelProps={{ shrink: false }}
+                sx={{ bgcolor: 'white' }}
+              />
+            </Grid>
+            <Grid item xs={12} sx={{ mt: 2 }}>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item xs={12} sm={3}>
+                  <Typography variant="body2" sx={{ color: '#333' }}>
+                    Preferred Date(s):
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sm={9}>
+                  <TextField
+                    fullWidth
+                    placeholder="XX/XX/XXXX*"
+                    name="preferredDate"
+                    value={formData.preferredDate}
+                    onChange={handleChange}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: false }}
+                    sx={{ bgcolor: 'white' }}
+                    InputProps={{
+                      endAdornment: (
+                        <Box sx={{ 
+                          cursor: 'pointer', 
+                          color: '#999',
+                          fontSize: '10px',
+                          transform: 'rotate(90deg)',
+                          marginRight: '-8px'
+                        }}>
+                          ▸
+                        </Box>
+                      ),
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item xs={12} sm={3}>
+                  <Typography variant="body2" sx={{ color: '#333' }}>
+                    Preferred Time Window(s):
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sm={9}>
+                  <TextField
+                    fullWidth
+                    placeholder="XX:XX*"
+                    name="preferredTime"
+                    value={formData.preferredTime}
+                    onChange={handleChange}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: false }}
+                    sx={{ bgcolor: 'white' }}
+                    InputProps={{
+                      endAdornment: (
+                        <Box sx={{ 
+                          cursor: 'pointer', 
+                          color: '#999',
+                          fontSize: '10px',
+                          transform: 'rotate(90deg)',
+                          marginRight: '-8px'
+                        }}>
+                          ▸
+                        </Box>
+                      ),
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sx={{ mt: 2 }}>
+              <TextField
+                fullWidth
+                placeholder="Pickup Address*"
+                name="pickupAddress"
+                value={formData.pickupAddress}
+                onChange={handleChange}
+                variant="outlined"
+                InputLabelProps={{ shrink: false }}
+                sx={{ bgcolor: 'white' }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <TextField
+                fullWidth
+                placeholder="City*"
+                name="pickupCity"
+                value={formData.pickupCity}
+                onChange={handleChange}
+                variant="outlined"
+                InputLabelProps={{ shrink: false }}
+                sx={{ bgcolor: 'white' }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <TextField
+                fullWidth
+                placeholder="State*"
+                name="pickupState"
+                value={formData.pickupState}
+                onChange={handleChange}
+                variant="outlined"
+                InputLabelProps={{ shrink: false }}
+                sx={{ bgcolor: 'white' }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <TextField
+                fullWidth
+                placeholder="Zip Code*"
+                name="pickupZipCode"
+                value={formData.pickupZipCode}
+                onChange={handleChange}
+                variant="outlined"
+                InputLabelProps={{ shrink: false }}
+                sx={{ bgcolor: 'white' }}
+              />
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
               <Button
@@ -330,7 +506,8 @@ const AdminAnnouncements = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  backgroundColor: index === 0 ? '#4ecdc4' : // Turquoise for first step 
+                  backgroundColor: index === 0 ? '#ccc' : // Gray for first step since we're on step 2
+                                 index === 1 && activeStep >= 1 ? '#4ecdc4' : // Turquoise for active second step
                                  activeStep === index ? '#1C392B' : 
                                  activeStep > index ? '#1C392B' : '#ccc',
                   color: 'white',
