@@ -17,7 +17,11 @@ import {
   IconButton,
   Chip,
   TextField,
-  InputAdornment
+  InputAdornment,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from '@mui/material';
 import {
   Edit as EditIcon,
@@ -36,6 +40,8 @@ const AdminClientProfile = () => {
   const [pickups, setPickups] = useState([]);
   const [devices, setDevices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
+  const [deviceToArchive, setDeviceToArchive] = useState(null);
 
   useEffect(() => {
     // In a real app, you would fetch the actual client data
@@ -238,6 +244,23 @@ const AdminClientProfile = () => {
       default:
         return { bgcolor: '#e0e0e0', color: '#616161', borderRadius: '16px' };
     }
+  };
+
+  const handleArchiveDialogOpen = (device) => {
+    setDeviceToArchive(device);
+    setArchiveDialogOpen(true);
+  };
+
+  const handleArchiveDialogClose = () => {
+    setArchiveDialogOpen(false);
+    setDeviceToArchive(null);
+  };
+
+  const handleArchiveDevice = () => {
+    // In a real implementation, call API to archive the device
+    console.log('Archiving device:', deviceToArchive);
+    // Close dialog
+    handleArchiveDialogClose();
   };
 
   if (loading) {
@@ -661,10 +684,28 @@ const AdminClientProfile = () => {
                             </TableCell>
                             <TableCell>{device.weight}</TableCell>
                             <TableCell>
-                              <IconButton size="small" sx={{ color: '#4ECDC4' }}>
+                              <IconButton 
+                                size="small" 
+                                sx={{ 
+                                  color: '#4ECDC4',
+                                  bgcolor: '#e6f7f5', 
+                                  p: 0.5,
+                                  mr: 1,
+                                  '&:hover': { bgcolor: '#d0f0ed' }
+                                }}
+                              >
                                 <EditIcon fontSize="small" />
                               </IconButton>
-                              <IconButton size="small" sx={{ color: '#f44336' }}>
+                              <IconButton 
+                                size="small" 
+                                sx={{ 
+                                  color: '#f44336',
+                                  bgcolor: '#feeeee',
+                                  p: 0.5,
+                                  '&:hover': { bgcolor: '#fcdada' }
+                                }}
+                                onClick={() => handleArchiveDialogOpen(device)}
+                              >
                                 <DeleteIcon fontSize="small" />
                               </IconButton>
                             </TableCell>
@@ -678,6 +719,56 @@ const AdminClientProfile = () => {
             </Paper>
           </Grid>
         </Grid>
+
+        {/* Archive Dialog */}
+        <Dialog
+          open={archiveDialogOpen}
+          onClose={handleArchiveDialogClose}
+          aria-labelledby="archive-dialog-title"
+          maxWidth="xs"
+          fullWidth
+        >
+          <DialogTitle id="archive-dialog-title">
+            Are you sure you want to archive this Device?
+          </DialogTitle>
+          <DialogContent>
+            {deviceToArchive && (
+              <>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                  {deviceToArchive.manufacturer} {deviceToArchive.model}
+                </Typography>
+                <Typography variant="body2" sx={{ mb: 2, color: '#666' }}>
+                  {deviceToArchive.type}, {deviceToArchive.manufacturer}, {deviceToArchive.serialNumber}, {deviceToArchive.status}
+                </Typography>
+                <Typography variant="body2" sx={{ mt: 2 }}>
+                  Even though it will no longer appear in Your Devices, you can still view the Device in Archived Devices from your account
+                </Typography>
+              </>
+            )}
+          </DialogContent>
+          <DialogActions sx={{ justifyContent: 'center', pb: 2 }}>
+            <Button 
+              variant="contained"
+              onClick={handleArchiveDevice}
+              sx={{ 
+                bgcolor: '#555',
+                color: 'white',
+                mr: 1,
+                px: 3,
+                '&:hover': { bgcolor: '#444' }
+              }}
+              startIcon={<DeleteIcon />}
+            >
+              Archived
+            </Button>
+            <Button 
+              onClick={handleArchiveDialogClose}
+              sx={{ px: 3 }}
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </AdminLayout>
   );
