@@ -753,7 +753,15 @@ const AdminClientDetail = () => {
                       <TableBody>
                         {devices.map((device) => (
                           <TableRow key={device.id}>
-                            <TableCell>{device.type}</TableCell>
+                            <TableCell
+                              sx={{ 
+                                cursor: 'pointer',
+                                color: '#1C392B',
+                                fontWeight: 500,
+                                '&:hover': { textDecoration: 'underline' }
+                              }}
+                              onClick={() => navigate(`/admin/devices/${device.id}`)}
+                            >{device.type}</TableCell>
                             <TableCell>{device.manufacturer}</TableCell>
                             <TableCell>{device.model}</TableCell>
                             <TableCell>{device.serialNumber}</TableCell>
