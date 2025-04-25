@@ -54,16 +54,14 @@ const AdminClientProfile = () => {
     // For now, we'll use mock data
     const mockClient = {
       id: '3',
-      companyName: 'EcoFriendly Inc',
-      companyEmail: 'info@ecofriendly.com',
-      companyPhone: '(555) 123-4567',
+      name: 'EcoFriendly Inc',
+      contactPerson: 'James Harold',
+      email: 'jamesharold44@gmail.com',
+      phone: '(555) 123-4567',
       address: '123 Green St, Cincinnati OH, 51729',
       website: 'www.ecofriendly.com',
       industry: 'Technology',
       employees: '223',
-      contactPerson: 'James Harold',
-      contactEmail: 'jamesharold44@gmail.com',
-      contactPhone: '(555) 123-4567',
       lastContacted: 'March 15, 2025',
       contactMethod: 'Email',
       conversationNotes: 'Discussion of new proposal',
@@ -83,35 +81,35 @@ const AdminClientProfile = () => {
         location: 'Cincinnati Warehouse',
         status: 'complete',
         weight: 2.5,
-        personName: 'John Smith',
-        personTitle: 'Table Head'
+        personName: client ? client.name : 'EcoFriendly Inc',
+        personTitle: '14:00'
       },
       {
         id: '2',
-        date: 'Table Head',
-        location: 'Table Head',
+        date: '03/15/2025',
+        location: 'Cincinnati Warehouse',
         status: 'in-processing',
-        weight: null,
-        personName: 'Table Head',
-        personTitle: 'Table Head'
+        weight: 1.8,
+        personName: client ? client.name : 'EcoFriendly Inc',
+        personTitle: '10:30'
       },
       {
         id: '3',
-        date: 'Table Head',
-        location: 'Table Head',
+        date: '05/20/2025',
+        location: 'EcoFriendly HQ',
         status: 'recycled',
-        weight: null,
-        personName: 'Table Head',
-        personTitle: 'Table Head'
+        weight: 3.2,
+        personName: client ? client.name : 'EcoFriendly Inc',
+        personTitle: '15:45'
       },
       {
         id: '4',
-        date: 'Table Head',
-        location: 'Table Head',
+        date: '06/10/2025',
+        location: 'Cincinnati Warehouse',
         status: 'complete',
-        weight: null,
-        personName: 'Table Head',
-        personTitle: 'Table Head'
+        weight: 4.5,
+        personName: client ? client.name : 'EcoFriendly Inc',
+        personTitle: '13:15'
       }
     ];
 
@@ -239,7 +237,7 @@ const AdminClientProfile = () => {
     switch(status.toLowerCase()) {
       case 'complete':
       case 'completed':
-        return { bgcolor: '#e3f7f5', color: '#4ECDC4', borderRadius: '16px' };
+        return { bgcolor: '#e8f5e9', color: '#4caf50', borderRadius: '16px' };
       case 'in-processing':
       case 'in-progress':
         return { bgcolor: '#fff8e0', color: '#ffa000', borderRadius: '16px' };
@@ -249,6 +247,8 @@ const AdminClientProfile = () => {
         return { bgcolor: '#e3f2ff', color: '#2196f3', borderRadius: '16px' };
       case 'disposed':
         return { bgcolor: '#ffebee', color: '#f44336', borderRadius: '16px' };
+      case 'received':
+        return { bgcolor: '#e3f2ff', color: '#2196f3', borderRadius: '16px' };
       default:
         return { bgcolor: '#e0e0e0', color: '#616161', borderRadius: '16px' };
     }
@@ -305,7 +305,7 @@ const AdminClientProfile = () => {
             Back to Dashboard
           </Button>
           <Typography variant="h6" sx={{ ml: 2, color: '#444', fontWeight: 500 }}>
-            Client Profile: {client.companyName}
+            Client Profile: {client.name}
           </Typography>
         </Box>
 
@@ -359,21 +359,21 @@ const AdminClientProfile = () => {
                     <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Company Name</Typography>
                   </Grid>
                   <Grid item xs={7}>
-                    <Typography variant="body2">{client.companyName}</Typography>
+                    <Typography variant="body2">{client.name}</Typography>
                   </Grid>
 
                   <Grid item xs={5}>
                     <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Email</Typography>
                   </Grid>
                   <Grid item xs={7}>
-                    <Typography variant="body2">{client.companyEmail}</Typography>
+                    <Typography variant="body2">{client.email}</Typography>
                   </Grid>
 
                   <Grid item xs={5}>
                     <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
                   </Grid>
                   <Grid item xs={7}>
-                    <Typography variant="body2">{client.companyPhone}</Typography>
+                    <Typography variant="body2">{client.phone}</Typography>
                   </Grid>
 
                   <Grid item xs={5}>
@@ -424,14 +424,14 @@ const AdminClientProfile = () => {
                     <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Email</Typography>
                   </Grid>
                   <Grid item xs={7}>
-                    <Typography variant="body2">{client.contactEmail}</Typography>
+                    <Typography variant="body2">{client.email}</Typography>
                   </Grid>
 
                   <Grid item xs={5}>
                     <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
                   </Grid>
                   <Grid item xs={7}>
-                    <Typography variant="body2">{client.contactPhone}</Typography>
+                    <Typography variant="body2">{client.phone}</Typography>
                   </Grid>
                 </Grid>
               </Box>
@@ -620,13 +620,16 @@ const AdminClientProfile = () => {
                     <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
                       <TableHead>
                         <TableRow sx={{ bgcolor: '#f5f5f5' }}>
-                          <TableCell width="16%">Client</TableCell>
-                          <TableCell width="10%">Date</TableCell>
-                          <TableCell width="14%">Time</TableCell>
-                          <TableCell width="15%">Location</TableCell>
+                          <TableCell padding="checkbox" width="40px">
+                            <input type="checkbox" />
+                          </TableCell>
+                          <TableCell width="15%">Client</TableCell>
+                          <TableCell width="12%">Date</TableCell>
+                          <TableCell width="12%">Time</TableCell>
+                          <TableCell width="20%">Location</TableCell>
                           <TableCell width="15%">Status</TableCell>
-                          <TableCell width="12%">Weight (kg)</TableCell>
-                          <TableCell width="18%">Actions</TableCell>
+                          <TableCell width="10%">Weight (kg)</TableCell>
+                          <TableCell width="15%">Actions</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -635,7 +638,7 @@ const AdminClientProfile = () => {
                             <TableCell padding="checkbox">
                               <input type="checkbox" />
                             </TableCell>
-                            <TableCell>{pickup.personName || client.companyName}</TableCell>
+                            <TableCell>{pickup.personName}</TableCell>
                             <TableCell>{pickup.date}</TableCell>
                             <TableCell>{pickup.personTitle}</TableCell>
                             <TableCell>{pickup.location}</TableCell>
@@ -643,17 +646,33 @@ const AdminClientProfile = () => {
                               <Chip 
                                 label={pickup.status === 'complete' ? 'Complete' : 
                                       pickup.status === 'in-processing' ? 'In Processing' : 
-                                      pickup.status === 'recycled' ? 'Recycled' : pickup.status}
+                                      pickup.status === 'recycled' ? 'Received' : pickup.status}
                                 size="small"
-                                sx={{ ...getStatusChipStyle(pickup.status), textTransform: 'capitalize' }}
+                                sx={{ 
+                                  ...getStatusChipStyle(pickup.status), 
+                                  textTransform: 'capitalize',
+                                  fontWeight: 500,
+                                  py: 1
+                                }}
                               />
                             </TableCell>
                             <TableCell>{pickup.weight}</TableCell>
                             <TableCell>
-                              <IconButton size="small" sx={{ color: '#4ECDC4' }}>
+                              <IconButton 
+                                size="small" 
+                                sx={{ 
+                                  color: '#4169E1',
+                                  mr: 1
+                                }}
+                              >
                                 <EditIcon fontSize="small" />
                               </IconButton>
-                              <IconButton size="small" sx={{ color: '#f44336' }}>
+                              <IconButton 
+                                size="small" 
+                                sx={{ 
+                                  color: '#f44336'
+                                }}
+                              >
                                 <DeleteIcon fontSize="small" />
                               </IconButton>
                             </TableCell>
