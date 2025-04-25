@@ -21,14 +21,18 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  Divider,
+  Menu,
+  MenuItem
 } from '@mui/material';
 import {
   Edit as EditIcon,
   Delete as DeleteIcon,
   Search as SearchIcon,
   FilterList as FilterListIcon,
-  ArrowBack as ArrowBackIcon
+  ArrowBack as ArrowBackIcon,
+  ExpandMore as ExpandMoreIcon
 } from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
 
@@ -42,6 +46,8 @@ const AdminClientProfile = () => {
   const [loading, setLoading] = useState(true);
   const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
   const [deviceToArchive, setDeviceToArchive] = useState(null);
+  const [infoMenuAnchor, setInfoMenuAnchor] = useState(null);
+  const [selectedInfo, setSelectedInfo] = useState('Company Information');
 
   useEffect(() => {
     // In a real app, you would fetch the actual client data
@@ -263,6 +269,19 @@ const AdminClientProfile = () => {
     handleArchiveDialogClose();
   };
 
+  const handleInfoMenuOpen = (event) => {
+    setInfoMenuAnchor(event.currentTarget);
+  };
+
+  const handleInfoMenuClose = () => {
+    setInfoMenuAnchor(null);
+  };
+
+  const handleInfoTypeSelect = (infoType) => {
+    setSelectedInfo(infoType);
+    handleInfoMenuClose();
+  };
+
   if (loading) {
     return (
       <AdminLayout>
@@ -292,10 +311,20 @@ const AdminClientProfile = () => {
           {/* Left Column - Company Information */}
           <Grid item xs={12} md={4}>
             <Paper sx={{ p: 3, borderRadius: 2, height: '100%' }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h6" sx={{ color: '#444', fontWeight: 500 }}>
-                  Company Information
-                </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                <Box 
+                  sx={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    cursor: 'pointer' 
+                  }}
+                  onClick={handleInfoMenuOpen}
+                >
+                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500 }}>
+                    {selectedInfo}
+                  </Typography>
+                  <ExpandMoreIcon sx={{ ml: 1, color: '#666' }} />
+                </Box>
                 <Button 
                   startIcon={<EditIcon />} 
                   size="small"
@@ -311,8 +340,18 @@ const AdminClientProfile = () => {
                   Edit
                 </Button>
               </Box>
+              <Divider sx={{ mt: 1, mb: 3 }} />
 
-              <Box sx={{ mt: 3 }}>
+              <Menu
+                anchorEl={infoMenuAnchor}
+                open={Boolean(infoMenuAnchor)}
+                onClose={handleInfoMenuClose}
+              >
+                <MenuItem onClick={() => handleInfoTypeSelect('Company Information')}>Company Information</MenuItem>
+                <MenuItem onClick={() => handleInfoTypeSelect('Pickup Information')}>Pickup Information</MenuItem>
+              </Menu>
+
+              <Box sx={{ mt: 2 }}>
                 <Grid container spacing={2}>
                   <Grid item xs={5}>
                     <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact Person</Typography>
@@ -366,9 +405,10 @@ const AdminClientProfile = () => {
               </Box>
 
               <Box sx={{ mt: 4 }}>
-                <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 2 }}>
+                <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1 }}>
                   Contact History
                 </Typography>
+                <Divider sx={{ mt: 1, mb: 2 }} />
                 
                 <Grid container spacing={2}>
                   <Grid item xs={5}>
@@ -398,6 +438,8 @@ const AdminClientProfile = () => {
                 <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 2 }}>
                   Environmental Impact
                 </Typography>
+
+                <Divider sx={{ mt: 1, mb: 2 }} />
 
                 <Grid container spacing={3}>
                   <Grid item xs={6}>
