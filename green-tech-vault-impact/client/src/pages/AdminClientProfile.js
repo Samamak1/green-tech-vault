@@ -48,6 +48,7 @@ const AdminClientProfile = () => {
   const [deviceToArchive, setDeviceToArchive] = useState(null);
   const [infoMenuAnchor, setInfoMenuAnchor] = useState(null);
   const [selectedInfo, setSelectedInfo] = useState('Company Information');
+  const [leftPanelTab, setLeftPanelTab] = useState('Company Information');
 
   useEffect(() => {
     // In a real app, you would fetch the actual client data
@@ -284,6 +285,10 @@ const AdminClientProfile = () => {
     handleInfoMenuClose();
   };
 
+  const handleLeftPanelTabChange = (tabName) => {
+    setLeftPanelTab(tabName);
+  };
+
   if (loading) {
     return (
       <AdminLayout>
@@ -310,235 +315,465 @@ const AdminClientProfile = () => {
         </Box>
 
         <Grid container spacing={3}>
-          {/* Left Column - Company Information */}
+          {/* Left Column - Information Panels */}
           <Grid item xs={12} md={4}>
-            <Paper sx={{ p: 3, borderRadius: 2, height: '100%' }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+            <Paper sx={{ p: 0, borderRadius: 2, height: '100%', overflow: 'hidden' }}>
+              {/* Tab Selection Buttons */}
+              <Box sx={{ display: 'flex', width: '100%', borderBottom: '1px solid #e0e0e0' }}>
                 <Box 
+                  onClick={() => handleLeftPanelTabChange('Company Information')}
                   sx={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    cursor: 'pointer' 
-                  }}
-                  onClick={handleInfoMenuOpen}
-                >
-                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500 }}>
-                    {selectedInfo}
-                  </Typography>
-                  <ExpandMoreIcon sx={{ ml: 1, color: '#666' }} />
-                </Box>
-                <Button 
-                  startIcon={<EditIcon />} 
-                  size="small"
-                  sx={{ 
-                    color: '#4ECDC4', 
-                    fontSize: '0.8rem', 
-                    border: '1px solid #e0e0e0',
-                    borderRadius: '8px',
-                    py: 0.5,
-                    px: 1.5,
+                    width: '50%', 
+                    p: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    borderBottom: leftPanelTab === 'Company Information' ? '2px solid #4ECDC4' : 'none',
+                    fontWeight: leftPanelTab === 'Company Information' ? 500 : 400,
+                    color: leftPanelTab === 'Company Information' ? '#444' : '#666',
                   }}
                 >
-                  Edit
-                </Button>
-              </Box>
-              <Divider sx={{ mt: 1, mb: 3 }} />
-
-              <Menu
-                anchorEl={infoMenuAnchor}
-                open={Boolean(infoMenuAnchor)}
-                onClose={handleInfoMenuClose}
-              >
-                <MenuItem onClick={() => handleInfoTypeSelect('Company Information')}>Company Information</MenuItem>
-                <MenuItem onClick={() => handleInfoTypeSelect('Pickup Information')}>Pickup Information</MenuItem>
-              </Menu>
-
-              <Box sx={{ mt: 2 }}>
-                <Grid container spacing={2}>
-                  <Grid item xs={5}>
-                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Company Name</Typography>
-                  </Grid>
-                  <Grid item xs={7}>
-                    <Typography variant="body2">{client.name}</Typography>
-                  </Grid>
-
-                  <Grid item xs={5}>
-                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Email</Typography>
-                  </Grid>
-                  <Grid item xs={7}>
-                    <Typography variant="body2">{client.email}</Typography>
-                  </Grid>
-
-                  <Grid item xs={5}>
-                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
-                  </Grid>
-                  <Grid item xs={7}>
-                    <Typography variant="body2">{client.phone}</Typography>
-                  </Grid>
-
-                  <Grid item xs={5}>
-                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Address</Typography>
-                  </Grid>
-                  <Grid item xs={7}>
-                    <Typography variant="body2">{client.address}</Typography>
-                  </Grid>
-
-                  <Grid item xs={5}>
-                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Website</Typography>
-                  </Grid>
-                  <Grid item xs={7}>
-                    <Typography variant="body2">{client.website}</Typography>
-                  </Grid>
-
-                  <Grid item xs={5}>
-                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Industry</Typography>
-                  </Grid>
-                  <Grid item xs={7}>
-                    <Typography variant="body2">{client.industry}</Typography>
-                  </Grid>
-
-                  <Grid item xs={5}>
-                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Employees</Typography>
-                  </Grid>
-                  <Grid item xs={7}>
-                    <Typography variant="body2">{client.employees}</Typography>
-                  </Grid>
-                </Grid>
-              </Box>
-
-              <Box sx={{ mt: 4 }}>
-                <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1 }}>
-                  Contact Information
-                </Typography>
-                <Divider sx={{ mt: 1, mb: 2 }} />
-                
-                <Grid container spacing={2}>
-                  <Grid item xs={5}>
-                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact Name</Typography>
-                  </Grid>
-                  <Grid item xs={7}>
-                    <Typography variant="body2">{client.contactPerson}</Typography>
-                  </Grid>
-
-                  <Grid item xs={5}>
-                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Email</Typography>
-                  </Grid>
-                  <Grid item xs={7}>
-                    <Typography variant="body2">{client.email}</Typography>
-                  </Grid>
-
-                  <Grid item xs={5}>
-                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
-                  </Grid>
-                  <Grid item xs={7}>
-                    <Typography variant="body2">{client.phone}</Typography>
-                  </Grid>
-                </Grid>
-              </Box>
-
-              <Box sx={{ mt: 4 }}>
-                <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1 }}>
-                  Contact History
-                </Typography>
-                <Divider sx={{ mt: 1, mb: 2 }} />
-                
-                <Grid container spacing={2}>
-                  <Grid item xs={5}>
-                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Last Contacted</Typography>
-                  </Grid>
-                  <Grid item xs={7}>
-                    <Typography variant="body2">{client.lastContacted}</Typography>
-                  </Grid>
-
-                  <Grid item xs={5}>
-                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact Method</Typography>
-                  </Grid>
-                  <Grid item xs={7}>
-                    <Typography variant="body2">{client.contactMethod}</Typography>
-                  </Grid>
-
-                  <Grid item xs={5}>
-                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Conversation Notes</Typography>
-                  </Grid>
-                  <Grid item xs={7}>
-                    <Typography variant="body2">{client.conversationNotes}</Typography>
-                  </Grid>
-                </Grid>
-              </Box>
-
-              <Box sx={{ mt: 4 }}>
-                <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 2 }}>
-                  Environmental Impact
-                </Typography>
-
-                <Divider sx={{ mt: 1, mb: 2 }} />
-
-                <Grid container spacing={3}>
-                  <Grid item xs={6}>
-                    <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
-                      <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
-                        {client.devicesProcessed}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: '#666' }}>
-                        Devices Processed
-                      </Typography>
-                    </Paper>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
-                      <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
-                        {client.totalWeight}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: '#666' }}>
-                        Total weight (kg)
-                      </Typography>
-                    </Paper>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
-                      <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
-                        {client.co2Saved}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: '#666' }}>
-                        CO2 Saved (kg)
-                      </Typography>
-                    </Paper>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
-                      <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
-                        {client.treesPlanted}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: '#666' }}>
-                        Trees Planted
-                      </Typography>
-                    </Paper>
-                  </Grid>
-                </Grid>
-
-                <Box sx={{ mt: 3 }}>
-                  <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, mb: 1 }}>
-                    Device Disposition:
-                  </Typography>
-                  <Grid container spacing={1}>
-                    <Grid item xs={4}>
-                      <Typography variant="body2">
-                        Refurbished: {client.refurbished}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Typography variant="body2">
-                        Recycled: {client.recycled}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Typography variant="body2">
-                        Disposed: {client.disposed}
-                      </Typography>
-                    </Grid>
-                  </Grid>
+                  Company Information
+                </Box>
+                <Box 
+                  onClick={() => handleLeftPanelTabChange('Pickup Information')}
+                  sx={{ 
+                    width: '50%', 
+                    p: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    borderBottom: leftPanelTab === 'Pickup Information' ? '2px solid #4ECDC4' : 'none',
+                    fontWeight: leftPanelTab === 'Pickup Information' ? 500 : 400,
+                    color: leftPanelTab === 'Pickup Information' ? '#444' : '#666',
+                  }}
+                >
+                  Pickup Information
                 </Box>
               </Box>
+
+              {/* Company Information Panel */}
+              {leftPanelTab === 'Company Information' && (
+                <Box sx={{ p: 3 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                    <Box 
+                      sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        cursor: 'pointer' 
+                      }}
+                    >
+                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500 }}>
+                        Company Information
+                      </Typography>
+                    </Box>
+                    <Button 
+                      startIcon={<EditIcon />} 
+                      size="small"
+                      sx={{ 
+                        color: '#4ECDC4', 
+                        fontSize: '0.8rem', 
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '8px',
+                        py: 0.5,
+                        px: 1.5,
+                      }}
+                    >
+                      Edit
+                    </Button>
+                  </Box>
+                  <Divider sx={{ mt: 1, mb: 3 }} />
+
+                  <Box sx={{ mt: 2 }}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Company Name</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">{client.name}</Typography>
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Email</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">{client.email}</Typography>
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">{client.phone}</Typography>
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Address</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">{client.address}</Typography>
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Website</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">{client.website}</Typography>
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Industry</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">{client.industry}</Typography>
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Employees</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">{client.employees}</Typography>
+                      </Grid>
+                    </Grid>
+                  </Box>
+
+                  <Box sx={{ mt: 4 }}>
+                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1 }}>
+                      Contact Information
+                    </Typography>
+                    <Divider sx={{ mt: 1, mb: 2 }} />
+                    
+                    <Grid container spacing={2}>
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact Name</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">{client.contactPerson}</Typography>
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Email</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">{client.email}</Typography>
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">{client.phone}</Typography>
+                      </Grid>
+                    </Grid>
+                  </Box>
+
+                  <Box sx={{ mt: 4 }}>
+                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1 }}>
+                      Contact History
+                    </Typography>
+                    <Divider sx={{ mt: 1, mb: 2 }} />
+                    
+                    <Grid container spacing={2}>
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Last Contacted</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">{client.lastContacted}</Typography>
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact Method</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">{client.contactMethod}</Typography>
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Conversation Notes</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">{client.conversationNotes}</Typography>
+                      </Grid>
+                    </Grid>
+                  </Box>
+
+                  <Box sx={{ mt: 4 }}>
+                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 2 }}>
+                      Environmental Impact
+                    </Typography>
+
+                    <Divider sx={{ mt: 1, mb: 2 }} />
+
+                    <Grid container spacing={3}>
+                      <Grid item xs={6}>
+                        <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
+                          <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
+                            {client.devicesProcessed}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: '#666' }}>
+                            Devices Processed
+                          </Typography>
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
+                          <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
+                            {client.totalWeight}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: '#666' }}>
+                            Total weight (kg)
+                          </Typography>
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
+                          <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
+                            {client.co2Saved}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: '#666' }}>
+                            CO2 Saved (kg)
+                          </Typography>
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
+                          <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
+                            {client.treesPlanted}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: '#666' }}>
+                            Trees Planted
+                          </Typography>
+                        </Paper>
+                      </Grid>
+                    </Grid>
+
+                    <Box sx={{ mt: 3 }}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, mb: 1 }}>
+                        Device Disposition:
+                      </Typography>
+                      <Grid container spacing={1}>
+                        <Grid item xs={4}>
+                          <Typography variant="body2">
+                            Refurbished: {client.refurbished}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Typography variant="body2">
+                            Recycled: {client.recycled}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Typography variant="body2">
+                            Disposed: {client.disposed}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </Box>
+                  </Box>
+                </Box>
+              )}
+
+              {/* Pickup Information Panel */}
+              {leftPanelTab === 'Pickup Information' && (
+                <Box sx={{ p: 3 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500 }}>
+                      Pickup Information
+                    </Typography>
+                    <Button 
+                      startIcon={<EditIcon />} 
+                      size="small"
+                      sx={{ 
+                        color: '#4ECDC4', 
+                        fontSize: '0.8rem', 
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '8px',
+                        py: 0.5,
+                        px: 1.5,
+                      }}
+                    >
+                      Edit Status
+                    </Button>
+                  </Box>
+                  <Divider sx={{ mt: 1, mb: 3 }} />
+
+                  <Box sx={{ mt: 2 }}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Client</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">Dell</Typography>
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Company</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">Tech Solutions</Typography>
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Location</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">Corporate HQ</Typography>
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">John Smith</Typography>
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">(555) 123-4567</Typography>
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Status</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Chip
+                          label="Processing"
+                          size="small"
+                          sx={{
+                            bgcolor: '#fff8e0',
+                            color: '#ffa000',
+                            borderRadius: '16px',
+                            fontWeight: 500,
+                            py: 0.5
+                          }}
+                        />
+                      </Grid>
+
+                      <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Notes</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">Large volume of equipment expected</Typography>
+                      </Grid>
+                    </Grid>
+                  </Box>
+
+                  <Box sx={{ mt: 4 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500 }}>
+                        Notes
+                      </Typography>
+                      <Button 
+                        startIcon={<EditIcon />} 
+                        size="small"
+                        sx={{ 
+                          color: '#4ECDC4', 
+                          fontSize: '0.8rem', 
+                          border: '1px solid #e0e0e0',
+                          borderRadius: '8px',
+                          py: 0.5,
+                          px: 1.5,
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    </Box>
+                    <Divider sx={{ mt: 1, mb: 2 }} />
+                    
+                    <Typography variant="body2" sx={{ mb: 3 }}>
+                      No notes from customer
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{ mt: 4 }}>
+                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1 }}>
+                      Additional Details
+                    </Typography>
+                    <Divider sx={{ mt: 1, mb: 2 }} />
+                    
+                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>
+                      Store Address
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{ mt: 4 }}>
+                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1 }}>
+                      Pickup Date and Time
+                    </Typography>
+                    <Typography variant="body1">
+                      03/25/2025 4:00PM
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{ mt: 4 }}>
+                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 2 }}>
+                      Summary
+                    </Typography>
+
+                    <Divider sx={{ mt: 1, mb: 2 }} />
+
+                    <Grid container spacing={3}>
+                      <Grid item xs={6}>
+                        <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
+                          <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
+                            12
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: '#666' }}>
+                            Total Devices
+                          </Typography>
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
+                          <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
+                            45.2
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: '#666' }}>
+                            Total Weight (kg)
+                          </Typography>
+                        </Paper>
+                      </Grid>
+                    </Grid>
+
+                    <Box sx={{ mt: 3 }}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, mb: 1 }}>
+                        Device Status:
+                      </Typography>
+                      <Grid container spacing={1}>
+                        <Grid item xs={4}>
+                          <Typography variant="body2">
+                            Received: 3
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Typography variant="body2">
+                            Refurbished: 4
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Typography variant="body2">
+                            Recycled: 2
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Typography variant="body2">
+                            In Processing: 2
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Typography variant="body2">
+                            Disposed: 1
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </Box>
+                  </Box>
+                </Box>
+              )}
             </Paper>
           </Grid>
 
