@@ -49,6 +49,7 @@ const AdminClientProfile = () => {
   const [infoMenuAnchor, setInfoMenuAnchor] = useState(null);
   const [selectedInfo, setSelectedInfo] = useState('Company Information');
   const [leftPanelTab, setLeftPanelTab] = useState('Company Information');
+  const [selectedPickup, setSelectedPickup] = useState(null);
 
   useEffect(() => {
     // In a real app, you would fetch the actual client data
@@ -79,38 +80,90 @@ const AdminClientProfile = () => {
       {
         id: '1',
         date: '01/24/2025',
+        time: '14:00',
         location: 'Cincinnati Warehouse',
         status: 'complete',
         weight: 2.5,
         personName: client ? client.name : 'EcoFriendly Inc',
-        personTitle: '14:00'
+        personTitle: '14:00',
+        contact: 'John Smith',
+        contactPhone: '(555) 123-4567',
+        notes: 'Standard pickup, no special instructions',
+        totalDevices: 4,
+        totalWeight: 12.8,
+        deviceStatus: {
+          received: 1,
+          refurbished: 2,
+          recycled: 1,
+          inProcessing: 0,
+          disposed: 0
+        }
       },
       {
         id: '2',
         date: '03/15/2025',
+        time: '10:30',
         location: 'Cincinnati Warehouse',
         status: 'in-processing',
         weight: 1.8,
         personName: client ? client.name : 'EcoFriendly Inc',
-        personTitle: '10:30'
+        personTitle: '10:30',
+        contact: 'Sarah Johnson',
+        contactPhone: '(555) 234-5678',
+        notes: 'Large volume of equipment expected',
+        totalDevices: 12,
+        totalWeight: 45.2,
+        deviceStatus: {
+          received: 3,
+          refurbished: 4,
+          recycled: 2,
+          inProcessing: 2,
+          disposed: 1
+        }
       },
       {
         id: '3',
         date: '05/20/2025',
+        time: '15:45',
         location: 'EcoFriendly HQ',
         status: 'recycled',
         weight: 3.2,
         personName: client ? client.name : 'EcoFriendly Inc',
-        personTitle: '15:45'
+        personTitle: '15:45',
+        contact: 'Michael Brown',
+        contactPhone: '(555) 345-6789',
+        notes: 'Older equipment, likely for recycling',
+        totalDevices: 6,
+        totalWeight: 18.5,
+        deviceStatus: {
+          received: 0,
+          refurbished: 1,
+          recycled: 4,
+          inProcessing: 0,
+          disposed: 1
+        }
       },
       {
         id: '4',
         date: '06/10/2025',
+        time: '13:15',
         location: 'Cincinnati Warehouse',
         status: 'complete',
         weight: 4.5,
         personName: client ? client.name : 'EcoFriendly Inc',
-        personTitle: '13:15'
+        personTitle: '13:15',
+        contact: 'Jennifer Lee',
+        contactPhone: '(555) 456-7890',
+        notes: 'High-value devices, handle with care',
+        totalDevices: 8,
+        totalWeight: 22.3,
+        deviceStatus: {
+          received: 2,
+          refurbished: 3,
+          recycled: 1,
+          inProcessing: 2,
+          disposed: 0
+        }
       }
     ];
 
@@ -218,6 +271,7 @@ const AdminClientProfile = () => {
 
     setClient(mockClient);
     setPickups(mockPickups);
+    setSelectedPickup(mockPickups[1]); // Set the second pickup as initially selected (the one with "in-processing" status)
     setDevices(mockDevices);
     setLoading(false);
   }, [clientId]);
@@ -287,6 +341,11 @@ const AdminClientProfile = () => {
 
   const handleLeftPanelTabChange = (tabName) => {
     setLeftPanelTab(tabName);
+  };
+
+  const handlePickupSelect = (pickup) => {
+    setSelectedPickup(pickup);
+    setLeftPanelTab('Pickup Information');
   };
 
   if (loading) {
@@ -576,7 +635,7 @@ const AdminClientProfile = () => {
               )}
 
               {/* Pickup Information Panel */}
-              {leftPanelTab === 'Pickup Information' && (
+              {leftPanelTab === 'Pickup Information' && selectedPickup && (
                 <Box sx={{ p: 3 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
                     <Typography variant="h6" sx={{ color: '#444', fontWeight: 500 }}>
@@ -605,35 +664,35 @@ const AdminClientProfile = () => {
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Client</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">Dell</Typography>
+                        <Typography variant="body2">{selectedPickup.personName}</Typography>
                       </Grid>
 
                       <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Company</Typography>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Date</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">Tech Solutions</Typography>
+                        <Typography variant="body2">{selectedPickup.date}</Typography>
                       </Grid>
 
                       <Grid item xs={5}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Location</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">Corporate HQ</Typography>
+                        <Typography variant="body2">{selectedPickup.location}</Typography>
                       </Grid>
 
                       <Grid item xs={5}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">John Smith</Typography>
+                        <Typography variant="body2">{selectedPickup.contact}</Typography>
                       </Grid>
 
                       <Grid item xs={5}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">(555) 123-4567</Typography>
+                        <Typography variant="body2">{selectedPickup.contactPhone}</Typography>
                       </Grid>
 
                       <Grid item xs={5}>
@@ -641,12 +700,13 @@ const AdminClientProfile = () => {
                       </Grid>
                       <Grid item xs={7}>
                         <Chip
-                          label="Processing"
+                          label={selectedPickup.status === 'complete' ? 'Complete' : 
+                               selectedPickup.status === 'in-processing' ? 'Processing' : 
+                               selectedPickup.status === 'recycled' ? 'Received' : selectedPickup.status}
                           size="small"
                           sx={{
-                            bgcolor: '#fff8e0',
-                            color: '#ffa000',
-                            borderRadius: '16px',
+                            ...getStatusChipStyle(selectedPickup.status),
+                            textTransform: 'capitalize',
                             fontWeight: 500,
                             py: 0.5
                           }}
@@ -657,7 +717,7 @@ const AdminClientProfile = () => {
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Notes</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">Large volume of equipment expected</Typography>
+                        <Typography variant="body2">{selectedPickup.notes}</Typography>
                       </Grid>
                     </Grid>
                   </Box>
@@ -685,7 +745,7 @@ const AdminClientProfile = () => {
                     <Divider sx={{ mt: 1, mb: 2 }} />
                     
                     <Typography variant="body2" sx={{ mb: 3 }}>
-                      No notes from customer
+                      {selectedPickup.notes || 'No notes from customer'}
                     </Typography>
                   </Box>
 
@@ -698,6 +758,9 @@ const AdminClientProfile = () => {
                     <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>
                       Store Address
                     </Typography>
+                    <Typography variant="body2" sx={{ mt: 1 }}>
+                      {selectedPickup.location}
+                    </Typography>
                   </Box>
 
                   <Box sx={{ mt: 4 }}>
@@ -705,7 +768,7 @@ const AdminClientProfile = () => {
                       Pickup Date and Time
                     </Typography>
                     <Typography variant="body1">
-                      03/25/2025 4:00PM
+                      {selectedPickup.date} {selectedPickup.time}
                     </Typography>
                   </Box>
 
@@ -720,7 +783,7 @@ const AdminClientProfile = () => {
                       <Grid item xs={6}>
                         <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
                           <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
-                            12
+                            {selectedPickup.totalDevices}
                           </Typography>
                           <Typography variant="body2" sx={{ color: '#666' }}>
                             Total Devices
@@ -730,7 +793,7 @@ const AdminClientProfile = () => {
                       <Grid item xs={6}>
                         <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
                           <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
-                            45.2
+                            {selectedPickup.totalWeight}
                           </Typography>
                           <Typography variant="body2" sx={{ color: '#666' }}>
                             Total Weight (kg)
@@ -746,27 +809,27 @@ const AdminClientProfile = () => {
                       <Grid container spacing={1}>
                         <Grid item xs={4}>
                           <Typography variant="body2">
-                            Received: 3
+                            Received: {selectedPickup.deviceStatus.received}
                           </Typography>
                         </Grid>
                         <Grid item xs={4}>
                           <Typography variant="body2">
-                            Refurbished: 4
+                            Refurbished: {selectedPickup.deviceStatus.refurbished}
                           </Typography>
                         </Grid>
                         <Grid item xs={4}>
                           <Typography variant="body2">
-                            Recycled: 2
+                            Recycled: {selectedPickup.deviceStatus.recycled}
                           </Typography>
                         </Grid>
                         <Grid item xs={4}>
                           <Typography variant="body2">
-                            In Processing: 2
+                            In Processing: {selectedPickup.deviceStatus.inProcessing}
                           </Typography>
                         </Grid>
                         <Grid item xs={4}>
                           <Typography variant="body2">
-                            Disposed: 1
+                            Disposed: {selectedPickup.deviceStatus.disposed}
                           </Typography>
                         </Grid>
                       </Grid>
@@ -869,13 +932,18 @@ const AdminClientProfile = () => {
                       </TableHead>
                       <TableBody>
                         {pickups.map((pickup) => (
-                          <TableRow key={pickup.id} hover>
+                          <TableRow 
+                            key={pickup.id} 
+                            hover
+                            onClick={() => handlePickupSelect(pickup)}
+                            sx={{ cursor: 'pointer' }}
+                          >
                             <TableCell padding="checkbox">
                               <input type="checkbox" />
                             </TableCell>
                             <TableCell>{pickup.personName}</TableCell>
                             <TableCell>{pickup.date}</TableCell>
-                            <TableCell>{pickup.personTitle}</TableCell>
+                            <TableCell>{pickup.time}</TableCell>
                             <TableCell>{pickup.location}</TableCell>
                             <TableCell>
                               <Chip 
