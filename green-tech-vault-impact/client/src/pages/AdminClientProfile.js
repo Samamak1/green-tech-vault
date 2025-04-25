@@ -54,14 +54,16 @@ const AdminClientProfile = () => {
     // For now, we'll use mock data
     const mockClient = {
       id: '3',
-      name: 'EcoFriendly Inc',
-      contactPerson: 'James Harold',
-      email: 'jamesharold44@gmail.com',
-      phone: '(555) 123-4567',
+      companyName: 'EcoFriendly Inc',
+      companyEmail: 'info@ecofriendly.com',
+      companyPhone: '(555) 123-4567',
       address: '123 Green St, Cincinnati OH, 51729',
       website: 'www.ecofriendly.com',
       industry: 'Technology',
       employees: '223',
+      contactPerson: 'James Harold',
+      contactEmail: 'jamesharold44@gmail.com',
+      contactPhone: '(555) 123-4567',
       lastContacted: 'March 15, 2025',
       contactMethod: 'Email',
       conversationNotes: 'Discussion of new proposal',
@@ -303,7 +305,7 @@ const AdminClientProfile = () => {
             Back to Dashboard
           </Button>
           <Typography variant="h6" sx={{ ml: 2, color: '#444', fontWeight: 500 }}>
-            Client Profile: {client.name}
+            Client Profile: {client.companyName}
           </Typography>
         </Box>
 
@@ -354,24 +356,24 @@ const AdminClientProfile = () => {
               <Box sx={{ mt: 2 }}>
                 <Grid container spacing={2}>
                   <Grid item xs={5}>
-                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact Person</Typography>
+                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Company Name</Typography>
                   </Grid>
                   <Grid item xs={7}>
-                    <Typography variant="body2">{client.contactPerson}</Typography>
+                    <Typography variant="body2">{client.companyName}</Typography>
                   </Grid>
 
                   <Grid item xs={5}>
                     <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Email</Typography>
                   </Grid>
                   <Grid item xs={7}>
-                    <Typography variant="body2">{client.email}</Typography>
+                    <Typography variant="body2">{client.companyEmail}</Typography>
                   </Grid>
 
                   <Grid item xs={5}>
                     <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
                   </Grid>
                   <Grid item xs={7}>
-                    <Typography variant="body2">{client.phone}</Typography>
+                    <Typography variant="body2">{client.companyPhone}</Typography>
                   </Grid>
 
                   <Grid item xs={5}>
@@ -400,6 +402,36 @@ const AdminClientProfile = () => {
                   </Grid>
                   <Grid item xs={7}>
                     <Typography variant="body2">{client.employees}</Typography>
+                  </Grid>
+                </Grid>
+              </Box>
+
+              <Box sx={{ mt: 4 }}>
+                <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1 }}>
+                  Contact Information
+                </Typography>
+                <Divider sx={{ mt: 1, mb: 2 }} />
+                
+                <Grid container spacing={2}>
+                  <Grid item xs={5}>
+                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact Name</Typography>
+                  </Grid>
+                  <Grid item xs={7}>
+                    <Typography variant="body2">{client.contactPerson}</Typography>
+                  </Grid>
+
+                  <Grid item xs={5}>
+                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Email</Typography>
+                  </Grid>
+                  <Grid item xs={7}>
+                    <Typography variant="body2">{client.contactEmail}</Typography>
+                  </Grid>
+
+                  <Grid item xs={5}>
+                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
+                  </Grid>
+                  <Grid item xs={7}>
+                    <Typography variant="body2">{client.contactPhone}</Typography>
                   </Grid>
                 </Grid>
               </Box>
