@@ -620,16 +620,13 @@ const AdminClientProfile = () => {
                     <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
                       <TableHead>
                         <TableRow sx={{ bgcolor: '#f5f5f5' }}>
-                          <TableCell padding="checkbox" width="40px">
-                            <input type="checkbox" />
-                          </TableCell>
-                          <TableCell width="15%">Person</TableCell>
-                          <TableCell width="12%">Date</TableCell>
-                          <TableCell width="15%">Time</TableCell>
+                          <TableCell width="16%">Client</TableCell>
+                          <TableCell width="10%">Date</TableCell>
+                          <TableCell width="14%">Time</TableCell>
                           <TableCell width="15%">Location</TableCell>
                           <TableCell width="15%">Status</TableCell>
                           <TableCell width="12%">Weight (kg)</TableCell>
-                          <TableCell width="15%">Actions</TableCell>
+                          <TableCell width="18%">Actions</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -638,7 +635,7 @@ const AdminClientProfile = () => {
                             <TableCell padding="checkbox">
                               <input type="checkbox" />
                             </TableCell>
-                            <TableCell>{pickup.personName}</TableCell>
+                            <TableCell>{pickup.personName || client.companyName}</TableCell>
                             <TableCell>{pickup.date}</TableCell>
                             <TableCell>{pickup.personTitle}</TableCell>
                             <TableCell>{pickup.location}</TableCell>
