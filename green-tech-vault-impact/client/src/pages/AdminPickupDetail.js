@@ -817,17 +817,28 @@ const AdminPickupDetail = () => {
                         <TableCell align="right">
                           <IconButton
                             size="small"
-                            color="primary"
+                            sx={{ 
+                              color: '#4ECDC4',
+                              bgcolor: '#e6f7f5', 
+                              p: 0.5,
+                              mr: 1,
+                              '&:hover': { bgcolor: '#d0f0ed' }
+                            }}
                             onClick={() => handleEditDevice(device)}
                           >
-                            <EditIcon />
+                            <EditIcon fontSize="small" />
                           </IconButton>
                           <IconButton
                             size="small"
-                            color="error"
+                            sx={{ 
+                              color: '#f44336',
+                              bgcolor: '#feeeee',
+                              p: 0.5,
+                              '&:hover': { bgcolor: '#fcdada' }
+                            }}
                             onClick={() => handleDeleteDevice(device.id)}
                           >
-                            <DeleteIcon />
+                            <DeleteIcon fontSize="small" />
                           </IconButton>
                         </TableCell>
                       </TableRow>

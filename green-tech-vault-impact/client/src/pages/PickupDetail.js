@@ -489,7 +489,12 @@ const PickupDetail = () => {
                           <TableCell align="right">
                             <IconButton 
                               size="small"
-                              color="primary"
+                              sx={{ 
+                                color: '#4ECDC4',
+                                bgcolor: '#e6f7f5', 
+                                p: 0.5,
+                                '&:hover': { bgcolor: '#d0f0ed' }
+                              }}
                               onClick={() => navigate(`/devices/${device._id}`)}
                             >
                               <EditIcon fontSize="small" />

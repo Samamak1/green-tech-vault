@@ -186,17 +186,28 @@ const Pickups = () => {
                             component={RouterLink} 
                             to={`/pickups/${pickup._id}`}
                             size="small"
-                            color="primary"
+                            sx={{ 
+                              color: '#4ECDC4',
+                              bgcolor: '#e6f7f5', 
+                              p: 0.5,
+                              mr: 1,
+                              '&:hover': { bgcolor: '#d0f0ed' }
+                            }}
                           >
-                            <ViewIcon />
+                            <ViewIcon fontSize="small" />
                           </IconButton>
                           <IconButton 
                             component={RouterLink} 
                             to={`/pickups/${pickup._id}/edit`}
                             size="small"
-                            color="secondary"
+                            sx={{ 
+                              color: '#4ECDC4',
+                              bgcolor: '#e6f7f5', 
+                              p: 0.5,
+                              '&:hover': { bgcolor: '#d0f0ed' }
+                            }}
                           >
-                            <EditIcon />
+                            <EditIcon fontSize="small" />
                           </IconButton>
                         </TableCell>
                       </TableRow>
