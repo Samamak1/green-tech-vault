@@ -90,6 +90,10 @@ const AdminPickupCalendar = () => {
   
   const [mockEvents, setMockEvents] = useState([]);
   
+  const [miniCalendarMonth, setMiniCalendarMonth] = useState(new Date().getMonth());
+  const [miniCalendarYear, setMiniCalendarYear] = useState(new Date().getFullYear());
+  const [currentDay] = useState(new Date().getDate()); // Current day for highlighting
+  
   // Event styling function moved inside the component to access calendarFilters
   const eventStyleGetter = (event) => {
     let style = {
@@ -464,6 +468,18 @@ const AdminPickupCalendar = () => {
     });
   };
 
+  const handleMiniCalendarPrev = () => {
+    const newDate = new Date(miniCalendarYear, miniCalendarMonth - 1, 1);
+    setMiniCalendarMonth(newDate.getMonth());
+    setMiniCalendarYear(newDate.getFullYear());
+  };
+
+  const handleMiniCalendarNext = () => {
+    const newDate = new Date(miniCalendarYear, miniCalendarMonth + 1, 1);
+    setMiniCalendarMonth(newDate.getMonth());
+    setMiniCalendarYear(newDate.getFullYear());
+  };
+
   const renderCalendarContent = () => {
     if (loading) {
       return (
@@ -552,19 +568,13 @@ const AdminPickupCalendar = () => {
         <Grid container spacing={3}>
           <Grid item xs={12} md={9}>
             <Paper sx={{ p: 2, mb: 3, height: 'calc(100vh - 200px)' }}>
-              <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-start', pl: 1 }}>
-                <Typography variant="h6" sx={{ fontWeight: 500 }}>
-                  April 2025
-                </Typography>
-              </Box>
-              
               <Calendar
                 localizer={localizer}
                 events={getFilteredEvents()}
                 startAccessor="scheduledDate"
                 endAccessor="scheduledDate"
                 views={['month', 'week', 'day', 'agenda']}
-                style={{ height: 'calc(100% - 40px)' }}
+                style={{ height: 'calc(100% - 10px)' }}
                 eventPropGetter={eventStyleGetter}
                 onSelectEvent={handleSelectEvent}
                 components={{
@@ -578,13 +588,13 @@ const AdminPickupCalendar = () => {
             {/* Mini calendar */}
             <Paper sx={{ p: 2, borderRadius: 1, mb: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-                <IconButton size="small">
+                <IconButton size="small" onClick={handleMiniCalendarPrev}>
                   <ChevronLeftIcon fontSize="small" />
                 </IconButton>
-                <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
-                  March 2025
+                <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+                  {new Date(miniCalendarYear, miniCalendarMonth).toLocaleString('default', { month: 'long' })} {miniCalendarYear}
                 </Typography>
-                <IconButton size="small">
+                <IconButton size="small" onClick={handleMiniCalendarNext}>
                   <ChevronRightIcon fontSize="small" />
                 </IconButton>
               </Box>
@@ -614,7 +624,7 @@ const AdminPickupCalendar = () => {
                             borderRadius: '4px',
                             cursor: 'pointer',
                             color: day === 1 ? '#333' : '#aaa',
-                            ...(day === 27 && { 
+                            ...(day === currentDay && miniCalendarMonth === new Date().getMonth() && miniCalendarYear === new Date().getFullYear() && { 
                               bgcolor: '#4ECDC4', 
                               color: 'white'
                             })
@@ -638,7 +648,7 @@ const AdminPickupCalendar = () => {
                             p: 0.5, 
                             borderRadius: '4px',
                             cursor: 'pointer',
-                            ...(day === selectedDay && { 
+                            ...(day === currentDay && miniCalendarMonth === new Date().getMonth() && miniCalendarYear === new Date().getFullYear() && { 
                               bgcolor: '#4ECDC4', 
                               color: 'white'
                             })
@@ -662,7 +672,7 @@ const AdminPickupCalendar = () => {
                             p: 0.5, 
                             borderRadius: '4px',
                             cursor: 'pointer',
-                            ...(day === selectedDay && { 
+                            ...(day === currentDay && miniCalendarMonth === new Date().getMonth() && miniCalendarYear === new Date().getFullYear() && { 
                               bgcolor: '#4ECDC4', 
                               color: 'white'
                             })
@@ -686,7 +696,7 @@ const AdminPickupCalendar = () => {
                             p: 0.5, 
                             borderRadius: '4px',
                             cursor: 'pointer',
-                            ...(day === selectedDay && { 
+                            ...(day === currentDay && miniCalendarMonth === new Date().getMonth() && miniCalendarYear === new Date().getFullYear() && { 
                               bgcolor: '#4ECDC4', 
                               color: 'white'
                             })
@@ -710,7 +720,7 @@ const AdminPickupCalendar = () => {
                             p: 0.5, 
                             borderRadius: '4px',
                             cursor: 'pointer',
-                            ...(day === selectedDay && { 
+                            ...(day === currentDay && miniCalendarMonth === new Date().getMonth() && miniCalendarYear === new Date().getFullYear() && { 
                               bgcolor: '#4ECDC4', 
                               color: 'white'
                             })
