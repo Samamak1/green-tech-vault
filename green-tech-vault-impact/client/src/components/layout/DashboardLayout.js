@@ -2,14 +2,12 @@ import React from 'react';
 import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import AppHeader from './AppHeader';
 
 const DashboardLayout = () => {
   return (
     <Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
       <Sidebar />
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <AppHeader variant="simple" />
         <Box 
           component="main" 
           sx={{ 
