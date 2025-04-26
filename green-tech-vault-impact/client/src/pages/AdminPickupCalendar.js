@@ -17,14 +17,19 @@ import {
   TextField,
   MenuItem,
   AppBar,
-  Toolbar
+  Toolbar,
+  FormGroup,
+  FormControlLabel,
+  Switch,
+  ButtonGroup
 } from '@mui/material';
 import {
   ArrowBack as ArrowBackIcon,
   Add as AddIcon,
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
-  Logout as LogoutIcon
+  Logout as LogoutIcon,
+  MoreVert as MoreVertIcon
 } from '@mui/icons-material';
 import { pickupAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -81,6 +86,7 @@ const AdminPickupCalendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
+  const [calendarView, setCalendarView] = useState('month');
   
   const [dialogOpen, setDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -91,6 +97,19 @@ const AdminPickupCalendar = () => {
     contactPhone: '',
     notes: ''
   });
+  
+  // Calendar filters
+  const [calendarFilters, setCalendarFilters] = useState({
+    pickups: true,
+    deliveries: true,
+    gtvEvents: true,
+    internalEvents: true,
+    promotions: false,
+    challenges: false
+  });
+  
+  // Selected day (in this case, we're highlighting the 25th)
+  const [selectedDay, setSelectedDay] = useState(25);
 
   useEffect(() => {
     fetchPickups();
@@ -280,6 +299,21 @@ const AdminPickupCalendar = () => {
     navigate(`/admin/pickups/${event.id}`);
   };
 
+  const handleFilterChange = (event) => {
+    setCalendarFilters({
+      ...calendarFilters,
+      [event.target.name]: event.target.checked
+    });
+  };
+
+  const handleViewChange = (view) => {
+    setCalendarView(view);
+  };
+
+  const handleDayClick = (day) => {
+    setSelectedDay(day);
+  };
+
   const renderCalendarContent = () => {
     if (loading) {
       return (
@@ -301,6 +335,40 @@ const AdminPickupCalendar = () => {
         </Box>
       );
     }
+    
+    // Days array for the mini calendar
+    const days = [];
+    const daysInMonth = new Date(2025, 3, 0).getDate(); // April 2025 has 30 days
+    const firstDayOfMonth = new Date(2025, 3, 1).getDay(); // April 1, 2025 is a Tuesday (2)
+    
+    // Add previous month days
+    const prevMonthDays = new Date(2025, 2, 0).getDate(); // March 2025 has 31 days
+    for (let i = 0; i < firstDayOfMonth; i++) {
+      days.push({
+        day: prevMonthDays - firstDayOfMonth + i + 1,
+        month: 2, // March
+        isCurrentMonth: false
+      });
+    }
+    
+    // Add current month days
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push({
+        day: i,
+        month: 3, // April
+        isCurrentMonth: true
+      });
+    }
+    
+    // Add next month days
+    const remainingDays = 42 - days.length; // 6 rows of 7 days
+    for (let i = 1; i <= remainingDays; i++) {
+      days.push({
+        day: i,
+        month: 4, // May
+        isCurrentMonth: false
+      });
+    }
   
     return (
       <>
@@ -310,11 +378,16 @@ const AdminPickupCalendar = () => {
               variant="outlined" 
               startIcon={<ArrowBackIcon />} 
               onClick={() => navigate('/admin/dashboard')}
-              sx={{ mr: 2 }}
+              sx={{ 
+                mr: 2,
+                color: '#888',
+                borderColor: '#d0d0d0',
+                textTransform: 'none'
+              }}
             >
               Back to Dashboard
             </Button>
-            <Typography variant="h4" component="h1">
+            <Typography variant="h5" sx={{ fontWeight: 500 }}>
               Pickup Calendar
             </Typography>
           </Box>
@@ -322,26 +395,436 @@ const AdminPickupCalendar = () => {
             variant="contained"
             startIcon={<AddIcon />}
             onClick={handleOpenDialog}
+            sx={{ 
+              bgcolor: '#1C392B', 
+              '&:hover': { bgcolor: '#152b21' },
+              textTransform: 'none'
+            }}
           >
             Schedule Pickup
           </Button>
         </Box>
         
-        <Paper sx={{ p: 2, mb: 3, height: 'calc(100vh - 200px)' }}>
-          <Calendar
-            localizer={localizer}
-            events={pickups}
-            startAccessor="scheduledDate"
-            endAccessor="scheduledDate"
-            views={['month', 'week', 'day', 'agenda']}
-            style={{ height: '100%' }}
-            eventPropGetter={eventStyleGetter}
-            onSelectEvent={handleSelectEvent}
-            components={{
-              event: EventComponent
-            }}
-          />
-        </Paper>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={9}>
+            <Paper sx={{ p: 2, mb: 3, height: 'calc(100vh - 200px)' }}>
+              <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <IconButton onClick={handlePrevMonth} size="small">
+                    <ChevronLeftIcon />
+                  </IconButton>
+                  
+                  <Typography variant="h6" sx={{ mx: 2 }}>
+                    April 2025
+                  </Typography>
+                  
+                  <IconButton onClick={handleNextMonth} size="small">
+                    <ChevronRightIcon />
+                  </IconButton>
+                </Box>
+                
+                <ButtonGroup variant="outlined" size="small">
+                  <Button 
+                    onClick={() => handleViewChange('today')}
+                    sx={{ 
+                      color: '#666',
+                      borderColor: '#d0d0d0',
+                      textTransform: 'none'
+                    }}
+                  >
+                    Today
+                  </Button>
+                  <Button 
+                    onClick={() => handleViewChange('back')}
+                    sx={{ 
+                      color: '#666',
+                      borderColor: '#d0d0d0',
+                      textTransform: 'none'
+                    }}
+                  >
+                    Back
+                  </Button>
+                  <Button 
+                    onClick={() => handleViewChange('next')}
+                    sx={{ 
+                      color: '#666',
+                      borderColor: '#d0d0d0',
+                      textTransform: 'none'
+                    }}
+                  >
+                    Next
+                  </Button>
+                </ButtonGroup>
+                
+                <ButtonGroup variant="outlined" size="small">
+                  <Button 
+                    onClick={() => handleViewChange('month')}
+                    variant={calendarView === 'month' ? 'contained' : 'outlined'}
+                    sx={{ 
+                      color: calendarView === 'month' ? '#fff' : '#666',
+                      bgcolor: calendarView === 'month' ? '#1C392B' : 'transparent',
+                      borderColor: '#d0d0d0',
+                      textTransform: 'none',
+                      '&:hover': { bgcolor: calendarView === 'month' ? '#152b21' : 'rgba(0,0,0,0.04)' }
+                    }}
+                  >
+                    Month
+                  </Button>
+                  <Button 
+                    onClick={() => handleViewChange('week')}
+                    variant={calendarView === 'week' ? 'contained' : 'outlined'}
+                    sx={{ 
+                      color: calendarView === 'week' ? '#fff' : '#666',
+                      bgcolor: calendarView === 'week' ? '#1C392B' : 'transparent',
+                      borderColor: '#d0d0d0',
+                      textTransform: 'none',
+                      '&:hover': { bgcolor: calendarView === 'week' ? '#152b21' : 'rgba(0,0,0,0.04)' }
+                    }}
+                  >
+                    Week
+                  </Button>
+                  <Button 
+                    onClick={() => handleViewChange('day')}
+                    variant={calendarView === 'day' ? 'contained' : 'outlined'}
+                    sx={{ 
+                      color: calendarView === 'day' ? '#fff' : '#666',
+                      bgcolor: calendarView === 'day' ? '#1C392B' : 'transparent',
+                      borderColor: '#d0d0d0',
+                      textTransform: 'none',
+                      '&:hover': { bgcolor: calendarView === 'day' ? '#152b21' : 'rgba(0,0,0,0.04)' }
+                    }}
+                  >
+                    Day
+                  </Button>
+                  <Button 
+                    onClick={() => handleViewChange('agenda')}
+                    variant={calendarView === 'agenda' ? 'contained' : 'outlined'}
+                    sx={{ 
+                      color: calendarView === 'agenda' ? '#fff' : '#666',
+                      bgcolor: calendarView === 'agenda' ? '#1C392B' : 'transparent',
+                      borderColor: '#d0d0d0',
+                      textTransform: 'none',
+                      '&:hover': { bgcolor: calendarView === 'agenda' ? '#152b21' : 'rgba(0,0,0,0.04)' }
+                    }}
+                  >
+                    Agenda
+                  </Button>
+                </ButtonGroup>
+              </Box>
+              
+              <Calendar
+                localizer={localizer}
+                events={pickups}
+                startAccessor="scheduledDate"
+                endAccessor="scheduledDate"
+                views={['month', 'week', 'day', 'agenda']}
+                style={{ height: 'calc(100% - 40px)' }}
+                eventPropGetter={eventStyleGetter}
+                onSelectEvent={handleSelectEvent}
+                components={{
+                  event: EventComponent
+                }}
+              />
+            </Paper>
+          </Grid>
+          
+          <Grid item xs={12} md={3}>
+            {/* Mini calendar */}
+            <Paper sx={{ p: 2, borderRadius: 1, mb: 3 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+                <IconButton size="small">
+                  <ChevronLeftIcon fontSize="small" />
+                </IconButton>
+                <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+                  March 2025
+                </Typography>
+                <IconButton size="small">
+                  <ChevronRightIcon fontSize="small" />
+                </IconButton>
+              </Box>
+              
+              <Grid container spacing={0}>
+                <Grid item xs={12}>
+                  <Grid container>
+                    {['Sun', 'Mon', 'Tue', 'Wen', 'Thu', 'Tri', 'Sat'].map(day => (
+                      <Grid item xs align="center" key={day}>
+                        <Typography variant="caption" sx={{ color: '#666' }}>
+                          {day}
+                        </Typography>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Grid>
+                
+                {/* First week - previous month (February) */}
+                <Grid item xs={12}>
+                  <Grid container>
+                    {[23, 24, 25, 26, 27, 28, 1].map(day => (
+                      <Grid item xs align="center" key={day}>
+                        <Box 
+                          sx={{ 
+                            p: 0.5, 
+                            color: day < 23 ? '#333' : '#ccc',
+                            ...(day === 27 && { 
+                              bgcolor: '#4ECDC4', 
+                              color: 'white', 
+                              borderRadius: '4px' 
+                            })
+                          }}
+                        >
+                          <Typography variant="caption">{day}</Typography>
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Grid>
+                
+                {/* Second week */}
+                <Grid item xs={12}>
+                  <Grid container>
+                    {[2, 3, 4, 5, 6, 7, 8].map(day => (
+                      <Grid item xs align="center" key={day}>
+                        <Box 
+                          sx={{ 
+                            p: 0.5, 
+                            ...(day === selectedDay && { 
+                              bgcolor: '#4ECDC4', 
+                              color: 'white', 
+                              borderRadius: '4px' 
+                            })
+                          }}
+                        >
+                          <Typography variant="caption">{day}</Typography>
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Grid>
+                
+                {/* Third week */}
+                <Grid item xs={12}>
+                  <Grid container>
+                    {[9, 10, 11, 12, 13, 14, 15].map(day => (
+                      <Grid item xs align="center" key={day}>
+                        <Box 
+                          sx={{ 
+                            p: 0.5, 
+                            ...(day === selectedDay && { 
+                              bgcolor: '#4ECDC4', 
+                              color: 'white', 
+                              borderRadius: '4px' 
+                            })
+                          }}
+                        >
+                          <Typography variant="caption">{day}</Typography>
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Grid>
+                
+                {/* Fourth week */}
+                <Grid item xs={12}>
+                  <Grid container>
+                    {[16, 17, 18, 19, 20, 21, 22].map(day => (
+                      <Grid item xs align="center" key={day}>
+                        <Box 
+                          sx={{ 
+                            p: 0.5, 
+                            ...(day === selectedDay && { 
+                              bgcolor: '#4ECDC4', 
+                              color: 'white', 
+                              borderRadius: '4px' 
+                            })
+                          }}
+                        >
+                          <Typography variant="caption">{day}</Typography>
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Grid>
+                
+                {/* Fifth week */}
+                <Grid item xs={12}>
+                  <Grid container>
+                    {[23, 24, 25, 26, 27, 28, 29].map(day => (
+                      <Grid item xs align="center" key={day}>
+                        <Box 
+                          sx={{ 
+                            p: 0.5, 
+                            ...(day === selectedDay && { 
+                              bgcolor: '#4ECDC4', 
+                              color: 'white', 
+                              borderRadius: '4px' 
+                            })
+                          }}
+                        >
+                          <Typography variant="caption">{day}</Typography>
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Paper>
+            
+            {/* Calendar filters */}
+            <Paper sx={{ p: 2, borderRadius: 1 }}>
+              <Typography variant="h6" sx={{ mb: 2 }}>Calendars</Typography>
+              
+              <FormGroup>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                  <FormControlLabel 
+                    control={
+                      <Switch 
+                        checked={calendarFilters.pickups} 
+                        onChange={handleFilterChange} 
+                        name="pickups" 
+                        sx={{ 
+                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#1C392B' },
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#1C392B' }
+                        }}
+                      />
+                    } 
+                    label="Pickups" 
+                  />
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#1C392B', mr: 1 }} />
+                    <IconButton size="small">
+                      <MoreVertIcon fontSize="small" />
+                    </IconButton>
+                  </Box>
+                </Box>
+                
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                  <FormControlLabel 
+                    control={
+                      <Switch 
+                        checked={calendarFilters.deliveries} 
+                        onChange={handleFilterChange} 
+                        name="deliveries" 
+                        sx={{ 
+                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#379683' },
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#379683' }
+                        }}
+                      />
+                    } 
+                    label="Deliveries" 
+                  />
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#379683', mr: 1 }} />
+                    <IconButton size="small">
+                      <MoreVertIcon fontSize="small" />
+                    </IconButton>
+                  </Box>
+                </Box>
+                
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                  <FormControlLabel 
+                    control={
+                      <Switch 
+                        checked={calendarFilters.gtvEvents} 
+                        onChange={handleFilterChange} 
+                        name="gtvEvents" 
+                        sx={{ 
+                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#1D3557' },
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#1D3557' }
+                        }}
+                      />
+                    } 
+                    label="GTV Events" 
+                  />
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#1D3557', mr: 1 }} />
+                    <IconButton size="small">
+                      <MoreVertIcon fontSize="small" />
+                    </IconButton>
+                  </Box>
+                </Box>
+                
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                  <FormControlLabel 
+                    control={
+                      <Switch 
+                        checked={calendarFilters.internalEvents} 
+                        onChange={handleFilterChange} 
+                        name="internalEvents" 
+                        sx={{ 
+                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#F6AE2D' },
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#F6AE2D' }
+                        }}
+                      />
+                    } 
+                    label="Internal Events" 
+                  />
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#F6AE2D', mr: 1 }} />
+                    <IconButton size="small">
+                      <MoreVertIcon fontSize="small" />
+                    </IconButton>
+                  </Box>
+                </Box>
+                
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                  <FormControlLabel 
+                    control={
+                      <Switch 
+                        checked={calendarFilters.promotions} 
+                        onChange={handleFilterChange} 
+                        name="promotions" 
+                        sx={{ 
+                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#F26419' },
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#F26419' }
+                        }}
+                      />
+                    } 
+                    label="Promotions" 
+                  />
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#F26419', mr: 1 }} />
+                    <IconButton size="small">
+                      <MoreVertIcon fontSize="small" />
+                    </IconButton>
+                  </Box>
+                </Box>
+                
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                  <FormControlLabel 
+                    control={
+                      <Switch 
+                        checked={calendarFilters.challenges} 
+                        onChange={handleFilterChange} 
+                        name="challenges" 
+                        sx={{ 
+                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#E63946' },
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#E63946' }
+                        }}
+                      />
+                    } 
+                    label="Challenges" 
+                  />
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#E63946', mr: 1 }} />
+                    <IconButton size="small">
+                      <MoreVertIcon fontSize="small" />
+                    </IconButton>
+                  </Box>
+                </Box>
+                
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#3366CC', mr: 1 }} />
+                    <Typography variant="body2">...</Typography>
+                  </Box>
+                  <IconButton size="small">
+                    <MoreVertIcon fontSize="small" />
+                  </IconButton>
+                </Box>
+              </FormGroup>
+            </Paper>
+          </Grid>
+        </Grid>
         
         {/* Schedule Dialog */}
         <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
