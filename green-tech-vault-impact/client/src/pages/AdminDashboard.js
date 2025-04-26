@@ -344,6 +344,10 @@ const AdminDashboard = () => {
 
     return (
       <>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Admin Dashboard
+        </Typography>
+        
         {/* Summary Cards */}
         <Grid container spacing={3} sx={{ mb: 4 }}>
           <Grid item xs={12} sm={6} md={3}>
@@ -693,7 +697,7 @@ const AdminDashboard = () => {
                                 }
                               }}
                               onClick={() => handleViewClient(client.id)}
-                            >
+                        >
                               <EyeIcon fontSize="small" />
                         </IconButton>
                         <IconButton
@@ -711,7 +715,7 @@ const AdminDashboard = () => {
                                 }
                               }}
                               onClick={() => handleOpenDialog(client)}
-                            >
+                        >
                               <EditIcon fontSize="small" />
                         </IconButton>
                         <IconButton
@@ -729,7 +733,7 @@ const AdminDashboard = () => {
                                 }
                               }}
                               onClick={(event) => handleDeleteClient(client.id, event)}
-                            >
+                        >
                               <DeleteIcon fontSize="small" />
                         </IconButton>
                         <Button

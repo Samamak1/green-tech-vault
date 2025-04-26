@@ -3,9 +3,9 @@ import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useThe
 import { useNavigate, useLocation } from 'react-router-dom';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DescriptionIcon from '@mui/icons-material/Description';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EmailIcon from '@mui/icons-material/Email';
 import CampaignIcon from '@mui/icons-material/Campaign';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Logo from '../branding/Logo';
 import { useAuth } from '../../context/AuthContext';
 
