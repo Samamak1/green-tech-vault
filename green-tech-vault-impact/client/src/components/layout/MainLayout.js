@@ -1,10 +1,9 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import LandingHeader from '../branding/LandingHeader';
 import Footer from './Footer';
 
 /**
- * Main layout component that wraps all pages with consistent header and footer
+ * Main layout component that wraps all pages with consistent footer
  */
 const MainLayout = ({ children, hideFooter = false }) => {
   return (
@@ -15,8 +14,6 @@ const MainLayout = ({ children, hideFooter = false }) => {
         minHeight: '100vh', // Ensure the page takes at least the full viewport height
       }}
     >
-      <LandingHeader />
-      
       <Box 
         component="main" 
         sx={{ 

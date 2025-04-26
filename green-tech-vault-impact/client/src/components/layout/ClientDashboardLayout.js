@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-import BrandedHeader from './BrandedHeader';
 import ClientSidebar from './ClientSidebar';
 
 const ClientDashboardLayout = () => {
@@ -9,7 +8,6 @@ const ClientDashboardLayout = () => {
     <Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
       <ClientSidebar />
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <BrandedHeader />
         <Box 
           component="main" 
           sx={{ 
