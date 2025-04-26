@@ -289,7 +289,7 @@ const AdminDashboard = () => {
     if (deleteType === 'Client') {
       // Delete client logic
       const updatedClients = clients.filter(client => client.id !== deleteItemId);
-      setClients(updatedClients);
+    setClients(updatedClients);
     } else if (deleteType === 'Device') {
       // Delete device logic
       const updatedDevices = devices.filter(device => device.id !== deleteItemId);
@@ -524,7 +524,7 @@ const AdminDashboard = () => {
             <Tab label="Pickups" />
           </Tabs>
         </Box>
-
+        
         {/* Content in Paper - separate from tabs */}
         <Paper sx={{ 
           p: 3, 
@@ -532,17 +532,17 @@ const AdminDashboard = () => {
           boxShadow: '0px 2px 4px rgba(0,0,0,0.05)',
           mb: 4
         }}>
-          {/* Clients Tab */}
-          {tabValue === 0 && (
-            <>
+        {/* Clients Tab */}
+        {tabValue === 0 && (
+          <>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
                 <Typography variant="h6" sx={{ fontWeight: '500', color: '#333', fontSize: '1.1rem' }}>
-                  Clients
-                </Typography>
-                <Button
-                  variant="contained"
+                Clients
+              </Typography>
+              <Button
+                variant="contained"
                   startIcon={null}
-                  onClick={() => handleOpenDialog()}
+                onClick={() => handleOpenDialog()}
                   sx={{ 
                     bgcolor: '#4ECDC4', 
                     '&:hover': { bgcolor: '#3dbdb5' }, 
@@ -559,9 +559,9 @@ const AdminDashboard = () => {
                   <span style={{ display: 'inline-flex', alignItems: 'center' }}>
                     <AddIcon sx={{ mr: 0.5, fontSize: '1.2rem' }} /> Add Client
                   </span>
-                </Button>
-              </Box>
-              
+              </Button>
+            </Box>
+            
               <Box sx={{ 
                 overflowX: 'auto',
                 '&::-webkit-scrollbar': {
@@ -573,7 +573,7 @@ const AdminDashboard = () => {
                 }
               }}>
                 <Table size="medium" sx={{ minWidth: 1100, tableLayout: 'fixed' }}>
-                  <TableHead>
+                <TableHead>
                     <TableRow sx={{ bgcolor: '#e0e0e0' }}>
                       <TableCell sx={{ 
                         fontWeight: '500', 
@@ -651,13 +651,13 @@ const AdminDashboard = () => {
                       }}>
                         Actions
                       </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {clients.map((client) => (
-                      <TableRow 
-                        key={client.id}
-                        hover
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {clients.map((client) => (
+                    <TableRow 
+                      key={client.id}
+                      hover
                         sx={{ '&:hover': { bgcolor: '#f5f5f5' }, borderBottom: '1px solid #eee', height: '60px' }}
                       >
                         <TableCell 
@@ -671,10 +671,10 @@ const AdminDashboard = () => {
                             fontWeight: 500,
                             '&:hover': { textDecoration: 'underline' }
                           }} 
-                          onClick={() => handleViewClient(client.id)}
-                        >
+                      onClick={() => handleViewClient(client.id)}
+                    >
                           {client.name}
-                        </TableCell>
+                      </TableCell>
                         <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.contactPerson}</TableCell>
                         <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.email}</TableCell>
                         <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.phone}</TableCell>
@@ -682,8 +682,8 @@ const AdminDashboard = () => {
                         <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.totalWeight.toFixed(1)}</TableCell>
                         <TableCell sx={{ py: 2, px: 2 }}>
                           <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
-                            <IconButton
-                              size="small"
+                        <IconButton
+                          size="small"
                               sx={{ 
                                 color: '#56C3C9', 
                                 border: '1px solid #e0e0e0',
@@ -699,9 +699,9 @@ const AdminDashboard = () => {
                               onClick={() => handleViewClient(client.id)}
                             >
                               <EyeIcon fontSize="small" />
-                            </IconButton>
-                            <IconButton
-                              size="small"
+                        </IconButton>
+                        <IconButton
+                          size="small"
                               sx={{ 
                                 color: '#56C3C9', 
                                 border: '1px solid #e0e0e0',
@@ -717,9 +717,9 @@ const AdminDashboard = () => {
                               onClick={() => handleOpenDialog(client)}
                             >
                               <EditIcon fontSize="small" />
-                            </IconButton>
-                            <IconButton
-                              size="small"
+                        </IconButton>
+                        <IconButton
+                          size="small"
                               sx={{ 
                                 color: '#E05050', 
                                 border: '1px solid #e0e0e0',
@@ -735,10 +735,10 @@ const AdminDashboard = () => {
                               onClick={(event) => handleDeleteClient(client.id, event)}
                             >
                               <DeleteIcon fontSize="small" />
-                            </IconButton>
-                            <Button
-                              size="small"
-                              variant="outlined"
+                        </IconButton>
+                        <Button
+                          size="small"
+                          variant="outlined"
                               onClick={() => handleAddPickup(client.id)}
                               sx={{ 
                                 ml: 1, 
@@ -756,26 +756,26 @@ const AdminDashboard = () => {
                                   bgcolor: 'rgba(86, 195, 201, 0.04)'
                                 }
                               }}
-                            >
-                              Schedule Pickup
-                            </Button>
+                        >
+                          Schedule Pickup
+                        </Button>
                           </Box>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
               </Box>
-            </>
-          )}
-          
-          {/* Devices Tab */}
-          {tabValue === 1 && (
-            <>
+          </>
+        )}
+        
+        {/* Devices Tab */}
+        {tabValue === 1 && (
+          <>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight: '500', color: '#333', fontSize: '1.1rem' }}>
-                  All Devices
-                </Typography>
+              All Devices
+            </Typography>
                 <Button
                   variant="contained"
                   startIcon={null}
@@ -864,7 +864,7 @@ const AdminDashboard = () => {
                 }
               }}>
                 <Table size="medium" sx={{ minWidth: 1100, tableLayout: 'fixed' }}>
-                  <TableHead>
+                <TableHead>
                     <TableRow sx={{ bgcolor: '#e0e0e0' }}>
                       <TableCell sx={{ 
                         fontWeight: '500', 
@@ -954,9 +954,9 @@ const AdminDashboard = () => {
                       }}>
                         Actions
                       </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
                     {devices.map((device) => {
                       // Status styling based on status
                       const getStatusStyle = (status) => {
@@ -1019,9 +1019,9 @@ const AdminDashboard = () => {
                           <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{device.model}</TableCell>
                           <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{device.serialNumber}</TableCell>
                           <TableCell sx={{ py: 2, px: 2 }}>
-                            <Chip 
-                              label={device.status} 
-                              size="small"
+                        <Chip 
+                          label={device.status} 
+                          size="small"
                               sx={{ 
                                 ...getStatusStyle(device.status),
                                 borderRadius: '4px',
@@ -1031,8 +1031,8 @@ const AdminDashboard = () => {
                                   px: 1
                                 }
                               }}
-                            />
-                          </TableCell>
+                        />
+                      </TableCell>
                           <TableCell sx={{ py: 2, px: 2 }}>{device.weight.toFixed(1)}</TableCell>
                           <TableCell sx={{ py: 2, px: 2 }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
@@ -1074,26 +1074,26 @@ const AdminDashboard = () => {
                               </IconButton>
                             </Box>
                           </TableCell>
-                        </TableRow>
+                    </TableRow>
                       );
                     })}
-                  </TableBody>
-                </Table>
+                </TableBody>
+              </Table>
               </Box>
-            </>
-          )}
-          
-          {/* Pickups Tab */}
-          {tabValue === 2 && (
-            <>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+          </>
+        )}
+        
+        {/* Pickups Tab */}
+        {tabValue === 2 && (
+          <>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight: 'medium', color: '#333' }}>
-                  All Pickups
-                </Typography>
-                <Box>
-                  <Button
-                    variant="outlined"
-                    onClick={() => navigate('/admin/pickup-calendar')}
+                All Pickups
+              </Typography>
+              <Box>
+                <Button
+                  variant="outlined"
+                  onClick={() => navigate('/admin/pickup-calendar')}
                     sx={{ 
                       mr: 2, 
                       borderRadius: '8px', 
@@ -1105,11 +1105,11 @@ const AdminDashboard = () => {
                       fontSize: '0.9rem',
                       height: 40
                     }}
-                  >
-                    View Calendar
-                  </Button>
-                  <Button
-                    variant="contained"
+                >
+                  View Calendar
+                </Button>
+                <Button
+                  variant="contained"
                     startIcon={null}
                     onClick={() => navigate('/schedule-pickup')}
                     sx={{ 
@@ -1128,13 +1128,13 @@ const AdminDashboard = () => {
                     <span style={{ display: 'inline-flex', alignItems: 'center' }}>
                       <AddIcon sx={{ mr: 0.5, fontSize: '1.2rem' }} /> Schedule Pickup
                     </span>
-                  </Button>
-                </Box>
+                </Button>
               </Box>
-              
+            </Box>
+            
               <TableContainer sx={{ boxShadow: 'none', borderRadius: '8px', overflowX: 'auto' }}>
                 <Table sx={{ minWidth: 1100, tableLayout: 'fixed' }}>
-                  <TableHead>
+                <TableHead>
                     <TableRow sx={{ bgcolor: '#e0e0e0' }}>
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '18%' }}>Client</TableCell>
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '12%' }}>Date</TableCell>
@@ -1143,10 +1143,10 @@ const AdminDashboard = () => {
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '8%' }}>Devices</TableCell>
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '10%' }}>Weight (kg)</TableCell>
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '25%' }}>Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {pickups.map((pickup) => (
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {pickups.map((pickup) => (
                       <TableRow key={pickup.id} hover sx={{ '&:hover': { bgcolor: '#f5f5f5' }, height: '60px' }}>
                         <TableCell 
                           sx={{ 
@@ -1165,9 +1165,9 @@ const AdminDashboard = () => {
                         <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.date}</TableCell>
                         <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.location}</TableCell>
                         <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>
-                          <Chip 
-                            label={pickup.status} 
-                            size="small"
+                        <Chip 
+                          label={pickup.status} 
+                          size="small"
                             sx={{ 
                               bgcolor: 
                                 pickup.status === 'completed' ? '#e3f7f5' :
@@ -1180,8 +1180,8 @@ const AdminDashboard = () => {
                               borderRadius: '50px',
                               textTransform: 'capitalize'
                             }}
-                          />
-                        </TableCell>
+                        />
+                      </TableCell>
                         <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.devices}</TableCell>
                         <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.weight.toFixed(1)}</TableCell>
                         <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>
@@ -1242,13 +1242,13 @@ const AdminDashboard = () => {
                             </IconButton>
                           </Box>
                         </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </>
-          )}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        )}
         </Paper>
         
         {/* Client Dialog */}

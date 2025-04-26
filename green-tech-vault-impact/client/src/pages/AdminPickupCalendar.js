@@ -42,29 +42,6 @@ import AdminLayout from '../components/layout/AdminLayout';
 // Set up the localizer for react-big-calendar
 const localizer = momentLocalizer(moment);
 
-// Event styling function
-const eventStyleGetter = (event) => {
-  let style = {
-    backgroundColor: '#1C392B',
-    color: 'white',
-    borderRadius: '3px',
-    border: 'none',
-    padding: '2px 5px'
-  };
-
-  if (event.status === 'completed') {
-    style.backgroundColor = '#4caf50'; // Green for completed
-  } else if (event.status === 'processing') {
-    style.backgroundColor = '#ff9800'; // Orange for processing
-  } else if (event.status === 'scheduled') {
-    style.backgroundColor = '#2196f3'; // Blue for scheduled
-  }
-
-  return {
-    style
-  };
-};
-
 // Custom event component
 const EventComponent = ({ event }) => (
   <Box sx={{ fontSize: '0.85rem', padding: '2px' }}>
@@ -81,7 +58,6 @@ const AdminPickupCalendar = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pickups, setPickups] = useState([]);
-  const [events, setEvents] = useState([]);
   const [clients, setClients] = useState([]);
   
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -109,24 +85,62 @@ const AdminPickupCalendar = () => {
     challenges: false
   });
   
-  // Selected day
+  // Selected day (in this case, we're highlighting the 27th to match the image)
   const [selectedDay, setSelectedDay] = useState(27);
   
-  // Event type colors
-  const eventColors = {
-    pickup: '#1C392B',
-    delivery: '#379683',
-    gtvEvent: '#1D3557',
-    internalEvent: '#F6AE2D',
-    promotion: '#F26419',
-    challenge: '#E63946'
+  const [mockEvents, setMockEvents] = useState([]);
+  
+  // Event styling function moved inside the component to access calendarFilters
+  const eventStyleGetter = (event) => {
+    let style = {
+      backgroundColor: '#1C392B',
+      color: 'white',
+      borderRadius: '3px',
+      border: 'none',
+      padding: '2px 5px'
+    };
+
+    // Color events based on their type
+    if (event.type === 'pickup') {
+      style.backgroundColor = '#1C392B'; // Dark green for pickups
+    } else if (event.type === 'delivery') {
+      style.backgroundColor = '#379683'; // Medium green for deliveries
+    } else if (event.type === 'gtv') {
+      style.backgroundColor = '#1D3557'; // Navy blue for GTV events
+    } else if (event.type === 'internal') {
+      style.backgroundColor = '#F6AE2D'; // Yellow for internal events
+    } else if (event.type === 'promotion') {
+      style.backgroundColor = '#F26419'; // Orange for promotions
+    } else if (event.type === 'challenge') {
+      style.backgroundColor = '#E63946'; // Red for challenges
+    }
+
+    // If the event type is filtered out, don't display it
+    if ((event.type === 'pickup' && !calendarFilters.pickups) ||
+        (event.type === 'delivery' && !calendarFilters.deliveries) ||
+        (event.type === 'gtv' && !calendarFilters.gtvEvents) ||
+        (event.type === 'internal' && !calendarFilters.internalEvents) ||
+        (event.type === 'promotion' && !calendarFilters.promotions) ||
+        (event.type === 'challenge' && !calendarFilters.challenges)) {
+      style.display = 'none';
+    }
+
+    return {
+      style
+    };
   };
 
   useEffect(() => {
     fetchPickups();
     fetchClients();
-    fetchAllEvents();
-  }, [currentMonth, currentYear, calendarFilters]);
+  }, [currentMonth, currentYear]);
+  
+  useEffect(() => {
+    // Generate mock events when pickups data is available
+    if (pickups.length > 0) {
+      generateMockEvents();
+    }
+  }, [pickups]);
 
   const fetchPickups = async () => {
     try {
@@ -242,130 +256,6 @@ const AdminPickupCalendar = () => {
       console.error('Clients fetch error:', err);
     }
   };
-  
-  const fetchAllEvents = () => {
-    // Mock events for all calendar types
-    const mockEvents = [
-      // Pickups
-      {
-        id: 'p1',
-        title: 'Pickup: Tech Solutions Inc.',
-        start: new Date(2025, 2, 5),
-        end: new Date(2025, 2, 5),
-        clientName: 'Tech Solutions Inc.',
-        location: 'Corporate HQ',
-        type: 'pickup',
-        resourceId: 'pickup'
-      },
-      {
-        id: 'p2',
-        title: 'Pickup: Global Innovations',
-        start: new Date(2025, 2, 27),
-        end: new Date(2025, 2, 27),
-        clientName: 'Global Innovations',
-        location: 'Main Office',
-        type: 'pickup',
-        resourceId: 'pickup'
-      },
-      
-      // Deliveries
-      {
-        id: 'd1',
-        title: 'Delivery: ECO Corp',
-        start: new Date(2025, 2, 7),
-        end: new Date(2025, 2, 7),
-        clientName: 'ECO Corp',
-        location: 'Warehouse',
-        type: 'delivery',
-        resourceId: 'delivery'
-      },
-      {
-        id: 'd2',
-        title: 'Delivery: Tech Solutions',
-        start: new Date(2025, 2, 14),
-        end: new Date(2025, 2, 14),
-        clientName: 'Tech Solutions Inc.',
-        location: 'Branch Office',
-        type: 'delivery',
-        resourceId: 'delivery'
-      },
-      
-      // GTV Events
-      {
-        id: 'g1',
-        title: 'Recycling Workshop',
-        start: new Date(2025, 2, 9),
-        end: new Date(2025, 2, 9),
-        location: 'Main Office',
-        type: 'gtvEvent',
-        resourceId: 'gtvEvent'
-      },
-      {
-        id: 'g2',
-        title: 'Sustainability Summit',
-        start: new Date(2025, 2, 17),
-        end: new Date(2025, 2, 17),
-        location: 'Convention Center',
-        type: 'gtvEvent',
-        resourceId: 'gtvEvent'
-      },
-      
-      // Internal Events
-      {
-        id: 'i1',
-        title: 'Staff Training',
-        start: new Date(2025, 2, 19),
-        end: new Date(2025, 2, 19),
-        location: 'Head Office',
-        type: 'internalEvent',
-        resourceId: 'internalEvent'
-      },
-      {
-        id: 'i2',
-        title: 'Team Meeting',
-        start: new Date(2025, 2, 27),
-        end: new Date(2025, 2, 27),
-        location: 'Conference Room B',
-        type: 'internalEvent',
-        resourceId: 'internalEvent'
-      },
-      
-      // Promotions
-      {
-        id: 'pr1',
-        title: 'Earth Day Campaign',
-        start: new Date(2025, 2, 22),
-        end: new Date(2025, 2, 22),
-        location: 'Online',
-        type: 'promotion',
-        resourceId: 'promotion'
-      },
-      
-      // Challenges
-      {
-        id: 'c1',
-        title: 'Recycling Challenge',
-        start: new Date(2025, 2, 25),
-        end: new Date(2025, 2, 25),
-        location: 'All Branches',
-        type: 'challenge',
-        resourceId: 'challenge'
-      }
-    ];
-    
-    // Filter events based on selected calendar filters
-    const filteredEvents = mockEvents.filter(event => {
-      if (event.type === 'pickup' && calendarFilters.pickups) return true;
-      if (event.type === 'delivery' && calendarFilters.deliveries) return true;
-      if (event.type === 'gtvEvent' && calendarFilters.gtvEvents) return true;
-      if (event.type === 'internalEvent' && calendarFilters.internalEvents) return true;
-      if (event.type === 'promotion' && calendarFilters.promotions) return true;
-      if (event.type === 'challenge' && calendarFilters.challenges) return true;
-      return false;
-    });
-    
-    setEvents(filteredEvents);
-  };
 
   const handlePrevMonth = () => {
     const newDate = new Date(currentYear, currentMonth - 1, 1);
@@ -448,6 +338,130 @@ const AdminPickupCalendar = () => {
 
   const handleDayClick = (day) => {
     setSelectedDay(day);
+    
+    // Create a new date based on the selected day
+    const newDate = new Date(currentYear, currentMonth, day);
+    setCurrentDate(newDate);
+    
+    // Navigate to day view and show that specific date
+    setCalendarView('day');
+  };
+
+  // Generate mock events for different calendar types
+  const generateMockEvents = () => {
+    const events = [
+      // Pickups (from the existing pickups data)
+      ...pickups.map(pickup => ({
+        ...pickup,
+        type: 'pickup',
+        title: `Pickup: ${pickup.clientName}`,
+      })),
+      
+      // Additional event types
+      {
+        id: 'del1',
+        title: 'Delivery',
+        clientName: 'Global Innovations',
+        location: 'Data Center',
+        scheduledDate: '2025-04-07',
+        type: 'delivery'
+      },
+      {
+        id: 'del2',
+        title: 'Delivery',
+        clientName: 'Tech Solutions Inc.',
+        location: 'Corporate HQ',
+        scheduledDate: '2025-04-14',
+        type: 'delivery'
+      },
+      {
+        id: 'del3',
+        title: 'Delivery',
+        clientName: 'EcoFriendly Corp',
+        location: 'Warehouse',
+        scheduledDate: '2025-04-21',
+        type: 'delivery'
+      },
+      {
+        id: 'del4',
+        title: 'Delivery',
+        clientName: 'Tech Solutions Inc.',
+        location: 'Branch Office',
+        scheduledDate: '2025-04-28',
+        type: 'delivery'
+      },
+      {
+        id: 'gtv1',
+        title: 'GTV Event',
+        clientName: 'Earth Day Celebration',
+        location: 'City Park',
+        scheduledDate: '2025-04-09',
+        type: 'gtv'
+      },
+      {
+        id: 'gtv2',
+        title: 'GTV Event',
+        clientName: 'Recycling Workshop',
+        location: 'Convention Center',
+        scheduledDate: '2025-04-17',
+        type: 'gtv'
+      },
+      {
+        id: 'gtv3',
+        title: 'GTV Event',
+        clientName: 'Sustainability Conference',
+        location: 'Grand Hotel',
+        scheduledDate: '2025-04-24',
+        type: 'gtv'
+      },
+      {
+        id: 'int1',
+        title: 'Internal Event',
+        clientName: 'Team Meeting',
+        location: 'HQ Conference Room',
+        scheduledDate: '2025-04-11',
+        type: 'internal'
+      },
+      {
+        id: 'int2',
+        title: 'Internal Event',
+        clientName: 'Strategy Planning',
+        location: 'Remote',
+        scheduledDate: '2025-04-18',
+        type: 'internal'
+      },
+      {
+        id: 'promo1',
+        title: 'Promotion',
+        clientName: 'Spring Discount Campaign',
+        location: 'Online',
+        scheduledDate: '2025-04-01',
+        type: 'promotion'
+      },
+      {
+        id: 'challenge1',
+        title: 'Challenge',
+        clientName: '30-Day Recycling Challenge',
+        location: 'All Clients',
+        scheduledDate: '2025-04-15',
+        type: 'challenge'
+      }
+    ];
+    
+    setMockEvents(events);
+  };
+  
+  // Function to get filtered events based on current filters
+  const getFilteredEvents = () => {
+    return mockEvents.filter(event => {
+      if (event.type === 'pickup' && !calendarFilters.pickups) return false;
+      if (event.type === 'delivery' && !calendarFilters.deliveries) return false;
+      if (event.type === 'gtv' && !calendarFilters.gtvEvents) return false;
+      if (event.type === 'internal' && !calendarFilters.internalEvents) return false;
+      if (event.type === 'promotion' && !calendarFilters.promotions) return false;
+      if (event.type === 'challenge' && !calendarFilters.challenges) return false;
+      return true;
+    });
   };
 
   const renderCalendarContent = () => {
@@ -650,9 +664,9 @@ const AdminPickupCalendar = () => {
               
               <Calendar
                 localizer={localizer}
-                events={events}
-                startAccessor="start"
-                endAccessor="end"
+                events={getFilteredEvents()}
+                startAccessor="scheduledDate"
+                endAccessor="scheduledDate"
                 views={['month', 'week', 'day', 'agenda']}
                 style={{ height: 'calc(100% - 40px)' }}
                 eventPropGetter={eventStyleGetter}
@@ -695,27 +709,20 @@ const AdminPickupCalendar = () => {
                 {/* First week - previous month (February) */}
                 <Grid item xs={12}>
                   <Grid container>
-                    {[25, 26, 27, 28, 29, 1, 2].map(day => (
+                    {[23, 24, 25, 26, 27, 28, 1].map(day => (
                       <Grid item xs align="center" key={day}>
                         <Box 
+                          onClick={() => handleDayClick(day)}
                           sx={{ 
                             p: 0.5, 
-                            m: 0.5,
-                            color: day > 24 ? '#aaa' : 'inherit',
-                            borderRadius: '50%',
-                            width: 24,
-                            height: 24,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
+                            borderRadius: '4px',
                             cursor: 'pointer',
-                            '&:hover': { bgcolor: '#f5f5f5' },
-                            ...(day === 27 && day > 24 && { 
+                            color: day === 1 ? '#333' : '#aaa',
+                            ...(day === 27 && { 
                               bgcolor: '#4ECDC4', 
                               color: 'white'
                             })
                           }}
-                          onClick={() => handleDayClick(day)}
                         >
                           <Typography variant="caption">{day}</Typography>
                         </Box>
@@ -724,45 +731,101 @@ const AdminPickupCalendar = () => {
                   </Grid>
                 </Grid>
                 
-                {/* Weeks 2-5 */}
-                {[
-                  [3, 4, 5, 6, 7, 8, 9],
-                  [10, 11, 12, 13, 14, 15, 16],
-                  [17, 18, 19, 20, 21, 22, 23],
-                  [24, 25, 26, 27, 28, 29, 30],
-                  [31, 1, 2, 3, 4, 5, 6]
-                ].map((week, weekIndex) => (
-                  <Grid item xs={12} key={weekIndex}>
-                    <Grid container>
-                      {week.map(day => (
-                        <Grid item xs align="center" key={day}>
-                          <Box 
-                            sx={{ 
-                              p: 0.5, 
-                              m: 0.5,
-                              color: (day < 3 && weekIndex === 4) || (day > 27 && weekIndex === 0) ? '#aaa' : 'inherit',
-                              borderRadius: '50%',
-                              width: 24,
-                              height: 24,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              cursor: 'pointer',
-                              '&:hover': { bgcolor: '#f5f5f5' },
-                              ...(day === selectedDay && !(day < 3 && weekIndex === 4) && !(day > 27 && weekIndex === 0) && { 
-                                bgcolor: '#4ECDC4', 
-                                color: 'white'
-                              })
-                            }}
-                            onClick={() => handleDayClick(day)}
-                          >
-                            <Typography variant="caption">{day}</Typography>
-                          </Box>
-                        </Grid>
-                      ))}
-                    </Grid>
+                {/* Second week */}
+                <Grid item xs={12}>
+                  <Grid container>
+                    {[2, 3, 4, 5, 6, 7, 8].map(day => (
+                      <Grid item xs align="center" key={day}>
+                        <Box 
+                          onClick={() => handleDayClick(day)}
+                          sx={{ 
+                            p: 0.5, 
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            ...(day === selectedDay && { 
+                              bgcolor: '#4ECDC4', 
+                              color: 'white'
+                            })
+                          }}
+                        >
+                          <Typography variant="caption">{day}</Typography>
+                        </Box>
+                      </Grid>
+                    ))}
                   </Grid>
-                ))}
+                </Grid>
+                
+                {/* Third week */}
+                <Grid item xs={12}>
+                  <Grid container>
+                    {[9, 10, 11, 12, 13, 14, 15].map(day => (
+                      <Grid item xs align="center" key={day}>
+                        <Box 
+                          onClick={() => handleDayClick(day)}
+                          sx={{ 
+                            p: 0.5, 
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            ...(day === selectedDay && { 
+                              bgcolor: '#4ECDC4', 
+                              color: 'white'
+                            })
+                          }}
+                        >
+                          <Typography variant="caption">{day}</Typography>
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Grid>
+                
+                {/* Fourth week */}
+                <Grid item xs={12}>
+                  <Grid container>
+                    {[16, 17, 18, 19, 20, 21, 22].map(day => (
+                      <Grid item xs align="center" key={day}>
+                        <Box 
+                          onClick={() => handleDayClick(day)}
+                          sx={{ 
+                            p: 0.5, 
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            ...(day === selectedDay && { 
+                              bgcolor: '#4ECDC4', 
+                              color: 'white'
+                            })
+                          }}
+                        >
+                          <Typography variant="caption">{day}</Typography>
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Grid>
+                
+                {/* Fifth week */}
+                <Grid item xs={12}>
+                  <Grid container>
+                    {[23, 24, 25, 26, 27, 28, 29].map(day => (
+                      <Grid item xs align="center" key={day}>
+                        <Box 
+                          onClick={() => handleDayClick(day)}
+                          sx={{ 
+                            p: 0.5, 
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            ...(day === selectedDay && { 
+                              bgcolor: '#4ECDC4', 
+                              color: 'white'
+                            })
+                          }}
+                        >
+                          <Typography variant="caption">{day}</Typography>
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Grid>
               </Grid>
             </Paper>
             
@@ -779,15 +842,15 @@ const AdminPickupCalendar = () => {
                         onChange={handleFilterChange} 
                         name="pickups" 
                         sx={{ 
-                          '& .MuiSwitch-switchBase.Mui-checked': { color: eventColors.pickup },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: eventColors.pickup }
+                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#1C392B' },
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#1C392B' }
                         }}
                       />
                     } 
                     label="Pickups" 
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: eventColors.pickup, mr: 1 }} />
+                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#1C392B', mr: 1 }} />
                     <IconButton size="small">
                       <MoreVertIcon fontSize="small" />
                     </IconButton>
@@ -802,15 +865,15 @@ const AdminPickupCalendar = () => {
                         onChange={handleFilterChange} 
                         name="deliveries" 
                         sx={{ 
-                          '& .MuiSwitch-switchBase.Mui-checked': { color: eventColors.delivery },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: eventColors.delivery }
+                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#379683' },
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#379683' }
                         }}
                       />
                     } 
                     label="Deliveries" 
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: eventColors.delivery, mr: 1 }} />
+                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#379683', mr: 1 }} />
                     <IconButton size="small">
                       <MoreVertIcon fontSize="small" />
                     </IconButton>
@@ -825,15 +888,15 @@ const AdminPickupCalendar = () => {
                         onChange={handleFilterChange} 
                         name="gtvEvents" 
                         sx={{ 
-                          '& .MuiSwitch-switchBase.Mui-checked': { color: eventColors.gtvEvent },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: eventColors.gtvEvent }
+                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#1D3557' },
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#1D3557' }
                         }}
                       />
                     } 
                     label="GTV Events" 
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: eventColors.gtvEvent, mr: 1 }} />
+                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#1D3557', mr: 1 }} />
                     <IconButton size="small">
                       <MoreVertIcon fontSize="small" />
                     </IconButton>
@@ -848,15 +911,15 @@ const AdminPickupCalendar = () => {
                         onChange={handleFilterChange} 
                         name="internalEvents" 
                         sx={{ 
-                          '& .MuiSwitch-switchBase.Mui-checked': { color: eventColors.internalEvent },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: eventColors.internalEvent }
+                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#F6AE2D' },
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#F6AE2D' }
                         }}
                       />
                     } 
                     label="Internal Events" 
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: eventColors.internalEvent, mr: 1 }} />
+                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#F6AE2D', mr: 1 }} />
                     <IconButton size="small">
                       <MoreVertIcon fontSize="small" />
                     </IconButton>
@@ -871,15 +934,15 @@ const AdminPickupCalendar = () => {
                         onChange={handleFilterChange} 
                         name="promotions" 
                         sx={{ 
-                          '& .MuiSwitch-switchBase.Mui-checked': { color: eventColors.promotion },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: eventColors.promotion }
+                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#F26419' },
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#F26419' }
                         }}
                       />
                     } 
                     label="Promotions" 
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: eventColors.promotion, mr: 1 }} />
+                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#F26419', mr: 1 }} />
                     <IconButton size="small">
                       <MoreVertIcon fontSize="small" />
                     </IconButton>
@@ -894,19 +957,29 @@ const AdminPickupCalendar = () => {
                         onChange={handleFilterChange} 
                         name="challenges" 
                         sx={{ 
-                          '& .MuiSwitch-switchBase.Mui-checked': { color: eventColors.challenge },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: eventColors.challenge }
+                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#E63946' },
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#E63946' }
                         }}
                       />
                     } 
                     label="Challenges" 
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: eventColors.challenge, mr: 1 }} />
+                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#E63946', mr: 1 }} />
                     <IconButton size="small">
                       <MoreVertIcon fontSize="small" />
                     </IconButton>
                   </Box>
+                </Box>
+                
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#3366CC', mr: 1 }} />
+                    <Typography variant="body2">...</Typography>
+                  </Box>
+                  <IconButton size="small">
+                    <MoreVertIcon fontSize="small" />
+                  </IconButton>
                 </Box>
               </FormGroup>
             </Paper>
