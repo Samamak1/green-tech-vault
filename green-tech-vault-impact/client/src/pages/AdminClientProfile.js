@@ -379,23 +379,22 @@ const AdminClientProfile = () => {
             <Paper sx={{ p: 0, borderRadius: 2, height: '100%', overflow: 'hidden' }}>
               {/* Tab Selection Buttons */}
               <Box sx={{ 
-                display: 'flex', 
-                width: '100%', 
                 borderBottom: '1px solid #e0e0e0',
-                justifyContent: 'flex-end'
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'flex-start'
               }}>
                 <Box 
                   onClick={() => handleLeftPanelTabChange('Company Information')}
                   sx={{ 
                     p: 2,
                     pb: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
                     cursor: 'pointer',
-                    borderBottom: leftPanelTab === 'Company Information' ? '2px solid #4ECDC4' : 'none',
-                    color: leftPanelTab === 'Company Information' ? '#4ECDC4' : '#666',
-                    mx: 1
+                    borderBottom: leftPanelTab === 'Company Information' ? '4px solid #4ECDC4' : 'none',
+                    color: leftPanelTab === 'Company Information' ? '#4ECDC4' : '#808080',
+                    fontWeight: 400,
+                    fontSize: '16px',
+                    mr: 2
                   }}
                 >
                   Company Information
@@ -405,13 +404,11 @@ const AdminClientProfile = () => {
                   sx={{ 
                     p: 2,
                     pb: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
                     cursor: 'pointer',
-                    borderBottom: leftPanelTab === 'Pickup Information' ? '2px solid #4ECDC4' : 'none',
-                    color: leftPanelTab === 'Pickup Information' ? '#4ECDC4' : '#666',
-                    mx: 1
+                    borderBottom: leftPanelTab === 'Pickup Information' ? '4px solid #4ECDC4' : 'none',
+                    color: leftPanelTab === 'Pickup Information' ? '#4ECDC4' : '#808080',
+                    fontWeight: 400,
+                    fontSize: '16px'
                   }}
                 >
                   Pickup Information
