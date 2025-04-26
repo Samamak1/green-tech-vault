@@ -612,126 +612,92 @@ const AdminPickupCalendar = () => {
                   </Grid>
                 </Grid>
                 
-                {/* First week - previous month (February) */}
-                <Grid item xs={12}>
-                  <Grid container>
-                    {[23, 24, 25, 26, 27, 28, 1].map(day => (
-                      <Grid item xs align="center" key={day}>
-                        <Box 
-                          onClick={() => handleDayClick(day)}
-                          sx={{ 
-                            p: 0.5, 
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            color: day === 1 ? '#333' : '#aaa',
-                            ...(day === currentDay && miniCalendarMonth === new Date().getMonth() && miniCalendarYear === new Date().getFullYear() && { 
-                              bgcolor: '#4ECDC4', 
-                              color: 'white'
-                            })
-                          }}
-                        >
-                          <Typography variant="caption">{day}</Typography>
-                        </Box>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Grid>
-                
-                {/* Second week */}
-                <Grid item xs={12}>
-                  <Grid container>
-                    {[2, 3, 4, 5, 6, 7, 8].map(day => (
-                      <Grid item xs align="center" key={day}>
-                        <Box 
-                          onClick={() => handleDayClick(day)}
-                          sx={{ 
-                            p: 0.5, 
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            ...(day === currentDay && miniCalendarMonth === new Date().getMonth() && miniCalendarYear === new Date().getFullYear() && { 
-                              bgcolor: '#4ECDC4', 
-                              color: 'white'
-                            })
-                          }}
-                        >
-                          <Typography variant="caption">{day}</Typography>
-                        </Box>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Grid>
-                
-                {/* Third week */}
-                <Grid item xs={12}>
-                  <Grid container>
-                    {[9, 10, 11, 12, 13, 14, 15].map(day => (
-                      <Grid item xs align="center" key={day}>
-                        <Box 
-                          onClick={() => handleDayClick(day)}
-                          sx={{ 
-                            p: 0.5, 
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            ...(day === currentDay && miniCalendarMonth === new Date().getMonth() && miniCalendarYear === new Date().getFullYear() && { 
-                              bgcolor: '#4ECDC4', 
-                              color: 'white'
-                            })
-                          }}
-                        >
-                          <Typography variant="caption">{day}</Typography>
-                        </Box>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Grid>
-                
-                {/* Fourth week */}
-                <Grid item xs={12}>
-                  <Grid container>
-                    {[16, 17, 18, 19, 20, 21, 22].map(day => (
-                      <Grid item xs align="center" key={day}>
-                        <Box 
-                          onClick={() => handleDayClick(day)}
-                          sx={{ 
-                            p: 0.5, 
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            ...(day === currentDay && miniCalendarMonth === new Date().getMonth() && miniCalendarYear === new Date().getFullYear() && { 
-                              bgcolor: '#4ECDC4', 
-                              color: 'white'
-                            })
-                          }}
-                        >
-                          <Typography variant="caption">{day}</Typography>
-                        </Box>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Grid>
-                
-                {/* Fifth week */}
-                <Grid item xs={12}>
-                  <Grid container>
-                    {[23, 24, 25, 26, 27, 28, 29].map(day => (
-                      <Grid item xs align="center" key={day}>
-                        <Box 
-                          onClick={() => handleDayClick(day)}
-                          sx={{ 
-                            p: 0.5, 
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            ...(day === currentDay && miniCalendarMonth === new Date().getMonth() && miniCalendarYear === new Date().getFullYear() && { 
-                              bgcolor: '#4ECDC4', 
-                              color: 'white'
-                            })
-                          }}
-                        >
-                          <Typography variant="caption">{day}</Typography>
-                        </Box>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Grid>
+                {/* Calculate the calendar for the current month and year */}
+                {(() => {
+                  // Get the first day of the month (0 = Sunday, 1 = Monday, etc.)
+                  const firstDayOfMonth = new Date(miniCalendarYear, miniCalendarMonth, 1).getDay();
+                  
+                  // Get the number of days in the current month
+                  const daysInMonth = new Date(miniCalendarYear, miniCalendarMonth + 1, 0).getDate();
+                  
+                  // Get the number of days in the previous month
+                  const daysInPrevMonth = new Date(miniCalendarYear, miniCalendarMonth, 0).getDate();
+                  
+                  // Create an array of day numbers to display
+                  const days = [];
+                  
+                  // Add days from the previous month
+                  for (let i = 0; i < firstDayOfMonth; i++) {
+                    days.push({
+                      day: daysInPrevMonth - firstDayOfMonth + i + 1,
+                      currentMonth: false,
+                      prevMonth: true
+                    });
+                  }
+                  
+                  // Add days from the current month
+                  for (let i = 1; i <= daysInMonth; i++) {
+                    days.push({
+                      day: i,
+                      currentMonth: true,
+                      prevMonth: false
+                    });
+                  }
+                  
+                  // Add days from the next month to complete the grid
+                  const totalCells = Math.ceil((firstDayOfMonth + daysInMonth) / 7) * 7;
+                  for (let i = 1; i <= totalCells - (firstDayOfMonth + daysInMonth); i++) {
+                    days.push({
+                      day: i,
+                      currentMonth: false,
+                      prevMonth: false
+                    });
+                  }
+                  
+                  // Check if a day should be highlighted (current day of current month and year)
+                  const isToday = (day) => {
+                    const today = new Date();
+                    return day === today.getDate() && 
+                           miniCalendarMonth === today.getMonth() && 
+                           miniCalendarYear === today.getFullYear();
+                  };
+                  
+                  // Split days into weeks
+                  const weeks = [];
+                  for (let i = 0; i < days.length; i += 7) {
+                    weeks.push(days.slice(i, i + 7));
+                  }
+                  
+                  return (
+                    <>
+                      {weeks.map((week, weekIndex) => (
+                        <Grid item xs={12} key={weekIndex}>
+                          <Grid container>
+                            {week.map((day, dayIndex) => (
+                              <Grid item xs align="center" key={dayIndex}>
+                                <Box 
+                                  onClick={() => handleDayClick(day.day)}
+                                  sx={{ 
+                                    p: 0.5, 
+                                    borderRadius: '4px',
+                                    cursor: 'pointer',
+                                    color: day.currentMonth ? '#333' : '#aaa',
+                                    ...(isToday(day.day) ? { 
+                                      bgcolor: '#4ECDC4', 
+                                      color: 'white'
+                                    } : {})
+                                  }}
+                                >
+                                  <Typography variant="caption">{day.day}</Typography>
+                                </Box>
+                              </Grid>
+                            ))}
+                          </Grid>
+                        </Grid>
+                      ))}
+                    </>
+                  );
+                })()}
               </Grid>
             </Paper>
             
