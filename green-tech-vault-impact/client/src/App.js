@@ -37,7 +37,6 @@ import ClientRegister from './pages/ClientRegister';
 import BrandedAdminLogin from './pages/BrandedAdminLogin';
 import EnvironmentalImpactReportPage from './pages/EnvironmentalImpactReportPage';
 import AssetTrackingReportPage from './pages/AssetTrackingReportPage';
-import CalendarPage from './pages/CalendarPage';
 
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
@@ -309,7 +308,6 @@ function App() {
             <Route index element={<AdminDashboard />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="reports" element={<h1>Admin Reports</h1>} />
-            <Route path="calendar" element={<CalendarPage />} />
             <Route path="messages" element={<h1>Admin Messages</h1>} />
             <Route path="announcements" element={<AdminAnnouncements />} />
             <Route path="clients/:clientId" element={<AdminClientProfile />} />

@@ -3,7 +3,6 @@ import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useThe
 import { useNavigate, useLocation } from 'react-router-dom';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DescriptionIcon from '@mui/icons-material/Description';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EmailIcon from '@mui/icons-material/Email';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import Logo from '../branding/Logo';
@@ -18,7 +17,6 @@ const Sidebar = () => {
   const menuItems = [
     { icon: <DashboardIcon />, text: 'Dashboard', path: '/admin/dashboard' },
     { icon: <DescriptionIcon />, text: 'Reports', path: '/admin/reports' },
-    { icon: <CalendarMonthIcon />, text: 'Calendar', path: '/admin/calendar' },
     { icon: <EmailIcon />, text: 'Messages', path: '/admin/messages' },
     { icon: <CampaignIcon />, text: 'Schedule Pickup', path: '/admin/announcements' },
   ];
