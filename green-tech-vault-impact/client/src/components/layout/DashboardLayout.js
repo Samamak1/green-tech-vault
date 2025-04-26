@@ -9,7 +9,7 @@ const DashboardLayout = () => {
     <Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
       <Sidebar />
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <AppHeader />
+        <AppHeader variant="simple" />
         <Box 
           component="main" 
           sx={{ 

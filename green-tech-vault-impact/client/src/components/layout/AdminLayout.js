@@ -9,7 +9,7 @@ const AdminLayout = ({ children }) => {
       <CssBaseline />
       <Sidebar />
       <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-        <AppHeader />
+        <AppHeader variant="simple" />
         <Box
           component="main"
           sx={{

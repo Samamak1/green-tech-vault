@@ -60,7 +60,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const AppHeader = () => {
+const AppHeader = ({ variant = 'simple' }) => {
   const navigate = useNavigate();
   const { logout } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
@@ -215,25 +215,32 @@ const AppHeader = () => {
       <Toolbar sx={{ minHeight: '60px', px: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           {/* Left side - Logo */}
-          <Box sx={{ display: 'flex', alignItems: 'center', width: 240, pl: 1, pr: 2 }}>
-            <Logo size="small" variant="admin" />
-          </Box>
+          {variant === 'full' && (
+            <Box sx={{ display: 'flex', alignItems: 'center', width: 240, pl: 1, pr: 2 }}>
+              <Logo size="small" variant="admin" />
+            </Box>
+          )}
 
           {/* Center - Search */}
-          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search here"
-                inputProps={{ 'aria-label': 'search' }}
-                value={searchQuery}
-                onChange={handleSearchChange}
-                onKeyPress={handleSearchSubmit}
-              />
-            </Search>
-          </Box>
+          {variant === 'full' && (
+            <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search here"
+                  inputProps={{ 'aria-label': 'search' }}
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  onKeyPress={handleSearchSubmit}
+                />
+              </Search>
+            </Box>
+          )}
+
+          {/* For simple variant, add a spacer to push user info to right */}
+          {variant === 'simple' && <Box sx={{ flexGrow: 1 }} />}
 
           {/* Right side - User info */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
