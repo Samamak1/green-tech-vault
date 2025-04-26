@@ -525,19 +525,13 @@ const AdminPickupCalendar = () => {
         <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Button 
-              variant="outlined" 
               startIcon={<ArrowBackIcon />} 
               onClick={() => navigate('/admin/dashboard')}
-              sx={{ 
-                mr: 2,
-                color: '#888',
-                borderColor: '#d0d0d0',
-                textTransform: 'none'
-              }}
+              sx={{ color: '#888', fontSize: '0.9rem', fontWeight: 'normal', textTransform: 'none' }}
             >
               Back to Dashboard
             </Button>
-            <Typography variant="h5" sx={{ fontWeight: 500 }}>
+            <Typography variant="h5" sx={{ ml: 2, fontWeight: 500 }}>
               Pickup Calendar
             </Typography>
           </Box>
