@@ -1,21 +1,59 @@
 import React from 'react';
-import { Box, CssBaseline } from '@mui/material';
+import { Box, CssBaseline, Typography, Avatar } from '@mui/material';
 import Sidebar from './Sidebar';
-import AppHeader from './AppHeader';
+import PersonIcon from '@mui/icons-material/Person';
 
 const AdminLayout = ({ children }) => {
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
       <CssBaseline />
-      <Sidebar />
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-        <AppHeader variant="simple" />
+      
+      {/* Header at the very top of the page */}
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'flex-end', 
+        alignItems: 'center', 
+        bgcolor: 'white', 
+        py: 1,
+        px: 3,
+        borderBottom: '1px solid #e0e0e0',
+        width: '100%'
+      }}>
+        <Box sx={{ 
+          display: 'flex', 
+          alignItems: 'center',
+          gap: 1.5
+        }}>
+          <Box sx={{ textAlign: 'right' }}>
+            <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+              Full Name
+            </Typography>
+            <Typography variant="caption" color="text.secondary">
+              Position Title
+            </Typography>
+          </Box>
+          
+          <Avatar
+            sx={{ 
+              bgcolor: '#1C392B',
+              color: 'white',
+              width: 38,
+              height: 38
+            }}
+          >
+            <PersonIcon fontSize="small" />
+          </Avatar>
+        </Box>
+      </Box>
+      
+      {/* Main content with sidebar */}
+      <Box sx={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+        <Sidebar />
         <Box
           component="main"
           sx={{
             flexGrow: 1,
             p: 3,
-            pt: 3, 
             width: { sm: `calc(100% - 240px)` },
             ml: { sm: '240px' },
             mt: 0,
