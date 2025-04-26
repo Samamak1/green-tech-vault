@@ -552,7 +552,7 @@ const AdminPickupCalendar = () => {
         <Grid container spacing={3}>
           <Grid item xs={12} md={9}>
             <Paper sx={{ p: 2, mb: 3, height: 'calc(100vh - 200px)' }}>
-              <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
+              <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-start', pl: 1 }}>
                 <Typography variant="h6" sx={{ fontWeight: 500 }}>
                   April 2025
                 </Typography>
@@ -866,16 +866,6 @@ const AdminPickupCalendar = () => {
                       <MoreVertIcon fontSize="small" />
                     </IconButton>
                   </Box>
-                </Box>
-                
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#3366CC', mr: 1 }} />
-                    <Typography variant="body2">...</Typography>
-                  </Box>
-                  <IconButton size="small">
-                    <MoreVertIcon fontSize="small" />
-                  </IconButton>
                 </Box>
               </FormGroup>
             </Paper>
