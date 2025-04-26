@@ -53,227 +53,195 @@ const AdminClientProfile = () => {
 
   useEffect(() => {
     // In a real app, you would fetch the actual client data
-    // For now, we'll use mock data
-    const mockClient = {
-      id: '3',
-      name: 'EcoFriendly Inc',
-      contactPerson: 'James Harold',
-      email: 'jamesharold44@gmail.com',
-      phone: '(555) 123-4567',
-      address: '123 Green St, Cincinnati OH, 51729',
-      website: 'www.ecofriendly.com',
-      industry: 'Technology',
-      employees: '223',
-      lastContacted: 'March 15, 2025',
-      contactMethod: 'Email',
-      conversationNotes: 'Discussion of new proposal',
-      devicesProcessed: 4,
-      totalWeight: 25.1,
-      co2Saved: 73.5,
-      treesPlanted: 5,
-      refurbished: 2,
-      recycled: 2,
-      disposed: 0
+    // For now, we'll use mock data based on clientId
+    const fetchClientData = () => {
+      setLoading(true);
+      
+      // Fetch client data based on clientId
+      let mockClient = {
+        id: '3',
+        name: 'EcoFriendly Inc',
+        contactPerson: 'James Harold',
+        email: 'jamesharold44@gmail.com',
+        phone: '(555) 123-4567',
+        address: '123 Green St, Cincinnati OH, 51729',
+        website: 'www.ecofriendly.com',
+        industry: 'Technology',
+        employees: '223',
+        lastContacted: 'March 15, 2025',
+        contactMethod: 'Email',
+        conversationNotes: 'Discussion of new proposal',
+        devicesProcessed: 4,
+        totalWeight: 25.1,
+        co2Saved: 73.5,
+        treesPlanted: 5,
+        refurbished: 2,
+        recycled: 2,
+        disposed: 0
+      };
+      
+      // Different data for different client IDs
+      if (clientId === '1') {
+        mockClient = {
+          id: '1',
+          name: 'Tech Solutions Inc.',
+          contactPerson: 'John Smith',
+          email: 'john@techsolutions.com',
+          phone: '(555) 123-4567',
+          address: '123 Tech Blvd, San Francisco, CA',
+          website: 'www.techsolutions.com',
+          industry: 'Information Technology',
+          employees: '156',
+          lastContacted: 'April 5, 2025',
+          contactMethod: 'Phone',
+          conversationNotes: 'Discussed quarterly device refresh',
+          devicesProcessed: 45,
+          totalWeight: 156.8,
+          co2Saved: 125.7,
+          treesPlanted: 12,
+          refurbished: 28,
+          recycled: 15,
+          disposed: 2
+        };
+      } else if (clientId === '2') {
+        mockClient = {
+          id: '2',
+          name: 'Global Innovations',
+          contactPerson: 'Sarah Johnson',
+          email: 'sarah@globalinnovations.com',
+          phone: '(555) 987-6543',
+          address: '456 Innovation Way, Boston, MA',
+          website: 'www.globalinnovations.com',
+          industry: 'Research',
+          employees: '87',
+          lastContacted: 'February 12, 2025',
+          contactMethod: 'Email',
+          conversationNotes: 'Interested in sustainable disposal options',
+          devicesProcessed: 32,
+          totalWeight: 98.5,
+          co2Saved: 85.2,
+          treesPlanted: 8,
+          refurbished: 12,
+          recycled: 18,
+          disposed: 2
+        };
+      }
+
+      const mockPickups = [
+        {
+          id: '1',
+          date: '01/24/2025',
+          time: '14:00',
+          location: 'Cincinnati Warehouse',
+          status: 'complete',
+          weight: 2.5,
+          personName: mockClient.name,
+          personTitle: '14:00',
+          contact: 'John Smith',
+          contactPhone: '(555) 123-4567',
+          notes: 'Standard pickup, no special instructions',
+          totalDevices: 4,
+          totalWeight: 12.8,
+          deviceStatus: {
+            received: 1,
+            refurbished: 2,
+            recycled: 1,
+            inProcessing: 0,
+            disposed: 0
+          }
+        },
+        {
+          id: '2',
+          date: '03/15/2025',
+          time: '10:30',
+          location: 'Cincinnati Warehouse',
+          status: 'in-processing',
+          weight: 1.8,
+          personName: mockClient.name,
+          personTitle: '10:30',
+          contact: 'Sarah Johnson',
+          contactPhone: '(555) 234-5678',
+          notes: 'Large volume of equipment expected',
+          totalDevices: 12,
+          totalWeight: 45.2,
+          deviceStatus: {
+            received: 3,
+            refurbished: 4,
+            recycled: 2,
+            inProcessing: 2,
+            disposed: 1
+          }
+        },
+        {
+          id: '3',
+          date: '05/20/2025',
+          time: '15:45',
+          location: clientId === '3' ? 'EcoFriendly HQ' : 
+                   clientId === '1' ? 'Tech Solutions HQ' : 
+                   'Global Innovations HQ',
+          status: 'recycled',
+          weight: 3.2,
+          personName: mockClient.name,
+          personTitle: '15:45',
+          contact: 'Michael Brown',
+          contactPhone: '(555) 345-6789',
+          notes: 'Older equipment, likely for recycling',
+          totalDevices: 6,
+          totalWeight: 18.5,
+          deviceStatus: {
+            received: 0,
+            refurbished: 1,
+            recycled: 4,
+            inProcessing: 0,
+            disposed: 1
+          }
+        },
+        {
+          id: '4',
+          date: '06/10/2025',
+          time: '13:15',
+          location: 'Cincinnati Warehouse',
+          status: 'complete',
+          weight: 4.5,
+          personName: mockClient.name,
+          personTitle: '13:15',
+          contact: 'Jennifer Lee',
+          contactPhone: '(555) 456-7890',
+          notes: 'High-value devices, handle with care',
+          totalDevices: 8,
+          totalWeight: 22.3,
+          deviceStatus: {
+            received: 2,
+            refurbished: 3,
+            recycled: 1,
+            inProcessing: 2,
+            disposed: 0
+          }
+        }
+      ];
+
+      // Mock devices based on client
+      const mockDevices = Array(11).fill(null).map((_, index) => ({
+        id: (index + 1).toString(),
+        type: index === 0 ? 'Laptop' : 'Table Head',
+        manufacturer: index === 0 ? 'Dell' : 'Table Head',
+        model: index === 0 ? 'XPS 15' : 'Table Head',
+        serialNumber: index === 0 ? 'DL1234567B' : 'Table Head',
+        status: index % 5 === 0 ? 'disposed' : 
+               index % 4 === 0 ? 'recycled' : 
+               index % 3 === 0 ? 'in-processing' : 
+               index % 2 === 0 ? 'recycled' : 'refurbished',
+        weight: index === 0 ? 2.5 : null
+      }));
+
+      setClient(mockClient);
+      setPickups(mockPickups);
+      setSelectedPickup(mockPickups[1]); // Set the second pickup as initially selected
+      setDevices(mockDevices);
+      setLoading(false);
     };
 
-    const mockPickups = [
-      {
-        id: '1',
-        date: '01/24/2025',
-        time: '14:00',
-        location: 'Cincinnati Warehouse',
-        status: 'complete',
-        weight: 2.5,
-        personName: client ? client.name : 'EcoFriendly Inc',
-        personTitle: '14:00',
-        contact: 'John Smith',
-        contactPhone: '(555) 123-4567',
-        notes: 'Standard pickup, no special instructions',
-        totalDevices: 4,
-        totalWeight: 12.8,
-        deviceStatus: {
-          received: 1,
-          refurbished: 2,
-          recycled: 1,
-          inProcessing: 0,
-          disposed: 0
-        }
-      },
-      {
-        id: '2',
-        date: '03/15/2025',
-        time: '10:30',
-        location: 'Cincinnati Warehouse',
-        status: 'in-processing',
-        weight: 1.8,
-        personName: client ? client.name : 'EcoFriendly Inc',
-        personTitle: '10:30',
-        contact: 'Sarah Johnson',
-        contactPhone: '(555) 234-5678',
-        notes: 'Large volume of equipment expected',
-        totalDevices: 12,
-        totalWeight: 45.2,
-        deviceStatus: {
-          received: 3,
-          refurbished: 4,
-          recycled: 2,
-          inProcessing: 2,
-          disposed: 1
-        }
-      },
-      {
-        id: '3',
-        date: '05/20/2025',
-        time: '15:45',
-        location: 'EcoFriendly HQ',
-        status: 'recycled',
-        weight: 3.2,
-        personName: client ? client.name : 'EcoFriendly Inc',
-        personTitle: '15:45',
-        contact: 'Michael Brown',
-        contactPhone: '(555) 345-6789',
-        notes: 'Older equipment, likely for recycling',
-        totalDevices: 6,
-        totalWeight: 18.5,
-        deviceStatus: {
-          received: 0,
-          refurbished: 1,
-          recycled: 4,
-          inProcessing: 0,
-          disposed: 1
-        }
-      },
-      {
-        id: '4',
-        date: '06/10/2025',
-        time: '13:15',
-        location: 'Cincinnati Warehouse',
-        status: 'complete',
-        weight: 4.5,
-        personName: client ? client.name : 'EcoFriendly Inc',
-        personTitle: '13:15',
-        contact: 'Jennifer Lee',
-        contactPhone: '(555) 456-7890',
-        notes: 'High-value devices, handle with care',
-        totalDevices: 8,
-        totalWeight: 22.3,
-        deviceStatus: {
-          received: 2,
-          refurbished: 3,
-          recycled: 1,
-          inProcessing: 2,
-          disposed: 0
-        }
-      }
-    ];
-
-    const mockDevices = [
-      {
-        id: '1',
-        type: 'Laptop',
-        manufacturer: 'Dell',
-        model: 'XPS 15',
-        serialNumber: 'DL1234567B',
-        status: 'refurbished',
-        weight: 2.5
-      },
-      {
-        id: '2',
-        type: 'Table Head',
-        manufacturer: 'Table Head',
-        model: 'Table Head',
-        serialNumber: 'Table Head',
-        status: 'in-processing',
-        weight: null
-      },
-      {
-        id: '3',
-        type: 'Table Head',
-        manufacturer: 'Table Head',
-        model: 'Table Head',
-        serialNumber: 'Table Head',
-        status: 'recycled',
-        weight: null
-      },
-      {
-        id: '4',
-        type: 'Table Head',
-        manufacturer: 'Table Head',
-        model: 'Table Head',
-        serialNumber: 'Table Head',
-        status: 'recycled',
-        weight: null
-      },
-      {
-        id: '5',
-        type: 'Table Head',
-        manufacturer: 'Table Head',
-        model: 'Table Head',
-        serialNumber: 'Table Head',
-        status: 'in-processing',
-        weight: null
-      },
-      {
-        id: '6',
-        type: 'Table Head',
-        manufacturer: 'Table Head',
-        model: 'Table Head',
-        serialNumber: 'Table Head',
-        status: 'refurbished',
-        weight: null
-      },
-      {
-        id: '7',
-        type: 'Table Head',
-        manufacturer: 'Table Head',
-        model: 'Table Head',
-        serialNumber: 'Table Head',
-        status: 'disposed',
-        weight: null
-      },
-      {
-        id: '8',
-        type: 'Table Head',
-        manufacturer: 'Table Head',
-        model: 'Table Head',
-        serialNumber: 'Table Head',
-        status: 'recycled',
-        weight: null
-      },
-      {
-        id: '9',
-        type: 'Table Head',
-        manufacturer: 'Table Head',
-        model: 'Table Head',
-        serialNumber: 'Table Head',
-        status: 'in-processing',
-        weight: null
-      },
-      {
-        id: '10',
-        type: 'Table Head',
-        manufacturer: 'Table Head',
-        model: 'Table Head',
-        serialNumber: 'Table Head',
-        status: 'recycled',
-        weight: null
-      },
-      {
-        id: '11',
-        type: 'Table Head',
-        manufacturer: 'Table Head',
-        model: 'Table Head',
-        serialNumber: 'Table Head',
-        status: 'refurbished',
-        weight: null
-      }
-    ];
-
-    setClient(mockClient);
-    setPickups(mockPickups);
-    setSelectedPickup(mockPickups[1]); // Set the second pickup as initially selected (the one with "in-processing" status)
-    setDevices(mockDevices);
-    setLoading(false);
+    fetchClientData();
   }, [clientId]);
 
   const handleTabChange = (event, newValue) => {

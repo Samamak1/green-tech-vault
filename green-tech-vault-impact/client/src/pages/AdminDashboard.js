@@ -1144,7 +1144,7 @@ const AdminDashboard = () => {
                             fontWeight: 500,
                             '&:hover': { textDecoration: 'underline' }
                           }}
-                          onClick={() => navigate(`/admin/pickups/${pickup.id}`)}
+                          onClick={() => navigate(`/admin/clients/${pickup.clientId}`)}
                         >
                           {pickup.clientName}
                         </TableCell>
