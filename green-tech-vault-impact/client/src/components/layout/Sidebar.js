@@ -5,6 +5,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import DescriptionIcon from '@mui/icons-material/Description';
 import EmailIcon from '@mui/icons-material/Email';
 import CampaignIcon from '@mui/icons-material/Campaign';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Logo from '../branding/Logo';
 import { useAuth } from '../../context/AuthContext';
 
@@ -16,6 +17,7 @@ const Sidebar = () => {
   
   const menuItems = [
     { icon: <DashboardIcon />, text: 'Dashboard', path: '/admin/dashboard' },
+    { icon: <CalendarMonthIcon />, text: 'Calendar', path: '/admin/pickup-calendar' },
     { icon: <DescriptionIcon />, text: 'Reports', path: '/admin/reports' },
     { icon: <EmailIcon />, text: 'Messages', path: '/admin/messages' },
     { icon: <CampaignIcon />, text: 'Schedule Pickup', path: '/admin/announcements' },
