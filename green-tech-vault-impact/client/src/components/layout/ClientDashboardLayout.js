@@ -54,7 +54,9 @@ const ClientDashboardLayout = () => {
               flex: 1, 
               bgcolor: '#f5f5f5', 
               p: 3,
-              overflow: 'auto'
+              pt: 3,
+              overflow: 'auto',
+              mt: 0
             }}
           >
             <Outlet />
