@@ -1073,59 +1073,43 @@ const AdminClientProfile = () => {
                             </TableCell>
                             <TableCell>{device.weight}</TableCell>
                             <TableCell>
-                              <IconButton 
-                                size="small" 
-                                sx={{ 
-                                  color: '#56C3C9', 
-                                  border: '1px solid #e0e0e0',
-                                  borderRadius: '50%',
-                                  p: 1,
-                                  mr: 0.75,
-                                  width: 36,
-                                  height: 36,
-                                  '&:hover': {
-                                    bgcolor: 'rgba(86, 195, 201, 0.08)',
-                                  }
-                                }}
-                                onClick={() => navigate(`/admin/devices/${device.id}`)}
-                              >
-                                <EyeIcon fontSize="small" />
-                              </IconButton>
-                              <IconButton 
-                                size="small" 
-                                sx={{ 
-                                  color: '#56C3C9', 
-                                  border: '1px solid #e0e0e0',
-                                  borderRadius: '50%',
-                                  p: 1,
-                                  mr: 0.75,
-                                  width: 36,
-                                  height: 36,
-                                  '&:hover': {
-                                    bgcolor: 'rgba(86, 195, 201, 0.08)',
-                                  }
-                                }}
-                              >
-                                <EditIcon fontSize="small" />
-                              </IconButton>
-                              <IconButton 
-                                size="small" 
-                                sx={{ 
-                                  color: '#E05050', 
-                                  border: '1px solid #e0e0e0',
-                                  borderRadius: '50%',
-                                  p: 1,
-                                  mr: 0.75,
-                                  width: 36,
-                                  height: 36,
-                                  '&:hover': {
-                                    bgcolor: 'rgba(224, 80, 80, 0.08)',
-                                  }
-                                }}
-                                onClick={() => handleArchiveDialogOpen(device)}
-                              >
-                                <DeleteIcon fontSize="small" />
-                              </IconButton>
+                              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
+                                <IconButton 
+                                  size="small" 
+                                  sx={{ 
+                                    color: '#56C3C9', 
+                                    border: '1px solid #e0e0e0',
+                                    borderRadius: '50%',
+                                    p: 1,
+                                    mr: 0.75,
+                                    width: 36,
+                                    height: 36,
+                                    '&:hover': {
+                                      bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                    }
+                                  }}
+                                >
+                                  <EditIcon fontSize="small" />
+                                </IconButton>
+                                <IconButton 
+                                  size="small" 
+                                  sx={{ 
+                                    color: '#E05050', 
+                                    border: '1px solid #e0e0e0',
+                                    borderRadius: '50%',
+                                    p: 1,
+                                    mr: 0.75,
+                                    width: 36,
+                                    height: 36,
+                                    '&:hover': {
+                                      bgcolor: 'rgba(224, 80, 80, 0.08)',
+                                    }
+                                  }}
+                                  onClick={() => handleArchiveDialogOpen(device)}
+                                >
+                                  <DeleteIcon fontSize="small" />
+                                </IconButton>
+                              </Box>
                             </TableCell>
                           </TableRow>
                         ))}
