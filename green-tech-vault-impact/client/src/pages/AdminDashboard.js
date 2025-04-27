@@ -1210,11 +1210,12 @@ const AdminDashboard = () => {
                     <TableRow sx={{ bgcolor: '#e0e0e0' }}>
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '18%' }}>Client</TableCell>
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '12%' }}>Date</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '10%' }}>Time</TableCell>
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '15%' }}>Location</TableCell>
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '12%' }}>Status</TableCell>
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '8%' }}>Devices</TableCell>
                       <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '10%' }}>Weight (kg)</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '25%' }}>Actions</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '15%' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -1235,6 +1236,7 @@ const AdminDashboard = () => {
                           {pickup.clientName}
                         </TableCell>
                         <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.date}</TableCell>
+                        <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.time || new Date(pickup.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</TableCell>
                         <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.location}</TableCell>
                         <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>
                         <Chip 
