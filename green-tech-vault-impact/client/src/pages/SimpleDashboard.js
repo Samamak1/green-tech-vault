@@ -191,6 +191,7 @@ const SimpleDashboard = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Date</TableCell>
+                <TableCell>Time</TableCell>
                 <TableCell>Location</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Devices</TableCell>
@@ -203,6 +204,7 @@ const SimpleDashboard = () => {
                 recentPickups.map((pickup) => (
                   <TableRow key={pickup.id}>
                     <TableCell>{pickup.date}</TableCell>
+                    <TableCell>{pickup.time || new Date(pickup.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</TableCell>
                     <TableCell>{pickup.location}</TableCell>
                     <TableCell>
                       <Box
