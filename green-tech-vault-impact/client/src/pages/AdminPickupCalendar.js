@@ -338,6 +338,9 @@ const AdminPickupCalendar = () => {
 
   const handleViewChange = (view) => {
     setCalendarView(view);
+    // Ensure the date is properly set when changing views
+    // This prevents the blank white page when switching to week view
+    setCurrentDate(new Date(currentDate)); // Force refresh with current date
   };
 
   const handleDayClick = (day) => {
@@ -576,6 +579,8 @@ const AdminPickupCalendar = () => {
                 views={['month', 'week', 'day', 'agenda']}
                 view={calendarView}
                 onView={handleViewChange}
+                date={currentDate}
+                onNavigate={(date) => setCurrentDate(date)}
                 style={{ height: 'calc(100% - 10px)' }}
                 eventPropGetter={eventStyleGetter}
                 onSelectEvent={handleSelectEvent}
