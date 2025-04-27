@@ -555,34 +555,26 @@ const AdminDashboard = () => {
                   <InputBase placeholder="Search Clients" sx={{ fontSize: '0.9rem' }} />
                 </Box>
                 
-                {/* Filter Button */}
+                {/* Filter Button - Updated to match image */}
                 <Button
                   variant="outlined"
-                  startIcon={null}
+                  startIcon={<FilterListIcon />}
                   sx={{
                     border: '1px solid #e0e0e0',
                     color: '#666',
                     textTransform: 'none',
                     borderRadius: '4px',
                     mr: 'auto',
+                    py: 0.75,
+                    px: 2,
+                    fontSize: '0.875rem',
                     '&:hover': {
                       border: '1px solid #ccc',
                       bgcolor: '#f9f9f9'
                     }
                   }}
                 >
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    Filter
-                    <Box component="span" sx={{ 
-                      display: 'inline-flex', 
-                      ml: 1,
-                      border: '1px solid #e0e0e0',
-                      borderRadius: '4px',
-                      p: 0.5
-                    }}>
-                      <FilterListIcon sx={{ fontSize: '1rem' }} />
-                    </Box>
-                  </Box>
+                  Filter
                 </Button>
                 
                 <Button
@@ -820,7 +812,7 @@ const AdminDashboard = () => {
           <>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight: '500', color: '#333', fontSize: '1.1rem', mr: 3 }}>
-                  All Devices
+                  Devices
                 </Typography>
                 
                 {/* Search Box - Moved here from below */}
@@ -838,34 +830,26 @@ const AdminDashboard = () => {
                   <InputBase placeholder="Search Devices" sx={{ fontSize: '0.9rem' }} />
                 </Box>
                 
-                {/* Filter Button - Moved here from below */}
+                {/* Filter Button - Updated to match image */}
                 <Button
                   variant="outlined"
-                  startIcon={null}
+                  startIcon={<FilterListIcon />}
                   sx={{
                     border: '1px solid #e0e0e0',
                     color: '#666',
                     textTransform: 'none',
                     borderRadius: '4px',
                     mr: 'auto',
+                    py: 0.75,
+                    px: 2,
+                    fontSize: '0.875rem',
                     '&:hover': {
                       border: '1px solid #ccc',
                       bgcolor: '#f9f9f9'
                     }
                   }}
                 >
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    Filter
-                    <Box component="span" sx={{ 
-                      display: 'inline-flex', 
-                      ml: 1,
-                      border: '1px solid #e0e0e0',
-                      borderRadius: '4px',
-                      p: 0.5
-                    }}>
-                      <FilterListIcon sx={{ fontSize: '1rem' }} />
-                    </Box>
-                  </Box>
+                  Filter
                 </Button>
                 
                 <Button
@@ -1138,7 +1122,7 @@ const AdminDashboard = () => {
           <>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight: 'medium', color: '#333', mr: 3 }}>
-                  All Pickups
+                  Pickups
                 </Typography>
                 
                 {/* Search Box */}
@@ -1156,34 +1140,26 @@ const AdminDashboard = () => {
                   <InputBase placeholder="Search Pickups" sx={{ fontSize: '0.9rem' }} />
                 </Box>
                 
-                {/* Filter Button */}
+                {/* Filter Button - Updated to match image */}
                 <Button
                   variant="outlined"
-                  startIcon={null}
+                  startIcon={<FilterListIcon />}
                   sx={{
                     border: '1px solid #e0e0e0',
                     color: '#666',
                     textTransform: 'none',
                     borderRadius: '4px',
                     mr: 'auto',
+                    py: 0.75,
+                    px: 2,
+                    fontSize: '0.875rem',
                     '&:hover': {
                       border: '1px solid #ccc',
                       bgcolor: '#f9f9f9'
                     }
                   }}
                 >
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    Filter
-                    <Box component="span" sx={{ 
-                      display: 'inline-flex', 
-                      ml: 1,
-                      border: '1px solid #e0e0e0',
-                      borderRadius: '4px',
-                      p: 0.5
-                    }}>
-                      <FilterListIcon sx={{ fontSize: '1rem' }} />
-                    </Box>
-                  </Box>
+                  Filter
                 </Button>
                 
                 <Box>
