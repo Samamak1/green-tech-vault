@@ -772,10 +772,56 @@ const AdminDashboard = () => {
         {/* Devices Tab */}
         {tabValue === 1 && (
           <>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h6" sx={{ fontWeight: '500', color: '#333', fontSize: '1.1rem' }}>
-              All Devices
-            </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: '500', color: '#333', fontSize: '1.1rem', mr: 3 }}>
+                  All Devices
+                </Typography>
+                
+                {/* Search Box - Moved here from below */}
+                <Box sx={{ 
+                  display: 'flex',
+                  alignItems: 'center',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '4px',
+                  width: 220,
+                  px: 2,
+                  py: 0.5,
+                  mr: 2
+                }}>
+                  <SearchIcon sx={{ color: '#aaa', fontSize: '1.2rem', mr: 1 }} />
+                  <InputBase placeholder="Search Devices" sx={{ fontSize: '0.9rem' }} />
+                </Box>
+                
+                {/* Filter Button - Moved here from below */}
+                <Button
+                  variant="outlined"
+                  startIcon={null}
+                  sx={{
+                    border: '1px solid #e0e0e0',
+                    color: '#666',
+                    textTransform: 'none',
+                    borderRadius: '4px',
+                    mr: 'auto',
+                    '&:hover': {
+                      border: '1px solid #ccc',
+                      bgcolor: '#f9f9f9'
+                    }
+                  }}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    Filter
+                    <Box component="span" sx={{ 
+                      display: 'inline-flex', 
+                      ml: 1,
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '4px',
+                      p: 0.5
+                    }}>
+                      <FilterListIcon sx={{ fontSize: '1rem' }} />
+                    </Box>
+                  </Box>
+                </Button>
+                
                 <Button
                   variant="contained"
                   startIcon={null}
@@ -809,49 +855,7 @@ const AdminDashboard = () => {
                 </Box>
               </Box>
               
-              {/* Search and Filter Row */}
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-                <Box sx={{ 
-                  display: 'flex',
-                  alignItems: 'center',
-                  border: '1px solid #e0e0e0',
-                  borderRadius: '4px',
-                  width: 220,
-                  px: 2,
-                  py: 0.5
-                }}>
-                  <SearchIcon sx={{ color: '#aaa', fontSize: '1.2rem', mr: 1 }} />
-                  <InputBase placeholder="Search devices" sx={{ fontSize: '0.9rem' }} />
-                </Box>
-                
-                <Button
-                  variant="outlined"
-                  startIcon={null}
-                  sx={{
-                    border: '1px solid #e0e0e0',
-                    color: '#666',
-                    textTransform: 'none',
-                    borderRadius: '4px',
-                    '&:hover': {
-                      border: '1px solid #ccc',
-                      bgcolor: '#f9f9f9'
-                    }
-                  }}
-                >
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    Filter
-                    <Box component="span" sx={{ 
-                      display: 'inline-flex', 
-                      ml: 1,
-                      border: '1px solid #e0e0e0',
-                      borderRadius: '4px',
-                      p: 0.5
-                    }}>
-                      <FilterListIcon sx={{ fontSize: '1rem' }} />
-                    </Box>
-                  </Box>
-                </Button>
-              </Box>
+              {/* Removed search and filter section as they've been moved */}
               
               <Box sx={{ 
                 overflowX: 'auto',
