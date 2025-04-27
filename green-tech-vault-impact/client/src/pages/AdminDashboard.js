@@ -774,29 +774,6 @@ const AdminDashboard = () => {
                         >
                               <DeleteIcon fontSize="small" />
                         </IconButton>
-                        <Button
-                          size="small"
-                          variant="outlined"
-                              onClick={() => handleAddPickup(client.id)}
-                              sx={{ 
-                                ml: 1, 
-                                borderRadius: '8px', 
-                                textTransform: 'none',
-                                color: '#56C3C9',
-                                borderColor: '#56C3C9',
-                                fontSize: '0.8rem',
-                                whiteSpace: 'nowrap',
-                                px: 2.5,
-                                py: 0.8,
-                                height: 36,
-                                '&:hover': {
-                                  borderColor: '#3dbdb5',
-                                  bgcolor: 'rgba(86, 195, 201, 0.04)'
-                                }
-                              }}
-                        >
-                          Schedule Pickup
-                        </Button>
                           </Box>
                       </TableCell>
                     </TableRow>
