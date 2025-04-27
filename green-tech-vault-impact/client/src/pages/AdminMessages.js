@@ -504,7 +504,6 @@ const AdminMessages = () => {
               <Box sx={{ mb: 2 }}>
                 <Button
                   variant="contained"
-                  fullWidth
                   onClick={handleComposeOpen}
                   startIcon={<PencilIcon />}
                   sx={{
@@ -512,8 +511,11 @@ const AdminMessages = () => {
                     '&:hover': { bgcolor: '#3dbdb5' },
                     borderRadius: '4px',
                     py: 1,
+                    px: 3,
                     mb: 2,
-                    textTransform: 'none'
+                    textTransform: 'none',
+                    width: 'auto',
+                    alignSelf: 'flex-start'
                   }}
                 >
                   Compose
@@ -758,8 +760,8 @@ const AdminMessages = () => {
                     position: 'absolute',
                     top: 10,
                     right: 10,
-                    color: '#E05050',
-                    '&:hover': { bgcolor: 'rgba(224, 80, 80, 0.08)' }
+                    color: '#555555',
+                    '&:hover': { bgcolor: 'rgba(85, 85, 85, 0.08)' }
                   }}
                 >
                   <CloseIcon />
