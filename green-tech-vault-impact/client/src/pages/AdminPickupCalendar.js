@@ -42,6 +42,15 @@ import AdminLayout from '../components/layout/AdminLayout';
 // Set up the localizer for react-big-calendar
 const localizer = momentLocalizer(moment);
 
+// Format dates for calendar events
+const formatEventDates = (events) => {
+  return events.map(event => ({
+    ...event,
+    start: new Date(event.scheduledDate),
+    end: new Date(event.scheduledDate)
+  }));
+};
+
 // Custom event component
 const EventComponent = ({ event }) => (
   <Box sx={{ fontSize: '0.85rem', padding: '2px' }}>
@@ -336,11 +345,23 @@ const AdminPickupCalendar = () => {
     });
   };
 
-  const handleViewChange = (view) => {
-    setCalendarView(view);
-    // Ensure the date is properly set when changing views
-    // This prevents the blank white page when switching to week view
-    setCurrentDate(new Date(currentDate)); // Force refresh with current date
+  const handleViewChange = (newView) => {
+    try {
+      console.log(`Changing view to: ${newView}`);
+      setCalendarView(newView);
+      
+      // Ensure we have a valid date when switching views
+      const validDate = moment(currentDate).isValid() 
+        ? currentDate 
+        : new Date();
+        
+      setCurrentDate(validDate);
+    } catch (error) {
+      console.error('Error changing calendar view:', error);
+      // Fallback to 'month' view if there's an error
+      setCalendarView('month');
+      setCurrentDate(new Date());
+    }
   };
 
   const handleDayClick = (day) => {
@@ -356,6 +377,19 @@ const AdminPickupCalendar = () => {
 
   // Generate mock events for different calendar types
   const generateMockEvents = () => {
+    const formatEvents = (events) => {
+      return events.map(event => {
+        // Parse date strings to actual Date objects
+        const date = new Date(event.scheduledDate);
+        return {
+          ...event,
+          // Ensure we have valid date objects
+          start: date,
+          end: date
+        };
+      });
+    };
+
     const events = [
       // Pickups (from the existing pickups data)
       ...pickups.map(pickup => ({
@@ -455,12 +489,13 @@ const AdminPickupCalendar = () => {
       }
     ];
     
-    setMockEvents(events);
+    setMockEvents(formatEvents(events));
   };
   
   // Function to get filtered events based on current filters
   const getFilteredEvents = () => {
-    return mockEvents.filter(event => {
+    // First filter based on type
+    const filtered = mockEvents.filter(event => {
       if (event.type === 'pickup' && !calendarFilters.pickups) return false;
       if (event.type === 'delivery' && !calendarFilters.deliveries) return false;
       if (event.type === 'gtv' && !calendarFilters.gtvEvents) return false;
@@ -469,6 +504,9 @@ const AdminPickupCalendar = () => {
       if (event.type === 'challenge' && !calendarFilters.challenges) return false;
       return true;
     });
+    
+    // Format dates properly for the calendar component
+    return formatEventDates(filtered);
   };
 
   const handleMiniCalendarPrev = () => {
@@ -574,8 +612,8 @@ const AdminPickupCalendar = () => {
               <Calendar
                 localizer={localizer}
                 events={getFilteredEvents()}
-                startAccessor="scheduledDate"
-                endAccessor="scheduledDate"
+                startAccessor="start"
+                endAccessor="end"
                 views={['month', 'week', 'day', 'agenda']}
                 view={calendarView}
                 onView={handleViewChange}
@@ -587,6 +625,9 @@ const AdminPickupCalendar = () => {
                 components={{
                   event: EventComponent
                 }}
+                defaultView="month"
+                popup={true}
+                selectable={true}
               />
             </Paper>
           </Grid>
