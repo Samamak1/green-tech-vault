@@ -40,7 +40,9 @@ import {
   Inbox as InboxIcon,
   DeleteOutline as DeletedIcon,
   Person as ClientIcon,
-  SupervisorAccount as AdminIcon
+  SupervisorAccount as AdminIcon,
+  DraftsOutlined as MarkReadIcon,
+  FolderOutlined as MoveToIcon
 } from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
 
@@ -420,6 +422,41 @@ const AdminMessages = () => {
     }
   };
 
+  const handleMarkAsRead = () => {
+    // Mark selected messages as read
+    const updatedMessages = messages.map(message => 
+      selectedMessages.includes(message.id) 
+        ? { ...message, read: true } 
+        : message
+    );
+    
+    setMessages(updatedMessages);
+    
+    // If the currently selected message was marked as read, update it
+    if (selectedMessage && selectedMessages.includes(selectedMessage.id)) {
+      setSelectedMessage({...selectedMessage, read: true});
+    }
+  };
+
+  const [moveToAnchorEl, setMoveToAnchorEl] = useState(null);
+
+  const handleMoveToClick = (event) => {
+    setMoveToAnchorEl(event.currentTarget);
+  };
+
+  const handleMoveToClose = () => {
+    setMoveToAnchorEl(null);
+  };
+
+  const handleMoveTo = (folder) => {
+    // In a real app, this would update the folder property of the messages
+    console.log(`Moving messages to ${folder}:`, selectedMessages);
+    
+    // For now, we'll just deselect the messages
+    setSelectedMessages([]);
+    handleMoveToClose();
+  };
+
   const handleCheckboxChange = (messageId) => {
     if (selectedMessages.includes(messageId)) {
       setSelectedMessages(selectedMessages.filter(id => id !== messageId));
@@ -627,9 +664,33 @@ const AdminMessages = () => {
                   </Typography>
                   <IconButton 
                     size="small" 
+                    onClick={handleMarkAsRead}
+                    title="Mark as read"
+                    sx={{ 
+                      color: '#56C3C9',
+                      '&:hover': { bgcolor: 'rgba(86, 195, 201, 0.08)' }
+                    }}
+                  >
+                    <MarkReadIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton 
+                    size="small" 
+                    onClick={handleMoveToClick}
+                    title="Move to folder"
+                    sx={{ 
+                      ml: 1,
+                      color: '#56C3C9',
+                      '&:hover': { bgcolor: 'rgba(86, 195, 201, 0.08)' }
+                    }}
+                  >
+                    <MoveToIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton 
+                    size="small" 
                     onClick={() => handleDeleteMessages()}
                     title="Delete selected messages"
                     sx={{ 
+                      ml: 1,
                       color: '#E05050',
                       '&:hover': { bgcolor: 'rgba(224, 80, 80, 0.08)' }
                     }}
@@ -647,6 +708,44 @@ const AdminMessages = () => {
                   >
                     <ArchiveIcon fontSize="small" />
                   </IconButton>
+                  
+                  {/* Move To Menu */}
+                  <Menu
+                    anchorEl={moveToAnchorEl}
+                    open={Boolean(moveToAnchorEl)}
+                    onClose={handleMoveToClose}
+                  >
+                    <MenuItem onClick={() => handleMoveTo('inbox')}>
+                      <ListItemIcon>
+                        <InboxIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText>Inbox</ListItemText>
+                    </MenuItem>
+                    <MenuItem onClick={() => handleMoveTo('archive')}>
+                      <ListItemIcon>
+                        <ArchiveIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText>Archive</ListItemText>
+                    </MenuItem>
+                    <MenuItem onClick={() => handleMoveTo('important')}>
+                      <ListItemIcon>
+                        <StarIcon fontSize="small" color="warning" />
+                      </ListItemIcon>
+                      <ListItemText>Important</ListItemText>
+                    </MenuItem>
+                    <MenuItem onClick={() => handleMoveTo('drafts')}>
+                      <ListItemIcon>
+                        <DraftIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText>Drafts</ListItemText>
+                    </MenuItem>
+                    <MenuItem onClick={() => handleMoveTo('trash')}>
+                      <ListItemIcon>
+                        <DeletedIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText>Trash</ListItemText>
+                    </MenuItem>
+                  </Menu>
                 </Box>
               )}
               
