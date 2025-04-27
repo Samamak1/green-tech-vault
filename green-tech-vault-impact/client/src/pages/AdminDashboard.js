@@ -535,14 +535,60 @@ const AdminDashboard = () => {
         {/* Clients Tab */}
         {tabValue === 0 && (
           <>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                <Typography variant="h6" sx={{ fontWeight: '500', color: '#333', fontSize: '1.1rem' }}>
-                Clients
-              </Typography>
-              <Button
-                variant="contained"
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: '500', color: '#333', fontSize: '1.1rem', mr: 3 }}>
+                  Clients
+                </Typography>
+                
+                {/* Search Box */}
+                <Box sx={{ 
+                  display: 'flex',
+                  alignItems: 'center',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '4px',
+                  width: 220,
+                  px: 2,
+                  py: 0.5,
+                  mr: 2
+                }}>
+                  <SearchIcon sx={{ color: '#aaa', fontSize: '1.2rem', mr: 1 }} />
+                  <InputBase placeholder="Search Clients" sx={{ fontSize: '0.9rem' }} />
+                </Box>
+                
+                {/* Filter Button */}
+                <Button
+                  variant="outlined"
                   startIcon={null}
-                onClick={() => handleOpenDialog()}
+                  sx={{
+                    border: '1px solid #e0e0e0',
+                    color: '#666',
+                    textTransform: 'none',
+                    borderRadius: '4px',
+                    mr: 'auto',
+                    '&:hover': {
+                      border: '1px solid #ccc',
+                      bgcolor: '#f9f9f9'
+                    }
+                  }}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    Filter
+                    <Box component="span" sx={{ 
+                      display: 'inline-flex', 
+                      ml: 1,
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '4px',
+                      p: 0.5
+                    }}>
+                      <FilterListIcon sx={{ fontSize: '1rem' }} />
+                    </Box>
+                  </Box>
+                </Button>
+                
+                <Button
+                  variant="contained"
+                  startIcon={null}
+                  onClick={() => handleOpenDialog()}
                   sx={{ 
                     bgcolor: '#4ECDC4', 
                     '&:hover': { bgcolor: '#3dbdb5' }, 
@@ -559,8 +605,8 @@ const AdminDashboard = () => {
                   <span style={{ display: 'inline-flex', alignItems: 'center' }}>
                     <AddIcon sx={{ mr: 0.5, fontSize: '1.2rem' }} /> Add Client
                   </span>
-              </Button>
-            </Box>
+                </Button>
+              </Box>
             
               <Box sx={{ 
                 overflowX: 'auto',
@@ -1090,14 +1136,60 @@ const AdminDashboard = () => {
         {/* Pickups Tab */}
         {tabValue === 2 && (
           <>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h6" sx={{ fontWeight: 'medium', color: '#333' }}>
-                All Pickups
-              </Typography>
-              <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: 'medium', color: '#333', mr: 3 }}>
+                  All Pickups
+                </Typography>
+                
+                {/* Search Box */}
+                <Box sx={{ 
+                  display: 'flex',
+                  alignItems: 'center',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '4px',
+                  width: 220,
+                  px: 2,
+                  py: 0.5,
+                  mr: 2
+                }}>
+                  <SearchIcon sx={{ color: '#aaa', fontSize: '1.2rem', mr: 1 }} />
+                  <InputBase placeholder="Search Pickups" sx={{ fontSize: '0.9rem' }} />
+                </Box>
+                
+                {/* Filter Button */}
                 <Button
                   variant="outlined"
-                  onClick={() => navigate('/admin/pickup-calendar')}
+                  startIcon={null}
+                  sx={{
+                    border: '1px solid #e0e0e0',
+                    color: '#666',
+                    textTransform: 'none',
+                    borderRadius: '4px',
+                    mr: 'auto',
+                    '&:hover': {
+                      border: '1px solid #ccc',
+                      bgcolor: '#f9f9f9'
+                    }
+                  }}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    Filter
+                    <Box component="span" sx={{ 
+                      display: 'inline-flex', 
+                      ml: 1,
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '4px',
+                      p: 0.5
+                    }}>
+                      <FilterListIcon sx={{ fontSize: '1rem' }} />
+                    </Box>
+                  </Box>
+                </Button>
+                
+                <Box>
+                  <Button
+                    variant="outlined"
+                    onClick={() => navigate('/admin/pickup-calendar')}
                     sx={{ 
                       mr: 2, 
                       borderRadius: '8px', 
@@ -1109,11 +1201,11 @@ const AdminDashboard = () => {
                       fontSize: '0.9rem',
                       height: 40
                     }}
-                >
-                  View Calendar
-                </Button>
-                <Button
-                  variant="contained"
+                  >
+                    View Calendar
+                  </Button>
+                  <Button
+                    variant="contained"
                     startIcon={null}
                     onClick={() => navigate('/schedule-pickup')}
                     sx={{ 
@@ -1132,9 +1224,9 @@ const AdminDashboard = () => {
                     <span style={{ display: 'inline-flex', alignItems: 'center' }}>
                       <AddIcon sx={{ mr: 0.5, fontSize: '1.2rem' }} /> Schedule Pickup
                     </span>
-                </Button>
+                  </Button>
+                </Box>
               </Box>
-            </Box>
             
               <TableContainer sx={{ boxShadow: 'none', borderRadius: '8px', overflowX: 'auto' }}>
                 <Table sx={{ minWidth: 1100, tableLayout: 'fixed' }}>
