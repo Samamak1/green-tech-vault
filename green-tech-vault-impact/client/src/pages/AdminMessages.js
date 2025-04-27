@@ -32,7 +32,15 @@ import {
   Send as SendIcon,
   Star as StarIcon,
   StarBorder as StarBorderIcon,
-  Circle as CircleIcon
+  Circle as CircleIcon,
+  Close as CloseIcon,
+  Create as PencilIcon,
+  MarkEmailUnread as UnreadIcon,
+  Drafts as DraftIcon,
+  Inbox as InboxIcon,
+  DeleteOutline as DeletedIcon,
+  Person as ClientIcon,
+  SupervisorAccount as AdminIcon
 } from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
 
@@ -45,6 +53,7 @@ const AdminMessages = () => {
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [composeOpen, setComposeOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [composeData, setComposeData] = useState({
     recipient: '',
     subject: '',
@@ -59,6 +68,9 @@ const AdminMessages = () => {
         id: '1',
         type: 'question',
         read: false,
+        starred: false,
+        draft: false,
+        deleted: false,
         sender: {
           id: 'jsmith01',
           name: '@jsmith01',
@@ -86,6 +98,9 @@ const AdminMessages = () => {
         id: '2',
         type: 'confirmation',
         read: true,
+        starred: false,
+        draft: false,
+        deleted: false,
         sender: {
           id: 'jadmin01',
           name: 'GTV Admin',
@@ -118,6 +133,9 @@ const AdminMessages = () => {
         id: '3',
         type: 'confirmation',
         read: true,
+        starred: false,
+        draft: false,
+        deleted: false,
         sender: {
           id: 'jadmin01',
           name: 'GTV Admin',
@@ -150,6 +168,9 @@ const AdminMessages = () => {
         id: '4',
         type: 'question',
         read: false,
+        starred: true,
+        draft: false,
+        deleted: false,
         sender: {
           id: 'jsmith01',
           name: '@jsmith01',
@@ -177,6 +198,9 @@ const AdminMessages = () => {
         id: '5',
         type: 'confirmation',
         read: true,
+        starred: false,
+        draft: false,
+        deleted: false,
         sender: {
           id: 'jadmin01',
           name: 'GTV Admin',
@@ -209,6 +233,9 @@ const AdminMessages = () => {
         id: '6',
         type: 'confirmation',
         read: true,
+        starred: false,
+        draft: true,
+        deleted: false,
         sender: {
           id: 'jadmin01',
           name: 'GTV Admin',
@@ -252,6 +279,7 @@ const AdminMessages = () => {
       setMessages(updatedMessages);
     }
     setSelectedMessage(message);
+    setIsExpanded(true);
   };
 
   const handleFilterClick = (event) => {
@@ -265,6 +293,10 @@ const AdminMessages = () => {
   const handleFilterSelect = (filter) => {
     setFilter(filter);
     handleFilterClose();
+  };
+
+  const handleCloseMessage = () => {
+    setIsExpanded(false);
   };
 
   const handleReplySubmit = () => {
@@ -408,7 +440,42 @@ const AdminMessages = () => {
   };
 
   const filteredMessages = messages.filter(message => {
-    if (filter !== 'All' && filter.toLowerCase() !== message.type) {
+    if (filter === 'All') {
+      // Show all messages
+    } else if (filter === 'Client') {
+      // Filter client messages
+      if (message.sender.id !== 'jadmin01' && message.sender.id !== 'admin') {
+        return true;
+      }
+      return false;
+    } else if (filter === 'Admin') {
+      // Filter admin messages
+      if (message.sender.id === 'jadmin01' || message.sender.id === 'admin') {
+        return true;
+      }
+      return false;
+    } else if (filter === 'Unread') {
+      // Filter unread messages
+      if (!message.read) {
+        return true;
+      }
+      return false;
+    } else if (filter === 'Starred') {
+      // In a real app, we would have a starred property
+      return message.starred === true;
+    } else if (filter === 'Draft') {
+      // In a real app, we would have a draft property
+      return message.draft === true;
+    } else if (filter === 'Sent') {
+      // Filter sent messages
+      if (message.sender.id === 'admin') {
+        return true;
+      }
+      return false;
+    } else if (filter === 'Deleted') {
+      // In a real app, we would have a deleted property
+      return message.deleted === true;
+    } else if (filter.toLowerCase() !== message.type) {
       return false;
     }
     
@@ -431,7 +498,7 @@ const AdminMessages = () => {
         
         <Grid container spacing={2}>
           {/* Messages List */}
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={isExpanded ? 4 : 12}>
             <Paper sx={{ p: 2, height: '80vh', display: 'flex', flexDirection: 'column' }}>
               {/* Compose Button */}
               <Box sx={{ mb: 2 }}>
@@ -439,15 +506,17 @@ const AdminMessages = () => {
                   variant="contained"
                   fullWidth
                   onClick={handleComposeOpen}
+                  startIcon={<PencilIcon />}
                   sx={{
                     bgcolor: '#4ECDC4',
                     '&:hover': { bgcolor: '#3dbdb5' },
                     borderRadius: '4px',
                     py: 1,
-                    mb: 2
+                    mb: 2,
+                    textTransform: 'none'
                   }}
                 >
-                  + Compose Message
+                  Compose
                 </Button>
               </Box>
               
@@ -471,21 +540,73 @@ const AdminMessages = () => {
                     sx={{ fontSize: '0.9rem', width: '100%' }}
                   />
                 </Box>
-                <IconButton 
+                <Button
                   onClick={handleFilterClick}
+                  endIcon={<DropdownIcon />}
                   size="small"
-                  sx={{ border: '1px solid #e0e0e0', p: 1 }}
+                  sx={{ 
+                    border: '1px solid #e0e0e0',
+                    color: '#555',
+                    textTransform: 'none',
+                    px: 2,
+                    py: 0.75
+                  }}
                 >
-                  <FilterListIcon fontSize="small" />
-                </IconButton>
+                  {filter}
+                </Button>
                 <Menu
                   anchorEl={filterAnchorEl}
                   open={Boolean(filterAnchorEl)}
                   onClose={handleFilterClose}
                 >
-                  <MenuItem onClick={() => handleFilterSelect('All')}>All</MenuItem>
-                  <MenuItem onClick={() => handleFilterSelect('question')}>Questions</MenuItem>
-                  <MenuItem onClick={() => handleFilterSelect('confirmation')}>Confirmations</MenuItem>
+                  <MenuItem onClick={() => handleFilterSelect('All')}>
+                    <ListItemIcon>
+                      <InboxIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>All</ListItemText>
+                  </MenuItem>
+                  <MenuItem onClick={() => handleFilterSelect('Client')}>
+                    <ListItemIcon>
+                      <ClientIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Client</ListItemText>
+                  </MenuItem>
+                  <MenuItem onClick={() => handleFilterSelect('Admin')}>
+                    <ListItemIcon>
+                      <AdminIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Admin</ListItemText>
+                  </MenuItem>
+                  <MenuItem onClick={() => handleFilterSelect('Unread')}>
+                    <ListItemIcon>
+                      <UnreadIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Unread</ListItemText>
+                  </MenuItem>
+                  <MenuItem onClick={() => handleFilterSelect('Starred')}>
+                    <ListItemIcon>
+                      <StarIcon fontSize="small" color="warning" />
+                    </ListItemIcon>
+                    <ListItemText>Starred</ListItemText>
+                  </MenuItem>
+                  <MenuItem onClick={() => handleFilterSelect('Draft')}>
+                    <ListItemIcon>
+                      <DraftIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Draft</ListItemText>
+                  </MenuItem>
+                  <MenuItem onClick={() => handleFilterSelect('Sent')}>
+                    <ListItemIcon>
+                      <SendIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Sent</ListItemText>
+                  </MenuItem>
+                  <MenuItem onClick={() => handleFilterSelect('Deleted')}>
+                    <ListItemIcon>
+                      <DeletedIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Deleted</ListItemText>
+                  </MenuItem>
                 </Menu>
               </Box>
               
@@ -558,6 +679,9 @@ const AdminMessages = () => {
                           {!message.read && (
                             <CircleIcon sx={{ color: getStatusColor(message.type), fontSize: 10, mr: 1 }} />
                           )}
+                          {message.starred && (
+                            <StarIcon sx={{ color: '#FFB400', fontSize: 16, mr: 1 }} />
+                          )}
                           <Box
                             component="span"
                             sx={{
@@ -611,7 +735,7 @@ const AdminMessages = () => {
                               WebkitBoxOrient: 'vertical',
                             }}
                           >
-                            {message.message.split('\n')[0]}
+                            {message.draft ? '[Draft] ' : ''}{message.message.split('\n')[0]}
                           </Typography>
                         </Box>
                       </Box>
@@ -623,9 +747,24 @@ const AdminMessages = () => {
           </Grid>
           
           {/* Message Content */}
+          {isExpanded && (
           <Grid item xs={12} md={8}>
             {selectedMessage ? (
-              <Paper sx={{ p: 3, height: '80vh', display: 'flex', flexDirection: 'column' }}>
+              <Paper sx={{ p: 3, height: '80vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+                {/* Close button */}
+                <IconButton 
+                  onClick={handleCloseMessage}
+                  sx={{ 
+                    position: 'absolute',
+                    top: 10,
+                    right: 10,
+                    color: '#E05050',
+                    '&:hover': { bgcolor: 'rgba(224, 80, 80, 0.08)' }
+                  }}
+                >
+                  <CloseIcon />
+                </IconButton>
+                
                 {/* Message Header */}
                 <Box sx={{ mb: 2 }}>
                   <Typography variant="h6" gutterBottom>
@@ -768,6 +907,7 @@ const AdminMessages = () => {
               </Paper>
             )}
           </Grid>
+          )}
         </Grid>
       </Box>
       
@@ -779,7 +919,7 @@ const AdminMessages = () => {
         fullWidth
       >
         <Box sx={{ p: 3 }}>
-          <Typography variant="h6" sx={{ mb: 3 }}>New Message</Typography>
+          <Typography variant="h6" sx={{ mb: 3 }}>Compose Message</Typography>
           
           <TextField
             fullWidth
@@ -823,12 +963,13 @@ const AdminMessages = () => {
             <Button
               variant="contained"
               onClick={handleComposeSend}
+              endIcon={<SendIcon />}
               sx={{
                 bgcolor: '#4ECDC4',
                 '&:hover': { bgcolor: '#3dbdb5' },
               }}
             >
-              Send
+              Send Message
             </Button>
           </Box>
         </Box>
