@@ -20,7 +20,7 @@ const Sidebar = () => {
     { icon: <CalendarMonthIcon />, text: 'Calendar', path: '/admin/pickup-calendar' },
     { icon: <DescriptionIcon />, text: 'Reports', path: '/admin/reports' },
     { icon: <EmailIcon />, text: 'Messages', path: '/admin/messages' },
-    { icon: <CampaignIcon />, text: 'Schedule Pickup', path: '/admin/announcements' },
+    { icon: <CampaignIcon />, text: 'Schedule Pickup', path: '/schedule-pickup' },
   ];
 
   const handleNavigation = (path) => {

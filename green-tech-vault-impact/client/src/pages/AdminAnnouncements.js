@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Box, 
   Paper, 
@@ -8,21 +9,41 @@ import {
   Button,
   InputAdornment
 } from '@mui/material';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AdminLayout from '../components/layout/AdminLayout';
 
 const AdminAnnouncements = () => {
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   
-  // Pre-filled client data
+  // Form data
   const [formData, setFormData] = useState({
-    companyName: 'Tech Solutions Inc.',
-    contactName: 'John Smith',
-    email: 'john@techsolutions.com',
-    phone: '(555) 123-4567',
-    address: '123 Tech Blvd',
-    city: 'San Francisco',
-    state: 'CA',
-    zipCode: '94105',
+    // Company Information
+    companyName: '',
+    contactName: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    
+    // Pickup Details
+    onSiteContactName: '',
+    onSiteContactJobTitle: '',
+    onSiteContactPhone: '',
+    onSiteContactEmail: '',
+    preferredDate: null,
+    preferredTimeWindow: null,
+    pickupAddress: '',
+    pickupCity: '',
+    pickupState: '',
+    pickupZipCode: ''
   });
 
   const handleChange = (e) => {
@@ -33,6 +54,20 @@ const AdminAnnouncements = () => {
     }));
   };
 
+  const handleDateChange = (date) => {
+    setFormData({
+      ...formData,
+      preferredDate: date
+    });
+  };
+
+  const handleTimeChange = (time) => {
+    setFormData({
+      ...formData,
+      preferredTimeWindow: time
+    });
+  };
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -41,10 +76,21 @@ const AdminAnnouncements = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const handleSubmit = () => {
+    // In a real application, you would submit the data to your backend
+    console.log('Form submitted with data:', formData);
+    
+    // Show success message
+    alert('Pickup scheduled successfully!');
+    
+    // Navigate back to admin dashboard
+    navigate('/admin/dashboard');
+  };
+
   const steps = [
-    { label: 'Company Information', icon: 'info' },
-    { label: 'Pickup Details', icon: 'detail' },
-    { label: 'Review & Submit', icon: '&' }
+    { label: 'Company Information', completed: activeStep > 0 },
+    { label: 'Pickup Details', completed: activeStep > 1 },
+    { label: 'Review & Submit', completed: activeStep > 2 }
   ];
 
   return (
@@ -100,18 +146,18 @@ const AdminAnnouncements = () => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      backgroundColor: index === 0 ? '#4ecdc4' : '#ccc',
+                      backgroundColor: index <= activeStep ? '#4ecdc4' : '#ccc',
                       color: 'white',
                       fontSize: 16,
                       fontWeight: 500,
                       mb: 1,
                     }}>
-                      {index + 1}
+                      {step.completed ? '✓' : index + 1}
                     </Box>
                     <Typography sx={{ 
-                      color: index === 0 ? '#1C392B' : '#666',
+                      color: index === activeStep ? '#1C392B' : '#666',
                       fontSize: '0.9rem',
-                      fontWeight: index === 0 ? 500 : 400,
+                      fontWeight: index === activeStep ? 500 : 400,
                       textAlign: 'center',
                     }}>
                       {step.label}
@@ -123,8 +169,8 @@ const AdminAnnouncements = () => {
                     <Box 
                       sx={{ 
                         flex: 1,
-                        height: 0.5,
-                        backgroundColor: '#e8e8e8',
+                        height: 1.5,
+                        backgroundColor: index < activeStep ? '#4ecdc4' : '#e8e8e8',
                         margin: '0 10px',
                         position: 'relative',
                         top: -20,
@@ -136,200 +182,671 @@ const AdminAnnouncements = () => {
               ))}
             </Box>
             
-            {/* Form Fields with Pre-filled Data */}
-            <Grid container spacing={3}>
-              <Grid item xs={12} sx={{ mb: 1 }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography variant="caption" sx={{ mb: 0.5, color: '#666' }}>
-                    Company Name
-                  </Typography>
+            {/* Step content */}
+            {activeStep === 0 && (
+              <Grid container spacing={3}>
+                <Grid item xs={12} sx={{ mb: 1 }}>
                   <TextField
                     fullWidth
+                    label="Company Name"
+                    name="companyName"
                     value={formData.companyName}
-                    variant="outlined"
-                    inputProps={{ readOnly: true }}
+                    onChange={handleChange}
+                    placeholder="Company Name"
                     sx={{
-                      backgroundColor: '#fff',
                       '& .MuiOutlinedInput-input': { 
-                        padding: '11px 14px',
+                        padding: '14px 14px',
                       }
                     }}
                   />
-                </Box>
-              </Grid>
-              
-              <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography variant="caption" sx={{ mb: 0.5, color: '#666' }}>
-                    Contact Name
-                  </Typography>
+                </Grid>
+                
+                <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
                   <TextField
                     fullWidth
+                    label="Contact Name"
+                    name="contactName"
                     value={formData.contactName}
-                    variant="outlined"
-                    inputProps={{ readOnly: true }}
+                    onChange={handleChange}
+                    placeholder="Contact Name"
                     sx={{
-                      backgroundColor: '#fff',
                       '& .MuiOutlinedInput-input': { 
-                        padding: '11px 14px',
+                        padding: '14px 14px',
                       }
                     }}
                   />
-                </Box>
-              </Grid>
-              
-              <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography variant="caption" sx={{ mb: 0.5, color: '#666' }}>
-                    Email
-                  </Typography>
+                </Grid>
+                
+                <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
                   <TextField
                     fullWidth
+                    label="Email"
+                    name="email"
                     value={formData.email}
-                    variant="outlined"
-                    inputProps={{ readOnly: true }}
+                    onChange={handleChange}
+                    placeholder="Email"
                     sx={{
-                      backgroundColor: '#fff',
                       '& .MuiOutlinedInput-input': { 
-                        padding: '11px 14px',
+                        padding: '14px 14px',
                       }
                     }}
                   />
-                </Box>
-              </Grid>
-              
-              <Grid item xs={12} sx={{ mb: 1 }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography variant="caption" sx={{ mb: 0.5, color: '#666' }}>
-                    Phone
-                  </Typography>
+                </Grid>
+                
+                <Grid item xs={12} sx={{ mb: 1 }}>
                   <TextField
                     fullWidth
+                    label="Phone"
+                    name="phone"
                     value={formData.phone}
-                    variant="outlined"
-                    inputProps={{ readOnly: true }}
+                    onChange={handleChange}
+                    placeholder="Phone"
                     sx={{
-                      backgroundColor: '#fff',
                       '& .MuiOutlinedInput-input': { 
-                        padding: '11px 14px',
+                        padding: '14px 14px',
                       }
                     }}
                   />
-                </Box>
-              </Grid>
-              
-              <Grid item xs={12} sx={{ mb: 1 }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography variant="caption" sx={{ mb: 0.5, color: '#666' }}>
-                    Address
-                  </Typography>
+                </Grid>
+                
+                <Grid item xs={12} sx={{ mb: 1 }}>
                   <TextField
                     fullWidth
+                    label="Address"
+                    name="address"
                     value={formData.address}
-                    variant="outlined"
-                    inputProps={{ readOnly: true }}
+                    onChange={handleChange}
+                    placeholder="Address"
                     sx={{
-                      backgroundColor: '#fff',
                       '& .MuiOutlinedInput-input': { 
-                        padding: '11px 14px',
+                        padding: '14px 14px',
                       }
                     }}
                   />
-                </Box>
-              </Grid>
-              
-              <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography variant="caption" sx={{ mb: 0.5, color: '#666' }}>
-                    City
-                  </Typography>
+                </Grid>
+                
+                <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
                   <TextField
                     fullWidth
+                    label="City"
+                    name="city"
                     value={formData.city}
-                    variant="outlined"
-                    inputProps={{ readOnly: true }}
+                    onChange={handleChange}
+                    placeholder="City"
                     sx={{
-                      backgroundColor: '#fff',
                       '& .MuiOutlinedInput-input': { 
-                        padding: '11px 14px',
+                        padding: '14px 14px',
                       }
                     }}
                   />
-                </Box>
-              </Grid>
-              
-              <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography variant="caption" sx={{ mb: 0.5, color: '#666' }}>
-                    State
-                  </Typography>
+                </Grid>
+                
+                <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
                   <TextField
                     fullWidth
+                    label="State"
+                    name="state"
                     value={formData.state}
-                    variant="outlined"
-                    inputProps={{ readOnly: true }}
+                    onChange={handleChange}
+                    placeholder="State"
                     sx={{
-                      backgroundColor: '#fff',
                       '& .MuiOutlinedInput-input': { 
-                        padding: '11px 14px',
+                        padding: '14px 14px',
                       }
                     }}
                   />
-                </Box>
-              </Grid>
-              
-              <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography variant="caption" sx={{ mb: 0.5, color: '#666' }}>
-                    Zip Code
-                  </Typography>
+                </Grid>
+                
+                <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
                   <TextField
                     fullWidth
+                    label="Zip Code"
+                    name="zipCode"
                     value={formData.zipCode}
-                    variant="outlined"
-                    inputProps={{ readOnly: true }}
+                    onChange={handleChange}
+                    placeholder="Zip Code"
                     sx={{
-                      backgroundColor: '#fff',
                       '& .MuiOutlinedInput-input': { 
-                        padding: '11px 14px',
+                        padding: '14px 14px',
                       }
                     }}
                   />
-                </Box>
+                </Grid>
               </Grid>
+            )}
+
+            {activeStep === 1 && (
+              <Grid container spacing={3}>
+                <Grid item xs={12} sx={{ mb: 2 }}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 2 }}>
+                    On-Site Contact (Person Present at Pickup)
+                  </Typography>
+                  
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Full Name"
+                        name="onSiteContactName"
+                        value={formData.onSiteContactName}
+                        onChange={handleChange}
+                        placeholder="Full Name"
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Job Title"
+                        name="onSiteContactJobTitle"
+                        value={formData.onSiteContactJobTitle}
+                        onChange={handleChange}
+                        placeholder="Job Title"
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Phone Number"
+                        name="onSiteContactPhone"
+                        value={formData.onSiteContactPhone}
+                        onChange={handleChange}
+                        placeholder="Phone Number"
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Email"
+                        name="onSiteContactEmail"
+                        value={formData.onSiteContactEmail}
+                        onChange={handleChange}
+                        placeholder="Email"
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+                
+                <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      label="Preferred Date"
+                      value={formData.preferredDate}
+                      onChange={handleDateChange}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          fullWidth
+                          placeholder="Preferred Date"
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <CalendarMonthIcon color="action" />
+                              </InputAdornment>
+                            ),
+                          }}
+                          sx={{
+                            '& .MuiOutlinedInput-input': { 
+                              padding: '14px 14px',
+                            }
+                          }}
+                        />
+                      )}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                
+                <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <TimePicker
+                      label="Preferred Time Window"
+                      value={formData.preferredTimeWindow}
+                      onChange={handleTimeChange}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          fullWidth
+                          placeholder="Preferred Time Window"
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <AccessTimeIcon color="action" />
+                              </InputAdornment>
+                            ),
+                          }}
+                          sx={{
+                            '& .MuiOutlinedInput-input': { 
+                              padding: '14px 14px',
+                            }
+                          }}
+                        />
+                      )}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                
+                <Grid item xs={12} sx={{ mb: 1 }}>
+                  <TextField
+                    fullWidth
+                    label="Pickup Address"
+                    name="pickupAddress"
+                    value={formData.pickupAddress}
+                    onChange={handleChange}
+                    placeholder="Pickup Address"
+                    sx={{
+                      '& .MuiOutlinedInput-input': { 
+                        padding: '14px 14px',
+                      }
+                    }}
+                  />
+                </Grid>
+                
+                <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+                  <TextField
+                    fullWidth
+                    label="City"
+                    name="pickupCity"
+                    value={formData.pickupCity}
+                    onChange={handleChange}
+                    placeholder="City"
+                    sx={{
+                      '& .MuiOutlinedInput-input': { 
+                        padding: '14px 14px',
+                      }
+                    }}
+                  />
+                </Grid>
+                
+                <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+                  <TextField
+                    fullWidth
+                    label="State"
+                    name="pickupState"
+                    value={formData.pickupState}
+                    onChange={handleChange}
+                    placeholder="State"
+                    sx={{
+                      '& .MuiOutlinedInput-input': { 
+                        padding: '14px 14px',
+                      }
+                    }}
+                  />
+                </Grid>
+                
+                <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+                  <TextField
+                    fullWidth
+                    label="Zip Code"
+                    name="pickupZipCode"
+                    value={formData.pickupZipCode}
+                    onChange={handleChange}
+                    placeholder="Zip Code"
+                    sx={{
+                      '& .MuiOutlinedInput-input': { 
+                        padding: '14px 14px',
+                      }
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            )}
+
+            {activeStep === 2 && (
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 2 }}>
+                    Company Information
+                  </Typography>
+                  
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Company Name"
+                        value={formData.companyName}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Contact Name"
+                        value={formData.contactName}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Email"
+                        value={formData.email}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Phone"
+                        value={formData.phone}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Address"
+                        value={formData.address}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="City"
+                        value={formData.city}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="State"
+                        value={formData.state}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Zip Code"
+                        value={formData.zipCode}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+                
+                <Grid item xs={12} sx={{ mt: 3 }}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 2 }}>
+                    On-Site Contact
+                  </Typography>
+                  
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Full Name"
+                        value={formData.onSiteContactName}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Job Title"
+                        value={formData.onSiteContactJobTitle}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Phone Number"
+                        value={formData.onSiteContactPhone}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Email"
+                        value={formData.onSiteContactEmail}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+                
+                <Grid item xs={12} sx={{ mt: 3 }}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 2 }}>
+                    Pickup Details
+                  </Typography>
+                  
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Preferred Date"
+                        value={formData.preferredDate ? formData.preferredDate.toLocaleDateString() : ''}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Preferred Time"
+                        value={formData.preferredTimeWindow ? formData.preferredTimeWindow.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Pickup Address"
+                        value={formData.pickupAddress}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="City"
+                        value={formData.pickupCity}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="State"
+                        value={formData.pickupState}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                    
+                    <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+                      <TextField
+                        fullWidth
+                        label="Zip Code"
+                        value={formData.pickupZipCode}
+                        InputProps={{ readOnly: true }}
+                        sx={{
+                          '& .MuiOutlinedInput-input': { 
+                            padding: '14px 14px',
+                          }
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            )}
+
+            {/* Back & Next Buttons */}
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
+              <Button
+                onClick={handleBack}
+                disabled={activeStep === 0}
+                sx={{
+                  backgroundColor: '#f5f5f5',
+                  color: '#333',
+                  '&:hover': {
+                    backgroundColor: '#e0e0e0',
+                  },
+                  borderRadius: '4px',
+                  padding: '8px 24px',
+                  textTransform: 'none',
+                }}
+              >
+                Back
+              </Button>
               
-              {/* Back & Next Buttons */}
-              <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+              {activeStep === steps.length - 1 ? (
                 <Button
-                  onClick={handleBack}
+                  variant="contained"
+                  onClick={handleSubmit}
                   sx={{
-                    backgroundColor: '#f5f5f5',
-                    color: '#333',
+                    backgroundColor: '#005F56',
+                    color: 'white',
                     '&:hover': {
-                      backgroundColor: '#e0e0e0',
+                      backgroundColor: '#004D46',
                     },
                     borderRadius: '4px',
                     padding: '8px 24px',
+                    textTransform: 'none',
                   }}
                 >
-                  Back
+                  Submit
                 </Button>
+              ) : (
                 <Button
                   variant="contained"
                   onClick={handleNext}
                   sx={{
-                    backgroundColor: '#1C392B',
+                    backgroundColor: '#005F56',
                     color: 'white',
                     '&:hover': {
-                      backgroundColor: '#0F261D',
+                      backgroundColor: '#004D46',
                     },
                     borderRadius: '4px',
                     padding: '8px 24px',
+                    textTransform: 'none',
                   }}
                 >
                   Next
                 </Button>
-              </Grid>
+              )}
             </Grid>
           </Box>
         </Paper>
