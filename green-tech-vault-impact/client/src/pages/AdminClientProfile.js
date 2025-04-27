@@ -639,6 +639,13 @@ const AdminClientProfile = () => {
                       </Grid>
 
                       <Grid item xs={5}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Time</Typography>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body2">{selectedPickup.time}</Typography>
+                      </Grid>
+
+                      <Grid item xs={5}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Date</Typography>
                       </Grid>
                       <Grid item xs={7}>
@@ -731,15 +738,6 @@ const AdminClientProfile = () => {
                     </Typography>
                     <Typography variant="body2" sx={{ mt: 1 }}>
                       {selectedPickup.location}
-                    </Typography>
-                  </Box>
-
-                  <Box sx={{ mt: 4 }}>
-                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1 }}>
-                      Pickup Date and Time
-                    </Typography>
-                    <Typography variant="body1">
-                      {selectedPickup.date} {selectedPickup.time}
                     </Typography>
                   </Box>
 
@@ -1078,11 +1076,34 @@ const AdminClientProfile = () => {
                               <IconButton 
                                 size="small" 
                                 sx={{ 
-                                  color: '#4ECDC4',
-                                  bgcolor: '#e6f7f5', 
-                                  p: 0.5,
-                                  mr: 1,
-                                  '&:hover': { bgcolor: '#d0f0ed' }
+                                  color: '#56C3C9', 
+                                  border: '1px solid #e0e0e0',
+                                  borderRadius: '50%',
+                                  p: 1,
+                                  mr: 0.75,
+                                  width: 36,
+                                  height: 36,
+                                  '&:hover': {
+                                    bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                  }
+                                }}
+                                onClick={() => navigate(`/admin/devices/${device.id}`)}
+                              >
+                                <EyeIcon fontSize="small" />
+                              </IconButton>
+                              <IconButton 
+                                size="small" 
+                                sx={{ 
+                                  color: '#56C3C9', 
+                                  border: '1px solid #e0e0e0',
+                                  borderRadius: '50%',
+                                  p: 1,
+                                  mr: 0.75,
+                                  width: 36,
+                                  height: 36,
+                                  '&:hover': {
+                                    bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                  }
                                 }}
                               >
                                 <EditIcon fontSize="small" />
@@ -1090,10 +1111,16 @@ const AdminClientProfile = () => {
                               <IconButton 
                                 size="small" 
                                 sx={{ 
-                                  color: '#f44336',
-                                  bgcolor: '#feeeee',
-                                  p: 0.5,
-                                  '&:hover': { bgcolor: '#fcdada' }
+                                  color: '#E05050', 
+                                  border: '1px solid #e0e0e0',
+                                  borderRadius: '50%',
+                                  p: 1,
+                                  mr: 0.75,
+                                  width: 36,
+                                  height: 36,
+                                  '&:hover': {
+                                    bgcolor: 'rgba(224, 80, 80, 0.08)',
+                                  }
                                 }}
                                 onClick={() => handleArchiveDialogOpen(device)}
                               >
