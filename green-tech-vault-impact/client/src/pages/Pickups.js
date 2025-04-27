@@ -161,6 +161,7 @@ const Pickups = () => {
                     <TableRow>
                       <TableCell>Pickup ID</TableCell>
                       <TableCell>Date</TableCell>
+                      <TableCell>Time</TableCell>
                       <TableCell>Location</TableCell>
                       <TableCell>Contact</TableCell>
                       <TableCell>Status</TableCell>
@@ -172,6 +173,7 @@ const Pickups = () => {
                       <TableRow key={pickup._id}>
                         <TableCell>{pickup._id.substring(0, 8)}</TableCell>
                         <TableCell>{formatDate(pickup.scheduledDate)}</TableCell>
+                        <TableCell>{new Date(pickup.scheduledDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</TableCell>
                         <TableCell>{pickup.location}</TableCell>
                         <TableCell>{pickup.contactPerson}</TableCell>
                         <TableCell>
