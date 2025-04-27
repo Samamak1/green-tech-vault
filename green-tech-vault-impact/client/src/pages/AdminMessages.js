@@ -1,0 +1,840 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  Box, 
+  Typography, 
+  Paper, 
+  Grid, 
+  Button, 
+  TextField, 
+  IconButton, 
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Checkbox,
+  Chip,
+  InputBase,
+  InputAdornment,
+  Avatar,
+  Menu,
+  MenuItem,
+  Dialog
+} from '@mui/material';
+import { 
+  Search as SearchIcon,
+  FilterList as FilterListIcon,
+  Delete as DeleteIcon,
+  Archive as ArchiveIcon,
+  Reply as ReplyIcon,
+  Forward as ForwardIcon,
+  KeyboardArrowDown as DropdownIcon,
+  Send as SendIcon,
+  Star as StarIcon,
+  StarBorder as StarBorderIcon,
+  Circle as CircleIcon
+} from '@mui/icons-material';
+import AdminLayout from '../components/layout/AdminLayout';
+
+const AdminMessages = () => {
+  const [messages, setMessages] = useState([]);
+  const [selectedMessage, setSelectedMessage] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [replyText, setReplyText] = useState('');
+  const [filter, setFilter] = useState('All');
+  const [filterAnchorEl, setFilterAnchorEl] = useState(null);
+  const [selectedMessages, setSelectedMessages] = useState([]);
+  const [composeOpen, setComposeOpen] = useState(false);
+  const [composeData, setComposeData] = useState({
+    recipient: '',
+    subject: '',
+    message: ''
+  });
+
+  // Mock data for messages
+  useEffect(() => {
+    // This would be replaced by an API call in a real app
+    const mockMessages = [
+      {
+        id: '1',
+        type: 'question',
+        read: false,
+        sender: {
+          id: 'jsmith01',
+          name: '@jsmith01',
+          company: 'Green Tech Vault',
+          avatar: null
+        },
+        timestamp: 'March 27, 2025 at 10:50pm',
+        subject: 'Questions About my Pickup',
+        message: `Dear Green Tech Vault Team,\n\nI wanted to upgrade my pickup since our company has added to the number of devices we want to recycle. I was wondering who I should speak with, and if you could provide me with their contact information.\n\nI look forward to my first GTV Pickup!\n\nThanks,\nJohn Smith`,
+        thread: [
+          {
+            id: '1-1',
+            sender: {
+              id: 'jsmith01',
+              name: '@jsmith01',
+              company: 'Green Tech Vault',
+              avatar: null
+            },
+            timestamp: 'March 27, 2025 at 10:50pm',
+            message: `Dear Green Tech Vault Team,\n\nI wanted to upgrade my pickup since our company has added to the number of devices we want to recycle. I was wondering who I should speak with, and if you could provide me with their contact information.\n\nI look forward to my first GTV Pickup!\n\nThanks,\nJohn Smith`
+          }
+        ]
+      },
+      {
+        id: '2',
+        type: 'confirmation',
+        read: true,
+        sender: {
+          id: 'jadmin01',
+          name: 'GTV Admin',
+          company: 'Green Tech Vault',
+          avatar: null
+        },
+        recipient: {
+          id: 'jsmith01',
+          name: 'John Smith',
+          company: 'Tech Solutions Inc.'
+        },
+        timestamp: 'March 27, 2025 at 7:56pm',
+        subject: 'Pickup Completed Confirmation',
+        message: `Dear John Smith,\n\nWe've successfully completed your pickup. Thank you for choosing Green Tech Vault for your e-waste recycling needs.\n\nYour pickup details:\n- Date: March 27, 2025\n- Items: 4 devices\n- Weight: 12.8kg\n\nYou'll receive a detailed report of your environmental impact within 5 business days.\n\nBest regards,\nThe Green Tech Vault Team`,
+        thread: [
+          {
+            id: '2-1',
+            sender: {
+              id: 'jadmin01',
+              name: 'GTV Admin',
+              company: 'Green Tech Vault',
+              avatar: null
+            },
+            timestamp: 'March 27, 2025 at 7:56pm',
+            message: `Dear John Smith,\n\nWe've successfully completed your pickup. Thank you for choosing Green Tech Vault for your e-waste recycling needs.\n\nYour pickup details:\n- Date: March 27, 2025\n- Items: 4 devices\n- Weight: 12.8kg\n\nYou'll receive a detailed report of your environmental impact within 5 business days.\n\nBest regards,\nThe Green Tech Vault Team`
+          }
+        ]
+      },
+      {
+        id: '3',
+        type: 'confirmation',
+        read: true,
+        sender: {
+          id: 'jadmin01',
+          name: 'GTV Admin',
+          company: 'Green Tech Vault',
+          avatar: null
+        },
+        recipient: {
+          id: 'username',
+          name: 'John Smith',
+          company: 'Tech Solutions Inc.'
+        },
+        timestamp: 'March 27, 2025 at 7:56pm',
+        subject: 'Pickup Completed Confirmation',
+        message: `Dear John Smith,\n\nWe've successfully completed your pickup. Thank you for choosing Green Tech Vault for your e-waste recycling needs.\n\nYour pickup details:\n- Date: March 27, 2025\n- Items: 4 devices\n- Weight: 12.8kg\n\nYou'll receive a detailed report of your environmental impact within 5 business days.\n\nBest regards,\nThe Green Tech Vault Team`,
+        thread: [
+          {
+            id: '3-1',
+            sender: {
+              id: 'jadmin01',
+              name: 'GTV Admin',
+              company: 'Green Tech Vault',
+              avatar: null
+            },
+            timestamp: 'March 27, 2025 at 7:56pm',
+            message: `Dear John Smith,\n\nWe've successfully completed your pickup. Thank you for choosing Green Tech Vault for your e-waste recycling needs.\n\nYour pickup details:\n- Date: March 27, 2025\n- Items: 4 devices\n- Weight: 12.8kg\n\nYou'll receive a detailed report of your environmental impact within 5 business days.\n\nBest regards,\nThe Green Tech Vault Team`
+          }
+        ]
+      },
+      {
+        id: '4',
+        type: 'question',
+        read: false,
+        sender: {
+          id: 'jsmith01',
+          name: '@jsmith01',
+          company: 'GTV',
+          avatar: null
+        },
+        timestamp: 'March 27, 2025 at 7:56pm',
+        subject: 'Question About my Pickup',
+        message: `Dear Green Tech Vault, I wanted to upgrade my pickup...`,
+        thread: [
+          {
+            id: '4-1',
+            sender: {
+              id: 'jsmith01',
+              name: '@jsmith01',
+              company: 'GTV',
+              avatar: null
+            },
+            timestamp: 'March 27, 2025 at 7:56pm',
+            message: `Dear Green Tech Vault, I wanted to upgrade my pickup...`
+          }
+        ]
+      },
+      {
+        id: '5',
+        type: 'confirmation',
+        read: true,
+        sender: {
+          id: 'jadmin01',
+          name: 'GTV Admin',
+          company: 'Green Tech Vault',
+          avatar: null
+        },
+        recipient: {
+          id: 'username',
+          name: 'John Smith',
+          company: 'Tech Solutions Inc.'
+        },
+        timestamp: 'March 27, 2025 at 7:56pm',
+        subject: 'Pickup Completed Confirmation',
+        message: `Dear John Smith,\n\nWe've successfully completed your pickup...`,
+        thread: [
+          {
+            id: '5-1',
+            sender: {
+              id: 'jadmin01',
+              name: 'GTV Admin',
+              company: 'Green Tech Vault',
+              avatar: null
+            },
+            timestamp: 'March 27, 2025 at 7:56pm',
+            message: `Dear John Smith,\n\nWe've successfully completed your pickup...`
+          }
+        ]
+      },
+      {
+        id: '6',
+        type: 'confirmation',
+        read: true,
+        sender: {
+          id: 'jadmin01',
+          name: 'GTV Admin',
+          company: 'Green Tech Vault',
+          avatar: null
+        },
+        recipient: {
+          id: 'username',
+          name: 'John Smith',
+          company: 'Tech Solutions Inc.'
+        },
+        timestamp: 'March 27, 2025 at 7:56pm',
+        subject: 'Pickup Completed Confirmation',
+        message: `Dear John Smith,\n\nWe've successfully completed your pickup...`,
+        thread: [
+          {
+            id: '6-1',
+            sender: {
+              id: 'jadmin01',
+              name: 'GTV Admin',
+              company: 'Green Tech Vault',
+              avatar: null
+            },
+            timestamp: 'March 27, 2025 at 7:56pm',
+            message: `Dear John Smith,\n\nWe've successfully completed your pickup...`
+          }
+        ]
+      }
+    ];
+    
+    setMessages(mockMessages);
+    setSelectedMessage(mockMessages[0]);
+  }, []);
+
+  const handleMessageSelect = (message) => {
+    // Mark as read when opened
+    if (!message.read) {
+      const updatedMessages = messages.map(msg =>
+        msg.id === message.id ? { ...msg, read: true } : msg
+      );
+      setMessages(updatedMessages);
+    }
+    setSelectedMessage(message);
+  };
+
+  const handleFilterClick = (event) => {
+    setFilterAnchorEl(event.currentTarget);
+  };
+
+  const handleFilterClose = () => {
+    setFilterAnchorEl(null);
+  };
+
+  const handleFilterSelect = (filter) => {
+    setFilter(filter);
+    handleFilterClose();
+  };
+
+  const handleReplySubmit = () => {
+    if (!replyText.trim()) return;
+    
+    const newReply = {
+      id: `${selectedMessage.id}-${selectedMessage.thread.length + 1}`,
+      sender: {
+        id: 'admin',
+        name: 'Me (Admin)',
+        company: 'Green Tech Vault',
+        avatar: null
+      },
+      timestamp: new Date().toLocaleString(),
+      message: replyText
+    };
+
+    // Update the thread of the selected message
+    const updatedSelectedMessage = {
+      ...selectedMessage,
+      thread: [...selectedMessage.thread, newReply]
+    };
+
+    // Update the messages array with the updated thread
+    const updatedMessages = messages.map(msg =>
+      msg.id === selectedMessage.id ? updatedSelectedMessage : msg
+    );
+
+    setMessages(updatedMessages);
+    setSelectedMessage(updatedSelectedMessage);
+    setReplyText('');
+  };
+
+  const handleComposeOpen = () => {
+    setComposeOpen(true);
+  };
+
+  const handleComposeClose = () => {
+    setComposeOpen(false);
+    // Reset compose form data
+    setComposeData({
+      recipient: '',
+      subject: '',
+      message: ''
+    });
+  };
+
+  const handleComposeChange = (e) => {
+    const { name, value } = e.target;
+    setComposeData({
+      ...composeData,
+      [name]: value
+    });
+  };
+
+  const handleComposeSend = () => {
+    // Validate form
+    if (!composeData.recipient || !composeData.subject || !composeData.message) {
+      alert('Please fill in all fields');
+      return;
+    }
+
+    // Create a new message
+    const newMessage = {
+      id: `new-${Date.now()}`,
+      type: 'sent',
+      read: true,
+      sender: {
+        id: 'admin',
+        name: 'Me (Admin)',
+        company: 'Green Tech Vault',
+        avatar: null
+      },
+      recipient: {
+        id: 'recipient',
+        name: composeData.recipient,
+        company: 'Client Company'
+      },
+      timestamp: new Date().toLocaleString(),
+      subject: composeData.subject,
+      message: composeData.message,
+      thread: [
+        {
+          id: `new-${Date.now()}-1`,
+          sender: {
+            id: 'admin',
+            name: 'Me (Admin)',
+            company: 'Green Tech Vault',
+            avatar: null
+          },
+          timestamp: new Date().toLocaleString(),
+          message: composeData.message
+        }
+      ]
+    };
+
+    // Add to messages list
+    setMessages([newMessage, ...messages]);
+    
+    // Close compose dialog
+    handleComposeClose();
+    
+    // Select the newly created message
+    setSelectedMessage(newMessage);
+  };
+
+  const handleDeleteMessages = (messageIds = null) => {
+    // Use provided messageIds or selected messages
+    const idsToDelete = messageIds || selectedMessages;
+    
+    // Delete selected messages
+    const updatedMessages = messages.filter(message => !idsToDelete.includes(message.id));
+    setMessages(updatedMessages);
+    
+    // Reset selected messages
+    setSelectedMessages([]);
+    
+    // If the currently selected message was deleted, clear selection
+    if (selectedMessage && idsToDelete.includes(selectedMessage.id)) {
+      setSelectedMessage(updatedMessages[0] || null);
+    }
+  };
+
+  const handleCheckboxChange = (messageId) => {
+    if (selectedMessages.includes(messageId)) {
+      setSelectedMessages(selectedMessages.filter(id => id !== messageId));
+    } else {
+      setSelectedMessages([...selectedMessages, messageId]);
+    }
+  };
+
+  const getStatusColor = (type) => {
+    switch (type) {
+      case 'question':
+        return '#fd8700'; // Orange
+      case 'confirmation':
+        return '#4ECDC4'; // Teal
+      default:
+        return '#9e9e9e'; // Gray
+    }
+  };
+
+  const filteredMessages = messages.filter(message => {
+    if (filter !== 'All' && filter.toLowerCase() !== message.type) {
+      return false;
+    }
+    
+    if (searchTerm) {
+      const searchTermLower = searchTerm.toLowerCase();
+      return (
+        message.subject.toLowerCase().includes(searchTermLower) ||
+        message.message.toLowerCase().includes(searchTermLower) ||
+        message.sender.name.toLowerCase().includes(searchTermLower)
+      );
+    }
+    
+    return true;
+  });
+
+  return (
+    <AdminLayout>
+      <Box sx={{ p: 3 }}>
+        <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>Messages</Typography>
+        
+        <Grid container spacing={2}>
+          {/* Messages List */}
+          <Grid item xs={12} md={4}>
+            <Paper sx={{ p: 2, height: '80vh', display: 'flex', flexDirection: 'column' }}>
+              {/* Compose Button */}
+              <Box sx={{ mb: 2 }}>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  onClick={handleComposeOpen}
+                  sx={{
+                    bgcolor: '#4ECDC4',
+                    '&:hover': { bgcolor: '#3dbdb5' },
+                    borderRadius: '4px',
+                    py: 1,
+                    mb: 2
+                  }}
+                >
+                  + Compose Message
+                </Button>
+              </Box>
+              
+              {/* Search and Filter */}
+              <Box sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ 
+                  display: 'flex',
+                  alignItems: 'center',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '4px',
+                  px: 1.5,
+                  py: 0.5,
+                  mr: 1,
+                  flex: 1
+                }}>
+                  <SearchIcon sx={{ color: '#aaa', mr: 1, fontSize: '1.2rem' }} />
+                  <InputBase 
+                    placeholder="Search here" 
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    sx={{ fontSize: '0.9rem', width: '100%' }}
+                  />
+                </Box>
+                <IconButton 
+                  onClick={handleFilterClick}
+                  size="small"
+                  sx={{ border: '1px solid #e0e0e0', p: 1 }}
+                >
+                  <FilterListIcon fontSize="small" />
+                </IconButton>
+                <Menu
+                  anchorEl={filterAnchorEl}
+                  open={Boolean(filterAnchorEl)}
+                  onClose={handleFilterClose}
+                >
+                  <MenuItem onClick={() => handleFilterSelect('All')}>All</MenuItem>
+                  <MenuItem onClick={() => handleFilterSelect('question')}>Questions</MenuItem>
+                  <MenuItem onClick={() => handleFilterSelect('confirmation')}>Confirmations</MenuItem>
+                </Menu>
+              </Box>
+              
+              {/* Bulk Actions */}
+              {selectedMessages.length > 0 && (
+                <Box sx={{ 
+                  mb: 2, 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  p: 1.5, 
+                  bgcolor: '#f5f5f5',
+                  borderRadius: 1
+                }}>
+                  <Typography variant="body2" sx={{ mr: 2 }}>
+                    {selectedMessages.length} selected
+                  </Typography>
+                  <IconButton 
+                    size="small" 
+                    onClick={() => handleDeleteMessages()}
+                    title="Delete selected messages"
+                    sx={{ 
+                      color: '#E05050',
+                      '&:hover': { bgcolor: 'rgba(224, 80, 80, 0.08)' }
+                    }}
+                  >
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton 
+                    size="small" 
+                    title="Archive selected messages"
+                    sx={{ 
+                      ml: 1,
+                      color: '#666',
+                      '&:hover': { bgcolor: 'rgba(102, 102, 102, 0.08)' }
+                    }}
+                  >
+                    <ArchiveIcon fontSize="small" />
+                  </IconButton>
+                </Box>
+              )}
+              
+              {/* Message List */}
+              <List sx={{ flex: 1, overflow: 'auto' }}>
+                {filteredMessages.map((message) => (
+                  <ListItem 
+                    key={message.id}
+                    alignItems="flex-start"
+                    sx={{ 
+                      p: 1.5, 
+                      borderBottom: '1px solid #f0f0f0',
+                      bgcolor: selectedMessage?.id === message.id ? '#f5f5f5' : 'transparent',
+                      cursor: 'pointer',
+                      '&:hover': { bgcolor: '#f9f9f9' },
+                    }}
+                    onClick={() => handleMessageSelect(message)}
+                  >
+                    <Box sx={{ display: 'flex', width: '100%' }}>
+                      <Box sx={{ mr: 1.5 }}>
+                        <Checkbox 
+                          size="small" 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCheckboxChange(message.id);
+                          }}
+                          checked={selectedMessages.includes(message.id)}
+                        />
+                      </Box>
+                      <Box sx={{ flex: 1, overflow: 'hidden' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          {!message.read && (
+                            <CircleIcon sx={{ color: getStatusColor(message.type), fontSize: 10, mr: 1 }} />
+                          )}
+                          <Box
+                            component="span"
+                            sx={{
+                              display: 'inline-block',
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              fontWeight: message.read ? 'normal' : 'bold',
+                            }}
+                          >
+                            {message.timestamp}
+                          </Box>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <Typography
+                            sx={{
+                              display: 'inline-block',
+                              fontWeight: message.read ? 'normal' : 'bold',
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              fontSize: '0.95rem',
+                            }}
+                          >
+                            {message.subject}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{
+                              display: 'inline-block',
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                            }}
+                          >
+                            {message.sender.name}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{
+                              display: '-webkit-box',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              WebkitLineClamp: 1,
+                              WebkitBoxOrient: 'vertical',
+                            }}
+                          >
+                            {message.message.split('\n')[0]}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </ListItem>
+                ))}
+              </List>
+            </Paper>
+          </Grid>
+          
+          {/* Message Content */}
+          <Grid item xs={12} md={8}>
+            {selectedMessage ? (
+              <Paper sx={{ p: 3, height: '80vh', display: 'flex', flexDirection: 'column' }}>
+                {/* Message Header */}
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="h6" gutterBottom>
+                    {selectedMessage.subject}
+                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                    <Avatar sx={{ width: 40, height: 40, mr: 2, bgcolor: getStatusColor(selectedMessage.type) }}>
+                      {selectedMessage.sender.name.charAt(1).toUpperCase()}
+                    </Avatar>
+                    <Box sx={{ flex: 1 }}>
+                      <Typography variant="subtitle2">
+                        {selectedMessage.sender.name}, {selectedMessage.sender.company}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {selectedMessage.timestamp}
+                      </Typography>
+                    </Box>
+                    
+                    {/* Message Actions */}
+                    <Box>
+                      <IconButton 
+                        size="small" 
+                        title="Reply"
+                        sx={{ 
+                          color: '#4ECDC4',
+                          border: '1px solid #e0e0e0',
+                          borderRadius: '50%',
+                          p: 1,
+                          mr: 0.75,
+                          width: 36,
+                          height: 36,
+                          '&:hover': {
+                            bgcolor: 'rgba(78, 205, 196, 0.08)',
+                          }
+                        }}
+                      >
+                        <ReplyIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton 
+                        size="small" 
+                        title="Forward"
+                        sx={{ 
+                          color: '#4ECDC4',
+                          border: '1px solid #e0e0e0',
+                          borderRadius: '50%',
+                          p: 1,
+                          mr: 0.75,
+                          width: 36,
+                          height: 36,
+                          '&:hover': {
+                            bgcolor: 'rgba(78, 205, 196, 0.08)',
+                          }
+                        }}
+                      >
+                        <ForwardIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton 
+                        size="small" 
+                        title="Delete"
+                        onClick={() => {
+                          handleDeleteMessages([selectedMessage.id]);
+                        }}
+                        sx={{ 
+                          color: '#E05050',
+                          border: '1px solid #e0e0e0',
+                          borderRadius: '50%',
+                          p: 1,
+                          width: 36,
+                          height: 36,
+                          '&:hover': {
+                            bgcolor: 'rgba(224, 80, 80, 0.08)',
+                          }
+                        }}
+                      >
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                    </Box>
+                  </Box>
+                </Box>
+                
+                {/* Message Thread */}
+                <Box sx={{ flex: 1, overflow: 'auto', mb: 3 }}>
+                  {selectedMessage.thread.map((message, index) => (
+                    <Box key={message.id} sx={{ mb: 4 }}>
+                      {index > 0 && <Divider sx={{ my: 3 }} />}
+                      <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+                        <Avatar sx={{ width: 40, height: 40, mr: 2, bgcolor: message.sender.id === 'admin' ? '#4ECDC4' : '#1C392B' }}>
+                          {message.sender.name.charAt(1).toUpperCase()}
+                        </Avatar>
+                        <Box sx={{ flex: 1 }}>
+                          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                            <Typography variant="subtitle2">
+                              {message.sender.name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              {message.timestamp}
+                            </Typography>
+                          </Box>
+                          <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
+                            {message.message}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Box>
+                  ))}
+                </Box>
+                
+                {/* Reply Section */}
+                <Box sx={{ mt: 'auto', pt: 2, borderTop: '1px solid #e0e0e0' }}>
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={3}
+                    placeholder="Type your reply here..."
+                    variant="outlined"
+                    value={replyText}
+                    onChange={(e) => setReplyText(e.target.value)}
+                    sx={{ mb: 2 }}
+                  />
+                  <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button
+                      variant="contained"
+                      endIcon={<SendIcon />}
+                      onClick={handleReplySubmit}
+                      sx={{
+                        bgcolor: '#4ECDC4',
+                        '&:hover': { bgcolor: '#3dbdb5' },
+                      }}
+                    >
+                      Send
+                    </Button>
+                  </Box>
+                </Box>
+              </Paper>
+            ) : (
+              <Paper sx={{ p: 3, height: '80vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Typography variant="body1" color="text.secondary">
+                  Select a message to view
+                </Typography>
+              </Paper>
+            )}
+          </Grid>
+        </Grid>
+      </Box>
+      
+      {/* Compose Message Dialog */}
+      <Dialog 
+        open={composeOpen} 
+        onClose={handleComposeClose}
+        maxWidth="md"
+        fullWidth
+      >
+        <Box sx={{ p: 3 }}>
+          <Typography variant="h6" sx={{ mb: 3 }}>New Message</Typography>
+          
+          <TextField
+            fullWidth
+            label="To"
+            name="recipient"
+            value={composeData.recipient}
+            onChange={handleComposeChange}
+            placeholder="Enter recipient name or email"
+            sx={{ mb: 3 }}
+          />
+          
+          <TextField
+            fullWidth
+            label="Subject"
+            name="subject"
+            value={composeData.subject}
+            onChange={handleComposeChange}
+            placeholder="Enter subject"
+            sx={{ mb: 3 }}
+          />
+          
+          <TextField
+            fullWidth
+            multiline
+            rows={10}
+            label="Message"
+            name="message"
+            value={composeData.message}
+            onChange={handleComposeChange}
+            placeholder="Type your message here..."
+            sx={{ mb: 3 }}
+          />
+          
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button 
+              onClick={handleComposeClose}
+              sx={{ mr: 2 }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleComposeSend}
+              sx={{
+                bgcolor: '#4ECDC4',
+                '&:hover': { bgcolor: '#3dbdb5' },
+              }}
+            >
+              Send
+            </Button>
+          </Box>
+        </Box>
+      </Dialog>
+    </AdminLayout>
+  );
+};
+
+export default AdminMessages; 
