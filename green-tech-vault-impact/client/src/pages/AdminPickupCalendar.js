@@ -548,7 +548,7 @@ const AdminPickupCalendar = () => {
               Back to Dashboard
             </Button>
             <Typography variant="h5" sx={{ ml: 2, fontWeight: 500 }}>
-              Pickup Calendar
+              Calendar
             </Typography>
           </Box>
           <Button
@@ -574,6 +574,8 @@ const AdminPickupCalendar = () => {
                 startAccessor="scheduledDate"
                 endAccessor="scheduledDate"
                 views={['month', 'week', 'day', 'agenda']}
+                view={calendarView}
+                onView={handleViewChange}
                 style={{ height: 'calc(100% - 10px)' }}
                 eventPropGetter={eventStyleGetter}
                 onSelectEvent={handleSelectEvent}
