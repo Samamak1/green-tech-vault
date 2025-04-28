@@ -42,7 +42,8 @@ import {
   Person as ClientIcon,
   SupervisorAccount as AdminIcon,
   DraftsOutlined as MarkReadIcon,
-  FolderOutlined as MoveToIcon
+  FolderOutlined as MoveToIcon,
+  ArrowDropDown as ArrowDropDownIcon
 } from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
 
@@ -61,6 +62,8 @@ const AdminMessages = () => {
     subject: '',
     message: ''
   });
+  const [templatesAnchorEl, setTemplatesAnchorEl] = useState(null);
+  const [automatedAnchorEl, setAutomatedAnchorEl] = useState(null);
 
   // Mock data for messages
   useEffect(() => {
@@ -528,6 +531,28 @@ const AdminMessages = () => {
     return true;
   });
 
+  const handleTemplatesClick = (event) => {
+    setTemplatesAnchorEl(event.currentTarget);
+  };
+
+  const handleTemplatesClose = () => {
+    setTemplatesAnchorEl(null);
+  };
+
+  const handleAutomatedClick = (event) => {
+    setAutomatedAnchorEl(event.currentTarget);
+  };
+
+  const handleAutomatedClose = () => {
+    setAutomatedAnchorEl(null);
+  };
+
+  const handleAutomatedSelect = (template) => {
+    // In a real app, this would insert the template text into the reply field
+    setReplyText(template);
+    handleAutomatedClose();
+  };
+
   return (
     <AdminLayout>
       <Box sx={{ p: 3 }}>
@@ -918,6 +943,8 @@ const AdminMessages = () => {
                       <Button 
                         variant="outlined"
                         size="small" 
+                        endIcon={<ArrowDropDownIcon />}
+                        onClick={handleTemplatesClick}
                         sx={{ 
                           color: '#4ECDC4',
                           borderColor: '#e0e0e0',
@@ -935,9 +962,24 @@ const AdminMessages = () => {
                       >
                         Message Templates
                       </Button>
+                      <Menu
+                        anchorEl={templatesAnchorEl}
+                        open={Boolean(templatesAnchorEl)}
+                        onClose={handleTemplatesClose}
+                      >
+                        <MenuItem onClick={handleTemplatesClose}>
+                          <ListItemText>Template 1</ListItemText>
+                        </MenuItem>
+                        <MenuItem onClick={handleTemplatesClose}>
+                          <ListItemText>Template 2</ListItemText>
+                        </MenuItem>
+                      </Menu>
+                      
                       <Button 
                         variant="outlined"
                         size="small" 
+                        endIcon={<ArrowDropDownIcon />}
+                        onClick={handleAutomatedClick}
                         sx={{ 
                           color: '#4ECDC4',
                           borderColor: '#e0e0e0',
@@ -955,6 +997,25 @@ const AdminMessages = () => {
                       >
                         Automated Messages
                       </Button>
+                      <Menu
+                        anchorEl={automatedAnchorEl}
+                        open={Boolean(automatedAnchorEl)}
+                        onClose={handleAutomatedClose}
+                      >
+                        <MenuItem onClick={() => handleAutomatedSelect("Dear Client,\n\nWe're pleased to confirm your upcoming pickup has been scheduled. Our team will arrive on [DATE] between [TIME RANGE].\n\nPlease ensure all devices are ready for collection.\n\nThank you for choosing Green Tech Vault for your e-waste recycling needs.")}>
+                          <ListItemText>Pickup Scheduling Confirmation</ListItemText>
+                        </MenuItem>
+                        <MenuItem onClick={() => handleAutomatedSelect("Dear Client,\n\nThis is a friendly reminder that your scheduled pickup is 24 hours away. Our team will arrive tomorrow between [TIME RANGE].\n\nIf you need to make any changes, please contact us immediately.\n\nThank you for choosing Green Tech Vault.")}>
+                          <ListItemText>24 Hours Until Your Pickup</ListItemText>
+                        </MenuItem>
+                        <MenuItem onClick={() => handleAutomatedSelect("Dear Client,\n\nOur driver is on the way to your location and should arrive within the next 30 minutes.\n\nPlease ensure all items are accessible for our team to minimize collection time.\n\nThank you for your cooperation.")}>
+                          <ListItemText>Driver On The Way</ListItemText>
+                        </MenuItem>
+                        <MenuItem onClick={() => handleAutomatedSelect("Dear Client,\n\nWe've successfully completed your pickup. Thank you for choosing Green Tech Vault for your e-waste recycling needs.\n\nYour pickup details:\n- Date: [DATE]\n- Items: [NUMBER] devices\n- Weight: [WEIGHT]kg\n\nYou'll receive a detailed report of your environmental impact within 5 business days.\n\nBest regards,\nThe Green Tech Vault Team")}>
+                          <ListItemText>Pickup Complete Confirmation</ListItemText>
+                        </MenuItem>
+                      </Menu>
+                      
                       <IconButton 
                         size="small" 
                         title="Reply"
