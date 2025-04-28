@@ -723,7 +723,7 @@ const AdminMessages = () => {
                     </MenuItem>
                     <MenuItem onClick={() => handleMoveTo('archive')}>
                       <ListItemIcon>
-                        <ArchiveIcon fontSize="small" />
+                        <DeletedIcon fontSize="small" />
                       </ListItemIcon>
                       <ListItemText>Archive</ListItemText>
                     </MenuItem>
@@ -741,7 +741,7 @@ const AdminMessages = () => {
                     </MenuItem>
                     <MenuItem onClick={() => handleMoveTo('trash')}>
                       <ListItemIcon>
-                        <DeletedIcon fontSize="small" />
+                        <ArchiveIcon fontSize="small" />
                       </ListItemIcon>
                       <ListItemText>Trash</ListItemText>
                     </MenuItem>
