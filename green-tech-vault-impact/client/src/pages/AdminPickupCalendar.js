@@ -39,6 +39,54 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import AdminLayout from '../components/layout/AdminLayout';
 
+// Custom CSS for calendar scaling
+const calendarStyles = {
+  '.rbc-toolbar': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-toolbar button': {
+    padding: '3px 6px',
+    fontSize: '0.75rem',
+  },
+  '.rbc-header': {
+    padding: '3px 3px',
+    fontSize: '0.75rem',
+  },
+  '.rbc-event': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-time-header-content': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-time-view .rbc-header': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-time-content': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-time-gutter': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-agenda-view table.rbc-agenda-table': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-row-segment .rbc-event-content': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-date-cell': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-month-view': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-btn-group button': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-calendar': {
+    fontSize: '0.75rem',
+  }
+};
+
 // Set up the localizer for react-big-calendar
 const localizer = momentLocalizer(moment);
 
@@ -53,7 +101,7 @@ const formatEventDates = (events) => {
 
 // Custom event component
 const EventComponent = ({ event }) => (
-  <Box sx={{ fontSize: '0.85rem', padding: '2px' }}>
+  <Box sx={{ fontSize: '0.75rem', padding: '2px' }}>
     <strong>{event.clientName}</strong>
     <br />
     {event.location}
@@ -154,6 +202,32 @@ const AdminPickupCalendar = () => {
       generateMockEvents();
     }
   }, [pickups]);
+
+  useEffect(() => {
+    // Apply custom CSS for calendar scaling
+    const styleElement = document.createElement('style');
+    styleElement.innerHTML = `
+      .rbc-toolbar { font-size: 0.75rem !important; }
+      .rbc-toolbar button { padding: 3px 6px !important; font-size: 0.75rem !important; }
+      .rbc-header { padding: 3px 3px !important; font-size: 0.75rem !important; }
+      .rbc-event { font-size: 0.75rem !important; }
+      .rbc-time-header-content { font-size: 0.75rem !important; }
+      .rbc-time-view .rbc-header { font-size: 0.75rem !important; }
+      .rbc-time-content { font-size: 0.75rem !important; }
+      .rbc-time-gutter { font-size: 0.75rem !important; }
+      .rbc-agenda-view table.rbc-agenda-table { font-size: 0.75rem !important; }
+      .rbc-row-segment .rbc-event-content { font-size: 0.75rem !important; }
+      .rbc-date-cell { font-size: 0.75rem !important; }
+      .rbc-month-view { font-size: 0.75rem !important; }
+      .rbc-btn-group button { font-size: 0.75rem !important; }
+      .rbc-calendar { font-size: 0.75rem !important; }
+    `;
+    document.head.appendChild(styleElement);
+
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, []);
 
   const fetchPickups = async () => {
     try {
@@ -588,7 +662,7 @@ const AdminPickupCalendar = () => {
             >
               Back to Dashboard
             </Button>
-            <Typography variant="h5" sx={{ ml: 2, fontWeight: 500 }}>
+            <Typography variant="h5" sx={{ ml: 2, fontWeight: 500, fontSize: '1.1rem' }}>
               Calendar
             </Typography>
           </Box>
@@ -599,7 +673,10 @@ const AdminPickupCalendar = () => {
             sx={{ 
               bgcolor: '#1C392B', 
               '&:hover': { bgcolor: '#152b21' },
-              textTransform: 'none'
+              textTransform: 'none',
+              fontSize: '0.75rem',
+              py: 0.75,
+              px: 2
             }}
           >
             Schedule Pickup
@@ -639,7 +716,7 @@ const AdminPickupCalendar = () => {
                 <IconButton size="small" onClick={handleMiniCalendarPrev}>
                   <ChevronLeftIcon fontSize="small" />
                 </IconButton>
-                <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 700, fontSize: '0.85rem' }}>
                   {new Date(miniCalendarYear, miniCalendarMonth).toLocaleString('default', { month: 'long' })} {miniCalendarYear}
                 </Typography>
                 <IconButton size="small" onClick={handleMiniCalendarNext}>
@@ -652,7 +729,7 @@ const AdminPickupCalendar = () => {
                   <Grid container>
                     {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(day => (
                       <Grid item xs align="center" key={day}>
-                        <Typography variant="caption" sx={{ color: '#666' }}>
+                        <Typography variant="caption" sx={{ color: '#666', fontSize: '0.7rem' }}>
                           {day}
                         </Typography>
                       </Grid>
@@ -736,7 +813,7 @@ const AdminPickupCalendar = () => {
                                     } : {})
                                   }}
                                 >
-                                  <Typography variant="caption">{day.day}</Typography>
+                                  <Typography variant="caption" sx={{ fontSize: '0.7rem' }}>{day.day}</Typography>
                                 </Box>
                               </Grid>
                             ))}
@@ -751,7 +828,7 @@ const AdminPickupCalendar = () => {
             
             {/* Calendar filters */}
             <Paper sx={{ p: 2, borderRadius: 1 }}>
-              <Typography variant="h6" sx={{ mb: 2 }}>Calendars</Typography>
+              <Typography variant="h6" sx={{ mb: 2, fontSize: '0.9rem', fontWeight: 500 }}>Calendars</Typography>
               
               <FormGroup>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -765,14 +842,16 @@ const AdminPickupCalendar = () => {
                           '& .MuiSwitch-switchBase.Mui-checked': { color: '#1C392B' },
                           '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#1C392B' }
                         }}
+                        size="small"
                       />
                     } 
                     label="Pickups" 
+                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.75rem' } }}
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#1C392B', mr: 1 }} />
+                    <Box sx={{ width: 14, height: 14, borderRadius: '50%', bgcolor: '#1C392B', mr: 1 }} />
                     <IconButton size="small">
-                      <MoreVertIcon fontSize="small" />
+                      <MoreVertIcon sx={{ fontSize: '1rem' }} />
                     </IconButton>
                   </Box>
                 </Box>
@@ -788,14 +867,16 @@ const AdminPickupCalendar = () => {
                           '& .MuiSwitch-switchBase.Mui-checked': { color: '#379683' },
                           '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#379683' }
                         }}
+                        size="small"
                       />
                     } 
                     label="Deliveries" 
+                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.75rem' } }}
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#379683', mr: 1 }} />
+                    <Box sx={{ width: 14, height: 14, borderRadius: '50%', bgcolor: '#379683', mr: 1 }} />
                     <IconButton size="small">
-                      <MoreVertIcon fontSize="small" />
+                      <MoreVertIcon sx={{ fontSize: '1rem' }} />
                     </IconButton>
                   </Box>
                 </Box>
@@ -811,14 +892,16 @@ const AdminPickupCalendar = () => {
                           '& .MuiSwitch-switchBase.Mui-checked': { color: '#1D3557' },
                           '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#1D3557' }
                         }}
+                        size="small"
                       />
                     } 
                     label="GTV Events" 
+                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.75rem' } }}
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#1D3557', mr: 1 }} />
+                    <Box sx={{ width: 14, height: 14, borderRadius: '50%', bgcolor: '#1D3557', mr: 1 }} />
                     <IconButton size="small">
-                      <MoreVertIcon fontSize="small" />
+                      <MoreVertIcon sx={{ fontSize: '1rem' }} />
                     </IconButton>
                   </Box>
                 </Box>
@@ -834,14 +917,16 @@ const AdminPickupCalendar = () => {
                           '& .MuiSwitch-switchBase.Mui-checked': { color: '#F6AE2D' },
                           '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#F6AE2D' }
                         }}
+                        size="small"
                       />
                     } 
                     label="Internal Events" 
+                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.75rem' } }}
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#F6AE2D', mr: 1 }} />
+                    <Box sx={{ width: 14, height: 14, borderRadius: '50%', bgcolor: '#F6AE2D', mr: 1 }} />
                     <IconButton size="small">
-                      <MoreVertIcon fontSize="small" />
+                      <MoreVertIcon sx={{ fontSize: '1rem' }} />
                     </IconButton>
                   </Box>
                 </Box>
@@ -857,14 +942,16 @@ const AdminPickupCalendar = () => {
                           '& .MuiSwitch-switchBase.Mui-checked': { color: '#F26419' },
                           '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#F26419' }
                         }}
+                        size="small"
                       />
                     } 
                     label="Promotions" 
+                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.75rem' } }}
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#F26419', mr: 1 }} />
+                    <Box sx={{ width: 14, height: 14, borderRadius: '50%', bgcolor: '#F26419', mr: 1 }} />
                     <IconButton size="small">
-                      <MoreVertIcon fontSize="small" />
+                      <MoreVertIcon sx={{ fontSize: '1rem' }} />
                     </IconButton>
                   </Box>
                 </Box>
@@ -880,14 +967,16 @@ const AdminPickupCalendar = () => {
                           '& .MuiSwitch-switchBase.Mui-checked': { color: '#E63946' },
                           '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#E63946' }
                         }}
+                        size="small"
                       />
                     } 
                     label="Challenges" 
+                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.75rem' } }}
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 16, height: 16, borderRadius: '50%', bgcolor: '#E63946', mr: 1 }} />
+                    <Box sx={{ width: 14, height: 14, borderRadius: '50%', bgcolor: '#E63946', mr: 1 }} />
                     <IconButton size="small">
-                      <MoreVertIcon fontSize="small" />
+                      <MoreVertIcon sx={{ fontSize: '1rem' }} />
                     </IconButton>
                   </Box>
                 </Box>
@@ -898,7 +987,7 @@ const AdminPickupCalendar = () => {
         
         {/* Schedule Dialog */}
         <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-          <DialogTitle>
+          <DialogTitle sx={{ fontSize: '1rem' }}>
             Schedule New Pickup
           </DialogTitle>
           <DialogContent>
@@ -912,6 +1001,9 @@ const AdminPickupCalendar = () => {
                   value={formData.clientId}
                   onChange={handleFormChange}
                   required
+                  InputProps={{ style: { fontSize: '0.75rem' } }}
+                  InputLabelProps={{ style: { fontSize: '0.75rem' } }}
+                  sx={{ '& .MuiMenuItem-root': { fontSize: '0.75rem' } }}
                 >
                   {clients.map((client) => (
                     <MenuItem key={client.id} value={client.id}>
@@ -928,7 +1020,11 @@ const AdminPickupCalendar = () => {
                   type="date"
                   value={formData.scheduledDate}
                   onChange={handleFormChange}
-                  InputLabelProps={{ shrink: true }}
+                  InputLabelProps={{ 
+                    shrink: true,
+                    style: { fontSize: '0.75rem' }
+                  }}
+                  InputProps={{ style: { fontSize: '0.75rem' } }}
                   required
                 />
               </Grid>
@@ -940,6 +1036,8 @@ const AdminPickupCalendar = () => {
                   value={formData.location}
                   onChange={handleFormChange}
                   required
+                  InputProps={{ style: { fontSize: '0.75rem' } }}
+                  InputLabelProps={{ style: { fontSize: '0.75rem' } }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -950,6 +1048,8 @@ const AdminPickupCalendar = () => {
                   value={formData.contactPerson}
                   onChange={handleFormChange}
                   required
+                  InputProps={{ style: { fontSize: '0.75rem' } }}
+                  InputLabelProps={{ style: { fontSize: '0.75rem' } }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -960,6 +1060,8 @@ const AdminPickupCalendar = () => {
                   value={formData.contactPhone}
                   onChange={handleFormChange}
                   required
+                  InputProps={{ style: { fontSize: '0.75rem' } }}
+                  InputLabelProps={{ style: { fontSize: '0.75rem' } }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -971,16 +1073,19 @@ const AdminPickupCalendar = () => {
                   onChange={handleFormChange}
                   multiline
                   rows={3}
+                  InputProps={{ style: { fontSize: '0.75rem' } }}
+                  InputLabelProps={{ style: { fontSize: '0.75rem' } }}
                 />
               </Grid>
             </Grid>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseDialog}>Cancel</Button>
+            <Button onClick={handleCloseDialog} sx={{ fontSize: '0.75rem' }}>Cancel</Button>
             <Button 
               onClick={handleSubmit} 
               variant="contained"
               disabled={!formData.clientId || !formData.scheduledDate || !formData.location}
+              sx={{ fontSize: '0.75rem' }}
             >
               Schedule
             </Button>
