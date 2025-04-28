@@ -16,7 +16,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Chip
+  Chip,
+  Checkbox,
+  Avatar
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
@@ -26,11 +28,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EmailIcon from '@mui/icons-material/Email';
 import SmsIcon from '@mui/icons-material/Sms';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AdminLayout from '../components/layout/AdminLayout';
 
 const TrialPage = () => {
   const [tabValue, setTabValue] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
+  const [checkedMessages, setCheckedMessages] = useState([]);
+  const [starredMessages, setStarredMessages] = useState([]);
 
   // Mock data for announcements
   const announcements = [
@@ -104,8 +111,70 @@ const TrialPage = () => {
     }
   ];
 
+  // Mock data for inbox messages (client view)
+  const inboxMessages = [
+    {
+      id: 1,
+      title: 'Monthly Challenge!',
+      sender: 'GTV Admin',
+      preview: 'Hello Zworpers! A big welcome from the GTV team to our first Monthly challenge! Here is how you get...',
+      date: 'March 27th, 2025, 7:56pm',
+      read: false
+    },
+    {
+      id: 2,
+      title: 'Event',
+      sender: 'GTV Admin, Usernames',
+      preview: 'Join us at GTV\'s first hosted event. There will be educational booths, food,',
+      date: 'March 27th, 2025, 7:56pm',
+      read: true
+    },
+    {
+      id: 3,
+      title: 'Come Join Us!',
+      sender: 'GTV Admin, usernames',
+      preview: 'Green Tech Vault will be speaking at a confrence in Columbus 07/03/2026. Come listen and learn about the...',
+      date: 'March 27th, 2025, 7:56pm',
+      read: false
+    },
+    {
+      id: 4,
+      title: 'Title',
+      sender: 'Participants',
+      preview: 'This will be the first sentence of the message/announcement, once it gets to long it will be followed with a ...',
+      date: 'March 27th, 2025, 7:56pm',
+      read: true
+    },
+    {
+      id: 5,
+      title: 'Title',
+      sender: 'Participants',
+      preview: 'This will be the first sentence of the message/announcement, once it gets to long it will be followed with a ...',
+      date: 'March 27th, 2025, 7:56pm',
+      read: true
+    }
+  ];
+
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
+  };
+
+  // Handle checkbox selection for client view messages
+  const handleCheckMessage = (messageId) => {
+    setCheckedMessages(prev => 
+      prev.includes(messageId) 
+        ? prev.filter(id => id !== messageId) 
+        : [...prev, messageId]
+    );
+  };
+
+  // Handle star toggling for client view messages
+  const handleStarMessage = (messageId) => {
+    setStarredMessages(prev => 
+      prev.includes(messageId) 
+        ? prev.filter(id => id !== messageId) 
+        : [...prev, messageId]
+    );
   };
 
   // Function to render channel icons
@@ -301,6 +370,7 @@ const TrialPage = () => {
               }
             }}
           >
+            <Tab label="Client View" />
             <Tab label="All Announcements" />
             <Tab label="Scheduled Announcements" />
             <Tab label="Automations" />
@@ -309,8 +379,158 @@ const TrialPage = () => {
           </Tabs>
         </Box>
         
-        {/* All Announcements Tab */}
+        {/* Client View Tab */}
         {tabValue === 0 && (
+          <Paper sx={{ width: '100%', overflow: 'hidden', borderRadius: '8px', boxShadow: '0px 2px 4px rgba(0,0,0,0.05)' }}>
+            {inboxMessages.map((message, index) => (
+              <Box 
+                key={message.id} 
+                sx={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  py: 1.25,
+                  px: 2,
+                  borderBottom: index < inboxMessages.length - 1 ? '1px solid #f0f0f0' : 'none',
+                  bgcolor: message.read ? 'transparent' : 'rgba(78, 205, 196, 0.05)',
+                  '&:hover': { bgcolor: '#f9f9f9' },
+                  cursor: 'pointer'
+                }}
+              >
+                <Checkbox 
+                  size="small" 
+                  sx={{ p: 0.5, mr: 1 }}
+                  checked={checkedMessages.includes(message.id)}
+                  onChange={() => handleCheckMessage(message.id)}
+                  onClick={(e) => e.stopPropagation()}
+                />
+                
+                <IconButton 
+                  size="small" 
+                  sx={{ p: 0.5, mr: 1, color: starredMessages.includes(message.id) ? '#F2C94C' : '#C4C4C4' }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleStarMessage(message.id);
+                  }}
+                >
+                  {starredMessages.includes(message.id) ? <StarIcon fontSize="small" /> : <StarBorderIcon fontSize="small" />}
+                </IconButton>
+                
+                <Box 
+                  sx={{ 
+                    width: 40, 
+                    height: 40, 
+                    bgcolor: '#eee', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center',
+                    mr: 2,
+                    borderRadius: '4px',
+                    overflow: 'hidden'
+                  }}
+                >
+                  <img 
+                    src="/path/to/image-placeholder.jpg" 
+                    alt=""
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjZWVlIi8+PC9zdmc+';
+                    }}
+                  />
+                </Box>
+                
+                <Box sx={{ flex: 1, overflow: 'hidden' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'baseline', mb: 0.5 }}>
+                    <Typography 
+                      variant="subtitle2" 
+                      sx={{ 
+                        fontWeight: message.read ? 'normal' : 'bold', 
+                        color: '#000',
+                        mr: 1,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
+                      }}
+                    >
+                      {message.title}
+                    </Typography>
+                    
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        color: '#777',
+                        fontSize: '0.75rem',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      {message.sender}
+                    </Typography>
+                  </Box>
+                  
+                  <Typography 
+                    variant="body2" 
+                    sx={{ 
+                      color: '#666',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      fontSize: '0.8rem'
+                    }}
+                  >
+                    {message.preview}
+                  </Typography>
+                </Box>
+                
+                <Box sx={{ ml: 3, display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                  <Box 
+                    sx={{ 
+                      width: 10, 
+                      height: 10, 
+                      borderRadius: '50%', 
+                      bgcolor: message.read ? 'transparent' : '#E76F51',
+                      mb: 0.5,
+                      mr: 0.5
+                    }} 
+                  />
+                  
+                  <Typography 
+                    variant="caption" 
+                    sx={{ 
+                      fontSize: '0.7rem', 
+                      color: '#666',
+                      mb: 0.5,
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    Sent on:
+                  </Typography>
+                  
+                  <Typography 
+                    variant="caption" 
+                    sx={{ 
+                      fontSize: '0.7rem', 
+                      color: '#666',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    {message.date}
+                  </Typography>
+                  
+                  <IconButton 
+                    size="small" 
+                    sx={{ p: 0.5, mt: 0.5 }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <MoreVertIcon sx={{ fontSize: '1rem', color: '#999' }} />
+                  </IconButton>
+                </Box>
+              </Box>
+            ))}
+          </Paper>
+        )}
+        
+        {/* All Announcements Tab */}
+        {tabValue === 1 && (
           <Paper sx={{ width: '100%', overflow: 'hidden', borderRadius: '8px', boxShadow: '0px 2px 4px rgba(0,0,0,0.05)' }}>
             <TableContainer>
               <Table size="small" aria-label="announcements table" sx={{ tableLayout: 'fixed' }}>
@@ -413,8 +633,8 @@ const TrialPage = () => {
           </Paper>
         )}
         
-        {/* Scheduled Announcements Tab - Same styling as All Announcements */}
-        {tabValue === 1 && (
+        {/* Scheduled Announcements Tab */}
+        {tabValue === 2 && (
           <Paper sx={{ width: '100%', overflow: 'hidden', borderRadius: '8px', boxShadow: '0px 2px 4px rgba(0,0,0,0.05)' }}>
             <TableContainer>
               <Table size="small" aria-label="scheduled announcements table" sx={{ tableLayout: 'fixed' }}>
@@ -520,7 +740,7 @@ const TrialPage = () => {
         )}
         
         {/* Automations Tab */}
-        {tabValue === 2 && (
+        {tabValue === 3 && (
           <Paper sx={{ width: '100%', overflow: 'hidden', borderRadius: '8px', boxShadow: '0px 2px 4px rgba(0,0,0,0.05)' }}>
             <TableContainer>
               <Table size="small" aria-label="automations table" sx={{ tableLayout: 'fixed' }}>
@@ -636,7 +856,7 @@ const TrialPage = () => {
         )}
         
         {/* Drafts Tab */}
-        {tabValue === 3 && (
+        {tabValue === 4 && (
           <Paper sx={{ width: '100%', overflow: 'hidden', borderRadius: '8px', boxShadow: '0px 2px 4px rgba(0,0,0,0.05)' }}>
             <TableContainer>
               <Table size="small" aria-label="drafts table" sx={{ tableLayout: 'fixed' }}>
@@ -742,7 +962,7 @@ const TrialPage = () => {
         )}
         
         {/* Analytics Tab */}
-        {tabValue === 4 && (
+        {tabValue === 5 && (
           <Paper sx={{ p: 2.5, borderRadius: '8px', boxShadow: '0px 2px 4px rgba(0,0,0,0.05)' }}>
             <Typography variant="h6" gutterBottom sx={{ color: '#1C392B', fontWeight: 500 }}>
               Performance Analytics
