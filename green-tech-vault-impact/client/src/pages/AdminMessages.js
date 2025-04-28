@@ -915,6 +915,46 @@ const AdminMessages = () => {
                     
                     {/* Message Actions */}
                     <Box>
+                      <Button 
+                        variant="outlined"
+                        size="small" 
+                        sx={{ 
+                          color: '#4ECDC4',
+                          borderColor: '#e0e0e0',
+                          borderRadius: '20px',
+                          py: 0.5,
+                          px: 1.5,
+                          mr: 1,
+                          textTransform: 'none',
+                          fontSize: '0.75rem',
+                          '&:hover': {
+                            bgcolor: 'rgba(78, 205, 196, 0.08)',
+                            borderColor: '#4ECDC4',
+                          }
+                        }}
+                      >
+                        Message Templates
+                      </Button>
+                      <Button 
+                        variant="outlined"
+                        size="small" 
+                        sx={{ 
+                          color: '#4ECDC4',
+                          borderColor: '#e0e0e0',
+                          borderRadius: '20px',
+                          py: 0.5,
+                          px: 1.5,
+                          mr: 1,
+                          textTransform: 'none',
+                          fontSize: '0.75rem',
+                          '&:hover': {
+                            bgcolor: 'rgba(78, 205, 196, 0.08)',
+                            borderColor: '#4ECDC4',
+                          }
+                        }}
+                      >
+                        Automated Messages
+                      </Button>
                       <IconButton 
                         size="small" 
                         title="Reply"
