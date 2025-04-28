@@ -222,9 +222,6 @@ const AdminPickupCalendar = () => {
       .rbc-btn-group button { font-size: 0.7rem !important; }
       .rbc-calendar { font-size: 0.7rem !important; }
       .rbc-toolbar .rbc-toolbar-label { font-size: 0.8rem !important; }
-      .rbc-day-bg { height: 80px !important; }
-      .rbc-month-row { min-height: 80px !important; }
-      .rbc-month-view { margin-top: -15px !important; }
     `;
     document.head.appendChild(styleElement);
 
@@ -691,126 +688,6 @@ const AdminPickupCalendar = () => {
         <Grid container spacing={2}>
           <Grid item xs={12} md={9}>
             <Paper sx={{ p: 1.5, mb: 2, height: 'calc(100vh - 180px)', overflow: 'hidden' }}>
-              <Box sx={{ 
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                mb: 1,
-                mt: -0.5
-              }}>
-                <Box sx={{ display: 'flex', gap: 0.5 }}>
-                  <Button 
-                    sx={{ 
-                      fontSize: '0.7rem', 
-                      textTransform: 'none', 
-                      py: 0.3, 
-                      px: 1, 
-                      borderRadius: '4px',
-                      bgcolor: '#f0f0f0',
-                      color: '#333',
-                      '&:hover': { bgcolor: '#e0e0e0' },
-                      minWidth: 'auto'
-                    }}
-                  >
-                    Today
-                  </Button>
-                  <Button 
-                    sx={{ 
-                      fontSize: '0.7rem', 
-                      textTransform: 'none', 
-                      py: 0.3, 
-                      px: 1, 
-                      borderRadius: '4px',
-                      bgcolor: '#f0f0f0',
-                      color: '#333',
-                      '&:hover': { bgcolor: '#e0e0e0' },
-                      minWidth: 'auto'
-                    }}
-                  >
-                    Back
-                  </Button>
-                  <Button 
-                    sx={{ 
-                      fontSize: '0.7rem', 
-                      textTransform: 'none', 
-                      py: 0.3, 
-                      px: 1, 
-                      borderRadius: '4px',
-                      bgcolor: '#f0f0f0',
-                      color: '#333',
-                      '&:hover': { bgcolor: '#e0e0e0' },
-                      minWidth: 'auto'
-                    }}
-                  >
-                    Next
-                  </Button>
-                </Box>
-                <Typography sx={{ fontSize: '0.8rem', fontWeight: 500 }}>
-                  April 2025
-                </Typography>
-                <Box sx={{ display: 'flex', gap: 0.5 }}>
-                  <Button 
-                    sx={{ 
-                      fontSize: '0.7rem', 
-                      textTransform: 'none', 
-                      py: 0.3, 
-                      px: 1, 
-                      borderRadius: '4px',
-                      bgcolor: '#f0f0f0',
-                      color: '#333',
-                      '&:hover': { bgcolor: '#e0e0e0' },
-                      minWidth: 'auto'
-                    }}
-                  >
-                    Month
-                  </Button>
-                  <Button 
-                    sx={{ 
-                      fontSize: '0.7rem', 
-                      textTransform: 'none', 
-                      py: 0.3, 
-                      px: 1, 
-                      borderRadius: '4px',
-                      bgcolor: '#f0f0f0',
-                      color: '#333',
-                      '&:hover': { bgcolor: '#e0e0e0' },
-                      minWidth: 'auto'
-                    }}
-                  >
-                    Week
-                  </Button>
-                  <Button 
-                    sx={{ 
-                      fontSize: '0.7rem', 
-                      textTransform: 'none', 
-                      py: 0.3, 
-                      px: 1, 
-                      borderRadius: '4px',
-                      bgcolor: '#f0f0f0',
-                      color: '#333',
-                      '&:hover': { bgcolor: '#e0e0e0' },
-                      minWidth: 'auto'
-                    }}
-                  >
-                    Day
-                  </Button>
-                  <Button 
-                    sx={{ 
-                      fontSize: '0.7rem', 
-                      textTransform: 'none', 
-                      py: 0.3, 
-                      px: 1, 
-                      borderRadius: '4px',
-                      bgcolor: '#f0f0f0',
-                      color: '#333',
-                      '&:hover': { bgcolor: '#e0e0e0' },
-                      minWidth: 'auto'
-                    }}
-                  >
-                    Agenda
-                  </Button>
-                </Box>
-              </Box>
               <Calendar
                 localizer={localizer}
                 events={getFilteredEvents()}
@@ -821,12 +698,11 @@ const AdminPickupCalendar = () => {
                 onView={handleViewChange}
                 date={currentDate}
                 onNavigate={(date) => setCurrentDate(date)}
-                style={{ height: 'calc(100% - 30px)' }}
+                style={{ height: 'calc(100% - 10px)' }}
                 eventPropGetter={eventStyleGetter}
                 onSelectEvent={handleSelectEvent}
                 components={{
-                  event: EventComponent,
-                  toolbar: () => null // Hide the default toolbar since we're creating our own
+                  event: EventComponent
                 }}
                 defaultView="month"
                 popup={true}
