@@ -117,7 +117,14 @@ const TrialPage = () => {
             icon={<EmailIcon fontSize="small" />} 
             label="Email" 
             size="small"
-            sx={{ bgcolor: 'rgba(78, 205, 196, 0.1)', color: '#4ECDC4', border: '1px solid #4ECDC4' }}
+            sx={{ 
+              bgcolor: 'rgba(78, 205, 196, 0.1)', 
+              color: '#4ECDC4', 
+              border: '1px solid #4ECDC4',
+              height: '24px',
+              '& .MuiChip-label': { px: 1, fontSize: '0.75rem' },
+              '& .MuiChip-icon': { fontSize: '0.875rem' }
+            }}
           />
         )}
         {channels.includes('sms') && (
@@ -125,7 +132,14 @@ const TrialPage = () => {
             icon={<SmsIcon fontSize="small" />} 
             label="SMS" 
             size="small"
-            sx={{ bgcolor: 'rgba(29, 53, 87, 0.1)', color: '#1D3557', border: '1px solid #1D3557' }}
+            sx={{ 
+              bgcolor: 'rgba(29, 53, 87, 0.1)', 
+              color: '#1D3557', 
+              border: '1px solid #1D3557',
+              height: '24px',
+              '& .MuiChip-label': { px: 1, fontSize: '0.75rem' },
+              '& .MuiChip-icon': { fontSize: '0.875rem' }
+            }}
           />
         )}
         {channels.includes('push') && (
@@ -133,7 +147,14 @@ const TrialPage = () => {
             icon={<NotificationsIcon fontSize="small" />} 
             label="Push" 
             size="small"
-            sx={{ bgcolor: 'rgba(241, 143, 1, 0.1)', color: '#F18F01', border: '1px solid #F18F01' }}
+            sx={{ 
+              bgcolor: 'rgba(241, 143, 1, 0.1)', 
+              color: '#F18F01', 
+              border: '1px solid #F18F01',
+              height: '24px',
+              '& .MuiChip-label': { px: 1, fontSize: '0.75rem' },
+              '& .MuiChip-icon': { fontSize: '0.875rem' }
+            }}
           />
         )}
       </Box>
@@ -189,7 +210,9 @@ const TrialPage = () => {
           color: color,
           bgcolor: bgColor,
           border: `1px solid ${borderColor}`,
-          fontWeight: 500
+          fontWeight: 500,
+          height: '24px',
+          '& .MuiChip-label': { px: 1, fontSize: '0.75rem' }
         }}
       />
     );
@@ -197,12 +220,12 @@ const TrialPage = () => {
 
   return (
     <AdminLayout>
-      <Box sx={{ p: 3 }}>
+      <Box sx={{ p: 2 }}>
         {/* Header Section */}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Typography variant="h6" sx={{ fontWeight: 500 }}>Announcements & Automation</Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+          <Typography variant="h6" sx={{ fontWeight: 500, fontSize: '1.1rem' }}>Announcements & Automation</Typography>
           
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             {/* Search Bar */}
             <Box sx={{ 
               display: 'flex',
@@ -210,10 +233,10 @@ const TrialPage = () => {
               border: '1px solid #e0e0e0',
               borderRadius: '4px',
               px: 1.5,
-              py: 0.5,
-              width: 300
+              py: 0.25,
+              width: 280
             }}>
-              <SearchIcon sx={{ color: '#aaa', mr: 1, fontSize: '1.2rem' }} />
+              <SearchIcon sx={{ color: '#aaa', mr: 1, fontSize: '1.1rem' }} />
               <TextField
                 placeholder="Search announcements or automations..."
                 variant="standard"
@@ -223,21 +246,23 @@ const TrialPage = () => {
                 InputProps={{
                   disableUnderline: true,
                 }}
-                sx={{ '& input': { padding: '4px 0' } }}
+                sx={{ '& input': { padding: '2px 0', fontSize: '0.85rem' } }}
               />
             </Box>
             
             {/* Action Buttons */}
             <Button
               variant="contained"
-              startIcon={<AddIcon />}
+              startIcon={<AddIcon sx={{ fontSize: '1rem' }} />}
               sx={{ 
                 bgcolor: '#4ECDC4', 
                 '&:hover': { bgcolor: '#3dbdb5' },
                 borderRadius: '8px',
                 px: 2,
-                py: 1,
-                textTransform: 'none'
+                py: 0.75,
+                textTransform: 'none',
+                fontSize: '0.85rem',
+                height: '36px'
               }}
             >
               New Announcement
@@ -245,14 +270,16 @@ const TrialPage = () => {
             
             <Button
               variant="contained"
-              startIcon={<AddIcon />}
+              startIcon={<AddIcon sx={{ fontSize: '1rem' }} />}
               sx={{ 
                 bgcolor: '#1C392B', 
                 '&:hover': { bgcolor: '#152b21' },
                 borderRadius: '8px',
                 px: 2,
-                py: 1,
-                textTransform: 'none'
+                py: 0.75,
+                textTransform: 'none',
+                fontSize: '0.85rem',
+                height: '36px'
               }}
             >
               New Automation
@@ -261,18 +288,20 @@ const TrialPage = () => {
         </Box>
         
         {/* Tabs Navigation */}
-        <Box sx={{ borderBottom: 1, borderColor: '#e0e0e0', mb: 3 }}>
+        <Box sx={{ borderBottom: 1, borderColor: '#e0e0e0', mb: 2 }}>
           <Tabs 
             value={tabValue} 
             onChange={handleTabChange} 
             aria-label="announcement tabs"
             sx={{
+              minHeight: '42px',
               '& .MuiTab-root': {
                 textTransform: 'none',
-                fontSize: '16px',
+                fontSize: '0.85rem',
                 fontWeight: 'normal',
                 color: '#666',
-                mx: 1,
+                minHeight: '42px',
+                p: 1,
                 '&.Mui-selected': {
                   color: '#4ECDC4',
                   fontWeight: 'medium',
@@ -296,15 +325,15 @@ const TrialPage = () => {
         {tabValue === 0 && (
           <Paper sx={{ width: '100%', overflow: 'hidden', borderRadius: '8px', boxShadow: '0px 2px 4px rgba(0,0,0,0.05)' }}>
             <TableContainer>
-              <Table aria-label="announcements table">
+              <Table size="small" aria-label="announcements table" sx={{ tableLayout: 'fixed' }}>
                 <TableHead>
                   <TableRow sx={{ bgcolor: '#f9f9f9' }}>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Title</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Status</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Channel</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Audience</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Scheduled Time</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Actions</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '25%' }}>Title</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '12%' }}>Status</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '20%' }}>Channel</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '15%' }}>Audience</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '15%' }}>Scheduled Time</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '13%' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -317,37 +346,41 @@ const TrialPage = () => {
                         cursor: 'pointer'
                       }}
                     >
-                      <TableCell component="th" scope="row" sx={{ color: '#1C392B', fontWeight: 500 }}>
+                      <TableCell component="th" scope="row" sx={{ color: '#1C392B', fontWeight: 500, py: 1.5, fontSize: '0.875rem' }}>
                         {announcement.title}
                       </TableCell>
-                      <TableCell>{getStatusChip(announcement.status)}</TableCell>
-                      <TableCell>{renderChannels(announcement.channels)}</TableCell>
-                      <TableCell>
+                      <TableCell sx={{ py: 1.5 }}>{getStatusChip(announcement.status)}</TableCell>
+                      <TableCell sx={{ py: 1.5 }}>{renderChannels(announcement.channels)}</TableCell>
+                      <TableCell sx={{ py: 1.5 }}>
                         <Chip 
                           label={announcement.audience} 
                           size="small"
-                          sx={{ bgcolor: 'rgba(108, 117, 125, 0.1)' }}
+                          sx={{ 
+                            bgcolor: 'rgba(108, 117, 125, 0.1)',
+                            height: '24px',
+                            '& .MuiChip-label': { px: 1, fontSize: '0.75rem' }
+                          }}
                         />
                       </TableCell>
-                      <TableCell>{announcement.scheduledTime}</TableCell>
-                      <TableCell>
-                        <Box sx={{ display: 'flex', gap: 1 }}>
+                      <TableCell sx={{ py: 1.5, fontSize: '0.875rem' }}>{announcement.scheduledTime}</TableCell>
+                      <TableCell sx={{ py: 1.5 }}>
+                        <Box sx={{ display: 'flex', gap: 0.5 }}>
                           <IconButton
                             size="small"
                             sx={{ 
                               color: '#56C3C9', 
                               border: '1px solid #e0e0e0',
                               borderRadius: '50%',
-                              p: 1,
-                              mr: 0.75,
-                              width: 36,
-                              height: 36,
+                              p: 0.75,
+                              mr: 0.5,
+                              width: 30,
+                              height: 30,
                               '&:hover': {
                                 bgcolor: 'rgba(86, 195, 201, 0.08)',
                               }
                             }}
                           >
-                            <EditIcon fontSize="small" />
+                            <EditIcon sx={{ fontSize: '0.85rem' }} />
                           </IconButton>
                           <IconButton
                             size="small"
@@ -355,16 +388,16 @@ const TrialPage = () => {
                               color: '#E05050', 
                               border: '1px solid #e0e0e0',
                               borderRadius: '50%',
-                              p: 1,
-                              mr: 0.75,
-                              width: 36,
-                              height: 36,
+                              p: 0.75,
+                              mr: 0.5,
+                              width: 30,
+                              height: 30,
                               '&:hover': {
                                 bgcolor: 'rgba(224, 80, 80, 0.08)',
                               }
                             }}
                           >
-                            <DeleteIcon fontSize="small" />
+                            <DeleteIcon sx={{ fontSize: '0.85rem' }} />
                           </IconButton>
                           <IconButton
                             size="small"
@@ -372,15 +405,15 @@ const TrialPage = () => {
                               color: '#1D3557', 
                               border: '1px solid #e0e0e0',
                               borderRadius: '50%',
-                              p: 1,
-                              width: 36,
-                              height: 36,
+                              p: 0.75,
+                              width: 30,
+                              height: 30,
                               '&:hover': {
                                 bgcolor: 'rgba(29, 53, 87, 0.08)',
                               }
                             }}
                           >
-                            <ContentCopyIcon fontSize="small" />
+                            <ContentCopyIcon sx={{ fontSize: '0.85rem' }} />
                           </IconButton>
                         </Box>
                       </TableCell>
@@ -392,19 +425,19 @@ const TrialPage = () => {
           </Paper>
         )}
         
-        {/* Scheduled Announcements Tab */}
+        {/* Scheduled Announcements Tab - Same styling as All Announcements */}
         {tabValue === 1 && (
           <Paper sx={{ width: '100%', overflow: 'hidden', borderRadius: '8px', boxShadow: '0px 2px 4px rgba(0,0,0,0.05)' }}>
             <TableContainer>
-              <Table aria-label="scheduled announcements table">
+              <Table size="small" aria-label="scheduled announcements table" sx={{ tableLayout: 'fixed' }}>
                 <TableHead>
                   <TableRow sx={{ bgcolor: '#f9f9f9' }}>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Title</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Status</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Channel</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Audience</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Scheduled Time</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Actions</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '25%' }}>Title</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '12%' }}>Status</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '20%' }}>Channel</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '15%' }}>Audience</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '15%' }}>Scheduled Time</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '13%' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -419,37 +452,41 @@ const TrialPage = () => {
                           cursor: 'pointer'
                         }}
                       >
-                        <TableCell component="th" scope="row" sx={{ color: '#1C392B', fontWeight: 500 }}>
+                        <TableCell component="th" scope="row" sx={{ color: '#1C392B', fontWeight: 500, py: 1.5, fontSize: '0.875rem' }}>
                           {announcement.title}
                         </TableCell>
-                        <TableCell>{getStatusChip(announcement.status)}</TableCell>
-                        <TableCell>{renderChannels(announcement.channels)}</TableCell>
-                        <TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{getStatusChip(announcement.status)}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{renderChannels(announcement.channels)}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>
                           <Chip 
                             label={announcement.audience} 
                             size="small"
-                            sx={{ bgcolor: 'rgba(108, 117, 125, 0.1)' }}
+                            sx={{ 
+                              bgcolor: 'rgba(108, 117, 125, 0.1)',
+                              height: '24px',
+                              '& .MuiChip-label': { px: 1, fontSize: '0.75rem' }
+                            }}
                           />
                         </TableCell>
-                        <TableCell>{announcement.scheduledTime}</TableCell>
-                        <TableCell>
-                          <Box sx={{ display: 'flex', gap: 1 }}>
+                        <TableCell sx={{ py: 1.5, fontSize: '0.875rem' }}>{announcement.scheduledTime}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>
+                          <Box sx={{ display: 'flex', gap: 0.5 }}>
                             <IconButton
                               size="small"
                               sx={{ 
                                 color: '#56C3C9', 
                                 border: '1px solid #e0e0e0',
                                 borderRadius: '50%',
-                                p: 1,
-                                mr: 0.75,
-                                width: 36,
-                                height: 36,
+                                p: 0.75,
+                                mr: 0.5,
+                                width: 30,
+                                height: 30,
                                 '&:hover': {
                                   bgcolor: 'rgba(86, 195, 201, 0.08)',
                                 }
                               }}
                             >
-                              <EditIcon fontSize="small" />
+                              <EditIcon sx={{ fontSize: '0.85rem' }} />
                             </IconButton>
                             <IconButton
                               size="small"
@@ -457,16 +494,16 @@ const TrialPage = () => {
                                 color: '#E05050', 
                                 border: '1px solid #e0e0e0',
                                 borderRadius: '50%',
-                                p: 1,
-                                mr: 0.75,
-                                width: 36,
-                                height: 36,
+                                p: 0.75,
+                                mr: 0.5,
+                                width: 30,
+                                height: 30,
                                 '&:hover': {
                                   bgcolor: 'rgba(224, 80, 80, 0.08)',
                                 }
                               }}
                             >
-                              <DeleteIcon fontSize="small" />
+                              <DeleteIcon sx={{ fontSize: '0.85rem' }} />
                             </IconButton>
                             <IconButton
                               size="small"
@@ -474,15 +511,15 @@ const TrialPage = () => {
                                 color: '#1D3557', 
                                 border: '1px solid #e0e0e0',
                                 borderRadius: '50%',
-                                p: 1,
-                                width: 36,
-                                height: 36,
+                                p: 0.75,
+                                width: 30,
+                                height: 30,
                                 '&:hover': {
                                   bgcolor: 'rgba(29, 53, 87, 0.08)',
                                 }
                               }}
                             >
-                              <ContentCopyIcon fontSize="small" />
+                              <ContentCopyIcon sx={{ fontSize: '0.85rem' }} />
                             </IconButton>
                           </Box>
                         </TableCell>
@@ -498,15 +535,15 @@ const TrialPage = () => {
         {tabValue === 2 && (
           <Paper sx={{ width: '100%', overflow: 'hidden', borderRadius: '8px', boxShadow: '0px 2px 4px rgba(0,0,0,0.05)' }}>
             <TableContainer>
-              <Table aria-label="automations table">
+              <Table size="small" aria-label="automations table" sx={{ tableLayout: 'fixed' }}>
                 <TableHead>
                   <TableRow sx={{ bgcolor: '#f9f9f9' }}>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Automation Name</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Trigger</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Audience</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Channels</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Status</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Actions</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '25%' }}>Automation Name</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '15%' }}>Trigger</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '15%' }}>Audience</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '17%' }}>Channels</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '13%' }}>Status</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '15%' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -519,43 +556,53 @@ const TrialPage = () => {
                         cursor: 'pointer'
                       }}
                     >
-                      <TableCell component="th" scope="row" sx={{ color: '#1C392B', fontWeight: 500 }}>
+                      <TableCell component="th" scope="row" sx={{ color: '#1C392B', fontWeight: 500, py: 1.5, fontSize: '0.875rem' }}>
                         {automation.name}
                       </TableCell>
-                      <TableCell>
+                      <TableCell sx={{ py: 1.5 }}>
                         <Chip 
                           label={automation.trigger} 
                           size="small"
-                          sx={{ bgcolor: 'rgba(29, 53, 87, 0.1)', color: '#1D3557', border: '1px solid #1D3557' }}
+                          sx={{ 
+                            bgcolor: 'rgba(29, 53, 87, 0.1)', 
+                            color: '#1D3557', 
+                            border: '1px solid #1D3557',
+                            height: '24px',
+                            '& .MuiChip-label': { px: 1, fontSize: '0.75rem' }
+                          }}
                         />
                       </TableCell>
-                      <TableCell>
+                      <TableCell sx={{ py: 1.5 }}>
                         <Chip 
                           label={automation.audience} 
                           size="small"
-                          sx={{ bgcolor: 'rgba(108, 117, 125, 0.1)' }}
+                          sx={{ 
+                            bgcolor: 'rgba(108, 117, 125, 0.1)',
+                            height: '24px',
+                            '& .MuiChip-label': { px: 1, fontSize: '0.75rem' }
+                          }}
                         />
                       </TableCell>
-                      <TableCell>{renderChannels(automation.channels)}</TableCell>
-                      <TableCell>{getStatusChip(automation.status)}</TableCell>
-                      <TableCell>
-                        <Box sx={{ display: 'flex', gap: 1 }}>
+                      <TableCell sx={{ py: 1.5 }}>{renderChannels(automation.channels)}</TableCell>
+                      <TableCell sx={{ py: 1.5 }}>{getStatusChip(automation.status)}</TableCell>
+                      <TableCell sx={{ py: 1.5 }}>
+                        <Box sx={{ display: 'flex', gap: 0.5 }}>
                           <IconButton
                             size="small"
                             sx={{ 
                               color: '#56C3C9', 
                               border: '1px solid #e0e0e0',
                               borderRadius: '50%',
-                              p: 1,
-                              mr: 0.75,
-                              width: 36,
-                              height: 36,
+                              p: 0.75,
+                              mr: 0.5,
+                              width: 30,
+                              height: 30,
                               '&:hover': {
                                 bgcolor: 'rgba(86, 195, 201, 0.08)',
                               }
                             }}
                           >
-                            <EditIcon fontSize="small" />
+                            <EditIcon sx={{ fontSize: '0.85rem' }} />
                           </IconButton>
                           <IconButton
                             size="small"
@@ -563,16 +610,16 @@ const TrialPage = () => {
                               color: '#E05050', 
                               border: '1px solid #e0e0e0',
                               borderRadius: '50%',
-                              p: 1,
-                              mr: 0.75,
-                              width: 36,
-                              height: 36,
+                              p: 0.75,
+                              mr: 0.5,
+                              width: 30,
+                              height: 30,
                               '&:hover': {
                                 bgcolor: 'rgba(224, 80, 80, 0.08)',
                               }
                             }}
                           >
-                            <DeleteIcon fontSize="small" />
+                            <DeleteIcon sx={{ fontSize: '0.85rem' }} />
                           </IconButton>
                           <Button
                             size="small"
@@ -581,7 +628,10 @@ const TrialPage = () => {
                               color: automation.status === 'Active' ? '#E71D36' : '#4ECDC4',
                               borderColor: automation.status === 'Active' ? '#E71D36' : '#4ECDC4',
                               textTransform: 'none',
-                              py: 0.5,
+                              py: 0,
+                              px: 1,
+                              height: 30,
+                              fontSize: '0.75rem',
                               minWidth: 'auto'
                             }}
                           >
@@ -601,15 +651,15 @@ const TrialPage = () => {
         {tabValue === 3 && (
           <Paper sx={{ width: '100%', overflow: 'hidden', borderRadius: '8px', boxShadow: '0px 2px 4px rgba(0,0,0,0.05)' }}>
             <TableContainer>
-              <Table aria-label="drafts table">
+              <Table size="small" aria-label="drafts table" sx={{ tableLayout: 'fixed' }}>
                 <TableHead>
                   <TableRow sx={{ bgcolor: '#f9f9f9' }}>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Title</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Status</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Channel</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Audience</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Last Modified</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444' }}>Actions</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '25%' }}>Title</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '12%' }}>Status</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '20%' }}>Channel</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '15%' }}>Audience</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '15%' }}>Last Modified</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.5, fontSize: '0.85rem', width: '13%' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -624,37 +674,41 @@ const TrialPage = () => {
                           cursor: 'pointer'
                         }}
                       >
-                        <TableCell component="th" scope="row" sx={{ color: '#1C392B', fontWeight: 500 }}>
+                        <TableCell component="th" scope="row" sx={{ color: '#1C392B', fontWeight: 500, py: 1.5, fontSize: '0.875rem' }}>
                           {announcement.title}
                         </TableCell>
-                        <TableCell>{getStatusChip(announcement.status)}</TableCell>
-                        <TableCell>{renderChannels(announcement.channels)}</TableCell>
-                        <TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{getStatusChip(announcement.status)}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>{renderChannels(announcement.channels)}</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>
                           <Chip 
                             label={announcement.audience} 
                             size="small"
-                            sx={{ bgcolor: 'rgba(108, 117, 125, 0.1)' }}
+                            sx={{ 
+                              bgcolor: 'rgba(108, 117, 125, 0.1)',
+                              height: '24px',
+                              '& .MuiChip-label': { px: 1, fontSize: '0.75rem' }
+                            }}
                           />
                         </TableCell>
-                        <TableCell>Today, 2:30PM</TableCell>
-                        <TableCell>
-                          <Box sx={{ display: 'flex', gap: 1 }}>
+                        <TableCell sx={{ py: 1.5, fontSize: '0.875rem' }}>Today, 2:30PM</TableCell>
+                        <TableCell sx={{ py: 1.5 }}>
+                          <Box sx={{ display: 'flex', gap: 0.5 }}>
                             <IconButton
                               size="small"
                               sx={{ 
                                 color: '#56C3C9', 
                                 border: '1px solid #e0e0e0',
                                 borderRadius: '50%',
-                                p: 1,
-                                mr: 0.75,
-                                width: 36,
-                                height: 36,
+                                p: 0.75,
+                                mr: 0.5,
+                                width: 30,
+                                height: 30,
                                 '&:hover': {
                                   bgcolor: 'rgba(86, 195, 201, 0.08)',
                                 }
                               }}
                             >
-                              <EditIcon fontSize="small" />
+                              <EditIcon sx={{ fontSize: '0.85rem' }} />
                             </IconButton>
                             <IconButton
                               size="small"
@@ -662,16 +716,16 @@ const TrialPage = () => {
                                 color: '#E05050', 
                                 border: '1px solid #e0e0e0',
                                 borderRadius: '50%',
-                                p: 1,
-                                mr: 0.75,
-                                width: 36,
-                                height: 36,
+                                p: 0.75,
+                                mr: 0.5,
+                                width: 30,
+                                height: 30,
                                 '&:hover': {
                                   bgcolor: 'rgba(224, 80, 80, 0.08)',
                                 }
                               }}
                             >
-                              <DeleteIcon fontSize="small" />
+                              <DeleteIcon sx={{ fontSize: '0.85rem' }} />
                             </IconButton>
                             <Button
                               size="small"
@@ -680,7 +734,10 @@ const TrialPage = () => {
                                 color: '#4ECDC4',
                                 borderColor: '#4ECDC4',
                                 textTransform: 'none',
-                                py: 0.5,
+                                py: 0,
+                                px: 1,
+                                height: 30,
+                                fontSize: '0.75rem',
                                 minWidth: 'auto'
                               }}
                             >
