@@ -289,6 +289,8 @@ function App() {
             <Route path="devices" element={<Devices />} />
             <Route path="reports" element={<Reports />} />
             <Route path="reports/:id" element={<ReportDetail />} />
+            <Route path="messages" element={<h1>Client Messages</h1>} />
+            <Route path="announcements" element={<h1>Client Announcements</h1>} />
             <Route path="statistics" element={<Dashboard />} />
             <Route path="database" element={<h1>Database</h1>} />
             <Route path="team" element={<h1>Team</h1>} />

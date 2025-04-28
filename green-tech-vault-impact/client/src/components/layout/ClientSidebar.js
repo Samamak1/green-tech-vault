@@ -11,6 +11,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HelpIcon from '@mui/icons-material/Help';
 import StoreIcon from '@mui/icons-material/Store';
+import AnnouncementIcon from '@mui/icons-material/Announcement';
 import Logo from '../branding/Logo';
 import { useAuth } from '../../context/AuthContext';
 
@@ -25,9 +26,10 @@ const ClientSidebar = () => {
     { icon: <ComputerIcon />, text: 'Devices', path: '/dashboard/devices' },
     { icon: <CalendarMonthIcon />, text: 'Pickups', path: '/dashboard/pickups' },
     { icon: <DescriptionIcon />, text: 'Reports', path: '/dashboard/reports' },
+    { icon: <EmailIcon />, text: 'Messages', path: '/dashboard/messages' },
+    { icon: <AnnouncementIcon />, text: 'Announcements', path: '/dashboard/announcements' },
     { icon: <EventAvailableIcon />, text: 'Schedule Pickup', path: '/dashboard/schedule-pickup' },
     { icon: <BarChartIcon />, text: 'Statistics', path: '/dashboard/statistics' },
-    { icon: <EmailIcon />, text: 'Messages', path: '/dashboard/messages' },
     { icon: <StoreIcon />, text: 'Store', path: '/dashboard/store' },
     { icon: <SettingsIcon />, text: 'Settings', path: '/dashboard/settings' },
     { icon: <HelpIcon />, text: 'Help', path: '/dashboard/help' },
