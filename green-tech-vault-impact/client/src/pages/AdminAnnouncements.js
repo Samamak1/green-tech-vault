@@ -184,8 +184,8 @@ const AdminAnnouncements = () => {
             
             {/* Step content */}
             {activeStep === 0 && (
-              <Grid container spacing={3}>
-                <Grid item xs={12} sx={{ mb: 1 }}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} sx={{ mb: 1 }}>
                   <TextField
                     fullWidth
                     label="Company Name"
@@ -199,9 +199,9 @@ const AdminAnnouncements = () => {
                       }
                     }}
                   />
-                </Grid>
-                
-                <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+              </Grid>
+              
+              <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
                   <TextField
                     fullWidth
                     label="Contact Name"
@@ -215,9 +215,9 @@ const AdminAnnouncements = () => {
                       }
                     }}
                   />
-                </Grid>
-                
-                <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+              </Grid>
+              
+              <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
                   <TextField
                     fullWidth
                     label="Email"
@@ -231,9 +231,9 @@ const AdminAnnouncements = () => {
                       }
                     }}
                   />
-                </Grid>
-                
-                <Grid item xs={12} sx={{ mb: 1 }}>
+              </Grid>
+              
+              <Grid item xs={12} sx={{ mb: 1 }}>
                   <TextField
                     fullWidth
                     label="Phone"
@@ -247,9 +247,9 @@ const AdminAnnouncements = () => {
                       }
                     }}
                   />
-                </Grid>
-                
-                <Grid item xs={12} sx={{ mb: 1 }}>
+              </Grid>
+              
+              <Grid item xs={12} sx={{ mb: 1 }}>
                   <TextField
                     fullWidth
                     label="Address"
@@ -263,9 +263,9 @@ const AdminAnnouncements = () => {
                       }
                     }}
                   />
-                </Grid>
-                
-                <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+              </Grid>
+              
+              <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
                   <TextField
                     fullWidth
                     label="City"
@@ -279,9 +279,9 @@ const AdminAnnouncements = () => {
                       }
                     }}
                   />
-                </Grid>
-                
-                <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+              </Grid>
+              
+              <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
                   <TextField
                     fullWidth
                     label="State"
@@ -295,9 +295,9 @@ const AdminAnnouncements = () => {
                       }
                     }}
                   />
-                </Grid>
-                
-                <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+              </Grid>
+              
+              <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
                   <TextField
                     fullWidth
                     label="Zip Code"
@@ -792,20 +792,20 @@ const AdminAnnouncements = () => {
                 </Grid>
               </Grid>
             )}
-
-            {/* Back & Next Buttons */}
+              
+              {/* Back & Next Buttons */}
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
-              <Button
-                onClick={handleBack}
+                <Button
+                  onClick={handleBack}
                 disabled={activeStep === 0}
-                sx={{
-                  backgroundColor: '#f5f5f5',
-                  color: '#333',
-                  '&:hover': {
-                    backgroundColor: '#e0e0e0',
-                  },
-                  borderRadius: '4px',
-                  padding: '8px 24px',
+                  sx={{
+                    backgroundColor: '#f5f5f5',
+                    color: '#333',
+                    '&:hover': {
+                      backgroundColor: '#e0e0e0',
+                    },
+                    borderRadius: '4px',
+                    padding: '8px 24px',
                   textTransform: 'none',
                 }}
               >

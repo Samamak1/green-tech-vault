@@ -1,127 +1,105 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Box, Button, Divider, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useTheme } from '@mui/material';
+import { useNavigate, useLocation } from 'react-router-dom';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import DevicesOtherIcon from '@mui/icons-material/DevicesOther';
+import DescriptionIcon from '@mui/icons-material/Description';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EmailIcon from '@mui/icons-material/Email';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import LogoutIcon from '@mui/icons-material/Logout';
-
-const StyledSidebar = styled(Box)(({ theme }) => ({
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  width: 240,
-  height: '100vh',
-  backgroundColor: '#fff',
-  boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.05)',
-  paddingTop: '80px',
-  zIndex: 100,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-}));
+import CampaignIcon from '@mui/icons-material/Campaign';
+import Logo from '../branding/Logo';
+import { useAuth } from '../../context/AuthContext';
 
 const Sidebar = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const theme = useTheme();
+  const { logout } = useAuth();
+  
   const menuItems = [
     { icon: <DashboardIcon />, text: 'Dashboard', path: '/admin/dashboard' },
-    { icon: <PeopleAltIcon />, text: 'Clients', path: '/admin/clients' },
-    { icon: <DevicesOtherIcon />, text: 'Devices', path: '/admin/devices' },
+    { icon: <CalendarMonthIcon />, text: 'Calendar', path: '/admin/pickup-calendar' },
+    { icon: <DescriptionIcon />, text: 'Reports', path: '/admin/reports' },
     { icon: <EmailIcon />, text: 'Messages', path: '/admin/messages' },
-    { icon: <LocalShippingIcon />, text: 'Pickups', path: '/admin/pickups' },
-    { icon: <InventoryIcon />, text: 'Inventory', path: '/admin/inventory' },
+    { icon: <CampaignIcon />, text: 'Schedule Pickup', path: '/admin/announcements' },
   ];
-  
+
   const handleNavigation = (path) => {
-    if (path === 'logout') {
-      // TODO: Handle logout here
-      console.log('Logout clicked');
-      navigate('/login');
-      return;
+    if (path === '/logout') {
+      logout();
+      navigate('/admin/login');
+    } else {
+      navigate(path);
     }
-    navigate(path);
   };
-  
+
   return (
-    <StyledSidebar>
-      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <Box sx={{ flex: 1, overflowY: 'auto', py: 2 }}>
-          {menuItems.map((item, index) => (
-            <Button
-              key={index}
-              variant="text"
-              startIcon={item.icon}
-              onClick={() => handleNavigation(item.path)}
-              sx={{
-                justifyContent: 'flex-start',
-                color: (
-                  (item.path === '/admin/dashboard' && location.pathname === '/admin') ||
-                  location.pathname === item.path ||
-                  (item.path === '/admin/messages' && location.pathname.includes('messages'))
-                ) ? '#4ECDC4' : '#666',
-                fontSize: '0.95rem',
-                fontWeight: (
-                  (item.path === '/admin/dashboard' && location.pathname === '/admin') ||
-                  location.pathname === item.path ||
-                  (item.path === '/admin/messages' && location.pathname.includes('messages'))
-                ) ? '500' : '400',
-                textTransform: 'none',
-                width: '100%',
-                pl: 4,
-                pr: 2,
-                py: 1.5,
-                mb: 0.5,
-                borderLeft: (
-                  (item.path === '/admin/dashboard' && location.pathname === '/admin') ||
-                  location.pathname === item.path ||
-                  (item.path === '/admin/messages' && location.pathname.includes('messages'))
-                ) ? '4px solid #4ECDC4' : '4px solid transparent',
-                '&:hover': {
-                  backgroundColor: '#f5f5f5',
-                },
-              }}
-            >
-              <Typography variant="body2" sx={{ ml: 0.5 }}>
-                {item.text}
-              </Typography>
-            </Button>
-          ))}
-        </Box>
-        
-        <Box sx={{ p: 2, mt: 'auto' }}>
-          <Divider sx={{ mb: 2 }} />
-          <Button
-            variant="text"
-            startIcon={<LogoutIcon />}
-            onClick={() => handleNavigation('logout')}
-            sx={{
-              justifyContent: 'flex-start',
-              color: '#666',
-              fontSize: '0.95rem',
-              textTransform: 'none',
-              width: '100%',
-              pl: 4,
-              pr: 2,
-              py: 1.5,
-              '&:hover': {
-                backgroundColor: '#f5f5f5',
-              },
-            }}
-          >
-            <Typography variant="body2" sx={{ ml: 0.5 }}>
-              Logout
-            </Typography>
-          </Button>
-        </Box>
+    <Box sx={{ 
+      width: 240,
+      height: '100vh',
+      bgcolor: '#1C392B',
+      color: 'white',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      zIndex: 1200,
+      boxShadow: 'none'
+    }}>
+      <Box sx={{ 
+        p: 2, 
+        mb: 2, 
+        display: 'flex', 
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 64,  // Match header height
+        borderBottom: '1px solid rgba(255,255,255,0.1)'
+      }}>
+        <Logo variant="light" size="medium" />
       </Box>
-    </StyledSidebar>
+      
+      <List sx={{ px: 2, flex: 1 }}>
+        {menuItems.map((item, index) => {
+          const isSelected = location.pathname === item.path || 
+                            (item.path === '/admin/announcements' && location.pathname.includes('schedule-pickup'));
+          return (
+            <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
+              <ListItemButton 
+                onClick={() => handleNavigation(item.path)}
+                selected={isSelected}
+                sx={{ 
+                  borderRadius: 1,
+                  backgroundColor: isSelected ? '#0F261D' : 'transparent',
+                  '&.Mui-selected': {
+                    backgroundColor: '#0F261D',
+                    '&:hover': {
+                      backgroundColor: '#0F261D',
+                    }
+                  },
+                  '&:hover': {
+                    bgcolor: isSelected ? '#0F261D' : 'rgba(255, 255, 255, 0.1)',
+                  }
+                }}
+              >
+                <ListItemIcon sx={{ 
+                  color: isSelected ? '#ffffff' : 'rgba(255,255,255,0.7)',
+                  minWidth: 40
+                }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText 
+                  primary={item.text} 
+                  sx={{ 
+                    '& .MuiListItemText-primary': {
+                      color: isSelected ? '#ffffff' : 'rgba(255,255,255,0.7)',
+                      fontWeight: isSelected ? 500 : 400
+                    }
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
+      </List>
+    </Box>
   );
 };
 
