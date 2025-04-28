@@ -610,16 +610,17 @@ const AdminDashboard = () => {
                   borderRadius: 4,
                 }
               }}>
-                <Table size="medium" sx={{ minWidth: 1100, tableLayout: 'fixed' }}>
+                <Table size="small" sx={{ minWidth: 900, tableLayout: 'fixed' }}>
                 <TableHead>
                     <TableRow sx={{ bgcolor: '#e0e0e0' }}>
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
-                        py: 1.8,
-                        px: 2,
+                        py: 1.5,
+                        px: 1.5,
+                        fontSize: '0.75rem',
                         whiteSpace: 'nowrap',
-                        width: '18%',
+                        width: '17%',
                         borderBottom: '1px solid #eee'
                       }}>
                         Company Name
@@ -627,10 +628,11 @@ const AdminDashboard = () => {
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
-                        py: 1.8,
-                        px: 2,
+                        py: 1.5,
+                        px: 1.5,
+                        fontSize: '0.75rem',
                         whiteSpace: 'nowrap',
-                        width: '15%',
+                        width: '14%',
                         borderBottom: '1px solid #eee'
                       }}>
                         Contact Person
@@ -638,9 +640,10 @@ const AdminDashboard = () => {
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
-                        py: 1.8,
-                        px: 2,
-                        width: '20%',
+                        py: 1.5,
+                        px: 1.5,
+                        fontSize: '0.75rem',
+                        width: '19%',
                         borderBottom: '1px solid #eee'
                       }}>
                         Email
@@ -648,8 +651,9 @@ const AdminDashboard = () => {
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
-                        py: 1.8,
-                        px: 2,
+                        py: 1.5,
+                        px: 1.5,
+                        fontSize: '0.75rem',
                         whiteSpace: 'nowrap',
                         width: '12%',
                         borderBottom: '1px solid #eee'
@@ -659,8 +663,9 @@ const AdminDashboard = () => {
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
-                        py: 1.8,
-                        px: 2,
+                        py: 1.5,
+                        px: 1.5,
+                        fontSize: '0.75rem',
                         whiteSpace: 'nowrap',
                         width: '7%',
                         borderBottom: '1px solid #eee'
@@ -670,8 +675,9 @@ const AdminDashboard = () => {
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
-                        py: 1.8,
-                        px: 2,
+                        py: 1.5,
+                        px: 1.5,
+                        fontSize: '0.75rem',
                         whiteSpace: 'nowrap',
                         width: '8%',
                         borderBottom: '1px solid #eee'
@@ -681,10 +687,11 @@ const AdminDashboard = () => {
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
-                        py: 1.8,
-                        px: 2,
+                        py: 1.5,
+                        px: 1.5,
+                        fontSize: '0.75rem',
                         whiteSpace: 'nowrap',
-                        width: '20%',
+                        width: '18%',
                         borderBottom: '1px solid #eee'
                       }}>
                         Actions
@@ -696,12 +703,13 @@ const AdminDashboard = () => {
                     <TableRow 
                       key={client.id}
                       hover
-                        sx={{ '&:hover': { bgcolor: '#f5f5f5' }, borderBottom: '1px solid #eee', height: '60px' }}
+                        sx={{ '&:hover': { bgcolor: '#f5f5f5' }, borderBottom: '1px solid #eee', height: '52px' }}
                       >
                         <TableCell 
                           sx={{ 
-                            py: 2, 
-                            px: 2, 
+                            py: 1.5, 
+                            px: 1.5, 
+                            fontSize: '0.75rem',
                             textOverflow: 'ellipsis', 
                             overflow: 'hidden',
                             cursor: 'pointer',
@@ -713,12 +721,12 @@ const AdminDashboard = () => {
                     >
                           {client.name}
                       </TableCell>
-                        <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.contactPerson}</TableCell>
-                        <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.email}</TableCell>
-                        <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.phone}</TableCell>
-                        <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.devicesCollected > 0 ? '45' : '32'}</TableCell>
-                        <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.totalWeight.toFixed(1)}</TableCell>
-                        <TableCell sx={{ py: 2, px: 2 }}>
+                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.75rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.contactPerson}</TableCell>
+                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.75rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.email}</TableCell>
+                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.75rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.phone}</TableCell>
+                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.75rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.devicesCollected > 0 ? '45' : '32'}</TableCell>
+                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.75rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.totalWeight.toFixed(1)}</TableCell>
+                        <TableCell sx={{ py: 1.5, px: 1.5 }}>
                           <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
                         <IconButton
                           size="small"
@@ -726,10 +734,10 @@ const AdminDashboard = () => {
                                 color: '#56C3C9', 
                                 border: '1px solid #e0e0e0',
                                 borderRadius: '50%',
-                                p: 1,
-                                mr: 0.75,
-                                width: 36,
-                                height: 36,
+                                p: 0.75,
+                                mr: 0.5,
+                                width: 30,
+                                height: 30,
                                 '&:hover': {
                                   bgcolor: 'rgba(86, 195, 201, 0.08)',
                                 }
@@ -744,10 +752,10 @@ const AdminDashboard = () => {
                                 color: '#56C3C9', 
                                 border: '1px solid #e0e0e0',
                                 borderRadius: '50%',
-                                p: 1,
-                                mr: 0.75,
-                                width: 36,
-                                height: 36,
+                                p: 0.75,
+                                mr: 0.5,
+                                width: 30,
+                                height: 30,
                                 '&:hover': {
                                   bgcolor: 'rgba(86, 195, 201, 0.08)',
                                 }
@@ -762,10 +770,10 @@ const AdminDashboard = () => {
                                 color: '#E05050', 
                                 border: '1px solid #e0e0e0',
                                 borderRadius: '50%',
-                                p: 1,
-                                mr: 0.75,
-                                width: 36,
-                                height: 36,
+                                p: 0.75,
+                                mr: 0.5,
+                                width: 30,
+                                height: 30,
                                 '&:hover': {
                                   bgcolor: 'rgba(224, 80, 80, 0.08)',
                                 }
@@ -874,14 +882,15 @@ const AdminDashboard = () => {
                   borderRadius: 4,
                 }
               }}>
-                <Table size="medium" sx={{ minWidth: 1100, tableLayout: 'fixed' }}>
+                <Table size="small" sx={{ minWidth: 900, tableLayout: 'fixed' }}>
                 <TableHead>
                     <TableRow sx={{ bgcolor: '#e0e0e0' }}>
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
-                        py: 1.8,
-                        px: 2,
+                        py: 1.5,
+                        px: 1.5,
+                        fontSize: '0.75rem',
                         whiteSpace: 'nowrap',
                         width: '12%',
                         borderBottom: '1px solid #eee'
@@ -891,8 +900,9 @@ const AdminDashboard = () => {
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
-                        py: 1.8,
-                        px: 2,
+                        py: 1.5,
+                        px: 1.5,
+                        fontSize: '0.75rem',
                         whiteSpace: 'nowrap',
                         width: '10%',
                         borderBottom: '1px solid #eee'
@@ -902,8 +912,9 @@ const AdminDashboard = () => {
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
-                        py: 1.8,
-                        px: 2,
+                        py: 1.5,
+                        px: 1.5,
+                        fontSize: '0.75rem',
                         whiteSpace: 'nowrap',
                         width: '14%',
                         borderBottom: '1px solid #eee'
@@ -913,8 +924,9 @@ const AdminDashboard = () => {
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
-                        py: 1.8,
-                        px: 2,
+                        py: 1.5,
+                        px: 1.5,
+                        fontSize: '0.75rem',
                         whiteSpace: 'nowrap',
                         width: '14%',
                         borderBottom: '1px solid #eee'
@@ -924,10 +936,11 @@ const AdminDashboard = () => {
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
-                        py: 1.8,
-                        px: 2,
+                        py: 1.5,
+                        px: 1.5,
+                        fontSize: '0.75rem',
                         whiteSpace: 'nowrap',
-                        width: '18%',
+                        width: '16%',
                         borderBottom: '1px solid #eee'
                       }}>
                         Serial Number
@@ -935,8 +948,9 @@ const AdminDashboard = () => {
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
-                        py: 1.8,
-                        px: 2,
+                        py: 1.5,
+                        px: 1.5,
+                        fontSize: '0.75rem',
                         whiteSpace: 'nowrap',
                         width: '12%',
                         borderBottom: '1px solid #eee'
@@ -946,10 +960,11 @@ const AdminDashboard = () => {
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
-                        py: 1.8,
-                        px: 2,
+                        py: 1.5,
+                        px: 1.5,
+                        fontSize: '0.75rem',
                         whiteSpace: 'nowrap',
-                        width: '8%',
+                        width: '7%',
                         borderBottom: '1px solid #eee'
                       }}>
                         Weight (kg)
@@ -957,10 +972,11 @@ const AdminDashboard = () => {
                       <TableCell sx={{ 
                         fontWeight: '500', 
                         color: '#555', 
-                        py: 1.8,
-                        px: 2,
+                        py: 1.5,
+                        px: 1.5,
+                        fontSize: '0.75rem',
                         whiteSpace: 'nowrap',
-                        width: '12%',
+                        width: '15%',
                         borderBottom: '1px solid #eee'
                       }}>
                         Actions
@@ -995,11 +1011,12 @@ const AdminDashboard = () => {
                                            device.id % 2 === 0 ? 'Recycled' : 'Refurbished';
                       
                       return (
-                        <TableRow key={device.id} hover sx={{ '&:hover': { bgcolor: '#f5f5f5' }, borderBottom: '1px solid #eee', height: '60px' }}>
+                        <TableRow key={device.id} hover sx={{ '&:hover': { bgcolor: '#f5f5f5' }, borderBottom: '1px solid #eee', height: '52px' }}>
                           <TableCell 
                             sx={{ 
-                              py: 2, 
-                              px: 2, 
+                              py: 1.5, 
+                              px: 1.5, 
+                              fontSize: '0.75rem',
                               textOverflow: 'ellipsis', 
                               overflow: 'hidden',
                               cursor: 'pointer',
@@ -1013,8 +1030,9 @@ const AdminDashboard = () => {
                           </TableCell>
                           <TableCell 
                             sx={{ 
-                              py: 2, 
-                              px: 2, 
+                              py: 1.5, 
+                              px: 1.5, 
+                              fontSize: '0.75rem',
                               textOverflow: 'ellipsis', 
                               overflow: 'hidden', 
                               cursor: 'pointer',
@@ -1026,10 +1044,10 @@ const AdminDashboard = () => {
                           >
                             {device.type}
                           </TableCell>
-                          <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{device.manufacturer}</TableCell>
-                          <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{device.model}</TableCell>
-                          <TableCell sx={{ py: 2, px: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{device.serialNumber}</TableCell>
-                          <TableCell sx={{ py: 2, px: 2 }}>
+                          <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.75rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{device.manufacturer}</TableCell>
+                          <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.75rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{device.model}</TableCell>
+                          <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.75rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{device.serialNumber}</TableCell>
+                          <TableCell sx={{ py: 1.5, px: 1.5 }}>
                         <Chip 
                           label={device.status} 
                           size="small"
@@ -1037,15 +1055,16 @@ const AdminDashboard = () => {
                                 ...getStatusStyle(device.status),
                                 borderRadius: '4px',
                                 px: 1,
-                                height: 28,
+                                height: 24,
+                                fontSize: '0.65rem',
                                 '& .MuiChip-label': {
                                   px: 1
                                 }
                               }}
                         />
                       </TableCell>
-                          <TableCell sx={{ py: 2, px: 2 }}>{device.weight.toFixed(1)}</TableCell>
-                          <TableCell sx={{ py: 2, px: 2 }}>
+                          <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.75rem' }}>{device.weight.toFixed(1)}</TableCell>
+                          <TableCell sx={{ py: 1.5, px: 1.5 }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
                               <IconButton
                                 size="small"
@@ -1053,10 +1072,10 @@ const AdminDashboard = () => {
                                   color: '#56C3C9', 
                                   border: '1px solid #e0e0e0',
                                   borderRadius: '50%',
-                                  p: 1,
-                                  mr: 0.75,
-                                  width: 36,
-                                  height: 36,
+                                  p: 0.75,
+                                  mr: 0.5,
+                                  width: 30,
+                                  height: 30,
                                   '&:hover': {
                                     bgcolor: 'rgba(86, 195, 201, 0.08)',
                                   }
@@ -1071,10 +1090,10 @@ const AdminDashboard = () => {
                                   color: '#E05050', 
                                   border: '1px solid #e0e0e0',
                                   borderRadius: '50%',
-                                  p: 1,
-                                  mr: 0.75,
-                                  width: 36,
-                                  height: 36,
+                                  p: 0.75,
+                                  mr: 0.5,
+                                  width: 30,
+                                  height: 30,
                                   '&:hover': {
                                     bgcolor: 'rgba(224, 80, 80, 0.08)',
                                   }
@@ -1182,25 +1201,27 @@ const AdminDashboard = () => {
               </Box>
             
               <TableContainer sx={{ boxShadow: 'none', borderRadius: '8px', overflowX: 'auto' }}>
-                <Table sx={{ minWidth: 1100, tableLayout: 'fixed' }}>
+                <Table size="small" sx={{ minWidth: 900, tableLayout: 'fixed' }}>
                 <TableHead>
                     <TableRow sx={{ bgcolor: '#e0e0e0' }}>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '18%' }}>Client</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '12%' }}>Date</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '10%' }}>Time</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '15%' }}>Location</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '12%' }}>Status</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '8%' }}>Devices</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '10%' }}>Weight (kg)</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.8, width: '15%' }}>Actions</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5, px: 1.5, fontSize: '0.75rem', width: '18%' }}>Client</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5, px: 1.5, fontSize: '0.75rem', width: '12%' }}>Date</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5, px: 1.5, fontSize: '0.75rem', width: '10%' }}>Time</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5, px: 1.5, fontSize: '0.75rem', width: '15%' }}>Location</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5, px: 1.5, fontSize: '0.75rem', width: '12%' }}>Status</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5, px: 1.5, fontSize: '0.75rem', width: '8%' }}>Devices</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5, px: 1.5, fontSize: '0.75rem', width: '10%' }}>Weight (kg)</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#555', py: 1.5, px: 1.5, fontSize: '0.75rem', width: '15%' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {pickups.map((pickup) => (
-                      <TableRow key={pickup.id} hover sx={{ '&:hover': { bgcolor: '#f5f5f5' }, height: '60px' }}>
+                      <TableRow key={pickup.id} hover sx={{ '&:hover': { bgcolor: '#f5f5f5' }, height: '52px' }}>
                         <TableCell 
                           sx={{ 
-                            py: 2, 
+                            py: 1.5, 
+                            px: 1.5, 
+                            fontSize: '0.75rem',
                             textOverflow: 'ellipsis', 
                             overflow: 'hidden',
                             cursor: 'pointer',
@@ -1212,10 +1233,10 @@ const AdminDashboard = () => {
                         >
                           {pickup.clientName}
                         </TableCell>
-                        <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.date}</TableCell>
-                        <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.time || new Date(pickup.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</TableCell>
-                        <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.location}</TableCell>
-                        <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.75rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.date}</TableCell>
+                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.75rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.time || new Date(pickup.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</TableCell>
+                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.75rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.location}</TableCell>
+                        <TableCell sx={{ py: 1.5, px: 1.5 }}>
                         <Chip 
                           label={pickup.status} 
                           size="small"
@@ -1229,13 +1250,15 @@ const AdminDashboard = () => {
                                 pickup.status === 'in-progress' ? '#ffa000' :
                                 '#2196f3',
                               borderRadius: '50px',
-                              textTransform: 'capitalize'
+                              textTransform: 'capitalize',
+                              height: 24,
+                              fontSize: '0.65rem'
                             }}
                         />
                       </TableCell>
-                        <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.devices}</TableCell>
-                        <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.weight.toFixed(1)}</TableCell>
-                        <TableCell sx={{ py: 2, textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.75rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.devices}</TableCell>
+                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.75rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{pickup.weight.toFixed(1)}</TableCell>
+                        <TableCell sx={{ py: 1.5, px: 1.5 }}>
                           <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
                             <IconButton
                               size="small"
@@ -1243,10 +1266,10 @@ const AdminDashboard = () => {
                                 color: '#56C3C9', 
                                 border: '1px solid #e0e0e0',
                                 borderRadius: '50%',
-                                p: 1,
-                                mr: 0.75,
-                                width: 36,
-                                height: 36,
+                                p: 0.75,
+                                mr: 0.5,
+                                width: 30,
+                                height: 30,
                                 '&:hover': {
                                   bgcolor: 'rgba(86, 195, 201, 0.08)',
                                 }
@@ -1261,10 +1284,10 @@ const AdminDashboard = () => {
                                 color: '#56C3C9', 
                                 border: '1px solid #e0e0e0',
                                 borderRadius: '50%',
-                                p: 1,
-                                mr: 0.75,
-                                width: 36,
-                                height: 36,
+                                p: 0.75,
+                                mr: 0.5,
+                                width: 30,
+                                height: 30,
                                 '&:hover': {
                                   bgcolor: 'rgba(86, 195, 201, 0.08)',
                                 }
@@ -1279,10 +1302,10 @@ const AdminDashboard = () => {
                                 color: '#E05050', 
                                 border: '1px solid #e0e0e0',
                                 borderRadius: '50%',
-                                p: 1,
-                                mr: 0.75,
-                                width: 36,
-                                height: 36,
+                                p: 0.75,
+                                mr: 0.5,
+                                width: 30,
+                                height: 30,
                                 '&:hover': {
                                   bgcolor: 'rgba(224, 80, 80, 0.08)',
                                 }
