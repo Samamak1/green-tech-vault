@@ -23,7 +23,7 @@ const Sidebar = () => {
     { icon: <CalendarMonthIcon />, text: 'Calendar', path: '/admin/pickup-calendar' },
     { icon: <DescriptionIcon />, text: 'Reports', path: '/admin/reports' },
     { icon: <EmailIcon />, text: 'Messages', path: '/admin/messages' },
-    { icon: <CampaignIcon />, text: 'Announcements', path: '#' },
+    { icon: <CampaignIcon />, text: 'Announcements', path: '/admin/announcements' },
     { icon: <ScheduleIcon />, text: 'Schedule Pickup', path: '/admin/announcements' },
   ];
 
