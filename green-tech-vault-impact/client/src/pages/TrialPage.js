@@ -316,12 +316,12 @@ const TrialPage = () => {
               <Table size="small" aria-label="announcements table" sx={{ tableLayout: 'fixed' }}>
                 <TableHead>
                   <TableRow sx={{ bgcolor: '#f9f9f9' }}>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '25%' }}>Title</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '12%' }}>Status</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '20%' }}>Channel</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '15%' }}>Audience</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '23%' }}>Title</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '10%' }}>Status</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '15%' }}>Channel</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '12%' }}>Audience</TableCell>
                     <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '15%' }}>Scheduled Time</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '13%' }}>Actions</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '18%' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -352,7 +352,7 @@ const TrialPage = () => {
                       </TableCell>
                       <TableCell sx={{ py: 1.25, fontSize: '0.8rem' }}>{announcement.scheduledTime}</TableCell>
                       <TableCell sx={{ py: 1.25 }}>
-                        <Box sx={{ display: 'flex', gap: 0.5 }}>
+                        <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'flex-start', ml: 1 }}>
                           <IconButton
                             size="small"
                             sx={{ 
@@ -420,12 +420,12 @@ const TrialPage = () => {
               <Table size="small" aria-label="scheduled announcements table" sx={{ tableLayout: 'fixed' }}>
                 <TableHead>
                   <TableRow sx={{ bgcolor: '#f9f9f9' }}>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '25%' }}>Title</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '12%' }}>Status</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '20%' }}>Channel</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '15%' }}>Audience</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '23%' }}>Title</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '10%' }}>Status</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '15%' }}>Channel</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '12%' }}>Audience</TableCell>
                     <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '15%' }}>Scheduled Time</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '13%' }}>Actions</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '18%' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -458,7 +458,7 @@ const TrialPage = () => {
                         </TableCell>
                         <TableCell sx={{ py: 1.25, fontSize: '0.8rem' }}>{announcement.scheduledTime}</TableCell>
                         <TableCell sx={{ py: 1.25 }}>
-                          <Box sx={{ display: 'flex', gap: 0.5 }}>
+                          <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'flex-start', ml: 1 }}>
                             <IconButton
                               size="small"
                               sx={{ 
@@ -526,12 +526,12 @@ const TrialPage = () => {
               <Table size="small" aria-label="automations table" sx={{ tableLayout: 'fixed' }}>
                 <TableHead>
                   <TableRow sx={{ bgcolor: '#f9f9f9' }}>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '25%' }}>Automation Name</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '15%' }}>Trigger</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '15%' }}>Audience</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '17%' }}>Channels</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '13%' }}>Status</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '15%' }}>Actions</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '23%' }}>Automation Name</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '12%' }}>Trigger</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '12%' }}>Audience</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '15%' }}>Channels</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '12%' }}>Status</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '18%' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -574,7 +574,7 @@ const TrialPage = () => {
                       <TableCell sx={{ py: 1.25 }}>{renderChannels(automation.channels)}</TableCell>
                       <TableCell sx={{ py: 1.25 }}>{getStatusChip(automation.status)}</TableCell>
                       <TableCell sx={{ py: 1.25 }}>
-                        <Box sx={{ display: 'flex', gap: 0.5 }}>
+                        <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'flex-start', ml: 1 }}>
                           <IconButton
                             size="small"
                             sx={{ 
@@ -642,12 +642,12 @@ const TrialPage = () => {
               <Table size="small" aria-label="drafts table" sx={{ tableLayout: 'fixed' }}>
                 <TableHead>
                   <TableRow sx={{ bgcolor: '#f9f9f9' }}>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '25%' }}>Title</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '12%' }}>Status</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '20%' }}>Channel</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '15%' }}>Audience</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '23%' }}>Title</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '10%' }}>Status</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '15%' }}>Channel</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '12%' }}>Audience</TableCell>
                     <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '15%' }}>Last Modified</TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '13%' }}>Actions</TableCell>
+                    <TableCell sx={{ fontWeight: 600, color: '#444', py: 1.25, fontSize: '0.8rem', width: '18%' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -680,7 +680,7 @@ const TrialPage = () => {
                         </TableCell>
                         <TableCell sx={{ py: 1.25, fontSize: '0.8rem' }}>Today, 2:30PM</TableCell>
                         <TableCell sx={{ py: 1.25 }}>
-                          <Box sx={{ display: 'flex', gap: 0.5 }}>
+                          <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'flex-start', ml: 1 }}>
                             <IconButton
                               size="small"
                               sx={{ 
