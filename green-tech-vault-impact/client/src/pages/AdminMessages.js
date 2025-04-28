@@ -758,13 +758,13 @@ const AdminMessages = () => {
                     sx={{ 
                       p: 1.5, 
                       borderBottom: '1px solid #f0f0f0',
-                      bgcolor: selectedMessage?.id === message.id ? '#f5f5f5' : 'transparent',
+                      bgcolor: selectedMessage?.id === message.id ? '#f5f5f5' : message.read ? 'transparent' : 'rgba(78, 205, 196, 0.05)',
                       cursor: 'pointer',
                       '&:hover': { bgcolor: '#f9f9f9' },
                     }}
                     onClick={() => handleMessageSelect(message)}
                   >
-                    <Box sx={{ display: 'flex', width: '100%' }}>
+                    <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
                       <Box sx={{ mr: 1.5 }}>
                         <Checkbox 
                           size="small" 
@@ -775,70 +775,94 @@ const AdminMessages = () => {
                           checked={selectedMessages.includes(message.id)}
                         />
                       </Box>
+                      
                       <Box sx={{ flex: 1, overflow: 'hidden' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          {!message.read && (
-                            <CircleIcon sx={{ color: getStatusColor(message.type), fontSize: 10, mr: 1 }} />
-                          )}
-                          {message.starred && (
-                            <StarIcon sx={{ color: '#FFB400', fontSize: 16, mr: 1 }} />
-                          )}
-                          <Box
-                            component="span"
-                            sx={{
-                              display: 'inline-block',
+                        <Box sx={{ display: 'flex', alignItems: 'baseline', mb: 0.5 }}>
+                          <Typography 
+                            variant="subtitle2" 
+                            sx={{ 
+                              fontWeight: message.read ? 'normal' : 'bold', 
+                              color: '#000',
+                              mr: 1,
                               whiteSpace: 'nowrap',
                               overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              fontWeight: message.read ? 'normal' : 'bold',
-                            }}
-                          >
-                            {message.timestamp}
-                          </Box>
-                        </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Typography
-                            sx={{
-                              display: 'inline-block',
-                              fontWeight: message.read ? 'normal' : 'bold',
-                              whiteSpace: 'nowrap',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              fontSize: '0.95rem',
+                              textOverflow: 'ellipsis'
                             }}
                           >
                             {message.subject}
                           </Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            sx={{
-                              display: 'inline-block',
-                              whiteSpace: 'nowrap',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
+                          
+                          <Typography 
+                            variant="body2" 
+                            sx={{ 
+                              color: '#777',
+                              fontSize: '0.75rem',
+                              whiteSpace: 'nowrap'
                             }}
                           >
                             {message.sender.name}
                           </Typography>
                         </Box>
-                        <Box>
-                          <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            sx={{
-                              display: '-webkit-box',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              WebkitLineClamp: 1,
-                              WebkitBoxOrient: 'vertical',
-                            }}
-                          >
-                            {message.draft ? '[Draft] ' : ''}{message.message.split('\n')[0]}
-                          </Typography>
-                        </Box>
+                        
+                        <Typography 
+                          variant="body2" 
+                          sx={{ 
+                            color: '#666',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            fontSize: '0.8rem'
+                          }}
+                        >
+                          {message.draft ? '[Draft] ' : ''}{message.message.split('\n')[0]}
+                        </Typography>
+                      </Box>
+                      
+                      <Box sx={{ ml: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                        <Box 
+                          sx={{ 
+                            width: 10, 
+                            height: 10, 
+                            borderRadius: '50%', 
+                            bgcolor: message.read ? 'transparent' : getStatusColor(message.type),
+                            mb: 0.5
+                          }} 
+                        />
+                        
+                        <Typography 
+                          variant="caption" 
+                          sx={{ 
+                            fontSize: '0.7rem', 
+                            color: '#666',
+                            mb: 0.5,
+                            whiteSpace: 'nowrap'
+                          }}
+                        >
+                          {message.timestamp.split(' at ')[0]}
+                        </Typography>
+                        
+                        <Typography 
+                          variant="caption" 
+                          sx={{ 
+                            fontSize: '0.7rem', 
+                            color: '#666',
+                            whiteSpace: 'nowrap'
+                          }}
+                        >
+                          {message.timestamp.split(' at ')[1] || ''}
+                        </Typography>
+                        
+                        <IconButton 
+                          size="small" 
+                          sx={{ p: 0.3, mt: 0.5 }}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {message.starred ? (
+                            <StarIcon sx={{ fontSize: '0.9rem', color: '#FFB400' }} />
+                          ) : (
+                            <StarBorderIcon sx={{ fontSize: '0.9rem', color: '#999' }} />
+                          )}
+                        </IconButton>
                       </Box>
                     </Box>
                   </ListItem>
