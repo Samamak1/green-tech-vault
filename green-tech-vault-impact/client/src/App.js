@@ -46,7 +46,6 @@ import AdminClientProfile from './pages/AdminClientProfile';
 import AdminPickupDetail from './pages/AdminPickupDetail';
 import AdminDeviceDetail from './pages/AdminDeviceDetail';
 import AdminPickupCalendar from './pages/AdminPickupCalendar';
-import AdminAnnouncements from './pages/AdminAnnouncements';
 import Unauthorized from './pages/Unauthorized';
 import AdminMessages from './pages/AdminMessages';
 
@@ -310,7 +309,6 @@ function App() {
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="reports" element={<h1>Admin Reports</h1>} />
             <Route path="messages" element={<AdminMessages />} />
-            <Route path="announcements" element={<AdminAnnouncements />} />
             <Route path="clients/:clientId" element={<AdminClientProfile />} />
             <Route path="pickup-calendar" element={<AdminPickupCalendar />} />
             <Route path="pickup-detail" element={<AdminPickupDetail />} />

@@ -9,8 +9,6 @@ import EmailIcon from '@mui/icons-material/Email';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import LogoutIcon from '@mui/icons-material/Logout';
-import CampaignIcon from '@mui/icons-material/Campaign';
-import AnnouncementIcon from '@mui/icons-material/Announcement';
 
 const StyledSidebar = styled(Box)(({ theme }) => ({
   position: 'fixed',
@@ -37,8 +35,6 @@ const Sidebar = () => {
     { icon: <PeopleAltIcon />, text: 'Clients', path: '/admin/clients' },
     { icon: <DevicesOtherIcon />, text: 'Devices', path: '/admin/devices' },
     { icon: <EmailIcon />, text: 'Messages', path: '/admin/messages' },
-    { icon: <AnnouncementIcon />, text: 'Announcements', path: '/admin/announcements-page' },
-    { icon: <CampaignIcon />, text: 'Schedule Pickup', path: '/admin/schedule-pickup' },
     { icon: <LocalShippingIcon />, text: 'Pickups', path: '/admin/pickups' },
     { icon: <InventoryIcon />, text: 'Inventory', path: '/admin/inventory' },
   ];
@@ -68,17 +64,13 @@ const Sidebar = () => {
                 color: (
                   (item.path === '/admin/dashboard' && location.pathname === '/admin') ||
                   location.pathname === item.path ||
-                  (item.path === '/admin/messages' && location.pathname.includes('messages')) ||
-                  (item.path === '/admin/announcements-page' && location.pathname.includes('announcements-page')) ||
-                  (item.path === '/admin/schedule-pickup' && location.pathname.includes('schedule-pickup'))
-                ) ? '#56C3C9' : '#666',
+                  (item.path === '/admin/messages' && location.pathname.includes('messages'))
+                ) ? '#4ECDC4' : '#666',
                 fontSize: '0.95rem',
                 fontWeight: (
                   (item.path === '/admin/dashboard' && location.pathname === '/admin') ||
                   location.pathname === item.path ||
-                  (item.path === '/admin/messages' && location.pathname.includes('messages')) ||
-                  (item.path === '/admin/announcements-page' && location.pathname.includes('announcements-page')) ||
-                  (item.path === '/admin/schedule-pickup' && location.pathname.includes('schedule-pickup'))
+                  (item.path === '/admin/messages' && location.pathname.includes('messages'))
                 ) ? '500' : '400',
                 textTransform: 'none',
                 width: '100%',
@@ -89,10 +81,8 @@ const Sidebar = () => {
                 borderLeft: (
                   (item.path === '/admin/dashboard' && location.pathname === '/admin') ||
                   location.pathname === item.path ||
-                  (item.path === '/admin/messages' && location.pathname.includes('messages')) ||
-                  (item.path === '/admin/announcements-page' && location.pathname.includes('announcements-page')) ||
-                  (item.path === '/admin/schedule-pickup' && location.pathname.includes('schedule-pickup'))
-                ) ? '4px solid #56C3C9' : '4px solid transparent',
+                  (item.path === '/admin/messages' && location.pathname.includes('messages'))
+                ) ? '4px solid #4ECDC4' : '4px solid transparent',
                 '&:hover': {
                   backgroundColor: '#f5f5f5',
                 },
