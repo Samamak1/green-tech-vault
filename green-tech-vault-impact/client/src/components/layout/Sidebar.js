@@ -6,6 +6,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EmailIcon from '@mui/icons-material/Email';
 import CampaignIcon from '@mui/icons-material/Campaign';
+import ScheduleIcon from '@mui/icons-material/Schedule';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import Logo from '../branding/Logo';
 import { useAuth } from '../../context/AuthContext';
@@ -21,7 +22,7 @@ const Sidebar = () => {
     { icon: <CalendarMonthIcon />, text: 'Calendar', path: '/admin/pickup-calendar' },
     { icon: <DescriptionIcon />, text: 'Reports', path: '/admin/reports' },
     { icon: <EmailIcon />, text: 'Messages', path: '/admin/messages' },
-    { icon: <CampaignIcon />, text: 'Announcements', path: '/admin/announcements' },
+    { icon: <ScheduleIcon />, text: 'Schedule Pickup', path: '/admin/announcements' },
   ];
 
   const handleNavigation = (path) => {
