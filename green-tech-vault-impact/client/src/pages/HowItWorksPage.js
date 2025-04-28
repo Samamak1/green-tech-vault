@@ -411,7 +411,7 @@ const HowItWorksPage = () => {
           >
             <TextField
               fullWidth
-              placeholder="Search here..."
+              placeholder="Search here"
               variant="outlined"
               value={searchQuery}
               onChange={handleSearchChange}

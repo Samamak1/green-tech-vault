@@ -844,7 +844,7 @@ const AdminClientProfile = () => {
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                       <TextField
-                        placeholder="Search specifics"
+                        placeholder="Search here"
                         size="small"
                         InputProps={{
                           startAdornment: (
@@ -989,7 +989,7 @@ const AdminClientProfile = () => {
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                       <TextField
-                        placeholder="Search devices"
+                        placeholder="Search here"
                         size="small"
                         InputProps={{
                           startAdornment: (

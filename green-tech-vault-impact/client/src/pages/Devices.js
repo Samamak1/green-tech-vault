@@ -156,7 +156,7 @@ const Devices = () => {
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
             <Box component="form" onSubmit={handleSearchSubmit} sx={{ display: 'flex', alignItems: 'center' }}>
               <TextField
-                placeholder="Search devices..."
+                placeholder="Search here"
                 variant="outlined"
                 size="small"
                 name="search"

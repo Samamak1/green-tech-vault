@@ -804,7 +804,7 @@ const AdminDashboard = () => {
                   mr: 2
                 }}>
                   <SearchIcon sx={{ color: '#aaa', fontSize: '1.2rem', mr: 1 }} />
-                  <InputBase placeholder="Search Devices" sx={{ fontSize: '0.9rem' }} />
+                  <InputBase placeholder="Search here" sx={{ fontSize: '0.9rem' }} />
                 </Box>
                 
                 {/* Filter Button - Updated to match image */}
@@ -1114,7 +1114,7 @@ const AdminDashboard = () => {
                   mr: 2
                 }}>
                   <SearchIcon sx={{ color: '#aaa', fontSize: '1.2rem', mr: 1 }} />
-                  <InputBase placeholder="Search Pickups" sx={{ fontSize: '0.9rem' }} />
+                  <InputBase placeholder="Search here" sx={{ fontSize: '0.9rem' }} />
                 </Box>
                 
                 {/* Filter Button - Updated to match image */}
