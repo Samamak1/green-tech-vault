@@ -21,9 +21,7 @@ const Sidebar = () => {
     { icon: <CalendarMonthIcon />, text: 'Calendar', path: '/admin/pickup-calendar' },
     { icon: <DescriptionIcon />, text: 'Reports', path: '/admin/reports' },
     { icon: <EmailIcon />, text: 'Messages', path: '/admin/messages' },
-    { icon: <AnnouncementIcon />, text: 'Announcement', path: '/admin/announcements' },
-    { icon: <AnnouncementIcon />, text: 'Announcements', path: '/admin/announcements' },
-    { icon: <CampaignIcon />, text: 'Schedule Pickup', path: '/admin/schedule-pickup' },
+    { icon: <CampaignIcon />, text: 'Announcements', path: '/admin/announcements' },
   ];
 
   const handleNavigation = (path) => {
