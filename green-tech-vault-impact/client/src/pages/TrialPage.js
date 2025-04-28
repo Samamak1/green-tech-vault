@@ -39,7 +39,7 @@ const TrialPage = () => {
       title: 'Spring Promo Launch',
       status: 'Scheduled',
       channels: ['email', 'push'],
-      audience: 'All Customers',
+      audience: 'All Clients',
       scheduledTime: 'Apr 30, 10AM'
     },
     {
@@ -63,7 +63,7 @@ const TrialPage = () => {
       title: 'Summer Sale Preview',
       status: 'Scheduled',
       channels: ['email', 'sms'],
-      audience: 'VIP Customers',
+      audience: 'VIP Clients',
       scheduledTime: 'May 15, 9AM'
     },
     {
@@ -71,7 +71,7 @@ const TrialPage = () => {
       title: 'Holiday Closure Notice',
       status: 'Failed',
       channels: ['email', 'push'],
-      audience: 'All Customers',
+      audience: 'All Clients',
       scheduledTime: 'Apr 12, 11AM'
     }
   ];
@@ -113,49 +113,37 @@ const TrialPage = () => {
     return (
       <Box sx={{ display: 'flex', gap: 0.5 }}>
         {channels.includes('email') && (
-          <Chip 
-            icon={<EmailIcon fontSize="small" />} 
-            label="Email" 
+          <IconButton 
             size="small"
             sx={{ 
-              bgcolor: 'rgba(78, 205, 196, 0.1)', 
-              color: '#4ECDC4', 
-              border: '1px solid #4ECDC4',
-              height: '22px',
-              '& .MuiChip-label': { px: 1, fontSize: '0.7rem' },
-              '& .MuiChip-icon': { fontSize: '0.8rem' }
+              p: 0.5,
+              color: '#4ECDC4'
             }}
-          />
+          >
+            <EmailIcon fontSize="small" />
+          </IconButton>
         )}
         {channels.includes('sms') && (
-          <Chip 
-            icon={<SmsIcon fontSize="small" />} 
-            label="SMS" 
+          <IconButton 
             size="small"
             sx={{ 
-              bgcolor: 'rgba(29, 53, 87, 0.1)', 
-              color: '#1D3557', 
-              border: '1px solid #1D3557',
-              height: '22px',
-              '& .MuiChip-label': { px: 1, fontSize: '0.7rem' },
-              '& .MuiChip-icon': { fontSize: '0.8rem' }
+              p: 0.5,
+              color: '#4ECDC4'
             }}
-          />
+          >
+            <SmsIcon fontSize="small" />
+          </IconButton>
         )}
         {channels.includes('push') && (
-          <Chip 
-            icon={<NotificationsIcon fontSize="small" />} 
-            label="Push" 
+          <IconButton 
             size="small"
             sx={{ 
-              bgcolor: 'rgba(241, 143, 1, 0.1)', 
-              color: '#F18F01', 
-              border: '1px solid #F18F01',
-              height: '22px',
-              '& .MuiChip-label': { px: 1, fontSize: '0.7rem' },
-              '& .MuiChip-icon': { fontSize: '0.8rem' }
+              p: 0.5,
+              color: '#4ECDC4'
             }}
-          />
+          >
+            <NotificationsIcon fontSize="small" />
+          </IconButton>
         )}
       </Box>
     );
