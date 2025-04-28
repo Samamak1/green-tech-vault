@@ -26,7 +26,6 @@ const Sidebar = () => {
     { icon: <EmailIcon />, text: 'Messages', path: '/admin/messages' },
     { icon: <CampaignIcon />, text: 'Announcements', path: '/admin/announcements' },
     { icon: <ScheduleIcon />, text: 'Schedule Pickup', path: '/admin/schedule-pickup' },
-    { icon: <ExperimentIcon />, text: 'Trial Page', path: '/admin/trial-page' },
   ];
 
   const handleNavigation = (path) => {
