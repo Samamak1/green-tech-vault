@@ -765,7 +765,7 @@ const AdminMessages = () => {
                     onClick={() => handleMessageSelect(message)}
                   >
                     <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
-                      <Box sx={{ mr: 1.5 }}>
+                      <Box sx={{ mr: 1.5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <Checkbox 
                           size="small" 
                           onClick={(e) => {
@@ -774,6 +774,23 @@ const AdminMessages = () => {
                           }}
                           checked={selectedMessages.includes(message.id)}
                         />
+                        <IconButton 
+                          size="small" 
+                          sx={{ p: 0.3, mt: 0.5 }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const updatedMessages = messages.map(msg =>
+                              msg.id === message.id ? { ...msg, starred: !msg.starred } : msg
+                            );
+                            setMessages(updatedMessages);
+                          }}
+                        >
+                          {message.starred ? (
+                            <StarIcon sx={{ fontSize: '0.9rem', color: '#FFB400' }} />
+                          ) : (
+                            <StarBorderIcon sx={{ fontSize: '0.9rem', color: '#999' }} />
+                          )}
+                        </IconButton>
                       </Box>
                       
                       <Box sx={{ flex: 1, overflow: 'hidden' }}>
@@ -824,7 +841,7 @@ const AdminMessages = () => {
                             width: 10, 
                             height: 10, 
                             borderRadius: '50%', 
-                            bgcolor: message.read ? 'transparent' : getStatusColor(message.type),
+                            bgcolor: message.read ? 'transparent' : '#E76F51',
                             mb: 0.5
                           }} 
                         />
@@ -851,18 +868,6 @@ const AdminMessages = () => {
                         >
                           {message.timestamp.split(' at ')[1] || ''}
                         </Typography>
-                        
-                        <IconButton 
-                          size="small" 
-                          sx={{ p: 0.3, mt: 0.5 }}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          {message.starred ? (
-                            <StarIcon sx={{ fontSize: '0.9rem', color: '#FFB400' }} />
-                          ) : (
-                            <StarBorderIcon sx={{ fontSize: '0.9rem', color: '#999' }} />
-                          )}
-                        </IconButton>
                       </Box>
                     </Box>
                   </ListItem>

@@ -396,24 +396,26 @@ const TrialPage = () => {
                   cursor: 'pointer'
                 }}
               >
-                <Checkbox 
-                  size="small" 
-                  sx={{ p: 0.5, mr: 1 }}
-                  checked={checkedMessages.includes(message.id)}
-                  onChange={() => handleCheckMessage(message.id)}
-                  onClick={(e) => e.stopPropagation()}
-                />
-                
-                <IconButton 
-                  size="small" 
-                  sx={{ p: 0.5, mr: 1, color: starredMessages.includes(message.id) ? '#F2C94C' : '#C4C4C4' }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleStarMessage(message.id);
-                  }}
-                >
-                  {starredMessages.includes(message.id) ? <StarIcon fontSize="small" /> : <StarBorderIcon fontSize="small" />}
-                </IconButton>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mr: 1 }}>
+                  <Checkbox 
+                    size="small" 
+                    sx={{ p: 0.5 }}
+                    checked={checkedMessages.includes(message.id)}
+                    onChange={() => handleCheckMessage(message.id)}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                  
+                  <IconButton 
+                    size="small" 
+                    sx={{ p: 0.3, mt: 0.5, color: starredMessages.includes(message.id) ? '#F2C94C' : '#C4C4C4' }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleStarMessage(message.id);
+                    }}
+                  >
+                    {starredMessages.includes(message.id) ? <StarIcon sx={{ fontSize: '0.9rem' }} /> : <StarBorderIcon sx={{ fontSize: '0.9rem' }} />}
+                  </IconButton>
+                </Box>
                 
                 <Box 
                   sx={{ 
