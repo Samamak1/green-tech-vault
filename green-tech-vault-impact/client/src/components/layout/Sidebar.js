@@ -24,7 +24,7 @@ const Sidebar = () => {
     { icon: <DescriptionIcon />, text: 'Reports', path: '/admin/reports' },
     { icon: <EmailIcon />, text: 'Messages', path: '/admin/messages' },
     { icon: <CampaignIcon />, text: 'Announcements', path: '/admin/announcements' },
-    { icon: <ScheduleIcon />, text: 'Schedule Pickup', path: '/admin/announcements' },
+    { icon: <ScheduleIcon />, text: 'Schedule Pickup', path: '/admin/schedule-pickup' },
   ];
 
   const handleNavigation = (path) => {
@@ -62,8 +62,14 @@ const Sidebar = () => {
       
       <List sx={{ px: 2, flex: 1 }}>
         {menuItems.map((item, index) => {
-          const isSelected = location.pathname === item.path || 
-                            (item.path === '/admin/schedule-pickup' && location.pathname.includes('schedule-pickup'));
+          // Make sure only one tab gets highlighted at a time
+          let isSelected = false;
+          if (location.pathname === item.path) {
+            isSelected = true;
+          } else if (item.path === '/admin/schedule-pickup' && location.pathname === '/admin/schedule-pickup') {
+            isSelected = true;
+          }
+          
           return (
             <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
               <ListItemButton 
