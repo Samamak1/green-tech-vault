@@ -332,14 +332,55 @@ const TrialPage = () => {
                       <TableCell>{announcement.scheduledTime}</TableCell>
                       <TableCell>
                         <Box sx={{ display: 'flex', gap: 1 }}>
-                          <IconButton size="small" sx={{ color: '#4ECDC4' }}>
+                          <IconButton
+                            size="small"
+                            sx={{ 
+                              color: '#56C3C9', 
+                              border: '1px solid #e0e0e0',
+                              borderRadius: '50%',
+                              p: 1,
+                              mr: 0.75,
+                              width: 36,
+                              height: 36,
+                              '&:hover': {
+                                bgcolor: 'rgba(86, 195, 201, 0.08)',
+                              }
+                            }}
+                          >
                             <EditIcon fontSize="small" />
                           </IconButton>
-                          <IconButton size="small" sx={{ color: '#1D3557' }}>
-                            <ContentCopyIcon fontSize="small" />
-                          </IconButton>
-                          <IconButton size="small" sx={{ color: '#E71D36' }}>
+                          <IconButton
+                            size="small"
+                            sx={{ 
+                              color: '#E05050', 
+                              border: '1px solid #e0e0e0',
+                              borderRadius: '50%',
+                              p: 1,
+                              mr: 0.75,
+                              width: 36,
+                              height: 36,
+                              '&:hover': {
+                                bgcolor: 'rgba(224, 80, 80, 0.08)',
+                              }
+                            }}
+                          >
                             <DeleteIcon fontSize="small" />
+                          </IconButton>
+                          <IconButton
+                            size="small"
+                            sx={{ 
+                              color: '#1D3557', 
+                              border: '1px solid #e0e0e0',
+                              borderRadius: '50%',
+                              p: 1,
+                              width: 36,
+                              height: 36,
+                              '&:hover': {
+                                bgcolor: 'rgba(29, 53, 87, 0.08)',
+                              }
+                            }}
+                          >
+                            <ContentCopyIcon fontSize="small" />
                           </IconButton>
                         </Box>
                       </TableCell>
@@ -393,14 +434,55 @@ const TrialPage = () => {
                         <TableCell>{announcement.scheduledTime}</TableCell>
                         <TableCell>
                           <Box sx={{ display: 'flex', gap: 1 }}>
-                            <IconButton size="small" sx={{ color: '#4ECDC4' }}>
+                            <IconButton
+                              size="small"
+                              sx={{ 
+                                color: '#56C3C9', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 1,
+                                mr: 0.75,
+                                width: 36,
+                                height: 36,
+                                '&:hover': {
+                                  bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                }
+                              }}
+                            >
                               <EditIcon fontSize="small" />
                             </IconButton>
-                            <IconButton size="small" sx={{ color: '#1D3557' }}>
-                              <ContentCopyIcon fontSize="small" />
-                            </IconButton>
-                            <IconButton size="small" sx={{ color: '#E71D36' }}>
+                            <IconButton
+                              size="small"
+                              sx={{ 
+                                color: '#E05050', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 1,
+                                mr: 0.75,
+                                width: 36,
+                                height: 36,
+                                '&:hover': {
+                                  bgcolor: 'rgba(224, 80, 80, 0.08)',
+                                }
+                              }}
+                            >
                               <DeleteIcon fontSize="small" />
+                            </IconButton>
+                            <IconButton
+                              size="small"
+                              sx={{ 
+                                color: '#1D3557', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 1,
+                                width: 36,
+                                height: 36,
+                                '&:hover': {
+                                  bgcolor: 'rgba(29, 53, 87, 0.08)',
+                                }
+                              }}
+                            >
+                              <ContentCopyIcon fontSize="small" />
                             </IconButton>
                           </Box>
                         </TableCell>
@@ -458,8 +540,39 @@ const TrialPage = () => {
                       <TableCell>{getStatusChip(automation.status)}</TableCell>
                       <TableCell>
                         <Box sx={{ display: 'flex', gap: 1 }}>
-                          <IconButton size="small" sx={{ color: '#4ECDC4' }}>
+                          <IconButton
+                            size="small"
+                            sx={{ 
+                              color: '#56C3C9', 
+                              border: '1px solid #e0e0e0',
+                              borderRadius: '50%',
+                              p: 1,
+                              mr: 0.75,
+                              width: 36,
+                              height: 36,
+                              '&:hover': {
+                                bgcolor: 'rgba(86, 195, 201, 0.08)',
+                              }
+                            }}
+                          >
                             <EditIcon fontSize="small" />
+                          </IconButton>
+                          <IconButton
+                            size="small"
+                            sx={{ 
+                              color: '#E05050', 
+                              border: '1px solid #e0e0e0',
+                              borderRadius: '50%',
+                              p: 1,
+                              mr: 0.75,
+                              width: 36,
+                              height: 36,
+                              '&:hover': {
+                                bgcolor: 'rgba(224, 80, 80, 0.08)',
+                              }
+                            }}
+                          >
+                            <DeleteIcon fontSize="small" />
                           </IconButton>
                           <Button
                             size="small"
@@ -474,9 +587,6 @@ const TrialPage = () => {
                           >
                             {automation.status === 'Active' ? 'Pause' : 'Activate'}
                           </Button>
-                          <IconButton size="small" sx={{ color: '#E71D36' }}>
-                            <DeleteIcon fontSize="small" />
-                          </IconButton>
                         </Box>
                       </TableCell>
                     </TableRow>
@@ -529,8 +639,39 @@ const TrialPage = () => {
                         <TableCell>Today, 2:30PM</TableCell>
                         <TableCell>
                           <Box sx={{ display: 'flex', gap: 1 }}>
-                            <IconButton size="small" sx={{ color: '#4ECDC4' }}>
+                            <IconButton
+                              size="small"
+                              sx={{ 
+                                color: '#56C3C9', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 1,
+                                mr: 0.75,
+                                width: 36,
+                                height: 36,
+                                '&:hover': {
+                                  bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                }
+                              }}
+                            >
                               <EditIcon fontSize="small" />
+                            </IconButton>
+                            <IconButton
+                              size="small"
+                              sx={{ 
+                                color: '#E05050', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 1,
+                                mr: 0.75,
+                                width: 36,
+                                height: 36,
+                                '&:hover': {
+                                  bgcolor: 'rgba(224, 80, 80, 0.08)',
+                                }
+                              }}
+                            >
+                              <DeleteIcon fontSize="small" />
                             </IconButton>
                             <Button
                               size="small"
@@ -545,9 +686,6 @@ const TrialPage = () => {
                             >
                               Schedule
                             </Button>
-                            <IconButton size="small" sx={{ color: '#E71D36' }}>
-                              <DeleteIcon fontSize="small" />
-                            </IconButton>
                           </Box>
                         </TableCell>
                       </TableRow>
