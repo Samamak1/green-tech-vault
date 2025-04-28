@@ -101,7 +101,7 @@ const formatEventDates = (events) => {
 
 // Custom event component
 const EventComponent = ({ event }) => (
-  <Box sx={{ fontSize: '0.75rem', padding: '2px' }}>
+  <Box sx={{ fontSize: '0.7rem', padding: '1px', lineHeight: 1.1 }}>
     <strong>{event.clientName}</strong>
     <br />
     {event.location}
@@ -207,20 +207,24 @@ const AdminPickupCalendar = () => {
     // Apply custom CSS for calendar scaling
     const styleElement = document.createElement('style');
     styleElement.innerHTML = `
-      .rbc-toolbar { font-size: 0.75rem !important; }
-      .rbc-toolbar button { padding: 3px 6px !important; font-size: 0.75rem !important; }
-      .rbc-header { padding: 3px 3px !important; font-size: 0.75rem !important; }
-      .rbc-event { font-size: 0.75rem !important; }
-      .rbc-time-header-content { font-size: 0.75rem !important; }
-      .rbc-time-view .rbc-header { font-size: 0.75rem !important; }
-      .rbc-time-content { font-size: 0.75rem !important; }
-      .rbc-time-gutter { font-size: 0.75rem !important; }
-      .rbc-agenda-view table.rbc-agenda-table { font-size: 0.75rem !important; }
-      .rbc-row-segment .rbc-event-content { font-size: 0.75rem !important; }
-      .rbc-date-cell { font-size: 0.75rem !important; }
-      .rbc-month-view { font-size: 0.75rem !important; }
-      .rbc-btn-group button { font-size: 0.75rem !important; }
-      .rbc-calendar { font-size: 0.75rem !important; }
+      .rbc-toolbar { font-size: 0.7rem !important; }
+      .rbc-toolbar button { padding: 2px 4px !important; font-size: 0.7rem !important; }
+      .rbc-header { padding: 2px 2px !important; font-size: 0.7rem !important; }
+      .rbc-event { font-size: 0.7rem !important; }
+      .rbc-time-header-content { font-size: 0.7rem !important; }
+      .rbc-time-view .rbc-header { font-size: 0.7rem !important; }
+      .rbc-time-content { font-size: 0.7rem !important; }
+      .rbc-time-gutter { font-size: 0.7rem !important; }
+      .rbc-agenda-view table.rbc-agenda-table { font-size: 0.7rem !important; }
+      .rbc-row-segment .rbc-event-content { font-size: 0.7rem !important; }
+      .rbc-date-cell { font-size: 0.7rem !important; }
+      .rbc-month-view { font-size: 0.7rem !important; }
+      .rbc-btn-group button { font-size: 0.7rem !important; }
+      .rbc-calendar { font-size: 0.7rem !important; }
+      .rbc-toolbar .rbc-toolbar-label { font-size: 0.8rem !important; }
+      .rbc-day-bg { height: 80px !important; }
+      .rbc-month-row { min-height: 80px !important; }
+      .rbc-month-view { margin-top: -15px !important; }
     `;
     document.head.appendChild(styleElement);
 
@@ -653,16 +657,16 @@ const AdminPickupCalendar = () => {
   
     return (
       <>
-        <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Button 
               startIcon={<ArrowBackIcon />} 
               onClick={() => navigate('/admin/dashboard')}
-              sx={{ color: '#888', fontSize: '0.9rem', fontWeight: 'normal', textTransform: 'none' }}
+              sx={{ color: '#888', fontSize: '0.8rem', fontWeight: 'normal', textTransform: 'none' }}
             >
               Back to Dashboard
             </Button>
-            <Typography variant="h5" sx={{ ml: 2, fontWeight: 500, fontSize: '1.1rem' }}>
+            <Typography variant="h5" sx={{ ml: 2, fontWeight: 500, fontSize: '1rem' }}>
               Calendar
             </Typography>
           </Box>
@@ -674,18 +678,139 @@ const AdminPickupCalendar = () => {
               bgcolor: '#1C392B', 
               '&:hover': { bgcolor: '#152b21' },
               textTransform: 'none',
-              fontSize: '0.75rem',
-              py: 0.75,
-              px: 2
+              fontSize: '0.7rem',
+              py: 0.6,
+              px: 1.5,
+              height: '32px'
             }}
           >
             Schedule Pickup
           </Button>
         </Box>
         
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           <Grid item xs={12} md={9}>
-            <Paper sx={{ p: 2, mb: 3, height: 'calc(100vh - 200px)' }}>
+            <Paper sx={{ p: 1.5, mb: 2, height: 'calc(100vh - 180px)', overflow: 'hidden' }}>
+              <Box sx={{ 
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                mb: 1,
+                mt: -0.5
+              }}>
+                <Box sx={{ display: 'flex', gap: 0.5 }}>
+                  <Button 
+                    sx={{ 
+                      fontSize: '0.7rem', 
+                      textTransform: 'none', 
+                      py: 0.3, 
+                      px: 1, 
+                      borderRadius: '4px',
+                      bgcolor: '#f0f0f0',
+                      color: '#333',
+                      '&:hover': { bgcolor: '#e0e0e0' },
+                      minWidth: 'auto'
+                    }}
+                  >
+                    Today
+                  </Button>
+                  <Button 
+                    sx={{ 
+                      fontSize: '0.7rem', 
+                      textTransform: 'none', 
+                      py: 0.3, 
+                      px: 1, 
+                      borderRadius: '4px',
+                      bgcolor: '#f0f0f0',
+                      color: '#333',
+                      '&:hover': { bgcolor: '#e0e0e0' },
+                      minWidth: 'auto'
+                    }}
+                  >
+                    Back
+                  </Button>
+                  <Button 
+                    sx={{ 
+                      fontSize: '0.7rem', 
+                      textTransform: 'none', 
+                      py: 0.3, 
+                      px: 1, 
+                      borderRadius: '4px',
+                      bgcolor: '#f0f0f0',
+                      color: '#333',
+                      '&:hover': { bgcolor: '#e0e0e0' },
+                      minWidth: 'auto'
+                    }}
+                  >
+                    Next
+                  </Button>
+                </Box>
+                <Typography sx={{ fontSize: '0.8rem', fontWeight: 500 }}>
+                  April 2025
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 0.5 }}>
+                  <Button 
+                    sx={{ 
+                      fontSize: '0.7rem', 
+                      textTransform: 'none', 
+                      py: 0.3, 
+                      px: 1, 
+                      borderRadius: '4px',
+                      bgcolor: '#f0f0f0',
+                      color: '#333',
+                      '&:hover': { bgcolor: '#e0e0e0' },
+                      minWidth: 'auto'
+                    }}
+                  >
+                    Month
+                  </Button>
+                  <Button 
+                    sx={{ 
+                      fontSize: '0.7rem', 
+                      textTransform: 'none', 
+                      py: 0.3, 
+                      px: 1, 
+                      borderRadius: '4px',
+                      bgcolor: '#f0f0f0',
+                      color: '#333',
+                      '&:hover': { bgcolor: '#e0e0e0' },
+                      minWidth: 'auto'
+                    }}
+                  >
+                    Week
+                  </Button>
+                  <Button 
+                    sx={{ 
+                      fontSize: '0.7rem', 
+                      textTransform: 'none', 
+                      py: 0.3, 
+                      px: 1, 
+                      borderRadius: '4px',
+                      bgcolor: '#f0f0f0',
+                      color: '#333',
+                      '&:hover': { bgcolor: '#e0e0e0' },
+                      minWidth: 'auto'
+                    }}
+                  >
+                    Day
+                  </Button>
+                  <Button 
+                    sx={{ 
+                      fontSize: '0.7rem', 
+                      textTransform: 'none', 
+                      py: 0.3, 
+                      px: 1, 
+                      borderRadius: '4px',
+                      bgcolor: '#f0f0f0',
+                      color: '#333',
+                      '&:hover': { bgcolor: '#e0e0e0' },
+                      minWidth: 'auto'
+                    }}
+                  >
+                    Agenda
+                  </Button>
+                </Box>
+              </Box>
               <Calendar
                 localizer={localizer}
                 events={getFilteredEvents()}
@@ -696,11 +821,12 @@ const AdminPickupCalendar = () => {
                 onView={handleViewChange}
                 date={currentDate}
                 onNavigate={(date) => setCurrentDate(date)}
-                style={{ height: 'calc(100% - 10px)' }}
+                style={{ height: 'calc(100% - 30px)' }}
                 eventPropGetter={eventStyleGetter}
                 onSelectEvent={handleSelectEvent}
                 components={{
-                  event: EventComponent
+                  event: EventComponent,
+                  toolbar: () => null // Hide the default toolbar since we're creating our own
                 }}
                 defaultView="month"
                 popup={true}
@@ -711,25 +837,25 @@ const AdminPickupCalendar = () => {
           
           <Grid item xs={12} md={3}>
             {/* Mini calendar */}
-            <Paper sx={{ p: 2, borderRadius: 1, mb: 3 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-                <IconButton size="small" onClick={handleMiniCalendarPrev}>
-                  <ChevronLeftIcon fontSize="small" />
+            <Paper sx={{ p: 1.5, borderRadius: 1, mb: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+                <IconButton size="small" onClick={handleMiniCalendarPrev} sx={{ padding: 0.5 }}>
+                  <ChevronLeftIcon fontSize="small" sx={{ fontSize: '0.9rem' }} />
                 </IconButton>
-                <Typography variant="subtitle1" sx={{ fontWeight: 700, fontSize: '0.85rem' }}>
-                  {new Date(miniCalendarYear, miniCalendarMonth).toLocaleString('default', { month: 'long' })} {miniCalendarYear}
+                <Typography variant="subtitle1" sx={{ fontWeight: 700, fontSize: '0.8rem' }}>
+                  April 2025
                 </Typography>
-                <IconButton size="small" onClick={handleMiniCalendarNext}>
-                  <ChevronRightIcon fontSize="small" />
+                <IconButton size="small" onClick={handleMiniCalendarNext} sx={{ padding: 0.5 }}>
+                  <ChevronRightIcon fontSize="small" sx={{ fontSize: '0.9rem' }} />
                 </IconButton>
               </Box>
               
-              <Grid container spacing={0}>
+              <Grid container spacing={0} sx={{ width: '100%' }}>
                 <Grid item xs={12}>
                   <Grid container>
                     {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(day => (
                       <Grid item xs align="center" key={day}>
-                        <Typography variant="caption" sx={{ color: '#666', fontSize: '0.7rem' }}>
+                        <Typography variant="caption" sx={{ color: '#666', fontSize: '0.65rem' }}>
                           {day}
                         </Typography>
                       </Grid>
@@ -737,7 +863,7 @@ const AdminPickupCalendar = () => {
                   </Grid>
                 </Grid>
                 
-                {/* Calculate the calendar for the current month and year */}
+                {/* Mini calendar days */}
                 {(() => {
                   // Get the first day of the month (0 = Sunday, 1 = Monday, etc.)
                   const firstDayOfMonth = new Date(miniCalendarYear, miniCalendarMonth, 1).getDay();
@@ -765,7 +891,8 @@ const AdminPickupCalendar = () => {
                     days.push({
                       day: i,
                       currentMonth: true,
-                      prevMonth: false
+                      prevMonth: false,
+                      isToday: i === 28 // Highlighting 28th as in the image
                     });
                   }
                   
@@ -778,14 +905,6 @@ const AdminPickupCalendar = () => {
                       prevMonth: false
                     });
                   }
-                  
-                  // Check if a day should be highlighted (current day of current month and year)
-                  const isToday = (day) => {
-                    const today = new Date();
-                    return day === today.getDate() && 
-                           miniCalendarMonth === today.getMonth() && 
-                           miniCalendarYear === today.getFullYear();
-                  };
                   
                   // Split days into weeks
                   const weeks = [];
@@ -803,17 +922,17 @@ const AdminPickupCalendar = () => {
                                 <Box 
                                   onClick={() => handleDayClick(day.day)}
                                   sx={{ 
-                                    p: 0.5, 
+                                    p: 0.3, 
                                     borderRadius: '4px',
                                     cursor: 'pointer',
                                     color: day.currentMonth ? '#333' : '#aaa',
-                                    ...(isToday(day.day) ? { 
+                                    ...(day.isToday ? { 
                                       bgcolor: '#4ECDC4', 
                                       color: 'white'
                                     } : {})
                                   }}
                                 >
-                                  <Typography variant="caption" sx={{ fontSize: '0.7rem' }}>{day.day}</Typography>
+                                  <Typography variant="caption" sx={{ fontSize: '0.65rem' }}>{day.day}</Typography>
                                 </Box>
                               </Grid>
                             ))}
@@ -827,11 +946,11 @@ const AdminPickupCalendar = () => {
             </Paper>
             
             {/* Calendar filters */}
-            <Paper sx={{ p: 2, borderRadius: 1 }}>
-              <Typography variant="h6" sx={{ mb: 2, fontSize: '0.9rem', fontWeight: 500 }}>Calendars</Typography>
+            <Paper sx={{ p: 1.5, borderRadius: 1 }}>
+              <Typography variant="h6" sx={{ mb: 1.5, fontSize: '0.85rem', fontWeight: 500 }}>Calendars</Typography>
               
               <FormGroup>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
                   <FormControlLabel 
                     control={
                       <Switch 
@@ -840,23 +959,25 @@ const AdminPickupCalendar = () => {
                         name="pickups" 
                         sx={{ 
                           '& .MuiSwitch-switchBase.Mui-checked': { color: '#1C392B' },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#1C392B' }
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#1C392B' },
+                          '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                          '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
                         }}
                         size="small"
                       />
                     } 
                     label="Pickups" 
-                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.75rem' } }}
+                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 14, height: 14, borderRadius: '50%', bgcolor: '#1C392B', mr: 1 }} />
-                    <IconButton size="small">
-                      <MoreVertIcon sx={{ fontSize: '1rem' }} />
+                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#1C392B', mr: 0.5 }} />
+                    <IconButton size="small" sx={{ padding: 0.3 }}>
+                      <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
                     </IconButton>
                   </Box>
                 </Box>
                 
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
                   <FormControlLabel 
                     control={
                       <Switch 
@@ -865,23 +986,25 @@ const AdminPickupCalendar = () => {
                         name="deliveries" 
                         sx={{ 
                           '& .MuiSwitch-switchBase.Mui-checked': { color: '#379683' },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#379683' }
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#379683' },
+                          '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                          '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
                         }}
                         size="small"
                       />
                     } 
                     label="Deliveries" 
-                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.75rem' } }}
+                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 14, height: 14, borderRadius: '50%', bgcolor: '#379683', mr: 1 }} />
-                    <IconButton size="small">
-                      <MoreVertIcon sx={{ fontSize: '1rem' }} />
+                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#379683', mr: 0.5 }} />
+                    <IconButton size="small" sx={{ padding: 0.3 }}>
+                      <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
                     </IconButton>
                   </Box>
                 </Box>
                 
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
                   <FormControlLabel 
                     control={
                       <Switch 
@@ -890,23 +1013,25 @@ const AdminPickupCalendar = () => {
                         name="gtvEvents" 
                         sx={{ 
                           '& .MuiSwitch-switchBase.Mui-checked': { color: '#1D3557' },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#1D3557' }
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#1D3557' },
+                          '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                          '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
                         }}
                         size="small"
                       />
                     } 
                     label="GTV Events" 
-                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.75rem' } }}
+                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 14, height: 14, borderRadius: '50%', bgcolor: '#1D3557', mr: 1 }} />
-                    <IconButton size="small">
-                      <MoreVertIcon sx={{ fontSize: '1rem' }} />
+                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#1D3557', mr: 0.5 }} />
+                    <IconButton size="small" sx={{ padding: 0.3 }}>
+                      <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
                     </IconButton>
                   </Box>
                 </Box>
                 
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
                   <FormControlLabel 
                     control={
                       <Switch 
@@ -915,23 +1040,25 @@ const AdminPickupCalendar = () => {
                         name="internalEvents" 
                         sx={{ 
                           '& .MuiSwitch-switchBase.Mui-checked': { color: '#F6AE2D' },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#F6AE2D' }
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#F6AE2D' },
+                          '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                          '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
                         }}
                         size="small"
                       />
                     } 
                     label="Internal Events" 
-                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.75rem' } }}
+                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 14, height: 14, borderRadius: '50%', bgcolor: '#F6AE2D', mr: 1 }} />
-                    <IconButton size="small">
-                      <MoreVertIcon sx={{ fontSize: '1rem' }} />
+                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#F6AE2D', mr: 0.5 }} />
+                    <IconButton size="small" sx={{ padding: 0.3 }}>
+                      <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
                     </IconButton>
                   </Box>
                 </Box>
                 
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
                   <FormControlLabel 
                     control={
                       <Switch 
@@ -940,23 +1067,25 @@ const AdminPickupCalendar = () => {
                         name="promotions" 
                         sx={{ 
                           '& .MuiSwitch-switchBase.Mui-checked': { color: '#F26419' },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#F26419' }
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#F26419' },
+                          '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                          '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
                         }}
                         size="small"
                       />
                     } 
                     label="Promotions" 
-                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.75rem' } }}
+                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 14, height: 14, borderRadius: '50%', bgcolor: '#F26419', mr: 1 }} />
-                    <IconButton size="small">
-                      <MoreVertIcon sx={{ fontSize: '1rem' }} />
+                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#F26419', mr: 0.5 }} />
+                    <IconButton size="small" sx={{ padding: 0.3 }}>
+                      <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
                     </IconButton>
                   </Box>
                 </Box>
                 
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
                   <FormControlLabel 
                     control={
                       <Switch 
@@ -965,18 +1094,20 @@ const AdminPickupCalendar = () => {
                         name="challenges" 
                         sx={{ 
                           '& .MuiSwitch-switchBase.Mui-checked': { color: '#E63946' },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#E63946' }
+                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#E63946' },
+                          '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                          '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
                         }}
                         size="small"
                       />
                     } 
                     label="Challenges" 
-                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.75rem' } }}
+                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 14, height: 14, borderRadius: '50%', bgcolor: '#E63946', mr: 1 }} />
-                    <IconButton size="small">
-                      <MoreVertIcon sx={{ fontSize: '1rem' }} />
+                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#E63946', mr: 0.5 }} />
+                    <IconButton size="small" sx={{ padding: 0.3 }}>
+                      <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
                     </IconButton>
                   </Box>
                 </Box>
