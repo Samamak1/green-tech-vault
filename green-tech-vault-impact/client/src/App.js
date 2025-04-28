@@ -38,6 +38,7 @@ import BrandedAdminLogin from './pages/BrandedAdminLogin';
 import EnvironmentalImpactReportPage from './pages/EnvironmentalImpactReportPage';
 import AssetTrackingReportPage from './pages/AssetTrackingReportPage';
 import Announcements from './pages/Announcements';
+import TrialPage from './pages/TrialPage';
 
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
@@ -315,6 +316,7 @@ function App() {
             <Route path="messages" element={<AdminMessages />} />
             <Route path="announcements" element={<Announcements />} />
             <Route path="schedule-pickup" element={<AdminAnnouncements />} />
+            <Route path="trial-page" element={<TrialPage />} />
             <Route path="clients/:clientId" element={<AdminClientProfile />} />
             <Route path="pickup-calendar" element={<AdminPickupCalendar />} />
             <Route path="pickup-detail" element={<AdminPickupDetail />} />

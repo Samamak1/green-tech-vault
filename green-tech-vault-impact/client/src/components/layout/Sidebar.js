@@ -9,6 +9,7 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
+import ExperimentIcon from '@mui/icons-material/Science';
 import Logo from '../branding/Logo';
 import { useAuth } from '../../context/AuthContext';
 
@@ -25,6 +26,7 @@ const Sidebar = () => {
     { icon: <EmailIcon />, text: 'Messages', path: '/admin/messages' },
     { icon: <CampaignIcon />, text: 'Announcements', path: '/admin/announcements' },
     { icon: <ScheduleIcon />, text: 'Schedule Pickup', path: '/admin/schedule-pickup' },
+    { icon: <ExperimentIcon />, text: 'Trial Page', path: '/admin/trial-page' },
   ];
 
   const handleNavigation = (path) => {
