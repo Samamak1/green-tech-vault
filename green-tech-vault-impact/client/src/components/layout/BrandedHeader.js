@@ -7,9 +7,14 @@ import Logo from '../branding/Logo';
 const BrandedHeader = ({ userName = "Anna Katrina Marchesi", userRole = "Head of Administrator", userAvatar = null }) => {
   const theme = useTheme();
   
-  // Return an empty fragment - removing the black bar completely
+  // Return an invisible header that takes up no space, instead of removing it completely
   return (
-    <></>
+    <Box sx={{ height: 0, overflow: 'hidden', display: 'none' }}>
+      {/* Hidden content but structure preserved */}
+      <AppBar position="static" sx={{ visibility: 'hidden', height: 0 }}>
+        <Toolbar sx={{ height: 0 }}></Toolbar>
+      </AppBar>
+    </Box>
   );
 };
 
