@@ -22,7 +22,7 @@ const Sidebar = () => {
     { icon: <DescriptionIcon />, text: 'Reports', path: '/admin/reports' },
     { icon: <EmailIcon />, text: 'Messages', path: '/admin/messages' },
     { icon: <AnnouncementIcon />, text: 'Announcements', path: '/admin/announcements' },
-    { icon: <CampaignIcon />, text: 'Schedule Pickup', path: '/schedule-pickup' },
+    { icon: <CampaignIcon />, text: 'Schedule Pickup', path: '/admin/schedule-pickup' },
   ];
 
   const handleNavigation = (path) => {
@@ -61,7 +61,7 @@ const Sidebar = () => {
       <List sx={{ px: 2, flex: 1 }}>
         {menuItems.map((item, index) => {
           const isSelected = location.pathname === item.path || 
-                            (item.path === '/schedule-pickup' && location.pathname.includes('schedule-pickup'));
+                            (item.path === '/admin/schedule-pickup' && location.pathname.includes('schedule-pickup'));
           return (
             <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
               <ListItemButton 

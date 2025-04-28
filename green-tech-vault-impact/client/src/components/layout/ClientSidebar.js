@@ -28,7 +28,7 @@ const ClientSidebar = () => {
     { icon: <DescriptionIcon />, text: 'Reports', path: '/dashboard/reports' },
     { icon: <EmailIcon />, text: 'Messages', path: '/dashboard/messages' },
     { icon: <AnnouncementIcon />, text: 'Announcements', path: '/dashboard/announcements' },
-    { icon: <EventAvailableIcon />, text: 'Schedule Pickup', path: '/dashboard/schedule-pickup' },
+    { icon: <EventAvailableIcon />, text: 'Schedule Pickup', path: '/schedule-pickup' },
     { icon: <BarChartIcon />, text: 'Statistics', path: '/dashboard/statistics' },
     { icon: <StoreIcon />, text: 'Store', path: '/dashboard/store' },
     { icon: <SettingsIcon />, text: 'Settings', path: '/dashboard/settings' },
