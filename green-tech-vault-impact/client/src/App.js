@@ -39,6 +39,7 @@ import EnvironmentalImpactReportPage from './pages/EnvironmentalImpactReportPage
 import AssetTrackingReportPage from './pages/AssetTrackingReportPage';
 import Announcements from './pages/Announcements';
 import TrialPage from './pages/TrialPage';
+import PickupCalendar from './pages/PickupCalendar';
 
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
@@ -284,9 +285,9 @@ function App() {
               <ClientDashboardLayout />
             </ProtectedRoute>
           }>
-            <Route index element={isAdmin ? <Navigate to="/admin" /> : <SimpleDashboard />} />
+            <Route index element={isAdmin ? <Navigate to="/admin" /> : <Dashboard />} />
             <Route path="company-profile" element={<CompanyProfile />} />
-            <Route path="pickups" element={<Pickups />} />
+            <Route path="pickups" element={<PickupCalendar />} />
             <Route path="pickups/:id" element={<PickupDetail />} />
             <Route path="devices" element={<Devices />} />
             <Route path="reports" element={<Reports />} />
