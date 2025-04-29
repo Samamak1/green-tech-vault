@@ -1,31 +1,26 @@
 import React from 'react';
-import { Box, Toolbar, CssBaseline } from '@mui/material';
-import ClientHeader from './ClientHeader';
-import ClientSidebar from './ClientSidebar';
+import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
+import BrandedHeader from './BrandedHeader';
+import ClientSidebar from './ClientSidebar';
 
 const ClientDashboardLayout = () => {
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-      <CssBaseline />
-      <ClientHeader />
+    <Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
       <ClientSidebar />
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          pt: 3, 
-          width: { sm: `calc(100% - 240px)` },
-          ml: { sm: '240px' },
-          mt: '63px', // Slightly reduced to ensure no gap
-          bgcolor: '#f5f5f5',
-          borderTop: 'none',
-          position: 'relative',
-          zIndex: 1
-        }}
-      >
-        <Outlet />
+      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <BrandedHeader />
+        <Box 
+          component="main" 
+          sx={{ 
+            flex: 1, 
+            bgcolor: '#f5f5f5', 
+            p: 3,
+            overflow: 'auto'
+          }}
+        >
+          <Outlet />
+        </Box>
       </Box>
     </Box>
   );

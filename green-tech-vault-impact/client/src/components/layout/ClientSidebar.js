@@ -67,7 +67,11 @@ const ClientSidebar = () => {
           let isSelected = false;
           if (location.pathname === item.path) {
             isSelected = true;
-          } else if (item.path === '/schedule-pickup' && location.pathname === '/schedule-pickup') {
+          } else if (item.path === '/dashboard/pickups' && location.pathname.startsWith('/dashboard/pickups')) {
+            isSelected = true;
+          } else if (item.path === '/dashboard/reports' && location.pathname.startsWith('/dashboard/reports')) {
+            isSelected = true;
+          } else if (item.path === '/schedule-pickup' && location.pathname.startsWith('/schedule-pickup')) {
             isSelected = true;
           }
           

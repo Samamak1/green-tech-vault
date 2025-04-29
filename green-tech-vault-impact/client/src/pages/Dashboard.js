@@ -740,86 +740,86 @@ const Dashboard = () => {
                     <TableRow 
                       key={client.id}
                       hover
-                      sx={{ '&:hover': { bgcolor: '#f5f5f5' }, borderBottom: '1px solid #eee', height: '52px' }}
-                    >
-                      <TableCell 
-                        sx={{ 
-                          py: 1.5, 
-                          px: 1.5, 
-                          fontSize: '0.7rem',
-                          textOverflow: 'ellipsis', 
-                          overflow: 'hidden',
-                          cursor: 'pointer',
-                          color: '#1C392B',
-                          fontWeight: 500,
-                          '&:hover': { textDecoration: 'underline' }
-                        }} 
-                        onClick={() => handleViewClient(client.id)}
+                        sx={{ '&:hover': { bgcolor: '#f5f5f5' }, borderBottom: '1px solid #eee', height: '52px' }}
                       >
-                        {client.name}
+                        <TableCell 
+                          sx={{ 
+                            py: 1.5, 
+                            px: 1.5, 
+                            fontSize: '0.7rem',
+                            textOverflow: 'ellipsis', 
+                            overflow: 'hidden',
+                            cursor: 'pointer',
+                            color: '#1C392B',
+                            fontWeight: 500,
+                            '&:hover': { textDecoration: 'underline' }
+                          }} 
+                      onClick={() => handleViewClient(client.id)}
+                    >
+                          {client.name}
                       </TableCell>
-                      <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.contactPerson}</TableCell>
-                      <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.email}</TableCell>
-                      <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.phone}</TableCell>
-                      <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.devicesCollected > 0 ? '45' : '32'}</TableCell>
-                      <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.totalWeight.toFixed(1)}</TableCell>
-                      <TableCell sx={{ py: 1.5, px: 1.5 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
+                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.contactPerson}</TableCell>
+                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.email}</TableCell>
+                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.phone}</TableCell>
+                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.devicesCollected > 0 ? '45' : '32'}</TableCell>
+                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.totalWeight.toFixed(1)}</TableCell>
+                        <TableCell sx={{ py: 1.5, px: 1.5 }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
                         <IconButton
                           size="small"
-                          sx={{ 
-                            color: '#56C3C9', 
-                            border: '1px solid #e0e0e0',
-                            borderRadius: '50%',
-                            p: 0.5,
-                            mr: 0.5,
-                            width: 26,
-                            height: 26,
-                            '&:hover': {
-                              bgcolor: 'rgba(86, 195, 201, 0.08)',
-                            }
-                          }}
-                          onClick={() => handleViewClient(client.id)}
+                              sx={{ 
+                                color: '#56C3C9', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 0.5,
+                                mr: 0.5,
+                                width: 26,
+                                height: 26,
+                                '&:hover': {
+                                  bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                }
+                              }}
+                              onClick={() => handleViewClient(client.id)}
                         >
-                          <EyeIcon fontSize="small" />
+                              <EyeIcon fontSize="small" />
                         </IconButton>
                         <IconButton
                           size="small"
-                          sx={{ 
-                            color: '#56C3C9', 
-                            border: '1px solid #e0e0e0',
-                            borderRadius: '50%',
-                            p: 0.5,
-                            mr: 0.5,
-                            width: 26,
-                            height: 26,
-                            '&:hover': {
-                              bgcolor: 'rgba(86, 195, 201, 0.08)',
-                            }
-                          }}
-                          onClick={() => handleOpenDialog(client)}
+                              sx={{ 
+                                color: '#56C3C9', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 0.5,
+                                mr: 0.5,
+                                width: 26,
+                                height: 26,
+                                '&:hover': {
+                                  bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                }
+                              }}
+                              onClick={() => handleOpenDialog(client)}
                         >
-                          <EditIcon fontSize="small" />
+                              <EditIcon fontSize="small" />
                         </IconButton>
                         <IconButton
                           size="small"
-                          sx={{ 
-                            color: '#E05050', 
-                            border: '1px solid #e0e0e0',
-                            borderRadius: '50%',
-                            p: 0.5,
-                            mr: 0.5,
-                            width: 26,
-                            height: 26,
-                            '&:hover': {
-                              bgcolor: 'rgba(224, 80, 80, 0.08)',
-                            }
-                          }}
-                          onClick={(event) => handleDeleteClient(client.id, event)}
+                              sx={{ 
+                                color: '#E05050', 
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '50%',
+                                p: 0.5,
+                                mr: 0.5,
+                                width: 26,
+                                height: 26,
+                                '&:hover': {
+                                  bgcolor: 'rgba(224, 80, 80, 0.08)',
+                                }
+                              }}
+                              onClick={(event) => handleDeleteClient(client.id, event)}
                         >
-                          <DeleteIcon fontSize="small" />
+                              <DeleteIcon fontSize="small" />
                         </IconButton>
-                        </Box>
+                          </Box>
                       </TableCell>
                     </TableRow>
                   ))}

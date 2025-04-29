@@ -45,19 +45,71 @@ import { useAuth } from '../context/AuthContext';
 // Set up the localizer
 const localizer = momentLocalizer(moment);
 
+// Custom CSS for calendar scaling
+const calendarStyles = {
+  '.rbc-toolbar': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-toolbar button': {
+    padding: '3px 6px',
+    fontSize: '0.75rem',
+  },
+  '.rbc-header': {
+    padding: '3px 3px',
+    fontSize: '0.75rem',
+  },
+  '.rbc-event': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-time-header-content': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-time-view .rbc-header': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-time-content': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-time-gutter': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-agenda-view table.rbc-agenda-table': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-row-segment .rbc-event-content': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-date-cell': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-month-view': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-btn-group button': {
+    fontSize: '0.75rem',
+  },
+  '.rbc-calendar': {
+    fontSize: '0.75rem',
+  }
+};
+
 // Custom event component to show in the calendar
 const EventComponent = ({ event }) => {
   // Event data could include clientName, location, status, etc
   return (
     <Tooltip title={`${event.title} - ${event.location || ''}`}>
       <Box sx={{ 
-        fontSize: '0.75rem', 
+        fontSize: '0.7rem', 
         overflow: 'hidden', 
         textOverflow: 'ellipsis', 
         whiteSpace: 'nowrap',
-        width: '100%' 
+        width: '100%',
+        padding: '1px',
+        lineHeight: 1.1
       }}>
-        {event.title}
+        <strong>{event.clientName || event.title}</strong>
+        <br />
+        {event.location}
       </Box>
     </Tooltip>
   );
@@ -120,6 +172,33 @@ const PickupCalendar = () => {
   const [miniCalendarMonth, setMiniCalendarMonth] = useState(new Date().getMonth());
   const [miniCalendarYear, setMiniCalendarYear] = useState(new Date().getFullYear());
   const [currentDay] = useState(new Date().getDate());
+  
+  useEffect(() => {
+    // Apply custom CSS for calendar scaling
+    const styleElement = document.createElement('style');
+    styleElement.innerHTML = `
+      .rbc-toolbar { font-size: 0.7rem !important; }
+      .rbc-toolbar button { padding: 2px 4px !important; font-size: 0.7rem !important; }
+      .rbc-header { padding: 2px 2px !important; font-size: 0.7rem !important; }
+      .rbc-event { font-size: 0.7rem !important; }
+      .rbc-time-header-content { font-size: 0.7rem !important; }
+      .rbc-time-view .rbc-header { font-size: 0.7rem !important; }
+      .rbc-time-content { font-size: 0.7rem !important; }
+      .rbc-time-gutter { font-size: 0.7rem !important; }
+      .rbc-agenda-view table.rbc-agenda-table { font-size: 0.7rem !important; }
+      .rbc-row-segment .rbc-event-content { font-size: 0.7rem !important; }
+      .rbc-date-cell { font-size: 0.7rem !important; }
+      .rbc-month-view { font-size: 0.7rem !important; }
+      .rbc-btn-group button { font-size: 0.7rem !important; }
+      .rbc-calendar { font-size: 0.7rem !important; }
+      .rbc-toolbar .rbc-toolbar-label { font-size: 0.8rem !important; }
+    `;
+    document.head.appendChild(styleElement);
+
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, []);
   
   // Event styling function moved inside the component to access calendarFilters
   const eventStyleGetter = (event) => {
