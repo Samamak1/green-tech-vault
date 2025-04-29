@@ -5,13 +5,11 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import DescriptionIcon from '@mui/icons-material/Description';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EmailIcon from '@mui/icons-material/Email';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import ComputerIcon from '@mui/icons-material/Computer';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import SettingsIcon from '@mui/icons-material/Settings';
-import HelpIcon from '@mui/icons-material/Help';
-import StoreIcon from '@mui/icons-material/Store';
+import CampaignIcon from '@mui/icons-material/Campaign';
+import ScheduleIcon from '@mui/icons-material/Schedule';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
+import ExperimentIcon from '@mui/icons-material/Science';
 import Logo from '../branding/Logo';
 import { useAuth } from '../../context/AuthContext';
 
@@ -23,16 +21,11 @@ const ClientSidebar = () => {
   
   const menuItems = [
     { icon: <DashboardIcon />, text: 'Dashboard', path: '/dashboard' },
-    { icon: <ComputerIcon />, text: 'Devices', path: '/dashboard/devices' },
-    { icon: <CalendarMonthIcon />, text: 'Pickups', path: '/dashboard/pickups' },
+    { icon: <CalendarMonthIcon />, text: 'Calendar', path: '/dashboard/pickups' },
     { icon: <DescriptionIcon />, text: 'Reports', path: '/dashboard/reports' },
     { icon: <EmailIcon />, text: 'Messages', path: '/dashboard/messages' },
-    { icon: <AnnouncementIcon />, text: 'Announcements', path: '/dashboard/announcements' },
-    { icon: <EventAvailableIcon />, text: 'Schedule Pickup', path: '/schedule-pickup' },
-    { icon: <BarChartIcon />, text: 'Statistics', path: '/dashboard/statistics' },
-    { icon: <StoreIcon />, text: 'Store', path: '/dashboard/store' },
-    { icon: <SettingsIcon />, text: 'Settings', path: '/dashboard/settings' },
-    { icon: <HelpIcon />, text: 'Help', path: '/dashboard/help' },
+    { icon: <CampaignIcon />, text: 'Announcements', path: '/dashboard/announcements' },
+    { icon: <ScheduleIcon />, text: 'Schedule Pickup', path: '/schedule-pickup' },
   ];
 
   const handleNavigation = (path) => {
@@ -70,7 +63,14 @@ const ClientSidebar = () => {
       
       <List sx={{ px: 2, flex: 1 }}>
         {menuItems.map((item, index) => {
-          const isSelected = location.pathname === item.path;
+          // Make sure only one tab gets highlighted at a time
+          let isSelected = false;
+          if (location.pathname === item.path) {
+            isSelected = true;
+          } else if (item.path === '/schedule-pickup' && location.pathname === '/schedule-pickup') {
+            isSelected = true;
+          }
+          
           return (
             <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
               <ListItemButton 
