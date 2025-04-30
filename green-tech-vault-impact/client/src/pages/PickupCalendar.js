@@ -30,7 +30,7 @@ import {
 } from '@mui/material';
 import ClientDashboardLayout from '../components/layout/ClientDashboardLayout';
 import {
-  Calendar as CalendarIcon,
+  CalendarMonth as CalendarIcon,
   NavigateBefore as PreviousIcon,
   NavigateNext as NextIcon,
   ArrowDropDown as DropdownIcon,
