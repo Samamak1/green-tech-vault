@@ -41,6 +41,7 @@ import Announcements from './pages/Announcements';
 import TrialPage from './pages/TrialPage';
 import PickupCalendar from './pages/PickupCalendar';
 import RGYNProfile from './pages/RGYNProfile';
+import ClientAnnouncements from './pages/ClientAnnouncements';
 
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
@@ -295,7 +296,7 @@ function App() {
             <Route path="reports" element={<Reports />} />
             <Route path="reports/:id" element={<ReportDetail />} />
             <Route path="messages" element={<h1>Client Messages</h1>} />
-            <Route path="announcements" element={<h1>Client Announcements</h1>} />
+            <Route path="announcements" element={<ClientAnnouncements />} />
             <Route path="statistics" element={<Dashboard />} />
             <Route path="database" element={<h1>Database</h1>} />
             <Route path="team" element={<h1>Team</h1>} />
