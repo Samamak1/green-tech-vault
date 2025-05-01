@@ -127,6 +127,9 @@ const AdminHeader = () => {
         <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
           {user?.name || 'Full Name'}
         </Typography>
+        <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
+          {user?.position || 'CEO'}
+        </Typography>
         <Box 
           sx={{ 
             textAlign: 'center', 

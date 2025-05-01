@@ -95,7 +95,7 @@ router.post('/login', (req, res) => {
     userName = 'Leila Meyer';
     userId = 'client-1';
     userRole = 'client';
-    username = '@Lmeyer';
+    username = '@lmeyer';
     companyName = "Leila's Company";
   }
   
@@ -138,7 +138,7 @@ router.get('/me', (req, res) => {
       email: isAdmin ? 'lmeyer@rygneco.com' : 'leilaameyer2@gmail.com',
       role: isAdmin ? 'admin' : 'client',
       position: isAdmin ? 'CEO' : '',
-      username: !isAdmin ? '@Lmeyer' : null,
+      username: !isAdmin ? '@lmeyer' : null,
       companyName: !isAdmin ? "Leila's Company" : null
     },
     message: 'User retrieved successfully' 

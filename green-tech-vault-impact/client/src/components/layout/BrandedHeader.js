@@ -128,7 +128,7 @@ const BrandedHeader = () => {
           {user?.companyName || "Leila's Company"}
         </Typography>
         <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
-          {user?.username || '@Lmeyer'}
+          {user?.username || '@lmeyer'}
         </Typography>
         <Box 
           sx={{ 
@@ -250,7 +250,7 @@ const BrandedHeader = () => {
                 {user?.companyName || "Leila's Company"}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                {user?.username || '@Lmeyer'}
+                {user?.username || '@lmeyer'}
               </Typography>
             </Box>
             
