@@ -57,7 +57,7 @@ const RGYNProfile = () => {
   }, []);
 
   const handleGoBack = () => {
-    navigate('/dashboard');
+    navigate('/dashboard', { replace: true });
   };
 
   const handleLeftPanelTabChange = (tabName) => {

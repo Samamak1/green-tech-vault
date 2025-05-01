@@ -84,7 +84,6 @@ const Dashboard = () => {
   const [pickups, setPickups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [tabValue, setTabValue] = useState(0);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
   const [formData, setFormData] = useState({
@@ -228,10 +227,6 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
   };
 
   const handleOpenDialog = (client = null) => {
@@ -470,7 +465,7 @@ const Dashboard = () => {
               flexDirection: 'row', // Changed to row to place items side by side
               justifyContent: 'space-around',
               alignItems: 'center',
-              height: '440px', // Double the height of the boxes above
+              height: '220px', // Double the height of the boxes above
             }}>
               {/* First stat */}
               <Box sx={{ 
@@ -520,7 +515,7 @@ const Dashboard = () => {
               flexDirection: 'column', 
               alignItems: 'center',
               justifyContent: 'center', 
-              height: '440px', // Double the height of the boxes above
+              height: '220px', // Same height as the CO2/Trees box
             }}>
               <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
                 92.5%
@@ -531,46 +526,6 @@ const Dashboard = () => {
             </Paper>
           </Grid>
         </Grid>
-        
-        {/* Tab navigation - outside the Paper component */}
-        <Box sx={{ borderBottom: 1, borderColor: '#e0e0e0', mb: 3 }}>
-          <Tabs 
-            value={tabValue} 
-            onChange={handleTabChange} 
-            aria-label="client tabs"
-            sx={{
-              '& .MuiTab-root': {
-                textTransform: 'none',
-                fontSize: '16px',
-                fontWeight: 'normal',
-                color: '#666',
-                mx: 1,
-                '&.Mui-selected': {
-                  color: '#4ECDC4',
-                  fontWeight: 'medium',
-                }
-              },
-              '& .MuiTabs-indicator': {
-                backgroundColor: '#4ECDC4',
-                height: 3
-              }
-            }}
-          >
-            <Tab label="Clients" />
-            <Tab label="Devices" />
-            <Tab label="Pickups" />
-          </Tabs>
-        </Box>
-        
-        {/* Content in Paper - without tabs */}
-        <Paper sx={{ 
-          p: 3, 
-          borderRadius: '8px', 
-          boxShadow: '0px 2px 4px rgba(0,0,0,0.05)',
-          mb: 4
-        }}>
-        {/* Dashboard content without tabs */}
-      </Paper>
       </>
     );
   };
