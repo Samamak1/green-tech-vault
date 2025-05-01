@@ -125,7 +125,7 @@ const BrandedHeader = () => {
           <PersonIcon fontSize="large" />
         </Avatar>
         <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-          {user?.name || 'Leila Meyer'}
+          {user?.companyName || "Leila's Company"}
         </Typography>
         <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
           {user?.username || '@Lmeyer'}

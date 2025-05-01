@@ -10,6 +10,7 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import ExperimentIcon from '@mui/icons-material/Science';
+import PersonIcon from '@mui/icons-material/Person';
 import Logo from '../branding/Logo';
 import { useAuth } from '../../context/AuthContext';
 
@@ -21,6 +22,7 @@ const ClientSidebar = () => {
   
   const menuItems = [
     { icon: <DashboardIcon />, text: 'Dashboard', path: '/dashboard' },
+    { icon: <PersonIcon />, text: 'RGYN Profile', path: '/dashboard/rgyn-profile' },
     { icon: <CalendarMonthIcon />, text: 'Calendar', path: '/dashboard/pickups' },
     { icon: <DescriptionIcon />, text: 'Reports', path: '/dashboard/reports' },
     { icon: <EmailIcon />, text: 'Messages', path: '/dashboard/messages' },
@@ -72,6 +74,8 @@ const ClientSidebar = () => {
           } else if (item.path === '/dashboard/reports' && location.pathname.startsWith('/dashboard/reports')) {
             isSelected = true;
           } else if (item.path === '/schedule-pickup' && location.pathname.startsWith('/schedule-pickup')) {
+            isSelected = true;
+          } else if (item.path === '/dashboard/rgyn-profile' && location.pathname.startsWith('/dashboard/rgyn-profile')) {
             isSelected = true;
           }
           
