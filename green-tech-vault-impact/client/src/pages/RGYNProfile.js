@@ -178,30 +178,28 @@ const RGYNProfile = () => {
 
   return (
     <Box sx={{ p: 0 }}>
-      {/* Header */}
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, pl: 2, pt: 2 }}>
+      {/* Header with Back button - similar to Admin page */}
+      <Box sx={{ display: 'flex', alignItems: 'center', pl: 2, pt: 2, pb: 2 }}>
         <Button 
           startIcon={<ArrowBackIcon />} 
           onClick={handleGoBack}
-          sx={{ color: '#888', fontSize: '0.85rem', fontWeight: 'normal', textTransform: 'none' }}
+          sx={{ color: '#888', fontSize: '0.8rem', fontWeight: 'normal', textTransform: 'none' }}
         >
           Back to Dashboard
         </Button>
-        <Typography variant="h6" sx={{ ml: 2, color: '#444', fontWeight: 500, fontSize: '1.1rem' }}>
+        <Typography variant="h6" sx={{ ml: 2, color: '#444', fontWeight: 500, fontSize: '1rem' }}>
           Client Profile: {client.name}
         </Typography>
       </Box>
 
-      <Grid container spacing={2} sx={{ pl: 1, pr: 1 }}>
-        {/* Left Column - Information Panels */}
-        <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 0, borderRadius: 2, height: '100%', overflow: 'hidden', maxHeight: 'calc(100vh - 130px)' }}>
-            {/* Tab Selection Buttons */}
+      <Grid container spacing={2} sx={{ px: 1 }}>
+        {/* Left Column - Information Panels - Similar styling to Admin view */}
+        <Grid item xs={12} md={5}>
+          <Paper sx={{ p: 0, borderRadius: 2, overflow: 'hidden', mb: 2 }}>
+            {/* Tab Selection similar to Admin page */}
             <Box sx={{ 
-              borderBottom: '1px solid #e0e0e0',
-              width: '100%',
               display: 'flex',
-              justifyContent: 'flex-start'
+              borderBottom: '1px solid #e0e0e0',
             }}>
               <Box 
                 onClick={() => handleLeftPanelTabChange('Company Information')}
@@ -209,7 +207,7 @@ const RGYNProfile = () => {
                   p: 1.5,
                   pb: 1,
                   cursor: 'pointer',
-                  borderBottom: leftPanelTab === 'Company Information' ? '4px solid #4ECDC4' : 'none',
+                  borderBottom: leftPanelTab === 'Company Information' ? '3px solid #4ECDC4' : 'none',
                   color: leftPanelTab === 'Company Information' ? '#4ECDC4' : '#808080',
                   fontWeight: 400,
                   fontSize: '14px',
@@ -224,7 +222,7 @@ const RGYNProfile = () => {
                   p: 1.5,
                   pb: 1,
                   cursor: 'pointer',
-                  borderBottom: leftPanelTab === 'Environmental Impact' ? '4px solid #4ECDC4' : 'none',
+                  borderBottom: leftPanelTab === 'Environmental Impact' ? '3px solid #4ECDC4' : 'none',
                   color: leftPanelTab === 'Environmental Impact' ? '#4ECDC4' : '#808080',
                   fontWeight: 400,
                   fontSize: '14px'
@@ -236,27 +234,19 @@ const RGYNProfile = () => {
 
             {/* Company Information Panel */}
             {leftPanelTab === 'Company Information' && (
-              <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 180px)' }}>
+              <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                  <Box 
-                    sx={{ 
-                      display: 'flex', 
-                      alignItems: 'center',
-                      cursor: 'pointer' 
-                    }}
-                  >
-                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, fontSize: '1rem' }}>
-                      Company Information
-                    </Typography>
-                  </Box>
+                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, fontSize: '0.95rem' }}>
+                    Company Information
+                  </Typography>
                   <Button 
-                    startIcon={<EditIcon />} 
+                    startIcon={<EditIcon fontSize="small" />} 
                     size="small"
                     sx={{ 
                       color: '#4ECDC4', 
                       fontSize: '0.75rem', 
                       border: '1px solid #e0e0e0',
-                      borderRadius: '8px',
+                      borderRadius: '4px',
                       py: 0.3,
                       px: 1,
                     }}
@@ -264,94 +254,94 @@ const RGYNProfile = () => {
                     Edit
                   </Button>
                 </Box>
-                <Divider sx={{ mt: 1, mb: 2 }} />
+                <Divider sx={{ my: 1 }} />
 
                 <Box sx={{ mt: 1 }}>
                   <Grid container spacing={1}>
                     <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.85rem' }}>Company Name</Typography>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Company Name</Typography>
                     </Grid>
                     <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>{client.name}</Typography>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.name}</Typography>
                     </Grid>
 
                     <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.85rem' }}>Email</Typography>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Email</Typography>
                     </Grid>
                     <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>{client.email}</Typography>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.email}</Typography>
                     </Grid>
 
                     <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.85rem' }}>Phone</Typography>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Phone</Typography>
                     </Grid>
                     <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>{client.phone}</Typography>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.phone}</Typography>
                     </Grid>
 
                     <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.85rem' }}>Address</Typography>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Address</Typography>
                     </Grid>
                     <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>{client.address}</Typography>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.address}</Typography>
                     </Grid>
 
                     <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.85rem' }}>Website</Typography>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Website</Typography>
                     </Grid>
                     <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>{client.website}</Typography>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.website}</Typography>
                     </Grid>
 
                     <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.85rem' }}>Industry</Typography>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Industry</Typography>
                     </Grid>
                     <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>{client.industry}</Typography>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.industry}</Typography>
                     </Grid>
 
                     <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.85rem' }}>Employees</Typography>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Employees</Typography>
                     </Grid>
                     <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>{client.employees}</Typography>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.employees}</Typography>
                     </Grid>
                     
                     <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.85rem' }}>Username</Typography>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Username</Typography>
                     </Grid>
                     <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>{client.username}</Typography>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.username}</Typography>
                     </Grid>
                   </Grid>
                 </Box>
 
                 <Box sx={{ mt: 3 }}>
-                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '1rem' }}>
+                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, fontSize: '0.95rem' }}>
                     Client Information
                   </Typography>
-                  <Divider sx={{ mt: 1, mb: 2 }} />
+                  <Divider sx={{ my: 1 }} />
                   
                   <Grid container spacing={1}>
                     <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.85rem' }}>Contact Name</Typography>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Contact Name</Typography>
                     </Grid>
                     <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>{client.contactPerson}</Typography>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.contactPerson}</Typography>
                     </Grid>
 
                     <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.85rem' }}>Email</Typography>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Email</Typography>
                     </Grid>
                     <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>{client.email}</Typography>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.email}</Typography>
                     </Grid>
 
                     <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.85rem' }}>Phone</Typography>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Phone</Typography>
                     </Grid>
                     <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>{client.phone}</Typography>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.phone}</Typography>
                     </Grid>
                   </Grid>
                 </Box>
@@ -360,56 +350,56 @@ const RGYNProfile = () => {
             
             {/* Environmental Impact Panel */}
             {leftPanelTab === 'Environmental Impact' && (
-              <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 180px)' }}>
-                <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 2, fontSize: '1rem' }}>
+              <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
+                <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
                   Environmental Impact Summary
                 </Typography>
                 <Divider sx={{ mb: 2 }} />
                 
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
-                    <Paper elevation={0} sx={{ p: 1.5, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
-                      <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1.1rem' }}>
+                    <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
+                      <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
                         {client.devicesProcessed}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.8rem' }}>
+                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
                         Devices Processed
                       </Typography>
                     </Paper>
                   </Grid>
                   <Grid item xs={6}>
-                    <Paper elevation={0} sx={{ p: 1.5, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
-                      <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1.1rem' }}>
+                    <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
+                      <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
                         {client.totalWeight.toFixed(1)} kg
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.8rem' }}>
+                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
                         Total Weight
                       </Typography>
                     </Paper>
                   </Grid>
                   <Grid item xs={6}>
-                    <Paper elevation={0} sx={{ p: 1.5, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
-                      <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1.1rem' }}>
+                    <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
+                      <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
                         {client.co2Saved.toFixed(1)} kg
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.8rem' }}>
+                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
                         CO2 Saved
                       </Typography>
                     </Paper>
                   </Grid>
                   <Grid item xs={6}>
-                    <Paper elevation={0} sx={{ p: 1.5, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
-                      <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1.1rem' }}>
+                    <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
+                      <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
                         {client.treesPlanted}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.8rem' }}>
+                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
                         Trees Planted
                       </Typography>
                     </Paper>
                   </Grid>
                 </Grid>
                 
-                <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mt: 3, mb: 1, fontSize: '1rem' }}>
+                <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mt: 3, mb: 1, fontSize: '0.95rem' }}>
                   Device Disposition
                 </Typography>
                 <Divider sx={{ mb: 2 }} />
@@ -417,30 +407,30 @@ const RGYNProfile = () => {
                 <Grid container spacing={2}>
                   <Grid item xs={4}>
                     <Box sx={{ textAlign: 'center' }}>
-                      <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1.1rem' }}>
+                      <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
                         {client.refurbished}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.8rem' }}>
+                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
                         Refurbished
                       </Typography>
                     </Box>
                   </Grid>
                   <Grid item xs={4}>
                     <Box sx={{ textAlign: 'center' }}>
-                      <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1.1rem' }}>
+                      <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
                         {client.recycled}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.8rem' }}>
+                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
                         Recycled
                       </Typography>
                     </Box>
                   </Grid>
                   <Grid item xs={4}>
                     <Box sx={{ textAlign: 'center' }}>
-                      <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1.1rem' }}>
+                      <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
                         {client.disposed}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.8rem' }}>
+                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
                         Disposed
                       </Typography>
                     </Box>
@@ -452,14 +442,15 @@ const RGYNProfile = () => {
         </Grid>
         
         {/* Right Column - Pickups and Devices */}
-        <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 0, borderRadius: 2, height: '100%', overflow: 'hidden', maxHeight: 'calc(100vh - 130px)' }}>
+        <Grid item xs={12} md={7}>
+          <Paper sx={{ p: 0, borderRadius: 2, overflow: 'hidden', mb: 2 }}>
             {/* Tabs for Pickups and Devices */}
             <Tabs
               value={rightPanelTab}
               onChange={handleRightPanelTabChange}
               sx={{
                 borderBottom: '1px solid #e0e0e0',
+                minHeight: '40px',
                 '& .MuiTabs-indicator': {
                   backgroundColor: '#4ECDC4',
                   height: 3
@@ -472,7 +463,7 @@ const RGYNProfile = () => {
                   fontSize: '14px',
                   fontWeight: 400,
                   color: '#808080',
-                  p: 1.5,
+                  p: 1,
                   minHeight: '40px'
                 }
               }}
@@ -482,20 +473,20 @@ const RGYNProfile = () => {
             </Tabs>
             
             {/* Search and Filter Area */}
-            <Box sx={{ p: 1.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box sx={{ p: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <TextField
                 placeholder="Search here"
                 size="small"
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <SearchIcon fontSize="small" />
+                      <SearchIcon fontSize="small" sx={{ fontSize: '18px' }} />
                     </InputAdornment>
                   ),
-                  sx: { height: '36px', fontSize: '0.85rem' }
+                  sx: { height: '32px', fontSize: '0.8rem' }
                 }}
                 sx={{ 
-                  width: '60%',
+                  width: '55%',
                   '& .MuiOutlinedInput-root': {
                     borderRadius: 1
                   }
@@ -504,14 +495,15 @@ const RGYNProfile = () => {
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <Button
                   variant="outlined"
-                  startIcon={<FilterListIcon />}
+                  startIcon={<FilterListIcon sx={{ fontSize: '18px' }} />}
                   size="small"
                   sx={{ 
                     color: '#666',
                     borderColor: '#e0e0e0',
                     textTransform: 'none',
-                    fontSize: '0.8rem',
+                    fontSize: '0.75rem',
                     py: 0.5,
+                    height: '32px',
                     '&:hover': {
                       borderColor: '#ccc'
                     }
@@ -527,8 +519,9 @@ const RGYNProfile = () => {
                     sx={{
                       bgcolor: '#4ECDC4',
                       textTransform: 'none',
-                      fontSize: '0.8rem',
+                      fontSize: '0.75rem',
                       py: 0.5,
+                      height: '32px',
                       '&:hover': {
                         bgcolor: '#3daea6'
                       }
@@ -540,50 +533,50 @@ const RGYNProfile = () => {
               </Box>
             </Box>
             
-            {/* Table Content */}
+            {/* Table Content - Redesigned to match Admin view table */}
             {rightPanelTab === 'Pickups' && (
               <TableContainer sx={{ maxHeight: 'calc(100vh - 230px)', overflow: 'auto' }}>
-                <Table sx={{ minWidth: 500 }} size="small" stickyHeader>
+                <Table stickyHeader size="small" sx={{ tableLayout: 'fixed' }}>
                   <TableHead>
                     <TableRow>
-                      <TableCell padding="checkbox" sx={{ bgcolor: '#f5f5f5', py: 1 }}></TableCell>
-                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.8rem', py: 1 }}>Client</TableCell>
-                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.8rem', py: 1 }}>Date</TableCell>
-                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.8rem', py: 1 }}>Time</TableCell>
-                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.8rem', py: 1 }}>Location</TableCell>
-                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.8rem', py: 1 }}>Status</TableCell>
-                      <TableCell align="right" sx={{ bgcolor: '#f5f5f5', fontSize: '0.8rem', py: 1 }}>Weight (kg)</TableCell>
-                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.8rem', py: 1 }}>Actions</TableCell>
+                      <TableCell padding="checkbox" sx={{ bgcolor: '#f5f5f5', width: '20px' }}></TableCell>
+                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Client</TableCell>
+                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '12%' }}>Date</TableCell>
+                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Time</TableCell>
+                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '18%' }}>Location</TableCell>
+                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '12%' }}>Status</TableCell>
+                      <TableCell align="right" sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Weight (kg)</TableCell>
+                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {mockPickups.map((pickup) => (
                       <TableRow key={pickup.id} sx={{ '&:hover': { bgcolor: '#f9f9f9' } }}>
-                        <TableCell padding="checkbox" sx={{ py: 0.7 }}></TableCell>
-                        <TableCell sx={{ fontSize: '0.8rem', py: 0.7 }}>{pickup.client}</TableCell>
-                        <TableCell sx={{ fontSize: '0.8rem', py: 0.7 }}>{pickup.date}</TableCell>
-                        <TableCell sx={{ fontSize: '0.8rem', py: 0.7 }}>{pickup.time}</TableCell>
-                        <TableCell sx={{ fontSize: '0.8rem', py: 0.7 }}>{pickup.location}</TableCell>
-                        <TableCell sx={{ py: 0.7 }}>
+                        <TableCell padding="checkbox" sx={{ py: 0.5 }}></TableCell>
+                        <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{pickup.client}</TableCell>
+                        <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{pickup.date}</TableCell>
+                        <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{pickup.time}</TableCell>
+                        <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{pickup.location}</TableCell>
+                        <TableCell sx={{ py: 0.5 }}>
                           <Chip 
                             label={pickup.status} 
                             size="small"
                             sx={{ 
                               borderRadius: 1, 
-                              fontSize: '0.7rem',
+                              fontSize: '0.65rem',
                               py: 0,
-                              height: '22px',
+                              height: '20px',
                               ...getStatusChipColor(pickup.status)
                             }} 
                           />
                         </TableCell>
-                        <TableCell align="right" sx={{ fontSize: '0.8rem', py: 0.7 }}>{pickup.weight}</TableCell>
-                        <TableCell sx={{ py: 0.7 }}>
-                          <IconButton size="small" sx={{ p: 0.5 }}>
-                            <EditIcon fontSize="small" sx={{ color: '#4ECDC4', fontSize: '18px' }} />
+                        <TableCell align="right" sx={{ fontSize: '0.75rem', py: 0.5 }}>{pickup.weight}</TableCell>
+                        <TableCell sx={{ py: 0.5 }}>
+                          <IconButton size="small" sx={{ p: 0.3 }}>
+                            <EditIcon sx={{ color: '#4ECDC4', fontSize: '16px' }} />
                           </IconButton>
-                          <IconButton size="small" sx={{ p: 0.5 }}>
-                            <DeleteIcon fontSize="small" sx={{ color: '#f44336', fontSize: '18px' }} />
+                          <IconButton size="small" sx={{ p: 0.3 }}>
+                            <DeleteIcon sx={{ color: '#f44336', fontSize: '16px' }} />
                           </IconButton>
                         </TableCell>
                       </TableRow>
@@ -595,32 +588,32 @@ const RGYNProfile = () => {
             
             {rightPanelTab === 'Devices' && (
               <TableContainer sx={{ maxHeight: 'calc(100vh - 230px)', overflow: 'auto' }}>
-                <Table sx={{ minWidth: 500 }} size="small" stickyHeader>
+                <Table stickyHeader size="small" sx={{ tableLayout: 'fixed' }}>
                   <TableHead>
                     <TableRow>
-                      <TableCell padding="checkbox" sx={{ bgcolor: '#f5f5f5', py: 1 }}></TableCell>
-                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.8rem', py: 1 }}>Type</TableCell>
-                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.8rem', py: 1 }}>Manufacturer</TableCell>
-                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.8rem', py: 1 }}>Model</TableCell>
-                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.8rem', py: 1 }}>Serial Number</TableCell>
-                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.8rem', py: 1 }}>Status</TableCell>
-                      <TableCell align="right" sx={{ bgcolor: '#f5f5f5', fontSize: '0.8rem', py: 1 }}>Weight (kg)</TableCell>
-                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.8rem', py: 1 }}>Actions</TableCell>
+                      <TableCell padding="checkbox" sx={{ bgcolor: '#f5f5f5', width: '20px' }}></TableCell>
+                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '12%' }}>Type</TableCell>
+                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Manufacturer</TableCell>
+                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Model</TableCell>
+                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Serial Number</TableCell>
+                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '12%' }}>Status</TableCell>
+                      <TableCell align="right" sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Weight (kg)</TableCell>
+                      <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {mockDevices.map((device) => (
                       <TableRow key={device.id} sx={{ '&:hover': { bgcolor: '#f9f9f9' } }}>
-                        <TableCell padding="checkbox" sx={{ py: 0.7 }}></TableCell>
-                        <TableCell sx={{ fontSize: '0.8rem', py: 0.7 }}>{device.type}</TableCell>
-                        <TableCell sx={{ fontSize: '0.8rem', py: 0.7 }}>{device.manufacturer}</TableCell>
-                        <TableCell sx={{ fontSize: '0.8rem', py: 0.7 }}>{device.model}</TableCell>
-                        <TableCell sx={{ fontSize: '0.8rem', py: 0.7 }}>{device.serialNumber}</TableCell>
-                        <TableCell sx={{ fontSize: '0.8rem', py: 0.7 }}>{device.status}</TableCell>
-                        <TableCell align="right" sx={{ fontSize: '0.8rem', py: 0.7 }}>{device.weight}</TableCell>
-                        <TableCell sx={{ py: 0.7 }}>
-                          <IconButton size="small" sx={{ p: 0.5 }}>
-                            <VisibilityIcon fontSize="small" sx={{ color: '#4ECDC4', fontSize: '18px' }} />
+                        <TableCell padding="checkbox" sx={{ py: 0.5 }}></TableCell>
+                        <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{device.type}</TableCell>
+                        <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{device.manufacturer}</TableCell>
+                        <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{device.model}</TableCell>
+                        <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{device.serialNumber}</TableCell>
+                        <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{device.status}</TableCell>
+                        <TableCell align="right" sx={{ fontSize: '0.75rem', py: 0.5 }}>{device.weight}</TableCell>
+                        <TableCell sx={{ py: 0.5 }}>
+                          <IconButton size="small" sx={{ p: 0.3 }}>
+                            <VisibilityIcon sx={{ color: '#4ECDC4', fontSize: '16px' }} />
                           </IconButton>
                         </TableCell>
                       </TableRow>
