@@ -130,9 +130,6 @@ const BrandedHeader = () => {
         <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
           {user?.username || '@Lmeyer'}
         </Typography>
-        <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
-          {user?.companyName || "Leila's Company"}
-        </Typography>
         <Box 
           sx={{ 
             textAlign: 'center', 
