@@ -21,6 +21,9 @@ const ewasteImage = 'https://images.unsplash.com/photo-1611284446314-60a58ac0deb
 
 const AdminLogin = () => {
   const theme = useTheme();
+  // Admin credentials for testing:
+  // Email: Lmeyer@rygneco.com
+  // Password: RGYNeco.!
   const [formData, setFormData] = useState({
     email: '',
     password: '',

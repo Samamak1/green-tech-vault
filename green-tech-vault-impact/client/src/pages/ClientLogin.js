@@ -19,6 +19,10 @@ const whaleImage = 'https://images.unsplash.com/photo-1568430462989-44163eb1752f
 
 const ClientLogin = () => {
   const theme = useTheme();
+  // Client credentials for testing:
+  // Email: leilaameyer2@gmail.com
+  // Password: RGYNeco.!
+  // Username displayed as: @Lmeyer
   const [formData, setFormData] = useState({
     email: '',
     password: '',

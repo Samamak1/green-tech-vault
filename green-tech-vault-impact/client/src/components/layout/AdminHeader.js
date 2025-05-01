@@ -64,7 +64,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const AdminHeader = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -125,7 +125,7 @@ const AdminHeader = () => {
           <PersonIcon fontSize="large" />
         </Avatar>
         <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-          Full Name
+          {user?.name || 'Full Name'}
         </Typography>
         <Box 
           sx={{ 
@@ -258,10 +258,10 @@ const AdminHeader = () => {
               alignItems: 'flex-end',
             }}>
               <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                Full Name
+                {user?.name || 'Full Name'}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                Position Title
+                {user?.position || 'Position Title'}
               </Typography>
             </Box>
             

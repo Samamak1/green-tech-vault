@@ -46,9 +46,19 @@ router.post('/login', (req, res) => {
   // In a real implementation, this would verify credentials against the database
   // For now, we'll return a mock response
   
-  // For demo purposes, let's consider admin@greentech.com with password 'admin123' as admin credentials
-  const isAdmin = (email.toLowerCase() === 'admin@greentech.com' && 
+  // Added new admin credentials
+  const isLeilaAdmin = (email.toLowerCase() === 'lmeyer@rygneco.com' && 
+                 password === 'RGYNeco.!');
+  
+  // Original admin credentials 
+  const isOriginalAdmin = (email.toLowerCase() === 'admin@greentech.com' && 
                   password === 'admin123');
+  
+  // New client credentials
+  const isLeilaClient = (email.toLowerCase() === 'leilaameyer2@gmail.com' && 
+                  password === 'RGYNeco.!');
+                  
+  const isAdmin = isLeilaAdmin || isOriginalAdmin;
   
   console.log('Is admin credentials valid:', isAdmin);
   
@@ -63,15 +73,41 @@ router.post('/login', (req, res) => {
   
   console.log('Login successful, returning token');
   
+  // Determine username and role based on login credentials
+  let userName = 'Demo User';
+  let userPosition = '';
+  let userId = 'client-1';
+  let userRole = 'client';
+  let username = null;
+  
+  if (isLeilaAdmin) {
+    userName = 'Leila Meyer';
+    userPosition = 'CEO';
+    userId = 'admin-1';
+    userRole = 'admin';
+  } else if (isOriginalAdmin) {
+    userName = 'Admin User';
+    userPosition = 'Administrator';
+    userId = 'admin-2';
+    userRole = 'admin';
+  } else if (isLeilaClient) {
+    userName = 'Leila Meyer';
+    userId = 'client-1';
+    userRole = 'client';
+    username = '@Lmeyer';
+  }
+  
   res.json({ 
     success: true, 
     data: {
-      token: isAdmin ? 'admin-jwt-token' : 'client-jwt-token',
+      token: userRole === 'admin' ? 'admin-jwt-token' : 'client-jwt-token',
       user: {
-        id: isAdmin ? 'admin-1' : 'client-1',
-        name: isAdmin ? 'Admin User' : 'Demo User',
+        id: userId,
+        name: userName,
         email: email || 'demo@example.com',
-        role: isAdmin ? 'admin' : 'client'
+        role: userRole,
+        position: userPosition,
+        username: username
       }
     },
     message: 'Login successful' 
@@ -95,9 +131,11 @@ router.get('/me', (req, res) => {
     success: true, 
     data: {
       id: isAdmin ? 'admin-1' : 'client-1',
-      name: isAdmin ? 'Admin User' : 'Demo User',
-      email: isAdmin ? 'admin@greentech.com' : 'demo@example.com',
-      role: isAdmin ? 'admin' : 'client'
+      name: isAdmin ? 'Leila Meyer' : 'Demo User',
+      email: isAdmin ? 'lmeyer@rygneco.com' : 'demo@example.com',
+      role: isAdmin ? 'admin' : 'client',
+      position: isAdmin ? 'CEO' : '',
+      username: !isAdmin ? '@Lmeyer' : null
     },
     message: 'User retrieved successfully' 
   });
