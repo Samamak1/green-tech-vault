@@ -125,10 +125,13 @@ const BrandedHeader = () => {
           <PersonIcon fontSize="large" />
         </Avatar>
         <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-          {user?.name || 'Full Name'}
+          {user?.name || 'Leila Meyer'}
         </Typography>
         <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
-          {user?.username || '@username'}
+          {user?.username || '@Lmeyer'}
+        </Typography>
+        <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
+          {user?.companyName || "Leila's Company"}
         </Typography>
         <Box 
           sx={{ 
@@ -247,10 +250,10 @@ const BrandedHeader = () => {
               alignItems: 'flex-end',
             }}>
               <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                {user?.name || 'Full Name'}
+                {user?.companyName || "Leila's Company"}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                {user?.username || '@username'}
+                {user?.username || '@Lmeyer'}
               </Typography>
             </Box>
             

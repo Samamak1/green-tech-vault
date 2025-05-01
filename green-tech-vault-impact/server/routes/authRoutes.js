@@ -79,6 +79,7 @@ router.post('/login', (req, res) => {
   let userId = 'client-1';
   let userRole = 'client';
   let username = null;
+  let companyName = null;
   
   if (isLeilaAdmin) {
     userName = 'Leila Meyer';
@@ -95,6 +96,7 @@ router.post('/login', (req, res) => {
     userId = 'client-1';
     userRole = 'client';
     username = '@Lmeyer';
+    companyName = "Leila's Company";
   }
   
   res.json({ 
@@ -107,7 +109,8 @@ router.post('/login', (req, res) => {
         email: email || 'demo@example.com',
         role: userRole,
         position: userPosition,
-        username: username
+        username: username,
+        companyName: companyName
       }
     },
     message: 'Login successful' 
@@ -131,11 +134,12 @@ router.get('/me', (req, res) => {
     success: true, 
     data: {
       id: isAdmin ? 'admin-1' : 'client-1',
-      name: isAdmin ? 'Leila Meyer' : 'Demo User',
-      email: isAdmin ? 'lmeyer@rygneco.com' : 'demo@example.com',
+      name: isAdmin ? 'Leila Meyer' : 'Leila Meyer',
+      email: isAdmin ? 'lmeyer@rygneco.com' : 'leilaameyer2@gmail.com',
       role: isAdmin ? 'admin' : 'client',
       position: isAdmin ? 'CEO' : '',
-      username: !isAdmin ? '@Lmeyer' : null
+      username: !isAdmin ? '@Lmeyer' : null,
+      companyName: !isAdmin ? "Leila's Company" : null
     },
     message: 'User retrieved successfully' 
   });
