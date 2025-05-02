@@ -1324,104 +1324,90 @@ const AdminDashboard = () => {
           </>
         )}
         </Paper>
-        
-        {/* Client Dialog */}
-        <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-          <DialogTitle>
-            {selectedClient ? 'Edit Client' : 'Add New Client'}
-          </DialogTitle>
-          <DialogContent>
-            <Grid container spacing={2} sx={{ mt: 1 }}>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Company Name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleFormChange}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Contact Person"
-                  name="contactPerson"
-                  value={formData.contactPerson}
-                  onChange={handleFormChange}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleFormChange}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleFormChange}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Address"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleFormChange}
-                  multiline
-                  rows={2}
-                  required
-                />
-              </Grid>
+      </>
+    );
+  };
+
+  return (
+    <Box sx={{ p: 3 }}>
+      {renderDashboardContent()}
+      
+      {/* Client Dialog */}
+      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth>
+        <DialogTitle>
+          {selectedClient ? 'Edit Client' : 'Add New Client'}
+        </DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2} sx={{ mt: 1 }}>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Company Name"
+                name="name"
+                value={formData.name}
+                onChange={handleFormChange}
+                required
+              />
             </Grid>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDialog}>Cancel</Button>
-            <Button onClick={handleSubmitClient} variant="contained">
-              {selectedClient ? 'Update' : 'Add'}
-            </Button>
-          </DialogActions>
-        </Dialog>
-        
-        {/* Delete Confirmation Popover */}
-        <Popover
-          open={deleteDialogOpen}
-          anchorEl={deleteAnchorEl}
-          onClose={handleCloseDeleteDialog}
-          anchorOrigin={{
-            vertical: 'center',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'center',
-            horizontal: 'left',
-          }}
-          sx={{
-            '& .MuiPopover-paper': {
-              p: 3,
-              width: 450,
-              maxWidth: '90vw',
-              borderRadius: 2,
-              boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.15)',
-            }
-          }}
-        >
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 500 }}>
-            Are you sure you want to archive this {deleteType}?
-          </Typography>
-          
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Contact Person"
+                name="contactPerson"
+                value={formData.contactPerson}
+                onChange={handleFormChange}
+                required
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleFormChange}
+                required
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleFormChange}
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Address"
+                name="address"
+                value={formData.address}
+                onChange={handleFormChange}
+                multiline
+                rows={2}
+                required
+              />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleSubmitClient} variant="contained">
+            {selectedClient ? 'Update' : 'Add'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+      
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteDialogOpen} onClose={handleCloseDeleteDialog}>
+        <DialogTitle>
+          Are you sure you want to archive this {deleteType}?
+        </DialogTitle>
+        <DialogContent>
           <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 1 }}>
             {deleteItemName}
           </Typography>
@@ -1444,45 +1430,38 @@ const AdminDashboard = () => {
           <Typography variant="body2" sx={{ mb: 3 }}>
             Even though it will no longer appear in Your {deleteType}s, you can still view the {deleteType} in Archived {deleteType}s from your account
           </Typography>
-          
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-            <Button
-              variant="contained"
-              onClick={confirmDelete}
-              sx={{ 
-                bgcolor: '#686868', 
-                '&:hover': { bgcolor: '#4d4d4d' },
-                borderRadius: 2,
-                color: 'white',
-                px: 2
-              }}
-              startIcon={<DeleteIcon />}
-            >
-              Archived
-            </Button>
-            <Button
-              variant="contained"
-              onClick={handleCloseDeleteDialog}
-              sx={{ 
-                bgcolor: '#f0f0f0', 
-                color: '#686868',
-                '&:hover': { bgcolor: '#e0e0e0' },
-                borderRadius: 2,
-                px: 2
-              }}
-            >
-              Cancel
-            </Button>
-          </Box>
-        </Popover>
-      </>
-    );
-  };
-
-  return (
-    <AdminLayout>
-      {renderDashboardContent()}
-    </AdminLayout>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            onClick={confirmDelete}
+            sx={{ 
+              bgcolor: '#686868', 
+              '&:hover': { bgcolor: '#4d4d4d' },
+              borderRadius: 2,
+              color: 'white',
+              px: 2
+            }}
+            startIcon={<DeleteIcon />}
+          >
+            Archived
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleCloseDeleteDialog}
+            sx={{ 
+              bgcolor: '#f0f0f0', 
+              color: '#686868',
+              '&:hover': { bgcolor: '#e0e0e0' },
+              borderRadius: 2,
+              px: 2
+            }}
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
 };
 

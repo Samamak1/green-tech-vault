@@ -13,18 +13,16 @@ const DashboardLayout = () => {
         display: 'flex', 
         flexDirection: 'column', 
         overflow: 'hidden',
-        ml: '240px', // Add left margin to account for fixed sidebar
-        width: 'calc(100% - 240px)' // Adjust width to account for sidebar
+        width: 'calc(100% - 240px)' // Account for sidebar width
       }}>
         <AdminHeader />
         <Box 
           component="main" 
           sx={{ 
             flex: 1, 
-            bgcolor: '#f5f5f5', 
-            p: 3,
-            overflow: 'auto',
-            pt: '80px', // Add padding top to account for fixed header
+            bgcolor: '#f5f5f5',
+            mt: '64px', // Account for header height instead of padding
+            overflow: 'auto'
           }}
         >
           <Outlet />

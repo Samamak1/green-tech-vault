@@ -36,7 +36,6 @@ const Search = styled('div')(({ theme }) => ({
   maxWidth: '400px',
   display: 'flex',
   alignItems: 'center',
-  marginLeft: 240,
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({

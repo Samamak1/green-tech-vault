@@ -1103,11 +1103,9 @@ const AdminPickupCalendar = () => {
   };
 
   return (
-    <div style={{ height: 'calc(100vh - 64px)', overflow: 'auto' }}>
-      <Box sx={{ p: 2 }}>
-        {renderCalendarContent()}
-      </Box>
-    </div>
+    <Box sx={{ p: 3 }}>
+      {renderCalendarContent()}
+    </Box>
   );
 };
 
