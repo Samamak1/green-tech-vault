@@ -13,7 +13,8 @@ const DashboardLayout = () => {
         display: 'flex', 
         flexDirection: 'column', 
         overflow: 'hidden',
-        width: 'calc(100% - 240px)' // Account for sidebar width
+        ml: '240px', // Position content after the sidebar
+        width: 'calc(100% - 240px)' // Adjust width to account for sidebar
       }}>
         <AdminHeader />
         <Box 
@@ -21,7 +22,7 @@ const DashboardLayout = () => {
           sx={{ 
             flex: 1, 
             bgcolor: '#f5f5f5',
-            mt: '64px', // Account for header height instead of padding
+            mt: '64px', // Space for the header
             overflow: 'auto'
           }}
         >

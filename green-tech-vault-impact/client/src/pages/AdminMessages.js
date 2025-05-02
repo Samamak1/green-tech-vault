@@ -553,7 +553,14 @@ const AdminMessages = () => {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ 
+      pl: 3, // Left padding to ensure content is properly aligned
+      pr: 3, // Right padding
+      pt: 3, // Top padding
+      pb: 3, // Bottom padding
+      ml: 0, // No left margin needed since we'll use padding
+      mr: 0 // No right margin 
+    }}>
       <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>Messages</Typography>
       
       <Grid container spacing={2}>
