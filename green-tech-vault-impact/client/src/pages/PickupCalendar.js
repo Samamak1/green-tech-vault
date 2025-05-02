@@ -444,13 +444,11 @@ const PickupCalendar = () => {
   };
 
   return (
-    <div style={{ marginLeft: 240, width: 'calc(100% - 240px)' }}>
+    <div style={{ marginLeft: 240, width: 'calc(100% - 240px)', paddingTop: 60 }}>
       <Box 
         sx={{ 
-          p: 2, 
-          pt: 4, // Add extra padding at the top to push content down
-          height: 'calc(100vh - 20px)', // Reduce height to avoid content being cut off
-          overflowY: 'auto'
+          p: 2,
+          height: 'auto',
         }}
       >
         <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -485,7 +483,7 @@ const PickupCalendar = () => {
         
         <Grid container spacing={2}>
           <Grid item xs={12} md={9}>
-            <Paper sx={{ p: 1, mb: 2, height: 'calc(100vh - 220px)', overflow: 'hidden' }}>
+            <Paper sx={{ p: 1, mb: 2, height: 'calc(100vh - 220px)', overflow: 'hidden', borderRadius: 0 }}>
               <Calendar
                 localizer={localizer}
                 events={getFilteredEvents()}
@@ -511,7 +509,7 @@ const PickupCalendar = () => {
           
           <Grid item xs={12} md={3}>
             {/* Mini Calendar */}
-            <Paper sx={{ p: 1.5, borderRadius: 1, mb: 2 }}>
+            <Paper sx={{ p: 1.5, borderRadius: 0, mb: 2 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
                 <IconButton size="small" onClick={() => {
                   const newDate = new Date(miniCalendarYear, miniCalendarMonth - 1, 1);
@@ -629,7 +627,7 @@ const PickupCalendar = () => {
             </Paper>
             
             {/* Calendars */}
-            <Paper sx={{ p: 1.5, borderRadius: 1 }}>
+            <Paper sx={{ p: 1.5, borderRadius: 0 }}>
               <Typography variant="h6" sx={{ mb: 1.5, fontSize: '0.85rem', fontWeight: 500 }}>Calendars</Typography>
               
               <FormGroup>
