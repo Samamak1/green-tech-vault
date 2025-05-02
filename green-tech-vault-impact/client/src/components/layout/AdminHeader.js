@@ -29,13 +29,14 @@ import Logo from '../branding/Logo';
 // Styled search component
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
-  borderRadius: 20,
+  borderRadius: 4,
   backgroundColor: '#f5f5f5',
   border: '1px solid #e0e0e0',
   width: '100%',
   maxWidth: '400px',
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  marginLeft: 240,
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -211,33 +212,18 @@ const AdminHeader = () => {
         color: 'black',
         boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07), 0px 1px 10px 0px rgba(0,0,0,0.06)',
         height: '64px',
-        zIndex: 1300
+        zIndex: 1300,
+        borderRadius: 0,
+        ml: '240px',
+        width: 'calc(100% - 240px)',
       }}
     >
-      <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2 }}>
+      <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2, bgcolor: 'white' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-          {/* Left side - Logo */}
-          <Box sx={{ display: 'flex', alignItems: 'center', mr: 4 }}>
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              <Logo size="small" variant="admin" />
-            </Box>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ 
-                display: { xs: 'none', md: 'block' },
-                color: '#1C392B',
-                fontWeight: 'bold',
-                ml: 1
-              }}
-            >
-              EcoCycle Solutions
-            </Typography>
-          </Box>
-
-          {/* Center - Search */}
-          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+          {/* Left side - Logo removed */}
+          
+          {/* Center - Search - Now positioned to the left */}
+          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start' }}>
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -274,8 +260,8 @@ const AdminHeader = () => {
               aria-haspopup="true"
               sx={{ 
                 cursor: 'pointer',
-                bgcolor: '#f5f5f5',
-                color: '#333',
+                bgcolor: '#1C392B',
+                color: '#fff',
                 width: 36,
                 height: 36
               }}

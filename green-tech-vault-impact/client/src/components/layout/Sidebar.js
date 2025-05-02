@@ -67,7 +67,9 @@ const Sidebar = () => {
           let isSelected = false;
           if (location.pathname === item.path) {
             isSelected = true;
-          } else if (item.path === '/admin/schedule-pickup' && location.pathname === '/admin/schedule-pickup') {
+          } else if (item.path === '/admin/pickup-calendar' && location.pathname.includes('/admin/pickup-calendar')) {
+            isSelected = true;
+          } else if (item.path === '/admin/dashboard' && location.pathname === '/admin') {
             isSelected = true;
           }
           

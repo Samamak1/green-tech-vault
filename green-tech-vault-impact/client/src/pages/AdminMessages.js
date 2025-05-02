@@ -45,7 +45,6 @@ import {
   FolderOutlined as MoveToIcon,
   ArrowDropDown as ArrowDropDownIcon
 } from '@mui/icons-material';
-import AdminLayout from '../components/layout/AdminLayout';
 
 const AdminMessages = () => {
   const [messages, setMessages] = useState([]);
@@ -554,9 +553,9 @@ const AdminMessages = () => {
   };
 
   return (
-    <AdminLayout>
-      <Box sx={{ p: 3 }}>
-        <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>Messages</Typography>
+    <div style={{ height: 'calc(100vh - 64px)', overflow: 'auto' }}>
+      <Box sx={{ p: 2 }}>
+        <Typography variant="h6" sx={{ mb: 2, fontWeight: 500 }}>Messages</Typography>
         
         <Grid container spacing={2}>
           {/* Messages List */}
@@ -1205,7 +1204,7 @@ const AdminMessages = () => {
           </Box>
         </Box>
       </Dialog>
-    </AdminLayout>
+    </div>
   );
 };
 
