@@ -106,9 +106,9 @@ const Dashboard = () => {
   }, []);
 
   const fetchAdminData = async () => {
-    try {
-      setLoading(true);
-      
+      try {
+        setLoading(true);
+        
       // In a real implementation, these would be actual API calls
       // For now, we'll use mock data
       
@@ -220,15 +220,15 @@ const Dashboard = () => {
       setClients(mockClients);
       setDevices(mockDevices);
       setPickups(mockPickups);
-      setError(null);
-    } catch (err) {
+        setError(null);
+      } catch (err) {
       setError(err.response?.data?.error || 'Failed to load admin data');
       console.error('Admin data fetch error:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+      } finally {
+        setLoading(false);
+      }
+    };
+    
   const handleOpenDialog = (client = null) => {
     if (client) {
       setSelectedClient(client);
@@ -354,35 +354,35 @@ const Dashboard = () => {
 
   const renderDashboardContent = () => {
     if (loading) {
-      return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
-          <CircularProgress />
-        </Box>
-      );
-    }
-  
-    if (error) {
-      return (
-        <Box sx={{ p: 3 }}>
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ p: 3 }}>
           <Alert severity="error" sx={{ mb: 3 }}>
             {error}
           </Alert>
           <Button variant="contained" onClick={() => fetchAdminData()}>
-            Retry
-          </Button>
-        </Box>
-      );
-    }
+          Retry
+        </Button>
+      </Box>
+    );
+  }
 
-    return (
+  return (
       <>
         <Typography variant="h4" component="h1" gutterBottom>
           Dashboard
         </Typography>
-        
-        {/* Summary Cards */}
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} sm={6} md={3}>
+
+      {/* Summary Cards */}
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid item xs={12} sm={6} md={3}>
             <Paper sx={{ 
               p: 2, 
               display: 'flex', 
@@ -399,8 +399,8 @@ const Dashboard = () => {
                 Total Devices Collected
               </Typography>
             </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
             <Paper sx={{ 
               p: 2, 
               display: 'flex', 
@@ -417,8 +417,8 @@ const Dashboard = () => {
                 Total Weight (kg)
               </Typography>
             </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
             <Paper sx={{ 
               p: 2, 
               display: 'flex', 
@@ -435,8 +435,8 @@ const Dashboard = () => {
                 Devices Refurbished
               </Typography>
             </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
             <Paper sx={{ 
               p: 2, 
               display: 'flex', 
@@ -454,9 +454,9 @@ const Dashboard = () => {
               </Typography>
             </Paper>
           </Grid>
-        </Grid>
-        
-        <Grid container spacing={3} sx={{ mb: 4 }}>
+      </Grid>
+
+      <Grid container spacing={3} sx={{ mb: 4 }}>
           {/* Combined box for CO2 Saved and Trees Planted - spans 8 columns */}
           <Grid item xs={12} md={8}>
             <Paper sx={{ 
@@ -481,7 +481,7 @@ const Dashboard = () => {
                 <Typography variant="body1" sx={{ color: '#686868' }}>
                   CO2 Saved (kg)
                 </Typography>
-              </Box>
+                </Box>
               
               {/* Divider */}
               <Box sx={{ 
@@ -499,13 +499,13 @@ const Dashboard = () => {
               }}>
                 <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
                   187
-                </Typography>
+                  </Typography>
                 <Typography variant="body1" sx={{ color: '#686868' }}>
                   Trees Planted
-                </Typography>
+                  </Typography>
               </Box>
             </Paper>
-          </Grid>
+            </Grid>
           
           {/* Landfill Diversion Rate - spans 4 columns */}
           <Grid item xs={12} md={4}>
@@ -519,10 +519,10 @@ const Dashboard = () => {
             }}>
               <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
                 92.5%
-              </Typography>
+                  </Typography>
               <Typography variant="body1" sx={{ color: '#686868' }}>
                 Landfill Diversion Rate
-              </Typography>
+                  </Typography>
             </Paper>
           </Grid>
         </Grid>

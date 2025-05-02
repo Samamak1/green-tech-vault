@@ -84,7 +84,10 @@ const PickupCalendar = () => {
   const [calendarFilters, setCalendarFilters] = useState({
     pickups: true,
     deliveries: true,
-    gtvEvents: true
+    gtvEvents: true,
+    internalEvents: true,
+    promotions: false,
+    challenges: false
   });
   
   // Selected day (in this case, we're highlighting the 27th to match the image)
@@ -140,12 +143,21 @@ const PickupCalendar = () => {
       style.backgroundColor = '#379683'; // Medium green for deliveries
     } else if (event.type === 'gtv') {
       style.backgroundColor = '#1D3557'; // Navy blue for GTV events
+    } else if (event.type === 'internal') {
+      style.backgroundColor = '#F6AE2D'; // Yellow for internal events
+    } else if (event.type === 'promotion') {
+      style.backgroundColor = '#F26419'; // Orange for promotions
+    } else if (event.type === 'challenge') {
+      style.backgroundColor = '#E63946'; // Red for challenges
     }
 
     // If the event type is filtered out, don't display it
     if ((event.type === 'pickup' && !calendarFilters.pickups) ||
         (event.type === 'delivery' && !calendarFilters.deliveries) ||
-        (event.type === 'gtv' && !calendarFilters.gtvEvents)) {
+        (event.type === 'gtv' && !calendarFilters.gtvEvents) ||
+        (event.type === 'internal' && !calendarFilters.internalEvents) ||
+        (event.type === 'promotion' && !calendarFilters.promotions) ||
+        (event.type === 'challenge' && !calendarFilters.challenges)) {
       style.display = 'none';
     }
 
@@ -164,6 +176,12 @@ const PickupCalendar = () => {
       generateMockEvents();
     }
   }, [pickups]);
+
+  useEffect(() => {
+    // Sync the mini calendar with the main calendar view
+    setMiniCalendarMonth(currentDate.getMonth());
+    setMiniCalendarYear(currentDate.getFullYear());
+  }, [currentDate]);
 
   const fetchPickups = async () => {
     try {
@@ -311,6 +329,38 @@ const PickupCalendar = () => {
         location: 'Convention Center',
         scheduledDate: '2025-05-17',
         type: 'gtv'
+      },
+      {
+        id: 'int1',
+        title: 'Internal Event',
+        clientName: 'Team Meeting',
+        location: 'HQ Conference Room',
+        scheduledDate: '2025-05-11',
+        type: 'internal'
+      },
+      {
+        id: 'int2',
+        title: 'Internal Event',
+        clientName: 'Strategy Planning',
+        location: 'Remote',
+        scheduledDate: '2025-05-18',
+        type: 'internal'
+      },
+      {
+        id: 'promo1',
+        title: 'Promotion',
+        clientName: 'Spring Discount Campaign',
+        location: 'Online',
+        scheduledDate: '2025-05-21',
+        type: 'promotion'
+      },
+      {
+        id: 'challenge1',
+        title: 'Challenge',
+        clientName: '30-Day Recycling Challenge',
+        location: 'All Clients',
+        scheduledDate: '2025-05-15',
+        type: 'challenge'
       }
     ];
     
@@ -324,6 +374,9 @@ const PickupCalendar = () => {
       if (event.type === 'pickup' && !calendarFilters.pickups) return false;
       if (event.type === 'delivery' && !calendarFilters.deliveries) return false;
       if (event.type === 'gtv' && !calendarFilters.gtvEvents) return false;
+      if (event.type === 'internal' && !calendarFilters.internalEvents) return false;
+      if (event.type === 'promotion' && !calendarFilters.promotions) return false;
+      if (event.type === 'challenge' && !calendarFilters.challenges) return false;
       return true;
     });
     
@@ -391,8 +444,8 @@ const PickupCalendar = () => {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <Box sx={{ p: 2 }}>
+      <Box sx={{ mb: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Button 
             startIcon={<ArrowBackIcon />} 
@@ -422,9 +475,9 @@ const PickupCalendar = () => {
         </Button>
       </Box>
       
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={9}>
-          <Paper sx={{ p: 1.5, mb: 2, height: 'calc(100vh - 180px)', overflow: 'hidden' }}>
+      <Grid container spacing={1}>
+        <Grid item xs={12} md={9} lg={9}>
+          <Paper sx={{ p: 1, mb: 1, height: 'calc(100vh - 160px)', overflow: 'hidden' }}>
             <Calendar
               localizer={localizer}
               events={getFilteredEvents()}
@@ -435,7 +488,7 @@ const PickupCalendar = () => {
               onView={handleViewChange}
               date={currentDate}
               onNavigate={(date) => setCurrentDate(date)}
-              style={{ height: 'calc(100% - 10px)' }}
+              style={{ height: 'calc(100% - 8px)' }}
               eventPropGetter={eventStyleGetter}
               onSelectEvent={handleSelectEvent}
               components={{
@@ -448,9 +501,9 @@ const PickupCalendar = () => {
           </Paper>
         </Grid>
         
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={3} lg={3}>
           {/* Mini Calendar */}
-          <Paper sx={{ p: 1.5, borderRadius: 1, mb: 2 }}>
+          <Paper sx={{ p: 1.5, borderRadius: 1, mb: 1 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
               <IconButton size="small" onClick={() => {
                 const newDate = new Date(miniCalendarYear, miniCalendarMonth - 1, 1);
@@ -569,9 +622,9 @@ const PickupCalendar = () => {
           
           {/* Event Types */}
           <Paper sx={{ p: 1.5, borderRadius: 1 }}>
-            <Typography variant="h6" sx={{ mb: 1.5, fontSize: '0.85rem', fontWeight: 500 }}>Event Types</Typography>
+            <Typography variant="h6" sx={{ mb: 1.5, fontSize: '0.85rem', fontWeight: 500 }}>Calendars</Typography>
             
-            <FormGroup>
+            <FormGroup sx={{ maxHeight: '180px', overflowY: 'auto' }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
                 <FormControlLabel 
                   control={
@@ -647,6 +700,87 @@ const PickupCalendar = () => {
                 />
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#1D3557', mr: 0.5 }} />
+                  <IconButton size="small" sx={{ padding: 0.3 }}>
+                    <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
+                  </IconButton>
+                </Box>
+              </Box>
+              
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
+                <FormControlLabel 
+                  control={
+                    <Switch 
+                      checked={calendarFilters.internalEvents} 
+                      onChange={handleFilterChange} 
+                      name="internalEvents" 
+                      sx={{ 
+                        '& .MuiSwitch-switchBase.Mui-checked': { color: '#F6AE2D' },
+                        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#F6AE2D' },
+                        '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                        '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
+                      }}
+                      size="small"
+                    />
+                  } 
+                  label="Internal Events" 
+                  sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
+                />
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#F6AE2D', mr: 0.5 }} />
+                  <IconButton size="small" sx={{ padding: 0.3 }}>
+                    <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
+                  </IconButton>
+                </Box>
+              </Box>
+              
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
+                <FormControlLabel 
+                  control={
+                    <Switch 
+                      checked={calendarFilters.promotions} 
+                      onChange={handleFilterChange} 
+                      name="promotions" 
+                      sx={{ 
+                        '& .MuiSwitch-switchBase.Mui-checked': { color: '#F26419' },
+                        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#F26419' },
+                        '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                        '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
+                      }}
+                      size="small"
+                    />
+                  } 
+                  label="Promotions" 
+                  sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
+                />
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#F26419', mr: 0.5 }} />
+                  <IconButton size="small" sx={{ padding: 0.3 }}>
+                    <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
+                  </IconButton>
+                </Box>
+              </Box>
+              
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
+                <FormControlLabel 
+                  control={
+                    <Switch 
+                      checked={calendarFilters.challenges} 
+                      onChange={handleFilterChange} 
+                      name="challenges" 
+                      sx={{ 
+                        '& .MuiSwitch-switchBase.Mui-checked': { color: '#E63946' },
+                        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#E63946' },
+                        '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                        '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
+                      }}
+                      size="small"
+                    />
+                  } 
+                  label="Challenges" 
+                  sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
+                />
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#E63946', mr: 0.5 }} />
                   <IconButton size="small" sx={{ padding: 0.3 }}>
                     <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
                   </IconButton>

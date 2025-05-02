@@ -931,9 +931,9 @@ const AdminClientProfile = () => {
                             <TableCell>{pickup.weight}</TableCell>
                             <TableCell>
                               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
-                                <IconButton 
-                                  size="small" 
-                                  sx={{ 
+                              <IconButton 
+                                size="small" 
+                                sx={{ 
                                     color: '#56C3C9', 
                                     border: '1px solid #e0e0e0',
                                     borderRadius: '50%',
@@ -948,13 +948,13 @@ const AdminClientProfile = () => {
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     // Handle edit action
-                                  }}
-                                >
-                                  <EditIcon fontSize="small" />
-                                </IconButton>
-                                <IconButton 
-                                  size="small" 
-                                  sx={{ 
+                                }}
+                              >
+                                <EditIcon fontSize="small" />
+                              </IconButton>
+                              <IconButton 
+                                size="small" 
+                                sx={{ 
                                     color: '#E05050', 
                                     border: '1px solid #e0e0e0',
                                     borderRadius: '50%',
@@ -969,10 +969,10 @@ const AdminClientProfile = () => {
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     // Handle delete action
-                                  }}
-                                >
-                                  <DeleteIcon fontSize="small" />
-                                </IconButton>
+                                }}
+                              >
+                                <DeleteIcon fontSize="small" />
+                              </IconButton>
                               </Box>
                             </TableCell>
                           </TableRow>
@@ -1074,9 +1074,9 @@ const AdminClientProfile = () => {
                             <TableCell>{device.weight}</TableCell>
                             <TableCell>
                               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
-                                <IconButton 
-                                  size="small" 
-                                  sx={{ 
+                              <IconButton 
+                                size="small" 
+                                sx={{ 
                                     color: '#56C3C9', 
                                     border: '1px solid #e0e0e0',
                                     borderRadius: '50%',
@@ -1087,13 +1087,13 @@ const AdminClientProfile = () => {
                                     '&:hover': {
                                       bgcolor: 'rgba(86, 195, 201, 0.08)',
                                     }
-                                  }}
-                                >
-                                  <EditIcon fontSize="small" />
-                                </IconButton>
-                                <IconButton 
-                                  size="small" 
-                                  sx={{ 
+                                }}
+                              >
+                                <EditIcon fontSize="small" />
+                              </IconButton>
+                              <IconButton 
+                                size="small" 
+                                sx={{ 
                                     color: '#E05050', 
                                     border: '1px solid #e0e0e0',
                                     borderRadius: '50%',
@@ -1104,11 +1104,11 @@ const AdminClientProfile = () => {
                                     '&:hover': {
                                       bgcolor: 'rgba(224, 80, 80, 0.08)',
                                     }
-                                  }}
-                                  onClick={() => handleArchiveDialogOpen(device)}
-                                >
-                                  <DeleteIcon fontSize="small" />
-                                </IconButton>
+                                }}
+                                onClick={() => handleArchiveDialogOpen(device)}
+                              >
+                                <DeleteIcon fontSize="small" />
+                              </IconButton>
                               </Box>
                             </TableCell>
                           </TableRow>
