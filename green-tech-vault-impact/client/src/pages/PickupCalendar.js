@@ -7,35 +7,24 @@ import {
   Paper,
   Button,
   IconButton,
-  TextField,
+  Switch,
+  FormGroup,
   FormControlLabel,
-  Checkbox,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  MenuItem,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Chip,
-  Tooltip,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon
+  TextField,
+  MenuItem
 } from '@mui/material';
-import ClientDashboardLayout from '../components/layout/ClientDashboardLayout';
 import {
-  CalendarMonth as CalendarIcon,
   NavigateBefore as PreviousIcon,
   NavigateNext as NextIcon,
-  ArrowDropDown as DropdownIcon,
-  Check as CheckIcon,
-  Close as CloseIcon
+  ArrowBack as ArrowBackIcon,
+  Add as AddIcon,
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+  MoreVert as MoreVertIcon
 } from '@mui/icons-material';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
@@ -45,75 +34,14 @@ import { useAuth } from '../context/AuthContext';
 // Set up the localizer
 const localizer = momentLocalizer(moment);
 
-// Custom CSS for calendar scaling
-const calendarStyles = {
-  '.rbc-toolbar': {
-    fontSize: '0.75rem',
-  },
-  '.rbc-toolbar button': {
-    padding: '3px 6px',
-    fontSize: '0.75rem',
-  },
-  '.rbc-header': {
-    padding: '3px 3px',
-    fontSize: '0.75rem',
-  },
-  '.rbc-event': {
-    fontSize: '0.75rem',
-  },
-  '.rbc-time-header-content': {
-    fontSize: '0.75rem',
-  },
-  '.rbc-time-view .rbc-header': {
-    fontSize: '0.75rem',
-  },
-  '.rbc-time-content': {
-    fontSize: '0.75rem',
-  },
-  '.rbc-time-gutter': {
-    fontSize: '0.75rem',
-  },
-  '.rbc-agenda-view table.rbc-agenda-table': {
-    fontSize: '0.75rem',
-  },
-  '.rbc-row-segment .rbc-event-content': {
-    fontSize: '0.75rem',
-  },
-  '.rbc-date-cell': {
-    fontSize: '0.75rem',
-  },
-  '.rbc-month-view': {
-    fontSize: '0.75rem',
-  },
-  '.rbc-btn-group button': {
-    fontSize: '0.75rem',
-  },
-  '.rbc-calendar': {
-    fontSize: '0.75rem',
-  }
-};
-
 // Custom event component to show in the calendar
-const EventComponent = ({ event }) => {
-  // Event data could include clientName, location, status, etc
-  return (
-    <Tooltip title={`${event.title} - ${event.location || ''}`}>
-      <Box sx={{ 
-        fontSize: '0.7rem', 
-        overflow: 'hidden', 
-        textOverflow: 'ellipsis', 
-        whiteSpace: 'nowrap',
-        width: '100%',
-        padding: '1px',
-        lineHeight: 1.1
-      }}>
-        <strong>{event.clientName || event.title}</strong>
-        <br />
-        {event.location}
-      </Box>
-    </Tooltip>
-  );
-};
+const EventComponent = ({ event }) => (
+  <Box sx={{ fontSize: '0.7rem', padding: '1px', lineHeight: 1.1 }}>
+    <strong>{event.clientName || event.title}</strong>
+    <br />
+    {event.location}
+  </Box>
+);
 
 // Format the dates
 const formatEventDates = (events) => {
@@ -137,7 +65,6 @@ const PickupCalendar = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pickups, setPickups] = useState([]);
-  const [clients, setClients] = useState([]);
   
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
@@ -146,9 +73,8 @@ const PickupCalendar = () => {
   
   const [dialogOpen, setDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
-    clientId: '',
-    scheduledDate: '',
     location: '',
+    scheduledDate: '',
     contactPerson: '',
     contactPhone: '',
     notes: ''
@@ -158,10 +84,7 @@ const PickupCalendar = () => {
   const [calendarFilters, setCalendarFilters] = useState({
     pickups: true,
     deliveries: true,
-    gtvEvents: true,
-    internalEvents: true,
-    promotions: false,
-    challenges: false
+    gtvEvents: true
   });
   
   // Selected day (in this case, we're highlighting the 27th to match the image)
@@ -217,21 +140,12 @@ const PickupCalendar = () => {
       style.backgroundColor = '#379683'; // Medium green for deliveries
     } else if (event.type === 'gtv') {
       style.backgroundColor = '#1D3557'; // Navy blue for GTV events
-    } else if (event.type === 'internal') {
-      style.backgroundColor = '#F6AE2D'; // Yellow for internal events
-    } else if (event.type === 'promotion') {
-      style.backgroundColor = '#F26419'; // Orange for promotions
-    } else if (event.type === 'challenge') {
-      style.backgroundColor = '#E63946'; // Red for challenges
     }
 
     // If the event type is filtered out, don't display it
     if ((event.type === 'pickup' && !calendarFilters.pickups) ||
         (event.type === 'delivery' && !calendarFilters.deliveries) ||
-        (event.type === 'gtv' && !calendarFilters.gtvEvents) ||
-        (event.type === 'internal' && !calendarFilters.internalEvents) ||
-        (event.type === 'promotion' && !calendarFilters.promotions) ||
-        (event.type === 'challenge' && !calendarFilters.challenges)) {
+        (event.type === 'gtv' && !calendarFilters.gtvEvents)) {
       style.display = 'none';
     }
 
@@ -242,7 +156,6 @@ const PickupCalendar = () => {
 
   useEffect(() => {
     fetchPickups();
-    fetchClients();
   }, [currentMonth, currentYear]);
   
   useEffect(() => {
@@ -335,38 +248,14 @@ const PickupCalendar = () => {
       
       setPickups(mockPickups);
       setError(null);
+      setLoading(false);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to load pickups');
       console.error('Pickups fetch error:', err);
-    } finally {
       setLoading(false);
     }
   };
-
-  const fetchClients = async () => {
-    try {
-      // Mock clients data
-      const mockClients = [
-        {
-          id: '1',
-          name: 'Tech Solutions Inc.'
-        },
-        {
-          id: '2',
-          name: 'Global Innovations'
-        },
-        {
-          id: '3',
-          name: 'EcoFriendly Corp'
-        }
-      ];
-      
-      setClients(mockClients);
-    } catch (err) {
-      console.error('Clients fetch error:', err);
-    }
-  };
-
+  
   // Generate mock events for different calendar types
   const generateMockEvents = () => {
     const formatEvents = (events) => {
@@ -396,7 +285,7 @@ const PickupCalendar = () => {
         title: 'Delivery',
         clientName: 'Global Innovations',
         location: 'Data Center',
-        scheduledDate: '2025-04-07',
+        scheduledDate: '2025-05-07',
         type: 'delivery'
       },
       {
@@ -404,7 +293,7 @@ const PickupCalendar = () => {
         title: 'Delivery',
         clientName: 'Tech Solutions Inc.',
         location: 'Corporate HQ',
-        scheduledDate: '2025-04-14',
+        scheduledDate: '2025-05-14',
         type: 'delivery'
       },
       {
@@ -412,7 +301,7 @@ const PickupCalendar = () => {
         title: 'GTV Event',
         clientName: 'Earth Day Celebration',
         location: 'City Park',
-        scheduledDate: '2025-04-09',
+        scheduledDate: '2025-05-09',
         type: 'gtv'
       },
       {
@@ -420,7 +309,7 @@ const PickupCalendar = () => {
         title: 'GTV Event',
         clientName: 'Recycling Workshop',
         location: 'Convention Center',
-        scheduledDate: '2025-04-17',
+        scheduledDate: '2025-05-17',
         type: 'gtv'
       }
     ];
@@ -435,9 +324,6 @@ const PickupCalendar = () => {
       if (event.type === 'pickup' && !calendarFilters.pickups) return false;
       if (event.type === 'delivery' && !calendarFilters.deliveries) return false;
       if (event.type === 'gtv' && !calendarFilters.gtvEvents) return false;
-      if (event.type === 'internal' && !calendarFilters.internalEvents) return false;
-      if (event.type === 'promotion' && !calendarFilters.promotions) return false;
-      if (event.type === 'challenge' && !calendarFilters.challenges) return false;
       return true;
     });
     
@@ -461,22 +347,78 @@ const PickupCalendar = () => {
     navigate(`/dashboard/pickups/${event.id}`);
   };
 
+  const handleDayClick = (day) => {
+    setSelectedDay(day);
+    
+    // Create a new date based on the selected day
+    const newDate = new Date(miniCalendarYear, miniCalendarMonth, day);
+    setCurrentDate(newDate);
+    
+    // Navigate to day view and show that specific date
+    setCalendarView('day');
+  };
+
+  const handleOpenDialog = () => {
+    setFormData({
+      location: '',
+      scheduledDate: new Date().toISOString().split('T')[0],
+      contactPerson: '',
+      contactPhone: '',
+      notes: ''
+    });
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = () => {
+    // In a real implementation, this would make an API call
+    // For now, just close the dialog
+    handleCloseDialog();
+    
+    // Navigate to the schedule pickup page
+    navigate('/schedule-pickup');
+  };
+
   return (
     <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Calendar
-        </Typography>
-        <Button 
+      <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Button 
+            startIcon={<ArrowBackIcon />} 
+            onClick={() => navigate('/dashboard')}
+            sx={{ color: '#888', fontSize: '0.8rem', fontWeight: 'normal', textTransform: 'none' }}
+          >
+            Back to Dashboard
+          </Button>
+          <Typography variant="h5" sx={{ ml: 2, fontWeight: 500, fontSize: '1rem' }}>
+            Calendar
+          </Typography>
+        </Box>
+        <Button
           variant="contained"
-          onClick={() => navigate('/schedule-pickup')}
+          onClick={handleOpenDialog}
           sx={{ 
             bgcolor: '#4ECDC4', 
             '&:hover': { bgcolor: '#3dbdb5' },
-            px: 3
+            textTransform: 'none',
+            fontSize: '0.7rem',
+            py: 0.6,
+            px: 1.5,
+            height: '32px'
           }}
         >
-          Schedule New Pickup
+          Schedule Pickup
         </Button>
       </Box>
       
@@ -508,55 +450,59 @@ const PickupCalendar = () => {
         
         <Grid item xs={12} md={3}>
           {/* Mini Calendar */}
-          <Paper sx={{ p: 2, mb: 2, borderRadius: '8px' }}>
-            {/* Mini Calendar Header */}
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-              <IconButton onClick={() => {
+          <Paper sx={{ p: 1.5, borderRadius: 1, mb: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+              <IconButton size="small" onClick={() => {
                 const newDate = new Date(miniCalendarYear, miniCalendarMonth - 1, 1);
                 setMiniCalendarMonth(newDate.getMonth());
                 setMiniCalendarYear(newDate.getFullYear());
-              }}>
-                <PreviousIcon />
+              }} sx={{ padding: 0.5 }}>
+                <ChevronLeftIcon fontSize="small" sx={{ fontSize: '0.9rem' }} />
               </IconButton>
-              <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 700, fontSize: '0.8rem' }}>
                 {new Date(miniCalendarYear, miniCalendarMonth).toLocaleString('default', { month: 'long', year: 'numeric' })}
               </Typography>
-              <IconButton onClick={() => {
+              <IconButton size="small" onClick={() => {
                 const newDate = new Date(miniCalendarYear, miniCalendarMonth + 1, 1);
                 setMiniCalendarMonth(newDate.getMonth());
                 setMiniCalendarYear(newDate.getFullYear());
-              }}>
-                <NextIcon />
+              }} sx={{ padding: 0.5 }}>
+                <ChevronRightIcon fontSize="small" sx={{ fontSize: '0.9rem' }} />
               </IconButton>
             </Box>
             
             {/* Mini Calendar Grid */}
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 0.5 }}>
-              {/* Weekday headers */}
-              {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
-                <Box key={index} sx={{ textAlign: 'center', fontWeight: 'bold', color: '#555', fontSize: '0.75rem' }}>
-                  {day}
-                </Box>
-              ))}
+            <Grid container spacing={0} sx={{ width: '100%' }}>
+              <Grid item xs={12}>
+                <Grid container>
+                  {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(day => (
+                    <Grid item xs align="center" key={day}>
+                      <Typography variant="caption" sx={{ color: '#666', fontSize: '0.65rem' }}>
+                        {day}
+                      </Typography>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Grid>
               
-              {/* Calendar days */}
+              {/* Mini calendar days */}
               {(() => {
                 // Get the first day of the month (0 = Sunday, 1 = Monday, etc.)
                 const firstDayOfMonth = new Date(miniCalendarYear, miniCalendarMonth, 1).getDay();
                 
-                // Get the number of days in the month
+                // Get the number of days in the current month
                 const daysInMonth = new Date(miniCalendarYear, miniCalendarMonth + 1, 0).getDate();
                 
                 // Get the number of days in the previous month
                 const daysInPrevMonth = new Date(miniCalendarYear, miniCalendarMonth, 0).getDate();
                 
-                // Array to hold all the days we'll display
+                // Create an array of day numbers to display
                 const days = [];
                 
-                // Add days from the previous month to fill the first row
-                for (let i = firstDayOfMonth - 1; i >= 0; i--) {
+                // Add days from the previous month
+                for (let i = 0; i < firstDayOfMonth; i++) {
                   days.push({
-                    day: daysInPrevMonth - i,
+                    day: daysInPrevMonth - firstDayOfMonth + i + 1,
                     currentMonth: false,
                     prevMonth: true
                   });
@@ -568,8 +514,7 @@ const PickupCalendar = () => {
                     day: i,
                     currentMonth: true,
                     prevMonth: false,
-                    today: i === currentDay && miniCalendarMonth === new Date().getMonth() && miniCalendarYear === new Date().getFullYear(),
-                    selected: i === selectedDay
+                    isToday: i === selectedDay // Highlighting selected day
                   });
                 }
                 
@@ -592,132 +537,216 @@ const PickupCalendar = () => {
                 return (
                   <>
                     {weeks.map((week, weekIndex) => (
-                      <React.Fragment key={weekIndex}>
-                        {week.map((day, dayIndex) => (
-                          <Box 
-                            key={`${weekIndex}-${dayIndex}`}
-                            onClick={() => day.currentMonth && setSelectedDay(day.day)}
-                            sx={{ 
-                              textAlign: 'center',
-                              p: 0.5,
-                              borderRadius: '50%',
-                              cursor: day.currentMonth ? 'pointer' : 'default',
-                              bgcolor: day.today ? '#e3f7f5' : day.selected && day.currentMonth ? '#4ECDC4' : 'transparent',
-                              color: !day.currentMonth ? '#aaa' : day.selected ? 'white' : 'inherit',
-                              fontWeight: day.today ? 'bold' : 'normal',
-                              '&:hover': {
-                                bgcolor: day.currentMonth && !day.selected ? '#f5f5f5' : undefined
-                              }
-                            }}
-                          >
-                            {day.day}
-                          </Box>
-                        ))}
-                      </React.Fragment>
+                      <Grid item xs={12} key={weekIndex}>
+                        <Grid container>
+                          {week.map((day, dayIndex) => (
+                            <Grid item xs align="center" key={dayIndex}>
+                              <Box 
+                                onClick={() => day.currentMonth && handleDayClick(day.day)}
+                                sx={{ 
+                                  p: 0.3, 
+                                  borderRadius: '4px',
+                                  cursor: day.currentMonth ? 'pointer' : 'default',
+                                  color: day.currentMonth ? '#333' : '#aaa',
+                                  ...(day.isToday && day.currentMonth ? { 
+                                    bgcolor: '#4ECDC4', 
+                                    color: 'white'
+                                  } : {})
+                                }}
+                              >
+                                <Typography variant="caption" sx={{ fontSize: '0.65rem' }}>{day.day}</Typography>
+                              </Box>
+                            </Grid>
+                          ))}
+                        </Grid>
+                      </Grid>
                     ))}
                   </>
                 );
               })()}
-            </Box>
+            </Grid>
           </Paper>
           
-          {/* Event Filters */}
-          <Paper sx={{ p: 2, mb: 2, borderRadius: '8px' }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 1.5 }}>
-              Event Types
-            </Typography>
-            <FormControlLabel
-              control={<Checkbox checked={calendarFilters.pickups} onChange={handleFilterChange} name="pickups" />}
-              label={
+          {/* Event Types */}
+          <Paper sx={{ p: 1.5, borderRadius: 1 }}>
+            <Typography variant="h6" sx={{ mb: 1.5, fontSize: '0.85rem', fontWeight: 500 }}>Event Types</Typography>
+            
+            <FormGroup>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
+                <FormControlLabel 
+                  control={
+                    <Switch 
+                      checked={calendarFilters.pickups} 
+                      onChange={handleFilterChange} 
+                      name="pickups" 
+                      sx={{ 
+                        '& .MuiSwitch-switchBase.Mui-checked': { color: '#1C392B' },
+                        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#1C392B' },
+                        '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                        '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
+                      }}
+                      size="small"
+                    />
+                  } 
+                  label="Pickups" 
+                  sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
+                />
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ width: 12, height: 12, borderRadius: 1, bgcolor: '#1C392B', mr: 1 }} />
-                  <Typography variant="body2">Pickups</Typography>
+                  <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#1C392B', mr: 0.5 }} />
+                  <IconButton size="small" sx={{ padding: 0.3 }}>
+                    <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
+                  </IconButton>
                 </Box>
-              }
-              sx={{ display: 'block', mb: 0.5 }}
-            />
-            <FormControlLabel
-              control={<Checkbox checked={calendarFilters.deliveries} onChange={handleFilterChange} name="deliveries" />}
-              label={
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ width: 12, height: 12, borderRadius: 1, bgcolor: '#379683', mr: 1 }} />
-                  <Typography variant="body2">Deliveries</Typography>
-                </Box>
-              }
-              sx={{ display: 'block', mb: 0.5 }}
-            />
-            <FormControlLabel
-              control={<Checkbox checked={calendarFilters.gtvEvents} onChange={handleFilterChange} name="gtvEvents" />}
-              label={
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box sx={{ width: 12, height: 12, borderRadius: 1, bgcolor: '#1D3557', mr: 1 }} />
-                  <Typography variant="body2">GTV Events</Typography>
-                </Box>
-              }
-              sx={{ display: 'block', mb: 0.5 }}
-            />
-          </Paper>
-          
-          {/* Upcoming Events */}
-          <Paper sx={{ p: 2, borderRadius: '8px' }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 1.5 }}>
-              Upcoming Events
-            </Typography>
-            <List disablePadding>
-              {getFilteredEvents()
-                .filter(event => new Date(event.start) >= new Date())
-                .sort((a, b) => new Date(a.start) - new Date(b.start))
-                .slice(0, 3) // Limit to 3 events
-                .map((event, index) => {
-                  let chipColor = '#1C392B';
-                  if (event.type === 'delivery') chipColor = '#379683';
-                  else if (event.type === 'gtv') chipColor = '#1D3557';
-                  else if (event.type === 'internal') chipColor = '#F6AE2D';
-                  
-                  return (
-                    <ListItem
-                      key={event.id}
-                      sx={{ px: 0, py: 1, borderBottom: index < 2 ? '1px solid #f0f0f0' : 'none' }}
-                    >
-                      <ListItemIcon sx={{ minWidth: 40 }}>
-                        <CalendarIcon sx={{ color: chipColor }} />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={
-                          <Typography variant="body2" noWrap>
-                            {event.title}
-                          </Typography>
-                        }
-                        secondary={
-                          <>
-                            <Typography variant="caption" display="block">
-                              {moment(event.start).format('MMM D, YYYY')}
-                            </Typography>
-                            <Typography variant="caption" color="text.secondary">
-                              {event.location}
-                            </Typography>
-                          </>
-                        }
-                      />
-                    </ListItem>
-                  );
-              })}
+              </Box>
               
-              {getFilteredEvents().filter(event => new Date(event.start) >= new Date()).length === 0 && (
-                <ListItem sx={{ px: 0, py: 1 }}>
-                  <ListItemText
-                    primary={
-                      <Typography variant="body2" color="text.secondary">
-                        No upcoming events
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              )}
-            </List>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
+                <FormControlLabel 
+                  control={
+                    <Switch 
+                      checked={calendarFilters.deliveries} 
+                      onChange={handleFilterChange} 
+                      name="deliveries" 
+                      sx={{ 
+                        '& .MuiSwitch-switchBase.Mui-checked': { color: '#379683' },
+                        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#379683' },
+                        '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                        '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
+                      }}
+                      size="small"
+                    />
+                  } 
+                  label="Deliveries" 
+                  sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
+                />
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#379683', mr: 0.5 }} />
+                  <IconButton size="small" sx={{ padding: 0.3 }}>
+                    <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
+                  </IconButton>
+                </Box>
+              </Box>
+              
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
+                <FormControlLabel 
+                  control={
+                    <Switch 
+                      checked={calendarFilters.gtvEvents} 
+                      onChange={handleFilterChange} 
+                      name="gtvEvents" 
+                      sx={{ 
+                        '& .MuiSwitch-switchBase.Mui-checked': { color: '#1D3557' },
+                        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#1D3557' },
+                        '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                        '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
+                      }}
+                      size="small"
+                    />
+                  } 
+                  label="GTV Events" 
+                  sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
+                />
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#1D3557', mr: 0.5 }} />
+                  <IconButton size="small" sx={{ padding: 0.3 }}>
+                    <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
+                  </IconButton>
+                </Box>
+              </Box>
+            </FormGroup>
           </Paper>
         </Grid>
       </Grid>
+      
+      {/* Schedule Dialog */}
+      <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+        <DialogTitle sx={{ fontSize: '1rem' }}>
+          Schedule New Pickup
+        </DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2} sx={{ mt: 1 }}>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Scheduled Date"
+                name="scheduledDate"
+                type="date"
+                value={formData.scheduledDate}
+                onChange={handleFormChange}
+                InputLabelProps={{ 
+                  shrink: true,
+                  style: { fontSize: '0.75rem' }
+                }}
+                InputProps={{ style: { fontSize: '0.75rem' } }}
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Location"
+                name="location"
+                value={formData.location}
+                onChange={handleFormChange}
+                required
+                InputProps={{ style: { fontSize: '0.75rem' } }}
+                InputLabelProps={{ style: { fontSize: '0.75rem' } }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Contact Person"
+                name="contactPerson"
+                value={formData.contactPerson}
+                onChange={handleFormChange}
+                required
+                InputProps={{ style: { fontSize: '0.75rem' } }}
+                InputLabelProps={{ style: { fontSize: '0.75rem' } }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Contact Phone"
+                name="contactPhone"
+                value={formData.contactPhone}
+                onChange={handleFormChange}
+                required
+                InputProps={{ style: { fontSize: '0.75rem' } }}
+                InputLabelProps={{ style: { fontSize: '0.75rem' } }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Notes"
+                name="notes"
+                value={formData.notes}
+                onChange={handleFormChange}
+                multiline
+                rows={3}
+                InputProps={{ style: { fontSize: '0.75rem' } }}
+                InputLabelProps={{ style: { fontSize: '0.75rem' } }}
+              />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} sx={{ fontSize: '0.75rem' }}>Cancel</Button>
+          <Button 
+            onClick={handleSubmit} 
+            variant="contained"
+            disabled={!formData.scheduledDate || !formData.location}
+            sx={{ 
+              fontSize: '0.75rem',
+              bgcolor: '#4ECDC4',
+              '&:hover': { bgcolor: '#3dbdb5' }
+            }}
+          >
+            Continue
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
