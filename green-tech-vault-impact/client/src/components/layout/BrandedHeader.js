@@ -26,16 +26,17 @@ import HelpIcon from '@mui/icons-material/Help';
 import Logo from '../branding/Logo';
 import { useAuth } from '../../context/AuthContext';
 
-// Styled search component
+// Styled search component - updated to match button shape
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
-  borderRadius: 20,
+  borderRadius: 4,
   backgroundColor: '#f5f5f5',
   border: '1px solid #e0e0e0',
   width: '100%',
   maxWidth: '400px',
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  marginLeft: 240, // Position at the end of the sidebar
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -197,33 +198,18 @@ const BrandedHeader = () => {
         color: 'black',
         boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07), 0px 1px 10px 0px rgba(0,0,0,0.06)',
         height: '64px',
-        zIndex: 1300
+        zIndex: 1300,
+        borderRadius: 0, // Sharp corners
+        ml: '240px', // Start after sidebar
+        width: 'calc(100% - 240px)', // Adjust width to account for sidebar
       }}
     >
-      <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2 }}>
+      <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2, bgcolor: 'white' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-          {/* Left side - Logo */}
-          <Box sx={{ display: 'flex', alignItems: 'center', mr: 4 }}>
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              <Logo size="small" variant="client" />
-            </Box>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ 
-                display: { xs: 'none', md: 'block' },
-                color: '#56C3C9',
-                fontWeight: 'bold',
-                ml: 1
-              }}
-            >
-              EcoCycle Solutions
-            </Typography>
-          </Box>
-
-          {/* Center - Search */}
-          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+          {/* Left side - Logo removed */}
+          
+          {/* Center - Search - Now positioned to the left */}
+          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start' }}>
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
