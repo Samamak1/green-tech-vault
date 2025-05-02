@@ -448,11 +448,12 @@ const PickupCalendar = () => {
       <Box 
         sx={{ 
           p: 2, 
-          height: '100vh', 
+          pt: 4, // Add extra padding at the top to push content down
+          height: 'calc(100vh - 20px)', // Reduce height to avoid content being cut off
           overflowY: 'auto'
         }}
       >
-        <Box sx={{ mb: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Button 
               startIcon={<ArrowBackIcon />} 
@@ -484,7 +485,7 @@ const PickupCalendar = () => {
         
         <Grid container spacing={2}>
           <Grid item xs={12} md={9}>
-            <Paper sx={{ p: 1, mb: 2, height: 'calc(100vh - 180px)', overflow: 'hidden' }}>
+            <Paper sx={{ p: 1, mb: 2, height: 'calc(100vh - 220px)', overflow: 'hidden' }}>
               <Calendar
                 localizer={localizer}
                 events={getFilteredEvents()}
