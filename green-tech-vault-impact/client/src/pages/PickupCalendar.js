@@ -444,7 +444,15 @@ const PickupCalendar = () => {
   };
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box 
+      sx={{ 
+        p: 2, 
+        height: '100vh', 
+        overflowY: 'auto',
+        marginLeft: 0,
+        width: 'calc(100% - 240px)'  // Account for the 240px SMS menu width
+      }}
+    >
       <Box sx={{ mb: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Button 
@@ -476,7 +484,7 @@ const PickupCalendar = () => {
       </Box>
       
       <Grid container spacing={1}>
-        <Grid item xs={12} md={9} lg={9}>
+        <Grid item xs={12} md={8} lg={8}>
           <Paper sx={{ p: 1, mb: 1, height: 'calc(100vh - 160px)', overflow: 'hidden' }}>
             <Calendar
               localizer={localizer}
@@ -501,7 +509,7 @@ const PickupCalendar = () => {
           </Paper>
         </Grid>
         
-        <Grid item xs={12} md={3} lg={3}>
+        <Grid item xs={12} md={4} lg={4}>
           {/* Mini Calendar */}
           <Paper sx={{ p: 1.5, borderRadius: 1, mb: 1 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
@@ -624,7 +632,7 @@ const PickupCalendar = () => {
           <Paper sx={{ p: 1.5, borderRadius: 1 }}>
             <Typography variant="h6" sx={{ mb: 1.5, fontSize: '0.85rem', fontWeight: 500 }}>Calendars</Typography>
             
-            <FormGroup sx={{ maxHeight: '180px', overflowY: 'auto' }}>
+            <FormGroup>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
                 <FormControlLabel 
                   control={
