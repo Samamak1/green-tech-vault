@@ -103,7 +103,14 @@ const ClientAnnouncements = () => {
   };
 
   return (
-    <div style={{ marginLeft: 240, width: 'calc(100% - 240px)' }}>
+    // Extend the content all the way to the sidebar and scrollbar edges
+    <Box sx={{ 
+      position: 'relative',
+      width: '100%', 
+      height: '100%',
+      pl: 0, 
+      pr: 0
+    }} data-boundary="true">
       <Box sx={{ p: 3 }}>
         <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>Announcements</Typography>
         
@@ -339,7 +346,7 @@ const ClientAnnouncements = () => {
           )}
         </Paper>
       </Box>
-    </div>
+    </Box>
   );
 };
 

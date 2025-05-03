@@ -95,15 +95,13 @@ const AdminAnnouncements = () => {
 
   return (
     <Box sx={{ 
-      pl: 3,
-      pr: 3,
-      pt: 3,
-      pb: 3,
-      ml: 0,
-      mr: 0,
-      maxWidth: 'calc(100% - 24px)',
-      mx: 'auto'
-    }}>
+      position: 'relative',
+      width: '100%',
+      height: '100%',
+      p: 3,
+      pl: 0,
+      pr: 0
+    }} data-boundary="true">
       <Paper sx={{ 
         width: '100%',
         borderRadius: '8px', 
