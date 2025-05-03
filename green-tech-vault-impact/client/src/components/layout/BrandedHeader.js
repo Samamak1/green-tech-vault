@@ -40,7 +40,7 @@ const Search = styled('div')(({ theme }) => ({
   maxWidth: '400px',
   display: 'flex',
   alignItems: 'center',
-  marginLeft: 225, // Position at the end of the sidebar (5 grid cells * 45px)
+  marginLeft: 0, // Move to the far left (no margin)
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -222,7 +222,7 @@ const BrandedHeader = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           {/* Left side - Logo removed */}
           
-          {/* Center - Search - Now positioned to the left */}
+          {/* Center - Search - Now positioned to the very left */}
           <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start' }}>
             <Search>
               <SearchIconWrapper>

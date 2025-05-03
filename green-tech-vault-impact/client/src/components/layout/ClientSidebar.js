@@ -106,22 +106,14 @@ const ClientSidebar = () => {
         }
       }}
     >
-      {/* Logo Header */}
+      {/* Top Empty Area - aligned with header height */}
       <Box
         sx={{
-          paddingY: 2,
-          paddingX: 2,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
+          height: '64px', // Match header height
           borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07)',
         }}
-      >
-        <Logo sx={{ width: 38, height: 38, marginRight: 1 }} />
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontSize: '1.2rem' }}>
-          EcoCycle<br />Solutions
-        </Typography>
-      </Box>
+      />
 
       {/* Menu Items */}
       <List sx={{ pt: 1, pb: 1, flex: 1 }}>

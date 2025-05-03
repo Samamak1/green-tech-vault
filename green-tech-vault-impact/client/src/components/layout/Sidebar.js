@@ -67,22 +67,12 @@ const Sidebar = () => {
       zIndex: 1200,
       boxShadow: 'none'
     }}>
+      {/* Top Empty Area - aligned with header height */}
       <Box sx={{ 
-        p: 2, 
-        mb: 2, 
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        height: 64,  // Match header height
-        borderBottom: '1px solid rgba(255,255,255,0.1)'
-      }}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Logo variant="light" size="small" sx={{ mr: 1 }} />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontSize: '1.1rem' }}>
-            EcoCycle<br />Solutions
-          </Typography>
-        </Box>
-      </Box>
+        height: '64px', // Match header height
+        borderBottom: '1px solid rgba(255,255,255,0.1)',
+        boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07)'
+      }}/>
 
       <List sx={{ px: 2, flex: 1 }}>
         {menuItems.map((item, index) => {

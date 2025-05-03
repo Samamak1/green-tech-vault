@@ -110,7 +110,7 @@ const ClientAnnouncements = () => {
       left: 0,
       right: 0,
       bottom: 0,
-      width: '100%',
+      width: '100vw', // Full viewport width
       height: 'calc(100vh - 64px)', // Account for header height
       pl: 0, 
       pr: 0,
@@ -119,6 +119,8 @@ const ClientAnnouncements = () => {
       overflow: 'auto',
       '&::-webkit-scrollbar': {
         width: '12px',
+        position: 'absolute',
+        right: 0
       },
       '&::-webkit-scrollbar-thumb': {
         backgroundColor: 'rgba(0,0,0,0.1)',
@@ -132,7 +134,8 @@ const ClientAnnouncements = () => {
         <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>Announcements</Typography>
         
         {/* Search and Filter */}
-        <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          {/* Search bar - shorter, aligned left */}
           <Box sx={{ 
             display: 'flex',
             alignItems: 'center',
@@ -140,8 +143,9 @@ const ClientAnnouncements = () => {
             borderRadius: '4px',
             px: 1.5,
             py: 0.5,
-            mr: 1,
-            flex: 1
+            height: 32, // Match filter dropdown height
+            maxWidth: '300px', // Shorter width
+            width: '40%'
           }}>
             <SearchIcon sx={{ color: '#aaa', mr: 1, fontSize: '1.2rem' }} />
             <InputBase 
@@ -151,6 +155,8 @@ const ClientAnnouncements = () => {
               sx={{ fontSize: '0.9rem', width: '100%' }}
             />
           </Box>
+          
+          {/* Filter dropdown - aligned right */}
           <Button
             onClick={handleFilterClick}
             endIcon={<DropdownIcon />}
@@ -160,7 +166,9 @@ const ClientAnnouncements = () => {
               color: '#555',
               textTransform: 'none',
               px: 2,
-              py: 0.75
+              py: 0.5,
+              height: 32,
+              minWidth: '80px'
             }}
           >
             {filter}
