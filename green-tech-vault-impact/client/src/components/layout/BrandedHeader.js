@@ -29,6 +29,7 @@ import Logo from '../branding/Logo';
 import { useAuth } from '../../context/AuthContext';
 import { useProfile } from '../../context/ProfileContext';
 import { useLayoutEditor } from '../../context/LayoutEditorContext';
+import NotificationsPopup from '../NotificationsPopup';
 
 // Styled search component - updated to match button shape
 const Search = styled('div')(({ theme }) => ({
@@ -74,6 +75,8 @@ const BrandedHeader = () => {
   const { isEditMode, toggleEditMode } = useLayoutEditor();
   const [searchQuery, setSearchQuery] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [notificationsAnchorEl, setNotificationsAnchorEl] = useState(null);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -97,6 +100,18 @@ const BrandedHeader = () => {
     logout();
     navigate('/login');
     handleMenuClose();
+  };
+
+  const handleNotificationsClick = (event) => {
+    // Use the MenuItem as the anchor, obtained from the event
+    setNotificationsAnchorEl(event.currentTarget);
+    setNotificationsOpen(true);
+    handleMenuClose(); // Close the profile menu
+  };
+
+  const handleNotificationsClose = () => {
+    setNotificationsOpen(false);
+    setNotificationsAnchorEl(null);
   };
 
   const isMenuOpen = Boolean(anchorEl);
@@ -174,7 +189,7 @@ const BrandedHeader = () => {
         Profile
       </MenuItem>
       
-      <MenuItem onClick={() => { navigate('/notifications'); handleMenuClose(); }}>
+      <MenuItem onClick={handleNotificationsClick}>
         <ListItemIcon>
           <NotificationsIcon fontSize="small" />
         </ListItemIcon>
@@ -293,6 +308,13 @@ const BrandedHeader = () => {
         </Box>
       </Toolbar>
       {renderMenu}
+      
+      {/* Notifications Popup */}
+      <NotificationsPopup 
+        open={notificationsOpen} 
+        anchorEl={notificationsAnchorEl} 
+        onClose={handleNotificationsClose} 
+      />
     </AppBar>
   );
 };

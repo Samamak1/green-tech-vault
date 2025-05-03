@@ -116,7 +116,12 @@ const ClientAnnouncements = () => {
       pr: 0,
       margin: 0,
       marginTop: '64px', // Start below header
-      overflow: 'auto',
+      // Ensure scrollbar appears at absolute right edge
+      overflowX: 'hidden',
+      overflowY: 'auto',
+      scrollbarWidth: 'thin',
+      scrollbarColor: 'rgba(0,0,0,0.1) rgba(0,0,0,0.03)',
+      msOverflowStyle: 'none', // For Internet Explorer and Edge
       '&::-webkit-scrollbar': {
         width: '12px',
         position: 'absolute',
