@@ -111,10 +111,22 @@ const ClientAnnouncements = () => {
       right: 0,
       bottom: 0,
       width: '100%',
-      height: '100%',
-      pl: 0,
+      height: 'calc(100vh - 64px)', // Account for header height
+      pl: 0, 
       pr: 0,
-      margin: 0
+      margin: 0,
+      marginTop: '64px', // Start below header
+      overflow: 'auto',
+      '&::-webkit-scrollbar': {
+        width: '12px',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        backgroundColor: 'rgba(0,0,0,0.1)',
+        borderRadius: '6px',
+      },
+      '&::-webkit-scrollbar-track': {
+        backgroundColor: 'rgba(0,0,0,0.03)',
+      },
     }} data-boundary="true">
       <Box sx={{ p: 3 }}>
         <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>Announcements</Typography>

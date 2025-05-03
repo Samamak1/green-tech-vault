@@ -101,11 +101,23 @@ const AdminAnnouncements = () => {
       right: 0,
       bottom: 0,
       width: '100%',
-      height: '100%',
+      height: 'calc(100vh - 64px)', // Account for header height
       p: 3,
       pl: 0,
       pr: 0,
-      margin: 0
+      margin: 0,
+      marginTop: '64px', // Start below header
+      overflow: 'auto',
+      '&::-webkit-scrollbar': {
+        width: '12px',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        backgroundColor: 'rgba(0,0,0,0.1)',
+        borderRadius: '6px',
+      },
+      '&::-webkit-scrollbar-track': {
+        backgroundColor: 'rgba(0,0,0,0.03)',
+      },
     }} data-boundary="true">
       <Paper sx={{ 
         width: '100%',
