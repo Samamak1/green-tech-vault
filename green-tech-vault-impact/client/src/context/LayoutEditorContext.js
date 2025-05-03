@@ -7,7 +7,7 @@ export const useLayoutEditor = () => useContext(LayoutEditorContext);
 export const LayoutEditorProvider = ({ children }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [showGrid, setShowGrid] = useState(false);
-  const [gridSize, setGridSize] = useState(20); // Grid size in pixels
+  const [gridSize, setGridSize] = useState(45); // Fixed grid size to 45px
   const [boundaries, setBoundaries] = useState({
     visible: false,
     elements: []
@@ -40,9 +40,11 @@ export const LayoutEditorProvider = ({ children }) => {
     setShowGrid(!showGrid);
   };
 
-  // Set grid size
+  // Set grid size - but now we'll ignore changing the size since it's fixed at 45px
   const changeGridSize = (size) => {
-    setGridSize(size);
+    // Fixed at 45px, so this is effectively a no-op function now
+    // setGridSize(size);
+    return;
   };
 
   // Find and highlight content boundaries
@@ -347,7 +349,7 @@ export const LayoutEditorProvider = ({ children }) => {
       value={{
         isEditMode,
         showGrid,
-        gridSize,
+        gridSize, // Always 45px now
         boundaries,
         selectedElement,
         toggleEditMode,

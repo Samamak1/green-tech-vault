@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-import AdminHeader from './AdminHeader';
 import Sidebar from './Sidebar';
+import Header from './Header';
 
 const DashboardLayout = () => {
   return (
@@ -13,17 +13,27 @@ const DashboardLayout = () => {
         display: 'flex', 
         flexDirection: 'column', 
         overflow: 'hidden',
-        ml: '240px', // Position content after the sidebar
-        width: 'calc(100% - 240px)' // Adjust width to account for sidebar
+        ml: '225px', // 5 grid cells * 45px
+        width: 'calc(100% - 225px)'
       }}>
-        <AdminHeader />
+        <Header />
         <Box 
           component="main" 
           sx={{ 
-            flex: 1, 
+            flex: 1,
             bgcolor: '#f5f5f5',
-            mt: '64px', // Space for the header
-            overflow: 'auto'
+            p: 3,
+            overflow: 'auto',
+            '&::-webkit-scrollbar': {
+              width: '12px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: 'rgba(0,0,0,0.1)',
+              borderRadius: '6px',
+            },
+            '&::-webkit-scrollbar-track': {
+              backgroundColor: 'rgba(0,0,0,0.03)',
+            },
           }}
         >
           <Outlet />

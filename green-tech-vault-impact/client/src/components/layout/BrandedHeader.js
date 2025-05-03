@@ -40,7 +40,7 @@ const Search = styled('div')(({ theme }) => ({
   maxWidth: '400px',
   display: 'flex',
   alignItems: 'center',
-  marginLeft: 240, // Position at the end of the sidebar
+  marginLeft: 225, // Position at the end of the sidebar (5 grid cells * 45px)
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -214,8 +214,8 @@ const BrandedHeader = () => {
         height: '64px',
         zIndex: 1300,
         borderRadius: 0, // Sharp corners
-        ml: '240px', // Start after sidebar
-        width: 'calc(100% - 240px)', // Adjust width to account for sidebar
+        ml: '225px', // Start after sidebar (5 grid cells * 45px)
+        width: 'calc(100% - 225px)', // Adjust width to account for sidebar
       }}
     >
       <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2, bgcolor: 'white' }}>
@@ -270,7 +270,7 @@ const BrandedHeader = () => {
                 {profileData?.fullName || user?.companyName || "Leila's Company"}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                {user?.username ? `@${user.username}` : profileData?.username ? `@${profileData.username}` : '@lmeyer'}
+                @{user?.username || profileData?.username || 'lmeyer'}
               </Typography>
             </Box>
             

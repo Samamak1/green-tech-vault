@@ -1,122 +1,211 @@
-import React from 'react';
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useTheme } from '@mui/material';
-import { useNavigate, useLocation } from 'react-router-dom';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import DescriptionIcon from '@mui/icons-material/Description';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import EmailIcon from '@mui/icons-material/Email';
-import CampaignIcon from '@mui/icons-material/Campaign';
-import ScheduleIcon from '@mui/icons-material/Schedule';
-import AnnouncementIcon from '@mui/icons-material/Announcement';
-import AnalyticsIcon from '@mui/icons-material/Analytics';
-import ExperimentIcon from '@mui/icons-material/Science';
-import PersonIcon from '@mui/icons-material/Person';
+import React, { useState } from 'react';
+import { styled, useTheme } from '@mui/material/styles';
+import {
+  Box,
+  List,
+  Typography,
+  Divider,
+  IconButton,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+} from '@mui/material';
+import {
+  Dashboard as DashboardIcon,
+  Event as EventIcon,
+  Description as DescriptionIcon,
+  Email as EmailIcon,
+  Announcement as AnnouncementIcon,
+  AccessTime as AccessTimeIcon,
+  ExpandLess,
+  ExpandMore,
+  Person as PersonIcon,
+} from '@mui/icons-material';
+import { useLocation, Link as RouterLink } from 'react-router-dom';
 import Logo from '../branding/Logo';
-import { useAuth } from '../../context/AuthContext';
 
 const ClientSidebar = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
   const theme = useTheme();
-  const { logout } = useAuth();
-  
+  const location = useLocation();
+  const [openSubmenu, setOpenSubmenu] = useState(null);
+
+  const handleSubmenuClick = (menuName) => {
+    setOpenSubmenu(openSubmenu === menuName ? null : menuName);
+  };
+
   const menuItems = [
-    { icon: <DashboardIcon />, text: 'Dashboard', path: '/dashboard' },
-    { icon: <PersonIcon />, text: 'RGYN Profile', path: '/dashboard/rgyn-profile' },
-    { icon: <CalendarMonthIcon />, text: 'Calendar', path: '/dashboard/pickups' },
-    { icon: <DescriptionIcon />, text: 'Reports', path: '/dashboard/reports' },
-    { icon: <EmailIcon />, text: 'Messages', path: '/dashboard/messages' },
-    { icon: <CampaignIcon />, text: 'Announcements', path: '/dashboard/announcements' },
-    { icon: <ScheduleIcon />, text: 'Schedule Pickup', path: '/schedule-pickup' },
+    {
+      text: 'Dashboard',
+      icon: <DashboardIcon sx={{ color: '#fff' }} />,
+      path: '/dashboard',
+    },
+    {
+      text: 'RGYN Profile',
+      icon: <PersonIcon sx={{ color: '#fff' }} />,
+      path: '/dashboard/rgyn-profile',
+    },
+    {
+      text: 'Calendar',
+      icon: <EventIcon sx={{ color: '#fff' }} />,
+      path: '/dashboard/pickups', // Calendar is now the pickups page
+    },
+    {
+      text: 'Reports',
+      icon: <DescriptionIcon sx={{ color: '#fff' }} />,
+      path: '/dashboard/reports',
+    },
+    {
+      text: 'Messages',
+      icon: <EmailIcon sx={{ color: '#fff' }} />,
+      path: '/dashboard/messages',
+    },
+    {
+      text: 'Announcements',
+      icon: <AnnouncementIcon sx={{ color: '#fff' }} />,
+      path: '/dashboard/announcements',
+    },
+    {
+      text: 'Schedule Pickup',
+      icon: <AccessTimeIcon sx={{ color: '#fff' }} />,
+      path: '/dashboard/schedule-pickup',
+    },
   ];
 
-  const handleNavigation = (path) => {
-    if (path === '/logout') {
-      logout();
-      navigate('/login');
-    } else {
-      navigate(path);
+  // Check if a menu item is selected
+  const isSelected = (path) => {
+    if (path === '/dashboard' && location.pathname === '/dashboard') {
+      return true;
     }
+    return location.pathname.startsWith(path) && path !== '/dashboard';
   };
 
   return (
-    <Box sx={{ 
-      width: 240,
-      height: '100vh',
-      bgcolor: '#1C392B',
-      color: 'white',
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      zIndex: 1200,
-      boxShadow: 'none'
-    }}>
-      <Box sx={{ 
-        p: 2, 
-        mb: 2, 
-        display: 'flex', 
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 64,  // Match header height
-        borderBottom: '1px solid rgba(255,255,255,0.1)'
-      }}>
-        <Logo variant="light" size="medium" />
+    <Box
+      sx={{
+        width: 225, // 5 grid cells * 45px
+        backgroundColor: '#1C392B',
+        color: '#fff',
+        height: '100vh',
+        position: 'fixed',
+        zIndex: 1400,
+        boxShadow: '0px 1px 5px rgba(0, 0, 0, 0.2)',
+        overflow: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        '&::-webkit-scrollbar': {
+          width: '8px',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: 'rgba(255,255,255,0.2)',
+          borderRadius: '4px',
+        },
+        '&::-webkit-scrollbar-track': {
+          backgroundColor: 'rgba(0,0,0,0.1)',
+        }
+      }}
+    >
+      {/* Logo Header */}
+      <Box
+        sx={{
+          paddingY: 2,
+          paddingX: 2,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        }}
+      >
+        <Logo sx={{ width: 38, height: 38, marginRight: 1 }} />
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontSize: '1.2rem' }}>
+          EcoCycle<br />Solutions
+        </Typography>
       </Box>
-      
-      <List sx={{ px: 2, flex: 1 }}>
-        {menuItems.map((item, index) => {
-          // Make sure only one tab gets highlighted at a time
-          let isSelected = false;
-          if (location.pathname === item.path) {
-            isSelected = true;
-          } else if (item.path === '/dashboard/pickups' && location.pathname.startsWith('/dashboard/pickups')) {
-            isSelected = true;
-          } else if (item.path === '/dashboard/reports' && location.pathname.startsWith('/dashboard/reports')) {
-            isSelected = true;
-          } else if (item.path === '/schedule-pickup' && location.pathname.startsWith('/schedule-pickup')) {
-            isSelected = true;
-          } else if (item.path === '/dashboard/rgyn-profile' && location.pathname.startsWith('/dashboard/rgyn-profile')) {
-            isSelected = true;
-          }
-          
-          return (
-            <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
-              <ListItemButton 
-                onClick={() => handleNavigation(item.path)}
-                selected={isSelected}
-                sx={{ 
-                  borderRadius: 1,
-                  backgroundColor: isSelected ? '#0F261D' : 'transparent',
-                  '&.Mui-selected': {
-                    backgroundColor: '#0F261D',
-                    '&:hover': {
-                      backgroundColor: '#0F261D',
-                    }
-                  },
+
+      {/* Menu Items */}
+      <List sx={{ pt: 1, pb: 1, flex: 1 }}>
+        {menuItems.map((item) => (
+          <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
+            <ListItemButton
+              component={RouterLink}
+              to={item.path}
+              selected={isSelected(item.path)}
+              sx={{
+                minHeight: 48,
+                px: 2.5,
+                '&.Mui-selected': {
+                  backgroundColor: 'rgba(255, 255, 255, 0.12)',
                   '&:hover': {
-                    bgcolor: isSelected ? '#0F261D' : 'rgba(255, 255, 255, 0.1)',
-                  }
+                    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                  },
+                },
+                '&:hover': {
+                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                },
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: 1.5,
+                  justifyContent: 'center',
+                  color: 'inherit',
                 }}
               >
-                <ListItemIcon sx={{ 
-                  color: isSelected ? '#ffffff' : 'rgba(255,255,255,0.7)',
-                  minWidth: 40
-                }}>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText 
-                  primary={item.text} 
-                  sx={{ 
-                    '& .MuiListItemText-primary': {
-                      color: isSelected ? '#ffffff' : 'rgba(255,255,255,0.7)',
-                      fontWeight: isSelected ? 500 : 400
-                    }
-                  }}
-                />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText
+                primary={item.text}
+                sx={{
+                  '& .MuiListItemText-primary': {
+                    fontSize: '0.9rem',
+                  },
+                }}
+              />
+              {item.subItems && (
+                openSubmenu === item.text ? <ExpandLess /> : <ExpandMore />
+              )}
+            </ListItemButton>
+            
+            {/* Submenu if exists */}
+            {item.subItems && (
+              <Collapse in={openSubmenu === item.text} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  {item.subItems.map((subItem) => (
+                    <ListItemButton
+                      key={subItem.text}
+                      component={RouterLink}
+                      to={subItem.path}
+                      selected={location.pathname === subItem.path}
+                      sx={{
+                        pl: 4,
+                        '&.Mui-selected': {
+                          backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                          '&:hover': {
+                            backgroundColor: 'rgba(255, 255, 255, 0.12)',
+                          },
+                        },
+                      }}
+                    >
+                      <ListItemIcon sx={{ minWidth: 0, mr: 1, color: 'inherit' }}>
+                        {subItem.icon}
+                      </ListItemIcon>
+                      <ListItemText 
+                        primary={subItem.text} 
+                        sx={{ 
+                          '& .MuiListItemText-primary': { 
+                            fontSize: '0.85rem' 
+                          } 
+                        }} 
+                      />
+                    </ListItemButton>
+                  ))}
+                </List>
+              </Collapse>
+            )}
+          </ListItem>
+        ))}
       </List>
     </Box>
   );

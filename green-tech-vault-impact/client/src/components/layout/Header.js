@@ -1,0 +1,246 @@
+import React, { useState } from 'react';
+import { 
+  AppBar, 
+  Box, 
+  Toolbar, 
+  Typography, 
+  IconButton, 
+  Avatar, 
+  Menu, 
+  MenuItem, 
+  ListItemIcon, 
+  Divider, 
+  InputBase,
+  Badge 
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
+import DescriptionIcon from '@mui/icons-material/Description';
+import PersonIcon from '@mui/icons-material/Person';
+import { useAuth } from '../../context/AuthContext';
+import { useProfile } from '../../context/ProfileContext';
+
+// Styled search component - updated to match button shape
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: 4,
+  backgroundColor: '#f5f5f5',
+  border: '1px solid #e0e0e0',
+  width: '100%',
+  maxWidth: '400px',
+  display: 'flex',
+  alignItems: 'center',
+  marginLeft: 225, // Position at the end of the sidebar (5 grid cells * 45px)
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: '#757575',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: '#333333',
+  width: '100%',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    height: '20px',
+  },
+}));
+
+const Header = () => {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+  const { profileData, profilePictureUrl } = useProfile();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchSubmit = (e) => {
+    if (e.key === 'Enter') {
+      console.log('Searching for:', searchQuery);
+    }
+  };
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path);
+    handleMenuClose();
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+    handleMenuClose();
+  };
+
+  return (
+    <AppBar 
+      position="fixed"
+      sx={{ 
+        backgroundColor: 'white',
+        color: 'black',
+        boxShadow: '0px 1px 2px rgba(0,0,0,0.1)',
+        height: '64px',
+        zIndex: 1100,
+        ml: '225px', // Start after sidebar (5 grid cells * 45px)
+        width: 'calc(100% - 225px)', // Adjust width to account for sidebar
+      }}
+    >
+      <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+          {/* Left - Search */}
+          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start' }}>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search here"
+                inputProps={{ 'aria-label': 'search' }}
+                value={searchQuery}
+                onChange={handleSearchChange}
+                onKeyPress={handleSearchSubmit}
+              />
+            </Search>
+          </Box>
+
+          {/* Right - User Profile and Notifications */}
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton 
+              size="large" 
+              sx={{ mr: 1 }} 
+              onClick={() => navigate('/admin/notifications')}
+            >
+              <Badge badgeContent={3} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+
+            <Box sx={{ 
+              mr: 1,
+              display: { xs: 'none', md: 'flex' },
+              flexDirection: 'column',
+              alignItems: 'flex-end',
+            }}>
+              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                {profileData?.fullName || user?.name || "Admin"}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                @{user?.username || 'admin'}
+              </Typography>
+            </Box>
+
+            <Avatar
+              src={profilePictureUrl}
+              onClick={handleMenuOpen}
+              sx={{ 
+                cursor: 'pointer',
+                bgcolor: profilePictureUrl ? 'transparent' : '#56C3C9',
+                color: '#fff',
+                width: 36,
+                height: 36
+              }}
+            >
+              {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'A')}
+            </Avatar>
+          </Box>
+        </Box>
+      </Toolbar>
+
+      <Menu
+        anchorEl={anchorEl}
+        id="admin-profile-menu"
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+        PaperProps={{
+          sx: {
+            width: 230,
+            mt: 1,
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+          }
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <Box sx={{ p: 2, textAlign: 'center' }}>
+          <Avatar 
+            src={profilePictureUrl}
+            sx={{ 
+              width: 70, 
+              height: 70, 
+              mx: 'auto', 
+              mb: 1,
+              backgroundColor: profilePictureUrl ? 'transparent' : '#56C3C9',
+            }}
+          >
+            {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'A')}
+          </Avatar>
+          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+            {profileData?.fullName || user?.name || "Admin"}
+          </Typography>
+          <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
+            @{user?.username || 'admin'}
+          </Typography>
+        </Box>
+        
+        <Divider />
+        
+        <MenuItem onClick={() => handleNavigation('/admin/profile')}>
+          <ListItemIcon>
+            <PersonIcon fontSize="small" />
+          </ListItemIcon>
+          Profile
+        </MenuItem>
+        
+        <MenuItem onClick={() => handleNavigation('/admin/reports')}>
+          <ListItemIcon>
+            <DescriptionIcon fontSize="small" />
+          </ListItemIcon>
+          Reports
+        </MenuItem>
+        
+        <MenuItem onClick={() => handleNavigation('/admin/settings')}>
+          <ListItemIcon>
+            <SettingsIcon fontSize="small" />
+          </ListItemIcon>
+          Settings
+        </MenuItem>
+        
+        <Divider />
+        
+        <MenuItem onClick={handleLogout}>
+          <ListItemIcon>
+            <LogoutIcon fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
+    </AppBar>
+  );
+};
+
+export default Header; 

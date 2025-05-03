@@ -17,8 +17,8 @@ const ClientDashboardLayout = () => {
         display: 'flex', 
         flexDirection: 'column', 
         overflow: 'hidden',
-        ml: '240px', // Match the sidebar width
-        width: 'calc(100% - 240px)' // Ensure correct width calculation
+        ml: '225px', // Match the sidebar width (5 grid cells * 45px)
+        width: 'calc(100% - 225px)' // Ensure correct width calculation
       }}>
         <BrandedHeader />
         <Box 

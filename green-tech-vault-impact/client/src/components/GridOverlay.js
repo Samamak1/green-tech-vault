@@ -31,13 +31,8 @@ const GridOverlay = () => {
   } = useLayoutEditor();
   
   const [controlsOpen, setControlsOpen] = useState(true);
-  const [localGridSize, setLocalGridSize] = useState(gridSize);
-
-  // Update grid size with debounce
-  const handleGridSizeChange = (event, newValue) => {
-    setLocalGridSize(newValue);
-    changeGridSize(newValue);
-  };
+  // Fixed grid size of 45px
+  const [localGridSize, setLocalGridSize] = useState(45);
 
   // Toggle controls panel
   const toggleControls = () => {
@@ -227,31 +222,10 @@ const GridOverlay = () => {
             >
               {showGrid ? 'Hide Grid' : 'Show Grid'}
             </Button>
-            <TextField
-              size="small"
-              label="Grid Size"
-              type="number"
-              value={localGridSize}
-              onChange={(e) => setLocalGridSize(parseInt(e.target.value) || 10)}
-              onBlur={() => changeGridSize(localGridSize)}
-              InputProps={{ inputProps: { min: 5, max: 100 } }}
-              sx={{ width: 100 }}
-            />
+            <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+              Grid Size: 45px
+            </Typography>
           </Box>
-          <Slider
-            value={localGridSize}
-            onChange={handleGridSizeChange}
-            min={5}
-            max={50}
-            step={1}
-            valueLabelDisplay="auto"
-            sx={{
-              color: '#4ECDC4',
-              '& .MuiSlider-valueLabel': {
-                backgroundColor: '#4ECDC4',
-              },
-            }}
-          />
         </Box>
 
         <Box sx={{ mb: 3 }}>
