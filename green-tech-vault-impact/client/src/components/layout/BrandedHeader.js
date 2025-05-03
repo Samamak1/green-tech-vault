@@ -23,6 +23,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HelpIcon from '@mui/icons-material/Help';
+import QrCodeIcon from '@mui/icons-material/QrCode';
 import Logo from '../branding/Logo';
 import { useAuth } from '../../context/AuthContext';
 import { useProfile } from '../../context/ProfileContext';
@@ -182,6 +183,13 @@ const BrandedHeader = () => {
           <SettingsIcon fontSize="small" />
         </ListItemIcon>
         Settings
+      </MenuItem>
+      
+      <MenuItem onClick={() => { navigate('/qr-login'); handleMenuClose(); }}>
+        <ListItemIcon>
+          <QrCodeIcon fontSize="small" />
+        </ListItemIcon>
+        QR for Mobile Login
       </MenuItem>
       
       <Divider />

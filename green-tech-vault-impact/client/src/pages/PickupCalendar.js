@@ -453,20 +453,13 @@ const PickupCalendar = () => {
       >
         <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button 
-              startIcon={<ArrowBackIcon />} 
-              onClick={() => navigate('/dashboard')}
-              sx={{ color: '#888', fontSize: '0.8rem', fontWeight: 'normal', textTransform: 'none' }}
-            >
-              Back to Dashboard
-            </Button>
-            <Typography variant="h5" sx={{ ml: 2, fontWeight: 500, fontSize: '1rem' }}>
+            <Typography variant="h5" sx={{ fontWeight: 500, fontSize: '1rem' }}>
               Calendar
             </Typography>
           </Box>
           <Button
             variant="contained"
-            onClick={handleOpenDialog}
+            onClick={() => navigate('/schedule-pickup')}
             sx={{ 
               bgcolor: '#1C392B', 
               '&:hover': { bgcolor: '#152b21' },
@@ -652,33 +645,6 @@ const PickupCalendar = () => {
                   />
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#1C392B', mr: 0.5 }} />
-                    <IconButton size="small" sx={{ padding: 0.3 }}>
-                      <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
-                    </IconButton>
-                  </Box>
-                </Box>
-                
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
-                  <FormControlLabel 
-                    control={
-                      <Switch 
-                        checked={calendarFilters.deliveries} 
-                        onChange={handleFilterChange} 
-                        name="deliveries" 
-                        sx={{ 
-                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#379683' },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#379683' },
-                          '& .MuiSwitch-root': { width: '32px', height: '18px' },
-                          '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
-                        }}
-                        size="small"
-                      />
-                    } 
-                    label="Deliveries" 
-                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
-                  />
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#379683', mr: 0.5 }} />
                     <IconButton size="small" sx={{ padding: 0.3 }}>
                       <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
                     </IconButton>
