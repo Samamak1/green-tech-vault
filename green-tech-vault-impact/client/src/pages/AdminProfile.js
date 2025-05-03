@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   Box, 
   Typography, 
@@ -22,6 +22,7 @@ import {
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useProfile } from '../context/ProfileContext';
 
 const Input = styled('input')({
   display: 'none',
@@ -30,67 +31,36 @@ const Input = styled('input')({
 const AdminProfile = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [loading, setLoading] = useState(true);
-  const [profileData, setProfileData] = useState({
-    fullName: '',
-    jobTitle: '',
-    email: '',
-    phone: '',
-    username: '',
-    password: '••••••••',
-    profilePicture: null
-  });
+  const { profileData, profilePictureUrl, loading, updateProfileData, updateProfilePicture } = useProfile();
   const [editing, setEditing] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState(null);
-
-  useEffect(() => {
-    // In a real app, you would fetch the actual user profile data
-    // For now, we'll use mock data
-    const fetchProfileData = () => {
-      setLoading(true);
-      
-      // Mock profile data
-      const mockProfile = {
-        fullName: 'Leila Meyer',
-        jobTitle: 'CEO',
-        email: 'leila.meyer@greentechvault.com',
-        phone: '(555) 123-4567',
-        username: 'lmeyer',
-        password: '••••••••',
-        profilePicture: null
-      };
-      
-      setProfileData(mockProfile);
-      setLoading(false);
-    };
-    
-    fetchProfileData();
-  }, []);
+  const [formData, setFormData] = useState({ ...profileData });
 
   const handleGoBack = () => {
     navigate('/admin/dashboard');
   };
 
   const handleEdit = () => {
+    setFormData({ ...profileData });
     setEditing(true);
   };
 
   const handleSave = () => {
-    // In a real app, you would save the profile data to the server
-    console.log('Saving profile data:', profileData);
+    // Update profile data in the context
+    updateProfileData(formData);
     setEditing(false);
   };
 
   const handleCancel = () => {
-    // Reset any changes
+    // Reset form data and exit edit mode
+    setFormData({ ...profileData });
     setEditing(false);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProfileData({
-      ...profileData,
+    setFormData({
+      ...formData,
       [name]: value
     });
   };
@@ -102,17 +72,8 @@ const AdminProfile = () => {
   const handleProfilePictureChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setProfileData({
-        ...profileData,
-        profilePicture: file
-      });
-      
-      // Create a preview URL
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result);
-      };
-      reader.readAsDataURL(file);
+      // Update the profile picture in the context
+      updateProfilePicture(file);
     }
   };
 
@@ -212,15 +173,15 @@ const AdminProfile = () => {
               {/* Profile Picture */}
               <Box sx={{ position: 'relative', mr: 4 }}>
                 <Avatar
-                  src={previewUrl || (profileData.profilePicture ? URL.createObjectURL(profileData.profilePicture) : null)}
+                  src={profilePictureUrl}
                   sx={{ 
                     width: 120, 
                     height: 120,
-                    bgcolor: profileData.profilePicture ? 'transparent' : '#1C392B',
+                    bgcolor: profilePictureUrl ? 'transparent' : '#1C392B',
                     fontSize: '2.5rem'
                   }}
                 >
-                  {!profileData.profilePicture && !previewUrl && profileData.fullName.charAt(0)}
+                  {!profilePictureUrl && profileData.fullName.charAt(0)}
                 </Avatar>
                 {editing && (
                   <Box sx={{ position: 'absolute', bottom: 0, right: 0 }}>
@@ -281,7 +242,7 @@ const AdminProfile = () => {
                   fullWidth
                   label="Full Name"
                   name="fullName"
-                  value={profileData.fullName}
+                  value={editing ? formData.fullName : profileData.fullName}
                   onChange={handleChange}
                   disabled={!editing}
                   sx={{ mb: 3 }}
@@ -294,7 +255,7 @@ const AdminProfile = () => {
                   fullWidth
                   label="Job Title"
                   name="jobTitle"
-                  value={profileData.jobTitle}
+                  value={editing ? formData.jobTitle : profileData.jobTitle}
                   onChange={handleChange}
                   disabled={!editing}
                   sx={{ mb: 3 }}
@@ -308,7 +269,7 @@ const AdminProfile = () => {
                   label="Email"
                   name="email"
                   type="email"
-                  value={profileData.email}
+                  value={editing ? formData.email : profileData.email}
                   onChange={handleChange}
                   disabled={!editing}
                   sx={{ mb: 3 }}
@@ -323,7 +284,7 @@ const AdminProfile = () => {
                   fullWidth
                   label="Phone"
                   name="phone"
-                  value={profileData.phone}
+                  value={editing ? formData.phone : profileData.phone}
                   onChange={handleChange}
                   disabled={!editing}
                   sx={{ mb: 3 }}
@@ -336,7 +297,7 @@ const AdminProfile = () => {
                   fullWidth
                   label="Username"
                   name="username"
-                  value={profileData.username}
+                  value={editing ? formData.username : profileData.username}
                   onChange={handleChange}
                   disabled={!editing}
                   sx={{ mb: 3 }}
@@ -350,7 +311,7 @@ const AdminProfile = () => {
                   label="Password"
                   name="password"
                   type={showPassword ? 'text' : 'password'}
-                  value={profileData.password}
+                  value={editing ? formData.password : profileData.password}
                   onChange={handleChange}
                   disabled={!editing}
                   InputProps={{

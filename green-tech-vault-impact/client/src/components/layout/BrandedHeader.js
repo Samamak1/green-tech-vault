@@ -25,6 +25,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import HelpIcon from '@mui/icons-material/Help';
 import Logo from '../branding/Logo';
 import { useAuth } from '../../context/AuthContext';
+import { useProfile } from '../../context/ProfileContext';
 
 // Styled search component - updated to match button shape
 const Search = styled('div')(({ theme }) => ({
@@ -66,6 +67,7 @@ const BrandedHeader = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { profileData, profilePictureUrl } = useProfile();
   const [searchQuery, setSearchQuery] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -115,21 +117,22 @@ const BrandedHeader = () => {
     >
       <Box sx={{ p: 2, textAlign: 'center' }}>
         <Avatar 
+          src={profilePictureUrl}
           sx={{ 
             width: 70, 
             height: 70, 
             mx: 'auto', 
             mb: 1,
-            backgroundColor: '#56C3C9',
+            backgroundColor: profilePictureUrl ? 'transparent' : '#56C3C9',
           }}
         >
-          <PersonIcon fontSize="large" />
+          {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'L')}
         </Avatar>
         <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-          {user?.companyName || "Leila's Company"}
+          {profileData?.fullName || user?.companyName || "Leila's Company"}
         </Typography>
         <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
-          {user?.username || '@lmeyer'}
+          {profileData?.jobTitle || user?.username || '@lmeyer'}
         </Typography>
         <Box 
           sx={{ 
@@ -233,26 +236,27 @@ const BrandedHeader = () => {
               alignItems: 'flex-end',
             }}>
               <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                {user?.companyName || "Leila's Company"}
+                {profileData?.fullName || user?.companyName || "Leila's Company"}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                {user?.username || '@lmeyer'}
+                {profileData?.jobTitle || user?.username || '@lmeyer'}
               </Typography>
             </Box>
             
             <Avatar
+              src={profilePictureUrl}
               onClick={handleProfileMenuOpen}
               aria-controls={menuId}
               aria-haspopup="true"
               sx={{ 
                 cursor: 'pointer',
-                bgcolor: '#56C3C9',
+                bgcolor: profilePictureUrl ? 'transparent' : '#56C3C9',
                 color: '#fff',
                 width: 36,
                 height: 36
               }}
             >
-              <PersonIcon fontSize="small" />
+              {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'L')}
             </Avatar>
           </Box>
         </Box>
