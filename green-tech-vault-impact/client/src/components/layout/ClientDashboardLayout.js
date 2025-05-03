@@ -28,6 +28,7 @@ const ClientDashboardLayout = () => {
             bgcolor: '#f5f5f5', 
             p: 3,
             overflow: 'auto',
+            position: 'relative',
             '&::-webkit-scrollbar': {
               width: '12px',
             },
@@ -46,6 +47,22 @@ const ClientDashboardLayout = () => {
               position: isEditMode ? 'relative' : 'static', // Allow positioning in edit mode
               transition: 'all 0.3s ease-in-out',
               border: isEditMode ? '1px dashed rgba(78, 205, 196, 0.3)' : 'none', // Show boundaries in edit mode
+              ...(isEditMode && {
+                '&:hover': {
+                  border: '1px dashed rgba(78, 205, 196, 0.8)',
+                  cursor: 'move',
+                },
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: 'transparent',
+                  zIndex: 1, // Higher than content but lower than handles
+                }
+              })
             }
           }}
         >

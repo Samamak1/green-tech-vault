@@ -390,7 +390,9 @@ const Dashboard = () => {
               alignItems: 'center', 
               justifyContent: 'center',
               height: '180px',
-              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)'
+              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)',
+              cursor: 'default',
+              zIndex: 0
             }}
             data-boundary="true"
             >
@@ -410,7 +412,9 @@ const Dashboard = () => {
               alignItems: 'center',
               justifyContent: 'center', 
               height: '180px',
-              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)'
+              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)',
+              cursor: 'default',
+              zIndex: 0
             }}
             data-boundary="true"
             >
@@ -430,7 +434,9 @@ const Dashboard = () => {
               alignItems: 'center',
               justifyContent: 'center', 
               height: '180px',
-              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)'
+              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)',
+              cursor: 'default', 
+              zIndex: 0
             }}
             data-boundary="true"
             >
@@ -455,7 +461,9 @@ const Dashboard = () => {
               alignItems: 'center',
               justifyContent: 'center', 
               height: '180px',
-              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)'
+              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)',
+              cursor: 'default',
+              zIndex: 0
             }}
             data-boundary="true"
             >
@@ -477,7 +485,9 @@ const Dashboard = () => {
               alignItems: 'center',
               justifyContent: 'center', 
               height: '180px',
-              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)'
+              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)',
+              cursor: 'default',
+              zIndex: 0
             }}
             data-boundary="true"
             >
@@ -499,7 +509,9 @@ const Dashboard = () => {
               alignItems: 'center',
               justifyContent: 'center', 
               height: '180px',
-              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)'
+              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)',
+              cursor: 'default',
+              zIndex: 0
             }}
             data-boundary="true"
             >

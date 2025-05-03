@@ -14,7 +14,10 @@ export const LayoutEditorProvider = ({ children }) => {
   });
   const [selectedElement, setSelectedElement] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
+  const [resizeDirection, setResizeDirection] = useState(null);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [originalRect, setOriginalRect] = useState(null);
 
   // Toggle edit mode state
   const toggleEditMode = () => {
@@ -62,7 +65,12 @@ export const LayoutEditorProvider = ({ children }) => {
         originalStyles: {
           maxWidth: container.style.maxWidth,
           margin: container.style.margin,
-          padding: container.style.padding
+          padding: container.style.padding,
+          position: container.style.position,
+          left: container.style.left,
+          top: container.style.top,
+          width: container.style.width,
+          height: container.style.height
         }
       });
     });
@@ -85,11 +93,34 @@ export const LayoutEditorProvider = ({ children }) => {
   const startDrag = (event, elementId) => {
     event.preventDefault();
     setIsDragging(true);
+    setIsResizing(false);
     setDragStart({
       x: event.clientX,
       y: event.clientY
     });
-    selectElement(elementId);
+    
+    // Find and select the element
+    const element = boundaries.elements.find(el => el.id === elementId);
+    setSelectedElement(element);
+    setOriginalRect({ ...element.rect });
+  };
+
+  // Handle starting a resize operation
+  const startResize = (event, elementId, direction) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setIsDragging(false);
+    setIsResizing(true);
+    setResizeDirection(direction);
+    setDragStart({
+      x: event.clientX,
+      y: event.clientY
+    });
+    
+    // Find and select the element
+    const element = boundaries.elements.find(el => el.id === elementId);
+    setSelectedElement(element);
+    setOriginalRect({ ...element.rect });
   };
 
   // Handle moving during a drag operation
@@ -102,8 +133,8 @@ export const LayoutEditorProvider = ({ children }) => {
       const updatedElements = boundaries.elements.map(el => {
         if (el.id === selectedElement.id) {
           // Snap to grid if grid is enabled
-          let newX = el.rect.x + deltaX;
-          let newY = el.rect.y + deltaY;
+          let newX = originalRect.x + deltaX;
+          let newY = originalRect.y + deltaY;
           
           if (showGrid) {
             newX = Math.round(newX / gridSize) * gridSize;
@@ -126,44 +157,124 @@ export const LayoutEditorProvider = ({ children }) => {
         ...boundaries,
         elements: updatedElements
       });
+    } 
+    else if (isResizing && selectedElement) {
+      const deltaX = event.clientX - dragStart.x;
+      const deltaY = event.clientY - dragStart.y;
       
-      setDragStart({
-        x: event.clientX,
-        y: event.clientY
+      // Update element size based on the resize direction
+      const updatedElements = boundaries.elements.map(el => {
+        if (el.id === selectedElement.id) {
+          const rect = { ...originalRect };
+          
+          // Handle resize based on direction
+          if (resizeDirection.includes('left')) {
+            rect.x = originalRect.x + deltaX;
+            rect.width = originalRect.width - deltaX;
+          } else if (resizeDirection.includes('right')) {
+            rect.width = originalRect.width + deltaX;
+          }
+          
+          if (resizeDirection.includes('top')) {
+            rect.y = originalRect.y + deltaY;
+            rect.height = originalRect.height - deltaY;
+          } else if (resizeDirection.includes('bottom')) {
+            rect.height = originalRect.height + deltaY;
+          }
+          
+          // Snap to grid if enabled
+          if (showGrid) {
+            if (resizeDirection.includes('left') || resizeDirection.includes('right')) {
+              rect.width = Math.round(rect.width / gridSize) * gridSize;
+            }
+            if (resizeDirection.includes('top') || resizeDirection.includes('bottom')) {
+              rect.height = Math.round(rect.height / gridSize) * gridSize;
+            }
+            if (resizeDirection.includes('left')) {
+              rect.x = originalRect.x + originalRect.width - rect.width;
+            }
+            if (resizeDirection.includes('top')) {
+              rect.y = originalRect.y + originalRect.height - rect.height;
+            }
+          }
+          
+          // Ensure minimum size
+          rect.width = Math.max(rect.width, 50);
+          rect.height = Math.max(rect.height, 50);
+          
+          // If resizing from left/top, adjust position too
+          if (resizeDirection.includes('left')) {
+            rect.x = originalRect.x + originalRect.width - rect.width;
+          }
+          if (resizeDirection.includes('top')) {
+            rect.y = originalRect.y + originalRect.height - rect.height;
+          }
+          
+          return {
+            ...el,
+            rect
+          };
+        }
+        return el;
+      });
+      
+      setBoundaries({
+        ...boundaries,
+        elements: updatedElements
       });
     }
   };
 
-  // Handle ending a drag operation
+  // Handle ending a drag or resize operation
   const endDrag = () => {
-    if (isDragging && selectedElement) {
-      // Apply new position to the actual DOM element
+    if ((isDragging || isResizing) && selectedElement) {
+      // Apply new position/size to the actual DOM element
       const element = selectedElement.element;
-      const newPos = boundaries.elements.find(el => el.id === selectedElement.id).rect;
+      const newRect = boundaries.elements.find(el => el.id === selectedElement.id).rect;
       
+      // Apply styles to the actual element
       element.style.position = 'absolute';
-      element.style.left = `${newPos.x}px`;
-      element.style.top = `${newPos.y}px`;
-      element.style.width = `${newPos.width}px`;
-      element.style.height = `${newPos.height}px`;
+      element.style.left = `${newRect.x}px`;
+      element.style.top = `${newRect.y}px`;
+      element.style.width = `${newRect.width}px`;
+      element.style.height = `${newRect.height}px`;
+      
+      // Update the displayed element in boundaries with the new rect
+      const updatedElements = boundaries.elements.map(el => {
+        if (el.id === selectedElement.id) {
+          return {
+            ...el,
+            rect: { ...newRect }
+          };
+        }
+        return el;
+      });
+      
+      setBoundaries({
+        ...boundaries,
+        elements: updatedElements
+      });
     }
     
     setIsDragging(false);
-    setSelectedElement(null);
+    setIsResizing(false);
+    setResizeDirection(null);
   };
 
   // Save the current layout
   const saveLayout = () => {
     // In a real app, this would save to backend/localStorage
-    // For now, we'll just apply the styles directly
     boundaries.elements.forEach(item => {
       const { element, rect } = item;
       
-      // Apply final position
-      element.style.maxWidth = `${rect.width}px`;
+      // Apply final position and size
+      element.style.position = 'absolute';
+      element.style.left = `${rect.x}px`;
+      element.style.top = `${rect.y}px`;
+      element.style.width = `${rect.width}px`;
       element.style.height = `${rect.height}px`;
       
-      // You could save these values to localStorage here
+      // Save to localStorage
       localStorage.setItem(`layout-${item.id}`, JSON.stringify(rect));
     });
     
@@ -180,9 +291,11 @@ export const LayoutEditorProvider = ({ children }) => {
       element.style.maxWidth = originalStyles.maxWidth;
       element.style.margin = originalStyles.margin;
       element.style.padding = originalStyles.padding;
-      element.style.position = '';
-      element.style.left = '';
-      element.style.top = '';
+      element.style.position = originalStyles.position || '';
+      element.style.left = originalStyles.left || '';
+      element.style.top = originalStyles.top || '';
+      element.style.width = originalStyles.width || '';
+      element.style.height = originalStyles.height || '';
       
       // Remove from localStorage
       localStorage.removeItem(`layout-${item.id}`);
@@ -202,12 +315,12 @@ export const LayoutEditorProvider = ({ children }) => {
             const rect = JSON.parse(savedLayout);
             const element = item.element;
             
-            // Apply saved position
-            element.style.maxWidth = `${rect.width}px`;
-            element.style.height = `${rect.height}px`;
+            // Apply saved position and size
             element.style.position = 'absolute';
             element.style.left = `${rect.x}px`;
             element.style.top = `${rect.y}px`;
+            element.style.width = `${rect.width}px`;
+            element.style.height = `${rect.height}px`;
           }
         });
       }
@@ -227,7 +340,7 @@ export const LayoutEditorProvider = ({ children }) => {
       document.removeEventListener('mousemove', handleDrag);
       document.removeEventListener('mouseup', endDrag);
     };
-  }, [isDragging, dragStart, selectedElement, boundaries]);
+  }, [isDragging, isResizing, dragStart, selectedElement, boundaries, resizeDirection, originalRect]);
 
   return (
     <LayoutEditorContext.Provider
@@ -243,6 +356,7 @@ export const LayoutEditorProvider = ({ children }) => {
         findContentBoundaries,
         selectElement,
         startDrag,
+        startResize,
         saveLayout,
         resetLayout
       }}
