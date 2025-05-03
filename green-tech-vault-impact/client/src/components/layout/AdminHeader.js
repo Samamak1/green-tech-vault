@@ -11,13 +11,15 @@ import {
   Divider,
   useTheme,
   Avatar,
-  ListItemIcon
+  ListItemIcon,
+  Badge
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useProfile } from '../../context/ProfileContext';
+import { useNotifications } from '../../context/NotificationsContext';
 import PersonIcon from '@mui/icons-material/Person';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -26,6 +28,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import Logo from '../branding/Logo';
+import NotificationsPopup from '../notifications/NotificationsPopup';
 
 // Styled search component
 const Search = styled('div')(({ theme }) => ({
@@ -67,8 +70,10 @@ const AdminHeader = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { profileData, profilePictureUrl } = useProfile();
+  const { unreadCount } = useNotifications();
   const [searchQuery, setSearchQuery] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
+  const [notificationsAnchorEl, setNotificationsAnchorEl] = useState(null);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -94,7 +99,16 @@ const AdminHeader = () => {
     handleMenuClose();
   };
 
+  const handleNotificationsOpen = (event) => {
+    setNotificationsAnchorEl(event.currentTarget);
+  };
+
+  const handleNotificationsClose = () => {
+    setNotificationsAnchorEl(null);
+  };
+
   const isMenuOpen = Boolean(anchorEl);
+  const isNotificationsOpen = Boolean(notificationsAnchorEl);
   const menuId = 'primary-admin-account-menu';
   
   const renderMenu = (
@@ -209,72 +223,87 @@ const AdminHeader = () => {
   return (
     <AppBar 
       position="fixed" 
+      color="default" 
+      elevation={0} 
       sx={{ 
-        backgroundColor: 'white',
-        color: 'black',
-        boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07), 0px 1px 10px 0px rgba(0,0,0,0.06)',
-        height: '64px',
-        zIndex: 1300,
-        borderRadius: 0,
-        ml: '240px',
-        width: 'calc(100% - 240px)',
+        borderBottom: '1px solid #e0e0e0',
+        zIndex: 1100,
+        bgcolor: '#1C392B'
       }}
     >
-      <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2, bgcolor: 'white' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-          {/* Left side - Logo removed */}
+      <Toolbar sx={{ justifyContent: 'space-between', height: 64 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Logo height={40} />
+        </Box>
+        
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', position: 'relative' }}>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+              value={searchQuery}
+              onChange={handleSearchChange}
+              onKeyDown={handleSearchSubmit}
+            />
+          </Search>
           
-          {/* Center - Search - Now positioned to the left */}
-          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start' }}>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search here"
-                inputProps={{ 'aria-label': 'search' }}
-                value={searchQuery}
-                onChange={handleSearchChange}
-                onKeyPress={handleSearchSubmit}
-              />
-            </Search>
-          </Box>
-
-          {/* Right side - User info */}
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ 
-              mr: 1,
-              display: { xs: 'none', md: 'flex' },
-              flexDirection: 'column',
-              alignItems: 'flex-end',
-            }}>
-              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                {profileData?.fullName || user?.name || 'Full Name'}
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                {profileData?.jobTitle || user?.position || 'Position Title'}
-              </Typography>
-            </Box>
-            
-            <Avatar
-              src={profilePictureUrl}
-              onClick={handleProfileMenuOpen}
-              aria-controls={menuId}
-              aria-haspopup="true"
+          <Box sx={{ ml: 'auto', display: 'flex', alignItems: 'center' }}>
+            <IconButton 
+              color="inherit" 
+              onClick={handleNotificationsOpen}
               sx={{ 
-                cursor: 'pointer',
-                bgcolor: profilePictureUrl ? 'transparent' : '#1C392B',
-                color: '#fff',
-                width: 36,
-                height: 36
+                mr: 2, 
+                color: 'white'
               }}
             >
-              {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'L')}
-            </Avatar>
+              <Badge badgeContent={unreadCount} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ 
+                mr: 1,
+                display: { xs: 'none', md: 'flex' },
+                flexDirection: 'column',
+                alignItems: 'flex-end',
+              }}>
+                <Typography variant="body2" sx={{ fontWeight: 'bold', color: 'white' }}>
+                  {profileData?.fullName || user?.name || 'Full Name'}
+                </Typography>
+                <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+                  {profileData?.jobTitle || user?.position || 'Position Title'}
+                </Typography>
+              </Box>
+              
+              <Avatar
+                src={profilePictureUrl}
+                onClick={handleProfileMenuOpen}
+                aria-controls={menuId}
+                aria-haspopup="true"
+                sx={{ 
+                  cursor: 'pointer',
+                  bgcolor: profilePictureUrl ? 'transparent' : '#1C392B',
+                  color: '#fff',
+                  width: 36,
+                  height: 36
+                }}
+              >
+                {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'L')}
+              </Avatar>
+            </Box>
           </Box>
         </Box>
       </Toolbar>
       {renderMenu}
+      <NotificationsPopup
+        anchorEl={notificationsAnchorEl}
+        open={isNotificationsOpen}
+        onClose={handleNotificationsClose}
+      />
     </AppBar>
   );
 };
