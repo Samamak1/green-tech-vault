@@ -158,8 +158,8 @@ const NotificationsPopup = ({ open, anchorEl, onClose }) => {
     <Paper
       sx={{
         position: 'absolute',
-        top: anchorEl ? anchorEl.getBoundingClientRect().bottom + 5 : 0,
-        left: anchorEl ? anchorEl.getBoundingClientRect().left - 450 : 0, // Position to the left of the dropdown
+        top: 64, // Position right below the header
+        right: 250, // Leave space for profile dropdown (230px width + some margin)
         width: 500,
         maxHeight: 600,
         boxShadow: '0px 5px 15px rgba(0,0,0,0.1)',

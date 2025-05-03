@@ -13,7 +13,8 @@ import {
   Menu,
   MenuItem,
   Divider,
-  ListItemIcon
+  ListItemIcon,
+  Badge
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -103,10 +104,11 @@ const BrandedHeader = () => {
   };
 
   const handleNotificationsClick = (event) => {
-    // Use the MenuItem as the anchor, obtained from the event
+    // Position next to the profile menu instead of replacing it
     setNotificationsAnchorEl(event.currentTarget);
     setNotificationsOpen(true);
-    handleMenuClose(); // Close the profile menu
+    // Don't close the profile menu anymore
+    // handleMenuClose();
   };
 
   const handleNotificationsClose = () => {
@@ -117,6 +119,10 @@ const BrandedHeader = () => {
   const isMenuOpen = Boolean(anchorEl);
   const menuId = 'primary-client-account-menu';
   
+  // Calculate unread notification count (assuming we have mock data for now)
+  // In a real app, this would come from your notifications service/context
+  const unreadNotificationCount = 7; // Hard-coded for now based on the mockNotifications length
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -191,7 +197,13 @@ const BrandedHeader = () => {
       
       <MenuItem onClick={handleNotificationsClick}>
         <ListItemIcon>
-          <NotificationsIcon fontSize="small" />
+          <Badge 
+            color="error" 
+            variant="dot" 
+            invisible={unreadNotificationCount === 0}
+          >
+            <NotificationsIcon fontSize="small" />
+          </Badge>
         </ListItemIcon>
         Notifications
       </MenuItem>
@@ -273,6 +285,24 @@ const BrandedHeader = () => {
             {isEditMode ? 'Done Editing' : 'Edit Layout'}
           </Button>
 
+          {/* Notifications Icon with Badge */}
+          <IconButton 
+            size="medium" 
+            sx={{ mr: 2 }}
+            onClick={(e) => {
+              setNotificationsAnchorEl(e.currentTarget);
+              setNotificationsOpen(true);
+            }}
+          >
+            <Badge 
+              color="error" 
+              variant="dot" 
+              invisible={unreadNotificationCount === 0}
+            >
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+
           {/* Right side - User info */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ 
@@ -309,7 +339,7 @@ const BrandedHeader = () => {
       </Toolbar>
       {renderMenu}
       
-      {/* Notifications Popup */}
+      {/* Notifications Popup - positioned to the left of the dropdown */}
       <NotificationsPopup 
         open={notificationsOpen} 
         anchorEl={notificationsAnchorEl} 

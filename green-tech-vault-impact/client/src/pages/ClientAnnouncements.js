@@ -105,17 +105,15 @@ const ClientAnnouncements = () => {
   return (
     // Extend the content all the way to match the red lines in screenshot
     <Box sx={{ 
-      position: 'absolute',
-      top: 0,
-      left: 0,
+      position: 'fixed', // Change to fixed to ensure it takes the entire viewport
+      top: '64px', // Start below the header
+      left: '225px', // Start after the sidebar width
       right: 0,
       bottom: 0,
-      width: '100vw', // Full viewport width
-      height: 'calc(100vh - 64px)', // Account for header height
-      pl: 0, 
-      pr: 0,
+      width: 'calc(100vw - 225px)', // Full width minus sidebar
+      height: 'calc(100vh - 64px)', // Full height minus header
       margin: 0,
-      marginTop: '64px', // Start below header
+      padding: 0,
       // Ensure scrollbar appears at absolute right edge
       overflowX: 'hidden',
       overflowY: 'auto',
