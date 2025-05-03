@@ -100,7 +100,9 @@ const AdminAnnouncements = () => {
       pt: 3,
       pb: 3,
       ml: 0,
-      mr: 0
+      mr: 0,
+      maxWidth: 'calc(100% - 24px)',
+      mx: 'auto'
     }}>
       <Paper sx={{ 
         width: '100%',

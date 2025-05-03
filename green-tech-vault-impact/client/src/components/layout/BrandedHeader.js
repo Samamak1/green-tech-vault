@@ -133,7 +133,7 @@ const BrandedHeader = () => {
           {profileData?.fullName || user?.companyName || "Leila's Company"}
         </Typography>
         <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
-          {profileData?.jobTitle || user?.username || '@lmeyer'}
+          {user?.username ? `@${user.username}` : profileData?.username ? `@${profileData.username}` : '@lmeyer'}
         </Typography>
         <Box 
           sx={{ 
@@ -247,7 +247,7 @@ const BrandedHeader = () => {
                 {profileData?.fullName || user?.companyName || "Leila's Company"}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                {profileData?.jobTitle || user?.username || '@lmeyer'}
+                {user?.username ? `@${user.username}` : profileData?.username ? `@${profileData.username}` : '@lmeyer'}
               </Typography>
             </Box>
             
