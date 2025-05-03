@@ -43,25 +43,24 @@ router.post('/login', (req, res) => {
     passwordProvided: !!password 
   });
   
-  // Admin credentials
+  // In a real implementation, this would verify credentials against the database
+  // For now, we'll return a mock response
+  
+  // Added new admin credentials
   const isLeilaAdmin = (email.toLowerCase() === 'lmeyer@rygneco.com' && 
                  password === 'RGYNeco.!');
   
-  const isJohnAdmin = (email.toLowerCase() === 'admin@greentech.com' && 
+  // Original admin credentials 
+  const isOriginalAdmin = (email.toLowerCase() === 'admin@greentech.com' && 
                   password === 'admin123');
   
-  // Client credentials
+  // New client credentials
   const isLeilaClient = (email.toLowerCase() === 'leilaameyer2@gmail.com' && 
                   password === 'RGYNeco.!');
                   
-  const isJohnClient = (email.toLowerCase() === 'client@greentech.com' && 
-                  password === 'client123');
-  
-  const isAdmin = isLeilaAdmin || isJohnAdmin;
-  const isClient = isLeilaClient || isJohnClient;
+  const isAdmin = isLeilaAdmin || isOriginalAdmin;
   
   console.log('Is admin credentials valid:', isAdmin);
-  console.log('Is client credentials valid:', isClient);
   
   // If it's an admin login attempt but credentials don't match
   if (isAdminLogin && !isAdmin) {
@@ -69,15 +68,6 @@ router.post('/login', (req, res) => {
     return res.status(401).json({
       success: false,
       error: 'Invalid admin credentials'
-    });
-  }
-  
-  // If it's a client login attempt but credentials don't match
-  if (!isAdminLogin && !isClient && (email || password)) {
-    console.log('Client login failed: Invalid credentials');
-    return res.status(401).json({
-      success: false,
-      error: 'Invalid client credentials'
     });
   }
   
@@ -96,8 +86,8 @@ router.post('/login', (req, res) => {
     userPosition = 'CEO';
     userId = 'admin-1';
     userRole = 'admin';
-  } else if (isJohnAdmin) {
-    userName = 'John Smith';
+  } else if (isOriginalAdmin) {
+    userName = 'Admin User';
     userPosition = 'Administrator';
     userId = 'admin-2';
     userRole = 'admin';
@@ -107,23 +97,12 @@ router.post('/login', (req, res) => {
     userRole = 'client';
     username = '@lmeyer';
     companyName = "Leila's Company";
-  } else if (isJohnClient) {
-    userName = 'John Smith';
-    userId = 'client-2';
-    userRole = 'client';
-    username = '@jsmith';
-    companyName = "John's Company";
   }
-
-  // Create token with user info embedded
-  const token = userRole === 'admin' 
-    ? `admin-jwt-token-${userId}` 
-    : `client-jwt-token-${userId}`;
   
   res.json({ 
     success: true, 
     data: {
-      token: token,
+      token: userRole === 'admin' ? 'admin-jwt-token' : 'client-jwt-token',
       user: {
         id: userId,
         name: userName,
@@ -149,72 +128,19 @@ router.get('/me', (req, res) => {
   
   // For demo purposes, let's check if the Authorization header contains 'admin'
   const authHeader = req.headers.authorization || '';
-  const isAdminToken = authHeader.includes('admin-jwt-token');
-  
-  // Extract user ID from token if possible
-  let userId;
-  
-  if (authHeader.includes('admin-jwt-token-admin-1')) {
-    userId = 'admin-1';
-  } else if (authHeader.includes('admin-jwt-token-admin-2')) {
-    userId = 'admin-2';
-  } else if (authHeader.includes('client-jwt-token-client-1')) {
-    userId = 'client-1';
-  } else if (authHeader.includes('client-jwt-token-client-2')) {
-    userId = 'client-2';
-  } else {
-    // Default fallback
-    userId = isAdminToken ? 'admin-1' : 'client-1';
-  }
-  
-  console.log('User ID from token:', userId);
-  console.log('Auth header:', authHeader);
-  
-  let userData;
-  
-  if (userId.startsWith('admin')) {
-    if (userId === 'admin-1') {
-      userData = {
-        id: 'admin-1',
-        name: 'Leila Meyer',
-        email: 'lmeyer@rygneco.com',
-        role: 'admin',
-        position: 'CEO'
-      };
-    } else {
-      userData = {
-        id: 'admin-2',
-        name: 'John Smith',
-        email: 'admin@greentech.com',
-        role: 'admin',
-        position: 'Administrator'
-      };
-    }
-  } else {
-    if (userId === 'client-1') {
-      userData = {
-        id: 'client-1',
-        name: 'Leila Meyer',
-        email: 'leilaameyer2@gmail.com',
-        role: 'client',
-        username: '@lmeyer',
-        companyName: "Leila's Company"
-      };
-    } else {
-      userData = {
-        id: 'client-2',
-        name: 'John Smith',
-        email: 'client@greentech.com',
-        role: 'client',
-        username: '@jsmith',
-        companyName: "John's Company"
-      };
-    }
-  }
+  const isAdmin = authHeader.includes('admin-jwt-token');
   
   res.json({ 
     success: true, 
-    data: userData,
+    data: {
+      id: isAdmin ? 'admin-1' : 'client-1',
+      name: isAdmin ? 'Leila Meyer' : 'Leila Meyer',
+      email: isAdmin ? 'lmeyer@rygneco.com' : 'leilaameyer2@gmail.com',
+      role: isAdmin ? 'admin' : 'client',
+      position: isAdmin ? 'CEO' : '',
+      username: !isAdmin ? '@lmeyer' : null,
+      companyName: !isAdmin ? "Leila's Company" : null
+    },
     message: 'User retrieved successfully' 
   });
 });

@@ -12,64 +12,27 @@ export const ProfileProvider = ({ children }) => {
     phone: '(555) 123-4567',
     username: 'lmeyer',
     password: '••••••••',
-    profilePicture: null,
-    // Additional address data
-    country: 'United Kingdom',
-    city: 'Leeds, East London',
-    postalCode: 'ERT 2354',
-    taxId: 'AS45645756'
+    profilePicture: null
   });
   const [profilePictureUrl, setProfilePictureUrl] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Load profile data from localStorage on component mount
   useEffect(() => {
-    const loadProfileData = () => {
+    // In a real app, this would fetch the profile data from an API
+    // For demo purposes, we're using hardcoded data
+    const fetchProfileData = () => {
       setLoading(true);
       
-      try {
-        // Check if we have saved profile data in localStorage
-        const savedProfileData = localStorage.getItem('profileData');
-        if (savedProfileData) {
-          setProfileData(JSON.parse(savedProfileData));
-        }
-        
-        // Check if we have a saved profile picture URL
-        const savedProfilePictureUrl = localStorage.getItem('profilePictureUrl');
-        if (savedProfilePictureUrl) {
-          setProfilePictureUrl(savedProfilePictureUrl);
-        }
-      } catch (error) {
-        console.error('Error loading profile data from localStorage:', error);
-      } finally {
+      // This would be an API call in a real application
+      // For now, we'll simulate a delay
+      setTimeout(() => {
+        // Data is already set in the initial state
         setLoading(false);
-      }
+      }, 500);
     };
     
-    loadProfileData();
+    fetchProfileData();
   }, []);
-
-  // Save profile data to localStorage whenever it changes
-  useEffect(() => {
-    if (!loading) {
-      try {
-        localStorage.setItem('profileData', JSON.stringify(profileData));
-      } catch (error) {
-        console.error('Error saving profile data to localStorage:', error);
-      }
-    }
-  }, [profileData, loading]);
-
-  // Save profile picture URL to localStorage whenever it changes
-  useEffect(() => {
-    if (!loading && profilePictureUrl) {
-      try {
-        localStorage.setItem('profilePictureUrl', profilePictureUrl);
-      } catch (error) {
-        console.error('Error saving profile picture URL to localStorage:', error);
-      }
-    }
-  }, [profilePictureUrl, loading]);
 
   const updateProfileData = (newData) => {
     setProfileData(prev => ({

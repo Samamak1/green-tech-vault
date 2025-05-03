@@ -655,11 +655,22 @@ const AdminPickupCalendar = () => {
     return (
       <>
         <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Typography variant="h6" sx={{ fontWeight: 500 }}>Calendar</Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Button 
+              startIcon={<ArrowBackIcon />} 
+              onClick={() => navigate('/admin/dashboard')}
+              sx={{ color: '#888', fontSize: '0.8rem', fontWeight: 'normal', textTransform: 'none' }}
+            >
+              Back to Dashboard
+            </Button>
+            <Typography variant="h5" sx={{ ml: 2, fontWeight: 500, fontSize: '1rem' }}>
+              Calendar
+            </Typography>
+          </Box>
           <Button
             variant="contained"
             startIcon={<AddIcon />}
-            onClick={() => navigate('/admin/schedule-pickup')}
+            onClick={handleOpenDialog}
             sx={{ 
               bgcolor: '#1C392B', 
               '&:hover': { bgcolor: '#152b21' },
@@ -1092,52 +1103,16 @@ const AdminPickupCalendar = () => {
   };
 
   return (
-    <AdminLayout>
+    <Box sx={{ 
+      pl: 3, // Left padding to ensure content is properly aligned
+      pr: 3, // Right padding
+      pt: 3, // Top padding
+      pb: 3, // Bottom padding
+      ml: 0, // No left margin needed since we'll use padding
+      mr: 0 // No right margin
+    }}>
       {renderCalendarContent()}
-      
-      <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ fontSize: '1rem' }}>
-          Schedule New Pickup
-        </DialogTitle>
-        <DialogContent>
-          <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                select
-                label="Client"
-                name="clientId"
-                value={formData.clientId}
-                onChange={handleFormChange}
-                required
-                InputProps={{ style: { fontSize: '0.75rem' } }}
-                InputLabelProps={{ style: { fontSize: '0.75rem' } }}
-                sx={{ '& .MuiMenuItem-root': { fontSize: '0.75rem' } }}
-              >
-                {clients.map((client) => (
-                  <MenuItem key={client.id} value={client.id}>
-                    {client.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            
-            {/* Rest of the dialog content */}
-          </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button 
-            onClick={handleSubmit} 
-            variant="contained" 
-            disabled={!formData.clientId || !formData.scheduledDate || !formData.location}
-            sx={{ fontSize: '0.75rem' }}
-          >
-            Schedule
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </AdminLayout>
+    </Box>
   );
 };
 

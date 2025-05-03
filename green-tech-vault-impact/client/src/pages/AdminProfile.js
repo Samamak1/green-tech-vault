@@ -42,36 +42,14 @@ const AdminProfile = () => {
   };
 
   const handleEdit = (section) => {
-    // Create a properly initialized form data object with all fields from profileData
-    // and calculated fields for first name and last name
-    const firstNameFromFullName = profileData.fullName.split(' ')[0];
-    const lastNameFromFullName = profileData.fullName.split(' ').slice(1).join(' ');
-    
-    setFormData({
-      ...profileData,
-      firstName: firstNameFromFullName,
-      lastName: lastNameFromFullName
-    });
-    
+    setFormData({ ...profileData });
     setEditing(true);
     setCurrentSection(section);
   };
 
   const handleSave = () => {
-    // If editing personal section, rebuild the fullName from firstName and lastName
-    if (currentSection === 'personal' && formData.firstName && formData.lastName) {
-      const updatedData = {
-        ...formData,
-        fullName: `${formData.firstName} ${formData.lastName}`
-      };
-      // Update profile data in the context with the rebuilt fullName
-      updateProfileData(updatedData);
-    } else {
-      // Update profile data in the context with the current form data
-      updateProfileData(formData);
-    }
-    
-    // Exit edit mode
+    // Update profile data in the context
+    updateProfileData(formData);
     setEditing(false);
     setCurrentSection(null);
   };
@@ -118,6 +96,14 @@ const AdminProfile = () => {
     );
   }
 
+  // Mock location data to match the image design
+  const addressData = {
+    country: "United Kingdom",
+    city: "Leeds, East London",
+    postalCode: "ERT 2354",
+    taxId: "AS45645756"
+  };
+
   return (
     <Box sx={{ 
       pl: 3,
@@ -139,15 +125,15 @@ const AdminProfile = () => {
                 width: 200, 
                 height: 200,
                 bgcolor: profilePictureUrl ? 'transparent' : '#1C392B',
-                fontSize: '4rem',
+                fontSize: '2rem',
                 mr: 3
               }}
             >
               {!profilePictureUrl && profileData.fullName.charAt(0)}
             </Avatar>
-            {/* Camera icon for profile upload - only show when editing */}
+            {/* Camera icon for profile upload - only show when editing profile */}
             {editing && currentSection === 'profile' && (
-              <Box sx={{ position: 'absolute', bottom: 0, left: 125 }}>
+              <Box sx={{ position: 'absolute', bottom: 0, left: 100 }}>
                 <label htmlFor="profile-picture-upload">
                   <Input
                     accept="image/*"
@@ -176,63 +162,34 @@ const AdminProfile = () => {
           <Box>
             <Typography variant="h6">{profileData.fullName}</Typography>
             <Typography variant="body1" color="text.secondary">{profileData.jobTitle}</Typography>
-            <Typography variant="body2" color="text.secondary">{profileData.city}, {profileData.country}</Typography>
+            <Typography variant="body2" color="text.secondary">Leeds, United Kingdom</Typography>
           </Box>
-          {!editing || currentSection !== 'profile' ? (
-            <Button 
-              startIcon={<EditIcon />} 
-              size="small"
-              sx={{ 
-                ml: 'auto',
-                color: '#4ECDC4', 
-                fontSize: '0.8rem', 
-                border: '1px solid #e0e0e0',
-                borderRadius: '8px',
-                py: 0.5,
-                px: 1.5,
-              }}
-              onClick={() => handleEdit('profile')}
-            >
-              Edit
-            </Button>
-          ) : (
-            <Box sx={{ ml: 'auto' }}>
-              <Button 
-                onClick={handleCancel}
-                sx={{ 
-                  color: '#666',
-                  mr: 2,
-                  borderRadius: 8,
-                  textTransform: 'none'
-                }}
-              >
-                Cancel
-              </Button>
-              <Button 
-                variant="contained"
-                onClick={handleSave}
-                sx={{ 
-                  bgcolor: '#4ECDC4', 
-                  color: 'white',
-                  '&:hover': { bgcolor: '#3dbdb5' }, 
-                  borderRadius: 8,
-                  textTransform: 'none'
-                }}
-              >
-                Save
-              </Button>
-            </Box>
-          )}
+          <Button 
+            startIcon={<EditIcon />}
+            size="small"
+            sx={{ 
+              ml: 'auto',
+              color: '#4ECDC4', 
+              fontSize: '0.8rem', 
+              border: '1px solid #e0e0e0',
+              borderRadius: '8px',
+              py: 0.5,
+              px: 1.5,
+            }}
+            onClick={() => handleEdit('profile')}
+          >
+            Edit
+          </Button>
         </Box>
       </Paper>
 
       {/* Personal Information Section */}
       <Paper sx={{ p: 3, borderRadius: 2, mb: 3 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
           <Typography variant="h6">Personal Information</Typography>
           {!editing || currentSection !== 'personal' ? (
             <Button 
-              startIcon={<EditIcon />} 
+              startIcon={<EditIcon />}
               size="small"
               sx={{ 
                 color: '#4ECDC4', 
@@ -347,7 +304,7 @@ const AdminProfile = () => {
             )}
           </Grid>
           
-          {/* Position Title (changed from Bio) */}
+          {/* Position Title (formerly Bio) */}
           <Grid item xs={12}>
             <Typography variant="body2" color="text.secondary">Position Title</Typography>
             {editing && currentSection === 'personal' ? (
@@ -368,11 +325,11 @@ const AdminProfile = () => {
       
       {/* Address Section */}
       <Paper sx={{ p: 3, borderRadius: 2 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
           <Typography variant="h6">Address</Typography>
           {!editing || currentSection !== 'address' ? (
             <Button 
-              startIcon={<EditIcon />} 
+              startIcon={<EditIcon />}
               size="small"
               sx={{ 
                 color: '#4ECDC4', 
@@ -426,13 +383,13 @@ const AdminProfile = () => {
               <TextField
                 fullWidth
                 name="country"
-                value={formData.country}
+                value={formData.country || addressData.country}
                 onChange={handleChange}
                 variant="standard"
                 sx={{ mt: 1 }}
               />
             ) : (
-              <Typography variant="body1" sx={{ mt: 1 }}>{profileData.country}</Typography>
+              <Typography variant="body1" sx={{ mt: 1 }}>{addressData.country}</Typography>
             )}
           </Grid>
           
@@ -443,13 +400,13 @@ const AdminProfile = () => {
               <TextField
                 fullWidth
                 name="city"
-                value={formData.city}
+                value={formData.city || addressData.city}
                 onChange={handleChange}
                 variant="standard"
                 sx={{ mt: 1 }}
               />
             ) : (
-              <Typography variant="body1" sx={{ mt: 1 }}>{profileData.city}</Typography>
+              <Typography variant="body1" sx={{ mt: 1 }}>{addressData.city}</Typography>
             )}
           </Grid>
           
@@ -460,13 +417,13 @@ const AdminProfile = () => {
               <TextField
                 fullWidth
                 name="postalCode"
-                value={formData.postalCode}
+                value={formData.postalCode || addressData.postalCode}
                 onChange={handleChange}
                 variant="standard"
                 sx={{ mt: 1 }}
               />
             ) : (
-              <Typography variant="body1" sx={{ mt: 1 }}>{profileData.postalCode}</Typography>
+              <Typography variant="body1" sx={{ mt: 1 }}>{addressData.postalCode}</Typography>
             )}
           </Grid>
           
@@ -477,13 +434,13 @@ const AdminProfile = () => {
               <TextField
                 fullWidth
                 name="taxId"
-                value={formData.taxId}
+                value={formData.taxId || addressData.taxId}
                 onChange={handleChange}
                 variant="standard"
                 sx={{ mt: 1 }}
               />
             ) : (
-              <Typography variant="body1" sx={{ mt: 1 }}>{profileData.taxId}</Typography>
+              <Typography variant="body1" sx={{ mt: 1 }}>{addressData.taxId}</Typography>
             )}
           </Grid>
         </Grid>
