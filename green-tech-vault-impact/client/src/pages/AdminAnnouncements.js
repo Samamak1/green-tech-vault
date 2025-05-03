@@ -95,12 +95,10 @@ const AdminAnnouncements = () => {
 
   return (
     <Box sx={{ 
-      pl: 3,
-      pr: 3,
-      pt: 3,
-      pb: 3,
-      ml: 0,
-      mr: 0
+      width: '100%',
+      display: 'flex', 
+      justifyContent: 'center',
+      p: 3
     }}>
       <Paper sx={{ 
         maxWidth: '1000px',

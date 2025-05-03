@@ -326,79 +326,391 @@ const AdminClientProfile = () => {
   }
 
   return (
-    <AdminLayout>
-      <Box sx={{ p: 3 }}>
-        {/* Header */}
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-          <Button 
-            startIcon={<ArrowBackIcon />} 
-            onClick={handleGoBack}
-            sx={{ color: '#888', fontSize: '0.9rem', fontWeight: 'normal', textTransform: 'none' }}
-          >
-            Back to Dashboard
-          </Button>
-          <Typography variant="h6" sx={{ ml: 2, color: '#444', fontWeight: 500 }}>
-            Client Profile: {client.name}
-          </Typography>
-        </Box>
+    <Box sx={{ 
+      pl: 3, // Left padding to ensure content is properly aligned
+      pr: 3, // Right padding
+      pt: 3, // Top padding
+      pb: 3, // Bottom padding
+      ml: 0, // No left margin needed since we'll use padding
+      mr: 0 // No right margin
+    }}>
+      {/* Header */}
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+        <Button 
+          startIcon={<ArrowBackIcon />} 
+          onClick={handleGoBack}
+          sx={{ color: '#888', fontSize: '0.9rem', fontWeight: 'normal', textTransform: 'none' }}
+        >
+          Back to Dashboard
+        </Button>
+        <Typography variant="h6" sx={{ ml: 2, color: '#444', fontWeight: 500 }}>
+          Client Profile: {client.name}
+        </Typography>
+      </Box>
 
-        <Grid container spacing={3}>
-          {/* Left Column - Information Panels */}
-          <Grid item xs={12} md={4}>
-            <Paper sx={{ p: 0, borderRadius: 2, height: '100%', overflow: 'hidden' }}>
-              {/* Tab Selection Buttons */}
-              <Box sx={{ 
-                borderBottom: '1px solid #e0e0e0',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'flex-start'
-              }}>
-                <Box 
-                  onClick={() => handleLeftPanelTabChange('Company Information')}
-                  sx={{ 
-                    p: 2,
-                    pb: 1,
-                    cursor: 'pointer',
-                    borderBottom: leftPanelTab === 'Company Information' ? '4px solid #4ECDC4' : 'none',
-                    color: leftPanelTab === 'Company Information' ? '#4ECDC4' : '#808080',
-                    fontWeight: 400,
-                    fontSize: '16px',
-                    mr: 2
-                  }}
-                >
-                  Company Information
+      <Grid container spacing={3}>
+        {/* Left Column - Information Panels */}
+        <Grid item xs={12} md={4}>
+          <Paper sx={{ p: 0, borderRadius: 2, height: '100%', overflow: 'hidden' }}>
+            {/* Tab Selection Buttons */}
+            <Box sx={{ 
+              borderBottom: '1px solid #e0e0e0',
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'flex-start'
+            }}>
+              <Box 
+                onClick={() => handleLeftPanelTabChange('Company Information')}
+                sx={{ 
+                  p: 2,
+                  pb: 1,
+                  cursor: 'pointer',
+                  borderBottom: leftPanelTab === 'Company Information' ? '4px solid #4ECDC4' : 'none',
+                  color: leftPanelTab === 'Company Information' ? '#4ECDC4' : '#808080',
+                  fontWeight: 400,
+                  fontSize: '16px',
+                  mr: 2
+                }}
+              >
+                Company Information
+              </Box>
+              <Box 
+                onClick={() => handleLeftPanelTabChange('Pickup Information')}
+                sx={{ 
+                  p: 2,
+                  pb: 1,
+                  cursor: 'pointer',
+                  borderBottom: leftPanelTab === 'Pickup Information' ? '4px solid #4ECDC4' : 'none',
+                  color: leftPanelTab === 'Pickup Information' ? '#4ECDC4' : '#808080',
+                  fontWeight: 400,
+                  fontSize: '16px'
+                }}
+              >
+                Pickup Information
+              </Box>
+            </Box>
+
+            {/* Company Information Panel */}
+            {leftPanelTab === 'Company Information' && (
+              <Box sx={{ p: 3 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                  <Box 
+                    sx={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      cursor: 'pointer' 
+                    }}
+                  >
+                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500 }}>
+                      Company Information
+                    </Typography>
+                  </Box>
+                  <Button 
+                    startIcon={<EditIcon />} 
+                    size="small"
+                    sx={{ 
+                      color: '#4ECDC4', 
+                      fontSize: '0.8rem', 
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '8px',
+                      py: 0.5,
+                      px: 1.5,
+                    }}
+                  >
+                    Edit
+                  </Button>
                 </Box>
-                <Box 
-                  onClick={() => handleLeftPanelTabChange('Pickup Information')}
-                  sx={{ 
-                    p: 2,
-                    pb: 1,
-                    cursor: 'pointer',
-                    borderBottom: leftPanelTab === 'Pickup Information' ? '4px solid #4ECDC4' : 'none',
-                    color: leftPanelTab === 'Pickup Information' ? '#4ECDC4' : '#808080',
-                    fontWeight: 400,
-                    fontSize: '16px'
-                  }}
-                >
-                  Pickup Information
+                <Divider sx={{ mt: 1, mb: 3 }} />
+
+                <Box sx={{ mt: 2 }}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Company Name</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{client.name}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Email</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{client.email}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{client.phone}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Address</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{client.address}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Website</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{client.website}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Industry</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{client.industry}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Employees</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{client.employees}</Typography>
+                    </Grid>
+                  </Grid>
+                </Box>
+
+                <Box sx={{ mt: 4 }}>
+                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1 }}>
+                    Contact Information
+                  </Typography>
+                  <Divider sx={{ mt: 1, mb: 2 }} />
+                  
+                  <Grid container spacing={2}>
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact Name</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{client.contactPerson}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Email</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{client.email}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{client.phone}</Typography>
+                    </Grid>
+                  </Grid>
+                </Box>
+
+                <Box sx={{ mt: 4 }}>
+                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1 }}>
+                    Contact History
+                  </Typography>
+                  <Divider sx={{ mt: 1, mb: 2 }} />
+                  
+                  <Grid container spacing={2}>
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Last Contacted</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{client.lastContacted}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact Method</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{client.contactMethod}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Conversation Notes</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{client.conversationNotes}</Typography>
+                    </Grid>
+                  </Grid>
+                </Box>
+
+                <Box sx={{ mt: 4 }}>
+                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 2 }}>
+                    Environmental Impact
+                  </Typography>
+
+                  <Divider sx={{ mt: 1, mb: 2 }} />
+
+                  <Grid container spacing={3}>
+                    <Grid item xs={6}>
+                      <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
+                        <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
+                          {client.devicesProcessed}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: '#666' }}>
+                          Devices Processed
+                        </Typography>
+                      </Paper>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
+                        <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
+                          {client.totalWeight}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: '#666' }}>
+                          Total weight (kg)
+                        </Typography>
+                      </Paper>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
+                        <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
+                          {client.co2Saved}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: '#666' }}>
+                          CO2 Saved (kg)
+                        </Typography>
+                      </Paper>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
+                        <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
+                          {client.treesPlanted}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: '#666' }}>
+                          Trees Planted
+                        </Typography>
+                      </Paper>
+                    </Grid>
+                  </Grid>
+
+                  <Box sx={{ mt: 3 }}>
+                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, mb: 1 }}>
+                      Device Disposition:
+                    </Typography>
+                    <Grid container spacing={1}>
+                      <Grid item xs={4}>
+                        <Typography variant="body2">
+                          Refurbished: {client.refurbished}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Typography variant="body2">
+                          Recycled: {client.recycled}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Typography variant="body2">
+                          Disposed: {client.disposed}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Box>
                 </Box>
               </Box>
+            )}
 
-              {/* Company Information Panel */}
-              {leftPanelTab === 'Company Information' && (
-                <Box sx={{ p: 3 }}>
+            {/* Pickup Information Panel */}
+            {leftPanelTab === 'Pickup Information' && selectedPickup && (
+              <Box sx={{ p: 3 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500 }}>
+                    Pickup Information
+                  </Typography>
+                  <Button 
+                    startIcon={<EditIcon />} 
+                    size="small"
+                    sx={{ 
+                      color: '#4ECDC4', 
+                      fontSize: '0.8rem', 
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '8px',
+                      py: 0.5,
+                      px: 1.5,
+                    }}
+                  >
+                    Edit Status
+                  </Button>
+                </Box>
+                <Divider sx={{ mt: 1, mb: 3 }} />
+
+                <Box sx={{ mt: 2 }}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Client</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{selectedPickup.personName}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Time</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{selectedPickup.time}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Date</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{selectedPickup.date}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Location</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{selectedPickup.location}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{selectedPickup.contact}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{selectedPickup.contactPhone}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Status</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Chip
+                        label={selectedPickup.status === 'complete' ? 'Complete' : 
+                             selectedPickup.status === 'in-processing' ? 'Processing' : 
+                             selectedPickup.status === 'recycled' ? 'Received' : selectedPickup.status}
+                        size="small"
+                        sx={{
+                          ...getStatusChipStyle(selectedPickup.status),
+                          textTransform: 'capitalize',
+                          fontWeight: 500,
+                          py: 0.5
+                        }}
+                      />
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Notes</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2">{selectedPickup.notes}</Typography>
+                    </Grid>
+                  </Grid>
+                </Box>
+
+                <Box sx={{ mt: 4 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                    <Box 
-                      sx={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        cursor: 'pointer' 
-                      }}
-                    >
-                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500 }}>
-                        Company Information
-                      </Typography>
-                    </Box>
+                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500 }}>
+                      Notes
+                    </Typography>
                     <Button 
                       startIcon={<EditIcon />} 
                       size="small"
@@ -414,765 +726,458 @@ const AdminClientProfile = () => {
                       Edit
                     </Button>
                   </Box>
-                  <Divider sx={{ mt: 1, mb: 3 }} />
+                  <Divider sx={{ mt: 1, mb: 2 }} />
+                  
+                  <Typography variant="body2" sx={{ mb: 3 }}>
+                    {selectedPickup.notes || 'No notes from customer'}
+                  </Typography>
+                </Box>
 
-                  <Box sx={{ mt: 2 }}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Company Name</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{client.name}</Typography>
-                      </Grid>
+                <Box sx={{ mt: 4 }}>
+                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1 }}>
+                    Additional Details
+                  </Typography>
+                  <Divider sx={{ mt: 1, mb: 2 }} />
+                  
+                  <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>
+                    Store Address
+                  </Typography>
+                  <Typography variant="body2" sx={{ mt: 1 }}>
+                    {selectedPickup.location}
+                  </Typography>
+                </Box>
 
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Email</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{client.email}</Typography>
-                      </Grid>
+                <Box sx={{ mt: 4 }}>
+                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 2 }}>
+                    Summary
+                  </Typography>
 
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{client.phone}</Typography>
-                      </Grid>
+                  <Divider sx={{ mt: 1, mb: 2 }} />
 
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Address</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{client.address}</Typography>
-                      </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Website</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{client.website}</Typography>
-                      </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Industry</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{client.industry}</Typography>
-                      </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Employees</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{client.employees}</Typography>
-                      </Grid>
+                  <Grid container spacing={3}>
+                    <Grid item xs={6}>
+                      <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
+                        <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
+                          {selectedPickup.totalDevices}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: '#666' }}>
+                          Total Devices
+                        </Typography>
+                      </Paper>
                     </Grid>
-                  </Box>
+                    <Grid item xs={6}>
+                      <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
+                        <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
+                          {selectedPickup.totalWeight}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: '#666' }}>
+                          Total Weight (kg)
+                        </Typography>
+                      </Paper>
+                    </Grid>
+                  </Grid>
 
-                  <Box sx={{ mt: 4 }}>
-                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1 }}>
-                      Contact Information
+                  <Box sx={{ mt: 3 }}>
+                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, mb: 1 }}>
+                      Device Status:
                     </Typography>
-                    <Divider sx={{ mt: 1, mb: 2 }} />
-                    
-                    <Grid container spacing={2}>
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact Name</Typography>
+                    <Grid container spacing={1}>
+                      <Grid item xs={4}>
+                        <Typography variant="body2">
+                          Received: {selectedPickup.deviceStatus.received}
+                        </Typography>
                       </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{client.contactPerson}</Typography>
+                      <Grid item xs={4}>
+                        <Typography variant="body2">
+                          Refurbished: {selectedPickup.deviceStatus.refurbished}
+                        </Typography>
                       </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Email</Typography>
+                      <Grid item xs={4}>
+                        <Typography variant="body2">
+                          Recycled: {selectedPickup.deviceStatus.recycled}
+                        </Typography>
                       </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{client.email}</Typography>
+                      <Grid item xs={4}>
+                        <Typography variant="body2">
+                          In Processing: {selectedPickup.deviceStatus.inProcessing}
+                        </Typography>
                       </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{client.phone}</Typography>
-                      </Grid>
-                    </Grid>
-                  </Box>
-
-                  <Box sx={{ mt: 4 }}>
-                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1 }}>
-                      Contact History
-                    </Typography>
-                    <Divider sx={{ mt: 1, mb: 2 }} />
-                    
-                    <Grid container spacing={2}>
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Last Contacted</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{client.lastContacted}</Typography>
-                      </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact Method</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{client.contactMethod}</Typography>
-                      </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Conversation Notes</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{client.conversationNotes}</Typography>
+                      <Grid item xs={4}>
+                        <Typography variant="body2">
+                          Disposed: {selectedPickup.deviceStatus.disposed}
+                        </Typography>
                       </Grid>
                     </Grid>
-                  </Box>
-
-                  <Box sx={{ mt: 4 }}>
-                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 2 }}>
-                      Environmental Impact
-                    </Typography>
-
-                    <Divider sx={{ mt: 1, mb: 2 }} />
-
-                    <Grid container spacing={3}>
-                      <Grid item xs={6}>
-                        <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
-                          <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
-                            {client.devicesProcessed}
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: '#666' }}>
-                            Devices Processed
-                          </Typography>
-                        </Paper>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
-                          <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
-                            {client.totalWeight}
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: '#666' }}>
-                            Total weight (kg)
-                          </Typography>
-                        </Paper>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
-                          <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
-                            {client.co2Saved}
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: '#666' }}>
-                            CO2 Saved (kg)
-                          </Typography>
-                        </Paper>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
-                          <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
-                            {client.treesPlanted}
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: '#666' }}>
-                            Trees Planted
-                          </Typography>
-                        </Paper>
-                      </Grid>
-                    </Grid>
-
-                    <Box sx={{ mt: 3 }}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, mb: 1 }}>
-                        Device Disposition:
-                      </Typography>
-                      <Grid container spacing={1}>
-                        <Grid item xs={4}>
-                          <Typography variant="body2">
-                            Refurbished: {client.refurbished}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                          <Typography variant="body2">
-                            Recycled: {client.recycled}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                          <Typography variant="body2">
-                            Disposed: {client.disposed}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Box>
                   </Box>
                 </Box>
-              )}
-
-              {/* Pickup Information Panel */}
-              {leftPanelTab === 'Pickup Information' && selectedPickup && (
-                <Box sx={{ p: 3 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500 }}>
-                      Pickup Information
-                    </Typography>
-                    <Button 
-                      startIcon={<EditIcon />} 
-                      size="small"
-                      sx={{ 
-                        color: '#4ECDC4', 
-                        fontSize: '0.8rem', 
-                        border: '1px solid #e0e0e0',
-                        borderRadius: '8px',
-                        py: 0.5,
-                        px: 1.5,
-                      }}
-                    >
-                      Edit Status
-                    </Button>
-                  </Box>
-                  <Divider sx={{ mt: 1, mb: 3 }} />
-
-                  <Box sx={{ mt: 2 }}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Client</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{selectedPickup.personName}</Typography>
-                      </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Time</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{selectedPickup.time}</Typography>
-                      </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Date</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{selectedPickup.date}</Typography>
-                      </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Location</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{selectedPickup.location}</Typography>
-                      </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{selectedPickup.contact}</Typography>
-                      </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{selectedPickup.contactPhone}</Typography>
-                      </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Status</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Chip
-                          label={selectedPickup.status === 'complete' ? 'Complete' : 
-                               selectedPickup.status === 'in-processing' ? 'Processing' : 
-                               selectedPickup.status === 'recycled' ? 'Received' : selectedPickup.status}
-                          size="small"
-                          sx={{
-                            ...getStatusChipStyle(selectedPickup.status),
-                            textTransform: 'capitalize',
-                            fontWeight: 500,
-                            py: 0.5
-                          }}
-                        />
-                      </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Notes</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2">{selectedPickup.notes}</Typography>
-                      </Grid>
-                    </Grid>
-                  </Box>
-
-                  <Box sx={{ mt: 4 }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500 }}>
-                        Notes
-                      </Typography>
-                      <Button 
-                        startIcon={<EditIcon />} 
-                        size="small"
-                        sx={{ 
-                          color: '#4ECDC4', 
-                          fontSize: '0.8rem', 
-                          border: '1px solid #e0e0e0',
-                          borderRadius: '8px',
-                          py: 0.5,
-                          px: 1.5,
-                        }}
-                      >
-                        Edit
-                      </Button>
-                    </Box>
-                    <Divider sx={{ mt: 1, mb: 2 }} />
-                    
-                    <Typography variant="body2" sx={{ mb: 3 }}>
-                      {selectedPickup.notes || 'No notes from customer'}
-                    </Typography>
-                  </Box>
-
-                  <Box sx={{ mt: 4 }}>
-                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1 }}>
-                      Additional Details
-                    </Typography>
-                    <Divider sx={{ mt: 1, mb: 2 }} />
-                    
-                    <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>
-                      Store Address
-                    </Typography>
-                    <Typography variant="body2" sx={{ mt: 1 }}>
-                      {selectedPickup.location}
-                    </Typography>
-                  </Box>
-
-                  <Box sx={{ mt: 4 }}>
-                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 2 }}>
-                      Summary
-                    </Typography>
-
-                    <Divider sx={{ mt: 1, mb: 2 }} />
-
-                    <Grid container spacing={3}>
-                      <Grid item xs={6}>
-                        <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
-                          <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
-                            {selectedPickup.totalDevices}
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: '#666' }}>
-                            Total Devices
-                          </Typography>
-                        </Paper>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: '#f9f9f9' }}>
-                          <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 'bold' }}>
-                            {selectedPickup.totalWeight}
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: '#666' }}>
-                            Total Weight (kg)
-                          </Typography>
-                        </Paper>
-                      </Grid>
-                    </Grid>
-
-                    <Box sx={{ mt: 3 }}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, mb: 1 }}>
-                        Device Status:
-                      </Typography>
-                      <Grid container spacing={1}>
-                        <Grid item xs={4}>
-                          <Typography variant="body2">
-                            Received: {selectedPickup.deviceStatus.received}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                          <Typography variant="body2">
-                            Refurbished: {selectedPickup.deviceStatus.refurbished}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                          <Typography variant="body2">
-                            Recycled: {selectedPickup.deviceStatus.recycled}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                          <Typography variant="body2">
-                            In Processing: {selectedPickup.deviceStatus.inProcessing}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                          <Typography variant="body2">
-                            Disposed: {selectedPickup.deviceStatus.disposed}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Box>
-                  </Box>
-                </Box>
-              )}
-            </Paper>
-          </Grid>
-
-          {/* Right Column - Tabs */}
-          <Grid item xs={12} md={8}>
-            <Paper sx={{ borderRadius: 2, overflow: 'hidden' }}>
-              {/* Tabs */}
-              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs 
-                  value={activeTab} 
-                  onChange={handleTabChange}
-                  sx={{
-                    '& .MuiTab-root': { 
-                      textTransform: 'none',
-                      fontSize: '16px',
-                      fontWeight: 'normal',
-                      color: '#666',
-                      '&.Mui-selected': {
-                        color: '#4ECDC4',
-                        fontWeight: 'medium',
-                      }
-                    },
-                    '& .MuiTabs-indicator': {
-                      backgroundColor: '#4ECDC4'
-                    }
-                  }}
-                >
-                  <Tab label="Pickups" />
-                  <Tab label="Devices" />
-                </Tabs>
               </Box>
-
-              {/* Pickups Tab */}
-              {activeTab === 0 && (
-                <Box sx={{ p: 2 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <TextField
-                        placeholder="Search here"
-                        size="small"
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <SearchIcon fontSize="small" sx={{ color: '#aaa' }} />
-                            </InputAdornment>
-                          ),
-                        }}
-                        sx={{ mr: 1, width: '200px' }}
-                      />
-                      <Button 
-                        startIcon={<FilterListIcon />}
-                        size="small"
-                        sx={{ 
-                          color: '#666', 
-                          border: '1px solid #e0e0e0',
-                          borderRadius: '4px',
-                          textTransform: 'none'
-                        }}
-                      >
-                        Filter
-                      </Button>
-                    </Box>
-                    <Button
-                      variant="contained"
-                      onClick={handleSchedulePickup}
-                      sx={{ 
-                        bgcolor: '#4ECDC4', 
-                        color: 'white',
-                        '&:hover': { bgcolor: '#3dbdb5' },
-                        borderRadius: '8px',
-                        textTransform: 'none'
-                      }}
-                    >
-                      + Schedule a Pickup
-                    </Button>
-                  </Box>
-
-                  <TableContainer>
-                    <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
-                      <TableHead>
-                        <TableRow sx={{ bgcolor: '#f5f5f5' }}>
-                          <TableCell padding="checkbox" width="40px">
-                            <input type="checkbox" />
-                          </TableCell>
-                          <TableCell width="15%">Client</TableCell>
-                          <TableCell width="12%">Date</TableCell>
-                          <TableCell width="12%">Time</TableCell>
-                          <TableCell width="20%">Location</TableCell>
-                          <TableCell width="15%">Status</TableCell>
-                          <TableCell width="10%">Weight (kg)</TableCell>
-                          <TableCell width="15%">Actions</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {pickups.map((pickup) => (
-                          <TableRow 
-                            key={pickup.id} 
-                            hover
-                            onClick={() => handlePickupSelect(pickup)}
-                            sx={{ cursor: 'pointer' }}
-                          >
-                            <TableCell padding="checkbox">
-                              <input type="checkbox" />
-                            </TableCell>
-                            <TableCell>{pickup.personName}</TableCell>
-                            <TableCell>{pickup.date}</TableCell>
-                            <TableCell>{pickup.time}</TableCell>
-                            <TableCell>{pickup.location}</TableCell>
-                            <TableCell>
-                              <Chip 
-                                label={pickup.status === 'complete' ? 'Complete' : 
-                                      pickup.status === 'in-processing' ? 'In Processing' : 
-                                      pickup.status === 'recycled' ? 'Received' : pickup.status}
-                                size="small"
-                                sx={{ 
-                                  ...getStatusChipStyle(pickup.status), 
-                                  textTransform: 'capitalize',
-                                  fontWeight: 500,
-                                  py: 1
-                                }}
-                              />
-                            </TableCell>
-                            <TableCell>{pickup.weight}</TableCell>
-                            <TableCell>
-                              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
-                              <IconButton 
-                                size="small" 
-                                sx={{ 
-                                    color: '#56C3C9', 
-                                    border: '1px solid #e0e0e0',
-                                    borderRadius: '50%',
-                                    p: 1,
-                                    mr: 0.75,
-                                    width: 36,
-                                    height: 36,
-                                    '&:hover': {
-                                      bgcolor: 'rgba(86, 195, 201, 0.08)',
-                                    }
-                                  }}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    // Handle edit action
-                                }}
-                              >
-                                <EditIcon fontSize="small" />
-                              </IconButton>
-                              <IconButton 
-                                size="small" 
-                                sx={{ 
-                                    color: '#E05050', 
-                                    border: '1px solid #e0e0e0',
-                                    borderRadius: '50%',
-                                    p: 1,
-                                    mr: 0.75,
-                                    width: 36,
-                                    height: 36,
-                                    '&:hover': {
-                                      bgcolor: 'rgba(224, 80, 80, 0.08)',
-                                    }
-                                  }}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    // Handle delete action
-                                }}
-                              >
-                                <DeleteIcon fontSize="small" />
-                              </IconButton>
-                              </Box>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </Box>
-              )}
-
-              {/* Devices Tab */}
-              {activeTab === 1 && (
-                <Box sx={{ p: 2 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <TextField
-                        placeholder="Search here"
-                        size="small"
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <SearchIcon fontSize="small" sx={{ color: '#aaa' }} />
-                            </InputAdornment>
-                          ),
-                        }}
-                        sx={{ mr: 1, width: '200px' }}
-                      />
-                      <Button 
-                        startIcon={<FilterListIcon />}
-                        size="small"
-                        sx={{ 
-                          color: '#666', 
-                          border: '1px solid #e0e0e0',
-                          borderRadius: '4px',
-                          textTransform: 'none'
-                        }}
-                      >
-                        Filter
-                      </Button>
-                    </Box>
-                    <Button
-                      variant="contained"
-                      sx={{ 
-                        bgcolor: '#4ECDC4', 
-                        color: 'white',
-                        '&:hover': { bgcolor: '#3dbdb5' },
-                        borderRadius: '8px',
-                        textTransform: 'none'
-                      }}
-                    >
-                      + Add Device
-                    </Button>
-                  </Box>
-
-                  <Box sx={{ mb: 2 }}>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
-                      John Smith's 01/24/2025 Pickup
-                    </Typography>
-                  </Box>
-
-                  <TableContainer>
-                    <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
-                      <TableHead>
-                        <TableRow sx={{ bgcolor: '#f5f5f5' }}>
-                          <TableCell width="15%">Type</TableCell>
-                          <TableCell width="15%">Manufacturer</TableCell>
-                          <TableCell width="15%">Model</TableCell>
-                          <TableCell width="20%">Serial Number</TableCell>
-                          <TableCell width="15%">Status</TableCell>
-                          <TableCell width="10%">Weight (kg)</TableCell>
-                          <TableCell width="10%">Actions</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {devices.map((device) => (
-                          <TableRow key={device.id} hover>
-                            <TableCell
-                              sx={{ 
-                                cursor: 'pointer',
-                                color: '#1C392B',
-                                fontWeight: 500,
-                                '&:hover': { textDecoration: 'underline' }
-                              }}
-                              onClick={() => navigate(`/admin/devices/${device.id}`)}
-                            >{device.type}</TableCell>
-                            <TableCell>{device.manufacturer}</TableCell>
-                            <TableCell>{device.model}</TableCell>
-                            <TableCell>{device.serialNumber}</TableCell>
-                            <TableCell>
-                              <Chip 
-                                label={device.status === 'refurbished' ? 'Refurbished' : 
-                                      device.status === 'in-processing' ? 'In Processing' : 
-                                      device.status === 'recycled' ? 'Recycled' :
-                                      device.status === 'disposed' ? 'Disposed' : device.status}
-                                size="small"
-                                sx={{ ...getStatusChipStyle(device.status), textTransform: 'capitalize' }}
-                              />
-                            </TableCell>
-                            <TableCell>{device.weight}</TableCell>
-                            <TableCell>
-                              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
-                              <IconButton 
-                                size="small" 
-                                sx={{ 
-                                    color: '#56C3C9', 
-                                    border: '1px solid #e0e0e0',
-                                    borderRadius: '50%',
-                                    p: 1,
-                                    mr: 0.75,
-                                    width: 36,
-                                    height: 36,
-                                    '&:hover': {
-                                      bgcolor: 'rgba(86, 195, 201, 0.08)',
-                                    }
-                                }}
-                              >
-                                <EditIcon fontSize="small" />
-                              </IconButton>
-                              <IconButton 
-                                size="small" 
-                                sx={{ 
-                                    color: '#E05050', 
-                                    border: '1px solid #e0e0e0',
-                                    borderRadius: '50%',
-                                    p: 1,
-                                    mr: 0.75,
-                                    width: 36,
-                                    height: 36,
-                                    '&:hover': {
-                                      bgcolor: 'rgba(224, 80, 80, 0.08)',
-                                    }
-                                }}
-                                onClick={() => handleArchiveDialogOpen(device)}
-                              >
-                                <DeleteIcon fontSize="small" />
-                              </IconButton>
-                              </Box>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </Box>
-              )}
-            </Paper>
-          </Grid>
+            )}
+          </Paper>
         </Grid>
 
-        {/* Archive Dialog */}
-        <Dialog
-          open={archiveDialogOpen}
-          onClose={handleArchiveDialogClose}
-          aria-labelledby="archive-dialog-title"
-          maxWidth="xs"
-          fullWidth
-        >
-          <DialogTitle id="archive-dialog-title">
-            Are you sure you want to archive this Device?
-          </DialogTitle>
-          <DialogContent>
-            {deviceToArchive && (
-              <>
-                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                  {deviceToArchive.manufacturer} {deviceToArchive.model}
-                </Typography>
-                <Typography variant="body2" sx={{ mb: 2, color: '#666' }}>
-                  {deviceToArchive.type}, {deviceToArchive.manufacturer}, {deviceToArchive.serialNumber}, {deviceToArchive.status}
-                </Typography>
-                <Typography variant="body2" sx={{ mt: 2 }}>
-                  Even though it will no longer appear in Your Devices, you can still view the Device in Archived Devices from your account
-                </Typography>
-              </>
+        {/* Right Column - Tabs */}
+        <Grid item xs={12} md={8}>
+          <Paper sx={{ borderRadius: 2, overflow: 'hidden' }}>
+            {/* Tabs */}
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Tabs 
+                value={activeTab} 
+                onChange={handleTabChange}
+                sx={{
+                  '& .MuiTab-root': { 
+                    textTransform: 'none',
+                    fontSize: '16px',
+                    fontWeight: 'normal',
+                    color: '#666',
+                    '&.Mui-selected': {
+                      color: '#4ECDC4',
+                      fontWeight: 'medium',
+                    }
+                  },
+                  '& .MuiTabs-indicator': {
+                    backgroundColor: '#4ECDC4'
+                  }
+                }}
+              >
+                <Tab label="Pickups" />
+                <Tab label="Devices" />
+              </Tabs>
+            </Box>
+
+            {/* Pickups Tab */}
+            {activeTab === 0 && (
+              <Box sx={{ p: 2 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <TextField
+                      placeholder="Search here"
+                      size="small"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <SearchIcon fontSize="small" sx={{ color: '#aaa' }} />
+                          </InputAdornment>
+                        ),
+                      }}
+                      sx={{ mr: 1, width: '200px' }}
+                    />
+                    <Button 
+                      startIcon={<FilterListIcon />}
+                      size="small"
+                      sx={{ 
+                        color: '#666', 
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '4px',
+                        textTransform: 'none'
+                      }}
+                    >
+                      Filter
+                    </Button>
+                  </Box>
+                  <Button
+                    variant="contained"
+                    onClick={handleSchedulePickup}
+                    sx={{ 
+                      bgcolor: '#4ECDC4', 
+                      color: 'white',
+                      '&:hover': { bgcolor: '#3dbdb5' },
+                      borderRadius: '8px',
+                      textTransform: 'none'
+                    }}
+                  >
+                    + Schedule a Pickup
+                  </Button>
+                </Box>
+
+                <TableContainer>
+                  <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
+                    <TableHead>
+                      <TableRow sx={{ bgcolor: '#f5f5f5' }}>
+                        <TableCell padding="checkbox" width="40px">
+                          <input type="checkbox" />
+                        </TableCell>
+                        <TableCell width="15%">Client</TableCell>
+                        <TableCell width="12%">Date</TableCell>
+                        <TableCell width="12%">Time</TableCell>
+                        <TableCell width="20%">Location</TableCell>
+                        <TableCell width="15%">Status</TableCell>
+                        <TableCell width="10%">Weight (kg)</TableCell>
+                        <TableCell width="15%">Actions</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {pickups.map((pickup) => (
+                        <TableRow 
+                          key={pickup.id} 
+                          hover
+                          onClick={() => handlePickupSelect(pickup)}
+                          sx={{ cursor: 'pointer' }}
+                        >
+                          <TableCell padding="checkbox">
+                            <input type="checkbox" />
+                          </TableCell>
+                          <TableCell>{pickup.personName}</TableCell>
+                          <TableCell>{pickup.date}</TableCell>
+                          <TableCell>{pickup.time}</TableCell>
+                          <TableCell>{pickup.location}</TableCell>
+                          <TableCell>
+                            <Chip 
+                              label={pickup.status === 'complete' ? 'Complete' : 
+                                    pickup.status === 'in-processing' ? 'In Processing' : 
+                                    pickup.status === 'recycled' ? 'Received' : pickup.status}
+                              size="small"
+                              sx={{ 
+                                ...getStatusChipStyle(pickup.status), 
+                                textTransform: 'capitalize',
+                                fontWeight: 500,
+                                py: 1
+                              }}
+                            />
+                          </TableCell>
+                          <TableCell>{pickup.weight}</TableCell>
+                          <TableCell>
+                            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
+                            <IconButton 
+                              size="small" 
+                              sx={{ 
+                                  color: '#56C3C9', 
+                                  border: '1px solid #e0e0e0',
+                                  borderRadius: '50%',
+                                  p: 1,
+                                  mr: 0.75,
+                                  width: 36,
+                                  height: 36,
+                                  '&:hover': {
+                                    bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                  }
+                                }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  // Handle edit action
+                              }}
+                            >
+                              <EditIcon fontSize="small" />
+                            </IconButton>
+                            <IconButton 
+                              size="small" 
+                              sx={{ 
+                                  color: '#E05050', 
+                                  border: '1px solid #e0e0e0',
+                                  borderRadius: '50%',
+                                  p: 1,
+                                  mr: 0.75,
+                                  width: 36,
+                                  height: 36,
+                                  '&:hover': {
+                                    bgcolor: 'rgba(224, 80, 80, 0.08)',
+                                  }
+                                }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  // Handle delete action
+                              }}
+                            >
+                              <DeleteIcon fontSize="small" />
+                            </IconButton>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
             )}
-          </DialogContent>
-          <DialogActions sx={{ justifyContent: 'center', pb: 2 }}>
-            <Button 
-              variant="contained"
-              onClick={handleArchiveDevice}
-              sx={{ 
-                bgcolor: '#555',
-                color: 'white',
-                mr: 1,
-                px: 3,
-                '&:hover': { bgcolor: '#444' }
-              }}
-              startIcon={<DeleteIcon />}
-            >
-              Archived
-            </Button>
-            <Button 
-              onClick={handleArchiveDialogClose}
-              sx={{ px: 3 }}
-            >
-              Cancel
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Box>
-    </AdminLayout>
+
+            {/* Devices Tab */}
+            {activeTab === 1 && (
+              <Box sx={{ p: 2 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <TextField
+                      placeholder="Search here"
+                      size="small"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <SearchIcon fontSize="small" sx={{ color: '#aaa' }} />
+                          </InputAdornment>
+                        ),
+                      }}
+                      sx={{ mr: 1, width: '200px' }}
+                    />
+                    <Button 
+                      startIcon={<FilterListIcon />}
+                      size="small"
+                      sx={{ 
+                        color: '#666', 
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '4px',
+                        textTransform: 'none'
+                      }}
+                    >
+                      Filter
+                    </Button>
+                  </Box>
+                  <Button
+                    variant="contained"
+                    sx={{ 
+                      bgcolor: '#4ECDC4', 
+                      color: 'white',
+                      '&:hover': { bgcolor: '#3dbdb5' },
+                      borderRadius: '8px',
+                      textTransform: 'none'
+                    }}
+                  >
+                    + Add Device
+                  </Button>
+                </Box>
+
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+                    John Smith's 01/24/2025 Pickup
+                  </Typography>
+                </Box>
+
+                <TableContainer>
+                  <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
+                    <TableHead>
+                      <TableRow sx={{ bgcolor: '#f5f5f5' }}>
+                        <TableCell width="15%">Type</TableCell>
+                        <TableCell width="15%">Manufacturer</TableCell>
+                        <TableCell width="15%">Model</TableCell>
+                        <TableCell width="20%">Serial Number</TableCell>
+                        <TableCell width="15%">Status</TableCell>
+                        <TableCell width="10%">Weight (kg)</TableCell>
+                        <TableCell width="10%">Actions</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {devices.map((device) => (
+                        <TableRow key={device.id} hover>
+                          <TableCell
+                            sx={{ 
+                              cursor: 'pointer',
+                              color: '#1C392B',
+                              fontWeight: 500,
+                              '&:hover': { textDecoration: 'underline' }
+                            }}
+                            onClick={() => navigate(`/admin/devices/${device.id}`)}
+                          >{device.type}</TableCell>
+                          <TableCell>{device.manufacturer}</TableCell>
+                          <TableCell>{device.model}</TableCell>
+                          <TableCell>{device.serialNumber}</TableCell>
+                          <TableCell>
+                            <Chip 
+                              label={device.status === 'refurbished' ? 'Refurbished' : 
+                                    device.status === 'in-processing' ? 'In Processing' : 
+                                    device.status === 'recycled' ? 'Recycled' :
+                                    device.status === 'disposed' ? 'Disposed' : device.status}
+                              size="small"
+                              sx={{ ...getStatusChipStyle(device.status), textTransform: 'capitalize' }}
+                            />
+                          </TableCell>
+                          <TableCell>{device.weight}</TableCell>
+                          <TableCell>
+                            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
+                            <IconButton 
+                              size="small" 
+                              sx={{ 
+                                  color: '#56C3C9', 
+                                  border: '1px solid #e0e0e0',
+                                  borderRadius: '50%',
+                                  p: 1,
+                                  mr: 0.75,
+                                  width: 36,
+                                  height: 36,
+                                  '&:hover': {
+                                    bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                  }
+                              }}
+                            >
+                              <EditIcon fontSize="small" />
+                            </IconButton>
+                            <IconButton 
+                              size="small" 
+                              sx={{ 
+                                  color: '#E05050', 
+                                  border: '1px solid #e0e0e0',
+                                  borderRadius: '50%',
+                                  p: 1,
+                                  mr: 0.75,
+                                  width: 36,
+                                  height: 36,
+                                  '&:hover': {
+                                    bgcolor: 'rgba(224, 80, 80, 0.08)',
+                                  }
+                              }}
+                              onClick={() => handleArchiveDialogOpen(device)}
+                            >
+                              <DeleteIcon fontSize="small" />
+                            </IconButton>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+            )}
+          </Paper>
+        </Grid>
+      </Grid>
+
+      {/* Archive Dialog */}
+      <Dialog
+        open={archiveDialogOpen}
+        onClose={handleArchiveDialogClose}
+        aria-labelledby="archive-dialog-title"
+        maxWidth="xs"
+        fullWidth
+      >
+        <DialogTitle id="archive-dialog-title">
+          Are you sure you want to archive this Device?
+        </DialogTitle>
+        <DialogContent>
+          {deviceToArchive && (
+            <>
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                {deviceToArchive.manufacturer} {deviceToArchive.model}
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 2, color: '#666' }}>
+                {deviceToArchive.type}, {deviceToArchive.manufacturer}, {deviceToArchive.serialNumber}, {deviceToArchive.status}
+              </Typography>
+              <Typography variant="body2" sx={{ mt: 2 }}>
+                Even though it will no longer appear in Your Devices, you can still view the Device in Archived Devices from your account
+              </Typography>
+            </>
+          )}
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: 'center', pb: 2 }}>
+          <Button 
+            variant="contained"
+            onClick={handleArchiveDevice}
+            sx={{ 
+              bgcolor: '#555',
+              color: 'white',
+              mr: 1,
+              px: 3,
+              '&:hover': { bgcolor: '#444' }
+            }}
+            startIcon={<DeleteIcon />}
+          >
+            Archived
+          </Button>
+          <Button 
+            onClick={handleArchiveDialogClose}
+            sx={{ px: 3 }}
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
 };
 

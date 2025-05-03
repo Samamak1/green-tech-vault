@@ -55,6 +55,7 @@ import AdminPickupCalendar from './pages/AdminPickupCalendar';
 import AdminAnnouncements from './pages/AdminAnnouncements';
 import Unauthorized from './pages/Unauthorized';
 import AdminMessages from './pages/AdminMessages';
+import AdminProfile from './pages/AdminProfile';
 
 // Route Protection
 import AdminRoute from './components/routing/AdminRoute';
@@ -327,6 +328,7 @@ function App() {
             <Route path="pickup-detail" element={<AdminPickupDetail />} />
             <Route path="pickups/:pickupId" element={<AdminPickupDetail />} />
             <Route path="devices/:deviceId" element={<AdminDeviceDetail />} />
+            <Route path="profile" element={<AdminProfile />} />
           </Route>
           
           {/* 404 Route */}
