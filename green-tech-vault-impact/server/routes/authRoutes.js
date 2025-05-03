@@ -73,7 +73,7 @@ router.post('/login', (req, res) => {
   }
   
   // If it's a client login attempt but credentials don't match
-  if (!isAdminLogin && !isClient) {
+  if (!isAdminLogin && !isClient && (email || password)) {
     console.log('Client login failed: Invalid credentials');
     return res.status(401).json({
       success: false,
@@ -114,11 +114,16 @@ router.post('/login', (req, res) => {
     username = '@jsmith';
     companyName = "John's Company";
   }
+
+  // Create token with user info embedded
+  const token = userRole === 'admin' 
+    ? `admin-jwt-token-${userId}` 
+    : `client-jwt-token-${userId}`;
   
   res.json({ 
     success: true, 
     data: {
-      token: userRole === 'admin' ? 'admin-jwt-token' : 'client-jwt-token',
+      token: token,
       user: {
         id: userId,
         name: userName,
@@ -145,13 +150,29 @@ router.get('/me', (req, res) => {
   // For demo purposes, let's check if the Authorization header contains 'admin'
   const authHeader = req.headers.authorization || '';
   const isAdminToken = authHeader.includes('admin-jwt-token');
-
-  // Check localStorage for user ID if available
-  const userId = req.query.userId || (isAdminToken ? 'admin-1' : 'client-1');
+  
+  // Extract user ID from token if possible
+  let userId;
+  
+  if (authHeader.includes('admin-jwt-token-admin-1')) {
+    userId = 'admin-1';
+  } else if (authHeader.includes('admin-jwt-token-admin-2')) {
+    userId = 'admin-2';
+  } else if (authHeader.includes('client-jwt-token-client-1')) {
+    userId = 'client-1';
+  } else if (authHeader.includes('client-jwt-token-client-2')) {
+    userId = 'client-2';
+  } else {
+    // Default fallback
+    userId = isAdminToken ? 'admin-1' : 'client-1';
+  }
+  
+  console.log('User ID from token:', userId);
+  console.log('Auth header:', authHeader);
   
   let userData;
   
-  if (isAdminToken) {
+  if (userId.startsWith('admin')) {
     if (userId === 'admin-1') {
       userData = {
         id: 'admin-1',

@@ -23,9 +23,20 @@ export const AuthProvider = ({ children }) => {
           // Set auth token header
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
           
+          // Extract user ID from token if possible
+          let userId = null;
+          if (token.includes('-jwt-token-')) {
+            const parts = token.split('-jwt-token-');
+            if (parts.length > 1) {
+              userId = parts[1];
+            }
+          }
+          
           // Try to get user data
           try {
-            const res = await axios.get('/api/auth/me');
+            // Include userId as a query parameter if available
+            const endpoint = userId ? `/api/auth/me?userId=${userId}` : '/api/auth/me';
+            const res = await axios.get(endpoint);
             
             setUser(res.data.data);
             setIsAuthenticated(true);

@@ -100,7 +100,7 @@ const AdminHeader = () => {
   };
 
   const handleNotificationsOpen = (event) => {
-    if (event.currentTarget.getAttribute('data-source') === 'menu-item') {
+    if (event.currentTarget && event.currentTarget.dataset && event.currentTarget.dataset.fromMenuItem === 'true') {
       navigate('/admin/notifications');
       handleMenuClose();
     } else {
@@ -188,10 +188,13 @@ const AdminHeader = () => {
         Profile
       </MenuItem>
       
-      <MenuItem onClick={(e) => { 
-        e.currentTarget.setAttribute('data-source', 'menu-item');
-        handleNotificationsOpen(e); 
-      }}>
+      <MenuItem 
+        onClick={(e) => { 
+          const target = e.currentTarget;
+          target.dataset.fromMenuItem = 'true';
+          handleNotificationsOpen(e);
+        }}
+      >
         <ListItemIcon>
           <NotificationsIcon fontSize="small" />
         </ListItemIcon>

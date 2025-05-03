@@ -101,12 +101,12 @@ const BrandedHeader = () => {
   };
 
   const handleNotificationsOpen = (event) => {
-    // Check if the click comes from menu item
-    if (event.currentTarget.getAttribute('data-source') === 'menu-item') {
+    // Check if this click is from the menu item
+    if (event.currentTarget && event.currentTarget.dataset && event.currentTarget.dataset.fromMenuItem === 'true') {
       navigate('/notifications');
       handleMenuClose();
     } else {
-      // Open popup for bell icon click
+      // Regular bell icon click opens the popup
       setNotificationsAnchorEl(event.currentTarget);
     }
   };
@@ -191,10 +191,13 @@ const BrandedHeader = () => {
         Profile
       </MenuItem>
       
-      <MenuItem onClick={(e) => { 
-        e.currentTarget.setAttribute('data-source', 'menu-item');
-        handleNotificationsOpen(e); 
-      }}>
+      <MenuItem 
+        onClick={(e) => { 
+          const target = e.currentTarget;
+          target.dataset.fromMenuItem = 'true';
+          handleNotificationsOpen(e);
+        }}
+      >
         <ListItemIcon>
           <NotificationsIcon fontSize="small" />
         </ListItemIcon>
