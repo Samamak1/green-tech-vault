@@ -100,7 +100,12 @@ const AdminHeader = () => {
   };
 
   const handleNotificationsOpen = (event) => {
-    setNotificationsAnchorEl(event.currentTarget);
+    if (event.currentTarget.getAttribute('data-source') === 'menu-item') {
+      navigate('/admin/notifications');
+      handleMenuClose();
+    } else {
+      setNotificationsAnchorEl(event.currentTarget);
+    }
   };
 
   const handleNotificationsClose = () => {
@@ -183,7 +188,10 @@ const AdminHeader = () => {
         Profile
       </MenuItem>
       
-      <MenuItem onClick={() => { navigate('/admin/notifications'); handleMenuClose(); }}>
+      <MenuItem onClick={(e) => { 
+        e.currentTarget.setAttribute('data-source', 'menu-item');
+        handleNotificationsOpen(e); 
+      }}>
         <ListItemIcon>
           <NotificationsIcon fontSize="small" />
         </ListItemIcon>

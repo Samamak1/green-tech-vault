@@ -43,24 +43,25 @@ router.post('/login', (req, res) => {
     passwordProvided: !!password 
   });
   
-  // In a real implementation, this would verify credentials against the database
-  // For now, we'll return a mock response
-  
-  // Added new admin credentials
+  // Admin credentials
   const isLeilaAdmin = (email.toLowerCase() === 'lmeyer@rygneco.com' && 
                  password === 'RGYNeco.!');
   
-  // Original admin credentials 
-  const isOriginalAdmin = (email.toLowerCase() === 'admin@greentech.com' && 
+  const isJohnAdmin = (email.toLowerCase() === 'admin@greentech.com' && 
                   password === 'admin123');
   
-  // New client credentials
+  // Client credentials
   const isLeilaClient = (email.toLowerCase() === 'leilaameyer2@gmail.com' && 
                   password === 'RGYNeco.!');
                   
-  const isAdmin = isLeilaAdmin || isOriginalAdmin;
+  const isJohnClient = (email.toLowerCase() === 'client@greentech.com' && 
+                  password === 'client123');
+  
+  const isAdmin = isLeilaAdmin || isJohnAdmin;
+  const isClient = isLeilaClient || isJohnClient;
   
   console.log('Is admin credentials valid:', isAdmin);
+  console.log('Is client credentials valid:', isClient);
   
   // If it's an admin login attempt but credentials don't match
   if (isAdminLogin && !isAdmin) {
@@ -68,6 +69,15 @@ router.post('/login', (req, res) => {
     return res.status(401).json({
       success: false,
       error: 'Invalid admin credentials'
+    });
+  }
+  
+  // If it's a client login attempt but credentials don't match
+  if (!isAdminLogin && !isClient) {
+    console.log('Client login failed: Invalid credentials');
+    return res.status(401).json({
+      success: false,
+      error: 'Invalid client credentials'
     });
   }
   
@@ -86,8 +96,8 @@ router.post('/login', (req, res) => {
     userPosition = 'CEO';
     userId = 'admin-1';
     userRole = 'admin';
-  } else if (isOriginalAdmin) {
-    userName = 'Admin User';
+  } else if (isJohnAdmin) {
+    userName = 'John Smith';
     userPosition = 'Administrator';
     userId = 'admin-2';
     userRole = 'admin';
@@ -97,6 +107,12 @@ router.post('/login', (req, res) => {
     userRole = 'client';
     username = '@lmeyer';
     companyName = "Leila's Company";
+  } else if (isJohnClient) {
+    userName = 'John Smith';
+    userId = 'client-2';
+    userRole = 'client';
+    username = '@jsmith';
+    companyName = "John's Company";
   }
   
   res.json({ 
@@ -128,19 +144,56 @@ router.get('/me', (req, res) => {
   
   // For demo purposes, let's check if the Authorization header contains 'admin'
   const authHeader = req.headers.authorization || '';
-  const isAdmin = authHeader.includes('admin-jwt-token');
+  const isAdminToken = authHeader.includes('admin-jwt-token');
+
+  // Check localStorage for user ID if available
+  const userId = req.query.userId || (isAdminToken ? 'admin-1' : 'client-1');
+  
+  let userData;
+  
+  if (isAdminToken) {
+    if (userId === 'admin-1') {
+      userData = {
+        id: 'admin-1',
+        name: 'Leila Meyer',
+        email: 'lmeyer@rygneco.com',
+        role: 'admin',
+        position: 'CEO'
+      };
+    } else {
+      userData = {
+        id: 'admin-2',
+        name: 'John Smith',
+        email: 'admin@greentech.com',
+        role: 'admin',
+        position: 'Administrator'
+      };
+    }
+  } else {
+    if (userId === 'client-1') {
+      userData = {
+        id: 'client-1',
+        name: 'Leila Meyer',
+        email: 'leilaameyer2@gmail.com',
+        role: 'client',
+        username: '@lmeyer',
+        companyName: "Leila's Company"
+      };
+    } else {
+      userData = {
+        id: 'client-2',
+        name: 'John Smith',
+        email: 'client@greentech.com',
+        role: 'client',
+        username: '@jsmith',
+        companyName: "John's Company"
+      };
+    }
+  }
   
   res.json({ 
     success: true, 
-    data: {
-      id: isAdmin ? 'admin-1' : 'client-1',
-      name: isAdmin ? 'Leila Meyer' : 'Leila Meyer',
-      email: isAdmin ? 'lmeyer@rygneco.com' : 'leilaameyer2@gmail.com',
-      role: isAdmin ? 'admin' : 'client',
-      position: isAdmin ? 'CEO' : '',
-      username: !isAdmin ? '@lmeyer' : null,
-      companyName: !isAdmin ? "Leila's Company" : null
-    },
+    data: userData,
     message: 'User retrieved successfully' 
   });
 });
