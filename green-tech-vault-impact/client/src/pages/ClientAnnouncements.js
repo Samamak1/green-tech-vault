@@ -103,13 +103,18 @@ const ClientAnnouncements = () => {
   };
 
   return (
-    // Extend the content all the way to the sidebar and scrollbar edges
+    // Extend the content all the way to match the red lines in screenshot
     <Box sx={{ 
-      position: 'relative',
-      width: '100%', 
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      width: '100%',
       height: '100%',
-      pl: 0, 
-      pr: 0
+      pl: 0,
+      pr: 0,
+      margin: 0
     }} data-boundary="true">
       <Box sx={{ p: 3 }}>
         <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>Announcements</Typography>
