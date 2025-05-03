@@ -20,6 +20,7 @@ import {
   StarBorder as StarBorderIcon,
   MoreVert as MoreVertIcon
 } from '@mui/icons-material';
+import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
 const ClientAnnouncements = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -103,37 +104,9 @@ const ClientAnnouncements = () => {
   };
 
   return (
-    // Extend the content all the way to match the red lines in screenshot
-    <Box sx={{ 
-      position: 'fixed', // Change to fixed to ensure it takes the entire viewport
-      top: '64px', // Start below the header
-      left: '225px', // Start after the sidebar width
-      right: 0,
-      bottom: 0,
-      width: 'calc(100vw - 225px)', // Full width minus sidebar
-      height: 'calc(100vh - 64px)', // Full height minus header
-      margin: 0,
-      padding: 0,
-      // Ensure scrollbar appears at absolute right edge
-      overflowX: 'hidden',
-      overflowY: 'auto',
-      scrollbarWidth: 'thin',
-      scrollbarColor: 'rgba(0,0,0,0.1) rgba(0,0,0,0.03)',
-      msOverflowStyle: 'none', // For Internet Explorer and Edge
-      '&::-webkit-scrollbar': {
-        width: '12px',
-        position: 'absolute',
-        right: 0
-      },
-      '&::-webkit-scrollbar-thumb': {
-        backgroundColor: 'rgba(0,0,0,0.1)',
-        borderRadius: '6px',
-      },
-      '&::-webkit-scrollbar-track': {
-        backgroundColor: 'rgba(0,0,0,0.03)',
-      },
-    }} data-boundary="true">
-      <Box sx={{ p: 3 }}>
+    // Use the standard content container style with correct extents
+    <Box sx={getContentContainerStyle()} data-boundary="true">
+      <Box sx={getContentWrapperStyle()}>
         <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>Announcements</Typography>
         
         {/* Search and Filter */}

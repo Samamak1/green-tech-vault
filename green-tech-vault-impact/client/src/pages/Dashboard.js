@@ -64,6 +64,7 @@ import {
 import { dashboardAPI, companyAPI } from '../services/api';
 import { formatNumber, formatWeight, formatCO2, getDeviceTypeColor, getDispositionColor } from '../utils/environmentalImpact';
 import ClientDashboardLayout from '../components/layout/ClientDashboardLayout';
+import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
 // Register ChartJS components
 ChartJS.register(
@@ -529,15 +530,8 @@ const Dashboard = () => {
   };
 
   return (
-    <Box>
-      <Box 
-        sx={{ 
-          padding: '24px',
-          maxWidth: 'calc(100vw - 280px)', // Account for sidebar and scrollbar
-          margin: '0 auto'
-        }}
-        data-boundary="true"
-      >
+    <Box sx={getContentContainerStyle()} data-boundary="true">
+      <Box sx={getContentWrapperStyle()}>
         {renderDashboardContent()}
       </Box>
     </Box>

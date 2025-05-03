@@ -40,6 +40,7 @@ import {
 import { dashboardAPI, companyAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import AdminLayout from '../components/layout/AdminLayout';
+import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
 const AdminDashboard = () => {
   const [clients, setClients] = useState([]);
@@ -343,644 +344,645 @@ const AdminDashboard = () => {
     }
 
     return (
-      <>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Admin Dashboard
-        </Typography>
-        
-        {/* Summary Cards */}
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper sx={{ 
-              p: 2, 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              height: '220px', // Make it square-shaped
-              aspectRatio: '1/1'
-            }}>
-              <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
-                156
-              </Typography>
-              <Typography variant="body1" sx={{ color: '#686868' }}>
-                Total Devices Collected
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper sx={{ 
-              p: 2, 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'center',
-              justifyContent: 'center', 
-              height: '220px', // Make it square-shaped
-              aspectRatio: '1/1'
-            }}>
-              <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
-                1,250.5
-              </Typography>
-              <Typography variant="body1" sx={{ color: '#686868' }}>
-                Total Weight (kg)
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper sx={{ 
-              p: 2, 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'center',
-              justifyContent: 'center', 
-              height: '220px', // Make it square-shaped
-              aspectRatio: '1/1'
-            }}>
-              <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
-                87
-              </Typography>
-              <Typography variant="body1" sx={{ color: '#686868' }}>
-                Devices Refurbished
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper sx={{ 
-              p: 2, 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'center',
-              justifyContent: 'center', 
-              height: '220px', // Make it square-shaped
-              aspectRatio: '1/1'
-            }}>
-              <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
-                69
-              </Typography>
-              <Typography variant="body1" sx={{ color: '#686868' }}>
-                Devices Recycled
-              </Typography>
-            </Paper>
-          </Grid>
-        </Grid>
-        
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          {/* Combined box for CO2 Saved and Trees Planted - spans 8 columns */}
-          <Grid item xs={12} md={8}>
-            <Paper sx={{ 
-              p: 2, 
-              display: 'flex', 
-              flexDirection: 'row', // Changed to row to place items side by side
-              justifyContent: 'space-around',
-              alignItems: 'center',
-              height: '440px', // Double the height of the boxes above
-            }}>
-              {/* First stat */}
-              <Box sx={{ 
+      <Box sx={getContentContainerStyle()} data-boundary="true">
+        <Box sx={getContentWrapperStyle()}>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Admin Dashboard
+          </Typography>
+          
+          {/* Summary Cards */}
+          <Grid container spacing={3} sx={{ mb: 4 }}>
+            <Grid item xs={12} sm={6} md={3}>
+              <Paper sx={{ 
+                p: 2, 
                 display: 'flex', 
-                flexDirection: 'column',
-                alignItems: 'center',
+                flexDirection: 'column', 
+                alignItems: 'center', 
                 justifyContent: 'center',
-                width: '45%' // Allocate space for first stat
+                height: '220px', // Make it square-shaped
+                aspectRatio: '1/1'
               }}>
                 <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
-                  3,750.8
+                  156
                 </Typography>
                 <Typography variant="body1" sx={{ color: '#686868' }}>
-                  CO2 Saved (kg)
+                  Total Devices Collected
                 </Typography>
-              </Box>
-              
-              {/* Divider */}
-              <Box sx={{ 
-                borderRight: '1px solid #e0e0e0',
-                height: '70%'
-              }} />
-              
-              {/* Second stat */}
-              <Box sx={{ 
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Paper sx={{ 
+                p: 2, 
                 display: 'flex', 
-                flexDirection: 'column',
+                flexDirection: 'column', 
                 alignItems: 'center',
-                justifyContent: 'center',
-                width: '45%' // Allocate space for second stat
+                justifyContent: 'center', 
+                height: '220px', // Make it square-shaped
+                aspectRatio: '1/1'
               }}>
                 <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
-                  187
+                  1,250.5
                 </Typography>
                 <Typography variant="body1" sx={{ color: '#686868' }}>
-                  Trees Planted
+                  Total Weight (kg)
                 </Typography>
-              </Box>
-            </Paper>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Paper sx={{ 
+                p: 2, 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center',
+                justifyContent: 'center', 
+                height: '220px', // Make it square-shaped
+                aspectRatio: '1/1'
+              }}>
+                <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
+                  87
+                </Typography>
+                <Typography variant="body1" sx={{ color: '#686868' }}>
+                  Devices Refurbished
+                </Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Paper sx={{ 
+                p: 2, 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center',
+                justifyContent: 'center', 
+                height: '220px', // Make it square-shaped
+                aspectRatio: '1/1'
+              }}>
+                <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
+                  69
+                </Typography>
+                <Typography variant="body1" sx={{ color: '#686868' }}>
+                  Devices Recycled
+                </Typography>
+              </Paper>
+            </Grid>
           </Grid>
           
-          {/* Landfill Diversion Rate - spans 4 columns */}
-          <Grid item xs={12} md={4}>
-            <Paper sx={{ 
-              p: 2, 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'center',
-              justifyContent: 'center', 
-              height: '440px', // Double the height of the boxes above
-            }}>
-              <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
-                92.5%
-              </Typography>
-              <Typography variant="body1" sx={{ color: '#686868' }}>
-                Landfill Diversion Rate
-              </Typography>
-            </Paper>
-          </Grid>
-        </Grid>
-        
-        {/* Tab navigation - outside the Paper component */}
-        <Box sx={{ borderBottom: 1, borderColor: '#e0e0e0', mb: 3 }}>
-          <Tabs 
-            value={tabValue} 
-            onChange={handleTabChange} 
-            aria-label="admin tabs"
-            sx={{
-              '& .MuiTab-root': {
-                textTransform: 'none',
-                fontSize: '16px',
-                fontWeight: 'normal',
-                color: '#666',
-                mx: 1,
-                '&.Mui-selected': {
-                  color: '#4ECDC4',
-                  fontWeight: 'medium',
-                }
-              },
-              '& .MuiTabs-indicator': {
-                backgroundColor: '#4ECDC4',
-                height: 3
-              }
-            }}
-          >
-            <Tab label="Clients" />
-            <Tab label="Devices" />
-            <Tab label="Pickups" />
-          </Tabs>
-        </Box>
-        
-        {/* Content in Paper - separate from tabs */}
-        <Paper sx={{ 
-          p: 3, 
-          borderRadius: '8px', 
-          boxShadow: '0px 2px 4px rgba(0,0,0,0.05)',
-          mb: 4
-        }}>
-        {/* Clients Tab */}
-        {tabValue === 0 && (
-          <>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h6" sx={{ fontWeight: '500', color: '#333', fontSize: '1.1rem', mr: 3 }}>
-                  Clients
-                </Typography>
-                
-                {/* Search Box */}
+          <Grid container spacing={3} sx={{ mb: 4 }}>
+            {/* Combined box for CO2 Saved and Trees Planted - spans 8 columns */}
+            <Grid item xs={12} md={8}>
+              <Paper sx={{ 
+                p: 2, 
+                display: 'flex', 
+                flexDirection: 'row', // Changed to row to place items side by side
+                justifyContent: 'space-around',
+                alignItems: 'center',
+                height: '440px', // Double the height of the boxes above
+              }}>
+                {/* First stat */}
                 <Box sx={{ 
-                  display: 'flex',
+                  display: 'flex', 
+                  flexDirection: 'column',
                   alignItems: 'center',
-                  border: '1px solid #e0e0e0',
-                  borderRadius: '4px',
-                  width: 220,
-                  px: 2,
-                  py: 0.5,
-                  mr: 2
+                  justifyContent: 'center',
+                  width: '45%' // Allocate space for first stat
                 }}>
-                  <SearchIcon sx={{ color: '#aaa', fontSize: '1.2rem', mr: 1 }} />
-                  <InputBase placeholder="Search Clients" sx={{ fontSize: '0.9rem' }} />
+                  <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
+                    3,750.8
+                  </Typography>
+                  <Typography variant="body1" sx={{ color: '#686868' }}>
+                    CO2 Saved (kg)
+                  </Typography>
                 </Box>
                 
-                {/* Filter Button - Updated to match image */}
-                <Button
-                  variant="outlined"
-                  startIcon={<FilterListIcon />}
-                  sx={{
-                    border: '1px solid #e0e0e0',
-                    color: '#666',
-                    textTransform: 'none',
-                    borderRadius: '4px',
-                    mr: 'auto',
-                    py: 0.75,
-                    px: 2,
-                    fontSize: '0.875rem',
-                    '&:hover': {
-                      border: '1px solid #ccc',
-                      bgcolor: '#f9f9f9'
-                    }
-                  }}
-                >
-                  Filter
-                </Button>
+                {/* Divider */}
+                <Box sx={{ 
+                  borderRight: '1px solid #e0e0e0',
+                  height: '70%'
+                }} />
                 
-                <Button
-                  variant="contained"
-                  startIcon={null}
-                  onClick={() => handleOpenDialog()}
-                  sx={{ 
-                    bgcolor: '#4ECDC4', 
-                    '&:hover': { bgcolor: '#3dbdb5' }, 
-                    borderRadius: '8px',
-                    px: 3,
-                    py: 1.2,
-                    textTransform: 'none',
-                    boxShadow: 'none',
-                    fontSize: '0.9rem',
-                    fontWeight: 'normal',
-                    height: 40
-                  }}
-                >
-                  <span style={{ display: 'inline-flex', alignItems: 'center' }}>
-                    <AddIcon sx={{ mr: 0.5, fontSize: '1.2rem' }} /> Add Client
-                  </span>
-                </Button>
-              </Box>
+                {/* Second stat */}
+                <Box sx={{ 
+                  display: 'flex', 
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '45%' // Allocate space for second stat
+                }}>
+                  <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
+                    187
+                  </Typography>
+                  <Typography variant="body1" sx={{ color: '#686868' }}>
+                    Trees Planted
+                  </Typography>
+                </Box>
+              </Paper>
+            </Grid>
             
-              <Box sx={{ 
-                overflowX: 'auto',
-                '&::-webkit-scrollbar': {
-                  height: 8,
-                },
-                '&::-webkit-scrollbar-thumb': {
-                  backgroundColor: '#e0e0e0',
-                  borderRadius: 4,
-                }
+            {/* Landfill Diversion Rate - spans 4 columns */}
+            <Grid item xs={12} md={4}>
+              <Paper sx={{ 
+                p: 2, 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center',
+                justifyContent: 'center', 
+                height: '440px', // Double the height of the boxes above
               }}>
-                <Table size="small" sx={{ width: '100%', tableLayout: 'fixed' }}>
-                <TableHead>
-                    <TableRow sx={{ bgcolor: '#e0e0e0' }}>
-                      <TableCell sx={{ 
-                        fontWeight: '500', 
-                        color: '#555', 
-                        py: 1.5,
-                        px: 1.5,
-                        fontSize: '0.7rem',
-                        whiteSpace: 'nowrap',
-                        width: '16%',
-                        borderBottom: '1px solid #eee'
-                      }}>
-                        Company Name
-                      </TableCell>
-                      <TableCell sx={{ 
-                        fontWeight: '500', 
-                        color: '#555', 
-                        py: 1.5,
-                        px: 1.5,
-                        fontSize: '0.7rem',
-                        whiteSpace: 'nowrap',
-                        width: '14%',
-                        borderBottom: '1px solid #eee'
-                      }}>
-                        Contact Person
-                      </TableCell>
-                      <TableCell sx={{ 
-                        fontWeight: '500', 
-                        color: '#555', 
-                        py: 1.5,
-                        px: 1.5,
-                        fontSize: '0.7rem',
-                        width: '19%',
-                        borderBottom: '1px solid #eee'
-                      }}>
-                        Email
-                      </TableCell>
-                      <TableCell sx={{ 
-                        fontWeight: '500', 
-                        color: '#555', 
-                        py: 1.5,
-                        px: 1.5,
-                        fontSize: '0.7rem',
-                        whiteSpace: 'nowrap',
-                        width: '12%',
-                        borderBottom: '1px solid #eee'
-                      }}>
-                        Phone
-                      </TableCell>
-                      <TableCell sx={{ 
-                        fontWeight: '500', 
-                        color: '#555', 
-                        py: 1.5,
-                        px: 1.5,
-                        fontSize: '0.7rem',
-                        whiteSpace: 'nowrap',
-                        width: '7%',
-                        borderBottom: '1px solid #eee'
-                      }}>
-                        Status
-                      </TableCell>
-                      <TableCell sx={{ 
-                        fontWeight: '500', 
-                        color: '#555', 
-                        py: 1.5,
-                        px: 1.5,
-                        fontSize: '0.7rem',
-                        whiteSpace: 'nowrap',
-                        width: '8%',
-                        borderBottom: '1px solid #eee'
-                      }}>
-                        Weight (kg)
-                      </TableCell>
-                      <TableCell sx={{ 
-                        fontWeight: '500', 
-                        color: '#555', 
-                        py: 1.5,
-                        px: 1.5,
-                        fontSize: '0.7rem',
-                        whiteSpace: 'nowrap',
-                        width: '18%',
-                        borderBottom: '1px solid #eee'
-                      }}>
-                        Actions
-                      </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {clients.map((client) => (
-                    <TableRow 
-                      key={client.id}
-                      hover
-                        sx={{ '&:hover': { bgcolor: '#f5f5f5' }, borderBottom: '1px solid #eee', height: '52px' }}
-                      >
-                        <TableCell 
-                          sx={{ 
-                            py: 1.5, 
-                            px: 1.5, 
-                            fontSize: '0.7rem',
-                            textOverflow: 'ellipsis', 
-                            overflow: 'hidden',
-                            cursor: 'pointer',
-                            color: '#1C392B',
-                            fontWeight: 500,
-                            '&:hover': { textDecoration: 'underline' }
-                          }} 
-                      onClick={() => handleViewClient(client.id)}
-                    >
-                          {client.name}
-                      </TableCell>
-                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.contactPerson}</TableCell>
-                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.email}</TableCell>
-                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.phone}</TableCell>
-                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.devicesCollected > 0 ? '45' : '32'}</TableCell>
-                        <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.totalWeight.toFixed(1)}</TableCell>
-                        <TableCell sx={{ py: 1.5, px: 1.5 }}>
-                          <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
-                        <IconButton
-                          size="small"
-                              sx={{ 
-                                color: '#56C3C9', 
-                                border: '1px solid #e0e0e0',
-                                borderRadius: '50%',
-                                p: 0.5,
-                                mr: 0.5,
-                                width: 26,
-                                height: 26,
-                                '&:hover': {
-                                  bgcolor: 'rgba(86, 195, 201, 0.08)',
-                                }
-                              }}
-                              onClick={() => handleViewClient(client.id)}
-                        >
-                              <EyeIcon fontSize="small" />
-                        </IconButton>
-                        <IconButton
-                          size="small"
-                              sx={{ 
-                                color: '#56C3C9', 
-                                border: '1px solid #e0e0e0',
-                                borderRadius: '50%',
-                                p: 0.5,
-                                mr: 0.5,
-                                width: 26,
-                                height: 26,
-                                '&:hover': {
-                                  bgcolor: 'rgba(86, 195, 201, 0.08)',
-                                }
-                              }}
-                              onClick={() => handleOpenDialog(client)}
-                        >
-                              <EditIcon fontSize="small" />
-                        </IconButton>
-                        <IconButton
-                          size="small"
-                              sx={{ 
-                                color: '#E05050', 
-                                border: '1px solid #e0e0e0',
-                                borderRadius: '50%',
-                                p: 0.5,
-                                mr: 0.5,
-                                width: 26,
-                                height: 26,
-                                '&:hover': {
-                                  bgcolor: 'rgba(224, 80, 80, 0.08)',
-                                }
-                              }}
-                              onClick={(event) => handleDeleteClient(client.id, event)}
-                        >
-                              <DeleteIcon fontSize="small" />
-                        </IconButton>
-                          </Box>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-              </Box>
-          </>
-        )}
-        
-        {/* Devices Tab */}
-        {tabValue === 1 && (
-          <>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h6" sx={{ fontWeight: '500', color: '#333', fontSize: '1.1rem', mr: 3 }}>
-                  Devices
+                <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
+                  92.5%
                 </Typography>
-                
-                {/* Search Box - Moved here from below */}
-                <Box sx={{ 
-                  display: 'flex',
-                  alignItems: 'center',
-                  border: '1px solid #e0e0e0',
-                  borderRadius: '4px',
-                  width: 220,
-                  px: 2,
-                  py: 0.5,
-                  mr: 2
-                }}>
-                  <SearchIcon sx={{ color: '#aaa', fontSize: '1.2rem', mr: 1 }} />
-                  <InputBase placeholder="Search here" sx={{ fontSize: '0.9rem' }} />
-                </Box>
-                
-                {/* Filter Button - Updated to match image */}
-                <Button
-                  variant="outlined"
-                  startIcon={<FilterListIcon />}
-                  sx={{
+                <Typography variant="body1" sx={{ color: '#686868' }}>
+                  Landfill Diversion Rate
+                </Typography>
+              </Paper>
+            </Grid>
+          </Grid>
+          
+          {/* Tab navigation - outside the Paper component */}
+          <Box sx={{ borderBottom: 1, borderColor: '#e0e0e0', mb: 3 }}>
+            <Tabs 
+              value={tabValue} 
+              onChange={handleTabChange} 
+              aria-label="admin tabs"
+              sx={{
+                '& .MuiTab-root': {
+                  textTransform: 'none',
+                  fontSize: '16px',
+                  fontWeight: 'normal',
+                  color: '#666',
+                  mx: 1,
+                  '&.Mui-selected': {
+                    color: '#4ECDC4',
+                    fontWeight: 'medium',
+                  }
+                },
+                '& .MuiTabs-indicator': {
+                  backgroundColor: '#4ECDC4',
+                  height: 3
+                }
+              }}
+            >
+              <Tab label="Clients" />
+              <Tab label="Devices" />
+              <Tab label="Pickups" />
+            </Tabs>
+          </Box>
+          
+          {/* Content in Paper - separate from tabs */}
+          <Paper sx={{ 
+            p: 3, 
+            borderRadius: '8px', 
+            boxShadow: '0px 2px 4px rgba(0,0,0,0.05)',
+            mb: 4
+          }}>
+          {/* Clients Tab */}
+          {tabValue === 0 && (
+            <>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <Typography variant="h6" sx={{ fontWeight: '500', color: '#333', fontSize: '1.1rem', mr: 3 }}>
+                    Clients
+                  </Typography>
+                  
+                  {/* Search Box */}
+                  <Box sx={{ 
+                    display: 'flex',
+                    alignItems: 'center',
                     border: '1px solid #e0e0e0',
-                    color: '#666',
-                    textTransform: 'none',
                     borderRadius: '4px',
-                    mr: 'auto',
-                    py: 0.75,
+                    width: 220,
                     px: 2,
-                    fontSize: '0.875rem',
-                    '&:hover': {
-                      border: '1px solid #ccc',
-                      bgcolor: '#f9f9f9'
-                    }
-                  }}
-                >
-                  Filter
-                </Button>
-                
-                <Button
-                  variant="contained"
-                  startIcon={null}
-                  onClick={() => alert('Add device functionality would go here')}
-                  sx={{ 
-                    bgcolor: '#4ECDC4', 
-                    '&:hover': { bgcolor: '#3dbdb5' }, 
-                    borderRadius: '8px',
-                    px: 3,
-                    py: 1.2,
-                    textTransform: 'none',
-                    boxShadow: 'none',
-                    fontSize: '0.9rem',
-                    fontWeight: 'normal',
-                    height: 40
-                  }}
-                >
-                  <span style={{ display: 'inline-flex', alignItems: 'center' }}>
-                    <AddIcon sx={{ mr: 0.5, fontSize: '1.2rem' }} /> Add Device
-                  </span>
-                </Button>
-              </Box>
-              
-              {/* Processing Status Bar */}
-              <Box sx={{ mb: 3 }}>
-                <Typography variant="body2" sx={{ mb: 1, color: '#666', fontSize: '0.85rem' }}>
-                  Processing Status: 42% (512 devices processed)
-                </Typography>
-                <Box sx={{ width: '100%', height: 8, bgcolor: '#f0f0f0', borderRadius: 4, overflow: 'hidden' }}>
-                  <Box sx={{ width: '42%', height: '100%', bgcolor: '#4ECDC4', borderRadius: 4 }}></Box>
+                    py: 0.5,
+                    mr: 2
+                  }}>
+                    <SearchIcon sx={{ color: '#aaa', fontSize: '1.2rem', mr: 1 }} />
+                    <InputBase placeholder="Search Clients" sx={{ fontSize: '0.9rem' }} />
+                  </Box>
+                  
+                  {/* Filter Button - Updated to match image */}
+                  <Button
+                    variant="outlined"
+                    startIcon={<FilterListIcon />}
+                    sx={{
+                      border: '1px solid #e0e0e0',
+                      color: '#666',
+                      textTransform: 'none',
+                      borderRadius: '4px',
+                      mr: 'auto',
+                      py: 0.75,
+                      px: 2,
+                      fontSize: '0.875rem',
+                      '&:hover': {
+                        border: '1px solid #ccc',
+                        bgcolor: '#f9f9f9'
+                      }
+                    }}
+                  >
+                    Filter
+                  </Button>
+                  
+                  <Button
+                    variant="contained"
+                    startIcon={null}
+                    onClick={() => handleOpenDialog()}
+                    sx={{ 
+                      bgcolor: '#4ECDC4', 
+                      '&:hover': { bgcolor: '#3dbdb5' }, 
+                      borderRadius: '8px',
+                      px: 3,
+                      py: 1.2,
+                      textTransform: 'none',
+                      boxShadow: 'none',
+                      fontSize: '0.9rem',
+                      fontWeight: 'normal',
+                      height: 40
+                    }}
+                  >
+                    <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+                      <AddIcon sx={{ mr: 0.5, fontSize: '1.2rem' }} /> Add Client
+                    </span>
+                  </Button>
                 </Box>
-              </Box>
               
-              {/* Removed search and filter section as they've been moved */}
-              
-              <Box sx={{ 
-                overflowX: 'auto',
-                '&::-webkit-scrollbar': {
-                  height: 8,
-                },
-                '&::-webkit-scrollbar-thumb': {
-                  backgroundColor: '#e0e0e0',
-                  borderRadius: 4,
-                }
-              }}>
-                <Table size="small" sx={{ width: '100%', tableLayout: 'fixed' }}>
-                <TableHead>
-                    <TableRow sx={{ bgcolor: '#e0e0e0' }}>
-                      <TableCell sx={{ 
-                        fontWeight: '500', 
-                        color: '#555', 
-                        py: 1.5,
-                        px: 1.5,
-                        fontSize: '0.7rem',
-                        whiteSpace: 'nowrap',
-                        width: '12%',
-                        borderBottom: '1px solid #eee'
-                      }}>
-                        Client
-                      </TableCell>
-                      <TableCell sx={{ 
-                        fontWeight: '500', 
-                        color: '#555', 
-                        py: 1.5,
-                        px: 1.5,
-                        fontSize: '0.7rem',
-                        whiteSpace: 'nowrap',
-                        width: '10%',
-                        borderBottom: '1px solid #eee'
-                      }}>
-                        Type
-                      </TableCell>
-                      <TableCell sx={{ 
-                        fontWeight: '500', 
-                        color: '#555', 
-                        py: 1.5,
-                        px: 1.5,
-                        fontSize: '0.7rem',
-                        whiteSpace: 'nowrap',
-                        width: '14%',
-                        borderBottom: '1px solid #eee'
-                      }}>
-                        Manufacturer
-                      </TableCell>
-                      <TableCell sx={{ 
-                        fontWeight: '500', 
-                        color: '#555', 
-                        py: 1.5,
-                        px: 1.5,
-                        fontSize: '0.7rem',
-                        whiteSpace: 'nowrap',
-                        width: '14%',
-                        borderBottom: '1px solid #eee'
-                      }}>
-                        Model
-                      </TableCell>
-                      <TableCell sx={{ 
-                        fontWeight: '500', 
-                        color: '#555', 
-                        py: 1.5,
-                        px: 1.5,
-                        fontSize: '0.7rem',
-                        whiteSpace: 'nowrap',
-                        width: '16%',
-                        borderBottom: '1px solid #eee'
-                      }}>
-                        Serial Number
-                      </TableCell>
-                      <TableCell sx={{ 
-                        fontWeight: '500', 
-                        color: '#555', 
-                        py: 1.5,
-                        px: 1.5,
-                        fontSize: '0.7rem',
-                        whiteSpace: 'nowrap',
-                        width: '12%',
-                        borderBottom: '1px solid #eee'
-                      }}>
-                        Status
-                      </TableCell>
-                      <TableCell sx={{ 
-                        fontWeight: '500', 
-                        color: '#555', 
-                        py: 1.5,
-                        px: 1.5,
-                        fontSize: '0.7rem',
-                        whiteSpace: 'nowrap',
-                        width: '7%',
-                        borderBottom: '1px solid #eee'
-                      }}>
-                        Weight (kg)
-                      </TableCell>
-                      <TableCell sx={{ 
-                        fontWeight: '500', 
-                        color: '#555', 
-                        py: 1.5,
-                        px: 1.5,
-                        fontSize: '0.7rem',
-                        whiteSpace: 'nowrap',
-                        width: '15%',
-                        borderBottom: '1px solid #eee'
-                      }}>
-                        Actions
-                      </TableCell>
+                <Box sx={{ 
+                  overflowX: 'auto',
+                  '&::-webkit-scrollbar': {
+                    height: 8,
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: '#e0e0e0',
+                    borderRadius: 4,
+                  }
+                }}>
+                  <Table size="small" sx={{ width: '100%', tableLayout: 'fixed' }}>
+                  <TableHead>
+                      <TableRow sx={{ bgcolor: '#e0e0e0' }}>
+                        <TableCell sx={{ 
+                          fontWeight: '500', 
+                          color: '#555', 
+                          py: 1.5,
+                          px: 1.5,
+                          fontSize: '0.7rem',
+                          whiteSpace: 'nowrap',
+                          width: '16%',
+                          borderBottom: '1px solid #eee'
+                        }}>
+                          Company Name
+                        </TableCell>
+                        <TableCell sx={{ 
+                          fontWeight: '500', 
+                          color: '#555', 
+                          py: 1.5,
+                          px: 1.5,
+                          fontSize: '0.7rem',
+                          whiteSpace: 'nowrap',
+                          width: '14%',
+                          borderBottom: '1px solid #eee'
+                        }}>
+                          Contact Person
+                        </TableCell>
+                        <TableCell sx={{ 
+                          fontWeight: '500', 
+                          color: '#555', 
+                          py: 1.5,
+                          px: 1.5,
+                          fontSize: '0.7rem',
+                          width: '19%',
+                          borderBottom: '1px solid #eee'
+                        }}>
+                          Email
+                        </TableCell>
+                        <TableCell sx={{ 
+                          fontWeight: '500', 
+                          color: '#555', 
+                          py: 1.5,
+                          px: 1.5,
+                          fontSize: '0.7rem',
+                          whiteSpace: 'nowrap',
+                          width: '12%',
+                          borderBottom: '1px solid #eee'
+                        }}>
+                          Phone
+                        </TableCell>
+                        <TableCell sx={{ 
+                          fontWeight: '500', 
+                          color: '#555', 
+                          py: 1.5,
+                          px: 1.5,
+                          fontSize: '0.7rem',
+                          whiteSpace: 'nowrap',
+                          width: '7%',
+                          borderBottom: '1px solid #eee'
+                        }}>
+                          Status
+                        </TableCell>
+                        <TableCell sx={{ 
+                          fontWeight: '500', 
+                          color: '#555', 
+                          py: 1.5,
+                          px: 1.5,
+                          fontSize: '0.7rem',
+                          whiteSpace: 'nowrap',
+                          width: '8%',
+                          borderBottom: '1px solid #eee'
+                        }}>
+                          Weight (kg)
+                        </TableCell>
+                        <TableCell sx={{ 
+                          fontWeight: '500', 
+                          color: '#555', 
+                          py: 1.5,
+                          px: 1.5,
+                          fontSize: '0.7rem',
+                          whiteSpace: 'nowrap',
+                          width: '18%',
+                          borderBottom: '1px solid #eee'
+                        }}>
+                          Actions
+                        </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {clients.map((client) => (
+                      <TableRow 
+                        key={client.id}
+                        hover
+                          sx={{ '&:hover': { bgcolor: '#f5f5f5' }, borderBottom: '1px solid #eee', height: '52px' }}
+                        >
+                          <TableCell 
+                            sx={{ 
+                              py: 1.5, 
+                              px: 1.5, 
+                              fontSize: '0.7rem',
+                              textOverflow: 'ellipsis', 
+                              overflow: 'hidden',
+                              cursor: 'pointer',
+                              color: '#1C392B',
+                              fontWeight: 500,
+                              '&:hover': { textDecoration: 'underline' }
+                            }} 
+                        onClick={() => handleViewClient(client.id)}
+                      >
+                            {client.name}
+                        </TableCell>
+                          <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.contactPerson}</TableCell>
+                          <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.email}</TableCell>
+                          <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.phone}</TableCell>
+                          <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.devicesCollected > 0 ? '45' : '32'}</TableCell>
+                          <TableCell sx={{ py: 1.5, px: 1.5, fontSize: '0.7rem', textOverflow: 'ellipsis', overflow: 'hidden' }}>{client.totalWeight.toFixed(1)}</TableCell>
+                          <TableCell sx={{ py: 1.5, px: 1.5 }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'nowrap' }}>
+                          <IconButton
+                            size="small"
+                                sx={{ 
+                                  color: '#56C3C9', 
+                                  border: '1px solid #e0e0e0',
+                                  borderRadius: '50%',
+                                  p: 0.5,
+                                  mr: 0.5,
+                                  width: 26,
+                                  height: 26,
+                                  '&:hover': {
+                                    bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                  }
+                                }}
+                                onClick={() => handleViewClient(client.id)}
+                          >
+                                <EyeIcon fontSize="small" />
+                          </IconButton>
+                          <IconButton
+                            size="small"
+                                sx={{ 
+                                  color: '#56C3C9', 
+                                  border: '1px solid #e0e0e0',
+                                  borderRadius: '50%',
+                                  p: 0.5,
+                                  mr: 0.5,
+                                  width: 26,
+                                  height: 26,
+                                  '&:hover': {
+                                    bgcolor: 'rgba(86, 195, 201, 0.08)',
+                                  }
+                                }}
+                                onClick={() => handleOpenDialog(client)}
+                          >
+                                <EditIcon fontSize="small" />
+                          </IconButton>
+                          <IconButton
+                            size="small"
+                                sx={{ 
+                                  color: '#E05050', 
+                                  border: '1px solid #e0e0e0',
+                                  borderRadius: '50%',
+                                  p: 0.5,
+                                  mr: 0.5,
+                                  width: 26,
+                                  height: 26,
+                                  '&:hover': {
+                                    bgcolor: 'rgba(224, 80, 80, 0.08)',
+                                  }
+                                }}
+                                onClick={(event) => handleDeleteClient(client.id, event)}
+                          >
+                                <DeleteIcon fontSize="small" />
+                          </IconButton>
+                            </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+                </Box>
+            </>
+          )}
+          
+          {/* Devices Tab */}
+          {tabValue === 1 && (
+            <>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <Typography variant="h6" sx={{ fontWeight: '500', color: '#333', fontSize: '1.1rem', mr: 3 }}>
+                    Devices
+                  </Typography>
+                  
+                  {/* Search Box - Moved here from below */}
+                  <Box sx={{ 
+                    display: 'flex',
+                    alignItems: 'center',
+                    border: '1px solid #e0e0e0',
+                    borderRadius: '4px',
+                    width: 220,
+                    px: 2,
+                    py: 0.5,
+                    mr: 2
+                  }}>
+                    <SearchIcon sx={{ color: '#aaa', fontSize: '1.2rem', mr: 1 }} />
+                    <InputBase placeholder="Search here" sx={{ fontSize: '0.9rem' }} />
+                  </Box>
+                  
+                  {/* Filter Button - Updated to match image */}
+                  <Button
+                    variant="outlined"
+                    startIcon={<FilterListIcon />}
+                    sx={{
+                      border: '1px solid #e0e0e0',
+                      color: '#666',
+                      textTransform: 'none',
+                      borderRadius: '4px',
+                      mr: 'auto',
+                      py: 0.75,
+                      px: 2,
+                      fontSize: '0.875rem',
+                      '&:hover': {
+                        border: '1px solid #ccc',
+                        bgcolor: '#f9f9f9'
+                      }
+                    }}
+                  >
+                    Filter
+                  </Button>
+                  
+                  <Button
+                    variant="contained"
+                    startIcon={null}
+                    onClick={() => alert('Add device functionality would go here')}
+                    sx={{ 
+                      bgcolor: '#4ECDC4', 
+                      '&:hover': { bgcolor: '#3dbdb5' }, 
+                      borderRadius: '8px',
+                      px: 3,
+                      py: 1.2,
+                      textTransform: 'none',
+                      boxShadow: 'none',
+                      fontSize: '0.9rem',
+                      fontWeight: 'normal',
+                      height: 40
+                    }}
+                  >
+                    <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+                      <AddIcon sx={{ mr: 0.5, fontSize: '1.2rem' }} /> Add Device
+                    </span>
+                  </Button>
+                </Box>
+                
+                {/* Processing Status Bar */}
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="body2" sx={{ mb: 1, color: '#666', fontSize: '0.85rem' }}>
+                    Processing Status: 42% (512 devices processed)
+                  </Typography>
+                  <Box sx={{ width: '100%', height: 8, bgcolor: '#f0f0f0', borderRadius: 4, overflow: 'hidden' }}>
+                    <Box sx={{ width: '42%', height: '100%', bgcolor: '#4ECDC4', borderRadius: 4 }}></Box>
+                  </Box>
+                </Box>
+                
+                {/* Removed search and filter section as they've been moved */}
+                
+                <Box sx={{ 
+                  overflowX: 'auto',
+                  '&::-webkit-scrollbar': {
+                    height: 8,
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: '#e0e0e0',
+                    borderRadius: 4,
+                  }
+                }}>
+                  <Table size="small" sx={{ width: '100%', tableLayout: 'fixed' }}>
+                  <TableHead>
+                      <TableRow sx={{ bgcolor: '#e0e0e0' }}>
+                        <TableCell sx={{ 
+                          fontWeight: '500', 
+                          color: '#555', 
+                          py: 1.5,
+                          px: 1.5,
+                          fontSize: '0.7rem',
+                          whiteSpace: 'nowrap',
+                          width: '12%',
+                          borderBottom: '1px solid #eee'
+                        }}>
+                          Client
+                        </TableCell>
+                        <TableCell sx={{ 
+                          fontWeight: '500', 
+                          color: '#555', 
+                          py: 1.5,
+                          px: 1.5,
+                          fontSize: '0.7rem',
+                          whiteSpace: 'nowrap',
+                          width: '10%',
+                          borderBottom: '1px solid #eee'
+                        }}>
+                          Type
+                        </TableCell>
+                        <TableCell sx={{ 
+                          fontWeight: '500', 
+                          color: '#555', 
+                          py: 1.5,
+                          px: 1.5,
+                          fontSize: '0.7rem',
+                          whiteSpace: 'nowrap',
+                          width: '14%',
+                          borderBottom: '1px solid #eee'
+                        }}>
+                          Manufacturer
+                        </TableCell>
+                        <TableCell sx={{ 
+                          fontWeight: '500', 
+                          color: '#555', 
+                          py: 1.5,
+                          px: 1.5,
+                          fontSize: '0.7rem',
+                          whiteSpace: 'nowrap',
+                          width: '14%',
+                          borderBottom: '1px solid #eee'
+                        }}>
+                          Model
+                        </TableCell>
+                        <TableCell sx={{ 
+                          fontWeight: '500', 
+                          color: '#555', 
+                          py: 1.5,
+                          px: 1.5,
+                          fontSize: '0.7rem',
+                          whiteSpace: 'nowrap',
+                          width: '16%',
+                          borderBottom: '1px solid #eee'
+                        }}>
+                          Serial Number
+                        </TableCell>
+                        <TableCell sx={{ 
+                          fontWeight: '500', 
+                          color: '#555', 
+                          py: 1.5,
+                          px: 1.5,
+                          fontSize: '0.7rem',
+                          whiteSpace: 'nowrap',
+                          width: '12%',
+                          borderBottom: '1px solid #eee'
+                        }}>
+                          Status
+                        </TableCell>
+                        <TableCell sx={{ 
+                          fontWeight: '500', 
+                          color: '#555', 
+                          py: 1.5,
+                          px: 1.5,
+                          fontSize: '0.7rem',
+                          whiteSpace: 'nowrap',
+                          width: '7%',
+                          borderBottom: '1px solid #eee'
+                        }}>
+                          Weight (kg)
+                        </TableCell>
+                        <TableCell sx={{ 
+                          fontWeight: '500', 
+                          color: '#555', 
+                          py: 1.5,
+                          px: 1.5,
+                          fontSize: '0.7rem',
+                          whiteSpace: 'nowrap',
+                          width: '15%',
+                          borderBottom: '1px solid #eee'
+                        }}>
+                          Actions
+                        </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -1324,150 +1326,145 @@ const AdminDashboard = () => {
           </>
         )}
         </Paper>
-      </>
+      </Box>
     );
   };
 
   return (
-    <Box sx={{ 
-      pl: 3, // Left padding to ensure content is properly aligned
-      pr: 3, // Right padding
-      pt: 3, // Top padding
-      pb: 3, // Bottom padding
-      ml: 0, // No left margin needed since we'll use padding
-      mr: 0 // No right margin
-    }}>
-      {renderDashboardContent()}
-      
-      {/* Client Dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth>
-        <DialogTitle>
-          {selectedClient ? 'Edit Client' : 'Add New Client'}
-        </DialogTitle>
-        <DialogContent>
-          <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Company Name"
-                name="name"
-                value={formData.name}
-                onChange={handleFormChange}
-                required
-              />
+    <Box sx={getContentContainerStyle()} data-boundary="true">
+      <Box sx={getContentWrapperStyle()}>
+        {renderDashboardContent()}
+        
+        {/* Client Dialog */}
+        <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth>
+          <DialogTitle>
+            {selectedClient ? 'Edit Client' : 'Add New Client'}
+          </DialogTitle>
+          <DialogContent>
+            <Grid container spacing={2} sx={{ mt: 1 }}>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Company Name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Contact Person"
+                  name="contactPerson"
+                  value={formData.contactPerson}
+                  onChange={handleFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleFormChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Address"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleFormChange}
+                  multiline
+                  rows={2}
+                  required
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Contact Person"
-                name="contactPerson"
-                value={formData.contactPerson}
-                onChange={handleFormChange}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleFormChange}
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleFormChange}
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Address"
-                name="address"
-                value={formData.address}
-                onChange={handleFormChange}
-                multiline
-                rows={2}
-                required
-              />
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={handleSubmitClient} variant="contained">
-            {selectedClient ? 'Update' : 'Add'}
-          </Button>
-        </DialogActions>
-      </Dialog>
-      
-      {/* Delete Confirmation Dialog */}
-      <Dialog open={deleteDialogOpen} onClose={handleCloseDeleteDialog}>
-        <DialogTitle>
-          Are you sure you want to archive this {deleteType}?
-        </DialogTitle>
-        <DialogContent>
-          <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 1 }}>
-            {deleteItemName}
-          </Typography>
-          
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-            {deleteType === 'Client' && deleteItemId && (() => {
-              const client = clients.find(c => c.id === deleteItemId);
-              return `${client.contactPerson}, ${client.email}, ${client.phone}, ${client.devicesCollected > 0 ? '45' : '32'}, ${client.totalWeight.toFixed(1)} kg`;
-            })()}
-            {deleteType === 'Device' && deleteItemId && (() => {
-              const device = devices.find(d => d.id === deleteItemId);
-              return `${device.type}, ${device.manufacturer}, ${device.serialNumber}, ${device.status}`;
-            })()}
-            {deleteType === 'Pickup' && deleteItemId && (() => {
-              const pickup = pickups.find(p => p.id === deleteItemId);
-              return `${pickup.date}, ${pickup.location}, ${pickup.status}, ${pickup.devices} devices`;
-            })()}
-          </Typography>
-          
-          <Typography variant="body2" sx={{ mb: 3 }}>
-            Even though it will no longer appear in Your {deleteType}s, you can still view the {deleteType} in Archived {deleteType}s from your account
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant="contained"
-            onClick={confirmDelete}
-            sx={{ 
-              bgcolor: '#686868', 
-              '&:hover': { bgcolor: '#4d4d4d' },
-              borderRadius: 2,
-              color: 'white',
-              px: 2
-            }}
-            startIcon={<DeleteIcon />}
-          >
-            Archived
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleCloseDeleteDialog}
-            sx={{ 
-              bgcolor: '#f0f0f0', 
-              color: '#686868',
-              '&:hover': { bgcolor: '#e0e0e0' },
-              borderRadius: 2,
-              px: 2
-            }}
-          >
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog}>Cancel</Button>
+            <Button onClick={handleSubmitClient} variant="contained">
+              {selectedClient ? 'Update' : 'Add'}
+            </Button>
+          </DialogActions>
+        </Dialog>
+        
+        {/* Delete Confirmation Dialog */}
+        <Dialog open={deleteDialogOpen} onClose={handleCloseDeleteDialog}>
+          <DialogTitle>
+            Are you sure you want to archive this {deleteType}?
+          </DialogTitle>
+          <DialogContent>
+            <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 1 }}>
+              {deleteItemName}
+            </Typography>
+            
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              {deleteType === 'Client' && deleteItemId && (() => {
+                const client = clients.find(c => c.id === deleteItemId);
+                return `${client.contactPerson}, ${client.email}, ${client.phone}, ${client.devicesCollected > 0 ? '45' : '32'}, ${client.totalWeight.toFixed(1)} kg`;
+              })()}
+              {deleteType === 'Device' && deleteItemId && (() => {
+                const device = devices.find(d => d.id === deleteItemId);
+                return `${device.type}, ${device.manufacturer}, ${device.serialNumber}, ${device.status}`;
+              })()}
+              {deleteType === 'Pickup' && deleteItemId && (() => {
+                const pickup = pickups.find(p => p.id === deleteItemId);
+                return `${pickup.date}, ${pickup.location}, ${pickup.status}, ${pickup.devices} devices`;
+              })()}
+            </Typography>
+            
+            <Typography variant="body2" sx={{ mb: 3 }}>
+              Even though it will no longer appear in Your {deleteType}s, you can still view the {deleteType} in Archived {deleteType}s from your account
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="contained"
+              onClick={confirmDelete}
+              sx={{ 
+                bgcolor: '#686868', 
+                '&:hover': { bgcolor: '#4d4d4d' },
+                borderRadius: 2,
+                color: 'white',
+                px: 2
+              }}
+              startIcon={<DeleteIcon />}
+            >
+              Archived
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleCloseDeleteDialog}
+              sx={{ 
+                bgcolor: '#f0f0f0', 
+                color: '#686868',
+                '&:hover': { bgcolor: '#e0e0e0' },
+                borderRadius: 2,
+                px: 2
+              }}
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Box>
     </Box>
   );
 };

@@ -15,13 +15,12 @@ import {
 } from '@mui/material';
 import {
   Close as CloseIcon,
-  Edit as EditIcon,
-  Event as EventIcon,
-  Description as DescriptionIcon,
-  Person as PersonIcon,
-  Business as BusinessIcon,
   Check as CheckIcon
 } from '@mui/icons-material';
+import EventIcon from '@mui/icons-material/Event';
+import DescriptionIcon from '@mui/icons-material/Description';
+import PersonIcon from '@mui/icons-material/Person';
+import BusinessIcon from '@mui/icons-material/Business';
 
 const mockNotifications = [
   {
@@ -107,15 +106,15 @@ const mockNotifications = [
 const getNotificationIcon = (type) => {
   switch(type) {
     case 'leave':
-      return <PersonIcon />;
+      return <PersonIcon sx={{ color: '#fff' }} />;
     case 'contract':
-      return <DescriptionIcon />;
+      return <DescriptionIcon sx={{ color: '#fff' }} />;
     case 'meeting':
-      return <EventIcon />;
+      return <EventIcon sx={{ color: '#fff' }} />;
     case 'team':
-      return <BusinessIcon />;
+      return <BusinessIcon sx={{ color: '#fff' }} />;
     default:
-      return <PersonIcon />;
+      return <PersonIcon sx={{ color: '#fff' }} />;
   }
 };
 
@@ -159,13 +158,14 @@ const NotificationsPopup = ({ open, anchorEl, onClose }) => {
       sx={{
         position: 'absolute',
         top: 64, // Position right below the header
-        right: 250, // Leave space for profile dropdown (230px width + some margin)
-        width: 500,
-        maxHeight: 600,
-        boxShadow: '0px 5px 15px rgba(0,0,0,0.1)',
-        borderRadius: 2,
+        right: 20, // Position to the right edge with some margin
+        width: 350, // Slimmer to match reference
+        maxHeight: 500,
+        boxShadow: '0px 3px 10px rgba(0,0,0,0.08)',
+        borderRadius: 1,
         overflow: 'hidden',
-        zIndex: 9999
+        zIndex: 9999,
+        border: '1px solid #eaeaea'
       }}
     >
       {/* Header */}
@@ -174,22 +174,20 @@ const NotificationsPopup = ({ open, anchorEl, onClose }) => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          p: 2,
-          borderBottom: '1px solid #eee'
+          p: 1.5,
+          borderBottom: '1px solid #eaeaea',
+          bgcolor: '#FFFFFF'
         }}
       >
         <Box>
-          <Typography variant="h6" sx={{ fontWeight: 500 }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 500, color: '#333' }}>
             Notifications
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="caption" color="text.secondary">
             Stay Updated with Your Latest Notifications
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton size="small" sx={{ mr: 1 }} onClick={onClose}>
-            <EditIcon fontSize="small" />
-          </IconButton>
           <IconButton size="small" onClick={onClose}>
             <CloseIcon fontSize="small" />
           </IconButton>
@@ -197,27 +195,47 @@ const NotificationsPopup = ({ open, anchorEl, onClose }) => {
       </Box>
       
       {/* Filter Tabs */}
-      <Box sx={{ display: 'flex', borderBottom: '1px solid #eee', px: 2, py: 1 }}>
-        <Button variant="text" sx={{ mr: 1, textTransform: 'none', fontWeight: 600, color: '#333' }}>
+      <Box sx={{ display: 'flex', borderBottom: '1px solid #eaeaea', px: 1.5, py: 0.5 }}>
+        <Typography 
+          variant="body2" 
+          sx={{ 
+            mr: 1.5,
+            fontWeight: 600,
+            color: '#333',
+            position: 'relative',
+            '&:after': {
+              content: '""',
+              position: 'absolute',
+              bottom: -5,
+              left: 0,
+              width: '100%',
+              height: 2,
+              backgroundColor: '#1C392B'
+            }
+          }}
+        >
           All
-        </Button>
-        <Button 
-          variant="text" 
-          sx={{ mr: 1, textTransform: 'none', color: '#666' }}
-          endIcon={<Badge color="error" badgeContent={unreadCount} sx={{ '& .MuiBadge-badge': { fontSize: '0.6rem' } }} />}
+        </Typography>
+        <Typography 
+          variant="body2" 
+          sx={{ 
+            color: '#666',
+            display: 'flex',
+            alignItems: 'center'
+          }}
         >
           Unread ({unreadCount})
-        </Button>
+        </Typography>
         <Box sx={{ flexGrow: 1 }} />
         <Button
           variant="text"
           size="small"
-          startIcon={<CheckIcon fontSize="small" />}
           onClick={handleMarkAllAsRead}
           sx={{ 
             textTransform: 'none',
-            fontSize: '0.8rem',
-            color: '#4caf50'
+            fontSize: '0.75rem',
+            color: '#1C392B',
+            p: 0
           }}
         >
           Mark all as read
@@ -225,89 +243,96 @@ const NotificationsPopup = ({ open, anchorEl, onClose }) => {
       </Box>
       
       {/* Notifications List */}
-      <Box sx={{ maxHeight: 450, overflow: 'auto' }}>
+      <Box 
+        sx={{ 
+          maxHeight: 400, 
+          overflow: 'auto',
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(0,0,0,0.1) rgba(0,0,0,0.03)',
+          '&::-webkit-scrollbar': {
+            width: '6px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: 'rgba(0,0,0,0.1)',
+            borderRadius: '3px',
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: 'rgba(0,0,0,0.03)',
+          },
+        }}
+      >
         {Object.entries(groupedNotifications).map(([date, items]) => (
           <Box key={date}>
-            <Typography variant="subtitle2" sx={{ p: 1.5, bgcolor: '#f9f9f9', fontWeight: 500 }}>
+            <Typography variant="caption" sx={{ display: 'block', p: 1, bgcolor: '#f5f5f5', fontWeight: 500, color: '#555' }}>
               {date}
             </Typography>
-            <List sx={{ py: 0 }}>
-              {items.map((notification) => (
-                <React.Fragment key={notification.id}>
-                  <ListItem 
-                    alignItems="flex-start" 
+            {items.map((notification) => (
+              <Box 
+                key={notification.id}
+                sx={{ 
+                  p: 1.5, 
+                  borderBottom: '1px solid #f0f0f0',
+                  position: 'relative',
+                  display: 'flex',
+                  '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.01)' },
+                }}
+              >
+                {/* Avatar */}
+                <Box sx={{ mr: 1.5 }}>
+                  <Avatar 
                     sx={{ 
-                      py: 1.5, 
-                      position: 'relative',
-                      bgcolor: notification.read ? 'transparent' : 'rgba(25, 118, 210, 0.04)',
-                      '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.02)' },
-                      transition: 'background-color 0.2s'
+                      width: 36,
+                      height: 36,
+                      backgroundColor: 
+                        notification.type === 'meeting' ? '#2196f3' : 
+                        notification.type === 'contract' ? '#009688' :
+                        notification.type === 'leave' ? '#ff9800' : 
+                        '#673ab7'
                     }}
                   >
-                    {/* Unread indicator */}
-                    {!notification.read && (
-                      <Box 
-                        sx={{ 
-                          position: 'absolute', 
-                          right: 12, 
-                          top: '50%', 
-                          transform: 'translateY(-50%)',
-                          width: 8,
-                          height: 8,
-                          borderRadius: '50%',
-                          bgcolor: '#f44336'
-                        }} 
-                      />
-                    )}
-                    <ListItemAvatar>
-                      {notification.type === 'user' ? (
-                        <Avatar 
-                          alt={notification.user} 
-                          src={notification.userAvatar}
-                          sx={{ 
-                            bgcolor: stringToColor(notification.user),
-                            width: 40,
-                            height: 40
-                          }}
-                        >
-                          {notification.user.split(' ').map(n => n[0]).join('')}
-                        </Avatar>
-                      ) : (
-                        <Avatar 
-                          sx={{ 
-                            bgcolor: 
-                              notification.type === 'meeting' ? '#2196f3' : 
-                              notification.type === 'contract' ? '#009688' :
-                              notification.type === 'leave' ? '#ff9800' : 
-                              notification.type === 'team' ? '#673ab7' : '#e91e63',
-                            width: 40,
-                            height: 40
-                          }}
-                        >
-                          {getNotificationIcon(notification.type)}
-                        </Avatar>
-                      )}
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={
-                        <Box component="span" sx={{ fontWeight: notification.read ? 400 : 600 }}>
-                          {notification.user} {notification.action} {notification.target}
-                        </Box>
-                      }
-                      secondary={
-                        <Typography
-                          sx={{ display: 'block', fontSize: '0.8rem', color: '#757575', mt: 0.5 }}
-                          component="span"
-                        >
-                          {notification.time}
-                        </Typography>
-                      }
-                    />
-                  </ListItem>
-                  <Divider component="li" />
-                </React.Fragment>
-              ))}
-            </List>
+                    {getNotificationIcon(notification.type)}
+                  </Avatar>
+                </Box>
+                
+                {/* Content */}
+                <Box sx={{ flex: 1 }}>
+                  <Typography 
+                    variant="body2" 
+                    sx={{ 
+                      color: '#333', 
+                      fontWeight: 500,
+                      fontSize: '0.85rem',
+                      mb: 0.5
+                    }}
+                  >
+                    {notification.user} {notification.action} {notification.target}
+                  </Typography>
+                  <Typography 
+                    variant="caption" 
+                    sx={{ 
+                      color: '#666',
+                      fontSize: '0.75rem' 
+                    }}
+                  >
+                    {notification.date} · {notification.time}
+                  </Typography>
+                </Box>
+                
+                {/* Unread indicator */}
+                {!notification.read && (
+                  <Box 
+                    sx={{ 
+                      width: 8,
+                      height: 8,
+                      borderRadius: '50%',
+                      backgroundColor: '#f44336',
+                      alignSelf: 'center',
+                      ml: 1
+                    }}
+                  />
+                )}
+              </Box>
+            ))}
           </Box>
         ))}
       </Box>

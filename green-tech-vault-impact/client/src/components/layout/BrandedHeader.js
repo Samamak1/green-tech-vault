@@ -285,24 +285,6 @@ const BrandedHeader = () => {
             {isEditMode ? 'Done Editing' : 'Edit Layout'}
           </Button>
 
-          {/* Notifications Icon with Badge */}
-          <IconButton 
-            size="medium" 
-            sx={{ mr: 2 }}
-            onClick={(e) => {
-              setNotificationsAnchorEl(e.currentTarget);
-              setNotificationsOpen(true);
-            }}
-          >
-            <Badge 
-              color="error" 
-              variant="dot" 
-              invisible={unreadNotificationCount === 0}
-            >
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-
           {/* Right side - User info */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ 
