@@ -24,9 +24,11 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HelpIcon from '@mui/icons-material/Help';
 import QrCodeIcon from '@mui/icons-material/QrCode';
+import GridViewIcon from '@mui/icons-material/GridView';
 import Logo from '../branding/Logo';
 import { useAuth } from '../../context/AuthContext';
 import { useProfile } from '../../context/ProfileContext';
+import { useLayoutEditor } from '../../context/LayoutEditorContext';
 
 // Styled search component - updated to match button shape
 const Search = styled('div')(({ theme }) => ({
@@ -69,6 +71,7 @@ const BrandedHeader = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { profileData, profilePictureUrl } = useProfile();
+  const { isEditMode, toggleEditMode } = useLayoutEditor();
   const [searchQuery, setSearchQuery] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -234,6 +237,26 @@ const BrandedHeader = () => {
               />
             </Search>
           </Box>
+
+          {/* Edit Layout Button */}
+          <Button
+            variant={isEditMode ? "contained" : "outlined"}
+            startIcon={<GridViewIcon />}
+            onClick={toggleEditMode}
+            sx={{
+              mr: 2,
+              borderRadius: '8px',
+              textTransform: 'none',
+              bgcolor: isEditMode ? '#4ECDC4' : 'transparent',
+              color: isEditMode ? 'white' : '#4ECDC4',
+              borderColor: '#4ECDC4',
+              '&:hover': {
+                bgcolor: isEditMode ? '#3dbdb5' : 'rgba(78, 205, 196, 0.1)',
+              }
+            }}
+          >
+            {isEditMode ? 'Done Editing' : 'Edit Layout'}
+          </Button>
 
           {/* Right side - User info */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>

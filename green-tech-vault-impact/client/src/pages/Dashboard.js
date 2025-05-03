@@ -391,7 +391,9 @@ const Dashboard = () => {
               justifyContent: 'center',
               height: '180px',
               boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)'
-            }}>
+            }}
+            data-boundary="true"
+            >
               <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
                 1,250.5
               </Typography>
@@ -409,7 +411,9 @@ const Dashboard = () => {
               justifyContent: 'center', 
               height: '180px',
               boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)'
-            }}>
+            }}
+            data-boundary="true"
+            >
               <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
                 87
               </Typography>
@@ -427,7 +431,9 @@ const Dashboard = () => {
               justifyContent: 'center', 
               height: '180px',
               boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)'
-            }}>
+            }}
+            data-boundary="true"
+            >
               <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
                 69
               </Typography>
@@ -450,7 +456,9 @@ const Dashboard = () => {
               justifyContent: 'center', 
               height: '180px',
               boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)'
-            }}>
+            }}
+            data-boundary="true"
+            >
               <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
                 3,750.8
               </Typography>
@@ -470,7 +478,9 @@ const Dashboard = () => {
               justifyContent: 'center', 
               height: '180px',
               boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)'
-            }}>
+            }}
+            data-boundary="true"
+            >
               <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
                 187
               </Typography>
@@ -490,7 +500,9 @@ const Dashboard = () => {
               justifyContent: 'center', 
               height: '180px',
               boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)'
-            }}>
+            }}
+            data-boundary="true"
+            >
               <Typography variant="h3" sx={{ color: '#56D0C5', fontWeight: 'bold' }} gutterBottom>
                 92.5%
               </Typography>
@@ -512,6 +524,7 @@ const Dashboard = () => {
           maxWidth: 'calc(100vw - 280px)', // Account for sidebar and scrollbar
           margin: '0 auto'
         }}
+        data-boundary="true"
       >
         {renderDashboardContent()}
       </Box>

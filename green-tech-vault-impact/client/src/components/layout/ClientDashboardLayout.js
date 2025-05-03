@@ -3,8 +3,12 @@ import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import BrandedHeader from './BrandedHeader';
 import ClientSidebar from './ClientSidebar';
+import GridOverlay from '../GridOverlay';
+import { useLayoutEditor } from '../../context/LayoutEditorContext';
 
 const ClientDashboardLayout = () => {
+  const { isEditMode } = useLayoutEditor();
+  
   return (
     <Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
       <ClientSidebar />
@@ -36,15 +40,19 @@ const ClientDashboardLayout = () => {
             },
             // Add consistent content boundary container
             '& > *': {
-              maxWidth: 'calc(100% - 24px)', // Maintain consistent margin from scrollbar
-              mx: 'auto', // Center the content
+              maxWidth: isEditMode ? 'none' : 'calc(100% - 24px)', // Override when in edit mode
+              mx: isEditMode ? 0 : 'auto', // Override when in edit mode
               mb: 3, // Add bottom margin to children
+              position: isEditMode ? 'relative' : 'static', // Allow positioning in edit mode
+              transition: 'all 0.3s ease-in-out',
+              border: isEditMode ? '1px dashed rgba(78, 205, 196, 0.3)' : 'none', // Show boundaries in edit mode
             }
           }}
         >
           <Outlet />
         </Box>
       </Box>
+      <GridOverlay />
     </Box>
   );
 };
