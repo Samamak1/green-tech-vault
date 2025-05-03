@@ -103,7 +103,6 @@ const AdminAnnouncements = () => {
       mr: 0
     }}>
       <Paper sx={{ 
-        maxWidth: '1000px',
         width: '100%',
         borderRadius: '8px', 
         boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)',
