@@ -11,7 +11,9 @@ import {
   Divider,
   Avatar,
   Badge,
-  Button
+  Button,
+  Tabs,
+  Tab
 } from '@mui/material';
 import {
   Close as CloseIcon,
@@ -21,6 +23,9 @@ import EventIcon from '@mui/icons-material/Event';
 import DescriptionIcon from '@mui/icons-material/Description';
 import PersonIcon from '@mui/icons-material/Person';
 import BusinessIcon from '@mui/icons-material/Business';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import MessageIcon from '@mui/icons-material/Message';
+import { useNavigate } from 'react-router-dom';
 
 const mockNotifications = [
   {
@@ -99,6 +104,45 @@ const mockNotifications = [
     date: 'July 19, 2024',
     time: '02:15 PM',
     read: false
+  },
+  {
+    id: 8,
+    type: 'message',
+    user: 'GTV Admin',
+    userAvatar: null,
+    action: 'sent you a message:',
+    target: 'Questions About my Pickup',
+    date: 'July 19, 2024',
+    time: '01:45 PM',
+    read: true,
+    link: '/messages',
+    messageId: '1'
+  },
+  {
+    id: 9,
+    type: 'announcement',
+    user: 'GTV Admin',
+    userAvatar: null,
+    action: 'posted an announcement:',
+    target: 'Monthly Challenge!',
+    date: 'July 19, 2024',
+    time: '10:30 AM',
+    read: false,
+    link: '/announcements',
+    announcementId: '1'
+  },
+  {
+    id: 10,
+    type: 'announcement',
+    user: 'GTV Admin',
+    userAvatar: null,
+    action: 'posted an announcement:',
+    target: 'Join our Earth Day Event',
+    date: 'July 18, 2024',
+    time: '09:15 AM',
+    read: true,
+    link: '/announcements',
+    announcementId: '2'
   }
 ];
 
@@ -113,6 +157,10 @@ const getNotificationIcon = (type) => {
       return <EventIcon sx={{ color: '#fff' }} />;
     case 'team':
       return <BusinessIcon sx={{ color: '#fff' }} />;
+    case 'message':
+      return <MessageIcon sx={{ color: '#fff' }} />;
+    case 'announcement':
+      return <NotificationsIcon sx={{ color: '#fff' }} />;
     default:
       return <PersonIcon sx={{ color: '#fff' }} />;
   }
@@ -133,7 +181,9 @@ const stringToColor = (string) => {
 };
 
 const NotificationsPopup = ({ open, anchorEl, onClose }) => {
+  const navigate = useNavigate();
   const [notifications, setNotifications] = useState(mockNotifications);
+  const [activeTab, setActiveTab] = useState(0); // 0 for All, 1 for Unread
   
   // Calculate unread count
   const unreadCount = notifications.filter(n => !n.read).length;
@@ -141,14 +191,41 @@ const NotificationsPopup = ({ open, anchorEl, onClose }) => {
   const handleMarkAllAsRead = () => {
     setNotifications(notifications.map(n => ({ ...n, read: true })));
   };
+
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
+
+  const handleNotificationClick = (notification) => {
+    // Mark notification as read
+    const updatedNotifications = notifications.map(n => 
+      n.id === notification.id ? { ...n, read: true } : n
+    );
+    setNotifications(updatedNotifications);
+
+    // Navigate to the appropriate page based on notification type
+    if (notification.type === 'message' && notification.link) {
+      navigate(notification.link);
+      onClose();
+    } else if (notification.type === 'announcement' && notification.link) {
+      navigate(notification.link);
+      onClose();
+    }
+  };
   
   // Group notifications by date
   const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   const tomorrow = new Date(Date.now() + 86400000).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   
+  // Filter notifications based on active tab
+  const filteredNotifications = activeTab === 0 
+    ? notifications 
+    : notifications.filter(n => !n.read);
+  
+  // Group filtered notifications by date
   const groupedNotifications = {
-    'Today': notifications.filter(n => n.date === 'July 18, 2024'),
-    'Tomorrow': notifications.filter(n => n.date === 'July 19, 2024')
+    'Today': filteredNotifications.filter(n => n.date === 'July 18, 2024'),
+    'Tomorrow': filteredNotifications.filter(n => n.date === 'July 19, 2024')
   };
   
   if (!open) return null;
@@ -195,51 +272,54 @@ const NotificationsPopup = ({ open, anchorEl, onClose }) => {
       </Box>
       
       {/* Filter Tabs */}
-      <Box sx={{ display: 'flex', borderBottom: '1px solid #eaeaea', px: 1.5, py: 0.5 }}>
-        <Typography 
-          variant="body2" 
-          sx={{ 
-            mr: 1.5,
-            fontWeight: 600,
-            color: '#333',
-            position: 'relative',
-            '&:after': {
-              content: '""',
-              position: 'absolute',
-              bottom: -5,
-              left: 0,
-              width: '100%',
-              height: 2,
-              backgroundColor: '#1C392B'
+      <Box sx={{ borderBottom: '1px solid #eaeaea' }}>
+        <Tabs 
+          value={activeTab} 
+          onChange={handleTabChange}
+          sx={{
+            '& .MuiTabs-indicator': {
+              backgroundColor: '#1C392B',
+              height: 2
+            },
+            '& .MuiTab-root': {
+              textTransform: 'none',
+              minWidth: 'auto',
+              px: 2,
+              py: 1,
+              fontSize: '0.85rem',
+              minHeight: '40px'
             }
           }}
         >
-          All
-        </Typography>
-        <Typography 
-          variant="body2" 
-          sx={{ 
-            color: '#666',
-            display: 'flex',
-            alignItems: 'center'
-          }}
-        >
-          Unread ({unreadCount})
-        </Typography>
-        <Box sx={{ flexGrow: 1 }} />
-        <Button
-          variant="text"
-          size="small"
-          onClick={handleMarkAllAsRead}
-          sx={{ 
-            textTransform: 'none',
-            fontSize: '0.75rem',
-            color: '#1C392B',
-            p: 0
-          }}
-        >
-          Mark all as read
-        </Button>
+          <Tab 
+            label="All" 
+            sx={{ 
+              color: activeTab === 0 ? '#1C392B' : '#666',
+              fontWeight: activeTab === 0 ? 600 : 400
+            }} 
+          />
+          <Tab 
+            label={`Unread (${unreadCount})`} 
+            sx={{ 
+              color: activeTab === 1 ? '#1C392B' : '#666',
+              fontWeight: activeTab === 1 ? 600 : 400
+            }} 
+          />
+          <Box sx={{ flexGrow: 1 }} />
+          <Button
+            variant="text"
+            size="small"
+            onClick={handleMarkAllAsRead}
+            sx={{ 
+              textTransform: 'none',
+              fontSize: '0.75rem',
+              color: '#1C392B',
+              p: 1
+            }}
+          >
+            Mark all as read
+          </Button>
+        </Tabs>
       </Box>
       
       {/* Notifications List */}
@@ -262,79 +342,96 @@ const NotificationsPopup = ({ open, anchorEl, onClose }) => {
         }}
       >
         {Object.entries(groupedNotifications).map(([date, items]) => (
-          <Box key={date}>
-            <Typography variant="caption" sx={{ display: 'block', p: 1, bgcolor: '#f5f5f5', fontWeight: 500, color: '#555' }}>
-              {date}
-            </Typography>
-            {items.map((notification) => (
-              <Box 
-                key={notification.id}
-                sx={{ 
-                  p: 1.5, 
-                  borderBottom: '1px solid #f0f0f0',
-                  position: 'relative',
-                  display: 'flex',
-                  '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.01)' },
-                }}
-              >
-                {/* Avatar */}
-                <Box sx={{ mr: 1.5 }}>
-                  <Avatar 
-                    sx={{ 
-                      width: 36,
-                      height: 36,
-                      backgroundColor: 
-                        notification.type === 'meeting' ? '#2196f3' : 
-                        notification.type === 'contract' ? '#009688' :
-                        notification.type === 'leave' ? '#ff9800' : 
-                        '#673ab7'
-                    }}
-                  >
-                    {getNotificationIcon(notification.type)}
-                  </Avatar>
+          items.length > 0 && (
+            <Box key={date}>
+              <Typography variant="caption" sx={{ display: 'block', p: 1, bgcolor: '#f5f5f5', fontWeight: 500, color: '#555' }}>
+                {date}
+              </Typography>
+              {items.map((notification) => (
+                <Box 
+                  key={notification.id}
+                  onClick={() => handleNotificationClick(notification)}
+                  sx={{ 
+                    p: 1.5, 
+                    borderBottom: '1px solid #f0f0f0',
+                    position: 'relative',
+                    display: 'flex',
+                    '&:hover': { 
+                      bgcolor: 'rgba(0, 0, 0, 0.01)',
+                      cursor: notification.type === 'message' || notification.type === 'announcement' ? 'pointer' : 'default'
+                    },
+                  }}
+                >
+                  {/* Avatar */}
+                  <Box sx={{ mr: 1.5 }}>
+                    <Avatar 
+                      sx={{ 
+                        width: 36,
+                        height: 36,
+                        backgroundColor: 
+                          notification.type === 'meeting' ? '#2196f3' : 
+                          notification.type === 'contract' ? '#009688' :
+                          notification.type === 'leave' ? '#ff9800' : 
+                          notification.type === 'message' ? '#673ab7' :
+                          notification.type === 'announcement' ? '#e91e63' :
+                          '#673ab7'
+                      }}
+                    >
+                      {getNotificationIcon(notification.type)}
+                    </Avatar>
+                  </Box>
+                  
+                  {/* Content */}
+                  <Box sx={{ flex: 1 }}>
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        color: '#333', 
+                        fontWeight: notification.read ? 400 : 500,
+                        fontSize: '0.85rem',
+                        mb: 0.5
+                      }}
+                    >
+                      {notification.user} {notification.action} {notification.target}
+                    </Typography>
+                    <Typography 
+                      variant="caption" 
+                      sx={{ 
+                        color: '#666',
+                        fontSize: '0.75rem' 
+                      }}
+                    >
+                      {notification.date} · {notification.time}
+                    </Typography>
+                  </Box>
+                  
+                  {/* Unread indicator */}
+                  {!notification.read && (
+                    <Box 
+                      sx={{ 
+                        width: 8,
+                        height: 8,
+                        borderRadius: '50%',
+                        backgroundColor: '#f44336',
+                        alignSelf: 'center',
+                        ml: 1
+                      }}
+                    />
+                  )}
                 </Box>
-                
-                {/* Content */}
-                <Box sx={{ flex: 1 }}>
-                  <Typography 
-                    variant="body2" 
-                    sx={{ 
-                      color: '#333', 
-                      fontWeight: 500,
-                      fontSize: '0.85rem',
-                      mb: 0.5
-                    }}
-                  >
-                    {notification.user} {notification.action} {notification.target}
-                  </Typography>
-                  <Typography 
-                    variant="caption" 
-                    sx={{ 
-                      color: '#666',
-                      fontSize: '0.75rem' 
-                    }}
-                  >
-                    {notification.date} · {notification.time}
-                  </Typography>
-                </Box>
-                
-                {/* Unread indicator */}
-                {!notification.read && (
-                  <Box 
-                    sx={{ 
-                      width: 8,
-                      height: 8,
-                      borderRadius: '50%',
-                      backgroundColor: '#f44336',
-                      alignSelf: 'center',
-                      ml: 1
-                    }}
-                  />
-                )}
-              </Box>
-            ))}
-          </Box>
+              ))}
+            </Box>
+          )
         ))}
+        
+        {/* Display message if no notifications */}
+        {Object.values(groupedNotifications).flat().length === 0 && (
+          <Box sx={{ p: 3, textAlign: 'center' }}>
+            <Typography variant="body2" color="text.secondary">
+              No {activeTab === 1 ? 'unread ' : ''}notifications
+            </Typography>
+          </Box>
+        )}
       </Box>
     </Paper>
   );

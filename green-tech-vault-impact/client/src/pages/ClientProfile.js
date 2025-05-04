@@ -23,7 +23,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useProfile } from '../context/ProfileContext';
-import ClientDashboardLayout from '../components/layout/ClientDashboardLayout';
+import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
 const Input = styled('input')({
   display: 'none',
@@ -84,9 +84,11 @@ const ClientProfile = () => {
 
   if (loading) {
     return (
-      <ClientDashboardLayout>
-        <Typography>Loading...</Typography>
-      </ClientDashboardLayout>
+      <Box sx={getContentContainerStyle()} data-boundary="true">
+        <Box sx={getContentWrapperStyle()}>
+          <Typography>Loading...</Typography>
+        </Box>
+      </Box>
     );
   }
 
@@ -99,8 +101,8 @@ const ClientProfile = () => {
   };
 
   return (
-    <ClientDashboardLayout>
-      <Box>
+    <Box sx={getContentContainerStyle()} data-boundary="true">
+      <Box sx={getContentWrapperStyle()}>
         <Typography variant="h6" sx={{ mb: 2, fontWeight: 500, fontSize: '1rem' }}>My Profile</Typography>
         
         {/* Profile Header Card */}
@@ -110,14 +112,14 @@ const ClientProfile = () => {
               <Avatar
                 src={profilePictureUrl}
                 sx={{ 
-                  width: 200, 
-                  height: 200,
+                  width: 80, 
+                  height: 80,
                   bgcolor: profilePictureUrl ? 'transparent' : '#1C392B',
                   fontSize: '2rem',
                   mr: 3
                 }}
               >
-                {!profilePictureUrl && profileData.fullName.charAt(0)}
+                {!profilePictureUrl && profileData?.fullName?.charAt(0) || 'L'}
               </Avatar>
               {/* Camera icon for profile upload - only show when editing profile */}
               {editing && currentSection === 'profile' && (
@@ -148,8 +150,8 @@ const ClientProfile = () => {
               )}
             </Box>
             <Box>
-              <Typography variant="h6">{profileData.fullName}</Typography>
-              <Typography variant="body1" color="text.secondary">{profileData.jobTitle}</Typography>
+              <Typography variant="h6">{profileData?.fullName || "Leila Meyer"}</Typography>
+              <Typography variant="body1" color="text.secondary">{profileData?.jobTitle || "CEO"}</Typography>
               <Typography variant="body2" color="text.secondary">{addressData.city}</Typography>
             </Box>
             <Button 
@@ -231,13 +233,13 @@ const ClientProfile = () => {
                 <TextField
                   fullWidth
                   name="fullName"
-                  value={formData.fullName}
+                  value={formData.fullName || "Leila's Company"}
                   onChange={handleChange}
                   variant="standard"
                   sx={{ mt: 1 }}
                 />
               ) : (
-                <Typography variant="body1" sx={{ mt: 1 }}>{profileData.fullName}</Typography>
+                <Typography variant="body1" sx={{ mt: 1 }}>{profileData?.fullName || "Leila's Company"}</Typography>
               )}
             </Grid>
             
@@ -248,13 +250,13 @@ const ClientProfile = () => {
                 <TextField
                   fullWidth
                   name="email"
-                  value={formData.email}
+                  value={formData.email || "leilaameyer2@gmail.com"}
                   onChange={handleChange}
                   variant="standard"
                   sx={{ mt: 1 }}
                 />
               ) : (
-                <Typography variant="body1" sx={{ mt: 1 }}>{profileData.email}</Typography>
+                <Typography variant="body1" sx={{ mt: 1 }}>{profileData?.email || "leilaameyer2@gmail.com"}</Typography>
               )}
             </Grid>
             
@@ -265,13 +267,13 @@ const ClientProfile = () => {
                 <TextField
                   fullWidth
                   name="phone"
-                  value={formData.phone}
+                  value={formData.phone || "(555) 123-4567"}
                   onChange={handleChange}
                   variant="standard"
                   sx={{ mt: 1 }}
                 />
               ) : (
-                <Typography variant="body1" sx={{ mt: 1 }}>{profileData.phone}</Typography>
+                <Typography variant="body1" sx={{ mt: 1 }}>{profileData?.phone || "(555) 123-4567"}</Typography>
               )}
             </Grid>
             
@@ -371,13 +373,13 @@ const ClientProfile = () => {
                 <TextField
                   fullWidth
                   name="username"
-                  value={formData.username}
+                  value={formData.username || "@lmeyer"}
                   onChange={handleChange}
                   variant="standard"
                   sx={{ mt: 1 }}
                 />
               ) : (
-                <Typography variant="body1" sx={{ mt: 1 }}>{profileData.username}</Typography>
+                <Typography variant="body1" sx={{ mt: 1 }}>{profileData?.username || "@lmeyer"}</Typography>
               )}
             </Grid>
             
@@ -389,7 +391,7 @@ const ClientProfile = () => {
                   fullWidth
                   type={showPassword ? 'text' : 'password'}
                   name="password"
-                  value={formData.password}
+                  value={formData.password || "********"}
                   onChange={handleChange}
                   variant="standard"
                   sx={{ mt: 1 }}
@@ -407,7 +409,7 @@ const ClientProfile = () => {
                   }}
                 />
               ) : (
-                <Typography variant="body1" sx={{ mt: 1 }}>{profileData.password}</Typography>
+                <Typography variant="body1" sx={{ mt: 1 }}>********</Typography>
               )}
             </Grid>
           </Grid>
@@ -553,7 +555,7 @@ const ClientProfile = () => {
           </Grid>
         </Paper>
       </Box>
-    </ClientDashboardLayout>
+    </Box>
   );
 };
 
