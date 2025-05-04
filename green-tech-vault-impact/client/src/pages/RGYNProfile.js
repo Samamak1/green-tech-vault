@@ -190,22 +190,9 @@ const RGYNProfile = () => {
   return (
     <Box sx={getContentContainerStyle()} data-boundary="true">
       <Box sx={getContentWrapperStyle()}>
-        <Typography variant="h5" component="h1" gutterBottom>
-          Profile
+        <Typography variant="h6" sx={{ mb: 2, fontWeight: 500, fontSize: '1rem' }}>
+          RGYN Profile
         </Typography>
-        
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-          <Button 
-            startIcon={<ArrowBackIcon />} 
-            onClick={handleGoBack}
-            sx={{ color: '#888', fontSize: '0.8rem', fontWeight: 'normal', textTransform: 'none' }}
-          >
-            Back to Dashboard
-          </Button>
-          <Typography variant="h6" sx={{ ml: 2, color: '#444', fontWeight: 500, fontSize: '1rem' }}>
-            Client Profile: {client ? client.name : ''}
-          </Typography>
-        </Box>
 
         <Grid container spacing={2}>
           <Grid item xs={12} md={5}>
@@ -324,36 +311,6 @@ const RGYNProfile = () => {
                       </Grid>
                       <Grid item xs={7}>
                         <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.username}</Typography>
-                      </Grid>
-                    </Grid>
-                  </Box>
-
-                  <Box sx={{ mt: 3 }}>
-                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, fontSize: '0.95rem' }}>
-                      Client Information
-                    </Typography>
-                    <Divider sx={{ my: 1 }} />
-                    
-                    <Grid container spacing={1}>
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Contact Name</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.contactPerson}</Typography>
-                      </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Email</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.email}</Typography>
-                      </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Phone</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.phone}</Typography>
                       </Grid>
                     </Grid>
                   </Box>

@@ -447,12 +447,7 @@ const PickupCalendar = () => {
   return (
     <Box sx={getContentContainerStyle()} data-boundary="true">
       <Box sx={getContentWrapperStyle()}>
-        <Box 
-          sx={{ 
-            p: 2,
-            height: 'auto',
-          }}
-        >
+        <Box sx={{ height: 'auto' }}>
           <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Typography variant="h5" sx={{ fontWeight: 500, fontSize: '1rem' }}>
@@ -478,7 +473,13 @@ const PickupCalendar = () => {
           
           <Grid container spacing={2}>
             <Grid item xs={12} md={9}>
-              <Paper sx={{ p: 1, mb: 2, height: 'calc(100vh - 220px)', overflow: 'hidden', borderRadius: 0 }}>
+              <Paper sx={{ 
+                p: 1, 
+                mb: 2, 
+                height: 'calc(100vh - 220px)', 
+                overflow: 'hidden', 
+                borderRadius: 8
+              }}>
                 <Calendar
                   localizer={localizer}
                   events={getFilteredEvents()}
@@ -504,7 +505,11 @@ const PickupCalendar = () => {
             
             <Grid item xs={12} md={3}>
               {/* Mini Calendar */}
-              <Paper sx={{ p: 1.5, borderRadius: 0, mb: 2 }}>
+              <Paper sx={{ 
+                p: 1.5, 
+                borderRadius: 8, 
+                mb: 2 
+              }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
                   <IconButton size="small" onClick={() => {
                     const newDate = new Date(miniCalendarYear, miniCalendarMonth - 1, 1);
@@ -622,7 +627,10 @@ const PickupCalendar = () => {
               </Paper>
               
               {/* Calendars */}
-              <Paper sx={{ p: 1.5, borderRadius: 0 }}>
+              <Paper sx={{ 
+                p: 1.5, 
+                borderRadius: 8 
+              }}>
                 <Typography variant="h6" sx={{ mb: 1.5, fontSize: '0.85rem', fontWeight: 500 }}>Calendars</Typography>
                 
                 <FormGroup>

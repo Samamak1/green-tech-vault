@@ -158,7 +158,7 @@ const NotificationsPopup = ({ open, anchorEl, onClose }) => {
       sx={{
         position: 'absolute',
         top: 64, // Position right below the header
-        right: 300, // Position further to the left to allow room for scrollbar access
+        right: 277.5, // Position to allow room for scrollbar access (moved 1/2 grid cell toward dropdown)
         width: 350, // Slimmer to match reference
         maxHeight: 500,
         boxShadow: '0px 3px 10px rgba(0,0,0,0.08)',

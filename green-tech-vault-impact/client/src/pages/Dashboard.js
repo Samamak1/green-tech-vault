@@ -377,7 +377,7 @@ const Dashboard = () => {
 
   return (
       <>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography variant="h6" sx={{ mb: 2, fontWeight: 500, fontSize: '1rem' }}>
           Dashboard
         </Typography>
 
