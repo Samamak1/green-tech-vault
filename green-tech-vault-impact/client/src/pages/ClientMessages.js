@@ -845,7 +845,7 @@ const ClientMessages = () => {
           </Box>
         </Box>
       </Dialog>
-    </div>
+    </Box>
   );
 };
 
