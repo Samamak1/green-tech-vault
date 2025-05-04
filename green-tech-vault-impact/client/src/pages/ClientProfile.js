@@ -23,7 +23,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useProfile } from '../context/ProfileContext';
-import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
+import ClientDashboardLayout from '../components/layout/ClientDashboardLayout';
 
 const Input = styled('input')({
   display: 'none',
@@ -84,11 +84,9 @@ const ClientProfile = () => {
 
   if (loading) {
     return (
-      <Box sx={getContentContainerStyle()} data-boundary="true">
-        <Box sx={getContentWrapperStyle()}>
-          <Typography>Loading...</Typography>
-        </Box>
-      </Box>
+      <ClientDashboardLayout>
+        <Typography>Loading...</Typography>
+      </ClientDashboardLayout>
     );
   }
 
@@ -101,8 +99,8 @@ const ClientProfile = () => {
   };
 
   return (
-    <Box sx={getContentContainerStyle()} data-boundary="true">
-      <Box sx={getContentWrapperStyle()}>
+    <ClientDashboardLayout>
+      <Box>
         <Typography variant="h6" sx={{ mb: 2, fontWeight: 500, fontSize: '1rem' }}>My Profile</Typography>
         
         {/* Profile Header Card */}
@@ -555,7 +553,7 @@ const ClientProfile = () => {
           </Grid>
         </Paper>
       </Box>
-    </Box>
+    </ClientDashboardLayout>
   );
 };
 

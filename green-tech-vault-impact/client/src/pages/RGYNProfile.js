@@ -49,6 +49,7 @@ const RGYNProfile = () => {
   const [mockDevices, setMockDevices] = useState([]);
   const [selectedPickup, setSelectedPickup] = useState(null);
   const [selectedPickupInfo, setSelectedPickupInfo] = useState(null);
+  const [showTrackingBubbles, setShowTrackingBubbles] = useState(false);
 
   useEffect(() => {
     // In a real app, you would fetch the actual client data
@@ -449,84 +450,86 @@ const RGYNProfile = () => {
               
               {leftPanelTab === 'Pickup Information' && (
                 <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', mb: 4 }}>
-                    <Box sx={{ mb: 3 }}>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
-                        <Box sx={{ py: 1.5, px: 2, bgcolor: '#e8f5e9', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '15%' }}>
-                          <Box sx={{ textAlign: 'center' }}>
-                            <Typography variant="body2" sx={{ color: '#2e7d32', fontWeight: 500, fontSize: '0.7rem' }}>
-                              Driver is on the way
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: '#2e7d32', fontSize: '0.65rem' }}>
-                              May 26, 2024
-                            </Typography>
+                  {showTrackingBubbles && (
+                    <Box sx={{ display: 'flex', flexDirection: 'column', mb: 4 }}>
+                      <Box sx={{ mb: 3 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+                          <Box sx={{ py: 1.5, px: 2, bgcolor: '#e8f5e9', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '15%' }}>
+                            <Box sx={{ textAlign: 'center' }}>
+                              <Typography variant="body2" sx={{ color: '#2e7d32', fontWeight: 500, fontSize: '0.7rem' }}>
+                                Driver is on the way
+                              </Typography>
+                              <Typography variant="body2" sx={{ color: '#2e7d32', fontSize: '0.65rem' }}>
+                                May 26, 2024
+                              </Typography>
+                            </Box>
                           </Box>
-                        </Box>
-                        <Box sx={{ height: 1, width: '2%', borderTop: '1px dashed #ccc' }} />
-                        <Box sx={{ py: 1.5, px: 2, bgcolor: '#e8f5e9', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '15%' }}>
-                          <Box sx={{ textAlign: 'center' }}>
-                            <Typography variant="body2" sx={{ color: '#2e7d32', fontWeight: 500, fontSize: '0.7rem' }}>
-                              Driver has arrived
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: '#2e7d32', fontSize: '0.65rem' }}>
-                              May 27, 2024
-                            </Typography>
+                          <Box sx={{ height: 1, width: '2%', borderTop: '1px dashed #ccc' }} />
+                          <Box sx={{ py: 1.5, px: 2, bgcolor: '#e8f5e9', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '15%' }}>
+                            <Box sx={{ textAlign: 'center' }}>
+                              <Typography variant="body2" sx={{ color: '#2e7d32', fontWeight: 500, fontSize: '0.7rem' }}>
+                                Driver has arrived
+                              </Typography>
+                              <Typography variant="body2" sx={{ color: '#2e7d32', fontSize: '0.65rem' }}>
+                                May 27, 2024
+                              </Typography>
+                            </Box>
                           </Box>
-                        </Box>
-                        <Box sx={{ height: 1, width: '2%', borderTop: '1px dashed #ccc' }} />
-                        <Box sx={{ py: 1.5, px: 2, bgcolor: '#e8f5e9', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '15%' }}>
-                          <Box sx={{ textAlign: 'center' }}>
-                            <Typography variant="body2" sx={{ color: '#2e7d32', fontWeight: 500, fontSize: '0.7rem' }}>
-                              Pickup has been loaded
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: '#2e7d32', fontSize: '0.65rem' }}>
-                              May 28, 2024
-                            </Typography>
+                          <Box sx={{ height: 1, width: '2%', borderTop: '1px dashed #ccc' }} />
+                          <Box sx={{ py: 1.5, px: 2, bgcolor: '#e8f5e9', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '15%' }}>
+                            <Box sx={{ textAlign: 'center' }}>
+                              <Typography variant="body2" sx={{ color: '#2e7d32', fontWeight: 500, fontSize: '0.7rem' }}>
+                                Pickup has been loaded
+                              </Typography>
+                              <Typography variant="body2" sx={{ color: '#2e7d32', fontSize: '0.65rem' }}>
+                                May 28, 2024
+                              </Typography>
+                            </Box>
                           </Box>
-                        </Box>
-                        <Box sx={{ height: 1, width: '2%', borderTop: '1px dashed #ccc' }} />
-                        <Box sx={{ py: 1.5, px: 2, bgcolor: '#e8f5e9', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '15%' }}>
-                          <Box sx={{ textAlign: 'center' }}>
-                            <Typography variant="body2" sx={{ color: '#2e7d32', fontWeight: 500, fontSize: '0.7rem' }}>
-                              Pickup arrived at warehouse
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: '#2e7d32', fontSize: '0.65rem' }}>
-                              May 29, 2024
-                            </Typography>
+                          <Box sx={{ height: 1, width: '2%', borderTop: '1px dashed #ccc' }} />
+                          <Box sx={{ py: 1.5, px: 2, bgcolor: '#e8f5e9', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '15%' }}>
+                            <Box sx={{ textAlign: 'center' }}>
+                              <Typography variant="body2" sx={{ color: '#2e7d32', fontWeight: 500, fontSize: '0.7rem' }}>
+                                Pickup arrived at warehouse
+                              </Typography>
+                              <Typography variant="body2" sx={{ color: '#2e7d32', fontSize: '0.65rem' }}>
+                                May 29, 2024
+                              </Typography>
+                            </Box>
                           </Box>
-                        </Box>
-                        <Box sx={{ height: 1, width: '2%', borderTop: '1px dashed #ccc' }} />
-                        <Box sx={{ py: 1.5, px: 2, bgcolor: '#f5f5f5', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '15%' }}>
-                          <Box sx={{ textAlign: 'center' }}>
-                            <Typography variant="body2" sx={{ color: '#757575', fontWeight: 500, fontSize: '0.7rem' }}>
-                              Items are being sorted and evaluated
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: '#757575', fontSize: '0.65rem' }}>
-                              May 30, 2024
-                            </Typography>
+                          <Box sx={{ height: 1, width: '2%', borderTop: '1px dashed #ccc' }} />
+                          <Box sx={{ py: 1.5, px: 2, bgcolor: '#f5f5f5', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '15%' }}>
+                            <Box sx={{ textAlign: 'center' }}>
+                              <Typography variant="body2" sx={{ color: '#757575', fontWeight: 500, fontSize: '0.7rem' }}>
+                                Items are being sorted and evaluated
+                              </Typography>
+                              <Typography variant="body2" sx={{ color: '#757575', fontSize: '0.65rem' }}>
+                                May 30, 2024
+                              </Typography>
+                            </Box>
                           </Box>
-                        </Box>
-                        <Box sx={{ height: 1, width: '2%', borderTop: '1px dashed #ccc' }} />
-                        <Box sx={{ py: 1.5, px: 2, bgcolor: '#f5f5f5', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '15%' }}>
-                          <Box sx={{ textAlign: 'center' }}>
-                            <Typography variant="body2" sx={{ color: '#757575', fontWeight: 500, fontSize: '0.7rem' }}>
-                              Sustainability report is ready
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: '#757575', fontSize: '0.65rem' }}>
-                              June 04, 2024
-                            </Typography>
+                          <Box sx={{ height: 1, width: '2%', borderTop: '1px dashed #ccc' }} />
+                          <Box sx={{ py: 1.5, px: 2, bgcolor: '#f5f5f5', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '15%' }}>
+                            <Box sx={{ textAlign: 'center' }}>
+                              <Typography variant="body2" sx={{ color: '#757575', fontWeight: 500, fontSize: '0.7rem' }}>
+                                Sustainability report is ready
+                              </Typography>
+                              <Typography variant="body2" sx={{ color: '#757575', fontSize: '0.65rem' }}>
+                                June 04, 2024
+                              </Typography>
+                            </Box>
                           </Box>
                         </Box>
                       </Box>
                     </Box>
-                  </Box>
+                  )}
                 
                   <Grid container spacing={3}>
                     <Grid item xs={6}>
-                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
-                        Pickup Details
-                      </Typography>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                        <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, fontSize: '0.95rem', mr: 2 }}>
+                          Pickup Details
+                        </Typography>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', mr: 1 }}>
                           {selectedPickupInfo ? selectedPickupInfo.date : defaultRgynContactInfo.date}
                         </Typography>
@@ -571,7 +574,7 @@ const RGYNProfile = () => {
                               cursor: 'pointer',
                               '&:hover': { color: '#3dbdb5' }
                             }}
-                            onClick={() => navigate('/tracking')}
+                            onClick={() => setShowTrackingBubbles(!showTrackingBubbles)}
                           >
                             #7654321
                           </Typography>
