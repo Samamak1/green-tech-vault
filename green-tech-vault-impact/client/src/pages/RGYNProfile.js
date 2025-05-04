@@ -212,8 +212,8 @@ const RGYNProfile = () => {
           RGYN Profile
         </Typography>
 
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={4}>
+        <Grid container direction="column" spacing={2}>
+          <Grid item xs={12}>
             <Paper sx={{ borderRadius: 2, overflow: 'hidden', mb: 2 }}>
               <Box sx={{ 
                 display: 'flex',
@@ -509,7 +509,7 @@ const RGYNProfile = () => {
             </Paper>
           </Grid>
           
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12}>
             <Paper sx={{ p: 0, borderRadius: 2, overflow: 'hidden', mb: 2 }}>
               <Tabs
                 value={rightPanelTab}

@@ -28,7 +28,8 @@ import {
   Star as StarIcon,
   StarBorder as StarBorderIcon,
   Close as CloseIcon,
-  Create as PencilIcon
+  Create as PencilIcon,
+  MoreVert as MoreVertIcon
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
@@ -442,249 +443,274 @@ const ClientMessages = () => {
           </Box>
         </Box>
         
-        {/* Messages List - styled like Announcements page */}
-        <Paper sx={{ 
-          bgcolor: 'white', 
-          borderRadius: 1, 
-          overflow: 'hidden',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-        }}>
-          {filteredMessages.length > 0 ? (
-            filteredMessages.map((message) => (
-              <Box 
-                key={message.id} 
-                onClick={() => handleMessageSelect(message)}
-                sx={{ 
-                  position: 'relative',
-                  py: 1.5,
-                  px: 2,
-                  borderBottom: '1px solid #eee',
-                  '&:last-child': { borderBottom: 'none' },
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  bgcolor: selectedMessage?.id === message.id ? '#f0f0f0' : message.read ? 'transparent' : '#fafafa',
-                  cursor: 'pointer',
-                  '&:hover': { bgcolor: '#f5f5f5' }
-                }}
-              >
-                {/* Unread indicator */}
-                {!message.read && (
-                  <Box 
-                    sx={{ 
-                      position: 'absolute',
-                      left: 0,
-                      top: 0, 
-                      bottom: 0,
-                      width: '4px',
-                      bgcolor: '#ff5722'
-                    }} 
-                  />
-                )}
-                
-                {/* Checkbox */}
-                <Checkbox 
-                  size="small" 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleCheckboxChange(message.id);
-                  }}
-                  checked={selectedMessages.includes(message.id)}
-                  sx={{ p: 0.5, mr: 1 }}
-                />
-                
-                {/* Star */}
-                <IconButton 
-                  size="small" 
-                  sx={{ p: 0.5, mr: 1.5 }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    const updatedMessages = messages.map(msg =>
-                      msg.id === message.id ? { ...msg, starred: !msg.starred } : msg
-                    );
-                    setMessages(updatedMessages);
-                  }}
-                >
-                  {message.starred ? (
-                    <StarIcon sx={{ fontSize: '1.1rem', color: '#FFB400' }} />
-                  ) : (
-                    <StarBorderIcon sx={{ fontSize: '1.1rem', color: '#bbb' }} />
-                  )}
-                </IconButton>
-                
-                {/* Message content */}
-                <Box sx={{ flexGrow: 1 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                    <Box>
-                      <Typography 
-                        variant="subtitle1" 
-                        component="span"
-                        sx={{ 
-                          fontSize: '0.9rem',
-                          fontWeight: message.read ? 400 : 600 
-                        }}
-                      >
-                        {message.subject}
-                      </Typography>
-                      
-                      <Typography 
-                        variant="body2" 
-                        component="span"
-                        sx={{ 
-                          fontSize: '0.85rem',
-                          color: '#666',
-                          ml: 1
-                        }}
-                      >
-                        {message.sender.name}
-                      </Typography>
-                    </Box>
-                    
-                    <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0, ml: 2 }}>
+        {/* Grid layout for side-by-side view */}
+        <Grid container spacing={2}>
+          {/* Messages List - Left Side */}
+          <Grid item xs={12} md={isExpanded ? 5 : 12}>
+            <Paper sx={{ 
+              bgcolor: 'white', 
+              borderRadius: 1, 
+              overflow: 'hidden',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+              height: isExpanded ? 'calc(75vh - 120px)' : 'auto', // Adjust height when expanded
+              display: 'flex',
+              flexDirection: 'column'
+            }}>
+              <Box sx={{ 
+                flex: 1, 
+                overflow: 'auto',
+                maxHeight: isExpanded ? 'calc(75vh - 120px)' : '55vh'
+              }}>
+                {filteredMessages.length > 0 ? (
+                  filteredMessages.map((message) => (
+                    <Box 
+                      key={message.id} 
+                      onClick={() => handleMessageSelect(message)}
+                      sx={{ 
+                        position: 'relative',
+                        py: 1.5,
+                        px: 2,
+                        borderBottom: '1px solid #eee',
+                        '&:last-child': { borderBottom: 'none' },
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        bgcolor: selectedMessage?.id === message.id ? '#f0f0f0' : message.read ? 'transparent' : '#fafafa',
+                        cursor: 'pointer',
+                        '&:hover': { bgcolor: '#f5f5f5' }
+                      }}
+                    >
+                      {/* Unread indicator */}
                       {!message.read && (
                         <Box 
                           sx={{ 
-                            width: 8, 
-                            height: 8, 
-                            borderRadius: '50%', 
-                            bgcolor: '#ff5722', 
-                            mr: 1 
+                            position: 'absolute',
+                            left: 0,
+                            top: 0, 
+                            bottom: 0,
+                            width: '4px',
+                            bgcolor: '#ff5722'
                           }} 
                         />
                       )}
-                      <Typography 
-                        variant="body2" 
-                        color="text.secondary" 
-                        sx={{ 
-                          fontSize: '0.75rem',
-                          whiteSpace: 'nowrap'
+                      
+                      {/* Checkbox */}
+                      <Checkbox 
+                        size="small" 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCheckboxChange(message.id);
+                        }}
+                        checked={selectedMessages.includes(message.id)}
+                        sx={{ p: 0.5, mr: 1 }}
+                      />
+                      
+                      {/* Star */}
+                      <IconButton 
+                        size="small" 
+                        sx={{ p: 0.5, mr: 1.5 }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const updatedMessages = messages.map(msg =>
+                            msg.id === message.id ? { ...msg, starred: !msg.starred } : msg
+                          );
+                          setMessages(updatedMessages);
                         }}
                       >
-                        {message.timestamp}
-                      </Typography>
-                    </Box>
-                  </Box>
-                  
-                  <Typography 
-                    variant="body2" 
-                    sx={{ 
-                      color: '#555', 
-                      mt: 0.5,
-                      fontSize: '0.85rem',
-                      fontWeight: message.read ? 400 : 500,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      maxWidth: '90%'
-                    }}
-                  >
-                    {message.message.split('\n')[0]}
-                  </Typography>
-                </Box>
-                
-                {/* Actions */}
-                <Box sx={{ ml: 1, mt: 0.5 }}>
-                  <IconButton 
-                    size="small" 
-                    sx={{ p: 0.5 }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteMessages([message.id]);
-                    }}
-                  >
-                    <DeleteIcon sx={{ fontSize: '1.1rem', color: '#f44336' }} />
-                  </IconButton>
-                </Box>
-              </Box>
-            ))
-          ) : (
-            <Box sx={{ p: 3, textAlign: 'center' }}>
-              <Typography variant="body1" color="text.secondary">
-                No messages found
-              </Typography>
-            </Box>
-          )}
-        </Paper>
-        
-        {/* Message Detail Dialog */}
-        {selectedMessage && (
-          <Dialog
-            open={isExpanded}
-            onClose={handleCloseMessage}
-            fullWidth
-            maxWidth="md"
-            sx={{ '& .MuiDialog-paper': { borderRadius: 2 } }}
-          >
-            <Box sx={{ p: 2 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h6" sx={{ fontSize: '1.1rem', fontWeight: 500 }}>
-                  {selectedMessage.subject}
-                </Typography>
-                <IconButton onClick={handleCloseMessage} size="small">
-                  <CloseIcon />
-                </IconButton>
-              </Box>
-              
-              {selectedMessage.thread.map((message, index) => (
-                <Box key={message.id} sx={{ mb: 3 }}>
-                  {index > 0 && <Divider sx={{ my: 2 }} />}
-                  <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-                    <Avatar sx={{ width: 40, height: 40, mr: 2, bgcolor: message.sender.id === 'client' ? '#4ECDC4' : '#1C392B', fontSize: '0.9rem' }}>
-                      {message.sender.name.charAt(1).toUpperCase()}
-                    </Avatar>
-                    <Box sx={{ flex: 1 }}>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                        <Typography variant="subtitle2" sx={{ fontSize: '0.9rem' }}>
-                          {message.sender.name}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.8rem' }}>
-                          {message.timestamp}
+                        {message.starred ? (
+                          <StarIcon sx={{ fontSize: '1.1rem', color: '#FFB400' }} />
+                        ) : (
+                          <StarBorderIcon sx={{ fontSize: '1.1rem', color: '#bbb' }} />
+                        )}
+                      </IconButton>
+                      
+                      {/* Message content */}
+                      <Box sx={{ flexGrow: 1 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                          <Box>
+                            <Typography 
+                              variant="subtitle1" 
+                              component="span"
+                              sx={{ 
+                                fontSize: '0.9rem',
+                                fontWeight: message.read ? 400 : 600 
+                              }}
+                            >
+                              {message.subject}
+                            </Typography>
+                            
+                            <Typography 
+                              variant="body2" 
+                              component="span"
+                              sx={{ 
+                                fontSize: '0.85rem',
+                                color: '#666',
+                                ml: 1
+                              }}
+                            >
+                              {message.sender.name}
+                            </Typography>
+                          </Box>
+                          
+                          <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0, ml: 2 }}>
+                            {!message.read && (
+                              <Box 
+                                sx={{ 
+                                  width: 8, 
+                                  height: 8, 
+                                  borderRadius: '50%', 
+                                  bgcolor: '#ff5722', 
+                                  mr: 1 
+                                }} 
+                              />
+                            )}
+                            <Typography 
+                              variant="body2" 
+                              color="text.secondary" 
+                              sx={{ 
+                                fontSize: '0.75rem',
+                                whiteSpace: 'nowrap'
+                              }}
+                            >
+                              {message.timestamp}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        
+                        <Typography 
+                          variant="body2" 
+                          sx={{ 
+                            color: '#555', 
+                            mt: 0.5,
+                            fontSize: '0.85rem',
+                            fontWeight: message.read ? 400 : 500,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            maxWidth: '90%'
+                          }}
+                        >
+                          {message.message.split('\n')[0]}
                         </Typography>
                       </Box>
-                      <Typography variant="body1" sx={{ whiteSpace: 'pre-line', fontSize: '0.9rem' }}>
-                        {message.message}
-                      </Typography>
+                      
+                      {/* More Menu Icon (replacing Delete) */}
+                      <Box sx={{ ml: 1, mt: 0.5 }}>
+                        <IconButton 
+                          size="small" 
+                          sx={{ p: 0.5 }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // Here you could add functionality to open a menu
+                            // For now, we'll keep the delete functionality
+                            handleDeleteMessages([message.id]);
+                          }}
+                        >
+                          <MoreVertIcon sx={{ fontSize: '1.1rem', color: '#888' }} />
+                        </IconButton>
+                      </Box>
                     </Box>
+                  ))
+                ) : (
+                  <Box sx={{ p: 3, textAlign: 'center' }}>
+                    <Typography variant="body1" color="text.secondary">
+                      No messages found
+                    </Typography>
+                  </Box>
+                )}
+              </Box>
+            </Paper>
+          </Grid>
+          
+          {/* Message Content - Right Side */}
+          {isExpanded && selectedMessage && (
+            <Grid item xs={12} md={7}>
+              <Paper sx={{ 
+                bgcolor: 'white', 
+                borderRadius: 1, 
+                overflow: 'hidden',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                height: 'calc(75vh - 120px)',
+                display: 'flex',
+                flexDirection: 'column',
+                p: 2
+              }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Typography variant="h6" sx={{ fontSize: '1.1rem', fontWeight: 500 }}>
+                    {selectedMessage.subject}
+                  </Typography>
+                  <IconButton onClick={handleCloseMessage} size="small">
+                    <CloseIcon />
+                  </IconButton>
+                </Box>
+                
+                <Box sx={{ 
+                  flex: 1, 
+                  overflow: 'auto',
+                  mb: 2
+                }}>
+                  {selectedMessage.thread.map((message, index) => (
+                    <Box key={message.id} sx={{ mb: 3 }}>
+                      {index > 0 && <Divider sx={{ my: 2 }} />}
+                      <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+                        <Avatar sx={{ width: 40, height: 40, mr: 2, bgcolor: message.sender.id === 'client' ? '#4ECDC4' : '#1C392B', fontSize: '0.9rem' }}>
+                          {message.sender.name.charAt(1).toUpperCase()}
+                        </Avatar>
+                        <Box sx={{ flex: 1 }}>
+                          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                            <Typography variant="subtitle2" sx={{ fontSize: '0.9rem' }}>
+                              {message.sender.name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.8rem' }}>
+                              {message.timestamp}
+                            </Typography>
+                          </Box>
+                          <Typography variant="body1" sx={{ whiteSpace: 'pre-line', fontSize: '0.9rem' }}>
+                            {message.message}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Box>
+                  ))}
+                </Box>
+                
+                {/* Reply Section */}
+                <Box sx={{ mt: 'auto', pt: 1.5, borderTop: '1px solid #e0e0e0' }}>
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={3}
+                    placeholder="Type your reply here..."
+                    variant="outlined"
+                    value={replyText}
+                    onChange={(e) => setReplyText(e.target.value)}
+                    sx={{ 
+                      mb: 1.5,
+                      '& .MuiOutlinedInput-root': {
+                        fontSize: '0.85rem',
+                      }
+                    }}
+                  />
+                  <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button
+                      variant="contained"
+                      endIcon={<SendIcon fontSize="small" />}
+                      onClick={handleReplySubmit}
+                      sx={{
+                        bgcolor: '#4ECDC4',
+                        '&:hover': { bgcolor: '#3dbdb5' },
+                        fontSize: '0.8rem',
+                        py: 0.75,
+                        px: 2
+                      }}
+                    >
+                      Send
+                    </Button>
                   </Box>
                 </Box>
-              ))}
-              
-              {/* Reply Section */}
-              <Box sx={{ mt: 'auto', pt: 1.5, borderTop: '1px solid #e0e0e0' }}>
-                <TextField
-                  fullWidth
-                  multiline
-                  rows={3}
-                  placeholder="Type your reply here..."
-                  variant="outlined"
-                  value={replyText}
-                  onChange={(e) => setReplyText(e.target.value)}
-                  sx={{ 
-                    mb: 1.5,
-                    '& .MuiOutlinedInput-root': {
-                      fontSize: '0.85rem',
-                    }
-                  }}
-                />
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Button
-                    variant="contained"
-                    endIcon={<SendIcon fontSize="small" />}
-                    onClick={handleReplySubmit}
-                    sx={{
-                      bgcolor: '#4ECDC4',
-                      '&:hover': { bgcolor: '#3dbdb5' },
-                      fontSize: '0.8rem',
-                      py: 0.75,
-                      px: 2
-                    }}
-                  >
-                    Send
-                  </Button>
-                </Box>
-              </Box>
-            </Box>
-          </Dialog>
-        )}
+              </Paper>
+            </Grid>
+          )}
+        </Grid>
         
         {/* Compose Message Dialog */}
         <Dialog 
