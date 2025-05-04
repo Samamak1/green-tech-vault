@@ -20,7 +20,8 @@ import {
   Tab,
   Chip,
   Avatar,
-  CircularProgress
+  CircularProgress,
+  Checkbox
 } from '@mui/material';
 import {
   ArrowBack as ArrowBackIcon,
@@ -195,7 +196,7 @@ const RGYNProfile = () => {
         </Typography>
 
         <Grid container spacing={2}>
-          <Grid item xs={12} md={5}>
+          <Grid item xs={12} md={4}>
             <Paper sx={{ borderRadius: 2, overflow: 'hidden', mb: 2 }}>
               <Box sx={{ 
                 display: 'flex',
@@ -298,20 +299,6 @@ const RGYNProfile = () => {
                       <Grid item xs={7}>
                         <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.industry}</Typography>
                       </Grid>
-
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Employees</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.employees}</Typography>
-                      </Grid>
-                      
-                      <Grid item xs={5}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Username</Typography>
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.username}</Typography>
-                      </Grid>
                     </Grid>
                   </Box>
                 </Box>
@@ -409,7 +396,7 @@ const RGYNProfile = () => {
             </Paper>
           </Grid>
           
-          <Grid item xs={12} md={7}>
+          <Grid item xs={12} md={8}>
             <Paper sx={{ p: 0, borderRadius: 2, overflow: 'hidden', mb: 2 }}>
               <Tabs
                 value={rightPanelTab}
@@ -503,7 +490,12 @@ const RGYNProfile = () => {
                   <Table stickyHeader size="small" sx={{ tableLayout: 'fixed' }}>
                     <TableHead>
                       <TableRow>
-                        <TableCell padding="checkbox" sx={{ bgcolor: '#f5f5f5', width: '20px' }}></TableCell>
+                        <TableCell padding="checkbox" sx={{ bgcolor: '#f5f5f5', width: '40px' }}>
+                          <Checkbox 
+                            size="small" 
+                            sx={{ p: 0.5 }}
+                          />
+                        </TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Client</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '12%' }}>Date</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Time</TableCell>
@@ -516,7 +508,12 @@ const RGYNProfile = () => {
                     <TableBody>
                       {mockPickups.map((pickup) => (
                         <TableRow key={pickup.id} sx={{ '&:hover': { bgcolor: '#f9f9f9' } }}>
-                          <TableCell padding="checkbox" sx={{ py: 0.5 }}></TableCell>
+                          <TableCell padding="checkbox" sx={{ py: 0.5 }}>
+                            <Checkbox 
+                              size="small" 
+                              sx={{ p: 0.5 }}
+                            />
+                          </TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{pickup.client}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{pickup.date}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{pickup.time}</TableCell>

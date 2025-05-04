@@ -478,7 +478,7 @@ const PickupCalendar = () => {
                 mb: 2, 
                 height: 'calc(100vh - 220px)', 
                 overflow: 'hidden', 
-                borderRadius: 8
+                borderRadius: 2
               }}>
                 <Calendar
                   localizer={localizer}
@@ -507,7 +507,7 @@ const PickupCalendar = () => {
               {/* Mini Calendar */}
               <Paper sx={{ 
                 p: 1.5, 
-                borderRadius: 8, 
+                borderRadius: 2, 
                 mb: 2 
               }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
@@ -629,7 +629,7 @@ const PickupCalendar = () => {
               {/* Calendars */}
               <Paper sx={{ 
                 p: 1.5, 
-                borderRadius: 8 
+                borderRadius: 2 
               }}>
                 <Typography variant="h6" sx={{ mb: 1.5, fontSize: '0.85rem', fontWeight: 500 }}>Calendars</Typography>
                 
