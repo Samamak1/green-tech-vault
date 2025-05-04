@@ -538,18 +538,392 @@ const AdminDashboard = () => {
           {tabValue === 0 && (
             <Box>
               {/* Clients tab content */}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                {/* Search and filter row */}
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <TextField
+                    placeholder="Search clients..."
+                    variant="outlined"
+                    size="small"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SearchIcon fontSize="small" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={{ 
+                      width: '240px', 
+                      mr: 2,
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: '8px',
+                      } 
+                    }}
+                  />
+                  <Button 
+                    variant="outlined" 
+                    startIcon={<FilterListIcon />}
+                    sx={{ 
+                      borderRadius: '8px', 
+                      color: '#666',
+                      borderColor: '#ddd'
+                    }}
+                  >
+                    Filter
+                  </Button>
+                </Box>
+                
+                <Button
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  onClick={() => handleOpenDialog()}
+                  sx={{ 
+                    bgcolor: '#4ECDC4', 
+                    '&:hover': { bgcolor: '#3BAA9C' },
+                    borderRadius: '8px'
+                  }}
+                >
+                  Add Client
+                </Button>
+              </Box>
+              
+              <TableContainer sx={{ maxHeight: 'calc(100vh - 380px)' }}>
+                <Table stickyHeader>
+                  <TableHead>
+                    <TableRow sx={{ 
+                      '& th': { 
+                        backgroundColor: '#f5f5f5',
+                        fontWeight: 'medium',
+                        color: '#666'
+                      } 
+                    }}>
+                      <TableCell>Company Name</TableCell>
+                      <TableCell>Contact Person</TableCell>
+                      <TableCell>Email</TableCell>
+                      <TableCell>Phone</TableCell>
+                      <TableCell align="right">Devices Collected</TableCell>
+                      <TableCell align="right">Total Weight (kg)</TableCell>
+                      <TableCell align="right">Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {clients.map((client) => (
+                      <TableRow key={client.id} hover>
+                        <TableCell
+                          sx={{ 
+                            cursor: 'pointer',
+                            color: '#1C392B',
+                            fontWeight: 500,
+                            '&:hover': { textDecoration: 'underline' }
+                          }}
+                          onClick={() => handleViewClient(client.id)}
+                        >
+                          {client.name}
+                        </TableCell>
+                        <TableCell>{client.contactPerson}</TableCell>
+                        <TableCell>{client.email}</TableCell>
+                        <TableCell>{client.phone}</TableCell>
+                        <TableCell align="right">{client.devicesCollected}</TableCell>
+                        <TableCell align="right">{client.totalWeight.toFixed(1)}</TableCell>
+                        <TableCell align="right">
+                          <IconButton 
+                            size="small" 
+                            onClick={() => handleViewClient(client.id)}
+                            sx={{ color: '#4ECDC4' }}
+                          >
+                            <VisibilityIcon fontSize="small" />
+                          </IconButton>
+                          <IconButton 
+                            size="small" 
+                            onClick={() => handleOpenDialog(client)}
+                            sx={{ color: '#4ECDC4' }}
+                          >
+                            <EditIcon fontSize="small" />
+                          </IconButton>
+                          <IconButton 
+                            size="small" 
+                            onClick={(e) => handleDeleteClient(client.id, e)}
+                            sx={{ color: '#666' }}
+                          >
+                            <DeleteIcon fontSize="small" />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </Box>
           )}
           
           {tabValue === 1 && (
             <Box>
               {/* Devices tab content */}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                {/* Search and filter row */}
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <TextField
+                    placeholder="Search devices..."
+                    variant="outlined"
+                    size="small"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SearchIcon fontSize="small" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={{ 
+                      width: '240px', 
+                      mr: 2,
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: '8px',
+                      } 
+                    }}
+                  />
+                  <Button 
+                    variant="outlined" 
+                    startIcon={<FilterListIcon />}
+                    sx={{ 
+                      borderRadius: '8px', 
+                      color: '#666',
+                      borderColor: '#ddd'
+                    }}
+                  >
+                    Filter
+                  </Button>
+                </Box>
+                
+                <Button
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  onClick={() => alert('Add device functionality would go here')}
+                  sx={{ 
+                    bgcolor: '#4ECDC4', 
+                    '&:hover': { bgcolor: '#3BAA9C' },
+                    borderRadius: '8px'
+                  }}
+                >
+                  Add Device
+                </Button>
+              </Box>
+              
+              <TableContainer sx={{ maxHeight: 'calc(100vh - 380px)' }}>
+                <Table stickyHeader>
+                  <TableHead>
+                    <TableRow sx={{ 
+                      '& th': { 
+                        backgroundColor: '#f5f5f5',
+                        fontWeight: 'medium',
+                        color: '#666'
+                      } 
+                    }}>
+                      <TableCell>Client</TableCell>
+                      <TableCell>Type</TableCell>
+                      <TableCell>Manufacturer</TableCell>
+                      <TableCell>Model</TableCell>
+                      <TableCell>Serial Number</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell align="right">Weight (kg)</TableCell>
+                      <TableCell align="right">Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {devices.map((device) => (
+                      <TableRow key={device.id} hover>
+                        <TableCell>{device.clientName}</TableCell>
+                        <TableCell
+                          sx={{ 
+                            cursor: 'pointer',
+                            color: '#1C392B',
+                            fontWeight: 500,
+                            '&:hover': { textDecoration: 'underline' }
+                          }}
+                          onClick={() => navigate(`/admin/devices/${device.id}`)}
+                        >
+                          {device.type}
+                        </TableCell>
+                        <TableCell>{device.manufacturer}</TableCell>
+                        <TableCell>{device.model}</TableCell>
+                        <TableCell>{device.serialNumber}</TableCell>
+                        <TableCell>
+                          <Chip 
+                            label={device.status} 
+                            color={
+                              device.status === 'Refurbished' ? 'success' :
+                              device.status === 'Recycled' ? 'primary' :
+                              device.status === 'In Processing' ? 'warning' :
+                              'default'
+                            }
+                            size="small"
+                            sx={{ fontWeight: 500 }}
+                          />
+                        </TableCell>
+                        <TableCell align="right">{device.weight.toFixed(1)}</TableCell>
+                        <TableCell align="right">
+                          <IconButton 
+                            size="small" 
+                            onClick={() => navigate(`/admin/devices/${device.id}`)}
+                            sx={{ color: '#4ECDC4' }}
+                          >
+                            <VisibilityIcon fontSize="small" />
+                          </IconButton>
+                          <IconButton 
+                            size="small" 
+                            onClick={() => alert(`Edit device ${device.id}`)}
+                            sx={{ color: '#4ECDC4' }}
+                          >
+                            <EditIcon fontSize="small" />
+                          </IconButton>
+                          <IconButton 
+                            size="small" 
+                            onClick={(e) => handleDeleteDevice(device.id, e)}
+                            sx={{ color: '#666' }}
+                          >
+                            <DeleteIcon fontSize="small" />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </Box>
           )}
           
           {tabValue === 2 && (
             <Box>
               {/* Pickups tab content */}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                {/* Search and filter row */}
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <TextField
+                    placeholder="Search pickups..."
+                    variant="outlined"
+                    size="small"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SearchIcon fontSize="small" />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={{ 
+                      width: '240px', 
+                      mr: 2,
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: '8px',
+                      } 
+                    }}
+                  />
+                  <Button 
+                    variant="outlined" 
+                    startIcon={<FilterListIcon />}
+                    sx={{ 
+                      borderRadius: '8px', 
+                      color: '#666',
+                      borderColor: '#ddd'
+                    }}
+                  >
+                    Filter
+                  </Button>
+                </Box>
+                
+                <Button
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  onClick={() => navigate('/schedule-pickup')}
+                  sx={{ 
+                    bgcolor: '#4ECDC4', 
+                    '&:hover': { bgcolor: '#3BAA9C' },
+                    borderRadius: '8px'
+                  }}
+                >
+                  Schedule Pickup
+                </Button>
+              </Box>
+              
+              <TableContainer sx={{ maxHeight: 'calc(100vh - 380px)' }}>
+                <Table stickyHeader>
+                  <TableHead>
+                    <TableRow sx={{ 
+                      '& th': { 
+                        backgroundColor: '#f5f5f5',
+                        fontWeight: 'medium',
+                        color: '#666'
+                      } 
+                    }}>
+                      <TableCell>Client</TableCell>
+                      <TableCell>Date</TableCell>
+                      <TableCell>Location</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell align="right">Devices</TableCell>
+                      <TableCell align="right">Weight (kg)</TableCell>
+                      <TableCell align="right">Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {pickups.map((pickup) => (
+                      <TableRow key={pickup.id} hover>
+                        <TableCell>{pickup.clientName}</TableCell>
+                        <TableCell
+                          sx={{ 
+                            cursor: 'pointer',
+                            color: '#1C392B',
+                            fontWeight: 500,
+                            '&:hover': { textDecoration: 'underline' }
+                          }}
+                          onClick={() => navigate(`/admin/pickups/${pickup.id}`)}
+                        >
+                          {pickup.date}
+                        </TableCell>
+                        <TableCell>{pickup.location}</TableCell>
+                        <TableCell>
+                          <Chip 
+                            label={pickup.status} 
+                            color={
+                              pickup.status === 'completed' ? 'success' :
+                              pickup.status === 'scheduled' ? 'primary' :
+                              pickup.status === 'in-progress' ? 'warning' :
+                              'default'
+                            }
+                            size="small"
+                            sx={{ 
+                              textTransform: 'capitalize',
+                              fontWeight: 500
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell align="right">{pickup.devices}</TableCell>
+                        <TableCell align="right">{pickup.weight.toFixed(1)}</TableCell>
+                        <TableCell align="right">
+                          <IconButton 
+                            size="small" 
+                            onClick={() => navigate(`/admin/pickups/${pickup.id}`)}
+                            sx={{ color: '#4ECDC4' }}
+                          >
+                            <VisibilityIcon fontSize="small" />
+                          </IconButton>
+                          <IconButton 
+                            size="small" 
+                            onClick={() => alert(`Edit pickup ${pickup.id}`)}
+                            sx={{ color: '#4ECDC4' }}
+                          >
+                            <EditIcon fontSize="small" />
+                          </IconButton>
+                          <IconButton 
+                            size="small" 
+                            onClick={(e) => handleDeletePickup(pickup.id, e)}
+                            sx={{ color: '#666' }}
+                          >
+                            <DeleteIcon fontSize="small" />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </Box>
           )}
         </Paper>

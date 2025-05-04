@@ -38,6 +38,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import AdminLayout from '../components/layout/AdminLayout';
+import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
 // Custom CSS for calendar scaling
 const calendarStyles = {
@@ -1103,15 +1104,10 @@ const AdminPickupCalendar = () => {
   };
 
   return (
-    <Box sx={{ 
-      pl: 3, // Left padding to ensure content is properly aligned
-      pr: 3, // Right padding
-      pt: 3, // Top padding
-      pb: 3, // Bottom padding
-      ml: 0, // No left margin needed since we'll use padding
-      mr: 0 // No right margin
-    }}>
-      {renderCalendarContent()}
+    <Box sx={getContentContainerStyle()} data-boundary="true">
+      <Box sx={getContentWrapperStyle()}>
+        {renderCalendarContent()}
+      </Box>
     </Box>
   );
 };

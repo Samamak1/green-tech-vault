@@ -46,6 +46,7 @@ import { pickupAPI, deviceAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { formatDate } from '../utils/formatters';
 import AdminLayout from '../components/layout/AdminLayout';
+import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
 const pickupStatuses = [
   'scheduled',
@@ -956,11 +957,11 @@ const AdminPickupDetail = () => {
   };
 
   return (
-    <AdminLayout>
-      <Box sx={{ py: 3, px: 3 }}>
+    <Box sx={getContentContainerStyle()} data-boundary="true">
+      <Box sx={getContentWrapperStyle()}>
         {renderPickupContent()}
       </Box>
-    </AdminLayout>
+    </Box>
   );
 };
 

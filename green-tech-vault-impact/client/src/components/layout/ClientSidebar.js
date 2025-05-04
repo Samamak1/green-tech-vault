@@ -69,7 +69,7 @@ const ClientSidebar = () => {
     {
       text: 'Schedule Pickup',
       icon: <AccessTimeIcon sx={{ color: '#fff' }} />,
-      path: '/dashboard/schedule-pickup',
+      path: '/schedule-pickup',
     },
   ];
 

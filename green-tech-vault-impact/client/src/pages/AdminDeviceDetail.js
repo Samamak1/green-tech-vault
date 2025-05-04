@@ -15,6 +15,7 @@ import {
   Upload as UploadIcon
 } from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
+import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
 const AdminDeviceDetail = () => {
   const { deviceId } = useParams();
@@ -90,163 +91,165 @@ const AdminDeviceDetail = () => {
   }
 
   return (
-    <AdminLayout>
-      <Box sx={{ p: 3 }}>
-        {/* Header with back button */}
-        <Box sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
-          <Button 
-            startIcon={<ArrowBackIcon />} 
-            onClick={handleGoBack}
-            sx={{ color: '#888', fontSize: '0.9rem', fontWeight: 'normal', textTransform: 'none' }}
-          >
-            Back to Dashboard
-          </Button>
-          <Typography variant="h6" sx={{ ml: 2, color: '#444', fontWeight: 500 }}>
-            Device Details
+    <Box sx={getContentContainerStyle()} data-boundary="true">
+      <Box sx={getContentWrapperStyle()}>
+        <Box sx={{ p: 3 }}>
+          {/* Header with back button */}
+          <Box sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
+            <Button 
+              startIcon={<ArrowBackIcon />} 
+              onClick={handleGoBack}
+              sx={{ color: '#888', fontSize: '0.9rem', fontWeight: 'normal', textTransform: 'none' }}
+            >
+              Back to Dashboard
+            </Button>
+            <Typography variant="h6" sx={{ ml: 2, color: '#444', fontWeight: 500 }}>
+              Device Details
+            </Typography>
+          </Box>
+
+          <Typography variant="h5" sx={{ mb: 3 }}>
+            Details
           </Typography>
-        </Box>
 
-        <Typography variant="h5" sx={{ mb: 3 }}>
-          Details
-        </Typography>
-
-        <Paper sx={{ p: 4, borderRadius: 2 }}>
-          <Grid container spacing={4}>
-            {/* Left column - Device Image */}
-            <Grid item xs={12} md={3}>
-              <Box 
-                sx={{ 
-                  border: '2px dashed #ccc', 
-                  borderRadius: 2,
-                  height: 220,
-                  width: 220,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  position: 'relative',
-                  overflow: 'hidden'
-                }}
-              >
-                {imagePreview ? (
-                  <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
-                    <img 
-                      src={imagePreview} 
-                      alt="Device" 
-                      style={{ 
-                        width: '100%', 
-                        height: '100%', 
-                        objectFit: 'contain' 
-                      }} 
-                    />
-                    <IconButton 
-                      sx={{ 
-                        position: 'absolute', 
-                        top: 8, 
-                        right: 8, 
-                        backgroundColor: 'rgba(255,255,255,0.8)',
-                        '&:hover': {
-                          backgroundColor: 'rgba(255,255,255,0.9)'
-                        }
-                      }}
-                      onClick={() => {
-                        setImage(null);
-                        setImagePreview(null);
-                      }}
-                    >
-                      <EditIcon fontSize="small" />
-                    </IconButton>
-                  </Box>
-                ) : (
-                  <>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      id="device-image-upload"
-                      style={{ display: 'none' }}
-                      onChange={handleFileChange}
-                    />
-                    <label htmlFor="device-image-upload">
-                      <Button
-                        component="span"
-                        variant="outlined"
-                        startIcon={<UploadIcon />}
+          <Paper sx={{ p: 4, borderRadius: 2 }}>
+            <Grid container spacing={4}>
+              {/* Left column - Device Image */}
+              <Grid item xs={12} md={3}>
+                <Box 
+                  sx={{ 
+                    border: '2px dashed #ccc', 
+                    borderRadius: 2,
+                    height: 220,
+                    width: 220,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}
+                >
+                  {imagePreview ? (
+                    <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
+                      <img 
+                        src={imagePreview} 
+                        alt="Device" 
+                        style={{ 
+                          width: '100%', 
+                          height: '100%', 
+                          objectFit: 'contain' 
+                        }} 
+                      />
+                      <IconButton 
                         sx={{ 
-                          color: '#888', 
-                          borderColor: '#ccc',
-                          '&:hover': { 
-                            borderColor: '#4ECDC4', 
-                            color: '#4ECDC4'
+                          position: 'absolute', 
+                          top: 8, 
+                          right: 8, 
+                          backgroundColor: 'rgba(255,255,255,0.8)',
+                          '&:hover': {
+                            backgroundColor: 'rgba(255,255,255,0.9)'
                           }
                         }}
+                        onClick={() => {
+                          setImage(null);
+                          setImagePreview(null);
+                        }}
                       >
-                        Upload Image
-                      </Button>
-                    </label>
-                  </>
-                )}
-              </Box>
-            </Grid>
+                        <EditIcon fontSize="small" />
+                      </IconButton>
+                    </Box>
+                  ) : (
+                    <>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        id="device-image-upload"
+                        style={{ display: 'none' }}
+                        onChange={handleFileChange}
+                      />
+                      <label htmlFor="device-image-upload">
+                        <Button
+                          component="span"
+                          variant="outlined"
+                          startIcon={<UploadIcon />}
+                          sx={{ 
+                            color: '#888', 
+                            borderColor: '#ccc',
+                            '&:hover': { 
+                              borderColor: '#4ECDC4', 
+                              color: '#4ECDC4'
+                            }
+                          }}
+                        >
+                          Upload Image
+                        </Button>
+                      </label>
+                    </>
+                  )}
+                </Box>
+              </Grid>
 
-            {/* Right column - Device Details */}
-            <Grid item xs={12} md={9}>
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={6} md={4}>
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Device Type:
-                  </Typography>
-                  <Typography variant="body1" fontWeight={500}>
-                    {device.type}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Manufacturer:
-                  </Typography>
-                  <Typography variant="body1" fontWeight={500}>
-                    {device.manufacturer}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Model:
-                  </Typography>
-                  <Typography variant="body1" fontWeight={500}>
-                    {device.model}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Serial Number:
-                  </Typography>
-                  <Typography variant="body1" fontWeight={500}>
-                    {device.serialNumber}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Status:
-                  </Typography>
-                  <Chip 
-                    label={device.status} 
-                    size="small" 
-                    sx={getStatusChipStyle(device.status)}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Weight:
-                  </Typography>
-                  <Typography variant="body1" fontWeight={500}>
-                    {device.weight}kg
-                  </Typography>
+              {/* Right column - Device Details */}
+              <Grid item xs={12} md={9}>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      Device Type:
+                    </Typography>
+                    <Typography variant="body1" fontWeight={500}>
+                      {device.type}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      Manufacturer:
+                    </Typography>
+                    <Typography variant="body1" fontWeight={500}>
+                      {device.manufacturer}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      Model:
+                    </Typography>
+                    <Typography variant="body1" fontWeight={500}>
+                      {device.model}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      Serial Number:
+                    </Typography>
+                    <Typography variant="body1" fontWeight={500}>
+                      {device.serialNumber}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      Status:
+                    </Typography>
+                    <Chip 
+                      label={device.status} 
+                      size="small" 
+                      sx={getStatusChipStyle(device.status)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      Weight:
+                    </Typography>
+                    <Typography variant="body1" fontWeight={500}>
+                      {device.weight}kg
+                    </Typography>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        </Paper>
+          </Paper>
+        </Box>
       </Box>
-    </AdminLayout>
+    </Box>
   );
 };
 
