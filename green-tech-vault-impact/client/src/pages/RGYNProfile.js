@@ -29,7 +29,11 @@ import {
   Search as SearchIcon,
   FilterList as FilterListIcon,
   Visibility as VisibilityIcon,
-  Delete as DeleteIcon
+  Delete as DeleteIcon,
+  RemoveRedEye as EyeIcon,
+  MoreVert as MoreVertIcon,
+  InsertDriveFile as DocumentIcon,
+  Print as PrintIcon
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
@@ -176,6 +180,19 @@ const RGYNProfile = () => {
     }
   };
 
+  // Add mock RGYNeco contact information
+  const rgynContactInfo = {
+    fullName: "Sarah Johnson",
+    jobTitle: "RGYN Coordinator",
+    email: "sarah.johnson@rgyneco.com",
+    phone: "(555) 987-6543",
+    date: "05/15/2025",
+    time: "10:00 AM",
+    location: "Cincinnati Main Office",
+    status: "Scheduled",
+    totalWeight: "15.7 kg"
+  };
+
   if (loading) {
     return (
       <Box sx={getContentContainerStyle()} data-boundary="true">
@@ -226,10 +243,25 @@ const RGYNProfile = () => {
                     borderBottom: leftPanelTab === 'Environmental Impact' ? '3px solid #4ECDC4' : 'none',
                     color: leftPanelTab === 'Environmental Impact' ? '#4ECDC4' : '#808080',
                     fontWeight: 400,
-                    fontSize: '14px'
+                    fontSize: '14px',
+                    mr: 2
                   }}
                 >
                   Environmental Impact
+                </Box>
+                <Box 
+                  onClick={() => handleLeftPanelTabChange('Pickup Information')}
+                  sx={{ 
+                    p: 1.5,
+                    pb: 1,
+                    cursor: 'pointer',
+                    borderBottom: leftPanelTab === 'Pickup Information' ? '3px solid #4ECDC4' : 'none',
+                    color: leftPanelTab === 'Pickup Information' ? '#4ECDC4' : '#808080',
+                    fontWeight: 400,
+                    fontSize: '14px'
+                  }}
+                >
+                  Pickup Information
                 </Box>
               </Box>
 
@@ -393,6 +425,87 @@ const RGYNProfile = () => {
                   </Grid>
                 </Box>
               )}
+              
+              {leftPanelTab === 'Pickup Information' && (
+                <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
+                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
+                    RGYNeco Contact Information
+                  </Typography>
+                  <Divider sx={{ mb: 2 }} />
+                  
+                  <Grid container spacing={1}>
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Full Name</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.fullName}</Typography>
+                    </Grid>
+                    
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Job Title</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.jobTitle}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Email</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.email}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Phone</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.phone}</Typography>
+                    </Grid>
+                  </Grid>
+                  
+                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mt: 3, mb: 1, fontSize: '0.95rem' }}>
+                    Pickup Details
+                  </Typography>
+                  <Divider sx={{ mb: 2 }} />
+                  
+                  <Grid container spacing={1}>
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Date</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.date}</Typography>
+                    </Grid>
+                    
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Time</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.time}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Location</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.location}</Typography>
+                    </Grid>
+
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Status</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.status}</Typography>
+                    </Grid>
+                    
+                    <Grid item xs={5}>
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Total Weight</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.totalWeight}</Typography>
+                    </Grid>
+                  </Grid>
+                </Box>
+              )}
             </Paper>
           </Grid>
           
@@ -496,7 +609,7 @@ const RGYNProfile = () => {
                             sx={{ p: 0.5 }}
                           />
                         </TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Client</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>RGYN Contact</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '12%' }}>Date</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Time</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '18%' }}>Location</TableCell>
@@ -533,12 +646,46 @@ const RGYNProfile = () => {
                           </TableCell>
                           <TableCell align="right" sx={{ fontSize: '0.75rem', py: 0.5 }}>{pickup.weight}</TableCell>
                           <TableCell sx={{ py: 0.5 }}>
-                            <IconButton size="small" sx={{ p: 0.3 }}>
-                              <EditIcon sx={{ color: '#4ECDC4', fontSize: '16px' }} />
-                            </IconButton>
-                            <IconButton size="small" sx={{ p: 0.3 }}>
-                              <DeleteIcon sx={{ color: '#f44336', fontSize: '16px' }} />
-                            </IconButton>
+                            <Box sx={{ display: 'flex' }}>
+                              <IconButton 
+                                size="small" 
+                                sx={{ 
+                                  p: 0.3, 
+                                  color: '#1C392B',
+                                  bgcolor: 'rgba(28, 57, 43, 0.05)',
+                                  mr: 0.5,
+                                  '&:hover': { bgcolor: 'rgba(28, 57, 43, 0.1)' }
+                                }}
+                                title="View"
+                              >
+                                <EyeIcon sx={{ fontSize: '16px' }} />
+                              </IconButton>
+                              <IconButton 
+                                size="small" 
+                                sx={{ 
+                                  p: 0.3, 
+                                  color: '#4ECDC4', 
+                                  bgcolor: 'rgba(78, 205, 196, 0.05)',
+                                  mr: 0.5,
+                                  '&:hover': { bgcolor: 'rgba(78, 205, 196, 0.1)' }
+                                }}
+                                title="Edit"
+                              >
+                                <EditIcon sx={{ fontSize: '16px' }} />
+                              </IconButton>
+                              <IconButton 
+                                size="small" 
+                                sx={{ 
+                                  p: 0.3, 
+                                  color: '#f44336', 
+                                  bgcolor: 'rgba(244, 67, 54, 0.05)',
+                                  '&:hover': { bgcolor: 'rgba(244, 67, 54, 0.1)' }
+                                }}
+                                title="Delete"
+                              >
+                                <DeleteIcon sx={{ fontSize: '16px' }} />
+                              </IconButton>
+                            </Box>
                           </TableCell>
                         </TableRow>
                       ))}
@@ -552,20 +699,30 @@ const RGYNProfile = () => {
                   <Table stickyHeader size="small" sx={{ tableLayout: 'fixed' }}>
                     <TableHead>
                       <TableRow>
-                        <TableCell padding="checkbox" sx={{ bgcolor: '#f5f5f5', width: '20px' }}></TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '12%' }}>Type</TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Manufacturer</TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Model</TableCell>
+                        <TableCell padding="checkbox" sx={{ bgcolor: '#f5f5f5', width: '40px' }}>
+                          <Checkbox 
+                            size="small" 
+                            sx={{ p: 0.5 }}
+                          />
+                        </TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Type</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '14%' }}>Manufacturer</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '14%' }}>Model</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Serial Number</TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '12%' }}>Status</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Status</TableCell>
                         <TableCell align="right" sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Weight (kg)</TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Actions</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Actions</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {mockDevices.map((device) => (
                         <TableRow key={device.id} sx={{ '&:hover': { bgcolor: '#f9f9f9' } }}>
-                          <TableCell padding="checkbox" sx={{ py: 0.5 }}></TableCell>
+                          <TableCell padding="checkbox" sx={{ py: 0.5 }}>
+                            <Checkbox 
+                              size="small" 
+                              sx={{ p: 0.5 }}
+                            />
+                          </TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{device.type}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{device.manufacturer}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{device.model}</TableCell>
@@ -573,9 +730,46 @@ const RGYNProfile = () => {
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{device.status}</TableCell>
                           <TableCell align="right" sx={{ fontSize: '0.75rem', py: 0.5 }}>{device.weight}</TableCell>
                           <TableCell sx={{ py: 0.5 }}>
-                            <IconButton size="small" sx={{ p: 0.3 }}>
-                              <VisibilityIcon sx={{ color: '#4ECDC4', fontSize: '16px' }} />
-                            </IconButton>
+                            <Box sx={{ display: 'flex' }}>
+                              <IconButton 
+                                size="small" 
+                                sx={{ 
+                                  p: 0.3, 
+                                  color: '#1C392B',
+                                  bgcolor: 'rgba(28, 57, 43, 0.05)',
+                                  mr: 0.5,
+                                  '&:hover': { bgcolor: 'rgba(28, 57, 43, 0.1)' }
+                                }}
+                                title="View"
+                              >
+                                <EyeIcon sx={{ fontSize: '16px' }} />
+                              </IconButton>
+                              <IconButton 
+                                size="small" 
+                                sx={{ 
+                                  p: 0.3, 
+                                  color: '#009688',
+                                  bgcolor: 'rgba(0, 150, 136, 0.05)',
+                                  mr: 0.5,
+                                  '&:hover': { bgcolor: 'rgba(0, 150, 136, 0.1)' }
+                                }}
+                                title="Report"
+                              >
+                                <DocumentIcon sx={{ fontSize: '16px' }} />
+                              </IconButton>
+                              <IconButton 
+                                size="small" 
+                                sx={{ 
+                                  p: 0.3,
+                                  color: '#2196f3',
+                                  bgcolor: 'rgba(33, 150, 243, 0.05)',
+                                  '&:hover': { bgcolor: 'rgba(33, 150, 243, 0.1)' }
+                                }}
+                                title="Print"
+                              >
+                                <PrintIcon sx={{ fontSize: '16px' }} />
+                              </IconButton>
+                            </Box>
                           </TableCell>
                         </TableRow>
                       ))}

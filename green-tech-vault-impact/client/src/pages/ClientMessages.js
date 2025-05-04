@@ -367,516 +367,404 @@ const ClientMessages = () => {
       <Box sx={getContentWrapperStyle()}>
         <Typography variant="h6" sx={{ mb: 2, fontWeight: 500, fontSize: '1rem' }}>Messages</Typography>
         
-        <Grid container spacing={2}>
-          {/* Messages List */}
-          <Grid item xs={12} md={isExpanded ? 4 : 12}>
-            <Paper sx={{ height: '75vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-              {/* Compose Button */}
-              <Box sx={{ p: 1.5 }}>
-                <Button
-                  variant="contained"
-                  onClick={handleComposeOpen}
-                  startIcon={<PencilIcon fontSize="small" />}
-                  sx={{
-                    bgcolor: '#4ECDC4',
-                    '&:hover': { bgcolor: '#3dbdb5' },
-                    borderRadius: '4px',
-                    py: 0.75,
-                    px: 2,
-                    textTransform: 'none',
-                    width: 'auto',
-                    alignSelf: 'flex-start',
-                    fontSize: '0.8rem',
-                  }}
-                >
-                  Compose
-                </Button>
-              </Box>
-              
-              {/* Search and Filter */}
-              <Box sx={{ px: 1.5, pb: 1.5, display: 'flex', alignItems: 'center' }}>
-                <Box sx={{ 
-                  display: 'flex',
-                  alignItems: 'center',
-                  border: '1px solid #e0e0e0',
-                  borderRadius: '4px',
-                  px: 1,
-                  py: 0.3,
-                  mr: 1,
-                  flex: 1,
-                  height: '28px',
-                }}>
-                  <SearchIcon sx={{ color: '#aaa', mr: 0.5, fontSize: '1rem' }} />
-                  <InputBase 
-                    placeholder="Search here" 
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    sx={{ fontSize: '0.8rem', width: '100%' }}
-                  />
-                </Box>
-                <Button
-                  onClick={handleFilterClick}
-                  endIcon={<DropdownIcon fontSize="small" />}
-                  size="small"
-                  sx={{ 
-                    border: '1px solid #e0e0e0',
-                    color: '#555',
-                    textTransform: 'none',
-                    px: 1.5,
-                    py: 0.4,
-                    fontSize: '0.8rem',
-                    height: '28px',
-                    minWidth: '60px',
-                  }}
-                >
-                  {filter}
-                </Button>
-                <Menu
-                  anchorEl={filterAnchorEl}
-                  open={Boolean(filterAnchorEl)}
-                  onClose={handleFilterClose}
-                >
-                  <MenuItem onClick={() => handleFilterSelect('All')}>
-                    <ListItemText primaryTypographyProps={{ fontSize: '0.8rem' }}>All</ListItemText>
-                  </MenuItem>
-                  <MenuItem onClick={() => handleFilterSelect('Unread')}>
-                    <ListItemText primaryTypographyProps={{ fontSize: '0.8rem' }}>Unread</ListItemText>
-                  </MenuItem>
-                  <MenuItem onClick={() => handleFilterSelect('Sent')}>
-                    <ListItemText primaryTypographyProps={{ fontSize: '0.8rem' }}>Sent</ListItemText>
-                  </MenuItem>
-                </Menu>
-              </Box>
-              
-              {/* Message List */}
-              <Box sx={{ 
-                flex: 1, 
-                overflow: 'auto', 
-                backgroundColor: '#f9f9f9',
-                scrollbarWidth: 'thin',
-                scrollbarColor: 'rgba(0,0,0,0.1) rgba(0,0,0,0.03)',
-                '&::-webkit-scrollbar': {
-                  width: '12px',
-                  position: 'absolute',
-                  right: 0
-                },
-                '&::-webkit-scrollbar-thumb': {
-                  backgroundColor: 'rgba(0,0,0,0.1)',
-                  borderRadius: '6px',
-                },
-                '&::-webkit-scrollbar-track': {
-                  backgroundColor: 'rgba(0,0,0,0.03)',
-                },
-              }}>
-                <List disablePadding>
-                  {filteredMessages.map((message) => (
-                    <ListItem 
-                      key={message.id}
-                      alignItems="flex-start"
-                      disablePadding
-                      sx={{ 
-                        p: 0,
-                        borderBottom: '1px solid #eee',
-                        bgcolor: selectedMessage?.id === message.id ? '#f0f0f0' : message.read ? 'white' : '#fafafa',
-                        cursor: 'pointer',
-                        '&:hover': { bgcolor: '#f5f5f5' },
-                        position: 'relative'
-                      }}
-                      onClick={() => handleMessageSelect(message)}
-                    >
-                      {!message.read && (
-                        <Box 
-                          sx={{ 
-                            position: 'absolute',
-                            left: 0,
-                            top: 0, 
-                            bottom: 0,
-                            width: '3px',
-                            bgcolor: '#ff5722'
-                          }} 
-                        />
-                      )}
-                      
-                      <Box sx={{ display: 'flex', width: '100%', p: 1 }}>
-                        <Box sx={{ mr: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                          <Checkbox 
-                            size="small" 
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleCheckboxChange(message.id);
-                            }}
-                            checked={selectedMessages.includes(message.id)}
-                            sx={{ padding: '2px' }}
-                          />
-                          <IconButton 
-                            size="small" 
-                            sx={{ p: 0.2, mt: 0.3 }}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              const updatedMessages = messages.map(msg =>
-                                msg.id === message.id ? { ...msg, starred: !msg.starred } : msg
-                              );
-                              setMessages(updatedMessages);
-                            }}
-                          >
-                            {message.starred ? (
-                              <StarIcon sx={{ fontSize: '0.85rem', color: '#FFB400' }} />
-                            ) : (
-                              <StarBorderIcon sx={{ fontSize: '0.85rem', color: '#999' }} />
-                            )}
-                          </IconButton>
-                        </Box>
-                        
-                        <Box sx={{ flex: 1, overflow: 'hidden' }}>
-                          <Box sx={{ display: 'flex', alignItems: 'baseline', mb: 0.3 }}>
-                            <Typography 
-                              variant="subtitle2" 
-                              sx={{ 
-                                fontWeight: message.read ? 'normal' : 'bold', 
-                                color: '#000',
-                                mr: 1,
-                                whiteSpace: 'nowrap',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                fontSize: '0.75rem'
-                              }}
-                            >
-                              {message.subject}
-                            </Typography>
-                            
-                            <Typography 
-                              variant="body2" 
-                              sx={{ 
-                                color: '#777',
-                                fontSize: '0.7rem',
-                                whiteSpace: 'nowrap'
-                              }}
-                            >
-                              {message.sender.name}
-                            </Typography>
-                          </Box>
-                          
-                          <Typography 
-                            variant="body2" 
-                            sx={{ 
-                              color: '#666',
-                              whiteSpace: 'nowrap',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              fontSize: '0.7rem'
-                            }}
-                          >
-                            {message.message.split('\n')[0]}
-                          </Typography>
-                        </Box>
-                        
-                        <Box sx={{ ml: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                          {!message.read && (
-                            <Box 
-                              sx={{ 
-                                width: 6, 
-                                height: 6, 
-                                borderRadius: '50%', 
-                                bgcolor: '#E76F51',
-                                mb: 0.3
-                              }} 
-                            />
-                          )}
-                          
-                          <Typography 
-                            variant="caption" 
-                            sx={{ 
-                              fontSize: '0.65rem', 
-                              color: '#666',
-                              mb: 0.3,
-                              whiteSpace: 'nowrap'
-                            }}
-                          >
-                            {message.timestamp.split(' at ')[0]}
-                          </Typography>
-                          
-                          <Typography 
-                            variant="caption" 
-                            sx={{ 
-                              fontSize: '0.65rem', 
-                              color: '#666',
-                              whiteSpace: 'nowrap'
-                            }}
-                          >
-                            {message.timestamp.split(' at ')[1] || ''}
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </ListItem>
-                  ))}
-                  
-                  {filteredMessages.length === 0 && (
-                    <Box sx={{ p: 2, textAlign: 'center' }}>
-                      <Typography variant="body1" color="text.secondary" sx={{ fontSize: '0.8rem' }}>
-                        No messages found
-                      </Typography>
-                    </Box>
-                  )}
-                </List>
-              </Box>
-            </Paper>
-          </Grid>
+        {/* Top Controls: Button, Search, and Filter */}
+        <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Button
+            variant="contained"
+            onClick={handleComposeOpen}
+            startIcon={<PencilIcon fontSize="small" />}
+            sx={{
+              bgcolor: '#4ECDC4',
+              '&:hover': { bgcolor: '#3dbdb5' },
+              borderRadius: '4px',
+              py: 0.75,
+              px: 2,
+              textTransform: 'none',
+              fontSize: '0.8rem',
+            }}
+          >
+            Compose
+          </Button>
           
-          {/* Message Content */}
-          {isExpanded && (
-          <Grid item xs={12} md={8}>
-            {selectedMessage ? (
-              <Paper sx={{ p: 2, height: '75vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
-                {/* Close button */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            {/* Search bar - aligned right side */}
+            <Box sx={{ 
+              display: 'flex',
+              alignItems: 'center',
+              border: '1px solid #e0e0e0',
+              borderRadius: '4px',
+              px: 1.5,
+              py: 0.5,
+              height: 32,
+              width: '250px'
+            }}>
+              <SearchIcon sx={{ color: '#aaa', mr: 1, fontSize: '1.2rem' }} />
+              <InputBase 
+                placeholder="Search here" 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                sx={{ fontSize: '0.9rem', width: '100%' }}
+              />
+            </Box>
+            
+            {/* Filter dropdown */}
+            <Button
+              onClick={handleFilterClick}
+              endIcon={<DropdownIcon />}
+              size="small"
+              sx={{ 
+                border: '1px solid #e0e0e0',
+                color: '#555',
+                textTransform: 'none',
+                px: 2,
+                py: 0.5,
+                height: 32,
+                minWidth: '80px'
+              }}
+            >
+              {filter}
+            </Button>
+            <Menu
+              anchorEl={filterAnchorEl}
+              open={Boolean(filterAnchorEl)}
+              onClose={handleFilterClose}
+            >
+              <MenuItem onClick={() => handleFilterSelect('All')}>
+                <ListItemText primaryTypographyProps={{ fontSize: '0.8rem' }}>All</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={() => handleFilterSelect('Unread')}>
+                <ListItemText primaryTypographyProps={{ fontSize: '0.8rem' }}>Unread</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={() => handleFilterSelect('Sent')}>
+                <ListItemText primaryTypographyProps={{ fontSize: '0.8rem' }}>Sent</ListItemText>
+              </MenuItem>
+            </Menu>
+          </Box>
+        </Box>
+        
+        {/* Messages List - styled like Announcements page */}
+        <Paper sx={{ 
+          bgcolor: 'white', 
+          borderRadius: 1, 
+          overflow: 'hidden',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+        }}>
+          {filteredMessages.length > 0 ? (
+            filteredMessages.map((message) => (
+              <Box 
+                key={message.id} 
+                onClick={() => handleMessageSelect(message)}
+                sx={{ 
+                  position: 'relative',
+                  py: 1.5,
+                  px: 2,
+                  borderBottom: '1px solid #eee',
+                  '&:last-child': { borderBottom: 'none' },
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  bgcolor: selectedMessage?.id === message.id ? '#f0f0f0' : message.read ? 'transparent' : '#fafafa',
+                  cursor: 'pointer',
+                  '&:hover': { bgcolor: '#f5f5f5' }
+                }}
+              >
+                {/* Unread indicator */}
+                {!message.read && (
+                  <Box 
+                    sx={{ 
+                      position: 'absolute',
+                      left: 0,
+                      top: 0, 
+                      bottom: 0,
+                      width: '4px',
+                      bgcolor: '#ff5722'
+                    }} 
+                  />
+                )}
+                
+                {/* Checkbox */}
+                <Checkbox 
+                  size="small" 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCheckboxChange(message.id);
+                  }}
+                  checked={selectedMessages.includes(message.id)}
+                  sx={{ p: 0.5, mr: 1 }}
+                />
+                
+                {/* Star */}
                 <IconButton 
-                  onClick={handleCloseMessage}
-                  sx={{ 
-                    position: 'absolute',
-                    top: 8,
-                    right: 8,
-                    color: '#555555',
-                    padding: '4px'
+                  size="small" 
+                  sx={{ p: 0.5, mr: 1.5 }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const updatedMessages = messages.map(msg =>
+                      msg.id === message.id ? { ...msg, starred: !msg.starred } : msg
+                    );
+                    setMessages(updatedMessages);
                   }}
                 >
-                  <CloseIcon fontSize="small" />
+                  {message.starred ? (
+                    <StarIcon sx={{ fontSize: '1.1rem', color: '#FFB400' }} />
+                  ) : (
+                    <StarBorderIcon sx={{ fontSize: '1.1rem', color: '#bbb' }} />
+                  )}
                 </IconButton>
                 
-                {/* Message Header */}
-                <Box sx={{ mb: 1.5 }}>
-                  <Typography variant="h6" sx={{ mb: 1, fontSize: '0.95rem', fontWeight: 500 }}>
-                    {selectedMessage.subject}
-                  </Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
-                    <Avatar sx={{ width: 32, height: 32, mr: 1.5, bgcolor: getStatusColor(selectedMessage.type), fontSize: '0.8rem' }}>
-                      {selectedMessage.sender.name.charAt(1).toUpperCase()}
-                    </Avatar>
-                    <Box sx={{ flex: 1 }}>
-                      <Typography variant="subtitle2" sx={{ fontSize: '0.8rem' }}>
-                        {selectedMessage.sender.name}, {selectedMessage.sender.company}
+                {/* Message content */}
+                <Box sx={{ flexGrow: 1 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                    <Box>
+                      <Typography 
+                        variant="subtitle1" 
+                        component="span"
+                        sx={{ 
+                          fontSize: '0.9rem',
+                          fontWeight: message.read ? 400 : 600 
+                        }}
+                      >
+                        {message.subject}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.7rem' }}>
-                        {selectedMessage.timestamp}
+                      
+                      <Typography 
+                        variant="body2" 
+                        component="span"
+                        sx={{ 
+                          fontSize: '0.85rem',
+                          color: '#666',
+                          ml: 1
+                        }}
+                      >
+                        {message.sender.name}
                       </Typography>
                     </Box>
                     
-                    {/* Message Actions */}
-                    <Box>
-                      <IconButton 
-                        size="small" 
-                        title="Reply"
+                    <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0, ml: 2 }}>
+                      {!message.read && (
+                        <Box 
+                          sx={{ 
+                            width: 8, 
+                            height: 8, 
+                            borderRadius: '50%', 
+                            bgcolor: '#ff5722', 
+                            mr: 1 
+                          }} 
+                        />
+                      )}
+                      <Typography 
+                        variant="body2" 
+                        color="text.secondary" 
                         sx={{ 
-                          color: '#4ECDC4',
-                          border: '1px solid #e0e0e0',
-                          borderRadius: '50%',
-                          p: 0.7,
-                          mr: 0.5,
-                          width: 28,
-                          height: 28,
+                          fontSize: '0.75rem',
+                          whiteSpace: 'nowrap'
                         }}
                       >
-                        <ReplyIcon sx={{ fontSize: '0.9rem' }} />
-                      </IconButton>
-                      <IconButton 
-                        size="small" 
-                        title="Forward"
-                        sx={{ 
-                          color: '#4ECDC4',
-                          border: '1px solid #e0e0e0',
-                          borderRadius: '50%',
-                          p: 0.7,
-                          mr: 0.5,
-                          width: 28,
-                          height: 28,
-                        }}
-                      >
-                        <ForwardIcon sx={{ fontSize: '0.9rem' }} />
-                      </IconButton>
-                      <IconButton 
-                        size="small" 
-                        title="Delete"
-                        onClick={() => {
-                          handleDeleteMessages([selectedMessage.id]);
-                        }}
-                        sx={{ 
-                          color: '#E05050',
-                          border: '1px solid #e0e0e0',
-                          borderRadius: '50%',
-                          p: 0.7,
-                          width: 28,
-                          height: 28,
-                        }}
-                      >
-                        <DeleteIcon sx={{ fontSize: '0.9rem' }} />
-                      </IconButton>
+                        {message.timestamp}
+                      </Typography>
                     </Box>
                   </Box>
-                </Box>
-                
-                {/* Message Thread */}
-                <Box sx={{ 
-                  flex: 1, 
-                  overflow: 'auto', 
-                  mb: 2,
-                  scrollbarWidth: 'thin',
-                  scrollbarColor: 'rgba(0,0,0,0.1) rgba(0,0,0,0.03)',
-                  '&::-webkit-scrollbar': {
-                    width: '12px',
-                    position: 'absolute',
-                    right: 0
-                  },
-                  '&::-webkit-scrollbar-thumb': {
-                    backgroundColor: 'rgba(0,0,0,0.1)',
-                    borderRadius: '6px',
-                  },
-                  '&::-webkit-scrollbar-track': {
-                    backgroundColor: 'rgba(0,0,0,0.03)',
-                  },
-                }}>
-                  {selectedMessage.thread.map((message, index) => (
-                    <Box key={message.id} sx={{ mb: 3 }}>
-                      {index > 0 && <Divider sx={{ my: 2 }} />}
-                      <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-                        <Avatar sx={{ width: 32, height: 32, mr: 1.5, bgcolor: message.sender.id === 'client' ? '#4ECDC4' : '#1C392B', fontSize: '0.8rem' }}>
-                          {message.sender.name.charAt(1).toUpperCase()}
-                        </Avatar>
-                        <Box sx={{ flex: 1 }}>
-                          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                            <Typography variant="subtitle2" sx={{ fontSize: '0.8rem' }}>
-                              {message.sender.name}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.7rem' }}>
-                              {message.timestamp}
-                            </Typography>
-                          </Box>
-                          <Typography variant="body1" sx={{ whiteSpace: 'pre-line', fontSize: '0.85rem' }}>
-                            {message.message}
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </Box>
-                  ))}
-                </Box>
-                
-                {/* Reply Section */}
-                <Box sx={{ mt: 'auto', pt: 1.5, borderTop: '1px solid #e0e0e0' }}>
-                  <TextField
-                    fullWidth
-                    multiline
-                    rows={2}
-                    placeholder="Type your reply here..."
-                    variant="outlined"
-                    value={replyText}
-                    onChange={(e) => setReplyText(e.target.value)}
+                  
+                  <Typography 
+                    variant="body2" 
                     sx={{ 
-                      mb: 1.5,
-                      '& .MuiOutlinedInput-root': {
-                        fontSize: '0.85rem',
-                      }
+                      color: '#555', 
+                      mt: 0.5,
+                      fontSize: '0.85rem',
+                      fontWeight: message.read ? 400 : 500,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      maxWidth: '90%'
                     }}
-                    inputProps={{ style: { fontSize: '0.85rem' } }}
-                  />
-                  <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button
-                      variant="contained"
-                      endIcon={<SendIcon fontSize="small" />}
-                      onClick={handleReplySubmit}
-                      sx={{
-                        bgcolor: '#4ECDC4',
-                        '&:hover': { bgcolor: '#3dbdb5' },
-                        fontSize: '0.8rem',
-                        py: 0.75,
-                        px: 2
-                      }}
-                    >
-                      Send
-                    </Button>
+                  >
+                    {message.message.split('\n')[0]}
+                  </Typography>
+                </Box>
+                
+                {/* Actions */}
+                <Box sx={{ ml: 1, mt: 0.5 }}>
+                  <IconButton 
+                    size="small" 
+                    sx={{ p: 0.5 }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteMessages([message.id]);
+                    }}
+                  >
+                    <DeleteIcon sx={{ fontSize: '1.1rem', color: '#f44336' }} />
+                  </IconButton>
+                </Box>
+              </Box>
+            ))
+          ) : (
+            <Box sx={{ p: 3, textAlign: 'center' }}>
+              <Typography variant="body1" color="text.secondary">
+                No messages found
+              </Typography>
+            </Box>
+          )}
+        </Paper>
+        
+        {/* Message Detail Dialog */}
+        {selectedMessage && (
+          <Dialog
+            open={isExpanded}
+            onClose={handleCloseMessage}
+            fullWidth
+            maxWidth="md"
+            sx={{ '& .MuiDialog-paper': { borderRadius: 2 } }}
+          >
+            <Box sx={{ p: 2 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <Typography variant="h6" sx={{ fontSize: '1.1rem', fontWeight: 500 }}>
+                  {selectedMessage.subject}
+                </Typography>
+                <IconButton onClick={handleCloseMessage} size="small">
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+              
+              {selectedMessage.thread.map((message, index) => (
+                <Box key={message.id} sx={{ mb: 3 }}>
+                  {index > 0 && <Divider sx={{ my: 2 }} />}
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+                    <Avatar sx={{ width: 40, height: 40, mr: 2, bgcolor: message.sender.id === 'client' ? '#4ECDC4' : '#1C392B', fontSize: '0.9rem' }}>
+                      {message.sender.name.charAt(1).toUpperCase()}
+                    </Avatar>
+                    <Box sx={{ flex: 1 }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                        <Typography variant="subtitle2" sx={{ fontSize: '0.9rem' }}>
+                          {message.sender.name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.8rem' }}>
+                          {message.timestamp}
+                        </Typography>
+                      </Box>
+                      <Typography variant="body1" sx={{ whiteSpace: 'pre-line', fontSize: '0.9rem' }}>
+                        {message.message}
+                      </Typography>
+                    </Box>
                   </Box>
                 </Box>
-              </Paper>
-            ) : (
-              <Paper sx={{ p: 2, height: '75vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Typography variant="body1" color="text.secondary" sx={{ fontSize: '0.85rem' }}>
-                  Select a message to view
-                </Typography>
-              </Paper>
-            )}
-          </Grid>
-          )}
-        </Grid>
-      </Box>
-      
-      {/* Compose Message Dialog */}
-      <Dialog 
-        open={composeOpen} 
-        onClose={handleComposeClose}
-        maxWidth="sm"
-        fullWidth
-      >
-        <Box sx={{ p: 2 }}>
-          <Typography variant="h6" sx={{ mb: 2, fontSize: '1rem' }}>Compose Message</Typography>
-          
-          <TextField
-            fullWidth
-            label="To"
-            disabled
-            value="Green Tech Vault Support"
-            size="small"
-            sx={{ mb: 2 }}
-            InputProps={{ style: { fontSize: '0.85rem' } }}
-            InputLabelProps={{ style: { fontSize: '0.85rem' } }}
-          />
-          
-          <TextField
-            fullWidth
-            label="Subject"
-            name="subject"
-            value={composeData.subject}
-            onChange={handleComposeChange}
-            placeholder="Enter subject"
-            size="small"
-            sx={{ mb: 2 }}
-            InputProps={{ style: { fontSize: '0.85rem' } }}
-            InputLabelProps={{ style: { fontSize: '0.85rem' } }}
-          />
-          
-          <TextField
-            fullWidth
-            multiline
-            rows={8}
-            label="Message"
-            name="message"
-            value={composeData.message}
-            onChange={handleComposeChange}
-            placeholder="Type your message here..."
-            sx={{ mb: 2 }}
-            InputProps={{ style: { fontSize: '0.85rem' } }}
-            InputLabelProps={{ style: { fontSize: '0.85rem' } }}
-          />
-          
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button 
-              onClick={handleComposeClose}
-              sx={{ mr: 1.5, fontSize: '0.8rem' }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              onClick={handleComposeSend}
-              endIcon={<SendIcon fontSize="small" />}
-              sx={{
-                bgcolor: '#4ECDC4',
-                '&:hover': { bgcolor: '#3dbdb5' },
-                fontSize: '0.8rem',
-                py: 0.75,
-                px: 2
-              }}
-            >
-              Send Message
-            </Button>
+              ))}
+              
+              {/* Reply Section */}
+              <Box sx={{ mt: 'auto', pt: 1.5, borderTop: '1px solid #e0e0e0' }}>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={3}
+                  placeholder="Type your reply here..."
+                  variant="outlined"
+                  value={replyText}
+                  onChange={(e) => setReplyText(e.target.value)}
+                  sx={{ 
+                    mb: 1.5,
+                    '& .MuiOutlinedInput-root': {
+                      fontSize: '0.85rem',
+                    }
+                  }}
+                />
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <Button
+                    variant="contained"
+                    endIcon={<SendIcon fontSize="small" />}
+                    onClick={handleReplySubmit}
+                    sx={{
+                      bgcolor: '#4ECDC4',
+                      '&:hover': { bgcolor: '#3dbdb5' },
+                      fontSize: '0.8rem',
+                      py: 0.75,
+                      px: 2
+                    }}
+                  >
+                    Send
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
+          </Dialog>
+        )}
+        
+        {/* Compose Message Dialog */}
+        <Dialog 
+          open={composeOpen} 
+          onClose={handleComposeClose}
+          maxWidth="sm"
+          fullWidth
+          sx={{ '& .MuiDialog-paper': { borderRadius: 2 } }}
+        >
+          <Box sx={{ p: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+              <Typography variant="h6" sx={{ fontSize: '1.1rem', fontWeight: 500 }}>Compose Message</Typography>
+              <IconButton onClick={handleComposeClose} size="small">
+                <CloseIcon />
+              </IconButton>
+            </Box>
+            
+            <TextField
+              fullWidth
+              label="To"
+              disabled
+              value="Green Tech Vault Support"
+              size="small"
+              sx={{ mb: 2 }}
+              InputProps={{ style: { fontSize: '0.85rem' } }}
+              InputLabelProps={{ style: { fontSize: '0.85rem' } }}
+            />
+            
+            <TextField
+              fullWidth
+              label="Subject"
+              name="subject"
+              value={composeData.subject}
+              onChange={handleComposeChange}
+              placeholder="Enter subject"
+              size="small"
+              sx={{ mb: 2 }}
+              InputProps={{ style: { fontSize: '0.85rem' } }}
+              InputLabelProps={{ style: { fontSize: '0.85rem' } }}
+            />
+            
+            <TextField
+              fullWidth
+              multiline
+              rows={6}
+              label="Message"
+              name="message"
+              value={composeData.message}
+              onChange={handleComposeChange}
+              placeholder="Type your message here..."
+              sx={{ mb: 2 }}
+              InputProps={{ style: { fontSize: '0.85rem' } }}
+              InputLabelProps={{ style: { fontSize: '0.85rem' } }}
+            />
+            
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button 
+                onClick={handleComposeClose}
+                sx={{ mr: 1.5, fontSize: '0.8rem' }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                onClick={handleComposeSend}
+                endIcon={<SendIcon fontSize="small" />}
+                sx={{
+                  bgcolor: '#4ECDC4',
+                  '&:hover': { bgcolor: '#3dbdb5' },
+                  fontSize: '0.8rem',
+                  py: 0.75,
+                  px: 2
+                }}
+              >
+                Send Message
+              </Button>
+            </Box>
           </Box>
-        </Box>
-      </Dialog>
+        </Dialog>
+      </Box>
     </Box>
   );
 };
