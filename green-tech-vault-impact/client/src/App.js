@@ -45,6 +45,7 @@ import PickupCalendar from './pages/PickupCalendar';
 import RGYNProfile from './pages/RGYNProfile';
 import ClientAnnouncements from './pages/ClientAnnouncements';
 import ClientMessages from './pages/ClientMessages';
+import ClientProfile from './pages/ClientProfile';
 
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
@@ -313,6 +314,13 @@ function App() {
                 <Route path="trash" element={<h1>Trash</h1>} />
                 <Route path="help" element={<h1>Help</h1>} />
               </Route>
+              
+              {/* Add the client-profile route outside the dashboard */}
+              <Route path="/client-profile" element={
+                <ProtectedRoute>
+                  <ClientProfile />
+                </ProtectedRoute>
+              }/>
               
               {/* Admin Routes */}
               <Route path="/admin" element={

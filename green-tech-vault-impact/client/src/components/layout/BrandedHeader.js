@@ -188,7 +188,7 @@ const BrandedHeader = () => {
       
       <Divider />
       
-      <MenuItem onClick={() => { navigate('/profile'); handleMenuClose(); }}>
+      <MenuItem onClick={() => { navigate('/client-profile'); handleMenuClose(); }}>
         <ListItemIcon>
           <PersonIcon fontSize="small" />
         </ListItemIcon>
