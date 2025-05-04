@@ -452,14 +452,14 @@ const ClientMessages = () => {
               borderRadius: 1, 
               overflow: 'hidden',
               boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-              height: isExpanded ? 'calc(75vh - 120px)' : 'auto', // Adjust height when expanded
+              height: isExpanded ? 'calc(100vh - 180px)' : 'auto', // Extend height
               display: 'flex',
               flexDirection: 'column'
             }}>
               <Box sx={{ 
                 flex: 1, 
                 overflow: 'auto',
-                maxHeight: isExpanded ? 'calc(75vh - 120px)' : '55vh'
+                maxHeight: isExpanded ? 'calc(100vh - 180px)' : '55vh' // Extend height
               }}>
                 {filteredMessages.length > 0 ? (
                   filteredMessages.map((message) => (
@@ -629,7 +629,7 @@ const ClientMessages = () => {
                 borderRadius: 1, 
                 overflow: 'hidden',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-                height: 'calc(75vh - 120px)',
+                height: 'calc(100vh - 180px)', // Extend height
                 display: 'flex',
                 flexDirection: 'column',
                 p: 2
@@ -646,7 +646,7 @@ const ClientMessages = () => {
                 <Box sx={{ 
                   flex: 1, 
                   overflow: 'auto',
-                  mb: 2
+                  position: 'relative'
                 }}>
                   {selectedMessage.thread.map((message, index) => (
                     <Box key={message.id} sx={{ mb: 3 }}>
@@ -671,39 +671,38 @@ const ClientMessages = () => {
                       </Box>
                     </Box>
                   ))}
-                </Box>
-                
-                {/* Reply Section */}
-                <Box sx={{ mt: 'auto', pt: 1.5, borderTop: '1px solid #e0e0e0' }}>
-                  <TextField
-                    fullWidth
-                    multiline
-                    rows={3}
-                    placeholder="Type your reply here..."
-                    variant="outlined"
-                    value={replyText}
-                    onChange={(e) => setReplyText(e.target.value)}
-                    sx={{ 
-                      mb: 1.5,
-                      '& .MuiOutlinedInput-root': {
-                        fontSize: '0.85rem',
-                      }
+                  
+                  {/* Floating Reply Button */}
+                  <Box
+                    sx={{
+                      position: 'sticky',
+                      bottom: 16,
+                      right: 16,
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                      zIndex: 2
                     }}
-                  />
-                  <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  >
                     <Button
                       variant="contained"
-                      endIcon={<SendIcon fontSize="small" />}
-                      onClick={handleReplySubmit}
+                      color="primary"
+                      endIcon={<ReplyIcon />}
+                      onClick={() => {
+                        const message = window.prompt("Type your reply:");
+                        if (message && message.trim()) {
+                          setReplyText(message);
+                          handleReplySubmit();
+                        }
+                      }}
                       sx={{
                         bgcolor: '#4ECDC4',
                         '&:hover': { bgcolor: '#3dbdb5' },
-                        fontSize: '0.8rem',
-                        py: 0.75,
-                        px: 2
+                        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+                        borderRadius: '20px',
+                        px: 3
                       }}
                     >
-                      Send
+                      Reply
                     </Button>
                   </Box>
                 </Box>

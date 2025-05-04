@@ -303,28 +303,29 @@ const RGYNProfile = () => {
                 >
                   Pickup Information
                 </Box>
+                <Box sx={{ flexGrow: 1 }} />
+                {leftPanelTab === 'Company Information' && (
+                  <Button 
+                    startIcon={<EditIcon fontSize="small" />} 
+                    size="small"
+                    sx={{ 
+                      color: '#4ECDC4', 
+                      fontSize: '0.75rem', 
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '4px',
+                      py: 0.3,
+                      px: 1,
+                      my: 1,
+                      mr: 1
+                    }}
+                  >
+                    Edit
+                  </Button>
+                )}
               </Box>
 
               {leftPanelTab === 'Company Information' && (
                 <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1 }}>
-                    <Button 
-                      startIcon={<EditIcon fontSize="small" />} 
-                      size="small"
-                      sx={{ 
-                        color: '#4ECDC4', 
-                        fontSize: '0.75rem', 
-                        border: '1px solid #e0e0e0',
-                        borderRadius: '4px',
-                        py: 0.3,
-                        px: 1,
-                      }}
-                    >
-                      Edit
-                    </Button>
-                  </Box>
-                  <Divider sx={{ my: 1 }} />
-
                   <Box sx={{ mt: 1 }}>
                     <Grid container spacing={1}>
                       <Grid item xs={4}>
@@ -376,6 +377,28 @@ const RGYNProfile = () => {
               {leftPanelTab === 'Environmental Impact' && (
                 <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
                   <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
+                        Device Disposition
+                      </Typography>
+                      <Divider sx={{ mb: 2 }} />
+                      
+                      <Box sx={{ mb: 1 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Refurbished</Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#4ECDC4' }}>{client.refurbished}</Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Recycled</Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#4ECDC4' }}>{client.recycled}</Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Disposed</Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#4ECDC4' }}>{client.disposed}</Typography>
+                        </Box>
+                      </Box>
+                    </Grid>
+                    
                     <Grid item xs={8}>
                       <Grid container spacing={2}>
                         <Grid item xs={6}>
@@ -420,56 +443,92 @@ const RGYNProfile = () => {
                         </Grid>
                       </Grid>
                     </Grid>
-                    
-                    <Grid item xs={4}>
-                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
-                        Device Disposition
-                      </Typography>
-                      <Divider sx={{ mb: 2 }} />
-                      
-                      <Box sx={{ mb: 1 }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Refurbished</Typography>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#4ECDC4' }}>{client.refurbished}</Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Recycled</Typography>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#4ECDC4' }}>{client.recycled}</Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Disposed</Typography>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#4ECDC4' }}>{client.disposed}</Typography>
-                        </Box>
-                      </Box>
-                    </Grid>
                   </Grid>
                 </Box>
               )}
               
               {leftPanelTab === 'Pickup Information' && (
                 <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
-                  <Grid container spacing={3}>
-                    <Grid item xs={6}>
-                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', mb: 4 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, fontSize: '0.95rem', mr: 2 }}>
                         Pickup Details
                       </Typography>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', mr: 1 }}>
+                          {selectedPickupInfo ? selectedPickupInfo.date : defaultRgynContactInfo.date}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: '#666', fontSize: '0.8rem' }}>
+                          {selectedPickupInfo ? selectedPickupInfo.time : defaultRgynContactInfo.time}
+                        </Typography>
+                      </Box>
+                    </Box>
+                    
+                    <Box sx={{ mb: 3 }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+                        <Box sx={{ py: 1.5, px: 2, bgcolor: '#e8f5e9', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '19%' }}>
+                          <Box sx={{ textAlign: 'center' }}>
+                            <Typography variant="body2" sx={{ color: '#2e7d32', fontWeight: 500, fontSize: '0.7rem' }}>
+                              Order Received
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: '#2e7d32', fontSize: '0.65rem' }}>
+                              May 26, 2024
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Box sx={{ height: 1, width: '2%', borderTop: '1px dashed #ccc' }} />
+                        <Box sx={{ py: 1.5, px: 2, bgcolor: '#e8f5e9', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '19%' }}>
+                          <Box sx={{ textAlign: 'center' }}>
+                            <Typography variant="body2" sx={{ color: '#2e7d32', fontWeight: 500, fontSize: '0.7rem' }}>
+                              In Transit
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: '#2e7d32', fontSize: '0.65rem' }}>
+                              May 27, 2024
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Box sx={{ height: 1, width: '2%', borderTop: '1px dashed #ccc' }} />
+                        <Box sx={{ py: 1.5, px: 2, bgcolor: '#e8f5e9', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '19%' }}>
+                          <Box sx={{ textAlign: 'center' }}>
+                            <Typography variant="body2" sx={{ color: '#2e7d32', fontWeight: 500, fontSize: '0.7rem' }}>
+                              On Sorting Center
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: '#2e7d32', fontSize: '0.65rem' }}>
+                              May 29, 2024
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Box sx={{ height: 1, width: '2%', borderTop: '1px dashed #ccc' }} />
+                        <Box sx={{ py: 1.5, px: 2, bgcolor: '#f5f5f5', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '19%' }}>
+                          <Box sx={{ textAlign: 'center' }}>
+                            <Typography variant="body2" sx={{ color: '#757575', fontWeight: 500, fontSize: '0.7rem' }}>
+                              On the Way
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: '#757575', fontSize: '0.65rem' }}>
+                              May 30, 2024
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Box sx={{ height: 1, width: '2%', borderTop: '1px dashed #ccc' }} />
+                        <Box sx={{ py: 1.5, px: 2, bgcolor: '#f5f5f5', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '19%' }}>
+                          <Box sx={{ textAlign: 'center' }}>
+                            <Typography variant="body2" sx={{ color: '#757575', fontWeight: 500, fontSize: '0.7rem' }}>
+                              Delivered
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: '#757575', fontSize: '0.65rem' }}>
+                              June 04, 2024
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Box>
+                
+                  <Grid container spacing={3}>
+                    <Grid item xs={6}>
                       <Divider sx={{ mb: 2 }} />
                       
                       <Grid container spacing={1}>
-                        <Grid item xs={5}>
-                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Date</Typography>
-                        </Grid>
-                        <Grid item xs={7}>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.date : defaultRgynContactInfo.date}</Typography>
-                        </Grid>
-                        
-                        <Grid item xs={5}>
-                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Time</Typography>
-                        </Grid>
-                        <Grid item xs={7}>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.time : defaultRgynContactInfo.time}</Typography>
-                        </Grid>
-
                         <Grid item xs={5}>
                           <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Location</Typography>
                         </Grid>
@@ -489,6 +548,25 @@ const RGYNProfile = () => {
                         </Grid>
                         <Grid item xs={7}>
                           <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? `${selectedPickupInfo.weight} kg` : defaultRgynContactInfo.totalWeight}</Typography>
+                        </Grid>
+                        
+                        <Grid item xs={5}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Pickup Number</Typography>
+                        </Grid>
+                        <Grid item xs={7}>
+                          <Typography 
+                            variant="body2" 
+                            sx={{ 
+                              fontSize: '0.8rem', 
+                              color: '#4ECDC4', 
+                              textDecoration: 'underline',
+                              cursor: 'pointer',
+                              '&:hover': { color: '#3dbdb5' }
+                            }}
+                            onClick={() => navigate('/tracking')}
+                          >
+                            #7654321
+                          </Typography>
                         </Grid>
                       </Grid>
                     </Grid>
