@@ -158,7 +158,7 @@ const NotificationsPopup = ({ open, anchorEl, onClose }) => {
       sx={{
         position: 'absolute',
         top: 64, // Position right below the header
-        right: 20, // Position to the right edge with some margin
+        right: 250, // Position to the left of the profile dropdown (giving enough space)
         width: 350, // Slimmer to match reference
         maxHeight: 500,
         boxShadow: '0px 3px 10px rgba(0,0,0,0.08)',

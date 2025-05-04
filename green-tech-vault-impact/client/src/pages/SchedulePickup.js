@@ -17,6 +17,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
 const SchedulePickup = () => {
   const { clientId } = useParams();
@@ -552,119 +553,123 @@ const SchedulePickup = () => {
   };
 
   return (
-    <Box sx={{ 
-      pl: 3,
-      pr: 3,
-      pt: 3,
-      pb: 3,
-      ml: 0,
-      mr: 0
-    }}>
-      <Paper sx={{ 
-        maxWidth: '1000px',
-        width: '100%',
-        borderRadius: '8px', 
-        boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)',
-        overflow: 'hidden'
-      }}>
-        <Box sx={{ p: 3 }}>
-          <Typography variant="h5" component="h1" gutterBottom sx={{ fontWeight: 500, color: '#333' }}>
-            Schedule E-Waste Pickup
-          </Typography>
-          
-          <Typography variant="body2" sx={{ mb: 4, color: '#555' }}>
-            Fill out the form below to schedule your electronic waste pickup.
-          </Typography>
-          
-          <Box sx={{ 
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+    <Box sx={getContentContainerStyle()} data-boundary="true">
+      <Box sx={getContentWrapperStyle()}>
+        <Box sx={{ 
+          pl: 3,
+          pr: 3,
+          pt: 3,
+          pb: 3,
+          ml: 0,
+          mr: 0
+        }}>
+          <Paper sx={{ 
+            maxWidth: '1000px',
             width: '100%',
-            mb: 5,
-            position: 'relative'
+            borderRadius: '8px', 
+            boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)',
+            overflow: 'hidden'
           }}>
-            <Stepper activeStep={activeStep} alternativeLabel>
-              {steps.map((step, index) => (
-                <Step key={step.label}>
-                  <StepLabel
-                    sx={{
-                      '& .MuiStepLabel-iconContainer': {
-                        '& .MuiStepIcon-root.Mui-active, & .MuiStepIcon-root.Mui-completed': {
-                          color: '#56C3C9',
-                        },
-                      },
+            <Box sx={{ p: 3 }}>
+              <Typography variant="h5" component="h1" gutterBottom sx={{ fontWeight: 500, color: '#333' }}>
+                Schedule E-Waste Pickup
+              </Typography>
+              
+              <Typography variant="body2" sx={{ mb: 4, color: '#555' }}>
+                Fill out the form below to schedule your electronic waste pickup.
+              </Typography>
+              
+              <Box sx={{ 
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                mb: 5,
+                position: 'relative'
+              }}>
+                <Stepper activeStep={activeStep} alternativeLabel>
+                  {steps.map((step, index) => (
+                    <Step key={step.label}>
+                      <StepLabel
+                        sx={{
+                          '& .MuiStepLabel-iconContainer': {
+                            '& .MuiStepIcon-root.Mui-active, & .MuiStepIcon-root.Mui-completed': {
+                              color: '#56C3C9',
+                            },
+                          },
+                        }}
+                      >
+                        <Typography 
+                          variant="body2" 
+                          color={activeStep === index ? '#56C3C9' : 'text.secondary'}
+                          fontWeight={activeStep === index ? 500 : 400}
+                        >
+                          {step.label}
+                        </Typography>
+                      </StepLabel>
+                    </Step>
+                  ))}
+                </Stepper>
+              </Box>
+              
+              {getStepContent(activeStep)}
+              
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+                <Button
+                  variant="contained"
+                  onClick={handleBack}
+                  disabled={activeStep === 0}
+                  sx={{ 
+                    bgcolor: '#f0f0f0', 
+                    color: '#686868',
+                    '&:hover': { bgcolor: '#e0e0e0' },
+                    borderRadius: 2,
+                    px: 3,
+                    py: 1,
+                    textTransform: 'none',
+                    fontWeight: 'normal'
+                  }}
+                >
+                  Back
+                </Button>
+                {activeStep === steps.length - 1 ? (
+                  <Button
+                    variant="contained"
+                    onClick={handleSubmit}
+                    sx={{ 
+                      bgcolor: '#005F56', 
+                      '&:hover': { bgcolor: '#004d46' },
+                      borderRadius: 2,
+                      px: 3,
+                      py: 1,
+                      textTransform: 'none',
+                      fontWeight: 'normal'
                     }}
                   >
-                    <Typography 
-                      variant="body2" 
-                      color={activeStep === index ? '#56C3C9' : 'text.secondary'}
-                      fontWeight={activeStep === index ? 500 : 400}
-                    >
-                      {step.label}
-                    </Typography>
-                  </StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-          </Box>
-          
-          {getStepContent(activeStep)}
-          
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
-            <Button
-              variant="contained"
-              onClick={handleBack}
-              disabled={activeStep === 0}
-              sx={{ 
-                bgcolor: '#f0f0f0', 
-                color: '#686868',
-                '&:hover': { bgcolor: '#e0e0e0' },
-                borderRadius: 2,
-                px: 3,
-                py: 1,
-                textTransform: 'none',
-                fontWeight: 'normal'
-              }}
-            >
-              Back
-            </Button>
-            {activeStep === steps.length - 1 ? (
-              <Button
-                variant="contained"
-                onClick={handleSubmit}
-                sx={{ 
-                  bgcolor: '#005F56', 
-                  '&:hover': { bgcolor: '#004d46' },
-                  borderRadius: 2,
-                  px: 3,
-                  py: 1,
-                  textTransform: 'none',
-                  fontWeight: 'normal'
-                }}
-              >
-                Submit
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                onClick={handleNext}
-                sx={{ 
-                  bgcolor: '#005F56', 
-                  '&:hover': { bgcolor: '#004d46' },
-                  borderRadius: 2,
-                  px: 3,
-                  py: 1,
-                  textTransform: 'none',
-                  fontWeight: 'normal'
-                }}
-              >
-                Next
-              </Button>
-            )}
-          </Box>
+                    Submit
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    onClick={handleNext}
+                    sx={{ 
+                      bgcolor: '#005F56', 
+                      '&:hover': { bgcolor: '#004d46' },
+                      borderRadius: 2,
+                      px: 3,
+                      py: 1,
+                      textTransform: 'none',
+                      fontWeight: 'normal'
+                    }}
+                  >
+                    Next
+                  </Button>
+                )}
+              </Box>
+            </Box>
+          </Paper>
         </Box>
-      </Paper>
+      </Box>
     </Box>
   );
 };

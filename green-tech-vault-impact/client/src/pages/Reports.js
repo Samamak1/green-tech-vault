@@ -40,6 +40,7 @@ import {
 } from '@mui/icons-material';
 import { reportAPI } from '../services/api';
 import { formatCO2, formatWeight } from '../utils/environmentalImpact';
+import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
 const Reports = () => {
   const [reports, setReports] = useState([]);
@@ -271,219 +272,221 @@ const Reports = () => {
   }
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Environmental Impact Reports
-        </Typography>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={handleOpenDialog}
-        >
-          Generate New Report
-        </Button>
-      </Box>
-
-      {error && (
-        <Box sx={{ mb: 3 }}>
-          <Typography color="error" variant="body1">
-            {error}
+    <Box sx={getContentContainerStyle()} data-boundary="true">
+      <Box sx={getContentWrapperStyle()}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Environmental Impact Reports
           </Typography>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={handleOpenDialog}
+          >
+            Generate New Report
+          </Button>
         </Box>
-      )}
 
-      {reports.length === 0 ? (
-        <Card>
-          <CardContent>
-            <Box sx={{ textAlign: 'center', py: 4 }}>
-              <Typography variant="h6" color="text.secondary" gutterBottom>
-                No reports found
-              </Typography>
-              <Typography variant="body1" color="text.secondary" paragraph>
-                Generate your first environmental impact report to track your e-waste management efforts.
-              </Typography>
-              <Button
-                variant="contained"
-                startIcon={<AddIcon />}
-                onClick={handleOpenDialog}
-              >
-                Generate New Report
-              </Button>
-            </Box>
-          </CardContent>
-        </Card>
-      ) : (
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="reports table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Title</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Date Range</TableCell>
-                <TableCell align="right">Devices</TableCell>
-                <TableCell align="right">CO₂ Saved</TableCell>
-                <TableCell align="center">Status</TableCell>
-                <TableCell align="center">Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {reports.map((report) => (
-                <TableRow key={report._id}>
-                  <TableCell component="th" scope="row">
-                    {report.title}
-                  </TableCell>
-                  <TableCell>{report.type}</TableCell>
-                  <TableCell>
-                    {new Date(report.dateRange.startDate).toLocaleDateString()} - {new Date(report.dateRange.endDate).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell align="right">
-                    {report.impactSummary.totalDevicesCollected}
-                  </TableCell>
-                  <TableCell align="right">
-                    {formatCO2(report.impactSummary.totalCO2Saved)}
-                  </TableCell>
-                  <TableCell align="center">
-                    <Chip 
-                      label={report.status} 
-                      color={report.status === 'Published' ? 'success' : 'default'} 
-                      size="small" 
-                    />
-                  </TableCell>
-                  <TableCell align="center">
-                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                      <Tooltip title="View Report">
-                        <IconButton size="small" onClick={() => handleViewReport(report._id)}>
-                          <VisibilityIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Download PDF">
-                        <IconButton size="small" onClick={() => handleDownloadPdf(report._id)}>
-                          <PdfIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Download CSV">
-                        <IconButton size="small" onClick={() => handleDownloadCsv(report._id)}>
-                          <CsvIcon />
-                        </IconButton>
-                      </Tooltip>
-                      {report.status === 'Draft' && (
-                        <Tooltip title="Publish Report">
-                          <IconButton size="small" onClick={() => handlePublishReport(report._id)}>
-                            <PublishIcon />
+        {error && (
+          <Box sx={{ mb: 3 }}>
+            <Typography color="error" variant="body1">
+              {error}
+            </Typography>
+          </Box>
+        )}
+
+        {reports.length === 0 ? (
+          <Card>
+            <CardContent>
+              <Box sx={{ textAlign: 'center', py: 4 }}>
+                <Typography variant="h6" color="text.secondary" gutterBottom>
+                  No reports found
+                </Typography>
+                <Typography variant="body1" color="text.secondary" paragraph>
+                  Generate your first environmental impact report to track your e-waste management efforts.
+                </Typography>
+                <Button
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  onClick={handleOpenDialog}
+                >
+                  Generate New Report
+                </Button>
+              </Box>
+            </CardContent>
+          </Card>
+        ) : (
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="reports table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Title</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Date Range</TableCell>
+                  <TableCell align="right">Devices</TableCell>
+                  <TableCell align="right">CO₂ Saved</TableCell>
+                  <TableCell align="center">Status</TableCell>
+                  <TableCell align="center">Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {reports.map((report) => (
+                  <TableRow key={report._id}>
+                    <TableCell component="th" scope="row">
+                      {report.title}
+                    </TableCell>
+                    <TableCell>{report.type}</TableCell>
+                    <TableCell>
+                      {new Date(report.dateRange.startDate).toLocaleDateString()} - {new Date(report.dateRange.endDate).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell align="right">
+                      {report.impactSummary.totalDevicesCollected}
+                    </TableCell>
+                    <TableCell align="right">
+                      {formatCO2(report.impactSummary.totalCO2Saved)}
+                    </TableCell>
+                    <TableCell align="center">
+                      <Chip 
+                        label={report.status} 
+                        color={report.status === 'Published' ? 'success' : 'default'} 
+                        size="small" 
+                      />
+                    </TableCell>
+                    <TableCell align="center">
+                      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                        <Tooltip title="View Report">
+                          <IconButton size="small" onClick={() => handleViewReport(report._id)}>
+                            <VisibilityIcon />
                           </IconButton>
                         </Tooltip>
-                      )}
-                      <Tooltip title="Delete Report">
-                        <IconButton size="small" onClick={() => handleOpenDeleteDialog(report)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
+                        <Tooltip title="Download PDF">
+                          <IconButton size="small" onClick={() => handleDownloadPdf(report._id)}>
+                            <PdfIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Download CSV">
+                          <IconButton size="small" onClick={() => handleDownloadCsv(report._id)}>
+                            <CsvIcon />
+                          </IconButton>
+                        </Tooltip>
+                        {report.status === 'Draft' && (
+                          <Tooltip title="Publish Report">
+                            <IconButton size="small" onClick={() => handlePublishReport(report._id)}>
+                              <PublishIcon />
+                            </IconButton>
+                          </Tooltip>
+                        )}
+                        <Tooltip title="Delete Report">
+                          <IconButton size="small" onClick={() => handleOpenDeleteDialog(report)}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
 
-      {/* Generate Report Dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-        <DialogTitle>Generate Environmental Impact Report</DialogTitle>
-        <DialogContent>
-          <Box sx={{ mt: 2 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Report Title"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleInputChange}
-                  error={!!formErrors.title}
-                  helperText={formErrors.title}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel id="report-type-label">Report Type</InputLabel>
-                  <Select
-                    labelId="report-type-label"
-                    id="report-type"
-                    name="type"
-                    value={formData.type}
-                    label="Report Type"
+        {/* Generate Report Dialog */}
+        <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+          <DialogTitle>Generate Environmental Impact Report</DialogTitle>
+          <DialogContent>
+            <Box sx={{ mt: 2 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label="Report Title"
+                    name="title"
+                    value={formData.title}
                     onChange={handleInputChange}
-                  >
-                    <MenuItem value="Pickup">Pickup</MenuItem>
-                    <MenuItem value="Monthly">Monthly</MenuItem>
-                    <MenuItem value="Quarterly">Quarterly</MenuItem>
-                    <MenuItem value="Annual">Annual</MenuItem>
-                    <MenuItem value="Custom">Custom</MenuItem>
-                  </Select>
-                </FormControl>
+                    error={!!formErrors.title}
+                    helperText={formErrors.title}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id="report-type-label">Report Type</InputLabel>
+                    <Select
+                      labelId="report-type-label"
+                      id="report-type"
+                      name="type"
+                      value={formData.type}
+                      label="Report Type"
+                      onChange={handleInputChange}
+                    >
+                      <MenuItem value="Pickup">Pickup</MenuItem>
+                      <MenuItem value="Monthly">Monthly</MenuItem>
+                      <MenuItem value="Quarterly">Quarterly</MenuItem>
+                      <MenuItem value="Annual">Annual</MenuItem>
+                      <MenuItem value="Custom">Custom</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Start Date"
+                    name="startDate"
+                    type="date"
+                    value={formData.startDate ? new Date(formData.startDate).toISOString().split('T')[0] : ''}
+                    onChange={handleInputChange}
+                    InputLabelProps={{ shrink: true }}
+                    error={!!formErrors.startDate}
+                    helperText={formErrors.startDate}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="End Date"
+                    name="endDate"
+                    type="date"
+                    value={formData.endDate ? new Date(formData.endDate).toISOString().split('T')[0] : ''}
+                    onChange={handleInputChange}
+                    InputLabelProps={{ shrink: true }}
+                    error={!!formErrors.endDate}
+                    helperText={formErrors.endDate}
+                    required
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Start Date"
-                  name="startDate"
-                  type="date"
-                  value={formData.startDate ? new Date(formData.startDate).toISOString().split('T')[0] : ''}
-                  onChange={handleInputChange}
-                  InputLabelProps={{ shrink: true }}
-                  error={!!formErrors.startDate}
-                  helperText={formErrors.startDate}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="End Date"
-                  name="endDate"
-                  type="date"
-                  value={formData.endDate ? new Date(formData.endDate).toISOString().split('T')[0] : ''}
-                  onChange={handleInputChange}
-                  InputLabelProps={{ shrink: true }}
-                  error={!!formErrors.endDate}
-                  helperText={formErrors.endDate}
-                  required
-                />
-              </Grid>
-            </Grid>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button
-            onClick={handleGenerateReport}
-            variant="contained"
-            disabled={generating}
-            startIcon={generating ? <CircularProgress size={20} /> : null}
-          >
-            {generating ? 'Generating...' : 'Generate Report'}
-          </Button>
-        </DialogActions>
-      </Dialog>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog}>Cancel</Button>
+            <Button
+              onClick={handleGenerateReport}
+              variant="contained"
+              disabled={generating}
+              startIcon={generating ? <CircularProgress size={20} /> : null}
+            >
+              {generating ? 'Generating...' : 'Generate Report'}
+            </Button>
+          </DialogActions>
+        </Dialog>
 
-      {/* Delete Confirmation Dialog */}
-      <Dialog open={deleteDialogOpen} onClose={handleCloseDeleteDialog}>
-        <DialogTitle>Delete Report</DialogTitle>
-        <DialogContent>
-          <Typography variant="body1">
-            Are you sure you want to delete the report "{reportToDelete?.title}"? This action cannot be undone.
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
-          <Button onClick={handleDeleteReport} color="error">
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+        {/* Delete Confirmation Dialog */}
+        <Dialog open={deleteDialogOpen} onClose={handleCloseDeleteDialog}>
+          <DialogTitle>Delete Report</DialogTitle>
+          <DialogContent>
+            <Typography variant="body1">
+              Are you sure you want to delete the report "{reportToDelete?.title}"? This action cannot be undone.
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
+            <Button onClick={handleDeleteReport} color="error">
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Box>
     </Box>
   );
 };

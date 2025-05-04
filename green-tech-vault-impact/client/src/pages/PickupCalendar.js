@@ -30,6 +30,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useAuth } from '../context/AuthContext';
+import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
 // Set up the localizer
 const localizer = momentLocalizer(moment);
@@ -444,417 +445,419 @@ const PickupCalendar = () => {
   };
 
   return (
-    <div style={{ marginLeft: 240, width: 'calc(100% - 240px)', paddingTop: 60 }}>
-      <Box 
-        sx={{ 
-          p: 2,
-          height: 'auto',
-        }}
-      >
-        <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant="h5" sx={{ fontWeight: 500, fontSize: '1rem' }}>
-              Calendar
-            </Typography>
-          </Box>
-          <Button
-            variant="contained"
-            onClick={() => navigate('/schedule-pickup')}
-            sx={{ 
-              bgcolor: '#1C392B', 
-              '&:hover': { bgcolor: '#152b21' },
-              textTransform: 'none',
-              fontSize: '0.7rem',
-              py: 0.6,
-              px: 1.5,
-              height: '32px'
-            }}
-          >
-            Schedule Pickup
-          </Button>
-        </Box>
-        
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={9}>
-            <Paper sx={{ p: 1, mb: 2, height: 'calc(100vh - 220px)', overflow: 'hidden', borderRadius: 0 }}>
-              <Calendar
-                localizer={localizer}
-                events={getFilteredEvents()}
-                startAccessor="start"
-                endAccessor="end"
-                views={['month', 'week', 'day', 'agenda']}
-                view={calendarView}
-                onView={handleViewChange}
-                date={currentDate}
-                onNavigate={(date) => setCurrentDate(date)}
-                style={{ height: 'calc(100% - 8px)' }}
-                eventPropGetter={eventStyleGetter}
-                onSelectEvent={handleSelectEvent}
-                components={{
-                  event: EventComponent
-                }}
-                defaultView="month"
-                popup={true}
-                selectable={true}
-              />
-            </Paper>
-          </Grid>
-          
-          <Grid item xs={12} md={3}>
-            {/* Mini Calendar */}
-            <Paper sx={{ p: 1.5, borderRadius: 0, mb: 2 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-                <IconButton size="small" onClick={() => {
-                  const newDate = new Date(miniCalendarYear, miniCalendarMonth - 1, 1);
-                  setMiniCalendarMonth(newDate.getMonth());
-                  setMiniCalendarYear(newDate.getFullYear());
-                }} sx={{ padding: 0.5 }}>
-                  <ChevronLeftIcon fontSize="small" sx={{ fontSize: '0.9rem' }} />
-                </IconButton>
-                <Typography variant="subtitle1" sx={{ fontWeight: 700, fontSize: '0.8rem' }}>
-                  {new Date(miniCalendarYear, miniCalendarMonth).toLocaleString('default', { month: 'long', year: 'numeric' })}
-                </Typography>
-                <IconButton size="small" onClick={() => {
-                  const newDate = new Date(miniCalendarYear, miniCalendarMonth + 1, 1);
-                  setMiniCalendarMonth(newDate.getMonth());
-                  setMiniCalendarYear(newDate.getFullYear());
-                }} sx={{ padding: 0.5 }}>
-                  <ChevronRightIcon fontSize="small" sx={{ fontSize: '0.9rem' }} />
-                </IconButton>
-              </Box>
-              
-              {/* Mini Calendar Grid */}
-              <Grid container spacing={0} sx={{ width: '100%' }}>
-                <Grid item xs={12}>
-                  <Grid container>
-                    {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(day => (
-                      <Grid item xs align="center" key={day}>
-                        <Typography variant="caption" sx={{ color: '#666', fontSize: '0.65rem' }}>
-                          {day}
-                        </Typography>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Grid>
-                
-                {/* Mini calendar days */}
-                {(() => {
-                  // Get the first day of the month (0 = Sunday, 1 = Monday, etc.)
-                  const firstDayOfMonth = new Date(miniCalendarYear, miniCalendarMonth, 1).getDay();
-                  
-                  // Get the number of days in the current month
-                  const daysInMonth = new Date(miniCalendarYear, miniCalendarMonth + 1, 0).getDate();
-                  
-                  // Get the number of days in the previous month
-                  const daysInPrevMonth = new Date(miniCalendarYear, miniCalendarMonth, 0).getDate();
-                  
-                  // Create an array of day numbers to display
-                  const days = [];
-                  
-                  // Add days from the previous month
-                  for (let i = 0; i < firstDayOfMonth; i++) {
-                    days.push({
-                      day: daysInPrevMonth - firstDayOfMonth + i + 1,
-                      currentMonth: false,
-                      prevMonth: true
-                    });
-                  }
-                  
-                  // Add days from the current month
-                  for (let i = 1; i <= daysInMonth; i++) {
-                    days.push({
-                      day: i,
-                      currentMonth: true,
-                      prevMonth: false,
-                      isToday: i === selectedDay // Highlighting selected day
-                    });
-                  }
-                  
-                  // Add days from the next month to complete the grid
-                  const totalCells = Math.ceil((firstDayOfMonth + daysInMonth) / 7) * 7;
-                  for (let i = 1; i <= totalCells - (firstDayOfMonth + daysInMonth); i++) {
-                    days.push({
-                      day: i,
-                      currentMonth: false,
-                      prevMonth: false
-                    });
-                  }
-                  
-                  // Split days into weeks
-                  const weeks = [];
-                  for (let i = 0; i < days.length; i += 7) {
-                    weeks.push(days.slice(i, i + 7));
-                  }
-                  
-                  return (
-                    <>
-                      {weeks.map((week, weekIndex) => (
-                        <Grid item xs={12} key={weekIndex}>
-                          <Grid container>
-                            {week.map((day, dayIndex) => (
-                              <Grid item xs align="center" key={dayIndex}>
-                                <Box 
-                                  onClick={() => day.currentMonth && handleDayClick(day.day)}
-                                  sx={{ 
-                                    p: 0.3, 
-                                    borderRadius: '4px',
-                                    cursor: day.currentMonth ? 'pointer' : 'default',
-                                    color: day.currentMonth ? '#333' : '#aaa',
-                                    ...(day.isToday && day.currentMonth ? { 
-                                      bgcolor: '#4ECDC4', 
-                                      color: 'white'
-                                    } : {})
-                                  }}
-                                >
-                                  <Typography variant="caption" sx={{ fontSize: '0.65rem' }}>{day.day}</Typography>
-                                </Box>
-                              </Grid>
-                            ))}
-                          </Grid>
-                        </Grid>
-                      ))}
-                    </>
-                  );
-                })()}
-              </Grid>
-            </Paper>
-            
-            {/* Calendars */}
-            <Paper sx={{ p: 1.5, borderRadius: 0 }}>
-              <Typography variant="h6" sx={{ mb: 1.5, fontSize: '0.85rem', fontWeight: 500 }}>Calendars</Typography>
-              
-              <FormGroup>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
-                  <FormControlLabel 
-                    control={
-                      <Switch 
-                        checked={calendarFilters.pickups} 
-                        onChange={handleFilterChange} 
-                        name="pickups" 
-                        sx={{ 
-                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#1C392B' },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#1C392B' },
-                          '& .MuiSwitch-root': { width: '32px', height: '18px' },
-                          '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
-                        }}
-                        size="small"
-                      />
-                    } 
-                    label="Pickups" 
-                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
-                  />
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#1C392B', mr: 0.5 }} />
-                    <IconButton size="small" sx={{ padding: 0.3 }}>
-                      <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
-                    </IconButton>
-                  </Box>
-                </Box>
-                
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
-                  <FormControlLabel 
-                    control={
-                      <Switch 
-                        checked={calendarFilters.gtvEvents} 
-                        onChange={handleFilterChange} 
-                        name="gtvEvents" 
-                        sx={{ 
-                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#1D3557' },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#1D3557' },
-                          '& .MuiSwitch-root': { width: '32px', height: '18px' },
-                          '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
-                        }}
-                        size="small"
-                      />
-                    } 
-                    label="GTV Events" 
-                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
-                  />
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#1D3557', mr: 0.5 }} />
-                    <IconButton size="small" sx={{ padding: 0.3 }}>
-                      <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
-                    </IconButton>
-                  </Box>
-                </Box>
-                
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
-                  <FormControlLabel 
-                    control={
-                      <Switch 
-                        checked={calendarFilters.internalEvents} 
-                        onChange={handleFilterChange} 
-                        name="internalEvents" 
-                        sx={{ 
-                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#F6AE2D' },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#F6AE2D' },
-                          '& .MuiSwitch-root': { width: '32px', height: '18px' },
-                          '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
-                        }}
-                        size="small"
-                      />
-                    } 
-                    label="Internal Events" 
-                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
-                  />
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#F6AE2D', mr: 0.5 }} />
-                    <IconButton size="small" sx={{ padding: 0.3 }}>
-                      <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
-                    </IconButton>
-                  </Box>
-                </Box>
-                
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
-                  <FormControlLabel 
-                    control={
-                      <Switch 
-                        checked={calendarFilters.promotions} 
-                        onChange={handleFilterChange} 
-                        name="promotions" 
-                        sx={{ 
-                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#F26419' },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#F26419' },
-                          '& .MuiSwitch-root': { width: '32px', height: '18px' },
-                          '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
-                        }}
-                        size="small"
-                      />
-                    } 
-                    label="Promotions" 
-                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
-                  />
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#F26419', mr: 0.5 }} />
-                    <IconButton size="small" sx={{ padding: 0.3 }}>
-                      <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
-                    </IconButton>
-                  </Box>
-                </Box>
-                
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
-                  <FormControlLabel 
-                    control={
-                      <Switch 
-                        checked={calendarFilters.challenges} 
-                        onChange={handleFilterChange} 
-                        name="challenges" 
-                        sx={{ 
-                          '& .MuiSwitch-switchBase.Mui-checked': { color: '#E63946' },
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#E63946' },
-                          '& .MuiSwitch-root': { width: '32px', height: '18px' },
-                          '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
-                        }}
-                        size="small"
-                      />
-                    } 
-                    label="Challenges" 
-                    sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
-                  />
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#E63946', mr: 0.5 }} />
-                    <IconButton size="small" sx={{ padding: 0.3 }}>
-                      <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
-                    </IconButton>
-                  </Box>
-                </Box>
-              </FormGroup>
-            </Paper>
-          </Grid>
-        </Grid>
-        
-        {/* Schedule Dialog */}
-        <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-          <DialogTitle sx={{ fontSize: '1rem' }}>
-            Schedule New Pickup
-          </DialogTitle>
-          <DialogContent>
-            <Grid container spacing={2} sx={{ mt: 1 }}>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Scheduled Date"
-                  name="scheduledDate"
-                  type="date"
-                  value={formData.scheduledDate}
-                  onChange={handleFormChange}
-                  InputLabelProps={{ 
-                    shrink: true,
-                    style: { fontSize: '0.75rem' }
-                  }}
-                  InputProps={{ style: { fontSize: '0.75rem' } }}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Location"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleFormChange}
-                  required
-                  InputProps={{ style: { fontSize: '0.75rem' } }}
-                  InputLabelProps={{ style: { fontSize: '0.75rem' } }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Contact Person"
-                  name="contactPerson"
-                  value={formData.contactPerson}
-                  onChange={handleFormChange}
-                  required
-                  InputProps={{ style: { fontSize: '0.75rem' } }}
-                  InputLabelProps={{ style: { fontSize: '0.75rem' } }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Contact Phone"
-                  name="contactPhone"
-                  value={formData.contactPhone}
-                  onChange={handleFormChange}
-                  required
-                  InputProps={{ style: { fontSize: '0.75rem' } }}
-                  InputLabelProps={{ style: { fontSize: '0.75rem' } }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Notes"
-                  name="notes"
-                  value={formData.notes}
-                  onChange={handleFormChange}
-                  multiline
-                  rows={3}
-                  InputProps={{ style: { fontSize: '0.75rem' } }}
-                  InputLabelProps={{ style: { fontSize: '0.75rem' } }}
-                />
-              </Grid>
-            </Grid>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDialog} sx={{ fontSize: '0.75rem' }}>Cancel</Button>
-            <Button 
-              onClick={handleSubmit} 
+    <Box sx={getContentContainerStyle()} data-boundary="true">
+      <Box sx={getContentWrapperStyle()}>
+        <Box 
+          sx={{ 
+            p: 2,
+            height: 'auto',
+          }}
+        >
+          <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant="h5" sx={{ fontWeight: 500, fontSize: '1rem' }}>
+                Calendar
+              </Typography>
+            </Box>
+            <Button
               variant="contained"
-              disabled={!formData.scheduledDate || !formData.location}
+              onClick={() => navigate('/schedule-pickup')}
               sx={{ 
-                fontSize: '0.75rem',
-                bgcolor: '#4ECDC4',
-                '&:hover': { bgcolor: '#3dbdb5' }
+                bgcolor: '#1C392B', 
+                '&:hover': { bgcolor: '#152b21' },
+                textTransform: 'none',
+                fontSize: '0.7rem',
+                py: 0.6,
+                px: 1.5,
+                height: '32px'
               }}
             >
-              Continue
+              Schedule Pickup
             </Button>
-          </DialogActions>
-        </Dialog>
+          </Box>
+          
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={9}>
+              <Paper sx={{ p: 1, mb: 2, height: 'calc(100vh - 220px)', overflow: 'hidden', borderRadius: 0 }}>
+                <Calendar
+                  localizer={localizer}
+                  events={getFilteredEvents()}
+                  startAccessor="start"
+                  endAccessor="end"
+                  views={['month', 'week', 'day', 'agenda']}
+                  view={calendarView}
+                  onView={handleViewChange}
+                  date={currentDate}
+                  onNavigate={(date) => setCurrentDate(date)}
+                  style={{ height: 'calc(100% - 8px)' }}
+                  eventPropGetter={eventStyleGetter}
+                  onSelectEvent={handleSelectEvent}
+                  components={{
+                    event: EventComponent
+                  }}
+                  defaultView="month"
+                  popup={true}
+                  selectable={true}
+                />
+              </Paper>
+            </Grid>
+            
+            <Grid item xs={12} md={3}>
+              {/* Mini Calendar */}
+              <Paper sx={{ p: 1.5, borderRadius: 0, mb: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+                  <IconButton size="small" onClick={() => {
+                    const newDate = new Date(miniCalendarYear, miniCalendarMonth - 1, 1);
+                    setMiniCalendarMonth(newDate.getMonth());
+                    setMiniCalendarYear(newDate.getFullYear());
+                  }} sx={{ padding: 0.5 }}>
+                    <ChevronLeftIcon fontSize="small" sx={{ fontSize: '0.9rem' }} />
+                  </IconButton>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 700, fontSize: '0.8rem' }}>
+                    {new Date(miniCalendarYear, miniCalendarMonth).toLocaleString('default', { month: 'long', year: 'numeric' })}
+                  </Typography>
+                  <IconButton size="small" onClick={() => {
+                    const newDate = new Date(miniCalendarYear, miniCalendarMonth + 1, 1);
+                    setMiniCalendarMonth(newDate.getMonth());
+                    setMiniCalendarYear(newDate.getFullYear());
+                  }} sx={{ padding: 0.5 }}>
+                    <ChevronRightIcon fontSize="small" sx={{ fontSize: '0.9rem' }} />
+                  </IconButton>
+                </Box>
+                
+                {/* Mini Calendar Grid */}
+                <Grid container spacing={0} sx={{ width: '100%' }}>
+                  <Grid item xs={12}>
+                    <Grid container>
+                      {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(day => (
+                        <Grid item xs align="center" key={day}>
+                          <Typography variant="caption" sx={{ color: '#666', fontSize: '0.65rem' }}>
+                            {day}
+                          </Typography>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Grid>
+                  
+                  {/* Mini calendar days */}
+                  {(() => {
+                    // Get the first day of the month (0 = Sunday, 1 = Monday, etc.)
+                    const firstDayOfMonth = new Date(miniCalendarYear, miniCalendarMonth, 1).getDay();
+                    
+                    // Get the number of days in the current month
+                    const daysInMonth = new Date(miniCalendarYear, miniCalendarMonth + 1, 0).getDate();
+                    
+                    // Get the number of days in the previous month
+                    const daysInPrevMonth = new Date(miniCalendarYear, miniCalendarMonth, 0).getDate();
+                    
+                    // Create an array of day numbers to display
+                    const days = [];
+                    
+                    // Add days from the previous month
+                    for (let i = 0; i < firstDayOfMonth; i++) {
+                      days.push({
+                        day: daysInPrevMonth - firstDayOfMonth + i + 1,
+                        currentMonth: false,
+                        prevMonth: true
+                      });
+                    }
+                    
+                    // Add days from the current month
+                    for (let i = 1; i <= daysInMonth; i++) {
+                      days.push({
+                        day: i,
+                        currentMonth: true,
+                        prevMonth: false,
+                        isToday: i === selectedDay // Highlighting selected day
+                      });
+                    }
+                    
+                    // Add days from the next month to complete the grid
+                    const totalCells = Math.ceil((firstDayOfMonth + daysInMonth) / 7) * 7;
+                    for (let i = 1; i <= totalCells - (firstDayOfMonth + daysInMonth); i++) {
+                      days.push({
+                        day: i,
+                        currentMonth: false,
+                        prevMonth: false
+                      });
+                    }
+                    
+                    // Split days into weeks
+                    const weeks = [];
+                    for (let i = 0; i < days.length; i += 7) {
+                      weeks.push(days.slice(i, i + 7));
+                    }
+                    
+                    return (
+                      <>
+                        {weeks.map((week, weekIndex) => (
+                          <Grid item xs={12} key={weekIndex}>
+                            <Grid container>
+                              {week.map((day, dayIndex) => (
+                                <Grid item xs align="center" key={dayIndex}>
+                                  <Box 
+                                    onClick={() => day.currentMonth && handleDayClick(day.day)}
+                                    sx={{ 
+                                      p: 0.3, 
+                                      borderRadius: '4px',
+                                      cursor: day.currentMonth ? 'pointer' : 'default',
+                                      color: day.currentMonth ? '#333' : '#aaa',
+                                      ...(day.isToday && day.currentMonth ? { 
+                                        bgcolor: '#4ECDC4', 
+                                        color: 'white'
+                                      } : {})
+                                    }}
+                                  >
+                                    <Typography variant="caption" sx={{ fontSize: '0.65rem' }}>{day.day}</Typography>
+                                  </Box>
+                                </Grid>
+                              ))}
+                            </Grid>
+                          </Grid>
+                        ))}
+                      </>
+                    );
+                  })()}
+                </Grid>
+              </Paper>
+              
+              {/* Calendars */}
+              <Paper sx={{ p: 1.5, borderRadius: 0 }}>
+                <Typography variant="h6" sx={{ mb: 1.5, fontSize: '0.85rem', fontWeight: 500 }}>Calendars</Typography>
+                
+                <FormGroup>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
+                    <FormControlLabel 
+                      control={
+                        <Switch 
+                          checked={calendarFilters.pickups} 
+                          onChange={handleFilterChange} 
+                          name="pickups" 
+                          sx={{ 
+                            '& .MuiSwitch-switchBase.Mui-checked': { color: '#1C392B' },
+                            '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#1C392B' },
+                            '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                            '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
+                          }}
+                          size="small"
+                        />
+                      } 
+                      label="Pickups" 
+                      sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
+                    />
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#1C392B', mr: 0.5 }} />
+                      <IconButton size="small" sx={{ padding: 0.3 }}>
+                        <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
+                      </IconButton>
+                    </Box>
+                  </Box>
+                  
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
+                    <FormControlLabel 
+                      control={
+                        <Switch 
+                          checked={calendarFilters.gtvEvents} 
+                          onChange={handleFilterChange} 
+                          name="gtvEvents" 
+                          sx={{ 
+                            '& .MuiSwitch-switchBase.Mui-checked': { color: '#1D3557' },
+                            '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#1D3557' },
+                            '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                            '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
+                          }}
+                          size="small"
+                        />
+                      } 
+                      label="GTV Events" 
+                      sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
+                    />
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#1D3557', mr: 0.5 }} />
+                      <IconButton size="small" sx={{ padding: 0.3 }}>
+                        <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
+                      </IconButton>
+                    </Box>
+                  </Box>
+                  
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
+                    <FormControlLabel 
+                      control={
+                        <Switch 
+                          checked={calendarFilters.internalEvents} 
+                          onChange={handleFilterChange} 
+                          name="internalEvents" 
+                          sx={{ 
+                            '& .MuiSwitch-switchBase.Mui-checked': { color: '#F6AE2D' },
+                            '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#F6AE2D' },
+                            '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                            '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
+                          }}
+                          size="small"
+                        />
+                      } 
+                      label="Internal Events" 
+                      sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
+                    />
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#F6AE2D', mr: 0.5 }} />
+                      <IconButton size="small" sx={{ padding: 0.3 }}>
+                        <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
+                      </IconButton>
+                    </Box>
+                  </Box>
+                  
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
+                    <FormControlLabel 
+                      control={
+                        <Switch 
+                          checked={calendarFilters.promotions} 
+                          onChange={handleFilterChange} 
+                          name="promotions" 
+                          sx={{ 
+                            '& .MuiSwitch-switchBase.Mui-checked': { color: '#F26419' },
+                            '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#F26419' },
+                            '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                            '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
+                          }}
+                          size="small"
+                        />
+                      } 
+                      label="Promotions" 
+                      sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
+                    />
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#F26419', mr: 0.5 }} />
+                      <IconButton size="small" sx={{ padding: 0.3 }}>
+                        <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
+                      </IconButton>
+                    </Box>
+                  </Box>
+                  
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
+                    <FormControlLabel 
+                      control={
+                        <Switch 
+                          checked={calendarFilters.challenges} 
+                          onChange={handleFilterChange} 
+                          name="challenges" 
+                          sx={{ 
+                            '& .MuiSwitch-switchBase.Mui-checked': { color: '#E63946' },
+                            '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#E63946' },
+                            '& .MuiSwitch-root': { width: '32px', height: '18px' },
+                            '& .MuiSwitch-thumb': { width: '14px', height: '14px' }
+                          }}
+                          size="small"
+                        />
+                      } 
+                      label="Challenges" 
+                      sx={{ '& .MuiFormControlLabel-label': { fontSize: '0.7rem' }, margin: 0 }}
+                    />
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#E63946', mr: 0.5 }} />
+                      <IconButton size="small" sx={{ padding: 0.3 }}>
+                        <MoreVertIcon sx={{ fontSize: '0.9rem' }} />
+                      </IconButton>
+                    </Box>
+                  </Box>
+                </FormGroup>
+              </Paper>
+            </Grid>
+          </Grid>
+          
+          {/* Schedule Dialog */}
+          <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+            <DialogTitle sx={{ fontSize: '1rem' }}>
+              Schedule New Pickup
+            </DialogTitle>
+            <DialogContent>
+              <Grid container spacing={2} sx={{ mt: 1 }}>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label="Scheduled Date"
+                    name="scheduledDate"
+                    type="date"
+                    value={formData.scheduledDate}
+                    onChange={handleFormChange}
+                    InputLabelProps={{ 
+                      shrink: true,
+                      style: { fontSize: '0.75rem' }
+                    }}
+                    InputProps={{ style: { fontSize: '0.75rem' } }}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label="Location"
+                    name="location"
+                    value={formData.location}
+                    onChange={handleFormChange}
+                    required
+                    InputProps={{ style: { fontSize: '0.75rem' } }}
+                    InputLabelProps={{ style: { fontSize: '0.75rem' } }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Contact Person"
+                    name="contactPerson"
+                    value={formData.contactPerson}
+                    onChange={handleFormChange}
+                    required
+                    InputProps={{ style: { fontSize: '0.75rem' } }}
+                    InputLabelProps={{ style: { fontSize: '0.75rem' } }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Contact Phone"
+                    name="contactPhone"
+                    value={formData.contactPhone}
+                    onChange={handleFormChange}
+                    required
+                    InputProps={{ style: { fontSize: '0.75rem' } }}
+                    InputLabelProps={{ style: { fontSize: '0.75rem' } }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    label="Notes"
+                    name="notes"
+                    value={formData.notes}
+                    onChange={handleFormChange}
+                    multiline
+                    rows={3}
+                    InputProps={{ style: { fontSize: '0.75rem' } }}
+                    InputLabelProps={{ style: { fontSize: '0.75rem' } }}
+                  />
+                </Grid>
+              </Grid>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseDialog} sx={{ fontSize: '0.75rem' }}>Cancel</Button>
+              <Button 
+                onClick={handleSubmit} 
+                variant="contained"
+                disabled={!formData.scheduledDate || !formData.location}
+                sx={{ 
+                  fontSize: '0.75rem',
+                  bgcolor: '#4ECDC4',
+                  '&:hover': { bgcolor: '#3dbdb5' }
+                }}
+              >
+                Continue
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </Box>
       </Box>
-    </div>
+    </Box>
   );
 };
 

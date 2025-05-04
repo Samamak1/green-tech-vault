@@ -18,7 +18,9 @@ import {
   IconButton,
   Tabs,
   Tab,
-  Chip
+  Chip,
+  Avatar,
+  CircularProgress
 } from '@mui/material';
 import {
   ArrowBack as ArrowBackIcon,
@@ -29,6 +31,7 @@ import {
   Delete as DeleteIcon
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
+import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
 const RGYNProfile = () => {
   const navigate = useNavigate();
@@ -174,16 +177,23 @@ const RGYNProfile = () => {
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-        Loading...
+      <Box sx={getContentContainerStyle()} data-boundary="true">
+        <Box sx={getContentWrapperStyle()}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <CircularProgress />
+          </Box>
+        </Box>
       </Box>
     );
   }
 
   return (
-    <div style={{ marginLeft: 240, width: 'calc(100% - 240px)' }}>
-      <Box sx={{ padding: '16px 20px' }}>
-        {/* Header */}
+    <Box sx={getContentContainerStyle()} data-boundary="true">
+      <Box sx={getContentWrapperStyle()}>
+        <Typography variant="h5" component="h1" gutterBottom>
+          Profile
+        </Typography>
+        
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
           <Button 
             startIcon={<ArrowBackIcon />} 
@@ -193,13 +203,11 @@ const RGYNProfile = () => {
             Back to Dashboard
           </Button>
           <Typography variant="h6" sx={{ ml: 2, color: '#444', fontWeight: 500, fontSize: '1rem' }}>
-            Client Profile: {client.name}
+            Client Profile: {client ? client.name : ''}
           </Typography>
         </Box>
 
-        {/* Main content grid */}
         <Grid container spacing={2}>
-          {/* Left Column - Information Panels */}
           <Grid item xs={12} md={5}>
             <Paper sx={{ borderRadius: 2, overflow: 'hidden', mb: 2 }}>
               <Box sx={{ 
@@ -237,7 +245,6 @@ const RGYNProfile = () => {
                 </Box>
               </Box>
 
-              {/* Company Information Panel */}
               {leftPanelTab === 'Company Information' && (
                 <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -353,7 +360,6 @@ const RGYNProfile = () => {
                 </Box>
               )}
               
-              {/* Environmental Impact Panel */}
               {leftPanelTab === 'Environmental Impact' && (
                 <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
                   <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
@@ -446,10 +452,8 @@ const RGYNProfile = () => {
             </Paper>
           </Grid>
           
-          {/* Right Column - Pickups and Devices */}
           <Grid item xs={12} md={7}>
             <Paper sx={{ p: 0, borderRadius: 2, overflow: 'hidden', mb: 2 }}>
-              {/* Tabs for Pickups and Devices */}
               <Tabs
                 value={rightPanelTab}
                 onChange={handleRightPanelTabChange}
@@ -477,7 +481,6 @@ const RGYNProfile = () => {
                 <Tab label="Devices" value="Devices" />
               </Tabs>
               
-              {/* Search and Filter Area */}
               <Box sx={{ p: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <TextField
                   placeholder="Search here"
@@ -538,7 +541,6 @@ const RGYNProfile = () => {
                 </Box>
               </Box>
               
-              {/* Table Content - Redesigned to match Admin view table */}
               {rightPanelTab === 'Pickups' && (
                 <TableContainer sx={{ maxHeight: 'calc(100vh - 230px)', overflow: 'auto' }}>
                   <Table stickyHeader size="small" sx={{ tableLayout: 'fixed' }}>
@@ -631,7 +633,7 @@ const RGYNProfile = () => {
           </Grid>
         </Grid>
       </Box>
-    </div>
+    </Box>
   );
 };
 
