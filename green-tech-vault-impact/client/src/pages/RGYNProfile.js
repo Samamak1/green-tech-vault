@@ -47,6 +47,8 @@ const RGYNProfile = () => {
   const [rightPanelTab, setRightPanelTab] = useState('Pickups');
   const [mockPickups, setMockPickups] = useState([]);
   const [mockDevices, setMockDevices] = useState([]);
+  const [selectedPickup, setSelectedPickup] = useState(null);
+  const [selectedPickupInfo, setSelectedPickupInfo] = useState(null);
 
   useEffect(() => {
     // In a real app, you would fetch the actual client data
@@ -84,7 +86,13 @@ const RGYNProfile = () => {
           time: '14:00',
           location: 'Cincinnati Warehouse',
           status: 'Complete',
-          weight: 2.5
+          weight: 2.5,
+          rgynContact: {
+            fullName: "Sarah Johnson",
+            jobTitle: "RGYN Coordinator",
+            email: "sarah.johnson@rgyneco.com",
+            phone: "(555) 987-6543"
+          }
         },
         {
           id: '2',
@@ -93,7 +101,13 @@ const RGYNProfile = () => {
           time: '10:30',
           location: 'Cincinnati Warehouse',
           status: 'In Process',
-          weight: 1.8
+          weight: 1.8,
+          rgynContact: {
+            fullName: "Michael Chen",
+            jobTitle: "Recycling Specialist",
+            email: "michael.chen@rgyneco.com",
+            phone: "(555) 456-7890"
+          }
         },
         {
           id: '3',
@@ -102,7 +116,13 @@ const RGYNProfile = () => {
           time: '15:45',
           location: 'Global Innovations HQ',
           status: 'Received',
-          weight: 3.2
+          weight: 3.2,
+          rgynContact: {
+            fullName: "James Wilson",
+            jobTitle: "Pickup Coordinator",
+            email: "james.wilson@rgyneco.com",
+            phone: "(555) 234-5678"
+          }
         },
         {
           id: '4',
@@ -111,7 +131,13 @@ const RGYNProfile = () => {
           time: '13:15',
           location: 'Cincinnati Warehouse',
           status: 'Complete',
-          weight: 4.5
+          weight: 4.5,
+          rgynContact: {
+            fullName: "Emma Davis",
+            jobTitle: "Sustainability Manager",
+            email: "emma.davis@rgyneco.com",
+            phone: "(555) 876-5432"
+          }
         }
       ];
 
@@ -180,8 +206,19 @@ const RGYNProfile = () => {
     }
   };
 
-  // Add mock RGYNeco contact information
-  const rgynContactInfo = {
+  // Handle pickup selection
+  const handlePickupSelect = (pickup) => {
+    setSelectedPickup(pickup.id);
+    setSelectedPickupInfo(pickup);
+    
+    // If not on Pickup Information tab, switch to it
+    if (leftPanelTab !== 'Pickup Information') {
+      setLeftPanelTab('Pickup Information');
+    }
+  };
+
+  // Default RGYN contact information when no pickup is selected
+  const defaultRgynContactInfo = {
     fullName: "Sarah Johnson",
     jobTitle: "RGYN Coordinator",
     email: "sarah.johnson@rgyneco.com",
@@ -192,6 +229,9 @@ const RGYNProfile = () => {
     status: "Scheduled",
     totalWeight: "15.7 kg"
   };
+
+  // Get the pickup information to display
+  const pickupInfoToDisplay = selectedPickupInfo || { rgynContact: defaultRgynContactInfo, ...defaultRgynContactInfo };
 
   if (loading) {
     return (
@@ -267,10 +307,7 @@ const RGYNProfile = () => {
 
               {leftPanelTab === 'Company Information' && (
                 <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                    <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, fontSize: '0.95rem' }}>
-                      Company Information
-                    </Typography>
+                  <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1 }}>
                     <Button 
                       startIcon={<EditIcon fontSize="small" />} 
                       size="small"
@@ -290,45 +327,45 @@ const RGYNProfile = () => {
 
                   <Box sx={{ mt: 1 }}>
                     <Grid container spacing={1}>
-                      <Grid item xs={5}>
+                      <Grid item xs={4}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Company Name</Typography>
                       </Grid>
-                      <Grid item xs={7}>
+                      <Grid item xs={8}>
                         <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.name}</Typography>
                       </Grid>
 
-                      <Grid item xs={5}>
+                      <Grid item xs={4}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Email</Typography>
                       </Grid>
-                      <Grid item xs={7}>
+                      <Grid item xs={8}>
                         <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.email}</Typography>
                       </Grid>
 
-                      <Grid item xs={5}>
+                      <Grid item xs={4}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Phone</Typography>
                       </Grid>
-                      <Grid item xs={7}>
+                      <Grid item xs={8}>
                         <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.phone}</Typography>
                       </Grid>
 
-                      <Grid item xs={5}>
+                      <Grid item xs={4}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Address</Typography>
                       </Grid>
-                      <Grid item xs={7}>
+                      <Grid item xs={8}>
                         <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.address}</Typography>
                       </Grid>
 
-                      <Grid item xs={5}>
+                      <Grid item xs={4}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Website</Typography>
                       </Grid>
-                      <Grid item xs={7}>
+                      <Grid item xs={8}>
                         <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.website}</Typography>
                       </Grid>
 
-                      <Grid item xs={5}>
+                      <Grid item xs={4}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Industry</Typography>
                       </Grid>
-                      <Grid item xs={7}>
+                      <Grid item xs={8}>
                         <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.industry}</Typography>
                       </Grid>
                     </Grid>
@@ -338,88 +375,71 @@ const RGYNProfile = () => {
               
               {leftPanelTab === 'Environmental Impact' && (
                 <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
-                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
-                    Environmental Impact Summary
-                  </Typography>
-                  <Divider sx={{ mb: 2 }} />
-                  
                   <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
-                        <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
-                          {client.devicesProcessed}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                          Devices Processed
-                        </Typography>
-                      </Paper>
+                    <Grid item xs={8}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                          <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
+                            <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
+                              {client.devicesProcessed}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                              Devices Processed
+                            </Typography>
+                          </Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
+                            <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
+                              {client.totalWeight.toFixed(1)} kg
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                              Total Weight
+                            </Typography>
+                          </Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
+                            <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
+                              {client.co2Saved.toFixed(1)} kg
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                              CO2 Saved
+                            </Typography>
+                          </Paper>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
+                            <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
+                              {client.treesPlanted}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                              Trees Planted
+                            </Typography>
+                          </Paper>
+                        </Grid>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                      <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
-                        <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
-                          {client.totalWeight.toFixed(1)} kg
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                          Total Weight
-                        </Typography>
-                      </Paper>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
-                        <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
-                          {client.co2Saved.toFixed(1)} kg
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                          CO2 Saved
-                        </Typography>
-                      </Paper>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
-                        <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
-                          {client.treesPlanted}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                          Trees Planted
-                        </Typography>
-                      </Paper>
-                    </Grid>
-                  </Grid>
-                  
-                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mt: 3, mb: 1, fontSize: '0.95rem' }}>
-                    Device Disposition
-                  </Typography>
-                  <Divider sx={{ mb: 2 }} />
-                  
-                  <Grid container spacing={2}>
+                    
                     <Grid item xs={4}>
-                      <Box sx={{ textAlign: 'center' }}>
-                        <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
-                          {client.refurbished}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                          Refurbished
-                        </Typography>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Box sx={{ textAlign: 'center' }}>
-                        <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
-                          {client.recycled}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                          Recycled
-                        </Typography>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Box sx={{ textAlign: 'center' }}>
-                        <Typography variant="h5" sx={{ color: '#4ECDC4', fontWeight: 'bold', fontSize: '1rem' }}>
-                          {client.disposed}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                          Disposed
-                        </Typography>
+                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
+                        Device Disposition
+                      </Typography>
+                      <Divider sx={{ mb: 2 }} />
+                      
+                      <Box sx={{ mb: 1 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Refurbished</Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#4ECDC4' }}>{client.refurbished}</Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Recycled</Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#4ECDC4' }}>{client.recycled}</Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Disposed</Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#4ECDC4' }}>{client.disposed}</Typography>
+                        </Box>
                       </Box>
                     </Grid>
                   </Grid>
@@ -428,80 +448,86 @@ const RGYNProfile = () => {
               
               {leftPanelTab === 'Pickup Information' && (
                 <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
-                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
-                    RGYNeco Contact Information
-                  </Typography>
-                  <Divider sx={{ mb: 2 }} />
-                  
-                  <Grid container spacing={1}>
-                    <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Full Name</Typography>
-                    </Grid>
-                    <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.fullName}</Typography>
+                  <Grid container spacing={3}>
+                    <Grid item xs={6}>
+                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
+                        Pickup Details
+                      </Typography>
+                      <Divider sx={{ mb: 2 }} />
+                      
+                      <Grid container spacing={1}>
+                        <Grid item xs={5}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Date</Typography>
+                        </Grid>
+                        <Grid item xs={7}>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.date : defaultRgynContactInfo.date}</Typography>
+                        </Grid>
+                        
+                        <Grid item xs={5}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Time</Typography>
+                        </Grid>
+                        <Grid item xs={7}>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.time : defaultRgynContactInfo.time}</Typography>
+                        </Grid>
+
+                        <Grid item xs={5}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Location</Typography>
+                        </Grid>
+                        <Grid item xs={7}>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.location : defaultRgynContactInfo.location}</Typography>
+                        </Grid>
+
+                        <Grid item xs={5}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Status</Typography>
+                        </Grid>
+                        <Grid item xs={7}>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.status : defaultRgynContactInfo.status}</Typography>
+                        </Grid>
+                        
+                        <Grid item xs={5}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Total Weight</Typography>
+                        </Grid>
+                        <Grid item xs={7}>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? `${selectedPickupInfo.weight} kg` : defaultRgynContactInfo.totalWeight}</Typography>
+                        </Grid>
+                      </Grid>
                     </Grid>
                     
-                    <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Job Title</Typography>
-                    </Grid>
-                    <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.jobTitle}</Typography>
-                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
+                        RGYNeco Contact Information
+                      </Typography>
+                      <Divider sx={{ mb: 2 }} />
+                      
+                      <Grid container spacing={1}>
+                        <Grid item xs={5}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Full Name</Typography>
+                        </Grid>
+                        <Grid item xs={7}>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rgynContact.fullName : defaultRgynContactInfo.fullName}</Typography>
+                        </Grid>
+                        
+                        <Grid item xs={5}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Job Title</Typography>
+                        </Grid>
+                        <Grid item xs={7}>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rgynContact.jobTitle : defaultRgynContactInfo.jobTitle}</Typography>
+                        </Grid>
 
-                    <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Email</Typography>
-                    </Grid>
-                    <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.email}</Typography>
-                    </Grid>
+                        <Grid item xs={5}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Email</Typography>
+                        </Grid>
+                        <Grid item xs={7}>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rgynContact.email : defaultRgynContactInfo.email}</Typography>
+                        </Grid>
 
-                    <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Phone</Typography>
-                    </Grid>
-                    <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.phone}</Typography>
-                    </Grid>
-                  </Grid>
-                  
-                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mt: 3, mb: 1, fontSize: '0.95rem' }}>
-                    Pickup Details
-                  </Typography>
-                  <Divider sx={{ mb: 2 }} />
-                  
-                  <Grid container spacing={1}>
-                    <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Date</Typography>
-                    </Grid>
-                    <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.date}</Typography>
-                    </Grid>
-                    
-                    <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Time</Typography>
-                    </Grid>
-                    <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.time}</Typography>
-                    </Grid>
-
-                    <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Location</Typography>
-                    </Grid>
-                    <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.location}</Typography>
-                    </Grid>
-
-                    <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Status</Typography>
-                    </Grid>
-                    <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.status}</Typography>
-                    </Grid>
-                    
-                    <Grid item xs={5}>
-                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Total Weight</Typography>
-                    </Grid>
-                    <Grid item xs={7}>
-                      <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{rgynContactInfo.totalWeight}</Typography>
+                        <Grid item xs={5}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Phone</Typography>
+                        </Grid>
+                        <Grid item xs={7}>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rgynContact.phone : defaultRgynContactInfo.phone}</Typography>
+                        </Grid>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Box>
@@ -625,9 +651,11 @@ const RGYNProfile = () => {
                             <Checkbox 
                               size="small" 
                               sx={{ p: 0.5 }}
+                              checked={selectedPickup === pickup.id}
+                              onChange={() => handlePickupSelect(pickup)}
                             />
                           </TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{pickup.client}</TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{pickup.rgynContact?.fullName || pickup.client}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{pickup.date}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{pickup.time}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{pickup.location}</TableCell>
