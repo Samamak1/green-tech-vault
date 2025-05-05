@@ -424,129 +424,135 @@ const RGYNProfile = () => {
 
               {leftPanelTab === 'Company Information' && (
                 <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
-                  <Box sx={{ mt: 1 }}>
-                    <Grid container spacing={1}>
-                      <Grid item xs={4}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Company Name</Typography>
-                      </Grid>
-                      <Grid item xs={8}>
-                        {isEditingCompanyInfo ? (
-                          <TextField
-                            fullWidth
-                            size="small"
-                            name="name"
-                            value={editedCompanyInfo.name}
-                            onChange={handleCompanyInfoChange}
-                            variant="outlined"
-                            sx={{ fontSize: '0.8rem' }}
-                            InputProps={{ sx: { fontSize: '0.8rem' } }}
-                          />
-                        ) : (
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.name}</Typography>
-                        )}
-                      </Grid>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                        <Box sx={{ mb: 2, width: '100%' }}>
+                          <Grid container spacing={1}>
+                            <Grid item xs={4}>
+                              <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Company Name</Typography>
+                            </Grid>
+                            <Grid item xs={8}>
+                              {isEditingCompanyInfo ? (
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  name="name"
+                                  value={editedCompanyInfo.name}
+                                  onChange={handleCompanyInfoChange}
+                                  variant="outlined"
+                                  sx={{ fontSize: '0.8rem' }}
+                                  InputProps={{ sx: { fontSize: '0.8rem' } }}
+                                />
+                              ) : (
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.name}</Typography>
+                              )}
+                            </Grid>
 
-                      <Grid item xs={4}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Email</Typography>
-                      </Grid>
-                      <Grid item xs={8}>
-                        {isEditingCompanyInfo ? (
-                          <TextField
-                            fullWidth
-                            size="small"
-                            name="email"
-                            value={editedCompanyInfo.email}
-                            onChange={handleCompanyInfoChange}
-                            variant="outlined"
-                            sx={{ fontSize: '0.8rem' }}
-                            InputProps={{ sx: { fontSize: '0.8rem' } }}
-                          />
-                        ) : (
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.email}</Typography>
-                        )}
-                      </Grid>
+                            <Grid item xs={4}>
+                              <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Email</Typography>
+                            </Grid>
+                            <Grid item xs={8}>
+                              {isEditingCompanyInfo ? (
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  name="email"
+                                  value={editedCompanyInfo.email}
+                                  onChange={handleCompanyInfoChange}
+                                  variant="outlined"
+                                  sx={{ fontSize: '0.8rem' }}
+                                  InputProps={{ sx: { fontSize: '0.8rem' } }}
+                                />
+                              ) : (
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.email}</Typography>
+                              )}
+                            </Grid>
 
-                      <Grid item xs={4}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Phone</Typography>
-                      </Grid>
-                      <Grid item xs={8}>
-                        {isEditingCompanyInfo ? (
-                          <TextField
-                            fullWidth
-                            size="small"
-                            name="phone"
-                            value={editedCompanyInfo.phone}
-                            onChange={handleCompanyInfoChange}
-                            variant="outlined"
-                            sx={{ fontSize: '0.8rem' }}
-                            InputProps={{ sx: { fontSize: '0.8rem' } }}
-                          />
-                        ) : (
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.phone}</Typography>
-                        )}
-                      </Grid>
+                            <Grid item xs={4}>
+                              <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Phone</Typography>
+                            </Grid>
+                            <Grid item xs={8}>
+                              {isEditingCompanyInfo ? (
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  name="phone"
+                                  value={editedCompanyInfo.phone}
+                                  onChange={handleCompanyInfoChange}
+                                  variant="outlined"
+                                  sx={{ fontSize: '0.8rem' }}
+                                  InputProps={{ sx: { fontSize: '0.8rem' } }}
+                                />
+                              ) : (
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.phone}</Typography>
+                              )}
+                            </Grid>
 
-                      <Grid item xs={4}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Address</Typography>
-                      </Grid>
-                      <Grid item xs={8}>
-                        {isEditingCompanyInfo ? (
-                          <TextField
-                            fullWidth
-                            size="small"
-                            name="address"
-                            value={editedCompanyInfo.address}
-                            onChange={handleCompanyInfoChange}
-                            variant="outlined"
-                            sx={{ fontSize: '0.8rem' }}
-                            InputProps={{ sx: { fontSize: '0.8rem' } }}
-                          />
-                        ) : (
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.address}</Typography>
-                        )}
-                      </Grid>
+                            <Grid item xs={4}>
+                              <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Address</Typography>
+                            </Grid>
+                            <Grid item xs={8}>
+                              {isEditingCompanyInfo ? (
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  name="address"
+                                  value={editedCompanyInfo.address}
+                                  onChange={handleCompanyInfoChange}
+                                  variant="outlined"
+                                  sx={{ fontSize: '0.8rem' }}
+                                  InputProps={{ sx: { fontSize: '0.8rem' } }}
+                                />
+                              ) : (
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.address}</Typography>
+                              )}
+                            </Grid>
 
-                      <Grid item xs={4}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Website</Typography>
-                      </Grid>
-                      <Grid item xs={8}>
-                        {isEditingCompanyInfo ? (
-                          <TextField
-                            fullWidth
-                            size="small"
-                            name="website"
-                            value={editedCompanyInfo.website}
-                            onChange={handleCompanyInfoChange}
-                            variant="outlined"
-                            sx={{ fontSize: '0.8rem' }}
-                            InputProps={{ sx: { fontSize: '0.8rem' } }}
-                          />
-                        ) : (
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.website}</Typography>
-                        )}
-                      </Grid>
+                            <Grid item xs={4}>
+                              <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Website</Typography>
+                            </Grid>
+                            <Grid item xs={8}>
+                              {isEditingCompanyInfo ? (
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  name="website"
+                                  value={editedCompanyInfo.website}
+                                  onChange={handleCompanyInfoChange}
+                                  variant="outlined"
+                                  sx={{ fontSize: '0.8rem' }}
+                                  InputProps={{ sx: { fontSize: '0.8rem' } }}
+                                />
+                              ) : (
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.website}</Typography>
+                              )}
+                            </Grid>
 
-                      <Grid item xs={4}>
-                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Industry</Typography>
-                      </Grid>
-                      <Grid item xs={8}>
-                        {isEditingCompanyInfo ? (
-                          <TextField
-                            fullWidth
-                            size="small"
-                            name="industry"
-                            value={editedCompanyInfo.industry}
-                            onChange={handleCompanyInfoChange}
-                            variant="outlined"
-                            sx={{ fontSize: '0.8rem' }}
-                            InputProps={{ sx: { fontSize: '0.8rem' } }}
-                          />
-                        ) : (
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.industry}</Typography>
-                        )}
-                      </Grid>
+                            <Grid item xs={4}>
+                              <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Industry</Typography>
+                            </Grid>
+                            <Grid item xs={8}>
+                              {isEditingCompanyInfo ? (
+                                <TextField
+                                  fullWidth
+                                  size="small"
+                                  name="industry"
+                                  value={editedCompanyInfo.industry}
+                                  onChange={handleCompanyInfoChange}
+                                  variant="outlined"
+                                  sx={{ fontSize: '0.8rem' }}
+                                  InputProps={{ sx: { fontSize: '0.8rem' } }}
+                                />
+                              ) : (
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.industry}</Typography>
+                              )}
+                            </Grid>
+                          </Grid>
+                        </Box>
+                      </Box>
                     </Grid>
-                  </Box>
+                  </Grid>
                 </Box>
               )}
               
@@ -966,8 +972,8 @@ const RGYNProfile = () => {
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Time</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '18%' }}>Location</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '12%' }}>Status</TableCell>
-                        <TableCell align="right" sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Weight (kg)</TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Actions</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Weight (kg)</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%', textAlign: 'center' }}>Actions</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -998,9 +1004,9 @@ const RGYNProfile = () => {
                               }} 
                             />
                           </TableCell>
-                          <TableCell align="right" sx={{ fontSize: '0.75rem', py: 0.5 }}>{pickup.weight}</TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{pickup.weight}</TableCell>
                           <TableCell sx={{ py: 0.5 }}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                               <IconButton 
                                 size="small" 
                                 sx={{ color: '#4ECDC4' }}
@@ -1034,8 +1040,8 @@ const RGYNProfile = () => {
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '14%' }}>Model</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Serial Number</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Status</TableCell>
-                        <TableCell align="right" sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Weight (kg)</TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Actions</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Weight (kg)</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%', textAlign: 'center' }}>Actions</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -1052,9 +1058,9 @@ const RGYNProfile = () => {
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{device.model}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{device.serialNumber}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{device.status}</TableCell>
-                          <TableCell align="right" sx={{ fontSize: '0.75rem', py: 0.5 }}>{device.weight}</TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{device.weight}</TableCell>
                           <TableCell sx={{ py: 0.5 }}>
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                               <IconButton 
                                 size="small" 
                                 sx={{ color: '#4ECDC4' }}
