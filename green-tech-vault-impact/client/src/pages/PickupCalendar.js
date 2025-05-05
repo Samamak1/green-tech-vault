@@ -441,7 +441,7 @@ const PickupCalendar = () => {
     handleCloseDialog();
     
     // Navigate to the schedule pickup page
-    navigate('/schedule-pickup');
+    navigate('/dashboard/schedule-pickup');
   };
 
   return (
@@ -456,7 +456,7 @@ const PickupCalendar = () => {
             </Box>
             <Button
               variant="contained"
-              onClick={() => navigate('/schedule-pickup')}
+              onClick={() => navigate('/dashboard/schedule-pickup')}
               sx={{ 
                 bgcolor: '#1C392B', 
                 '&:hover': { bgcolor: '#152b21' },

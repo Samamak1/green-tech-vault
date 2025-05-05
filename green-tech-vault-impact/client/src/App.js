@@ -47,6 +47,9 @@ import RYGNProfile from './pages/RYGNProfile';
 import ClientAnnouncements from './pages/ClientAnnouncements';
 import ClientMessages from './pages/ClientMessages';
 import ClientProfile from './pages/ClientProfile';
+import Settings from './pages/Settings';
+import QRMobileLogin from './pages/QRMobileLogin';
+import Help from './pages/Help';
 
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
@@ -321,6 +324,25 @@ function App() {
               <Route path="/client-profile" element={
                 <ProtectedRoute>
                   <ClientProfile />
+                </ProtectedRoute>
+              }/>
+              
+              {/* Add routes for the new pages */}
+              <Route path="/settings" element={
+                <ProtectedRoute>
+                  <Settings />
+                </ProtectedRoute>
+              }/>
+              
+              <Route path="/qr-mobile-login" element={
+                <ProtectedRoute>
+                  <QRMobileLogin />
+                </ProtectedRoute>
+              }/>
+              
+              <Route path="/help" element={
+                <ProtectedRoute>
+                  <Help />
                 </ProtectedRoute>
               }/>
               

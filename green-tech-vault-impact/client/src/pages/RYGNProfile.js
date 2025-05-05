@@ -276,7 +276,7 @@ const RYGNProfile = () => {
 
   // Navigate to schedule pickup page
   const handleSchedulePickup = () => {
-    navigate('/admin/schedule-pickup');
+    navigate('/dashboard/schedule-pickup');
   };
 
   // Handle delete pickup
@@ -1057,7 +1057,24 @@ const RYGNProfile = () => {
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{device.manufacturer}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{device.model}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{device.serialNumber}</TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{device.status}</TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>
+                            <Chip 
+                              label={device.status} 
+                              size="small"
+                              sx={{ 
+                                borderRadius: 1, 
+                                fontSize: '0.65rem',
+                                py: 0,
+                                height: '20px',
+                                bgcolor: device.status === 'Refurbished' ? '#e8f5e9' : 
+                                  device.status === 'Recycled' ? '#e3f2fd' : 
+                                  device.status === 'Disposed' ? '#ffebee' : '#f5f5f5',
+                                color: device.status === 'Refurbished' ? '#2e7d32' : 
+                                  device.status === 'Recycled' ? '#1565c0' : 
+                                  device.status === 'Disposed' ? '#c62828' : '#616161'
+                              }} 
+                            />
+                          </TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{device.weight}</TableCell>
                           <TableCell sx={{ py: 0.5 }}>
                             <Box sx={{ display: 'flex', justifyContent: 'center' }}>

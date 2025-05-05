@@ -22,8 +22,7 @@ import {
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useProfile } from '../context/ProfileContext';
-import ClientDashboardLayout from '../components/layout/ClientDashboardLayout';
+import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
 const Input = styled('input')({
   display: 'none',
@@ -32,11 +31,23 @@ const Input = styled('input')({
 const ClientProfile = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { profileData, profilePictureUrl, loading, updateProfileData, updateProfilePicture } = useProfile();
   const [editing, setEditing] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({ ...profileData });
   const [currentSection, setCurrentSection] = useState(null);
+  const [profilePictureUrl, setProfilePictureUrl] = useState(null);
+
+  // Mock profile data
+  const [profileData, setProfileData] = useState({
+    fullName: user?.name || 'Leila Meyer',
+    jobTitle: user?.position || 'CEO',
+    email: user?.email || 'leilaameyer2@gmail.com',
+    phone: '(555) 123-4567',
+    username: user?.username || '@lmeyer',
+    companyName: user?.companyName || "Leila's Company"
+  });
+
+  // State for form data (used during editing)
+  const [formData, setFormData] = useState({ ...profileData });
 
   const handleGoBack = () => {
     navigate('/dashboard');
@@ -49,8 +60,8 @@ const ClientProfile = () => {
   };
 
   const handleSave = () => {
-    // Update profile data in the context
-    updateProfileData(formData);
+    // Update profile data
+    setProfileData(formData);
     setEditing(false);
     setCurrentSection(null);
   };
@@ -77,31 +88,26 @@ const ClientProfile = () => {
   const handleProfilePictureChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Update the profile picture in the context
-      updateProfilePicture(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePictureUrl(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  if (loading) {
-    return (
-      <ClientDashboardLayout>
-        <Typography>Loading...</Typography>
-      </ClientDashboardLayout>
-    );
-  }
-
-  // Mock location data to match the image design
+  // Mock location data
   const addressData = {
     country: "United States",
     city: "Cincinnati, Ohio",
-    postalCode: "51729",
-    taxId: "27-7865312"
+    postalCode: "45202",
+    taxId: "TXN-54321"
   };
 
   return (
-    <ClientDashboardLayout>
-      <Box>
-        <Typography variant="h6" sx={{ mb: 2, fontWeight: 500, fontSize: '1rem' }}>My Profile</Typography>
+    <Box sx={getContentContainerStyle()} data-boundary="true">
+      <Box sx={getContentWrapperStyle()}>
+        <Typography variant="h5" sx={{ mb: 3, fontWeight: 500 }}>My Profile</Typography>
         
         {/* Profile Header Card */}
         <Paper sx={{ p: 3, borderRadius: 2, mb: 3 }}>
@@ -110,14 +116,14 @@ const ClientProfile = () => {
               <Avatar
                 src={profilePictureUrl}
                 sx={{ 
-                  width: 80, 
-                  height: 80,
+                  width: 200, 
+                  height: 200,
                   bgcolor: profilePictureUrl ? 'transparent' : '#1C392B',
                   fontSize: '2rem',
                   mr: 3
                 }}
               >
-                {!profilePictureUrl && profileData?.fullName?.charAt(0) || 'L'}
+                {!profilePictureUrl && profileData.fullName.charAt(0)}
               </Avatar>
               {/* Camera icon for profile upload - only show when editing profile */}
               {editing && currentSection === 'profile' && (
@@ -148,8 +154,9 @@ const ClientProfile = () => {
               )}
             </Box>
             <Box>
-              <Typography variant="h6">{profileData?.fullName || "Leila Meyer"}</Typography>
-              <Typography variant="body1" color="text.secondary">{profileData?.jobTitle || "CEO"}</Typography>
+              <Typography variant="h6">{profileData.fullName}</Typography>
+              <Typography variant="body1" color="text.secondary">{profileData.jobTitle}</Typography>
+              <Typography variant="body2" color="text.secondary">{profileData.companyName}</Typography>
               <Typography variant="body2" color="text.secondary">{addressData.city}</Typography>
             </Box>
             <Button 
@@ -171,11 +178,11 @@ const ClientProfile = () => {
           </Box>
         </Paper>
 
-        {/* Company Information Section */}
+        {/* Personal Information Section */}
         <Paper sx={{ p: 3, borderRadius: 2, mb: 3 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-            <Typography variant="h6">Company Information</Typography>
-            {!editing || currentSection !== 'company' ? (
+            <Typography variant="h6">Personal Information</Typography>
+            {!editing || currentSection !== 'personal' ? (
               <Button 
                 startIcon={<EditIcon />}
                 size="small"
@@ -187,7 +194,7 @@ const ClientProfile = () => {
                   py: 0.5,
                   px: 1.5,
                 }}
-                onClick={() => handleEdit('company')}
+                onClick={() => handleEdit('personal')}
               >
                 Edit
               </Button>
@@ -224,190 +231,122 @@ const ClientProfile = () => {
           <Divider sx={{ mb: 3 }} />
           
           <Grid container spacing={4}>
-            {/* Company Name */}
-            <Grid item xs={12}>
-              <Typography variant="body2" color="text.secondary">Company Name</Typography>
-              {editing && currentSection === 'company' ? (
+            {/* First Name */}
+            <Grid item xs={12} md={6}>
+              <Typography variant="body2" color="text.secondary">First Name</Typography>
+              {editing && currentSection === 'personal' ? (
                 <TextField
                   fullWidth
-                  name="fullName"
-                  value={formData.fullName || "Leila's Company"}
+                  name="firstName"
+                  value={formData.firstName || profileData.fullName.split(' ')[0]}
                   onChange={handleChange}
                   variant="standard"
                   sx={{ mt: 1 }}
                 />
               ) : (
-                <Typography variant="body1" sx={{ mt: 1 }}>{profileData?.fullName || "Leila's Company"}</Typography>
+                <Typography variant="body1" sx={{ mt: 1 }}>{profileData.fullName.split(' ')[0]}</Typography>
+              )}
+            </Grid>
+            
+            {/* Last Name */}
+            <Grid item xs={12} md={6}>
+              <Typography variant="body2" color="text.secondary">Last Name</Typography>
+              {editing && currentSection === 'personal' ? (
+                <TextField
+                  fullWidth
+                  name="lastName"
+                  value={formData.lastName || profileData.fullName.split(' ').slice(1).join(' ')}
+                  onChange={handleChange}
+                  variant="standard"
+                  sx={{ mt: 1 }}
+                />
+              ) : (
+                <Typography variant="body1" sx={{ mt: 1 }}>{profileData.fullName.split(' ').slice(1).join(' ')}</Typography>
+              )}
+            </Grid>
+            
+            {/* Username */}
+            <Grid item xs={12} md={6}>
+              <Typography variant="body2" color="text.secondary">Username</Typography>
+              {editing && currentSection === 'personal' ? (
+                <TextField
+                  fullWidth
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  variant="standard"
+                  sx={{ mt: 1 }}
+                />
+              ) : (
+                <Typography variant="body1" sx={{ mt: 1 }}>{profileData.username}</Typography>
+              )}
+            </Grid>
+            
+            {/* Company Name */}
+            <Grid item xs={12} md={6}>
+              <Typography variant="body2" color="text.secondary">Company Name</Typography>
+              {editing && currentSection === 'personal' ? (
+                <TextField
+                  fullWidth
+                  name="companyName"
+                  value={formData.companyName}
+                  onChange={handleChange}
+                  variant="standard"
+                  sx={{ mt: 1 }}
+                />
+              ) : (
+                <Typography variant="body1" sx={{ mt: 1 }}>{profileData.companyName}</Typography>
               )}
             </Grid>
             
             {/* Email */}
             <Grid item xs={12} md={6}>
               <Typography variant="body2" color="text.secondary">Email address</Typography>
-              {editing && currentSection === 'company' ? (
+              {editing && currentSection === 'personal' ? (
                 <TextField
                   fullWidth
                   name="email"
-                  value={formData.email || "leilaameyer2@gmail.com"}
+                  value={formData.email}
                   onChange={handleChange}
                   variant="standard"
                   sx={{ mt: 1 }}
                 />
               ) : (
-                <Typography variant="body1" sx={{ mt: 1 }}>{profileData?.email || "leilaameyer2@gmail.com"}</Typography>
+                <Typography variant="body1" sx={{ mt: 1 }}>{profileData.email}</Typography>
               )}
             </Grid>
             
             {/* Phone */}
             <Grid item xs={12} md={6}>
               <Typography variant="body2" color="text.secondary">Phone</Typography>
-              {editing && currentSection === 'company' ? (
+              {editing && currentSection === 'personal' ? (
                 <TextField
                   fullWidth
                   name="phone"
-                  value={formData.phone || "(555) 123-4567"}
+                  value={formData.phone}
                   onChange={handleChange}
                   variant="standard"
                   sx={{ mt: 1 }}
                 />
               ) : (
-                <Typography variant="body1" sx={{ mt: 1 }}>{profileData?.phone || "(555) 123-4567"}</Typography>
+                <Typography variant="body1" sx={{ mt: 1 }}>{profileData.phone}</Typography>
               )}
             </Grid>
             
-            {/* Website */}
-            <Grid item xs={12} md={6}>
-              <Typography variant="body2" color="text.secondary">Website</Typography>
-              {editing && currentSection === 'company' ? (
+            {/* Position Title */}
+            <Grid item xs={12}>
+              <Typography variant="body2" color="text.secondary">Position Title</Typography>
+              {editing && currentSection === 'personal' ? (
                 <TextField
                   fullWidth
-                  name="website"
-                  value={formData.website || "www.leilascompany.com"}
+                  name="jobTitle"
+                  value={formData.jobTitle}
                   onChange={handleChange}
                   variant="standard"
                   sx={{ mt: 1 }}
                 />
               ) : (
-                <Typography variant="body1" sx={{ mt: 1 }}>www.leilascompany.com</Typography>
-              )}
-            </Grid>
-            
-            {/* Industry */}
-            <Grid item xs={12} md={6}>
-              <Typography variant="body2" color="text.secondary">Industry</Typography>
-              {editing && currentSection === 'company' ? (
-                <TextField
-                  fullWidth
-                  name="industry"
-                  value={formData.industry || "Technology"}
-                  onChange={handleChange}
-                  variant="standard"
-                  sx={{ mt: 1 }}
-                />
-              ) : (
-                <Typography variant="body1" sx={{ mt: 1 }}>Technology</Typography>
-              )}
-            </Grid>
-          </Grid>
-        </Paper>
-        
-        {/* Account Information */}
-        <Paper sx={{ p: 3, borderRadius: 2, mb: 3 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-            <Typography variant="h6">Account Information</Typography>
-            {!editing || currentSection !== 'account' ? (
-              <Button 
-                startIcon={<EditIcon />}
-                size="small"
-                sx={{ 
-                  color: '#4ECDC4', 
-                  fontSize: '0.8rem', 
-                  border: '1px solid #e0e0e0',
-                  borderRadius: '8px',
-                  py: 0.5,
-                  px: 1.5,
-                }}
-                onClick={() => handleEdit('account')}
-              >
-                Edit
-              </Button>
-            ) : (
-              <Box>
-                <Button 
-                  onClick={handleCancel}
-                  sx={{ 
-                    color: '#666',
-                    mr: 2,
-                    borderRadius: 8,
-                    textTransform: 'none'
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button 
-                  variant="contained"
-                  onClick={handleSave}
-                  sx={{ 
-                    bgcolor: '#4ECDC4', 
-                    color: 'white',
-                    '&:hover': { bgcolor: '#3dbdb5' }, 
-                    borderRadius: 8,
-                    textTransform: 'none'
-                  }}
-                >
-                  Save
-                </Button>
-              </Box>
-            )}
-          </Box>
-          
-          <Divider sx={{ mb: 3 }} />
-          
-          <Grid container spacing={4}>
-            {/* Username */}
-            <Grid item xs={12} md={6}>
-              <Typography variant="body2" color="text.secondary">Username</Typography>
-              {editing && currentSection === 'account' ? (
-                <TextField
-                  fullWidth
-                  name="username"
-                  value={formData.username || "@lmeyer"}
-                  onChange={handleChange}
-                  variant="standard"
-                  sx={{ mt: 1 }}
-                />
-              ) : (
-                <Typography variant="body1" sx={{ mt: 1 }}>{profileData?.username || "@lmeyer"}</Typography>
-              )}
-            </Grid>
-            
-            {/* Password */}
-            <Grid item xs={12} md={6}>
-              <Typography variant="body2" color="text.secondary">Password</Typography>
-              {editing && currentSection === 'account' ? (
-                <TextField
-                  fullWidth
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  value={formData.password || "********"}
-                  onChange={handleChange}
-                  variant="standard"
-                  sx={{ mt: 1 }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={handleTogglePasswordVisibility}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              ) : (
-                <Typography variant="body1" sx={{ mt: 1 }}>********</Typography>
+                <Typography variant="body1" sx={{ mt: 1 }}>{profileData.jobTitle}</Typography>
               )}
             </Grid>
           </Grid>
@@ -466,23 +405,6 @@ const ClientProfile = () => {
           <Divider sx={{ mb: 3 }} />
           
           <Grid container spacing={4}>
-            {/* Address */}
-            <Grid item xs={12}>
-              <Typography variant="body2" color="text.secondary">Street Address</Typography>
-              {editing && currentSection === 'address' ? (
-                <TextField
-                  fullWidth
-                  name="address"
-                  value={formData.address || "123 Green St"}
-                  onChange={handleChange}
-                  variant="standard"
-                  sx={{ mt: 1 }}
-                />
-              ) : (
-                <Typography variant="body1" sx={{ mt: 1 }}>123 Green St</Typography>
-              )}
-            </Grid>
-            
             {/* Country */}
             <Grid item xs={12} md={6}>
               <Typography variant="body2" color="text.secondary">Country</Typography>
@@ -553,7 +475,7 @@ const ClientProfile = () => {
           </Grid>
         </Paper>
       </Box>
-    </ClientDashboardLayout>
+    </Box>
   );
 };
 
