@@ -10,7 +10,12 @@ import {
   Stepper,
   Step,
   StepLabel,
-  StepContent
+  StepContent,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  DialogContentText
 } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -25,6 +30,7 @@ const SchedulePickup = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [activeStep, setActiveStep] = useState(0);
+  const [validationDialogOpen, setValidationDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
     // Company Information
     companyName: '',
@@ -116,7 +122,19 @@ const SchedulePickup = () => {
     });
   };
 
+  const validateCompanyInfo = () => {
+    // Check if all fields in company information section are filled
+    const { companyName, contactName, email, phone, address, city, state, zipCode } = formData;
+    return companyName && contactName && email && phone && address && city && state && zipCode;
+  };
+
   const handleNext = () => {
+    if (activeStep === 0 && !validateCompanyInfo()) {
+      // Show validation dialog if company information is incomplete
+      setValidationDialogOpen(true);
+      return;
+    }
+    
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -133,6 +151,10 @@ const SchedulePickup = () => {
     
     // Navigate back to dashboard
     navigate('/dashboard');
+  };
+
+  const handleCloseValidationDialog = () => {
+    setValidationDialogOpen(false);
   };
 
   // Define the steps for the stepper
@@ -156,89 +178,105 @@ const SchedulePickup = () => {
     switch (step) {
       case 0:
         return (
-          <Box sx={{ py: 3 }}>
+          <Box sx={{ py: 2 }}>
             <TextField
               fullWidth
-              label="Company Name"
+              required
+              label="Company Name *"
               name="companyName"
               value={formData.companyName}
               onChange={handleChange}
-              sx={{ mb: 3 }}
+              sx={{ mb: 2 }}
               InputLabelProps={{ shrink: true }}
+              size="small"
             />
             
-            <Grid container spacing={3} sx={{ mb: 3 }}>
+            <Grid container spacing={2} sx={{ mb: 2 }}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label="Contact Name"
+                  required
+                  label="Contact Name *"
                   name="contactName"
                   value={formData.contactName}
                   onChange={handleChange}
                   InputLabelProps={{ shrink: true }}
+                  size="small"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label="Email"
+                  required
+                  label="Email *"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
                   InputLabelProps={{ shrink: true }}
+                  size="small"
                 />
               </Grid>
             </Grid>
             
             <TextField
               fullWidth
-              label="Phone"
+              required
+              label="Phone *"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              sx={{ mb: 3 }}
+              sx={{ mb: 2 }}
               InputLabelProps={{ shrink: true }}
+              size="small"
             />
             
             <TextField
               fullWidth
-              label="Address"
+              required
+              label="Address *"
               name="address"
               value={formData.address}
               onChange={handleChange}
-              sx={{ mb: 3 }}
+              sx={{ mb: 2 }}
               InputLabelProps={{ shrink: true }}
+              size="small"
             />
             
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>
                 <TextField
                   fullWidth
-                  label="City"
+                  required
+                  label="City *"
                   name="city"
                   value={formData.city}
                   onChange={handleChange}
                   InputLabelProps={{ shrink: true }}
+                  size="small"
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
                   fullWidth
-                  label="State"
+                  required
+                  label="State *"
                   name="state"
                   value={formData.state}
                   onChange={handleChange}
                   InputLabelProps={{ shrink: true }}
+                  size="small"
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
                   fullWidth
-                  label="Zip Code"
+                  required
+                  label="Zip Code *"
                   name="zipCode"
                   value={formData.zipCode}
                   onChange={handleChange}
                   InputLabelProps={{ shrink: true }}
+                  size="small"
                 />
               </Grid>
             </Grid>
@@ -247,12 +285,12 @@ const SchedulePickup = () => {
         
       case 1:
         return (
-          <Box sx={{ py: 3 }}>
+          <Box sx={{ py: 2 }}>
             <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 500 }}>
               On-Site Contact (Person Present at Pickup)
             </Typography>
             
-            <Grid container spacing={3} sx={{ mb: 3 }}>
+            <Grid container spacing={2} sx={{ mb: 2 }}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -260,6 +298,7 @@ const SchedulePickup = () => {
                   name="onSiteContactName"
                   value={formData.onSiteContactName}
                   onChange={handleChange}
+                  size="small"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -269,11 +308,12 @@ const SchedulePickup = () => {
                   name="onSiteContactJobTitle"
                   value={formData.onSiteContactJobTitle}
                   onChange={handleChange}
+                  size="small"
                 />
               </Grid>
             </Grid>
             
-            <Grid container spacing={3} sx={{ mb: 3 }}>
+            <Grid container spacing={2} sx={{ mb: 2 }}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -281,6 +321,7 @@ const SchedulePickup = () => {
                   name="onSiteContactPhone"
                   value={formData.onSiteContactPhone}
                   onChange={handleChange}
+                  size="small"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -290,11 +331,12 @@ const SchedulePickup = () => {
                   name="onSiteContactEmail"
                   value={formData.onSiteContactEmail}
                   onChange={handleChange}
+                  size="small"
                 />
               </Grid>
             </Grid>
             
-            <Grid container spacing={3} sx={{ mb: 3 }}>
+            <Grid container spacing={2} sx={{ mb: 2 }}>
               <Grid item xs={12} sm={6}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
@@ -305,6 +347,7 @@ const SchedulePickup = () => {
                       <TextField
                         {...params}
                         fullWidth
+                        size="small"
                       />
                     )}
                   />
@@ -320,6 +363,7 @@ const SchedulePickup = () => {
                       <TextField
                         {...params}
                         fullWidth
+                        size="small"
                       />
                     )}
                   />
@@ -333,10 +377,11 @@ const SchedulePickup = () => {
               name="pickupAddress"
               value={formData.pickupAddress}
               onChange={handleChange}
-              sx={{ mb: 3 }}
+              sx={{ mb: 2 }}
+              size="small"
             />
             
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>
                 <TextField
                   fullWidth
@@ -344,6 +389,7 @@ const SchedulePickup = () => {
                   name="pickupCity"
                   value={formData.pickupCity}
                   onChange={handleChange}
+                  size="small"
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -353,6 +399,7 @@ const SchedulePickup = () => {
                   name="pickupState"
                   value={formData.pickupState}
                   onChange={handleChange}
+                  size="small"
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -362,6 +409,7 @@ const SchedulePickup = () => {
                   name="pickupZipCode"
                   value={formData.pickupZipCode}
                   onChange={handleChange}
+                  size="small"
                 />
               </Grid>
             </Grid>
@@ -370,7 +418,7 @@ const SchedulePickup = () => {
         
       case 2:
         return (
-          <Box sx={{ py: 3 }}>
+          <Box sx={{ py: 2 }}>
             <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 500 }}>
               Company Information
             </Typography>
@@ -381,10 +429,11 @@ const SchedulePickup = () => {
               name="companyName"
               value={formData.companyName}
               InputProps={{ readOnly: true }}
-              sx={{ mb: 3 }}
+              sx={{ mb: 2 }}
+              size="small"
             />
             
-            <Grid container spacing={3} sx={{ mb: 3 }}>
+            <Grid container spacing={2} sx={{ mb: 2 }}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -392,6 +441,7 @@ const SchedulePickup = () => {
                   name="contactName"
                   value={formData.contactName}
                   InputProps={{ readOnly: true }}
+                  size="small"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -401,6 +451,7 @@ const SchedulePickup = () => {
                   name="email"
                   value={formData.email}
                   InputProps={{ readOnly: true }}
+                  size="small"
                 />
               </Grid>
             </Grid>
@@ -411,7 +462,8 @@ const SchedulePickup = () => {
               name="phone"
               value={formData.phone}
               InputProps={{ readOnly: true }}
-              sx={{ mb: 3 }}
+              sx={{ mb: 2 }}
+              size="small"
             />
             
             <TextField
@@ -420,10 +472,11 @@ const SchedulePickup = () => {
               name="address"
               value={formData.address}
               InputProps={{ readOnly: true }}
-              sx={{ mb: 3 }}
+              sx={{ mb: 2 }}
+              size="small"
             />
             
-            <Grid container spacing={3} sx={{ mb: 4 }}>
+            <Grid container spacing={2} sx={{ mb: 3 }}>
               <Grid item xs={12} sm={4}>
                 <TextField
                   fullWidth
@@ -431,6 +484,7 @@ const SchedulePickup = () => {
                   name="city"
                   value={formData.city}
                   InputProps={{ readOnly: true }}
+                  size="small"
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -440,6 +494,7 @@ const SchedulePickup = () => {
                   name="state"
                   value={formData.state}
                   InputProps={{ readOnly: true }}
+                  size="small"
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -449,6 +504,7 @@ const SchedulePickup = () => {
                   name="zipCode"
                   value={formData.zipCode}
                   InputProps={{ readOnly: true }}
+                  size="small"
                 />
               </Grid>
             </Grid>
@@ -457,7 +513,7 @@ const SchedulePickup = () => {
               On-Site Contact (Person Present at Pickup)
             </Typography>
             
-            <Grid container spacing={3} sx={{ mb: 3 }}>
+            <Grid container spacing={2} sx={{ mb: 2 }}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -465,6 +521,7 @@ const SchedulePickup = () => {
                   name="onSiteContactName"
                   value={formData.onSiteContactName}
                   InputProps={{ readOnly: true }}
+                  size="small"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -474,11 +531,12 @@ const SchedulePickup = () => {
                   name="onSiteContactJobTitle"
                   value={formData.onSiteContactJobTitle}
                   InputProps={{ readOnly: true }}
+                  size="small"
                 />
               </Grid>
             </Grid>
             
-            <Grid container spacing={3} sx={{ mb: 3 }}>
+            <Grid container spacing={2} sx={{ mb: 2 }}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -486,6 +544,7 @@ const SchedulePickup = () => {
                   name="onSiteContactPhone"
                   value={formData.onSiteContactPhone}
                   InputProps={{ readOnly: true }}
+                  size="small"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -495,29 +554,28 @@ const SchedulePickup = () => {
                   name="onSiteContactEmail"
                   value={formData.onSiteContactEmail}
                   InputProps={{ readOnly: true }}
+                  size="small"
                 />
               </Grid>
             </Grid>
             
-            <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 500 }}>
-              Pickup Details
-            </Typography>
-            
-            <Grid container spacing={3} sx={{ mb: 3 }}>
+            <Grid container spacing={2} sx={{ mb: 2 }}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label="Preferred Date"
                   value={formData.preferredDate ? formData.preferredDate.toLocaleDateString() : ''}
                   InputProps={{ readOnly: true }}
+                  size="small"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label="Preferred Time"
-                  value={formData.preferredTimeWindow ? formData.preferredTimeWindow.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
+                  value={formData.preferredTimeWindow ? formData.preferredTimeWindow.toLocaleTimeString() : ''}
                   InputProps={{ readOnly: true }}
+                  size="small"
                 />
               </Grid>
             </Grid>
@@ -528,10 +586,11 @@ const SchedulePickup = () => {
               name="pickupAddress"
               value={formData.pickupAddress}
               InputProps={{ readOnly: true }}
-              sx={{ mb: 3 }}
+              sx={{ mb: 2 }}
+              size="small"
             />
             
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>
                 <TextField
                   fullWidth
@@ -539,6 +598,7 @@ const SchedulePickup = () => {
                   name="pickupCity"
                   value={formData.pickupCity}
                   InputProps={{ readOnly: true }}
+                  size="small"
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -548,6 +608,7 @@ const SchedulePickup = () => {
                   name="pickupState"
                   value={formData.pickupState}
                   InputProps={{ readOnly: true }}
+                  size="small"
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -557,6 +618,7 @@ const SchedulePickup = () => {
                   name="pickupZipCode"
                   value={formData.pickupZipCode}
                   InputProps={{ readOnly: true }}
+                  size="small"
                 />
               </Grid>
             </Grid>
@@ -569,56 +631,90 @@ const SchedulePickup = () => {
   };
 
   return (
-    <ClientDashboardLayout>
-      <Box sx={{ width: '100%' }}>
-        <Typography variant="h6" sx={{ mb: 3, fontWeight: 500, fontSize: '1rem' }}>Schedule Pickup</Typography>
-        
-        <Paper sx={{ p: 3, borderRadius: 2 }}>
-          <Stepper activeStep={activeStep} orientation="vertical">
-            {steps.map((step, index) => (
-              <Step key={step.label}>
-                <StepLabel>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>{step.label}</Typography>
-                </StepLabel>
-                <StepContent>
-                  <Typography 
-                    variant="body2" 
-                    color="text.secondary" 
-                    sx={{ mb: 2 }}
+    <Box sx={getContentContainerStyle()} data-boundary="true">
+      <Box sx={getContentWrapperStyle()}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+          <Typography variant="h5" sx={{ mb: 3, textAlign: 'center' }}>
+            Schedule E-Waste Pickup
+          </Typography>
+          
+          <Typography variant="body1" sx={{ mb: 4, textAlign: 'center', maxWidth: '600px' }}>
+            Fill out the form below to schedule your electronic waste pickup.
+          </Typography>
+          
+          <Box sx={{ maxWidth: '700px', width: '100%' }}>
+            <Stepper activeStep={activeStep} orientation="horizontal" sx={{ mb: 4 }}>
+              {steps.map((step, index) => (
+                <Step key={step.label}>
+                  <StepLabel>{step.label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            
+            <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
+              {getStepContent(activeStep)}
+              
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  variant="outlined"
+                >
+                  Back
+                </Button>
+                
+                {activeStep === steps.length - 1 ? (
+                  <Button 
+                    variant="contained"
+                    onClick={handleSubmit}
+                    sx={{ 
+                      bgcolor: '#4ECDC4', 
+                      '&:hover': { bgcolor: '#3dbdb5' } 
+                    }}
                   >
-                    {step.description}
-                  </Typography>
-                  
-                  {getStepContent(index)}
-                  
-                  <Box sx={{ mb: 2, mt: 2 }}>
-                    <Button
-                      variant="contained"
-                      onClick={index === steps.length - 1 ? handleSubmit : handleNext}
-                      sx={{ 
-                        mt: 1, 
-                        mr: 1,
-                        bgcolor: '#4ECDC4',
-                        '&:hover': { bgcolor: '#3dbdb5' }
-                      }}
-                    >
-                      {index === steps.length - 1 ? 'Submit' : 'Continue'}
-                    </Button>
-                    <Button
-                      disabled={index === 0}
-                      onClick={handleBack}
-                      sx={{ mt: 1, mr: 1 }}
-                    >
-                      Back
-                    </Button>
-                  </Box>
-                </StepContent>
-              </Step>
-            ))}
-          </Stepper>
-        </Paper>
+                    Submit
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    onClick={handleNext}
+                    sx={{ 
+                      bgcolor: '#4ECDC4', 
+                      '&:hover': { bgcolor: '#3dbdb5' } 
+                    }}
+                  >
+                    Next
+                  </Button>
+                )}
+              </Box>
+            </Paper>
+          </Box>
+        </Box>
       </Box>
-    </ClientDashboardLayout>
+      
+      {/* Validation Dialog */}
+      <Dialog
+        open={validationDialogOpen}
+        onClose={handleCloseValidationDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Required Information Missing"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Please complete all required fields in the Company Information section before proceeding.
+            Required fields are marked with an asterisk (*).
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseValidationDialog} autoFocus color="primary">
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
 };
 
