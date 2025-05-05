@@ -587,7 +587,7 @@ const AdminDashboard = () => {
                 </Button>
               </Box>
               
-              <TableContainer sx={{ width: '90%', mx: 'auto' }}>
+              <TableContainer>
                 <Table size="small">
                   <TableHead>
                     <TableRow sx={{ 
@@ -701,7 +701,7 @@ const AdminDashboard = () => {
                 </Button>
               </Box>
               
-              <TableContainer sx={{ width: '90%', mx: 'auto' }}>
+              <TableContainer>
                 <Table size="small">
                   <TableHead>
                     <TableRow sx={{ 
@@ -829,7 +829,7 @@ const AdminDashboard = () => {
                 </Button>
               </Box>
               
-              <TableContainer sx={{ width: '90%', mx: 'auto' }}>
+              <TableContainer>
                 <Table size="small">
                   <TableHead>
                     <TableRow sx={{ 

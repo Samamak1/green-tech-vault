@@ -24,19 +24,20 @@ import {
   DialogActions,
   Divider,
   Menu,
-  MenuItem
+  MenuItem,
+  CircularProgress
 } from '@mui/material';
 import {
+  ArrowBack as ArrowBackIcon,
   Edit as EditIcon,
   Delete as DeleteIcon,
+  Add as AddIcon,
+  Save as SaveIcon,
+  Logout as LogoutIcon,
   Search as SearchIcon,
   FilterList as FilterListIcon,
-  ArrowBack as ArrowBackIcon,
-  ExpandMore as ExpandMoreIcon,
-  Visibility as EyeIcon
 } from '@mui/icons-material';
 import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
-import AdminLayout from '../components/layout/AdminLayout';
 
 const AdminClientProfile = () => {
   const { clientId } = useParams();
@@ -55,6 +56,10 @@ const AdminClientProfile = () => {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [addDeviceDialogOpen, setAddDeviceDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [isEditingCompanyInfo, setIsEditingCompanyInfo] = useState(false);
+  const [editedClientInfo, setEditedClientInfo] = useState(null);
+  const [isEditingPickupInfo, setIsEditingPickupInfo] = useState(false);
+  const [editedPickupInfo, setEditedPickupInfo] = useState(null);
 
   useEffect(() => {
     // In a real app, you would fetch the actual client data
@@ -258,7 +263,7 @@ const AdminClientProfile = () => {
   };
 
   const handleSchedulePickup = () => {
-    navigate(`/schedule-pickup/${clientId}`);
+    navigate(`/admin/schedule-pickup`);
   };
 
   const getStatusChipStyle = (status) => {
@@ -333,11 +338,55 @@ const AdminClientProfile = () => {
     setDeleteDialogOpen(false);
   };
 
+  const handleToggleEditCompanyInfo = () => {
+    if (isEditingCompanyInfo) {
+      // Save changes
+      setClient({...client, ...editedClientInfo});
+      setIsEditingCompanyInfo(false);
+      setEditedClientInfo(null);
+    } else {
+      // Start editing
+      setEditedClientInfo({...client});
+      setIsEditingCompanyInfo(true);
+    }
+  };
+
+  const handleCompanyInfoChange = (e) => {
+    const { name, value } = e.target;
+    setEditedClientInfo({...editedClientInfo, [name]: value});
+  };
+
+  const handleToggleEditPickupInfo = () => {
+    if (isEditingPickupInfo) {
+      // Save changes
+      const updatedPickups = pickups.map(pickup => 
+        pickup.id === selectedPickup.id ? { ...pickup, ...editedPickupInfo } : pickup
+      );
+      setPickups(updatedPickups);
+      setSelectedPickup({...selectedPickup, ...editedPickupInfo});
+      setIsEditingPickupInfo(false);
+      setEditedPickupInfo(null);
+    } else {
+      // Start editing
+      setEditedPickupInfo({...selectedPickup});
+      setIsEditingPickupInfo(true);
+    }
+  };
+
+  const handlePickupInfoChange = (e) => {
+    const { name, value } = e.target;
+    setEditedPickupInfo({...editedPickupInfo, [name]: value});
+  };
+
   if (loading) {
     return (
-      <AdminLayout>
-        <Box sx={{ p: 3 }}>Loading...</Box>
-      </AdminLayout>
+      <Box sx={getContentContainerStyle()} data-boundary="true">
+        <Box sx={getContentWrapperStyle()}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <CircularProgress />
+          </Box>
+        </Box>
+      </Box>
     );
   }
 
@@ -416,8 +465,9 @@ const AdminClientProfile = () => {
                       </Typography>
                     </Box>
                     <Button 
-                      startIcon={<EditIcon />} 
+                      startIcon={isEditingCompanyInfo ? null : <EditIcon />} 
                       size="small"
+                      onClick={handleToggleEditCompanyInfo}
                       sx={{ 
                         color: '#4ECDC4', 
                         fontSize: '0.8rem', 
@@ -427,7 +477,7 @@ const AdminClientProfile = () => {
                         px: 1.5,
                       }}
                     >
-                      Edit
+                      {isEditingCompanyInfo ? 'Save' : 'Edit'}
                     </Button>
                   </Box>
                   <Divider sx={{ mt: 1, mb: 3 }} />
@@ -438,49 +488,140 @@ const AdminClientProfile = () => {
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Company Name</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">{client.name}</Typography>
+                        {isEditingCompanyInfo ? (
+                          <TextField
+                            fullWidth
+                            size="small"
+                            name="name"
+                            value={editedClientInfo.name}
+                            onChange={handleCompanyInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2">{client.name}</Typography>
+                        )}
                       </Grid>
 
                       <Grid item xs={5}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Email</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">{client.email}</Typography>
+                        {isEditingCompanyInfo ? (
+                          <TextField
+                            fullWidth
+                            size="small"
+                            name="email"
+                            value={editedClientInfo.email}
+                            onChange={handleCompanyInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2">{client.email}</Typography>
+                        )}
                       </Grid>
 
                       <Grid item xs={5}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">{client.phone}</Typography>
+                        {isEditingCompanyInfo ? (
+                          <TextField
+                            fullWidth
+                            size="small"
+                            name="phone"
+                            value={editedClientInfo.phone}
+                            onChange={handleCompanyInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2">{client.phone}</Typography>
+                        )}
                       </Grid>
 
                       <Grid item xs={5}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Address</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">{client.address}</Typography>
+                        {isEditingCompanyInfo ? (
+                          <TextField
+                            fullWidth
+                            size="small"
+                            name="address"
+                            value={editedClientInfo.address}
+                            onChange={handleCompanyInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2">{client.address}</Typography>
+                        )}
                       </Grid>
 
                       <Grid item xs={5}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Website</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">{client.website}</Typography>
+                        {isEditingCompanyInfo ? (
+                          <TextField
+                            fullWidth
+                            size="small"
+                            name="website"
+                            value={editedClientInfo.website}
+                            onChange={handleCompanyInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2">{client.website}</Typography>
+                        )}
                       </Grid>
 
                       <Grid item xs={5}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Industry</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">{client.industry}</Typography>
+                        {isEditingCompanyInfo ? (
+                          <TextField
+                            fullWidth
+                            size="small"
+                            name="industry"
+                            value={editedClientInfo.industry}
+                            onChange={handleCompanyInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2">{client.industry}</Typography>
+                        )}
                       </Grid>
 
                       <Grid item xs={5}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Employees</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">{client.employees}</Typography>
+                        {isEditingCompanyInfo ? (
+                          <TextField
+                            fullWidth
+                            size="small"
+                            name="employees"
+                            value={editedClientInfo.employees}
+                            onChange={handleCompanyInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2">{client.employees}</Typography>
+                        )}
                       </Grid>
                     </Grid>
                   </Box>
@@ -629,8 +770,9 @@ const AdminClientProfile = () => {
                       Pickup Information
                     </Typography>
                     <Button 
-                      startIcon={<EditIcon />} 
+                      startIcon={isEditingPickupInfo ? null : <EditIcon />} 
                       size="small"
+                      onClick={handleToggleEditPickupInfo}
                       sx={{ 
                         color: '#4ECDC4', 
                         fontSize: '0.8rem', 
@@ -640,7 +782,7 @@ const AdminClientProfile = () => {
                         px: 1.5,
                       }}
                     >
-                      Edit Status
+                      {isEditingPickupInfo ? 'Save' : 'Edit Status'}
                     </Button>
                   </Box>
                   <Divider sx={{ mt: 1, mb: 3 }} />
@@ -672,46 +814,119 @@ const AdminClientProfile = () => {
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Location</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">{selectedPickup.location}</Typography>
+                        {isEditingPickupInfo ? (
+                          <TextField
+                            fullWidth
+                            size="small"
+                            name="location"
+                            value={editedPickupInfo.location}
+                            onChange={handlePickupInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2">{selectedPickup.location}</Typography>
+                        )}
                       </Grid>
 
                       <Grid item xs={5}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Contact</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">{selectedPickup.contact}</Typography>
+                        {isEditingPickupInfo ? (
+                          <TextField
+                            fullWidth
+                            size="small"
+                            name="contact"
+                            value={editedPickupInfo.contact}
+                            onChange={handlePickupInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2">{selectedPickup.contact}</Typography>
+                        )}
                       </Grid>
 
                       <Grid item xs={5}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Phone</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">{selectedPickup.contactPhone}</Typography>
+                        {isEditingPickupInfo ? (
+                          <TextField
+                            fullWidth
+                            size="small"
+                            name="contactPhone"
+                            value={editedPickupInfo.contactPhone}
+                            onChange={handlePickupInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2">{selectedPickup.contactPhone}</Typography>
+                        )}
                       </Grid>
 
                       <Grid item xs={5}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Status</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Chip
-                          label={selectedPickup.status === 'complete' ? 'Complete' : 
-                               selectedPickup.status === 'in-processing' ? 'Processing' : 
-                               selectedPickup.status === 'recycled' ? 'Received' : selectedPickup.status}
-                          size="small"
-                          sx={{
-                            ...getStatusChipStyle(selectedPickup.status),
-                            textTransform: 'capitalize',
-                            fontWeight: 500,
-                            py: 0.5
-                          }}
-                        />
+                        {isEditingPickupInfo ? (
+                          <TextField
+                            select
+                            fullWidth
+                            size="small"
+                            name="status"
+                            value={editedPickupInfo.status}
+                            onChange={handlePickupInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          >
+                            <MenuItem value="complete">Complete</MenuItem>
+                            <MenuItem value="in-processing">In Processing</MenuItem>
+                            <MenuItem value="recycled">Received</MenuItem>
+                            <MenuItem value="scheduled">Scheduled</MenuItem>
+                          </TextField>
+                        ) : (
+                          <Chip
+                            label={selectedPickup.status === 'complete' ? 'Complete' : 
+                                selectedPickup.status === 'in-processing' ? 'Processing' : 
+                                selectedPickup.status === 'recycled' ? 'Received' : selectedPickup.status}
+                            size="small"
+                            sx={{ 
+                              ...getStatusChipStyle(selectedPickup.status), 
+                              textTransform: 'capitalize',
+                              fontWeight: 500,
+                              py: 0.5
+                            }}
+                          />
+                        )}
                       </Grid>
 
                       <Grid item xs={5}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>Notes</Typography>
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body2">{selectedPickup.notes}</Typography>
+                        {isEditingPickupInfo ? (
+                          <TextField
+                            fullWidth
+                            multiline
+                            rows={2}
+                            size="small"
+                            name="notes"
+                            value={editedPickupInfo.notes}
+                            onChange={handlePickupInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2">{selectedPickup.notes}</Typography>
+                        )}
                       </Grid>
                     </Grid>
                   </Box>
@@ -895,7 +1110,7 @@ const AdminClientProfile = () => {
                         textTransform: 'none'
                       }}
                     >
-                      + Schedule a Pickup
+                      Schedule Pickup
                     </Button>
                   </Box>
 
@@ -903,9 +1118,6 @@ const AdminClientProfile = () => {
                     <Table sx={{ minWidth: 650, tableLayout: 'fixed' }}>
                       <TableHead>
                         <TableRow sx={{ bgcolor: '#f5f5f5' }}>
-                          <TableCell padding="checkbox" width="40px">
-                            <input type="checkbox" />
-                          </TableCell>
                           <TableCell width="15%">Client</TableCell>
                           <TableCell width="12%">Date</TableCell>
                           <TableCell width="12%">Time</TableCell>
@@ -923,9 +1135,6 @@ const AdminClientProfile = () => {
                             onClick={() => handlePickupSelect(pickup)}
                             sx={{ cursor: 'pointer' }}
                           >
-                            <TableCell padding="checkbox">
-                              <input type="checkbox" />
-                            </TableCell>
                             <TableCell>{pickup.personName}</TableCell>
                             <TableCell>{pickup.date}</TableCell>
                             <TableCell>{pickup.time}</TableCell>
