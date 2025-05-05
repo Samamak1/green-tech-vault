@@ -37,7 +37,8 @@ import {
   Delete as DeleteIcon,
   MoreVert as MoreVertIcon,
   InsertDriveFile as DocumentIcon,
-  Print as PrintIcon
+  Print as PrintIcon,
+  Save as SaveIcon
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
@@ -62,6 +63,10 @@ const RYGNProfile = () => {
   const [deleteType, setDeleteType] = useState('');
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [deleteItemName, setDeleteItemName] = useState('');
+  const [editingPickupId, setEditingPickupId] = useState(null);
+  const [editingDeviceId, setEditingDeviceId] = useState(null);
+  const [editedPickup, setEditedPickup] = useState(null);
+  const [editedDevice, setEditedDevice] = useState(null);
 
   useEffect(() => {
     // In a real app, you would fetch the actual client data
@@ -329,6 +334,52 @@ const RYGNProfile = () => {
 
   // Get the pickup information to display
   const pickupInfoToDisplay = selectedPickupInfo || { rygnContact: defaultRygnContactInfo, ...defaultRygnContactInfo };
+
+  // Add these handler functions
+  const handleEditPickup = (pickup, e) => {
+    e.stopPropagation();
+    setEditingPickupId(pickup.id);
+    setEditedPickup({...pickup});
+  };
+
+  const handleSavePickup = (pickupId, e) => {
+    e.stopPropagation();
+    const updatedPickups = mockPickups.map(pickup => 
+      pickup.id === pickupId ? {...editedPickup} : pickup
+    );
+    setMockPickups(updatedPickups);
+    setEditingPickupId(null);
+    
+    // If this was the selected pickup, update it
+    if (selectedPickup === pickupId) {
+      setSelectedPickupInfo(editedPickup);
+    }
+  };
+
+  const handlePickupFieldChange = (e) => {
+    const { name, value } = e.target;
+    setEditedPickup(prev => ({...prev, [name]: value}));
+  };
+
+  const handleEditDevice = (device, e) => {
+    e.stopPropagation();
+    setEditingDeviceId(device.id);
+    setEditedDevice({...device});
+  };
+
+  const handleSaveDevice = (deviceId, e) => {
+    e.stopPropagation();
+    const updatedDevices = mockDevices.map(device => 
+      device.id === deviceId ? {...editedDevice} : device
+    );
+    setMockDevices(updatedDevices);
+    setEditingDeviceId(null);
+  };
+
+  const handleDeviceFieldChange = (e) => {
+    const { name, value } = e.target;
+    setEditedDevice(prev => ({...prev, [name]: value}));
+  };
 
   if (loading) {
     return (
@@ -987,32 +1038,137 @@ const RYGNProfile = () => {
                               onChange={() => handlePickupSelect(pickup)}
                             />
                           </TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{pickup.rygnContact?.fullName || pickup.client}</TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{pickup.date}</TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{pickup.time}</TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{pickup.location}</TableCell>
-                          <TableCell sx={{ py: 0.5 }}>
-                            <Chip 
-                              label={pickup.status} 
-                              size="small"
-                              sx={{ 
-                                borderRadius: 1, 
-                                fontSize: '0.65rem',
-                                py: 0,
-                                height: '20px',
-                                ...getStatusChipColor(pickup.status)
-                              }} 
-                            />
+                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {editingPickupId === pickup.id ? (
+                              <TextField
+                                size="small"
+                                name="client"
+                                value={editedPickup.client}
+                                onChange={handlePickupFieldChange}
+                                variant="outlined"
+                                fullWidth
+                                sx={{ fontSize: '0.75rem' }}
+                                InputProps={{ sx: { fontSize: '0.75rem', padding: '2px 8px' } }}
+                              />
+                            ) : (
+                              pickup.rygnContact?.fullName || pickup.client
+                            )}
                           </TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{pickup.weight}</TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>
+                            {editingPickupId === pickup.id ? (
+                              <TextField
+                                size="small"
+                                name="date"
+                                value={editedPickup.date}
+                                onChange={handlePickupFieldChange}
+                                variant="outlined"
+                                fullWidth
+                                sx={{ fontSize: '0.75rem' }}
+                                InputProps={{ sx: { fontSize: '0.75rem', padding: '2px 8px' } }}
+                              />
+                            ) : (
+                              pickup.date
+                            )}
+                          </TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>
+                            {editingPickupId === pickup.id ? (
+                              <TextField
+                                size="small"
+                                name="time"
+                                value={editedPickup.time}
+                                onChange={handlePickupFieldChange}
+                                variant="outlined"
+                                fullWidth
+                                sx={{ fontSize: '0.75rem' }}
+                                InputProps={{ sx: { fontSize: '0.75rem', padding: '2px 8px' } }}
+                              />
+                            ) : (
+                              pickup.time
+                            )}
+                          </TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {editingPickupId === pickup.id ? (
+                              <TextField
+                                size="small"
+                                name="location"
+                                value={editedPickup.location}
+                                onChange={handlePickupFieldChange}
+                                variant="outlined"
+                                fullWidth
+                                sx={{ fontSize: '0.75rem' }}
+                                InputProps={{ sx: { fontSize: '0.75rem', padding: '2px 8px' } }}
+                              />
+                            ) : (
+                              pickup.location
+                            )}
+                          </TableCell>
+                          <TableCell sx={{ py: 0.5 }}>
+                            {editingPickupId === pickup.id ? (
+                              <TextField
+                                select
+                                size="small"
+                                name="status"
+                                value={editedPickup.status}
+                                onChange={handlePickupFieldChange}
+                                variant="outlined"
+                                fullWidth
+                                sx={{ fontSize: '0.75rem' }}
+                                InputProps={{ sx: { fontSize: '0.75rem', padding: '2px 8px' } }}
+                              >
+                                <MenuItem value="Complete">Complete</MenuItem>
+                                <MenuItem value="In Process">In Process</MenuItem>
+                                <MenuItem value="Received">Received</MenuItem>
+                              </TextField>
+                            ) : (
+                              <Chip 
+                                label={pickup.status} 
+                                size="small"
+                                sx={{ 
+                                  borderRadius: 1, 
+                                  fontSize: '0.65rem',
+                                  py: 0,
+                                  height: '20px',
+                                  ...getStatusChipColor(pickup.status)
+                                }} 
+                              />
+                            )}
+                          </TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>
+                            {editingPickupId === pickup.id ? (
+                              <TextField
+                                size="small"
+                                name="weight"
+                                type="number"
+                                value={editedPickup.weight}
+                                onChange={handlePickupFieldChange}
+                                variant="outlined"
+                                fullWidth
+                                sx={{ fontSize: '0.75rem' }}
+                                InputProps={{ sx: { fontSize: '0.75rem', padding: '2px 8px' } }}
+                              />
+                            ) : (
+                              pickup.weight
+                            )}
+                          </TableCell>
                           <TableCell sx={{ py: 0.5 }}>
                             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                              <IconButton 
-                                size="small" 
-                                sx={{ color: '#4ECDC4' }}
-                              >
-                                <EditIcon fontSize="small" />
-                              </IconButton>
+                              {editingPickupId === pickup.id ? (
+                                <IconButton 
+                                  size="small" 
+                                  sx={{ color: '#4CAF50' }}
+                                  onClick={(e) => handleSavePickup(pickup.id, e)}
+                                >
+                                  <SaveIcon fontSize="small" />
+                                </IconButton>
+                              ) : (
+                                <IconButton 
+                                  size="small" 
+                                  sx={{ color: '#4ECDC4' }}
+                                  onClick={(e) => handleEditPickup(pickup, e)}
+                                >
+                                  <EditIcon fontSize="small" />
+                                </IconButton>
+                              )}
                               <IconButton 
                                 size="small" 
                                 sx={{ color: '#666' }}
@@ -1053,37 +1209,142 @@ const RYGNProfile = () => {
                               sx={{ p: 0.5 }}
                             />
                           </TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{device.type}</TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{device.manufacturer}</TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{device.model}</TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{device.serialNumber}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>
-                            <Chip 
-                              label={device.status} 
-                              size="small"
-                              sx={{ 
-                                borderRadius: 1, 
-                                fontSize: '0.65rem',
-                                py: 0,
-                                height: '20px',
-                                bgcolor: device.status === 'Refurbished' ? '#e8f5e9' : 
-                                  device.status === 'Recycled' ? '#e3f2fd' : 
-                                  device.status === 'Disposed' ? '#ffebee' : '#f5f5f5',
-                                color: device.status === 'Refurbished' ? '#2e7d32' : 
-                                  device.status === 'Recycled' ? '#1565c0' : 
-                                  device.status === 'Disposed' ? '#c62828' : '#616161'
-                              }} 
-                            />
+                            {editingDeviceId === device.id ? (
+                              <TextField
+                                size="small"
+                                name="type"
+                                value={editedDevice.type}
+                                onChange={handleDeviceFieldChange}
+                                variant="outlined"
+                                fullWidth
+                                sx={{ fontSize: '0.75rem' }}
+                                InputProps={{ sx: { fontSize: '0.75rem', padding: '2px 8px' } }}
+                              />
+                            ) : (
+                              device.type
+                            )}
                           </TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{device.weight}</TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {editingDeviceId === device.id ? (
+                              <TextField
+                                size="small"
+                                name="manufacturer"
+                                value={editedDevice.manufacturer}
+                                onChange={handleDeviceFieldChange}
+                                variant="outlined"
+                                fullWidth
+                                sx={{ fontSize: '0.75rem' }}
+                                InputProps={{ sx: { fontSize: '0.75rem', padding: '2px 8px' } }}
+                              />
+                            ) : (
+                              device.manufacturer
+                            )}
+                          </TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {editingDeviceId === device.id ? (
+                              <TextField
+                                size="small"
+                                name="model"
+                                value={editedDevice.model}
+                                onChange={handleDeviceFieldChange}
+                                variant="outlined"
+                                fullWidth
+                                sx={{ fontSize: '0.75rem' }}
+                                InputProps={{ sx: { fontSize: '0.75rem', padding: '2px 8px' } }}
+                              />
+                            ) : (
+                              device.model
+                            )}
+                          </TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {editingDeviceId === device.id ? (
+                              <TextField
+                                size="small"
+                                name="serialNumber"
+                                value={editedDevice.serialNumber}
+                                onChange={handleDeviceFieldChange}
+                                variant="outlined"
+                                fullWidth
+                                sx={{ fontSize: '0.75rem' }}
+                                InputProps={{ sx: { fontSize: '0.75rem', padding: '2px 8px' } }}
+                              />
+                            ) : (
+                              device.serialNumber
+                            )}
+                          </TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>
+                            {editingDeviceId === device.id ? (
+                              <TextField
+                                select
+                                size="small"
+                                name="status"
+                                value={editedDevice.status}
+                                onChange={handleDeviceFieldChange}
+                                variant="outlined"
+                                fullWidth
+                                sx={{ fontSize: '0.75rem' }}
+                                InputProps={{ sx: { fontSize: '0.75rem', padding: '2px 8px' } }}
+                              >
+                                <MenuItem value="Refurbished">Refurbished</MenuItem>
+                                <MenuItem value="Recycled">Recycled</MenuItem>
+                                <MenuItem value="Disposed">Disposed</MenuItem>
+                              </TextField>
+                            ) : (
+                              <Chip 
+                                label={device.status} 
+                                size="small"
+                                sx={{ 
+                                  borderRadius: 1, 
+                                  fontSize: '0.65rem',
+                                  py: 0,
+                                  height: '20px',
+                                  bgcolor: device.status === 'Refurbished' ? '#e8f5e9' : 
+                                    device.status === 'Recycled' ? '#e3f2fd' : 
+                                    device.status === 'Disposed' ? '#ffebee' : '#f5f5f5',
+                                  color: device.status === 'Refurbished' ? '#2e7d32' : 
+                                    device.status === 'Recycled' ? '#1565c0' : 
+                                    device.status === 'Disposed' ? '#c62828' : '#616161'
+                                }} 
+                              />
+                            )}
+                          </TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>
+                            {editingDeviceId === device.id ? (
+                              <TextField
+                                size="small"
+                                name="weight"
+                                type="number"
+                                value={editedDevice.weight}
+                                onChange={handleDeviceFieldChange}
+                                variant="outlined"
+                                fullWidth
+                                sx={{ fontSize: '0.75rem' }}
+                                InputProps={{ sx: { fontSize: '0.75rem', padding: '2px 8px' } }}
+                              />
+                            ) : (
+                              device.weight
+                            )}
+                          </TableCell>
                           <TableCell sx={{ py: 0.5 }}>
                             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                              <IconButton 
-                                size="small" 
-                                sx={{ color: '#4ECDC4' }}
-                              >
-                                <EditIcon fontSize="small" />
-                              </IconButton>
+                              {editingDeviceId === device.id ? (
+                                <IconButton 
+                                  size="small" 
+                                  sx={{ color: '#4CAF50' }}
+                                  onClick={(e) => handleSaveDevice(device.id, e)}
+                                >
+                                  <SaveIcon fontSize="small" />
+                                </IconButton>
+                              ) : (
+                                <IconButton 
+                                  size="small" 
+                                  sx={{ color: '#4ECDC4' }}
+                                  onClick={(e) => handleEditDevice(device, e)}
+                                >
+                                  <EditIcon fontSize="small" />
+                                </IconButton>
+                              )}
                               <IconButton 
                                 size="small" 
                                 sx={{ color: '#666' }}

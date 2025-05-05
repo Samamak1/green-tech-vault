@@ -571,33 +571,6 @@ GTV Management`,
                   >
                     {selectedAnnouncement.content}
                   </Typography>
-                  
-                  {/* Floating Reply Button */}
-                  <Box
-                    sx={{
-                      position: 'sticky',
-                      bottom: 16,
-                      right: 16,
-                      display: 'flex',
-                      justifyContent: 'flex-end',
-                      zIndex: 2
-                    }}
-                  >
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      endIcon={<ReplyIcon />}
-                      sx={{
-                        bgcolor: '#4ECDC4',
-                        '&:hover': { bgcolor: '#3dbdb5' },
-                        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
-                        borderRadius: '20px',
-                        px: 3
-                      }}
-                    >
-                      Contact
-                    </Button>
-                  </Box>
                 </Box>
               </Paper>
             </Grid>

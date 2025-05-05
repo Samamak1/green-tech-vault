@@ -10,30 +10,28 @@ import {
   Divider,
   List,
   ListItem,
+  Checkbox,
   InputBase,
   Avatar,
   Menu,
   MenuItem,
-  AppBar,
-  Toolbar,
-  ListItemText,
-  Badge
+  Dialog,
+  ListItemText
 } from '@mui/material';
 import { 
   Search as SearchIcon,
   KeyboardArrowDown as DropdownIcon,
   Delete as DeleteIcon,
+  Reply as ReplyIcon,
+  Forward as ForwardIcon,
   Send as SendIcon,
   Star as StarIcon,
   StarBorder as StarBorderIcon,
+  Close as CloseIcon,
   Create as PencilIcon,
   MoreVert as MoreVertIcon,
-  ArrowBack as ArrowBackIcon,
   AttachFile as AttachFileIcon,
-  InsertEmoticon as EmojiIcon,
-  FilterList as FilterIcon,
-  Phone as PhoneIcon,
-  VideoCall as VideoCallIcon
+  InsertEmoticon as EmojiIcon
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
@@ -47,6 +45,10 @@ const ClientMessages = () => {
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
   const messagesEndRef = useRef(null);
   const { user } = useAuth();
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState(null);
+  const [composeOpen, setComposeOpen] = useState(false);
+  const [composeData, setComposeData] = useState({ subject: '', message: '' });
 
   // Mock data for conversations and messages
   useEffect(() => {
@@ -287,22 +289,106 @@ const ClientMessages = () => {
     return true;
   });
 
+  const handleComposeOpen = () => {
+    setComposeOpen(true);
+  };
+
+  const handleComposeClose = () => {
+    setComposeOpen(false);
+  };
+
+  const handleComposeChange = (event) => {
+    setComposeData({
+      ...composeData,
+      [event.target.name]: event.target.value
+    });
+  };
+
+  const handleComposeSend = () => {
+    // Handle sending the composed message
+    handleComposeClose();
+  };
+
+  const handleMessageSelect = (message) => {
+    setSelectedMessage(message);
+    setIsExpanded(true);
+  };
+
+  const handleCloseMessage = () => {
+    setSelectedMessage(null);
+    setIsExpanded(false);
+  };
+
+  const handleCheckboxChange = (id) => {
+    // Handle checkbox change
+  };
+
+  const handleDeleteMessages = (ids) => {
+    // Handle deleting messages
+  };
+
   return (
     <Box sx={getContentContainerStyle()} data-boundary="true">
       <Box sx={getContentWrapperStyle()}>
-        {/* Messages Header */}
-        <AppBar position="static" sx={{ bgcolor: 'white', color: '#333', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', mb: 2 }}>
-          <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 500, fontSize: '1.1rem' }}>
-              Messages
-            </Typography>
-            <IconButton 
-              color="inherit" 
+        <Typography variant="h6" sx={{ mb: 2, fontWeight: 500, fontSize: '1rem' }}>Messages</Typography>
+        
+        {/* Top Controls: Button, Search, and Filter */}
+        <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Button
+            variant="contained"
+            onClick={handleComposeOpen}
+            startIcon={<PencilIcon fontSize="small" />}
+            sx={{
+              bgcolor: '#4ECDC4',
+              '&:hover': { bgcolor: '#3dbdb5' },
+              borderRadius: '4px',
+              py: 0.75,
+              px: 2,
+              textTransform: 'none',
+              fontSize: '0.8rem',
+            }}
+          >
+            Compose
+          </Button>
+          
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            {/* Search bar - aligned right side */}
+            <Box sx={{ 
+              display: 'flex',
+              alignItems: 'center',
+              border: '1px solid #e0e0e0',
+              borderRadius: '4px',
+              px: 1.5,
+              py: 0.5,
+              height: 32,
+              width: '250px'
+            }}>
+              <SearchIcon sx={{ color: '#aaa', mr: 1, fontSize: '1.2rem' }} />
+              <InputBase 
+                placeholder="Search here" 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                sx={{ fontSize: '0.9rem', width: '100%' }}
+              />
+            </Box>
+            
+            {/* Filter dropdown */}
+            <Button
               onClick={handleFilterClick}
+              endIcon={<DropdownIcon />}
               size="small"
+              sx={{ 
+                border: '1px solid #e0e0e0',
+                color: '#555',
+                textTransform: 'none',
+                px: 2,
+                py: 0.5,
+                height: 32,
+                minWidth: '80px'
+              }}
             >
-              <FilterIcon />
-            </IconButton>
+              {filter}
+            </Button>
             <Menu
               anchorEl={filterAnchorEl}
               open={Boolean(filterAnchorEl)}
@@ -314,141 +400,179 @@ const ClientMessages = () => {
               <MenuItem onClick={() => handleFilterSelect('Unread')}>
                 <ListItemText primaryTypographyProps={{ fontSize: '0.8rem' }}>Unread</ListItemText>
               </MenuItem>
+              <MenuItem onClick={() => handleFilterSelect('Sent')}>
+                <ListItemText primaryTypographyProps={{ fontSize: '0.8rem' }}>Sent</ListItemText>
+              </MenuItem>
             </Menu>
-            <IconButton color="inherit" size="small">
-              <PencilIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        
-        {/* Search Bar */}
-        <Box sx={{ 
-          display: 'flex',
-          alignItems: 'center',
-          border: '1px solid #e0e0e0',
-          borderRadius: '4px',
-          px: 1.5,
-          py: 0.5,
-          mb: 2,
-          height: 40
-        }}>
-          <SearchIcon sx={{ color: '#aaa', mr: 1, fontSize: '1.2rem' }} />
-          <InputBase 
-            placeholder="Search messages" 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            sx={{ fontSize: '0.9rem', width: '100%' }}
-          />
+          </Box>
         </Box>
         
-        {/* Chat Interface */}
-        <Grid container spacing={2} sx={{ height: 'calc(100vh - 220px)' }}>
-          {/* Conversations List - Left Side */}
-          <Grid item xs={12} sm={4} md={3} 
-            sx={{ 
-              height: '100%', 
-              display: { xs: selectedConversation ? 'none' : 'block', sm: 'block' }
-            }}
-          >
-            <Paper 
-              sx={{ 
-                borderRadius: 2, 
-                overflow: 'hidden',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column'
-              }}
-            >
-              <Box sx={{ overflowY: 'auto', flex: 1 }}>
+        {/* Grid layout for side-by-side view */}
+        <Grid container spacing={2}>
+          {/* Messages List - Left Side */}
+          <Grid item xs={12} md={isExpanded ? 5 : 12}>
+            <Paper sx={{ 
+              bgcolor: 'white', 
+              borderRadius: 1, 
+              overflow: 'hidden',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+              height: isExpanded ? 'calc(100vh - 180px)' : 'auto', // Extend height
+              display: 'flex',
+              flexDirection: 'column'
+            }}>
+              <Box sx={{ 
+                flex: 1, 
+                overflow: 'auto',
+                maxHeight: isExpanded ? 'calc(100vh - 180px)' : '55vh' // Extend height
+              }}>
                 {filteredConversations.length > 0 ? (
                   filteredConversations.map((conversation) => (
                     <Box 
                       key={conversation.id} 
                       onClick={() => handleConversationSelect(conversation)}
                       sx={{ 
-                        p: 2,
-                        borderBottom: '1px solid #f0f0f0',
+                        position: 'relative',
+                        py: 1.5,
+                        px: 2,
+                        borderBottom: '1px solid #eee',
+                        '&:last-child': { borderBottom: 'none' },
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        bgcolor: selectedConversation?.id === conversation.id ? '#f0f0f0' : conversation.unreadCount > 0 ? '#fafafa' : 'transparent',
                         cursor: 'pointer',
-                        bgcolor: selectedConversation?.id === conversation.id ? '#f5f5f5' : 'transparent',
-                        '&:hover': { bgcolor: '#f9f9f9' }
+                        '&:hover': { bgcolor: '#f5f5f5' }
                       }}
                     >
-                      <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-                        <Badge
-                          overlap="circular"
-                          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                          variant="dot"
-                          sx={{
-                            '& .MuiBadge-badge': {
-                              backgroundColor: conversation.contact.isOnline ? '#4caf50' : 'transparent',
-                              width: 10,
-                              height: 10,
-                              borderRadius: '50%',
-                              border: '2px solid white'
-                            }
-                          }}
-                        >
-                          <Avatar sx={{ width: 48, height: 48, bgcolor: '#1C392B' }}>
-                            {getInitials(conversation.contact.name)}
-                          </Avatar>
-                        </Badge>
-                        <Box sx={{ ml: 1.5, overflow: 'hidden', flex: 1 }}>
-                          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      {/* Unread indicator */}
+                      {conversation.unreadCount > 0 && (
+                        <Box 
+                          sx={{ 
+                            position: 'absolute',
+                            left: 0,
+                            top: 0, 
+                            bottom: 0,
+                            width: '4px',
+                            bgcolor: '#ff5722'
+                          }} 
+                        />
+                      )}
+                      
+                      {/* Checkbox */}
+                      <Checkbox 
+                        size="small" 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleConversationSelect(conversation);
+                        }}
+                        checked={selectedConversation?.id === conversation.id}
+                        sx={{ p: 0.5, mr: 1 }}
+                      />
+                      
+                      {/* Star */}
+                      <IconButton 
+                        size="small" 
+                        sx={{ p: 0.5, mr: 1.5 }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          // Handle star toggle
+                        }}
+                      >
+                        {selectedConversation?.id === conversation.id && (
+                          <StarIcon sx={{ fontSize: '1.1rem', color: '#FFB400' }} />
+                        )}
+                      </IconButton>
+                      
+                      {/* Message content */}
+                      <Box sx={{ flexGrow: 1 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                          <Box>
                             <Typography 
                               variant="subtitle1" 
+                              component="span"
                               sx={{ 
-                                fontWeight: conversation.unreadCount > 0 ? 600 : 400,
-                                fontSize: '0.9rem'
+                                fontSize: '0.9rem',
+                                fontWeight: conversation.unreadCount > 0 ? 600 : 400 
                               }}
                             >
                               {conversation.contact.name}
                             </Typography>
-                            <Typography variant="caption" sx={{ color: '#888', fontSize: '0.7rem' }}>
+                            
+                            <Typography 
+                              variant="body2" 
+                              component="span"
+                              sx={{ 
+                                fontSize: '0.85rem',
+                                color: '#666',
+                                ml: 1
+                              }}
+                            >
+                              {conversation.contact.isOnline ? 'Online' : conversation.contact.lastSeen}
+                            </Typography>
+                          </Box>
+                          
+                          <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0, ml: 2 }}>
+                            {!conversation.unreadCount && (
+                              <Box 
+                                sx={{ 
+                                  width: 8, 
+                                  height: 8, 
+                                  borderRadius: '50%', 
+                                  bgcolor: '#ff5722', 
+                                  mr: 1 
+                                }} 
+                              />
+                            )}
+                            <Typography 
+                              variant="body2" 
+                              color="text.secondary" 
+                              sx={{ 
+                                fontSize: '0.75rem',
+                                whiteSpace: 'nowrap'
+                              }}
+                            >
                               {formatTimestamp(conversation.lastMessage.timestamp)}
                             </Typography>
                           </Box>
-                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Typography 
-                              variant="body2" 
-                              sx={{ 
-                                color: conversation.unreadCount > 0 ? '#1C392B' : '#777',
-                                fontSize: '0.8rem',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap',
-                                maxWidth: '80%'
-                              }}
-                            >
-                              {conversation.lastMessage.isFromUser ? 'You: ' : ''}
-                              {conversation.lastMessage.text}
-                            </Typography>
-                            {conversation.unreadCount > 0 && (
-                              <Box 
-                                sx={{ 
-                                  ml: 'auto', 
-                                  bgcolor: '#4ECDC4', 
-                                  color: 'white',
-                                  borderRadius: '50%',
-                                  width: 18,
-                                  height: 18,
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                  fontSize: '0.7rem',
-                                  fontWeight: 500
-                                }}
-                              >
-                                {conversation.unreadCount}
-                              </Box>
-                            )}
-                          </Box>
                         </Box>
+                        
+                        <Typography 
+                          variant="body2" 
+                          sx={{ 
+                            color: '#555', 
+                            mt: 0.5,
+                            fontSize: '0.85rem',
+                            fontWeight: conversation.unreadCount > 0 ? 500 : 400,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            maxWidth: '90%'
+                          }}
+                        >
+                          {conversation.lastMessage.isFromUser ? 'You: ' : ''}
+                          {conversation.lastMessage.text}
+                        </Typography>
+                      </Box>
+                      
+                      {/* More Menu Icon (replacing Delete) */}
+                      <Box sx={{ ml: 1, mt: 0.5 }}>
+                        <IconButton 
+                          size="small" 
+                          sx={{ p: 0.5 }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // Here you could add functionality to open a menu
+                            // For now, we'll keep the delete functionality
+                            handleConversationSelect(conversation);
+                          }}
+                        >
+                          <MoreVertIcon sx={{ fontSize: '1.1rem', color: '#888' }} />
+                        </IconButton>
                       </Box>
                     </Box>
                   ))
                 ) : (
                   <Box sx={{ p: 3, textAlign: 'center' }}>
-                    <Typography variant="body2" sx={{ color: '#888' }}>
+                    <Typography variant="body1" color="text.secondary">
                       No conversations found
                     </Typography>
                   </Box>
@@ -457,74 +581,29 @@ const ClientMessages = () => {
             </Paper>
           </Grid>
           
-          {/* Chat Messages - Right Side */}
-          <Grid item xs={12} sm={8} md={9} 
-            sx={{ 
-              height: '100%',
-              display: { xs: selectedConversation ? 'block' : 'none', sm: 'block' }
-            }}
-          >
-            {selectedConversation ? (
-              <Paper 
-                sx={{ 
-                  borderRadius: 2, 
-                  overflow: 'hidden',
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column'
-                }}
-              >
-                {/* Chat Header */}
-                <Box 
-                  sx={{ 
-                    p: 1.5, 
-                    borderBottom: '1px solid #f0f0f0',
-                    display: 'flex',
-                    alignItems: 'center',
-                    bgcolor: '#f9f9f9'
-                  }}
-                >
-                  <IconButton 
-                    size="small" 
-                    sx={{ 
-                      mr: 1, 
-                      display: { xs: 'inline-flex', sm: 'none' }
-                    }}
-                    onClick={() => setSelectedConversation(null)}
-                  >
-                    <ArrowBackIcon fontSize="small" />
+          {/* Message Content - Right Side */}
+          {isExpanded && selectedConversation && (
+            <Grid item xs={12} md={7}>
+              <Paper sx={{ 
+                bgcolor: 'white', 
+                borderRadius: 1, 
+                overflow: 'hidden',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                height: 'calc(100vh - 180px)', // Extend height
+                display: 'flex',
+                flexDirection: 'column'
+              }}>
+                {/* Message header */}
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, borderBottom: '1px solid #f0f0f0' }}>
+                  <Typography variant="h6" sx={{ fontSize: '1.1rem', fontWeight: 500 }}>
+                    {selectedConversation.contact.name}
+                  </Typography>
+                  <IconButton onClick={handleCloseMessage} size="small">
+                    <CloseIcon />
                   </IconButton>
-                  <Avatar 
-                    sx={{ 
-                      width: 40, 
-                      height: 40, 
-                      bgcolor: '#1C392B' 
-                    }}
-                  >
-                    {getInitials(selectedConversation.contact.name)}
-                  </Avatar>
-                  <Box sx={{ ml: 1.5 }}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 500, fontSize: '0.95rem' }}>
-                      {selectedConversation.contact.name}
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: selectedConversation.contact.isOnline ? '#4caf50' : '#888', fontSize: '0.75rem' }}>
-                      {selectedConversation.contact.isOnline ? 'Online' : selectedConversation.contact.lastSeen}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ marginLeft: 'auto', display: 'flex' }}>
-                    <IconButton size="small">
-                      <PhoneIcon fontSize="small" />
-                    </IconButton>
-                    <IconButton size="small">
-                      <VideoCallIcon fontSize="small" />
-                    </IconButton>
-                    <IconButton size="small">
-                      <MoreVertIcon fontSize="small" />
-                    </IconButton>
-                  </Box>
                 </Box>
                 
-                {/* Messages Area */}
+                {/* Modern Chat Message area */}
                 <Box 
                   sx={{ 
                     p: 2, 
@@ -567,7 +646,7 @@ const ClientMessages = () => {
                   <div ref={messagesEndRef} />
                 </Box>
                 
-                {/* Message Input Area */}
+                {/* Modern message input area */}
                 <Box 
                   sx={{ 
                     p: 1.5, 
@@ -621,38 +700,88 @@ const ClientMessages = () => {
                   </IconButton>
                 </Box>
               </Paper>
-            ) : (
-              <Paper 
-                sx={{ 
-                  borderRadius: 2, 
-                  p: 3,
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  bgcolor: '#f9f9f9'
+            </Grid>
+          )}
+        </Grid>
+        
+        {/* Compose Message Dialog */}
+        <Dialog 
+          open={composeOpen} 
+          onClose={handleComposeClose}
+          maxWidth="sm"
+          fullWidth
+          sx={{ '& .MuiDialog-paper': { borderRadius: 2 } }}
+        >
+          <Box sx={{ p: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+              <Typography variant="h6" sx={{ fontSize: '1.1rem', fontWeight: 500 }}>Compose Message</Typography>
+              <IconButton onClick={handleComposeClose} size="small">
+                <CloseIcon />
+              </IconButton>
+            </Box>
+            
+            <TextField
+              fullWidth
+              label="To"
+              disabled
+              value="Green Tech Vault Support"
+              size="small"
+              sx={{ mb: 2 }}
+              InputProps={{ style: { fontSize: '0.85rem' } }}
+              InputLabelProps={{ style: { fontSize: '0.85rem' } }}
+            />
+            
+            <TextField
+              fullWidth
+              label="Subject"
+              name="subject"
+              value={composeData.subject}
+              onChange={handleComposeChange}
+              placeholder="Enter subject"
+              size="small"
+              sx={{ mb: 2 }}
+              InputProps={{ style: { fontSize: '0.85rem' } }}
+              InputLabelProps={{ style: { fontSize: '0.85rem' } }}
+            />
+            
+            <TextField
+              fullWidth
+              multiline
+              rows={6}
+              label="Message"
+              name="message"
+              value={composeData.message}
+              onChange={handleComposeChange}
+              placeholder="Type your message here..."
+              sx={{ mb: 2 }}
+              InputProps={{ style: { fontSize: '0.85rem' } }}
+              InputLabelProps={{ style: { fontSize: '0.85rem' } }}
+            />
+            
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button 
+                onClick={handleComposeClose}
+                sx={{ mr: 1.5, fontSize: '0.8rem' }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                onClick={handleComposeSend}
+                endIcon={<SendIcon fontSize="small" />}
+                sx={{
+                  bgcolor: '#4ECDC4',
+                  '&:hover': { bgcolor: '#3dbdb5' },
+                  fontSize: '0.8rem',
+                  py: 0.75,
+                  px: 2
                 }}
               >
-                <Typography variant="h6" sx={{ color: '#888', mb: 2 }}>
-                  Select a conversation to start messaging
-                </Typography>
-                <Button
-                  variant="contained"
-                  startIcon={<PencilIcon />}
-                  sx={{
-                    bgcolor: '#4ECDC4',
-                    '&:hover': { bgcolor: '#3dbdb5' },
-                    borderRadius: 20,
-                    px: 3
-                  }}
-                >
-                  Start New Conversation
-                </Button>
-              </Paper>
-            )}
-          </Grid>
-        </Grid>
+                Send Message
+              </Button>
+            </Box>
+          </Box>
+        </Dialog>
       </Box>
     </Box>
   );
