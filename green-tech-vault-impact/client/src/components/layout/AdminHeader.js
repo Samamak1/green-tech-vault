@@ -39,7 +39,7 @@ const Search = styled('div')(({ theme }) => ({
   maxWidth: '400px',
   display: 'flex',
   alignItems: 'center',
-  marginLeft: 0, // Move to the far left (no margin)
+  marginLeft: 0, // Ensure it's at the far left
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -246,7 +246,7 @@ const AdminHeader = () => {
           {/* Left side - Logo removed */}
           
           {/* Center - Search - Now positioned to the very left */}
-          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start' }}>
+          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start', ml: 0, pl: 0 }}>
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />

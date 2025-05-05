@@ -81,9 +81,26 @@ const AdminAnnouncements = () => {
     return companyName && contactName && email && phone && address && city && state && zipCode;
   };
 
+  const validatePickupDetails = () => {
+    // Check if all required fields in pickup details section are filled
+    const { 
+      onSiteContactName, onSiteContactPhone, onSiteContactEmail,
+      preferredDate, preferredTimeWindow,
+      pickupAddress, pickupCity, pickupState, pickupZipCode
+    } = formData;
+    return onSiteContactName && onSiteContactPhone && onSiteContactEmail &&
+           preferredDate && preferredTimeWindow &&
+           pickupAddress && pickupCity && pickupState && pickupZipCode;
+  };
+
   const handleNext = () => {
     if (activeStep === 0 && !validateCompanyInfo()) {
       // Show validation dialog if company information is incomplete
+      setValidationDialogOpen(true);
+      return;
+    }
+    if (activeStep === 1 && !validatePickupDetails()) {
+      // Show validation dialog if pickup details are incomplete
       setValidationDialogOpen(true);
       return;
     }
@@ -203,7 +220,7 @@ const AdminAnnouncements = () => {
                   <TextField
                     fullWidth
                     required
-                    label="Company Name*"
+                    label="Company Name"
                     name="companyName"
                     value={formData.companyName}
                     onChange={handleChange}
@@ -225,7 +242,7 @@ const AdminAnnouncements = () => {
                   <TextField
                     fullWidth
                     required
-                    label="Contact Name*"
+                    label="Contact Name"
                     name="contactName"
                     value={formData.contactName}
                     onChange={handleChange}
@@ -247,7 +264,7 @@ const AdminAnnouncements = () => {
                   <TextField
                     fullWidth
                     required
-                    label="Email*"
+                    label="Email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
@@ -269,7 +286,7 @@ const AdminAnnouncements = () => {
                   <TextField
                     fullWidth
                     required
-                    label="Phone*"
+                    label="Phone"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
@@ -291,7 +308,7 @@ const AdminAnnouncements = () => {
                   <TextField
                     fullWidth
                     required
-                    label="Address*"
+                    label="Address"
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
@@ -313,7 +330,7 @@ const AdminAnnouncements = () => {
                   <TextField
                     fullWidth
                     required
-                    label="City*"
+                    label="City"
                     name="city"
                     value={formData.city}
                     onChange={handleChange}
@@ -335,7 +352,7 @@ const AdminAnnouncements = () => {
                   <TextField
                     fullWidth
                     required
-                    label="State*"
+                    label="State"
                     name="state"
                     value={formData.state}
                     onChange={handleChange}
@@ -357,7 +374,7 @@ const AdminAnnouncements = () => {
                   <TextField
                     fullWidth
                     required
-                    label="Zip Code*"
+                    label="Zip Code"
                     name="zipCode"
                     value={formData.zipCode}
                     onChange={handleChange}
@@ -378,16 +395,17 @@ const AdminAnnouncements = () => {
             )}
 
             {activeStep === 1 && (
-              <Grid container spacing={3}>
-                <Grid item xs={12} sx={{ mb: 2 }}>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 2 }}>
+              <Grid container spacing={1.5}>
+                <Grid item xs={12} sx={{ mb: 1 }}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
                     On-Site Contact (Person Present at Pickup)
                   </Typography>
                   
-                  <Grid container spacing={3}>
-                    <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                  <Grid container spacing={1.5}>
+                    <Grid item xs={12} sm={6} sx={{ mb: 0.5 }}>
                       <TextField
                         fullWidth
+                        required
                         label="Full Name"
                         name="onSiteContactName"
                         value={formData.onSiteContactName}
@@ -396,13 +414,17 @@ const AdminAnnouncements = () => {
                         size="small"
                         sx={{
                           '& .MuiOutlinedInput-input': { 
-                            padding: '12px 14px',
+                            padding: '8px 12px',
+                            fontSize: '0.85rem'
+                          },
+                          '& .MuiInputLabel-root': {
+                            fontSize: '0.85rem'
                           }
                         }}
                       />
                     </Grid>
                     
-                    <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                    <Grid item xs={12} sm={6} sx={{ mb: 0.5 }}>
                       <TextField
                         fullWidth
                         label="Job Title"
@@ -413,15 +435,20 @@ const AdminAnnouncements = () => {
                         size="small"
                         sx={{
                           '& .MuiOutlinedInput-input': { 
-                            padding: '12px 14px',
+                            padding: '8px 12px',
+                            fontSize: '0.85rem'
+                          },
+                          '& .MuiInputLabel-root': {
+                            fontSize: '0.85rem'
                           }
                         }}
                       />
                     </Grid>
                     
-                    <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                    <Grid item xs={12} sm={6} sx={{ mb: 0.5 }}>
                       <TextField
                         fullWidth
+                        required
                         label="Phone Number"
                         name="onSiteContactPhone"
                         value={formData.onSiteContactPhone}
@@ -430,15 +457,20 @@ const AdminAnnouncements = () => {
                         size="small"
                         sx={{
                           '& .MuiOutlinedInput-input': { 
-                            padding: '12px 14px',
+                            padding: '8px 12px',
+                            fontSize: '0.85rem'
+                          },
+                          '& .MuiInputLabel-root': {
+                            fontSize: '0.85rem'
                           }
                         }}
                       />
                     </Grid>
                     
-                    <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                    <Grid item xs={12} sm={6} sx={{ mb: 0.5 }}>
                       <TextField
                         fullWidth
+                        required
                         label="Email"
                         name="onSiteContactEmail"
                         value={formData.onSiteContactEmail}
@@ -447,7 +479,11 @@ const AdminAnnouncements = () => {
                         size="small"
                         sx={{
                           '& .MuiOutlinedInput-input': { 
-                            padding: '12px 14px',
+                            padding: '8px 12px',
+                            fontSize: '0.85rem'
+                          },
+                          '& .MuiInputLabel-root': {
+                            fontSize: '0.85rem'
                           }
                         }}
                       />
@@ -455,7 +491,7 @@ const AdminAnnouncements = () => {
                   </Grid>
                 </Grid>
                 
-                <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                <Grid item xs={12} sm={6} sx={{ mb: 0.5 }}>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
                       label="Preferred Date"
@@ -464,6 +500,7 @@ const AdminAnnouncements = () => {
                       renderInput={(params) => (
                         <TextField
                           {...params}
+                          required
                           fullWidth
                           placeholder="Preferred Date"
                           size="small"
@@ -477,7 +514,11 @@ const AdminAnnouncements = () => {
                           }}
                           sx={{
                             '& .MuiOutlinedInput-input': { 
-                              padding: '12px 14px',
+                              padding: '8px 12px',
+                              fontSize: '0.85rem'
+                            },
+                            '& .MuiInputLabel-root': {
+                              fontSize: '0.85rem'
                             }
                           }}
                         />
@@ -486,7 +527,7 @@ const AdminAnnouncements = () => {
                   </LocalizationProvider>
                 </Grid>
                 
-                <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                <Grid item xs={12} sm={6} sx={{ mb: 0.5 }}>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <TimePicker
                       label="Preferred Time Window"
@@ -495,6 +536,7 @@ const AdminAnnouncements = () => {
                       renderInput={(params) => (
                         <TextField
                           {...params}
+                          required
                           fullWidth
                           placeholder="Preferred Time Window"
                           size="small"
@@ -508,7 +550,11 @@ const AdminAnnouncements = () => {
                           }}
                           sx={{
                             '& .MuiOutlinedInput-input': { 
-                              padding: '12px 14px',
+                              padding: '8px 12px',
+                              fontSize: '0.85rem'
+                            },
+                            '& .MuiInputLabel-root': {
+                              fontSize: '0.85rem'
                             }
                           }}
                         />
@@ -517,9 +563,10 @@ const AdminAnnouncements = () => {
                   </LocalizationProvider>
                 </Grid>
                 
-                <Grid item xs={12} sx={{ mb: 1 }}>
+                <Grid item xs={12} sx={{ mb: 0.5 }}>
                   <TextField
                     fullWidth
+                    required
                     label="Pickup Address"
                     name="pickupAddress"
                     value={formData.pickupAddress}
@@ -528,15 +575,20 @@ const AdminAnnouncements = () => {
                     size="small"
                     sx={{
                       '& .MuiOutlinedInput-input': { 
-                        padding: '12px 14px',
+                        padding: '8px 12px',
+                        fontSize: '0.85rem'
+                      },
+                      '& .MuiInputLabel-root': {
+                        fontSize: '0.85rem'
                       }
                     }}
                   />
                 </Grid>
                 
-                <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+                <Grid item xs={12} sm={4} sx={{ mb: 0.5 }}>
                   <TextField
                     fullWidth
+                    required
                     label="City"
                     name="pickupCity"
                     value={formData.pickupCity}
@@ -545,15 +597,20 @@ const AdminAnnouncements = () => {
                     size="small"
                     sx={{
                       '& .MuiOutlinedInput-input': { 
-                        padding: '12px 14px',
+                        padding: '8px 12px',
+                        fontSize: '0.85rem'
+                      },
+                      '& .MuiInputLabel-root': {
+                        fontSize: '0.85rem'
                       }
                     }}
                   />
                 </Grid>
                 
-                <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+                <Grid item xs={12} sm={4} sx={{ mb: 0.5 }}>
                   <TextField
                     fullWidth
+                    required
                     label="State"
                     name="pickupState"
                     value={formData.pickupState}
@@ -562,15 +619,20 @@ const AdminAnnouncements = () => {
                     size="small"
                     sx={{
                       '& .MuiOutlinedInput-input': { 
-                        padding: '12px 14px',
+                        padding: '8px 12px',
+                        fontSize: '0.85rem'
+                      },
+                      '& .MuiInputLabel-root': {
+                        fontSize: '0.85rem'
                       }
                     }}
                   />
                 </Grid>
                 
-                <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+                <Grid item xs={12} sm={4} sx={{ mb: 0.5 }}>
                   <TextField
                     fullWidth
+                    required
                     label="Zip Code"
                     name="pickupZipCode"
                     value={formData.pickupZipCode}
@@ -579,7 +641,11 @@ const AdminAnnouncements = () => {
                     size="small"
                     sx={{
                       '& .MuiOutlinedInput-input': { 
-                        padding: '12px 14px',
+                        padding: '8px 12px',
+                        fontSize: '0.85rem'
+                      },
+                      '& .MuiInputLabel-root': {
+                        fontSize: '0.85rem'
                       }
                     }}
                   />
@@ -789,8 +855,11 @@ const AdminAnnouncements = () => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Please complete all required fields in the Company Information section before proceeding.
-            Required fields are marked with an asterisk (*).
+            {activeStep === 0 
+              ? "Please complete all required fields in the Company Information section before proceeding."
+              : "Please complete all required fields in the Pickup Details section before proceeding."
+            }
+            Required fields are marked with an asterisk.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
