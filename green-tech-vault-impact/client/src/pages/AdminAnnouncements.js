@@ -156,6 +156,8 @@ const AdminAnnouncements = () => {
               alignItems: 'center',
               justifyContent: 'center',
               width: '100%',
+              maxWidth: '600px', 
+              mx: 'auto',
               mb: 3,
               position: 'relative'
             }}>
@@ -171,23 +173,23 @@ const AdminAnnouncements = () => {
                     }}
                   >
                     <Box sx={{ 
-                      width: 32,
-                      height: 32,
+                      width: 28,
+                      height: 28,
                       borderRadius: '50%',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       backgroundColor: index <= activeStep ? '#4ecdc4' : '#ccc',
                       color: 'white',
-                      fontSize: 14,
+                      fontSize: 13,
                       fontWeight: 500,
-                      mb: 0.5,
+                      mb: 0.3,
                     }}>
                       {step.completed ? '✓' : index + 1}
                     </Box>
                     <Typography sx={{ 
                       color: index === activeStep ? '#1C392B' : '#666',
-                      fontSize: '0.75rem',
+                      fontSize: '0.7rem',
                       fontWeight: index === activeStep ? 500 : 400,
                       textAlign: 'center',
                     }}>
@@ -204,7 +206,7 @@ const AdminAnnouncements = () => {
                         backgroundColor: index < activeStep ? '#4ecdc4' : '#e8e8e8',
                         margin: '0 8px',
                         position: 'relative',
-                        top: -16,
+                        top: -14,
                         zIndex: 1
                       }}
                     />

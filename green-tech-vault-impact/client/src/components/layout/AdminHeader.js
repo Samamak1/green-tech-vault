@@ -245,9 +245,9 @@ const AdminHeader = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           {/* Left side - Logo removed */}
           
-          {/* Center - Search - Now positioned to the very left */}
-          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start', ml: 0, pl: 0 }}>
-            <Search>
+          {/* Search positioned at far left */}
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', flexGrow: 0, width: '400px', ml: 0, pl: 0 }}>
+            <Search sx={{ width: '100%', maxWidth: '100%' }}>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
@@ -257,14 +257,29 @@ const AdminHeader = () => {
                 value={searchQuery}
                 onChange={handleSearchChange}
                 onKeyPress={handleSearchSubmit}
+                sx={{ width: '100%' }}
               />
             </Search>
           </Box>
 
+          {/* Middle section - empty space */}
+          <Box sx={{ flexGrow: 1 }} />
+
           {/* Right side - User info */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {/* Notifications icon */}
+            <IconButton 
+              color="inherit" 
+              onClick={handleNotificationsClick}
+              sx={{ ml: 1 }}
+            >
+              <Badge badgeContent={unreadNotificationCount} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+
             <Box sx={{ 
-              mr: 1,
+              mx: 2,
               display: { xs: 'none', md: 'flex' },
               flexDirection: 'column',
               alignItems: 'flex-end',
@@ -273,7 +288,7 @@ const AdminHeader = () => {
                 {profileData?.fullName || user?.name || 'Leila Meyer'}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                @{user?.username?.replace('@', '') || profileData?.username?.replace('@', '') || 'admin'}
+                CEO
               </Typography>
             </Box>
             

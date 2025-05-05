@@ -37,13 +37,13 @@ const Sidebar = () => {
 
   const menuItems = [
     { icon: <DashboardIcon />, text: 'Dashboard', path: '/admin/dashboard' },
+    { icon: <CalendarMonthIcon />, text: 'Calendar', path: '/admin/pickup-calendar' },
     { icon: <DescriptionIcon />, text: 'Reports', path: '/admin/reports' },
     { icon: <EmailIcon />, text: 'Messages', path: '/admin/messages' },
     { icon: <AnnouncementIcon />, text: 'Announcements', path: '/admin/announcements' },
-    { icon: <CalendarMonthIcon />, text: 'Pickup Calendar', path: '/admin/pickup-calendar' },
     { icon: <ScheduleIcon />, text: 'Schedule Pickup', path: '/admin/schedule-pickup' },
-    { icon: <ExperimentIcon />, text: 'Trial Page', path: '/admin/trial-page' },
-    { icon: <PersonIcon />, text: 'Profile', path: '/admin/profile' },
+    // Profile hidden by user request - access only through dropdown
+    // Trial page removed by user request
   ];
 
   const handleNavigation = (path) => {
