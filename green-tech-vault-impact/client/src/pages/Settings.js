@@ -15,12 +15,26 @@ import {
   InputLabel,
   Tabs,
   Tab,
-  Slider
+  Slider,
+  AppBar,
+  Toolbar,
+  Avatar,
+  IconButton
 } from '@mui/material';
 import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
-import { Notifications as NotificationsIcon, Palette as PaletteIcon, Lock as LockIcon, Email as EmailIcon } from '@mui/icons-material';
+import { 
+  Notifications as NotificationsIcon, 
+  Palette as PaletteIcon, 
+  Lock as LockIcon, 
+  Email as EmailIcon,
+  ArrowBack as ArrowBackIcon
+} from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Settings = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState(0);
   
   // Settings states
@@ -52,6 +66,10 @@ const Settings = () => {
     emailDigest: true,
     emailSignature: 'Best regards,\nLeila Meyer\nCEO | Leila\'s Company'
   });
+
+  const handleGoBack = () => {
+    navigate('/dashboard');
+  };
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -105,6 +123,40 @@ const Settings = () => {
 
   return (
     <Box sx={getContentContainerStyle()} data-boundary="true">
+      {/* Client Header */}
+      <AppBar position="static" sx={{ bgcolor: 'white', color: '#333', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', mb: 3 }}>
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            onClick={handleGoBack}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+          <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+            <Typography variant="h6" component="div" sx={{ fontWeight: 500, fontSize: '1.1rem' }}>
+              Settings
+            </Typography>
+          </Box>
+          <IconButton color="inherit">
+            <NotificationsIcon />
+          </IconButton>
+          <Avatar 
+            sx={{ 
+              ml: 1,
+              bgcolor: '#1C392B',
+              width: 36,
+              height: 36
+            }}
+          >
+            {user?.name ? user.name.charAt(0) : 'L'}
+          </Avatar>
+        </Toolbar>
+      </AppBar>
+      
       <Box sx={getContentWrapperStyle()}>
         <Typography variant="h5" sx={{ mb: 3 }}>Settings</Typography>
         

@@ -10,7 +10,9 @@ import {
   IconButton,
   InputAdornment,
   Divider,
-  styled
+  styled,
+  AppBar,
+  Toolbar
 } from '@mui/material';
 import {
   Edit as EditIcon,
@@ -18,7 +20,9 @@ import {
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon,
   CameraAlt as CameraIcon,
-  Save as SaveIcon
+  Save as SaveIcon,
+  Menu as MenuIcon,
+  Notifications as NotificationsIcon
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -106,9 +110,42 @@ const ClientProfile = () => {
 
   return (
     <Box sx={getContentContainerStyle()} data-boundary="true">
+      {/* Client Header */}
+      <AppBar position="static" sx={{ bgcolor: 'white', color: '#333', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', mb: 3 }}>
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            onClick={handleGoBack}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+          <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+            <Typography variant="h6" component="div" sx={{ fontWeight: 500, fontSize: '1.1rem' }}>
+              My Profile
+            </Typography>
+          </Box>
+          <IconButton color="inherit">
+            <NotificationsIcon />
+          </IconButton>
+          <Avatar 
+            sx={{ 
+              ml: 1,
+              bgcolor: profilePictureUrl ? 'transparent' : '#1C392B',
+              width: 36,
+              height: 36
+            }}
+            src={profilePictureUrl}
+          >
+            {profileData.fullName.charAt(0)}
+          </Avatar>
+        </Toolbar>
+      </AppBar>
+      
       <Box sx={getContentWrapperStyle()}>
-        <Typography variant="h5" sx={{ mb: 3, fontWeight: 500 }}>My Profile</Typography>
-        
         {/* Profile Header Card */}
         <Paper sx={{ p: 3, borderRadius: 2, mb: 3 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
