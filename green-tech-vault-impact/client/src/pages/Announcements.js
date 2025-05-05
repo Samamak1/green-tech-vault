@@ -21,6 +21,7 @@ import {
   MoreVert as MoreVertIcon
 } from '@mui/icons-material';
 import AdminLayout from '../components/layout/AdminLayout';
+import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
 const Announcements = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -104,8 +105,8 @@ const Announcements = () => {
   };
 
   return (
-    <AdminLayout>
-      <Box sx={{ p: 3 }}>
+    <Box sx={getContentContainerStyle()} data-boundary="true">
+      <Box sx={getContentWrapperStyle()}>
         <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>Announcements</Typography>
         
         {/* Search and Filter */}
@@ -274,7 +275,7 @@ const Announcements = () => {
           )}
         </Paper>
       </Box>
-    </AdminLayout>
+    </Box>
   );
 };
 

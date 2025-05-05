@@ -587,8 +587,8 @@ const AdminDashboard = () => {
                 </Button>
               </Box>
               
-              <TableContainer sx={{ maxHeight: 'calc(100vh - 380px)' }}>
-                <Table stickyHeader>
+              <TableContainer>
+                <Table>
                   <TableHead>
                     <TableRow sx={{ 
                       '& th': { 
@@ -609,30 +609,13 @@ const AdminDashboard = () => {
                   <TableBody>
                     {clients.map((client) => (
                       <TableRow key={client.id} hover>
-                        <TableCell
-                          sx={{ 
-                            cursor: 'pointer',
-                            color: '#1C392B',
-                            fontWeight: 500,
-                            '&:hover': { textDecoration: 'underline' }
-                          }}
-                          onClick={() => handleViewClient(client.id)}
-                        >
-                          {client.name}
-                        </TableCell>
+                        <TableCell>{client.name}</TableCell>
                         <TableCell>{client.contactPerson}</TableCell>
                         <TableCell>{client.email}</TableCell>
                         <TableCell>{client.phone}</TableCell>
                         <TableCell align="right">{client.devicesCollected}</TableCell>
                         <TableCell align="right">{client.totalWeight.toFixed(1)}</TableCell>
                         <TableCell align="right">
-                          <IconButton 
-                            size="small" 
-                            onClick={() => handleViewClient(client.id)}
-                            sx={{ color: '#4ECDC4' }}
-                          >
-                            <VisibilityIcon fontSize="small" />
-                          </IconButton>
                           <IconButton 
                             size="small" 
                             onClick={() => handleOpenDialog(client)}
@@ -708,8 +691,8 @@ const AdminDashboard = () => {
                 </Button>
               </Box>
               
-              <TableContainer sx={{ maxHeight: 'calc(100vh - 380px)' }}>
-                <Table stickyHeader>
+              <TableContainer>
+                <Table>
                   <TableHead>
                     <TableRow sx={{ 
                       '& th': { 
@@ -732,17 +715,7 @@ const AdminDashboard = () => {
                     {devices.map((device) => (
                       <TableRow key={device.id} hover>
                         <TableCell>{device.clientName}</TableCell>
-                        <TableCell
-                          sx={{ 
-                            cursor: 'pointer',
-                            color: '#1C392B',
-                            fontWeight: 500,
-                            '&:hover': { textDecoration: 'underline' }
-                          }}
-                          onClick={() => navigate(`/admin/devices/${device.id}`)}
-                        >
-                          {device.type}
-                        </TableCell>
+                        <TableCell>{device.type}</TableCell>
                         <TableCell>{device.manufacturer}</TableCell>
                         <TableCell>{device.model}</TableCell>
                         <TableCell>{device.serialNumber}</TableCell>
@@ -761,13 +734,6 @@ const AdminDashboard = () => {
                         </TableCell>
                         <TableCell align="right">{device.weight.toFixed(1)}</TableCell>
                         <TableCell align="right">
-                          <IconButton 
-                            size="small" 
-                            onClick={() => navigate(`/admin/devices/${device.id}`)}
-                            sx={{ color: '#4ECDC4' }}
-                          >
-                            <VisibilityIcon fontSize="small" />
-                          </IconButton>
                           <IconButton 
                             size="small" 
                             onClick={() => alert(`Edit device ${device.id}`)}
@@ -843,8 +809,8 @@ const AdminDashboard = () => {
                 </Button>
               </Box>
               
-              <TableContainer sx={{ maxHeight: 'calc(100vh - 380px)' }}>
-                <Table stickyHeader>
+              <TableContainer>
+                <Table>
                   <TableHead>
                     <TableRow sx={{ 
                       '& th': { 
@@ -866,17 +832,7 @@ const AdminDashboard = () => {
                     {pickups.map((pickup) => (
                       <TableRow key={pickup.id} hover>
                         <TableCell>{pickup.clientName}</TableCell>
-                        <TableCell
-                          sx={{ 
-                            cursor: 'pointer',
-                            color: '#1C392B',
-                            fontWeight: 500,
-                            '&:hover': { textDecoration: 'underline' }
-                          }}
-                          onClick={() => navigate(`/admin/pickups/${pickup.id}`)}
-                        >
-                          {pickup.date}
-                        </TableCell>
+                        <TableCell>{pickup.date}</TableCell>
                         <TableCell>{pickup.location}</TableCell>
                         <TableCell>
                           <Chip 
@@ -897,13 +853,6 @@ const AdminDashboard = () => {
                         <TableCell align="right">{pickup.devices}</TableCell>
                         <TableCell align="right">{pickup.weight.toFixed(1)}</TableCell>
                         <TableCell align="right">
-                          <IconButton 
-                            size="small" 
-                            onClick={() => navigate(`/admin/pickups/${pickup.id}`)}
-                            sx={{ color: '#4ECDC4' }}
-                          >
-                            <VisibilityIcon fontSize="small" />
-                          </IconButton>
                           <IconButton 
                             size="small" 
                             onClick={() => alert(`Edit pickup ${pickup.id}`)}

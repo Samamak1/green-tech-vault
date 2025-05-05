@@ -267,16 +267,7 @@ const AdminHeader = () => {
 
           {/* Right side - User info */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {/* Notifications icon */}
-            <IconButton 
-              color="inherit" 
-              onClick={handleNotificationsClick}
-              sx={{ ml: 1 }}
-            >
-              <Badge badgeContent={unreadNotificationCount} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            {/* Notifications icon removed as requested */}
 
             <Box sx={{ 
               mx: 2,
