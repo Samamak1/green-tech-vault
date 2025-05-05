@@ -21,7 +21,8 @@ import {
   Chip,
   Avatar,
   CircularProgress,
-  Checkbox
+  Checkbox,
+  MenuItem
 } from '@mui/material';
 import {
   ArrowBack as ArrowBackIcon,
@@ -30,7 +31,6 @@ import {
   FilterList as FilterListIcon,
   Visibility as VisibilityIcon,
   Delete as DeleteIcon,
-  RemoveRedEye as EyeIcon,
   MoreVert as MoreVertIcon,
   InsertDriveFile as DocumentIcon,
   Print as PrintIcon
@@ -50,6 +50,10 @@ const RGYNProfile = () => {
   const [selectedPickup, setSelectedPickup] = useState(null);
   const [selectedPickupInfo, setSelectedPickupInfo] = useState(null);
   const [showTrackingBubbles, setShowTrackingBubbles] = useState(false);
+  const [isEditingCompanyInfo, setIsEditingCompanyInfo] = useState(false);
+  const [editedCompanyInfo, setEditedCompanyInfo] = useState(null);
+  const [isEditingPickupDetails, setIsEditingPickupDetails] = useState(false);
+  const [editedPickupDetails, setEditedPickupDetails] = useState(null);
 
   useEffect(() => {
     // In a real app, you would fetch the actual client data
@@ -218,6 +222,55 @@ const RGYNProfile = () => {
     }
   };
 
+  // Company Info editing handlers
+  const handleToggleEditCompanyInfo = () => {
+    if (isEditingCompanyInfo) {
+      // Save the changes
+      setClient({...client, ...editedCompanyInfo});
+      setIsEditingCompanyInfo(false);
+    } else {
+      // Start editing - copy current client data
+      setEditedCompanyInfo({...client});
+      setIsEditingCompanyInfo(true);
+    }
+  };
+
+  const handleCompanyInfoChange = (e) => {
+    const { name, value } = e.target;
+    setEditedCompanyInfo(prev => ({...prev, [name]: value}));
+  };
+
+  // Pickup Details editing handlers
+  const handleToggleEditPickupDetails = () => {
+    if (isEditingPickupDetails) {
+      // Save the changes to the selected pickup
+      const updatedPickupInfo = {...selectedPickupInfo, ...editedPickupDetails};
+      
+      // Update the pickup in the mockPickups array
+      const updatedPickups = mockPickups.map(pickup => 
+        pickup.id === selectedPickup ? {...pickup, ...editedPickupDetails} : pickup
+      );
+      
+      setSelectedPickupInfo(updatedPickupInfo);
+      setMockPickups(updatedPickups);
+      setIsEditingPickupDetails(false);
+    } else {
+      // Start editing - copy current pickup details
+      setEditedPickupDetails({...selectedPickupInfo});
+      setIsEditingPickupDetails(true);
+    }
+  };
+
+  const handlePickupDetailsChange = (e) => {
+    const { name, value } = e.target;
+    setEditedPickupDetails(prev => ({...prev, [name]: value}));
+  };
+
+  // Navigate to schedule pickup page
+  const handleSchedulePickup = () => {
+    navigate('/schedule-pickup');
+  };
+
   // Default RGYN contact information when no pickup is selected
   const defaultRgynContactInfo = {
     fullName: "Sarah Johnson",
@@ -307,8 +360,9 @@ const RGYNProfile = () => {
                 <Box sx={{ flexGrow: 1 }} />
                 {leftPanelTab === 'Company Information' && (
                   <Button 
-                    startIcon={<EditIcon fontSize="small" />} 
+                    startIcon={isEditingCompanyInfo ? null : <EditIcon fontSize="small" />} 
                     size="small"
+                    onClick={handleToggleEditCompanyInfo}
                     sx={{ 
                       color: '#4ECDC4', 
                       fontSize: '0.75rem', 
@@ -320,7 +374,7 @@ const RGYNProfile = () => {
                       mr: 1
                     }}
                   >
-                    Edit
+                    {isEditingCompanyInfo ? 'Save' : 'Edit'}
                   </Button>
                 )}
               </Box>
@@ -333,42 +387,120 @@ const RGYNProfile = () => {
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Company Name</Typography>
                       </Grid>
                       <Grid item xs={8}>
-                        <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.name}</Typography>
+                        {isEditingCompanyInfo ? (
+                          <TextField
+                            fullWidth
+                            size="small"
+                            name="name"
+                            value={editedCompanyInfo.name}
+                            onChange={handleCompanyInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.name}</Typography>
+                        )}
                       </Grid>
 
                       <Grid item xs={4}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Email</Typography>
                       </Grid>
                       <Grid item xs={8}>
-                        <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.email}</Typography>
+                        {isEditingCompanyInfo ? (
+                          <TextField
+                            fullWidth
+                            size="small"
+                            name="email"
+                            value={editedCompanyInfo.email}
+                            onChange={handleCompanyInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.email}</Typography>
+                        )}
                       </Grid>
 
                       <Grid item xs={4}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Phone</Typography>
                       </Grid>
                       <Grid item xs={8}>
-                        <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.phone}</Typography>
+                        {isEditingCompanyInfo ? (
+                          <TextField
+                            fullWidth
+                            size="small"
+                            name="phone"
+                            value={editedCompanyInfo.phone}
+                            onChange={handleCompanyInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.phone}</Typography>
+                        )}
                       </Grid>
 
                       <Grid item xs={4}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Address</Typography>
                       </Grid>
                       <Grid item xs={8}>
-                        <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.address}</Typography>
+                        {isEditingCompanyInfo ? (
+                          <TextField
+                            fullWidth
+                            size="small"
+                            name="address"
+                            value={editedCompanyInfo.address}
+                            onChange={handleCompanyInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.address}</Typography>
+                        )}
                       </Grid>
 
                       <Grid item xs={4}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Website</Typography>
                       </Grid>
                       <Grid item xs={8}>
-                        <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.website}</Typography>
+                        {isEditingCompanyInfo ? (
+                          <TextField
+                            fullWidth
+                            size="small"
+                            name="website"
+                            value={editedCompanyInfo.website}
+                            onChange={handleCompanyInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.website}</Typography>
+                        )}
                       </Grid>
 
                       <Grid item xs={4}>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Industry</Typography>
                       </Grid>
                       <Grid item xs={8}>
-                        <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.industry}</Typography>
+                        {isEditingCompanyInfo ? (
+                          <TextField
+                            fullWidth
+                            size="small"
+                            name="industry"
+                            value={editedCompanyInfo.industry}
+                            onChange={handleCompanyInfoChange}
+                            variant="outlined"
+                            sx={{ fontSize: '0.8rem' }}
+                            InputProps={{ sx: { fontSize: '0.8rem' } }}
+                          />
+                        ) : (
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{client.industry}</Typography>
+                        )}
                       </Grid>
                     </Grid>
                   </Box>
@@ -536,6 +668,22 @@ const RGYNProfile = () => {
                         <Typography variant="body2" sx={{ color: '#666', fontSize: '0.8rem' }}>
                           {selectedPickupInfo ? selectedPickupInfo.time : defaultRgynContactInfo.time}
                         </Typography>
+                        <Box sx={{ flexGrow: 1 }} />
+                        <Button 
+                          startIcon={isEditingPickupDetails ? null : <EditIcon fontSize="small" />} 
+                          size="small"
+                          onClick={handleToggleEditPickupDetails}
+                          sx={{ 
+                            color: '#4ECDC4', 
+                            fontSize: '0.75rem', 
+                            border: '1px solid #e0e0e0',
+                            borderRadius: '4px',
+                            py: 0.3,
+                            px: 1,
+                          }}
+                        >
+                          {isEditingPickupDetails ? 'Save' : 'Edit'}
+                        </Button>
                       </Box>
                       <Divider sx={{ mb: 2 }} />
                       
@@ -544,21 +692,70 @@ const RGYNProfile = () => {
                           <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Location</Typography>
                         </Grid>
                         <Grid item xs={7}>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.location : defaultRgynContactInfo.location}</Typography>
+                          {isEditingPickupDetails ? (
+                            <TextField
+                              fullWidth
+                              size="small"
+                              name="location"
+                              value={editedPickupDetails.location}
+                              onChange={handlePickupDetailsChange}
+                              variant="outlined"
+                              sx={{ fontSize: '0.8rem' }}
+                              InputProps={{ sx: { fontSize: '0.8rem' } }}
+                            />
+                          ) : (
+                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.location : defaultRgynContactInfo.location}</Typography>
+                          )}
                         </Grid>
 
                         <Grid item xs={5}>
                           <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Status</Typography>
                         </Grid>
                         <Grid item xs={7}>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.status : defaultRgynContactInfo.status}</Typography>
+                          {isEditingPickupDetails ? (
+                            <TextField
+                              fullWidth
+                              select
+                              size="small"
+                              name="status"
+                              value={editedPickupDetails.status}
+                              onChange={handlePickupDetailsChange}
+                              variant="outlined"
+                              sx={{ fontSize: '0.8rem' }}
+                              InputProps={{ sx: { fontSize: '0.8rem' } }}
+                            >
+                              <MenuItem value="Complete">Complete</MenuItem>
+                              <MenuItem value="In Process">In Process</MenuItem>
+                              <MenuItem value="Received">Received</MenuItem>
+                              <MenuItem value="Scheduled">Scheduled</MenuItem>
+                            </TextField>
+                          ) : (
+                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.status : defaultRgynContactInfo.status}</Typography>
+                          )}
                         </Grid>
                         
                         <Grid item xs={5}>
                           <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Total Weight</Typography>
                         </Grid>
                         <Grid item xs={7}>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? `${selectedPickupInfo.weight} kg` : defaultRgynContactInfo.totalWeight}</Typography>
+                          {isEditingPickupDetails ? (
+                            <TextField
+                              fullWidth
+                              size="small"
+                              name="weight"
+                              type="number"
+                              value={editedPickupDetails.weight}
+                              onChange={handlePickupDetailsChange}
+                              variant="outlined"
+                              sx={{ fontSize: '0.8rem' }}
+                              InputProps={{ 
+                                sx: { fontSize: '0.8rem' },
+                                endAdornment: <InputAdornment position="end">kg</InputAdornment>
+                              }}
+                            />
+                          ) : (
+                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? `${selectedPickupInfo.weight} kg` : defaultRgynContactInfo.totalWeight}</Typography>
+                          )}
                         </Grid>
                         
                         <Grid item xs={5}>
@@ -696,6 +893,7 @@ const RGYNProfile = () => {
                     <Button
                       variant="contained"
                       size="small"
+                      onClick={handleSchedulePickup}
                       sx={{
                         bgcolor: '#4ECDC4',
                         textTransform: 'none',
@@ -707,7 +905,7 @@ const RGYNProfile = () => {
                         }
                       }}
                     >
-                      Schedule a Pickup
+                      Schedule Pickup
                     </Button>
                   )}
                 </Box>
@@ -718,12 +916,6 @@ const RGYNProfile = () => {
                   <Table stickyHeader size="small" sx={{ tableLayout: 'fixed' }}>
                     <TableHead>
                       <TableRow>
-                        <TableCell padding="checkbox" sx={{ bgcolor: '#f5f5f5', width: '40px' }}>
-                          <Checkbox 
-                            size="small" 
-                            sx={{ p: 0.5 }}
-                          />
-                        </TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>RGYN Contact</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '12%' }}>Date</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Time</TableCell>
@@ -768,19 +960,6 @@ const RGYNProfile = () => {
                                 size="small" 
                                 sx={{ 
                                   p: 0.3, 
-                                  color: '#1C392B',
-                                  bgcolor: 'rgba(28, 57, 43, 0.05)',
-                                  mr: 0.5,
-                                  '&:hover': { bgcolor: 'rgba(28, 57, 43, 0.1)' }
-                                }}
-                                title="View"
-                              >
-                                <EyeIcon sx={{ fontSize: '16px' }} />
-                              </IconButton>
-                              <IconButton 
-                                size="small" 
-                                sx={{ 
-                                  p: 0.3, 
                                   color: '#4ECDC4', 
                                   bgcolor: 'rgba(78, 205, 196, 0.05)',
                                   mr: 0.5,
@@ -816,12 +995,6 @@ const RGYNProfile = () => {
                   <Table stickyHeader size="small" sx={{ tableLayout: 'fixed' }}>
                     <TableHead>
                       <TableRow>
-                        <TableCell padding="checkbox" sx={{ bgcolor: '#f5f5f5', width: '40px' }}>
-                          <Checkbox 
-                            size="small" 
-                            sx={{ p: 0.5 }}
-                          />
-                        </TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Type</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '14%' }}>Manufacturer</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '14%' }}>Model</TableCell>
@@ -852,39 +1025,26 @@ const RGYNProfile = () => {
                                 size="small" 
                                 sx={{ 
                                   p: 0.3, 
-                                  color: '#1C392B',
-                                  bgcolor: 'rgba(28, 57, 43, 0.05)',
+                                  color: '#4ECDC4', 
+                                  bgcolor: 'rgba(78, 205, 196, 0.05)',
                                   mr: 0.5,
-                                  '&:hover': { bgcolor: 'rgba(28, 57, 43, 0.1)' }
+                                  '&:hover': { bgcolor: 'rgba(78, 205, 196, 0.1)' }
                                 }}
-                                title="View"
+                                title="Edit"
                               >
-                                <EyeIcon sx={{ fontSize: '16px' }} />
+                                <EditIcon sx={{ fontSize: '16px' }} />
                               </IconButton>
                               <IconButton 
                                 size="small" 
                                 sx={{ 
                                   p: 0.3, 
-                                  color: '#009688',
-                                  bgcolor: 'rgba(0, 150, 136, 0.05)',
-                                  mr: 0.5,
-                                  '&:hover': { bgcolor: 'rgba(0, 150, 136, 0.1)' }
+                                  color: '#f44336', 
+                                  bgcolor: 'rgba(244, 67, 54, 0.05)',
+                                  '&:hover': { bgcolor: 'rgba(244, 67, 54, 0.1)' }
                                 }}
-                                title="Report"
+                                title="Delete"
                               >
-                                <DocumentIcon sx={{ fontSize: '16px' }} />
-                              </IconButton>
-                              <IconButton 
-                                size="small" 
-                                sx={{ 
-                                  p: 0.3,
-                                  color: '#2196f3',
-                                  bgcolor: 'rgba(33, 150, 243, 0.05)',
-                                  '&:hover': { bgcolor: 'rgba(33, 150, 243, 0.1)' }
-                                }}
-                                title="Print"
-                              >
-                                <PrintIcon sx={{ fontSize: '16px' }} />
+                                <DeleteIcon sx={{ fontSize: '16px' }} />
                               </IconButton>
                             </Box>
                           </TableCell>
