@@ -23,7 +23,7 @@ const AdminLogin = () => {
   const theme = useTheme();
   // Admin credentials for testing:
   // Email: Lmeyer@rygneco.com
-  // Password: RGYNeco.!
+  // Password: RYGNeco.!
   const [formData, setFormData] = useState({
     email: '',
     password: '',

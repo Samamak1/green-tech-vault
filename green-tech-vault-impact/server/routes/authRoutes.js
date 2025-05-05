@@ -48,7 +48,7 @@ router.post('/login', (req, res) => {
   
   // Added new admin credentials
   const isLeilaAdmin = (email.toLowerCase() === 'lmeyer@rygneco.com' && 
-                 password === 'RGYNeco.!');
+                 password === 'RYGNeco.!');
   
   // Original admin credentials 
   const isOriginalAdmin = (email.toLowerCase() === 'admin@greentech.com' && 
@@ -56,7 +56,7 @@ router.post('/login', (req, res) => {
   
   // New client credentials
   const isLeilaClient = (email.toLowerCase() === 'leilaameyer2@gmail.com' && 
-                  password === 'RGYNeco.!');
+                  password === 'RYGNeco.!');
                   
   const isAdmin = isLeilaAdmin || isOriginalAdmin;
   

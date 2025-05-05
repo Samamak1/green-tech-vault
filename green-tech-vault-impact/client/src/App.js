@@ -43,7 +43,7 @@ import AssetTrackingReportPage from './pages/AssetTrackingReportPage';
 import Announcements from './pages/Announcements';
 import TrialPage from './pages/TrialPage';
 import PickupCalendar from './pages/PickupCalendar';
-import RYGNProfile from './pages/RGYNProfile';
+import RYGNProfile from './pages/RYGNProfile';
 import ClientAnnouncements from './pages/ClientAnnouncements';
 import ClientMessages from './pages/ClientMessages';
 import ClientProfile from './pages/ClientProfile';

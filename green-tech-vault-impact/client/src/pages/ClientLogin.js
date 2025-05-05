@@ -21,7 +21,7 @@ const ClientLogin = () => {
   const theme = useTheme();
   // Client credentials for testing:
   // Email: leilaameyer2@gmail.com
-  // Password: RGYNeco.!
+  // Password: RYGNeco.!
   // Username displayed as: @Lmeyer
   const [formData, setFormData] = useState({
     email: '',

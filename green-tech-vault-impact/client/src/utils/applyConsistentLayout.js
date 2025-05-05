@@ -52,11 +52,12 @@ import { getContentContainerStyle, getContentWrapperStyle } from './layoutStyles
  * - PickupCalendar.js
  * - Reports.js
  * - ClientMessages.js
- * - RGYNProfile.js
+ * - RYGNProfile.js
  * - PickupDetail.js
  * - ReportDetail.js
  * - CompanyProfile.js
  * - Devices.js
+ * - ClientSchedulePickup.js
  * 
  * ADMIN PAGES:
  * - AdminDashboard.js
