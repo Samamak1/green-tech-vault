@@ -30,6 +30,7 @@ const ClientSchedulePickup = () => {
   const { user } = useAuth();
   const [activeStep, setActiveStep] = useState(0);
   const [validationDialogOpen, setValidationDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     // Company Information
     companyName: '',
@@ -111,14 +112,22 @@ const ClientSchedulePickup = () => {
   };
 
   const handleSubmit = () => {
-    // In a real application, you would submit the data to your backend
-    console.log('Form submitted with data:', formData);
-    
-    // Show success message
-    alert('Pickup scheduled successfully!');
-    
-    // Navigate back to dashboard
-    navigate('/dashboard');
+    try {
+      setIsSubmitting(true);
+      // In a real application, you would submit the data to your backend
+      console.log('Form submitted with data:', formData);
+      
+      // Show success message
+      alert('Pickup scheduled successfully!');
+      
+      // Navigate back to dashboard
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('An error occurred while scheduling the pickup. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleCloseValidationDialog = () => {
@@ -311,13 +320,7 @@ const ClientSchedulePickup = () => {
                     label="Preferred Date"
                     value={formData.preferredDate}
                     onChange={handleDateChange}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        fullWidth
-                        size="small"
-                      />
-                    )}
+                    slotProps={{ textField: { size: 'small', fullWidth: true } }}
                   />
                 </LocalizationProvider>
               </Grid>
@@ -327,13 +330,7 @@ const ClientSchedulePickup = () => {
                     label="Preferred Time Window"
                     value={formData.preferredTimeWindow}
                     onChange={handleTimeChange}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        fullWidth
-                        size="small"
-                      />
-                    )}
+                    slotProps={{ textField: { size: 'small', fullWidth: true } }}
                   />
                 </LocalizationProvider>
               </Grid>
@@ -532,7 +529,7 @@ const ClientSchedulePickup = () => {
                 <TextField
                   fullWidth
                   label="Preferred Date"
-                  value={formData.preferredDate ? formData.preferredDate.toLocaleDateString() : ''}
+                  value={formData.preferredDate ? formData.preferredDate.toLocaleDateString() : 'Not specified'}
                   InputProps={{ readOnly: true }}
                   size="small"
                 />
@@ -541,7 +538,7 @@ const ClientSchedulePickup = () => {
                 <TextField
                   fullWidth
                   label="Preferred Time"
-                  value={formData.preferredTimeWindow ? formData.preferredTimeWindow.toLocaleTimeString() : ''}
+                  value={formData.preferredTimeWindow ? formData.preferredTimeWindow.toLocaleTimeString() : 'Not specified'}
                   InputProps={{ readOnly: true }}
                   size="small"
                 />
@@ -635,12 +632,13 @@ const ClientSchedulePickup = () => {
                   <Button 
                     variant="contained"
                     onClick={handleSubmit}
+                    disabled={isSubmitting}
                     sx={{ 
                       bgcolor: '#4ECDC4', 
-                      '&:hover': { bgcolor: '#3dbdb5' } 
+                      '&:hover': { bgcolor: '#3dbdb5' },
                     }}
                   >
-                    Submit
+                    {isSubmitting ? 'Submitting...' : 'Submit'}
                   </Button>
                 ) : (
                   <Button

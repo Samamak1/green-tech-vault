@@ -305,6 +305,7 @@ function App() {
                 <Route path="reports/:id" element={<ReportDetail />} />
                   <Route path="messages" element={<ClientMessages />} />
                   <Route path="announcements" element={<ClientAnnouncements />} />
+                  <Route path="schedule-pickup" element={<ClientSchedulePickup />} />
                 <Route path="statistics" element={<Dashboard />} />
                 <Route path="database" element={<h1>Database</h1>} />
                 <Route path="team" element={<h1>Team</h1>} />
