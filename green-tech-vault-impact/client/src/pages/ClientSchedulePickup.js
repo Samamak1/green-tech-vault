@@ -163,12 +163,12 @@ const ClientSchedulePickup = () => {
               name="companyName"
               value={formData.companyName}
               onChange={handleChange}
-              sx={{ mb: 2 }}
+              sx={{ mb: 3 }}
               InputLabelProps={{ shrink: true }}
               size="small"
             />
             
-            <Grid container spacing={2} sx={{ mb: 2 }}>
+            <Grid container spacing={3} sx={{ mb: 3 }}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -191,6 +191,7 @@ const ClientSchedulePickup = () => {
                   onChange={handleChange}
                   InputLabelProps={{ shrink: true }}
                   size="small"
+                  type="email"
                 />
               </Grid>
             </Grid>
@@ -202,7 +203,7 @@ const ClientSchedulePickup = () => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              sx={{ mb: 2 }}
+              sx={{ mb: 3 }}
               InputLabelProps={{ shrink: true }}
               size="small"
             />
@@ -214,12 +215,12 @@ const ClientSchedulePickup = () => {
               name="address"
               value={formData.address}
               onChange={handleChange}
-              sx={{ mb: 2 }}
+              sx={{ mb: 3 }}
               InputLabelProps={{ shrink: true }}
               size="small"
             />
             
-            <Grid container spacing={2}>
+            <Grid container spacing={3}>
               <Grid item xs={12} sm={4}>
                 <TextField
                   fullWidth
@@ -263,11 +264,11 @@ const ClientSchedulePickup = () => {
       case 1:
         return (
           <Box sx={{ py: 2 }}>
-            <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 500 }}>
+            <Typography variant="subtitle1" sx={{ mb: 3, fontWeight: 500, color: '#333' }}>
               On-Site Contact (Person Present at Pickup)
             </Typography>
             
-            <Grid container spacing={2} sx={{ mb: 2 }}>
+            <Grid container spacing={3} sx={{ mb: 3 }}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -290,7 +291,7 @@ const ClientSchedulePickup = () => {
               </Grid>
             </Grid>
             
-            <Grid container spacing={2} sx={{ mb: 2 }}>
+            <Grid container spacing={3} sx={{ mb: 3 }}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -309,11 +310,12 @@ const ClientSchedulePickup = () => {
                   value={formData.onSiteContactEmail}
                   onChange={handleChange}
                   size="small"
+                  type="email"
                 />
               </Grid>
             </Grid>
             
-            <Grid container spacing={2} sx={{ mb: 2 }}>
+            <Grid container spacing={3} sx={{ mb: 3 }}>
               <Grid item xs={12} sm={6}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
@@ -342,11 +344,11 @@ const ClientSchedulePickup = () => {
               name="pickupAddress"
               value={formData.pickupAddress}
               onChange={handleChange}
-              sx={{ mb: 2 }}
+              sx={{ mb: 3 }}
               size="small"
             />
             
-            <Grid container spacing={2}>
+            <Grid container spacing={3}>
               <Grid item xs={12} sm={4}>
                 <TextField
                   fullWidth
@@ -384,7 +386,7 @@ const ClientSchedulePickup = () => {
       case 2:
         return (
           <Box sx={{ py: 2 }}>
-            <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 500 }}>
+            <Typography variant="subtitle1" sx={{ mb: 3, fontWeight: 500, color: '#333' }}>
               Company Information
             </Typography>
             
@@ -394,11 +396,11 @@ const ClientSchedulePickup = () => {
               name="companyName"
               value={formData.companyName}
               InputProps={{ readOnly: true }}
-              sx={{ mb: 2 }}
+              sx={{ mb: 3 }}
               size="small"
             />
             
-            <Grid container spacing={2} sx={{ mb: 2 }}>
+            <Grid container spacing={3} sx={{ mb: 3 }}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -427,7 +429,7 @@ const ClientSchedulePickup = () => {
               name="phone"
               value={formData.phone}
               InputProps={{ readOnly: true }}
-              sx={{ mb: 2 }}
+              sx={{ mb: 3 }}
               size="small"
             />
             
@@ -437,11 +439,11 @@ const ClientSchedulePickup = () => {
               name="address"
               value={formData.address}
               InputProps={{ readOnly: true }}
-              sx={{ mb: 2 }}
+              sx={{ mb: 3 }}
               size="small"
             />
             
-            <Grid container spacing={2} sx={{ mb: 3 }}>
+            <Grid container spacing={3} sx={{ mb: 4 }}>
               <Grid item xs={12} sm={4}>
                 <TextField
                   fullWidth
@@ -474,11 +476,11 @@ const ClientSchedulePickup = () => {
               </Grid>
             </Grid>
             
-            <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 500 }}>
+            <Typography variant="subtitle1" sx={{ mb: 3, fontWeight: 500, color: '#333' }}>
               On-Site Contact (Person Present at Pickup)
             </Typography>
             
-            <Grid container spacing={2} sx={{ mb: 2 }}>
+            <Grid container spacing={3} sx={{ mb: 3 }}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -501,7 +503,7 @@ const ClientSchedulePickup = () => {
               </Grid>
             </Grid>
             
-            <Grid container spacing={2} sx={{ mb: 2 }}>
+            <Grid container spacing={3} sx={{ mb: 3 }}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -524,7 +526,7 @@ const ClientSchedulePickup = () => {
               </Grid>
             </Grid>
             
-            <Grid container spacing={2} sx={{ mb: 2 }}>
+            <Grid container spacing={3} sx={{ mb: 3 }}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -551,11 +553,11 @@ const ClientSchedulePickup = () => {
               name="pickupAddress"
               value={formData.pickupAddress}
               InputProps={{ readOnly: true }}
-              sx={{ mb: 2 }}
+              sx={{ mb: 3 }}
               size="small"
             />
             
-            <Grid container spacing={2}>
+            <Grid container spacing={3}>
               <Grid item xs={12} sm={4}>
                 <TextField
                   fullWidth
@@ -599,15 +601,15 @@ const ClientSchedulePickup = () => {
     <Box sx={getContentContainerStyle()} data-boundary="true">
       <Box sx={getContentWrapperStyle()}>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-          <Typography variant="h5" sx={{ mb: 3, textAlign: 'center' }}>
+          <Typography variant="h5" sx={{ mb: 3, textAlign: 'center', fontWeight: 500 }}>
             Schedule E-Waste Pickup
           </Typography>
           
-          <Typography variant="body1" sx={{ mb: 4, textAlign: 'center', maxWidth: '600px' }}>
+          <Typography variant="body1" sx={{ mb: 4, textAlign: 'center', maxWidth: '600px', color: '#666' }}>
             Fill out the form below to schedule your electronic waste pickup.
           </Typography>
           
-          <Box sx={{ maxWidth: '700px', width: '100%' }}>
+          <Box sx={{ maxWidth: '800px', width: '100%', mx: 'auto' }}>
             <Stepper activeStep={activeStep} orientation="horizontal" sx={{ mb: 4 }}>
               {steps.map((step) => (
                 <Step key={step.label}>
@@ -616,14 +618,19 @@ const ClientSchedulePickup = () => {
               ))}
             </Stepper>
             
-            <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
+            <Paper elevation={2} sx={{ p: 4, mb: 4, borderRadius: '8px' }}>
               {getStepContent(activeStep)}
               
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
                 <Button
                   disabled={activeStep === 0}
                   onClick={handleBack}
                   variant="outlined"
+                  sx={{ 
+                    borderColor: '#ccc',
+                    color: '#666',
+                    '&:hover': { borderColor: '#999' }
+                  }}
                 >
                   Back
                 </Button>
@@ -636,6 +643,7 @@ const ClientSchedulePickup = () => {
                     sx={{ 
                       bgcolor: '#4ECDC4', 
                       '&:hover': { bgcolor: '#3dbdb5' },
+                      px: 3
                     }}
                   >
                     {isSubmitting ? 'Submitting...' : 'Submit'}
@@ -646,7 +654,8 @@ const ClientSchedulePickup = () => {
                     onClick={handleNext}
                     sx={{ 
                       bgcolor: '#4ECDC4', 
-                      '&:hover': { bgcolor: '#3dbdb5' } 
+                      '&:hover': { bgcolor: '#3dbdb5' },
+                      px: 3
                     }}
                   >
                     Next
@@ -664,18 +673,29 @@ const ClientSchedulePickup = () => {
         onClose={handleCloseValidationDialog}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        PaperProps={{
+          sx: { borderRadius: '8px', maxWidth: '450px' }
+        }}
       >
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle id="alert-dialog-title" sx={{ pb: 1 }}>
           {"Required Information Missing"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id="alert-dialog-description" sx={{ color: '#666' }}>
             Please complete all required fields in the Company Information section before proceeding.
             Required fields are marked with an asterisk (*).
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseValidationDialog} autoFocus color="primary">
+        <DialogActions sx={{ px: 3, pb: 2 }}>
+          <Button 
+            onClick={handleCloseValidationDialog} 
+            autoFocus 
+            variant="contained"
+            sx={{ 
+              bgcolor: '#4ECDC4', 
+              '&:hover': { bgcolor: '#3dbdb5' } 
+            }}
+          >
             OK
           </Button>
         </DialogActions>

@@ -335,11 +335,7 @@ function App() {
                 <Route path="reports" element={<h1>Admin Reports</h1>} />
                   <Route path="messages" element={<AdminMessages />} />
                   <Route path="announcements" element={<TrialPage />} />
-                  <Route path="schedule-pickup" element={
-                    <ProtectedRoute>
-                      <ClientSchedulePickup />
-                    </ProtectedRoute>
-                  } />
+                  <Route path="schedule-pickup" element={<AdminAnnouncements />} />
                   <Route path="trial-page" element={<TrialPage />} />
                 <Route path="clients/:clientId" element={<AdminClientProfile />} />
                 <Route path="pickup-calendar" element={<AdminPickupCalendar />} />
