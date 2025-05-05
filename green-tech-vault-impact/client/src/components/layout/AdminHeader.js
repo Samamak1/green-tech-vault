@@ -153,7 +153,7 @@ const AdminHeader = () => {
           {profileData?.fullName || user?.name || 'Leila Meyer'}
         </Typography>
         <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
-          @{user?.username?.replace('@', '') || profileData?.username?.replace('@', '') || 'lmeyer'}
+          @{user?.username?.replace('@', '') || profileData?.username?.replace('@', '') || 'admin'}
         </Typography>
         <Box 
           sx={{ 
@@ -273,7 +273,7 @@ const AdminHeader = () => {
                 {profileData?.fullName || user?.name || 'Leila Meyer'}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                @{user?.username?.replace('@', '') || profileData?.username?.replace('@', '') || 'lmeyer'}
+                @{user?.username?.replace('@', '') || profileData?.username?.replace('@', '') || 'admin'}
               </Typography>
             </Box>
             
