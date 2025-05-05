@@ -11,7 +11,8 @@ import {
   Divider,
   useTheme,
   Avatar,
-  ListItemIcon
+  ListItemIcon,
+  Badge
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
@@ -26,6 +27,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import Logo from '../branding/Logo';
+import NotificationsPopup from '../../components/NotificationsPopup';
 
 // Styled search component
 const Search = styled('div')(({ theme }) => ({
@@ -37,6 +39,7 @@ const Search = styled('div')(({ theme }) => ({
   maxWidth: '400px',
   display: 'flex',
   alignItems: 'center',
+  marginLeft: 0, // Move to the far left (no margin)
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -69,6 +72,8 @@ const AdminHeader = () => {
   const { profileData, profilePictureUrl } = useProfile();
   const [searchQuery, setSearchQuery] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [notificationsAnchorEl, setNotificationsAnchorEl] = useState(null);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -94,8 +99,25 @@ const AdminHeader = () => {
     handleMenuClose();
   };
 
+  const handleNotificationsClick = (event) => {
+    // Position next to the profile menu instead of replacing it
+    setNotificationsAnchorEl(event.currentTarget);
+    setNotificationsOpen(true);
+    // Don't close the profile menu anymore
+    // handleMenuClose();
+  };
+
+  const handleNotificationsClose = () => {
+    setNotificationsOpen(false);
+    setNotificationsAnchorEl(null);
+  };
+
   const isMenuOpen = Boolean(anchorEl);
   const menuId = 'primary-admin-account-menu';
+  
+  // Calculate unread notification count (assuming we have mock data for now)
+  // In a real app, this would come from your notifications service/context
+  const unreadNotificationCount = 7; // Hard-coded for now
   
   const renderMenu = (
     <Menu
@@ -128,10 +150,10 @@ const AdminHeader = () => {
           {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'L')}
         </Avatar>
         <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-          {profileData?.fullName || user?.name || 'Full Name'}
+          {profileData?.fullName || user?.name || 'Leila Meyer'}
         </Typography>
         <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
-          {profileData?.jobTitle || user?.position || 'CEO'}
+          @{user?.username?.replace('@', '') || profileData?.username?.replace('@', '') || 'lmeyer'}
         </Typography>
         <Box 
           sx={{ 
@@ -169,9 +191,15 @@ const AdminHeader = () => {
         Profile
       </MenuItem>
       
-      <MenuItem onClick={() => { navigate('/admin/notifications'); handleMenuClose(); }}>
+      <MenuItem onClick={handleNotificationsClick}>
         <ListItemIcon>
-          <NotificationsIcon fontSize="small" />
+          <Badge 
+            color="error" 
+            variant="dot" 
+            invisible={unreadNotificationCount === 0}
+          >
+            <NotificationsIcon fontSize="small" />
+          </Badge>
         </ListItemIcon>
         Notifications
       </MenuItem>
@@ -188,13 +216,6 @@ const AdminHeader = () => {
           <QrCodeIcon fontSize="small" />
         </ListItemIcon>
         QR for Mobile Login
-      </MenuItem>
-      
-      <MenuItem onClick={() => { navigate('/admin/announcements'); handleMenuClose(); }}>
-        <ListItemIcon>
-          <CampaignIcon fontSize="small" />
-        </ListItemIcon>
-        Announcements
       </MenuItem>
       
       <Divider />
@@ -215,16 +236,16 @@ const AdminHeader = () => {
         boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07), 0px 1px 10px 0px rgba(0,0,0,0.06)',
         height: '64px',
         zIndex: 1300,
-        borderRadius: 0,
-        ml: '240px',
-        width: 'calc(100% - 240px)',
+        borderRadius: 0, // Sharp corners
+        ml: '225px', // Start after sidebar (5 grid cells * 45px)
+        width: 'calc(100% - 225px)', // Adjust width to account for sidebar
       }}
     >
       <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2, bgcolor: 'white' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           {/* Left side - Logo removed */}
           
-          {/* Center - Search - Now positioned to the left */}
+          {/* Center - Search - Now positioned to the very left */}
           <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start' }}>
             <Search>
               <SearchIconWrapper>
@@ -249,10 +270,10 @@ const AdminHeader = () => {
               alignItems: 'flex-end',
             }}>
               <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                {profileData?.fullName || user?.name || 'Full Name'}
+                {profileData?.fullName || user?.name || 'Leila Meyer'}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                {profileData?.jobTitle || user?.position || 'Position Title'}
+                @{user?.username?.replace('@', '') || profileData?.username?.replace('@', '') || 'lmeyer'}
               </Typography>
             </Box>
             
@@ -275,6 +296,13 @@ const AdminHeader = () => {
         </Box>
       </Toolbar>
       {renderMenu}
+      
+      {/* Notifications Popup - positioned to the left of the dropdown */}
+      <NotificationsPopup 
+        open={notificationsOpen} 
+        anchorEl={notificationsAnchorEl} 
+        onClose={handleNotificationsClose} 
+      />
     </AppBar>
   );
 };

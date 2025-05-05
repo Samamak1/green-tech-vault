@@ -124,12 +124,12 @@ const AdminAnnouncements = () => {
           boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)',
           overflow: 'hidden'
         }}>
-          <Box sx={{ p: 3 }}>
-            <Typography variant="h5" component="h1" gutterBottom sx={{ fontWeight: 500, color: '#333', mb: 1, textAlign: 'center' }}>
+          <Box sx={{ p: 2 }}>
+            <Typography variant="h6" component="h1" gutterBottom sx={{ fontWeight: 500, color: '#333', mb: 1, textAlign: 'center', fontSize: '1.1rem' }}>
               Schedule E-Waste Pickup
             </Typography>
             
-            <Typography variant="body2" sx={{ mb: 4, color: '#555', textAlign: 'center' }}>
+            <Typography variant="body2" sx={{ mb: 2, color: '#555', textAlign: 'center', fontSize: '0.85rem' }}>
               Fill out the form below to schedule your electronic waste pickup.
             </Typography>
             
@@ -139,7 +139,7 @@ const AdminAnnouncements = () => {
               alignItems: 'center',
               justifyContent: 'center',
               width: '100%',
-              mb: 5,
+              mb: 3,
               position: 'relative'
             }}>
               {steps.map((step, index) => (
@@ -154,23 +154,23 @@ const AdminAnnouncements = () => {
                     }}
                   >
                     <Box sx={{ 
-                      width: 40,
-                      height: 40,
+                      width: 32,
+                      height: 32,
                       borderRadius: '50%',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       backgroundColor: index <= activeStep ? '#4ecdc4' : '#ccc',
                       color: 'white',
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: 500,
-                      mb: 1,
+                      mb: 0.5,
                     }}>
                       {step.completed ? '✓' : index + 1}
                     </Box>
                     <Typography sx={{ 
                       color: index === activeStep ? '#1C392B' : '#666',
-                      fontSize: '0.9rem',
+                      fontSize: '0.75rem',
                       fontWeight: index === activeStep ? 500 : 400,
                       textAlign: 'center',
                     }}>
@@ -183,11 +183,11 @@ const AdminAnnouncements = () => {
                     <Box 
                       sx={{ 
                         flex: 1,
-                        height: 1.5,
+                        height: 1,
                         backgroundColor: index < activeStep ? '#4ecdc4' : '#e8e8e8',
-                        margin: '0 10px',
+                        margin: '0 8px',
                         position: 'relative',
-                        top: -20,
+                        top: -16,
                         zIndex: 1
                       }}
                     />
@@ -198,12 +198,12 @@ const AdminAnnouncements = () => {
             
             {/* Step content */}
             {activeStep === 0 && (
-              <Grid container spacing={2}>
-                <Grid item xs={12} sx={{ mb: 1 }}>
+              <Grid container spacing={1.5}>
+                <Grid item xs={12} sx={{ mb: 0.5 }}>
                   <TextField
                     fullWidth
                     required
-                    label="Company Name *"
+                    label="Company Name*"
                     name="companyName"
                     value={formData.companyName}
                     onChange={handleChange}
@@ -211,17 +211,21 @@ const AdminAnnouncements = () => {
                     size="small"
                     sx={{
                       '& .MuiOutlinedInput-input': { 
-                        padding: '12px 14px',
+                        padding: '8px 12px',
+                        fontSize: '0.85rem'
+                      },
+                      '& .MuiInputLabel-root': {
+                        fontSize: '0.85rem'
                       }
                     }}
                   />
                 </Grid>
                 
-                <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                <Grid item xs={12} sm={6} sx={{ mb: 0.5 }}>
                   <TextField
                     fullWidth
                     required
-                    label="Contact Name *"
+                    label="Contact Name*"
                     name="contactName"
                     value={formData.contactName}
                     onChange={handleChange}
@@ -229,17 +233,21 @@ const AdminAnnouncements = () => {
                     size="small"
                     sx={{
                       '& .MuiOutlinedInput-input': { 
-                        padding: '12px 14px',
+                        padding: '8px 12px',
+                        fontSize: '0.85rem'
+                      },
+                      '& .MuiInputLabel-root': {
+                        fontSize: '0.85rem'
                       }
                     }}
                   />
                 </Grid>
                 
-                <Grid item xs={12} sm={6} sx={{ mb: 1 }}>
+                <Grid item xs={12} sm={6} sx={{ mb: 0.5 }}>
                   <TextField
                     fullWidth
                     required
-                    label="Email *"
+                    label="Email*"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
@@ -247,17 +255,21 @@ const AdminAnnouncements = () => {
                     size="small"
                     sx={{
                       '& .MuiOutlinedInput-input': { 
-                        padding: '12px 14px',
+                        padding: '8px 12px',
+                        fontSize: '0.85rem'
+                      },
+                      '& .MuiInputLabel-root': {
+                        fontSize: '0.85rem'
                       }
                     }}
                   />
                 </Grid>
                 
-                <Grid item xs={12} sx={{ mb: 1 }}>
+                <Grid item xs={12} sx={{ mb: 0.5 }}>
                   <TextField
                     fullWidth
                     required
-                    label="Phone *"
+                    label="Phone*"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
@@ -265,17 +277,21 @@ const AdminAnnouncements = () => {
                     size="small"
                     sx={{
                       '& .MuiOutlinedInput-input': { 
-                        padding: '12px 14px',
+                        padding: '8px 12px',
+                        fontSize: '0.85rem'
+                      },
+                      '& .MuiInputLabel-root': {
+                        fontSize: '0.85rem'
                       }
                     }}
                   />
                 </Grid>
                 
-                <Grid item xs={12} sx={{ mb: 1 }}>
+                <Grid item xs={12} sx={{ mb: 0.5 }}>
                   <TextField
                     fullWidth
                     required
-                    label="Address *"
+                    label="Address*"
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
@@ -283,17 +299,21 @@ const AdminAnnouncements = () => {
                     size="small"
                     sx={{
                       '& .MuiOutlinedInput-input': { 
-                        padding: '12px 14px',
+                        padding: '8px 12px',
+                        fontSize: '0.85rem'
+                      },
+                      '& .MuiInputLabel-root': {
+                        fontSize: '0.85rem'
                       }
                     }}
                   />
                 </Grid>
                 
-                <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+                <Grid item xs={12} sm={4} sx={{ mb: 0.5 }}>
                   <TextField
                     fullWidth
                     required
-                    label="City *"
+                    label="City*"
                     name="city"
                     value={formData.city}
                     onChange={handleChange}
@@ -301,17 +321,21 @@ const AdminAnnouncements = () => {
                     size="small"
                     sx={{
                       '& .MuiOutlinedInput-input': { 
-                        padding: '12px 14px',
+                        padding: '8px 12px',
+                        fontSize: '0.85rem'
+                      },
+                      '& .MuiInputLabel-root': {
+                        fontSize: '0.85rem'
                       }
                     }}
                   />
                 </Grid>
                 
-                <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+                <Grid item xs={12} sm={4} sx={{ mb: 0.5 }}>
                   <TextField
                     fullWidth
                     required
-                    label="State *"
+                    label="State*"
                     name="state"
                     value={formData.state}
                     onChange={handleChange}
@@ -319,17 +343,21 @@ const AdminAnnouncements = () => {
                     size="small"
                     sx={{
                       '& .MuiOutlinedInput-input': { 
-                        padding: '12px 14px',
+                        padding: '8px 12px',
+                        fontSize: '0.85rem'
+                      },
+                      '& .MuiInputLabel-root': {
+                        fontSize: '0.85rem'
                       }
                     }}
                   />
                 </Grid>
                 
-                <Grid item xs={12} sm={4} sx={{ mb: 1 }}>
+                <Grid item xs={12} sm={4} sx={{ mb: 0.5 }}>
                   <TextField
                     fullWidth
                     required
-                    label="Zip Code *"
+                    label="Zip Code*"
                     name="zipCode"
                     value={formData.zipCode}
                     onChange={handleChange}
@@ -337,7 +365,11 @@ const AdminAnnouncements = () => {
                     size="small"
                     sx={{
                       '& .MuiOutlinedInput-input': { 
-                        padding: '12px 14px',
+                        padding: '8px 12px',
+                        fontSize: '0.85rem'
+                      },
+                      '& .MuiInputLabel-root': {
+                        fontSize: '0.85rem'
                       }
                     }}
                   />
@@ -695,12 +727,12 @@ const AdminAnnouncements = () => {
             )}
             
             {/* Navigation buttons */}
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
               <Button
                 variant="outlined"
                 disabled={activeStep === 0}
                 onClick={handleBack}
-                sx={{ borderRadius: '4px', minWidth: '100px' }}
+                sx={{ borderRadius: '4px', minWidth: '80px', fontSize: '0.85rem' }}
               >
                 Back
               </Button>
@@ -716,7 +748,8 @@ const AdminAnnouncements = () => {
                       backgroundColor: '#3dbdb5',
                     },
                     borderRadius: '4px',
-                    minWidth: '100px'
+                    minWidth: '80px',
+                    fontSize: '0.85rem'
                   }}
                 >
                   Submit
@@ -732,7 +765,8 @@ const AdminAnnouncements = () => {
                       backgroundColor: '#3dbdb5',
                     },
                     borderRadius: '4px',
-                    minWidth: '100px'
+                    minWidth: '80px',
+                    fontSize: '0.85rem'
                   }}
                 >
                   Next
