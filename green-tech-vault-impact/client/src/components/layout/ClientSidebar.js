@@ -44,7 +44,7 @@ const ClientSidebar = () => {
     {
       text: 'RYGN Profile',
       icon: <PersonIcon sx={{ color: '#fff' }} />,
-      path: '/dashboard/rgyn-profile',
+      path: '/dashboard/rygn-profile',
     },
     {
       text: 'Calendar',

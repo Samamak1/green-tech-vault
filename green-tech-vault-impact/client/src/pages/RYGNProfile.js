@@ -42,7 +42,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
-const RGYNProfile = () => {
+const RYGNProfile = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [client, setClient] = useState(null);
@@ -100,10 +100,10 @@ const RGYNProfile = () => {
           location: 'Cincinnati Warehouse',
           status: 'Complete',
           weight: 2.5,
-          rgynContact: {
+          rygnContact: {
             fullName: "Sarah Johnson",
-            jobTitle: "RGYN Coordinator",
-            email: "sarah.johnson@rgyneco.com",
+            jobTitle: "RYGN Coordinator",
+            email: "sarah.johnson@rygneco.com",
             phone: "(555) 987-6543"
           }
         },
@@ -115,10 +115,10 @@ const RGYNProfile = () => {
           location: 'Cincinnati Warehouse',
           status: 'In Process',
           weight: 1.8,
-          rgynContact: {
+          rygnContact: {
             fullName: "Michael Chen",
             jobTitle: "Recycling Specialist",
-            email: "michael.chen@rgyneco.com",
+            email: "michael.chen@rygneco.com",
             phone: "(555) 456-7890"
           }
         },
@@ -130,10 +130,10 @@ const RGYNProfile = () => {
           location: 'Global Innovations HQ',
           status: 'Received',
           weight: 3.2,
-          rgynContact: {
+          rygnContact: {
             fullName: "James Wilson",
             jobTitle: "Pickup Coordinator",
-            email: "james.wilson@rgyneco.com",
+            email: "james.wilson@rygneco.com",
             phone: "(555) 234-5678"
           }
         },
@@ -145,10 +145,10 @@ const RGYNProfile = () => {
           location: 'Cincinnati Warehouse',
           status: 'Complete',
           weight: 4.5,
-          rgynContact: {
+          rygnContact: {
             fullName: "Emma Davis",
             jobTitle: "Sustainability Manager",
-            email: "emma.davis@rgyneco.com",
+            email: "emma.davis@rygneco.com",
             phone: "(555) 876-5432"
           }
         }
@@ -314,7 +314,7 @@ const RGYNProfile = () => {
     setDeleteDialogOpen(false);
   };
 
-  // Default RGYN contact information when no pickup is selected
+  // Default RYGN contact information when no pickup is selected
   const defaultRygnContactInfo = {
     fullName: "Sarah Johnson",
     jobTitle: "RYGN Coordinator",
@@ -328,7 +328,7 @@ const RGYNProfile = () => {
   };
 
   // Get the pickup information to display
-  const pickupInfoToDisplay = selectedPickupInfo || { rgynContact: defaultRygnContactInfo, ...defaultRygnContactInfo };
+  const pickupInfoToDisplay = selectedPickupInfo || { rygnContact: defaultRygnContactInfo, ...defaultRygnContactInfo };
 
   if (loading) {
     return (
@@ -840,28 +840,28 @@ const RGYNProfile = () => {
                           <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Full Name</Typography>
                         </Grid>
                         <Grid item xs={7}>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rgynContact.fullName : defaultRygnContactInfo.fullName}</Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rygnContact.fullName : defaultRygnContactInfo.fullName}</Typography>
                         </Grid>
                         
                         <Grid item xs={5}>
                           <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Job Title</Typography>
                         </Grid>
                         <Grid item xs={7}>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rgynContact.jobTitle : defaultRygnContactInfo.jobTitle}</Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rygnContact.jobTitle : defaultRygnContactInfo.jobTitle}</Typography>
                         </Grid>
 
                         <Grid item xs={5}>
                           <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Email</Typography>
                         </Grid>
                         <Grid item xs={7}>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rgynContact.email : defaultRygnContactInfo.email}</Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rygnContact.email : defaultRygnContactInfo.email}</Typography>
                         </Grid>
 
                         <Grid item xs={5}>
                           <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Phone</Typography>
                         </Grid>
                         <Grid item xs={7}>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rgynContact.phone : defaultRygnContactInfo.phone}</Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rygnContact.phone : defaultRygnContactInfo.phone}</Typography>
                         </Grid>
                       </Grid>
                     </Grid>
@@ -967,7 +967,7 @@ const RGYNProfile = () => {
                     <TableHead>
                       <TableRow>
                         <TableCell padding="checkbox" sx={{ bgcolor: '#f5f5f5', width: '40px' }}></TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>RGYN Contact</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>RYGN Contact</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '12%' }}>Date</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Time</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '18%' }}>Location</TableCell>
@@ -987,7 +987,7 @@ const RGYNProfile = () => {
                               onChange={() => handlePickupSelect(pickup)}
                             />
                           </TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{pickup.rgynContact?.fullName || pickup.client}</TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{pickup.rygnContact?.fullName || pickup.client}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{pickup.date}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{pickup.time}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{pickup.location}</TableCell>
@@ -1135,4 +1135,4 @@ const RGYNProfile = () => {
   );
 };
 
-export default RGYNProfile; 
+export default RYGNProfile; 

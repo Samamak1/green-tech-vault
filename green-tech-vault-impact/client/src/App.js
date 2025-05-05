@@ -43,7 +43,7 @@ import AssetTrackingReportPage from './pages/AssetTrackingReportPage';
 import Announcements from './pages/Announcements';
 import TrialPage from './pages/TrialPage';
 import PickupCalendar from './pages/PickupCalendar';
-import RGYNProfile from './pages/RGYNProfile';
+import RYGNProfile from './pages/RGYNProfile';
 import ClientAnnouncements from './pages/ClientAnnouncements';
 import ClientMessages from './pages/ClientMessages';
 import ClientProfile from './pages/ClientProfile';
@@ -297,7 +297,7 @@ function App() {
               }>
                   <Route index element={isAdmin ? <Navigate to="/admin" /> : <Dashboard />} />
                 <Route path="company-profile" element={<CompanyProfile />} />
-                  <Route path="rgyn-profile" element={<RGYNProfile />} />
+                  <Route path="rygn-profile" element={<RYGNProfile />} />
                   <Route path="pickups" element={<PickupCalendar />} />
                 <Route path="pickups/:id" element={<PickupDetail />} />
                 <Route path="devices" element={<Devices />} />
