@@ -52,6 +52,9 @@ const AdminClientProfile = () => {
   const [selectedInfo, setSelectedInfo] = useState('Company Information');
   const [leftPanelTab, setLeftPanelTab] = useState('Company Information');
   const [selectedPickup, setSelectedPickup] = useState(null);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [addDeviceDialogOpen, setAddDeviceDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   useEffect(() => {
     // In a real app, you would fetch the actual client data
@@ -316,6 +319,18 @@ const AdminClientProfile = () => {
   const handlePickupSelect = (pickup) => {
     setSelectedPickup(pickup);
     setLeftPanelTab('Pickup Information');
+  };
+
+  const handleCloseEditDialog = () => {
+    setEditDialogOpen(false);
+  };
+
+  const handleCloseAddDeviceDialog = () => {
+    setAddDeviceDialogOpen(false);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setDeleteDialogOpen(false);
   };
 
   if (loading) {
@@ -1171,6 +1186,21 @@ const AdminClientProfile = () => {
               Cancel
             </Button>
           </DialogActions>
+        </Dialog>
+        
+        {/* Edit Contact Dialog */}
+        <Dialog open={editDialogOpen} onClose={handleCloseEditDialog} maxWidth="md" fullWidth>
+          {/* ... dialog content ... */}
+        </Dialog>
+        
+        {/* Add Device Dialog */}
+        <Dialog open={addDeviceDialogOpen} onClose={handleCloseAddDeviceDialog} maxWidth="md" fullWidth>
+          {/* ... dialog content ... */}
+        </Dialog>
+        
+        {/* Delete Confirmation Dialog */}
+        <Dialog open={deleteDialogOpen} onClose={handleCloseDeleteDialog}>
+          {/* ... dialog content ... */}
         </Dialog>
       </Box>
     </Box>

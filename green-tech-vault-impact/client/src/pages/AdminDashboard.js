@@ -587,8 +587,8 @@ const AdminDashboard = () => {
                 </Button>
               </Box>
               
-              <TableContainer>
-                <Table>
+              <TableContainer sx={{ width: '90%', mx: 'auto' }}>
+                <Table size="small">
                   <TableHead>
                     <TableRow sx={{ 
                       '& th': { 
@@ -609,7 +609,17 @@ const AdminDashboard = () => {
                   <TableBody>
                     {clients.map((client) => (
                       <TableRow key={client.id} hover>
-                        <TableCell>{client.name}</TableCell>
+                        <TableCell 
+                          sx={{ 
+                            cursor: 'pointer',
+                            color: '#1C392B',
+                            fontWeight: 500,
+                            '&:hover': { textDecoration: 'underline' }
+                          }}
+                          onClick={() => handleViewClient(client.id)}
+                        >
+                          {client.name}
+                        </TableCell>
                         <TableCell>{client.contactPerson}</TableCell>
                         <TableCell>{client.email}</TableCell>
                         <TableCell>{client.phone}</TableCell>
@@ -691,8 +701,8 @@ const AdminDashboard = () => {
                 </Button>
               </Box>
               
-              <TableContainer>
-                <Table>
+              <TableContainer sx={{ width: '90%', mx: 'auto' }}>
+                <Table size="small">
                   <TableHead>
                     <TableRow sx={{ 
                       '& th': { 
@@ -715,7 +725,17 @@ const AdminDashboard = () => {
                     {devices.map((device) => (
                       <TableRow key={device.id} hover>
                         <TableCell>{device.clientName}</TableCell>
-                        <TableCell>{device.type}</TableCell>
+                        <TableCell 
+                          sx={{ 
+                            cursor: 'pointer',
+                            color: '#1C392B',
+                            fontWeight: 500,
+                            '&:hover': { textDecoration: 'underline' }
+                          }}
+                          onClick={() => navigate(`/admin/devices/${device.id}`)}
+                        >
+                          {device.type}
+                        </TableCell>
                         <TableCell>{device.manufacturer}</TableCell>
                         <TableCell>{device.model}</TableCell>
                         <TableCell>{device.serialNumber}</TableCell>
@@ -798,7 +818,7 @@ const AdminDashboard = () => {
                 <Button
                   variant="contained"
                   startIcon={<AddIcon />}
-                  onClick={() => navigate('/schedule-pickup')}
+                  onClick={() => navigate('/admin/schedule-pickup')}
                   sx={{ 
                     bgcolor: '#4ECDC4', 
                     '&:hover': { bgcolor: '#3BAA9C' },
@@ -809,8 +829,8 @@ const AdminDashboard = () => {
                 </Button>
               </Box>
               
-              <TableContainer>
-                <Table>
+              <TableContainer sx={{ width: '90%', mx: 'auto' }}>
+                <Table size="small">
                   <TableHead>
                     <TableRow sx={{ 
                       '& th': { 
@@ -832,7 +852,17 @@ const AdminDashboard = () => {
                     {pickups.map((pickup) => (
                       <TableRow key={pickup.id} hover>
                         <TableCell>{pickup.clientName}</TableCell>
-                        <TableCell>{pickup.date}</TableCell>
+                        <TableCell 
+                          sx={{ 
+                            cursor: 'pointer',
+                            color: '#1C392B',
+                            fontWeight: 500,
+                            '&:hover': { textDecoration: 'underline' }
+                          }}
+                          onClick={() => navigate(`/admin/pickups/${pickup.id}`)}
+                        >
+                          {pickup.date}
+                        </TableCell>
                         <TableCell>{pickup.location}</TableCell>
                         <TableCell>
                           <Chip 

@@ -586,15 +586,28 @@ const AdminPickupCalendar = () => {
   };
 
   const handleMiniCalendarPrev = () => {
-    const newDate = new Date(miniCalendarYear, miniCalendarMonth - 1, 1);
-    setMiniCalendarMonth(newDate.getMonth());
-    setMiniCalendarYear(newDate.getFullYear());
+    // Move to previous month
+    const newMonth = miniCalendarMonth === 0 ? 11 : miniCalendarMonth - 1;
+    const newYear = miniCalendarMonth === 0 ? miniCalendarYear - 1 : miniCalendarYear;
+    setMiniCalendarMonth(newMonth);
+    setMiniCalendarYear(newYear);
+  };
+  
+  const handleMiniCalendarNext = () => {
+    // Move to next month
+    const newMonth = miniCalendarMonth === 11 ? 0 : miniCalendarMonth + 1;
+    const newYear = miniCalendarMonth === 11 ? miniCalendarYear + 1 : miniCalendarYear;
+    setMiniCalendarMonth(newMonth);
+    setMiniCalendarYear(newYear);
   };
 
-  const handleMiniCalendarNext = () => {
-    const newDate = new Date(miniCalendarYear, miniCalendarMonth + 1, 1);
-    setMiniCalendarMonth(newDate.getMonth());
-    setMiniCalendarYear(newDate.getFullYear());
+  // Function to get month name
+  const getMonthName = (monthIndex) => {
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    return months[monthIndex];
   };
 
   const renderCalendarContent = () => {
@@ -657,21 +670,14 @@ const AdminPickupCalendar = () => {
       <>
         <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button 
-              startIcon={<ArrowBackIcon />} 
-              onClick={() => navigate('/admin/dashboard')}
-              sx={{ color: '#888', fontSize: '0.8rem', fontWeight: 'normal', textTransform: 'none' }}
-            >
-              Back to Dashboard
-            </Button>
-            <Typography variant="h5" sx={{ ml: 2, fontWeight: 500, fontSize: '1rem' }}>
+            <Typography variant="h5" sx={{ fontWeight: 500, fontSize: '1rem' }}>
               Calendar
             </Typography>
           </Box>
           <Button
             variant="contained"
             startIcon={<AddIcon />}
-            onClick={handleOpenDialog}
+            onClick={() => navigate('/admin/schedule-pickup')}
             sx={{ 
               bgcolor: '#1C392B', 
               '&:hover': { bgcolor: '#152b21' },
@@ -720,7 +726,7 @@ const AdminPickupCalendar = () => {
                   <ChevronLeftIcon fontSize="small" sx={{ fontSize: '0.9rem' }} />
                 </IconButton>
                 <Typography variant="subtitle1" sx={{ fontWeight: 700, fontSize: '0.8rem' }}>
-                  April 2025
+                  {getMonthName(miniCalendarMonth)} {miniCalendarYear}
                 </Typography>
                 <IconButton size="small" onClick={handleMiniCalendarNext} sx={{ padding: 0.5 }}>
                   <ChevronRightIcon fontSize="small" sx={{ fontSize: '0.9rem' }} />

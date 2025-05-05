@@ -7,7 +7,9 @@ import {
   Grid,
   Button,
   Chip,
-  IconButton
+  IconButton,
+  CircularProgress,
+  Alert
 } from '@mui/material';
 import {
   ArrowBack as ArrowBackIcon,
@@ -76,17 +78,21 @@ const AdminDeviceDetail = () => {
 
   if (loading) {
     return (
-      <AdminLayout>
-        <Box sx={{ p: 3 }}>Loading...</Box>
-      </AdminLayout>
+      <Box sx={getContentContainerStyle()} data-boundary="true">
+        <Box sx={getContentWrapperStyle()}>
+          <CircularProgress />
+        </Box>
+      </Box>
     );
   }
 
   if (error) {
     return (
-      <AdminLayout>
-        <Box sx={{ p: 3 }}>Error: {error}</Box>
-      </AdminLayout>
+      <Box sx={getContentContainerStyle()} data-boundary="true">
+        <Box sx={getContentWrapperStyle()}>
+          <Alert severity="error">{error}</Alert>
+        </Box>
+      </Box>
     );
   }
 

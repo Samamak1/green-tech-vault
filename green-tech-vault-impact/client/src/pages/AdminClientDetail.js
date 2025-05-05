@@ -42,7 +42,7 @@ import {
 import { companyAPI, pickupAPI, deviceAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { formatDate } from '../utils/formatters';
-import AdminLayout from '../components/layout/AdminLayout';
+import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
 const deviceStatuses = [
   'Received',
@@ -927,9 +927,11 @@ const AdminClientDetail = () => {
   };
 
   return (
-    <AdminLayout>
-      {renderClientDetails()}
-    </AdminLayout>
+    <Box sx={getContentContainerStyle()} data-boundary="true">
+      <Box sx={getContentWrapperStyle()}>
+        {renderClientDetails()}
+      </Box>
+    </Box>
   );
 };
 
