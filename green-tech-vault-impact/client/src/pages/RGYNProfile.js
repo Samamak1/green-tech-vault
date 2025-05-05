@@ -22,7 +22,11 @@ import {
   Avatar,
   CircularProgress,
   Checkbox,
-  MenuItem
+  MenuItem,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from '@mui/material';
 import {
   ArrowBack as ArrowBackIcon,
@@ -54,6 +58,10 @@ const RGYNProfile = () => {
   const [editedCompanyInfo, setEditedCompanyInfo] = useState(null);
   const [isEditingPickupDetails, setIsEditingPickupDetails] = useState(false);
   const [editedPickupDetails, setEditedPickupDetails] = useState(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteType, setDeleteType] = useState('');
+  const [deleteItemId, setDeleteItemId] = useState(null);
+  const [deleteItemName, setDeleteItemName] = useState('');
 
   useEffect(() => {
     // In a real app, you would fetch the actual client data
@@ -268,14 +276,49 @@ const RGYNProfile = () => {
 
   // Navigate to schedule pickup page
   const handleSchedulePickup = () => {
-    navigate('/schedule-pickup');
+    navigate('/admin/schedule-pickup');
+  };
+
+  // Handle delete pickup
+  const handleDeletePickup = (pickupId, event) => {
+    event.stopPropagation();
+    const pickup = mockPickups.find(p => p.id === pickupId);
+    setDeleteType('Pickup');
+    setDeleteItemId(pickupId);
+    setDeleteItemName(pickup ? `Pickup on ${pickup.date}` : '');
+    setDeleteDialogOpen(true);
+  };
+
+  // Handle delete device
+  const handleDeleteDevice = (deviceId, event) => {
+    event.stopPropagation();
+    const device = mockDevices.find(d => d.id === deviceId);
+    setDeleteType('Device');
+    setDeleteItemId(deviceId);
+    setDeleteItemName(device ? `${device.manufacturer} ${device.model}` : '');
+    setDeleteDialogOpen(true);
+  };
+
+  // Confirm deletion
+  const confirmDelete = () => {
+    if (deleteType === 'Pickup') {
+      setMockPickups(mockPickups.filter(p => p.id !== deleteItemId));
+    } else if (deleteType === 'Device') {
+      setMockDevices(mockDevices.filter(d => d.id !== deleteItemId));
+    }
+    setDeleteDialogOpen(false);
+  };
+
+  // Close delete dialog
+  const handleCloseDeleteDialog = () => {
+    setDeleteDialogOpen(false);
   };
 
   // Default RGYN contact information when no pickup is selected
-  const defaultRgynContactInfo = {
+  const defaultRygnContactInfo = {
     fullName: "Sarah Johnson",
-    jobTitle: "RGYN Coordinator",
-    email: "sarah.johnson@rgyneco.com",
+    jobTitle: "RYGN Coordinator",
+    email: "sarah.johnson@rygneco.com",
     phone: "(555) 987-6543",
     date: "05/15/2025",
     time: "10:00 AM",
@@ -285,7 +328,7 @@ const RGYNProfile = () => {
   };
 
   // Get the pickup information to display
-  const pickupInfoToDisplay = selectedPickupInfo || { rgynContact: defaultRgynContactInfo, ...defaultRgynContactInfo };
+  const pickupInfoToDisplay = selectedPickupInfo || { rgynContact: defaultRygnContactInfo, ...defaultRygnContactInfo };
 
   if (loading) {
     return (
@@ -303,7 +346,7 @@ const RGYNProfile = () => {
     <Box sx={getContentContainerStyle()} data-boundary="true">
       <Box sx={getContentWrapperStyle()}>
         <Typography variant="h6" sx={{ mb: 2, fontWeight: 500, fontSize: '1rem' }}>
-          RGYN Profile
+          RYGN Profile
         </Typography>
 
         <Grid container direction="column" spacing={2}>
@@ -663,16 +706,17 @@ const RGYNProfile = () => {
                           Pickup Details
                         </Typography>
                         <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', mr: 1 }}>
-                          {selectedPickupInfo ? selectedPickupInfo.date : defaultRgynContactInfo.date}
+                          {selectedPickupInfo ? selectedPickupInfo.date : defaultRygnContactInfo.date}
                         </Typography>
                         <Typography variant="body2" sx={{ color: '#666', fontSize: '0.8rem' }}>
-                          {selectedPickupInfo ? selectedPickupInfo.time : defaultRgynContactInfo.time}
+                          {selectedPickupInfo ? selectedPickupInfo.time : defaultRygnContactInfo.time}
                         </Typography>
                         <Box sx={{ flexGrow: 1 }} />
                         <Button 
                           startIcon={isEditingPickupDetails ? null : <EditIcon fontSize="small" />} 
                           size="small"
                           onClick={handleToggleEditPickupDetails}
+                          type="button"
                           sx={{ 
                             color: '#4ECDC4', 
                             fontSize: '0.75rem', 
@@ -704,7 +748,7 @@ const RGYNProfile = () => {
                               InputProps={{ sx: { fontSize: '0.8rem' } }}
                             />
                           ) : (
-                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.location : defaultRgynContactInfo.location}</Typography>
+                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.location : defaultRygnContactInfo.location}</Typography>
                           )}
                         </Grid>
 
@@ -730,7 +774,7 @@ const RGYNProfile = () => {
                               <MenuItem value="Scheduled">Scheduled</MenuItem>
                             </TextField>
                           ) : (
-                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.status : defaultRgynContactInfo.status}</Typography>
+                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.status : defaultRygnContactInfo.status}</Typography>
                           )}
                         </Grid>
                         
@@ -754,7 +798,7 @@ const RGYNProfile = () => {
                               }}
                             />
                           ) : (
-                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? `${selectedPickupInfo.weight} kg` : defaultRgynContactInfo.totalWeight}</Typography>
+                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? `${selectedPickupInfo.weight} kg` : defaultRygnContactInfo.totalWeight}</Typography>
                           )}
                         </Grid>
                         
@@ -781,7 +825,7 @@ const RGYNProfile = () => {
                     
                     <Grid item xs={6}>
                       <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
-                        RGYN Pickup Contact
+                        RYGN Pickup Contact
                       </Typography>
                       <Divider sx={{ mb: 2 }} />
                       
@@ -790,28 +834,28 @@ const RGYNProfile = () => {
                           <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Full Name</Typography>
                         </Grid>
                         <Grid item xs={7}>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rgynContact.fullName : defaultRgynContactInfo.fullName}</Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rgynContact.fullName : defaultRygnContactInfo.fullName}</Typography>
                         </Grid>
                         
                         <Grid item xs={5}>
                           <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Job Title</Typography>
                         </Grid>
                         <Grid item xs={7}>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rgynContact.jobTitle : defaultRgynContactInfo.jobTitle}</Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rgynContact.jobTitle : defaultRygnContactInfo.jobTitle}</Typography>
                         </Grid>
 
                         <Grid item xs={5}>
                           <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Email</Typography>
                         </Grid>
                         <Grid item xs={7}>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rgynContact.email : defaultRgynContactInfo.email}</Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rgynContact.email : defaultRygnContactInfo.email}</Typography>
                         </Grid>
 
                         <Grid item xs={5}>
                           <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem' }}>Phone</Typography>
                         </Grid>
                         <Grid item xs={7}>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rgynContact.phone : defaultRgynContactInfo.phone}</Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{selectedPickupInfo ? selectedPickupInfo.rgynContact.phone : defaultRygnContactInfo.phone}</Typography>
                         </Grid>
                       </Grid>
                     </Grid>
@@ -956,31 +1000,19 @@ const RGYNProfile = () => {
                           </TableCell>
                           <TableCell align="right" sx={{ fontSize: '0.75rem', py: 0.5 }}>{pickup.weight}</TableCell>
                           <TableCell sx={{ py: 0.5 }}>
-                            <Box sx={{ display: 'flex' }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                               <IconButton 
                                 size="small" 
-                                sx={{ 
-                                  p: 0.3, 
-                                  color: '#4ECDC4', 
-                                  bgcolor: 'rgba(78, 205, 196, 0.05)',
-                                  mr: 0.5,
-                                  '&:hover': { bgcolor: 'rgba(78, 205, 196, 0.1)' }
-                                }}
-                                title="Edit"
+                                sx={{ color: '#4ECDC4' }}
                               >
-                                <EditIcon sx={{ fontSize: '16px' }} />
+                                <EditIcon fontSize="small" />
                               </IconButton>
                               <IconButton 
                                 size="small" 
-                                sx={{ 
-                                  p: 0.3, 
-                                  color: '#f44336', 
-                                  bgcolor: 'rgba(244, 67, 54, 0.05)',
-                                  '&:hover': { bgcolor: 'rgba(244, 67, 54, 0.1)' }
-                                }}
-                                title="Delete"
+                                sx={{ color: '#666' }}
+                                onClick={(e) => handleDeletePickup(pickup.id, e)}
                               >
-                                <DeleteIcon sx={{ fontSize: '16px' }} />
+                                <DeleteIcon fontSize="small" />
                               </IconButton>
                             </Box>
                           </TableCell>
@@ -1022,31 +1054,19 @@ const RGYNProfile = () => {
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>{device.status}</TableCell>
                           <TableCell align="right" sx={{ fontSize: '0.75rem', py: 0.5 }}>{device.weight}</TableCell>
                           <TableCell sx={{ py: 0.5 }}>
-                            <Box sx={{ display: 'flex' }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                               <IconButton 
                                 size="small" 
-                                sx={{ 
-                                  p: 0.3, 
-                                  color: '#4ECDC4', 
-                                  bgcolor: 'rgba(78, 205, 196, 0.05)',
-                                  mr: 0.5,
-                                  '&:hover': { bgcolor: 'rgba(78, 205, 196, 0.1)' }
-                                }}
-                                title="Edit"
+                                sx={{ color: '#4ECDC4' }}
                               >
-                                <EditIcon sx={{ fontSize: '16px' }} />
+                                <EditIcon fontSize="small" />
                               </IconButton>
                               <IconButton 
                                 size="small" 
-                                sx={{ 
-                                  p: 0.3, 
-                                  color: '#f44336', 
-                                  bgcolor: 'rgba(244, 67, 54, 0.05)',
-                                  '&:hover': { bgcolor: 'rgba(244, 67, 54, 0.1)' }
-                                }}
-                                title="Delete"
+                                sx={{ color: '#666' }}
+                                onClick={(e) => handleDeleteDevice(device.id, e)}
                               >
-                                <DeleteIcon sx={{ fontSize: '16px' }} />
+                                <DeleteIcon fontSize="small" />
                               </IconButton>
                             </Box>
                           </TableCell>
@@ -1060,6 +1080,51 @@ const RGYNProfile = () => {
           </Grid>
         </Grid>
       </Box>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteDialogOpen} onClose={handleCloseDeleteDialog}>
+        <DialogTitle>
+          Are you sure you want to archive this {deleteType}?
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="subtitle1" sx={{ fontWeight: 500, mb: 1 }}>
+            {deleteItemName}
+          </Typography>
+          
+          <Typography variant="body2" sx={{ mb: 3 }}>
+            Even though it will no longer appear in Your {deleteType}s, you can still view the {deleteType} in Archived {deleteType}s from your account
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            onClick={confirmDelete}
+            sx={{ 
+              bgcolor: '#686868', 
+              '&:hover': { bgcolor: '#4d4d4d' },
+              borderRadius: 2,
+              color: 'white',
+              px: 2
+            }}
+            startIcon={<DeleteIcon />}
+          >
+            Archive
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleCloseDeleteDialog}
+            sx={{ 
+              bgcolor: '#f0f0f0', 
+              color: '#686868',
+              '&:hover': { bgcolor: '#e0e0e0' },
+              borderRadius: 2,
+              px: 2
+            }}
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

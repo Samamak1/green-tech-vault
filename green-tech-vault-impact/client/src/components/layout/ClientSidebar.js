@@ -42,7 +42,7 @@ const ClientSidebar = () => {
       path: '/dashboard',
     },
     {
-      text: 'RGYN Profile',
+      text: 'RYGN Profile',
       icon: <PersonIcon sx={{ color: '#fff' }} />,
       path: '/dashboard/rgyn-profile',
     },
@@ -69,7 +69,7 @@ const ClientSidebar = () => {
     {
       text: 'Schedule Pickup',
       icon: <AccessTimeIcon sx={{ color: '#fff' }} />,
-      path: '/schedule-pickup',
+      path: '/admin/schedule-pickup',
     },
   ];
 
