@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useAuth } from './context/AuthContext';
@@ -7,12 +7,15 @@ import { ProfileProvider } from './context/ProfileContext';
 import { LayoutEditorProvider } from './context/LayoutEditorContext';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { Box } from '@mui/material';
 
 // Layout components
 import Layout from './components/layout/Layout';
 import DashboardLayout from './components/layout/DashboardLayout';
 import MainLayout from './components/layout/MainLayout';
 import ClientDashboardLayout from './components/layout/ClientDashboardLayout';
+import ClientSidebar from './components/layout/ClientSidebar';
+import Header from './components/layout/Header';
 
 // Pages
 import Dashboard from './pages/Dashboard';
@@ -216,6 +219,19 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
+// Main component layout adjustments
+const ClientDashboardLayout = () => {
+  return (
+    <>
+      <ClientSidebar />
+      <Box sx={{ flexGrow: 1, ml: '225px' }}>
+        <Header />
+        <Outlet />
+      </Box>
+    </>
+  );
+};
+
 function App() {
   const { isAdmin } = useAuth();
 
@@ -299,26 +315,17 @@ function App() {
                   <ClientDashboardLayout />
                 </ProtectedRoute>
               }>
-                  <Route index element={isAdmin ? <Navigate to="/admin" /> : <Dashboard />} />
+                <Route index element={isAdmin ? <Navigate to="/admin" /> : <Dashboard />} />
                 <Route path="company-profile" element={<CompanyProfile />} />
-                  <Route path="rygn-profile" element={<RYGNProfile />} />
-                  <Route path="pickups" element={<PickupCalendar />} />
+                <Route path="rygn-profile" element={<RYGNProfile />} />
+                <Route path="pickups" element={<PickupCalendar />} />
                 <Route path="pickups/:id" element={<PickupDetail />} />
                 <Route path="devices" element={<Devices />} />
                 <Route path="reports" element={<ClientReports />} />
-                <Route path="reports/:id" element={<ReportDetail />} />
-                  <Route path="messages" element={<ClientMessages />} />
-                  <Route path="announcements" element={<ClientAnnouncements />} />
-                  <Route path="schedule-pickup" element={<ClientSchedulePickup />} />
-                <Route path="statistics" element={<Dashboard />} />
-                <Route path="database" element={<h1>Database</h1>} />
-                <Route path="team" element={<h1>Team</h1>} />
-                <Route path="promotion" element={<h1>Promotion</h1>} />
-                <Route path="store" element={<h1>My Store</h1>} />
-                <Route path="notifications" element={<h1>Notifications</h1>} />
-                <Route path="settings" element={<Settings />} />
-                <Route path="trash" element={<h1>Trash</h1>} />
+                <Route path="messages" element={<ClientMessages />} />
+                <Route path="announcements" element={<ClientAnnouncements />} />
                 <Route path="help" element={<Help />} />
+                <Route path="settings" element={<Settings />} />
               </Route>
               
               {/* Add the client-profile route outside the dashboard */}
