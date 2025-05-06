@@ -679,11 +679,7 @@ const RYGNProfile = () => {
 
   return (
     <Box sx={getContentContainerStyle()} data-boundary="true">
-      <Box sx={{ ...getContentWrapperStyle(), mt: '64px' }}>
-        <Typography variant="h5" sx={{ mb: 3, fontWeight: 600 }}>
-          My Profile Information
-        </Typography>
-
+      <Box sx={{ ...getContentWrapperStyle() }}>
         <Typography variant="h6" sx={{ mb: 2, fontWeight: 500, fontSize: '1rem' }}>
           RYGN Profile
         </Typography>

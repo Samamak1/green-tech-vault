@@ -37,11 +37,11 @@ const Sidebar = () => {
 
   const menuItems = [
     { icon: <DashboardIcon />, text: 'Dashboard', path: '/admin/dashboard' },
+    { icon: <ScheduleIcon />, text: 'Schedule Pickup', path: '/admin/schedule-pickup' },
     { icon: <CalendarMonthIcon />, text: 'Calendar', path: '/admin/pickup-calendar' },
     { icon: <DescriptionIcon />, text: 'Reports', path: '/admin/reports' },
     { icon: <EmailIcon />, text: 'Messages', path: '/admin/messages' },
     { icon: <AnnouncementIcon />, text: 'Announcements', path: '/admin/announcements' },
-    { icon: <ScheduleIcon />, text: 'Schedule Pickup', path: '/admin/schedule-pickup' },
     // Profile hidden by user request - access only through dropdown
     // Trial page removed by user request
   ];

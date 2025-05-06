@@ -42,6 +42,11 @@ const ClientSidebar = () => {
       path: '/dashboard',
     },
     {
+      text: 'Schedule Pickup',
+      icon: <AccessTimeIcon sx={{ color: '#fff' }} />,
+      path: '/dashboard/schedule-pickup',
+    },
+    {
       text: 'RYGN Profile',
       icon: <PersonIcon sx={{ color: '#fff' }} />,
       path: '/dashboard/rygn-profile',
@@ -65,11 +70,6 @@ const ClientSidebar = () => {
       text: 'Announcements',
       icon: <AnnouncementIcon sx={{ color: '#fff' }} />,
       path: '/dashboard/announcements',
-    },
-    {
-      text: 'Schedule Pickup',
-      icon: <AccessTimeIcon sx={{ color: '#fff' }} />,
-      path: '/dashboard/schedule-pickup',
     },
   ];
 
