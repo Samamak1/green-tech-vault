@@ -72,6 +72,9 @@ const Header = () => {
   const [notificationsAnchorEl, setNotificationsAnchorEl] = useState(null);
   
   const menuId = 'primary-client-account-menu';
+  
+  // Reference element for positioning notifications popup
+  const notificationsBellRef = React.useRef(null);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -103,7 +106,8 @@ const Header = () => {
   };
 
   const handleNotificationsOpen = (event) => {
-    setNotificationsAnchorEl(event.currentTarget);
+    // Use the notification bell as anchor if no event provided
+    setNotificationsAnchorEl(event ? event.currentTarget : notificationsBellRef.current);
   };
 
   const handleNotificationsClose = () => {
@@ -147,6 +151,7 @@ const Header = () => {
           {/* Right - User Profile and Notifications */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <IconButton 
+              ref={notificationsBellRef}
               size="large" 
               sx={{ mr: 1 }} 
               onClick={handleNotificationsOpen}
