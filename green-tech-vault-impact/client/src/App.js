@@ -54,6 +54,7 @@ import Settings from './pages/Settings';
 import QRMobileLogin from './pages/QRMobileLogin';
 import Help from './pages/Help';
 import ClientReports from './pages/ClientReports';
+import CEOProfile from './pages/CEOProfile';
 
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
@@ -271,6 +272,12 @@ function App() {
                 <Route path="/about-us" element={
                   <MainLayout>
                     <AboutUsPage />
+                  </MainLayout>
+                } />
+                
+                <Route path="/ceo-profile" element={
+                  <MainLayout>
+                    <CEOProfile />
                   </MainLayout>
                 } />
                 

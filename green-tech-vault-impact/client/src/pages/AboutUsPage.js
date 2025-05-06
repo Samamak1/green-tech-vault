@@ -263,7 +263,24 @@ const AboutUsPage = () => {
                   <Grid item xs={8}>
                     <CardContent>
                       <Typography variant="h6" component="h3" gutterBottom>
-                        {member.name}
+                        {member.name === "Leila Meyer" ? (
+                          <Box
+                            component="a"
+                            href="/ceo-profile"
+                            sx={{
+                              color: 'inherit',
+                              textDecoration: 'none',
+                              '&:hover': {
+                                color: theme.palette.teal.main,
+                                textDecoration: 'underline'
+                              }
+                            }}
+                          >
+                            {member.name}
+                          </Box>
+                        ) : (
+                          member.name
+                        )}
                       </Typography>
                       <Typography variant="subtitle2" color="text.secondary" gutterBottom>
                         {member.title}
