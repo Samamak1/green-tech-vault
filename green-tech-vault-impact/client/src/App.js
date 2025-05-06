@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { useAuth } from './context/AuthContext';
 import { ProfileProvider } from './context/ProfileContext';
 import { LayoutEditorProvider } from './context/LayoutEditorContext';
+import { MessageProvider } from './context/MessageContext';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Box } from '@mui/material';
@@ -238,151 +239,153 @@ function App() {
     <ThemeProvider theme={theme}>
       <ProfileProvider>
         <LayoutEditorProvider>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <CssBaseline />
-            <Routes>
-              {/* Public Routes with MainLayout */}
-              <Route path="/" element={
-                <MainLayout>
-                  <NewLandingPage />
-                </MainLayout>
-              } />
-              
-              <Route path="/old" element={
-                <MainLayout>
-                  <BrandedLanding />
-                </MainLayout>
-              } />
-              
-              <Route path="/contact" element={
-                <MainLayout>
-                  <ContactPage />
-                </MainLayout>
-              } />
-              
-              <Route path="/recycling-offers" element={
-                <MainLayout>
-                  <RecyclingOffersPage />
-                </MainLayout>
-              } />
-              
-              <Route path="/about-us" element={
-                <MainLayout>
-                  <AboutUsPage />
-                </MainLayout>
-              } />
-              
-              <Route path="/how-it-works" element={
-                <MainLayout>
-                  <HowItWorksPage />
-                </MainLayout>
-              } />
-              
-              <Route path="/environmental-impact-report" element={
-                <MainLayout>
-                  <EnvironmentalImpactReportPage />
-                </MainLayout>
-              } />
-              
-              <Route path="/asset-tracking-report" element={
-                <MainLayout>
-                  <AssetTrackingReportPage />
-                </MainLayout>
-              } />
-              
-              <Route path="/schedule-pickup" element={
-                <MainLayout hideFooter={true}>
-                  <SchedulePickup />
-                </MainLayout>
-              } />
-              
-              <Route path="/schedule-pickup/:clientId" element={
-                <MainLayout hideFooter={true}>
-                  <SchedulePickup />
-                </MainLayout>
-              } />
-              
-              {/* Auth Routes */}
-              <Route path="/login" element={<ClientLogin />} />
-              <Route path="/register" element={<ClientRegister />} />
-              <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/unauthorized" element={<Unauthorized />} />
-              
-              {/* Client Routes - Use our custom layout component */}
-              <Route path="/dashboard" element={
-                <ProtectedRoute>
-                  <CustomClientDashboardLayout />
-                </ProtectedRoute>
-              }>
-                <Route index element={isAdmin ? <Navigate to="/admin" /> : <Dashboard />} />
-                <Route path="company-profile" element={<CompanyProfile />} />
-                <Route path="rygn-profile" element={<RYGNProfile />} />
-                <Route path="pickups" element={<PickupCalendar />} />
-                <Route path="pickups/:id" element={<PickupDetail />} />
-                <Route path="devices" element={<Devices />} />
-                <Route path="reports" element={<ClientReports />} />
-                <Route path="messages" element={<ClientMessages />} />
-                <Route path="announcements" element={<ClientAnnouncements />} />
-                <Route path="help" element={<Help />} />
-                <Route path="settings" element={<Settings />} />
-                <Route path="schedule-pickup" element={<ClientSchedulePickup />} />
-              </Route>
-              
-              {/* Add the client-profile route outside the dashboard */}
-              <Route path="/client-profile" element={
-                <ProtectedRoute>
-                  <ClientProfile />
-                </ProtectedRoute>
-              }/>
-              
-              {/* Add routes for the new pages */}
-              <Route path="/settings" element={
-                <ProtectedRoute>
-                  <Settings />
-                </ProtectedRoute>
-              }/>
-              
-              <Route path="/qr-mobile-login" element={
-                <ProtectedRoute>
-                  <QRMobileLogin />
-                </ProtectedRoute>
-              }/>
-              
-              <Route path="/help" element={
-                <ProtectedRoute>
-                  <Help />
-                </ProtectedRoute>
-              }/>
-              
-              {/* Admin Routes */}
-              <Route path="/admin" element={
-                <AdminRoute>
-                  <DashboardLayout />
-                </AdminRoute>
-              }>
-                <Route index element={<AdminDashboard />} />
-                <Route path="dashboard" element={<AdminDashboard />} />
-                <Route path="reports" element={<h1>Admin Reports</h1>} />
-                  <Route path="messages" element={<AdminMessages />} />
-                  <Route path="announcements" element={<TrialPage />} />
-                  <Route path="schedule-pickup" element={<AdminAnnouncements />} />
-                  <Route path="trial-page" element={<TrialPage />} />
-                <Route path="clients/:clientId" element={<AdminClientProfile />} />
-                <Route path="pickup-calendar" element={<AdminPickupCalendar />} />
-                <Route path="pickup-detail" element={<AdminPickupDetail />} />
-                <Route path="pickups/:pickupId" element={<AdminPickupDetail />} />
-                <Route path="devices/:deviceId" element={<AdminDeviceDetail />} />
-                  <Route path="profile" element={<AdminProfile />} />
-              </Route>
-              
-              {/* 404 Route */}
-              <Route path="*" element={
-                <MainLayout>
-                  <NotFound />
-                </MainLayout>
-              } />
-            </Routes>
-          </LocalizationProvider>
+          <MessageProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <CssBaseline />
+              <Routes>
+                {/* Public Routes with MainLayout */}
+                <Route path="/" element={
+                  <MainLayout>
+                    <NewLandingPage />
+                  </MainLayout>
+                } />
+                
+                <Route path="/old" element={
+                  <MainLayout>
+                    <BrandedLanding />
+                  </MainLayout>
+                } />
+                
+                <Route path="/contact" element={
+                  <MainLayout>
+                    <ContactPage />
+                  </MainLayout>
+                } />
+                
+                <Route path="/recycling-offers" element={
+                  <MainLayout>
+                    <RecyclingOffersPage />
+                  </MainLayout>
+                } />
+                
+                <Route path="/about-us" element={
+                  <MainLayout>
+                    <AboutUsPage />
+                  </MainLayout>
+                } />
+                
+                <Route path="/how-it-works" element={
+                  <MainLayout>
+                    <HowItWorksPage />
+                  </MainLayout>
+                } />
+                
+                <Route path="/environmental-impact-report" element={
+                  <MainLayout>
+                    <EnvironmentalImpactReportPage />
+                  </MainLayout>
+                } />
+                
+                <Route path="/asset-tracking-report" element={
+                  <MainLayout>
+                    <AssetTrackingReportPage />
+                  </MainLayout>
+                } />
+                
+                <Route path="/schedule-pickup" element={
+                  <MainLayout hideFooter={true}>
+                    <SchedulePickup />
+                  </MainLayout>
+                } />
+                
+                <Route path="/schedule-pickup/:clientId" element={
+                  <MainLayout hideFooter={true}>
+                    <SchedulePickup />
+                  </MainLayout>
+                } />
+                
+                {/* Auth Routes */}
+                <Route path="/login" element={<ClientLogin />} />
+                <Route path="/register" element={<ClientRegister />} />
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/unauthorized" element={<Unauthorized />} />
+                
+                {/* Client Routes - Use our custom layout component */}
+                <Route path="/dashboard" element={
+                  <ProtectedRoute>
+                    <CustomClientDashboardLayout />
+                  </ProtectedRoute>
+                }>
+                  <Route index element={isAdmin ? <Navigate to="/admin" /> : <Dashboard />} />
+                  <Route path="company-profile" element={<CompanyProfile />} />
+                  <Route path="rygn-profile" element={<RYGNProfile />} />
+                  <Route path="pickups" element={<PickupCalendar />} />
+                  <Route path="pickups/:id" element={<PickupDetail />} />
+                  <Route path="devices" element={<Devices />} />
+                  <Route path="reports" element={<ClientReports />} />
+                  <Route path="messages" element={<ClientMessages />} />
+                  <Route path="announcements" element={<ClientAnnouncements />} />
+                  <Route path="help" element={<Help />} />
+                  <Route path="settings" element={<Settings />} />
+                  <Route path="schedule-pickup" element={<ClientSchedulePickup />} />
+                </Route>
+                
+                {/* Add the client-profile route outside the dashboard */}
+                <Route path="/client-profile" element={
+                  <ProtectedRoute>
+                    <ClientProfile />
+                  </ProtectedRoute>
+                }/>
+                
+                {/* Add routes for the new pages */}
+                <Route path="/settings" element={
+                  <ProtectedRoute>
+                    <Settings />
+                  </ProtectedRoute>
+                }/>
+                
+                <Route path="/qr-mobile-login" element={
+                  <ProtectedRoute>
+                    <QRMobileLogin />
+                  </ProtectedRoute>
+                }/>
+                
+                <Route path="/help" element={
+                  <ProtectedRoute>
+                    <Help />
+                  </ProtectedRoute>
+                }/>
+                
+                {/* Admin Routes */}
+                <Route path="/admin" element={
+                  <AdminRoute>
+                    <DashboardLayout />
+                  </AdminRoute>
+                }>
+                  <Route index element={<AdminDashboard />} />
+                  <Route path="dashboard" element={<AdminDashboard />} />
+                  <Route path="reports" element={<h1>Admin Reports</h1>} />
+                    <Route path="messages" element={<AdminMessages />} />
+                    <Route path="announcements" element={<TrialPage />} />
+                    <Route path="schedule-pickup" element={<AdminAnnouncements />} />
+                    <Route path="trial-page" element={<TrialPage />} />
+                  <Route path="clients/:clientId" element={<AdminClientProfile />} />
+                  <Route path="pickup-calendar" element={<AdminPickupCalendar />} />
+                  <Route path="pickup-detail" element={<AdminPickupDetail />} />
+                  <Route path="pickups/:pickupId" element={<AdminPickupDetail />} />
+                  <Route path="devices/:deviceId" element={<AdminDeviceDetail />} />
+                    <Route path="profile" element={<AdminProfile />} />
+                </Route>
+                
+                {/* 404 Route */}
+                <Route path="*" element={
+                  <MainLayout>
+                    <NotFound />
+                  </MainLayout>
+                } />
+              </Routes>
+            </LocalizationProvider>
+          </MessageProvider>
         </LayoutEditorProvider>
       </ProfileProvider>
     </ThemeProvider>
