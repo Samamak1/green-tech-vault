@@ -736,20 +736,6 @@ const RYGNProfile = () => {
                 >
                   Pickup Information
                 </Box>
-                <Box 
-                  onClick={() => handleLeftPanelTabChange('Messages')}
-                  sx={{ 
-                    p: 1.5,
-                    pb: 1,
-                    cursor: 'pointer',
-                    borderBottom: leftPanelTab === 'Messages' ? '3px solid #185B5F' : 'none',
-                    color: leftPanelTab === 'Messages' ? '#185B5F' : '#808080',
-                    fontWeight: 400,
-                    fontSize: '14px'
-                  }}
-                >
-                  Messages
-                </Box>
                 <Box sx={{ flexGrow: 1 }} />
                 {leftPanelTab === 'Company Information' && (
                   <Button 
@@ -934,7 +920,7 @@ const RYGNProfile = () => {
                     <Grid item xs={8}>
                       <Grid container spacing={2}>
                         <Grid item xs={6}>
-                          <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
+                          <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center', height: '100%' }}>
                             <Typography variant="h5" sx={{ color: '#185B5F', fontWeight: 'bold', fontSize: '1rem' }}>
                               {client.devicesProcessed}
                             </Typography>
@@ -944,7 +930,7 @@ const RYGNProfile = () => {
                           </Paper>
                         </Grid>
                         <Grid item xs={6}>
-                          <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
+                          <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center', height: '100%' }}>
                             <Typography variant="h5" sx={{ color: '#185B5F', fontWeight: 'bold', fontSize: '1rem' }}>
                               {client.totalWeight.toFixed(1)} kg
                             </Typography>
@@ -953,8 +939,8 @@ const RYGNProfile = () => {
                             </Typography>
                           </Paper>
                         </Grid>
-                        <Grid item xs={8}>
-                          <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
+                        <Grid item xs={6}>
+                          <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center', height: '100%' }}>
                             <Typography variant="h5" sx={{ color: '#185B5F', fontWeight: 'bold', fontSize: '1rem' }}>
                               {client.co2Saved.toFixed(1)} kg
                             </Typography>
@@ -964,7 +950,7 @@ const RYGNProfile = () => {
                           </Paper>
                         </Grid>
                         <Grid item xs={6}>
-                          <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center' }}>
+                          <Paper elevation={0} sx={{ p: 1, bgcolor: '#f5f5f5', borderRadius: 2, textAlign: 'center', height: '100%' }}>
                             <Typography variant="h5" sx={{ color: '#185B5F', fontWeight: 'bold', fontSize: '1rem' }}>
                               {client.treesPlanted}
                             </Typography>

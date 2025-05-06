@@ -15,13 +15,14 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import DescriptionIcon from '@mui/icons-material/Description';
 import PersonIcon from '@mui/icons-material/Person';
+import HelpIcon from '@mui/icons-material/Help';
+import QrCodeIcon from '@mui/icons-material/QrCode';
 import { useAuth } from '../../context/AuthContext';
 import { useProfile } from '../../context/ProfileContext';
 
@@ -35,7 +36,7 @@ const Search = styled('div')(({ theme }) => ({
   maxWidth: '400px',
   display: 'flex',
   alignItems: 'center',
-  marginLeft: 225, // Position at the end of the sidebar (5 grid cells * 45px)
+  marginLeft: 0, // Position at far left
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -67,6 +68,8 @@ const Header = () => {
   const { profileData, profilePictureUrl } = useProfile();
   const [anchorEl, setAnchorEl] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  
+  const menuId = 'primary-client-account-menu';
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -113,8 +116,8 @@ const Header = () => {
       <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           {/* Left - Search */}
-          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start' }}>
-            <Search>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', flexGrow: 0, width: '400px', ml: 0, pl: 0 }}>
+            <Search sx={{ width: '100%', maxWidth: '100%' }}>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
@@ -127,13 +130,16 @@ const Header = () => {
               />
             </Search>
           </Box>
+          
+          {/* Middle section - empty space */}
+          <Box sx={{ flexGrow: 1 }} />
 
           {/* Right - User Profile and Notifications */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <IconButton 
               size="large" 
               sx={{ mr: 1 }} 
-              onClick={() => navigate('/admin/notifications')}
+              onClick={() => navigate('/dashboard/notifications')}
             >
               <Badge badgeContent={3} color="error">
                 <NotificationsIcon />
@@ -141,31 +147,33 @@ const Header = () => {
             </IconButton>
 
             <Box sx={{ 
-              mr: 1,
+              mx: 2,
               display: { xs: 'none', md: 'flex' },
               flexDirection: 'column',
               alignItems: 'flex-end',
             }}>
               <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                {profileData?.fullName || user?.name || "Admin"}
+                {profileData?.fullName || user?.name || "Leila's Company"}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                @{user?.username || 'admin'}
+                @{user?.username || 'lmeyer'}
               </Typography>
             </Box>
 
             <Avatar
               src={profilePictureUrl}
               onClick={handleMenuOpen}
+              aria-controls={menuId}
+              aria-haspopup="true"
               sx={{ 
                 cursor: 'pointer',
-                bgcolor: profilePictureUrl ? 'transparent' : '#56C3C9',
+                bgcolor: profilePictureUrl ? 'transparent' : '#185B5F',
                 color: '#fff',
                 width: 36,
                 height: 36
               }}
             >
-              {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'A')}
+              {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'L')}
             </Avatar>
           </Box>
         </Box>
@@ -173,7 +181,7 @@ const Header = () => {
 
       <Menu
         anchorEl={anchorEl}
-        id="admin-profile-menu"
+        id={menuId}
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
         PaperProps={{
@@ -194,49 +202,81 @@ const Header = () => {
               height: 70, 
               mx: 'auto', 
               mb: 1,
-              backgroundColor: profilePictureUrl ? 'transparent' : '#56C3C9',
+              backgroundColor: profilePictureUrl ? 'transparent' : '#185B5F',
             }}
           >
-            {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'A')}
+            {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'L')}
           </Avatar>
           <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            {profileData?.fullName || user?.name || "Admin"}
+            {profileData?.fullName || user?.name || "Leila Meyer"}
           </Typography>
           <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
-            @{user?.username || 'admin'}
+            @{user?.username || 'lmeyer'}
           </Typography>
+          <Box 
+            sx={{ 
+              textAlign: 'center', 
+              bgcolor: '#f5f5f5', 
+              p: 0.5, 
+              borderRadius: 1, 
+              mt: 1 
+            }}
+            onClick={handleLogout}
+          >
+            <LogoutIcon 
+              fontSize="small" 
+              sx={{ mr: 0.5, fontSize: '0.9rem', verticalAlign: 'middle' }} 
+            />
+            <Typography 
+              variant="body2" 
+              component="span" 
+              sx={{ 
+                cursor: 'pointer',
+                '&:hover': { textDecoration: 'underline' } 
+              }}
+            >
+              Logout
+            </Typography>
+          </Box>
         </Box>
         
         <Divider />
         
-        <MenuItem onClick={() => handleNavigation('/admin/profile')}>
+        <MenuItem onClick={() => handleNavigation('/dashboard/rygn-profile')}>
           <ListItemIcon>
             <PersonIcon fontSize="small" />
           </ListItemIcon>
-          Profile
+          My Profile
         </MenuItem>
         
-        <MenuItem onClick={() => handleNavigation('/admin/reports')}>
+        <MenuItem onClick={() => handleNavigation('/dashboard/reports')}>
           <ListItemIcon>
             <DescriptionIcon fontSize="small" />
           </ListItemIcon>
           Reports
         </MenuItem>
         
-        <MenuItem onClick={() => handleNavigation('/admin/settings')}>
+        <MenuItem onClick={() => handleNavigation('/dashboard/settings')}>
           <ListItemIcon>
             <SettingsIcon fontSize="small" />
           </ListItemIcon>
           Settings
         </MenuItem>
+
+        <MenuItem onClick={() => handleNavigation('/dashboard/qr-login')}>
+          <ListItemIcon>
+            <QrCodeIcon fontSize="small" />
+          </ListItemIcon>
+          QR for Mobile Login
+        </MenuItem>
         
         <Divider />
         
-        <MenuItem onClick={handleLogout}>
+        <MenuItem onClick={() => handleNavigation('/dashboard/help')}>
           <ListItemIcon>
-            <LogoutIcon fontSize="small" />
+            <HelpIcon fontSize="small" />
           </ListItemIcon>
-          Logout
+          Help
         </MenuItem>
       </Menu>
     </AppBar>

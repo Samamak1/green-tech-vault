@@ -106,27 +106,71 @@ const ClientReports = () => {
           Environmental Impact Reports
         </Typography>
         
-        <Paper sx={{ mb: 2, borderRadius: 2, overflow: 'hidden' }}>
-          <Tabs
-            value={activeTab}
-            onChange={handleTabChange}
-            variant="fullWidth"
-            sx={{
-              bgcolor: '#f5f5f5',
-              '& .MuiTabs-indicator': {
-                backgroundColor: '#185B5F',
-              },
-              '& .Mui-selected': {
-                color: '#185B5F !important',
-                fontWeight: 'bold',
-              }
-            }}
-          >
-            <Tab label="Carbon Footprint" />
-            <Tab label="Environmental Impact" />
-            <Tab label="Landfill Diversion" />
-            <Tab label="Materials Collected" />
-          </Tabs>
+        <Paper sx={{ borderRadius: 2, overflow: 'hidden', mb: 2 }}>
+          <Box sx={{ 
+            display: 'flex',
+            borderBottom: '1px solid #e0e0e0',
+          }}>
+            <Box 
+              onClick={() => setActiveTab(0)}
+              sx={{ 
+                p: 1.5,
+                pb: 1,
+                cursor: 'pointer',
+                borderBottom: activeTab === 0 ? '3px solid #185B5F' : 'none',
+                color: activeTab === 0 ? '#185B5F' : '#808080',
+                fontWeight: 400,
+                fontSize: '14px',
+                mr: 2
+              }}
+            >
+              Carbon Footprint
+            </Box>
+            <Box 
+              onClick={() => setActiveTab(1)}
+              sx={{ 
+                p: 1.5,
+                pb: 1,
+                cursor: 'pointer',
+                borderBottom: activeTab === 1 ? '3px solid #185B5F' : 'none',
+                color: activeTab === 1 ? '#185B5F' : '#808080',
+                fontWeight: 400,
+                fontSize: '14px',
+                mr: 2
+              }}
+            >
+              Environmental Impact
+            </Box>
+            <Box 
+              onClick={() => setActiveTab(2)}
+              sx={{ 
+                p: 1.5,
+                pb: 1,
+                cursor: 'pointer',
+                borderBottom: activeTab === 2 ? '3px solid #185B5F' : 'none',
+                color: activeTab === 2 ? '#185B5F' : '#808080',
+                fontWeight: 400,
+                fontSize: '14px',
+                mr: 2
+              }}
+            >
+              Landfill Diversion
+            </Box>
+            <Box 
+              onClick={() => setActiveTab(3)}
+              sx={{ 
+                p: 1.5,
+                pb: 1,
+                cursor: 'pointer',
+                borderBottom: activeTab === 3 ? '3px solid #185B5F' : 'none',
+                color: activeTab === 3 ? '#185B5F' : '#808080',
+                fontWeight: 400,
+                fontSize: '14px'
+              }}
+            >
+              Materials Collected
+            </Box>
+          </Box>
         </Paper>
         
         {/* Carbon Footprint */}
@@ -134,14 +178,14 @@ const ClientReports = () => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Paper sx={{ p: 2, borderRadius: 2 }}>
-                <Typography variant="h5" sx={{ mb: 2, color: '#185B5F', fontSize: '1.1rem' }}>
+                <Typography variant="h5" sx={{ mb: 1, color: '#185B5F', fontSize: '1.1rem' }}>
                   CO₂ Emissions Saved (kg) - Monthly
                 </Typography>
-                <Typography variant="body1" sx={{ mb: 2, fontSize: '0.9rem' }}>
+                <Typography variant="body1" sx={{ mb: 1.5, fontSize: '0.9rem' }}>
                   By recycling your electronic devices with Green Tech Vault, your company has saved the following amount of CO₂ emissions from entering the atmosphere.
                 </Typography>
                 
-                <ResponsiveContainer width="100%" height={350}>
+                <ResponsiveContainer width="100%" height={280}>
                   <AreaChart
                     data={carbonFootprintData}
                     margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
@@ -162,7 +206,7 @@ const ClientReports = () => {
                   </AreaChart>
                 </ResponsiveContainer>
                 
-                <Box sx={{ mt: 3, p: 2, bgcolor: '#f9f9f9', borderRadius: 2 }}>
+                <Box sx={{ mt: 2, p: 1.5, bgcolor: '#f9f9f9', borderRadius: 2 }}>
                   <Grid container spacing={2}>
                     <Grid item xs={4}>
                       <Box sx={{ textAlign: 'center' }}>
@@ -206,14 +250,14 @@ const ClientReports = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={8}>
               <Paper sx={{ p: 2, borderRadius: 2 }}>
-                <Typography variant="h5" sx={{ mb: 2, color: '#185B5F', fontSize: '1.1rem' }}>
+                <Typography variant="h5" sx={{ mb: 1, color: '#185B5F', fontSize: '1.1rem' }}>
                   Environmental Resources Saved
                 </Typography>
-                <Typography variant="body1" sx={{ mb: 2, fontSize: '0.9rem' }}>
+                <Typography variant="body1" sx={{ mb: 1.5, fontSize: '0.9rem' }}>
                   Your recycling efforts have contributed to preserving these natural resources.
                 </Typography>
                 
-                <ResponsiveContainer width="100%" height={350}>
+                <ResponsiveContainer width="100%" height={280}>
                   <BarChart
                     data={environmentalImpactData}
                     margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
@@ -235,16 +279,16 @@ const ClientReports = () => {
             
             <Grid item xs={12} md={4}>
               <Paper sx={{ p: 2, borderRadius: 2, height: '100%' }}>
-                <Typography variant="h5" sx={{ mb: 2, color: '#185B5F', fontSize: '1.1rem' }}>
+                <Typography variant="h5" sx={{ mb: 1, color: '#185B5F', fontSize: '1.1rem' }}>
                   Your Environmental Impact
                 </Typography>
                 
-                <Box sx={{ mt: 2, mb: 3 }}>
+                <Box sx={{ mt: 1, mb: 2 }}>
                   <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 0.5, fontSize: '0.9rem' }}>
                     Equivalent to:
                   </Typography>
                   
-                  <Box sx={{ p: 1.5, bgcolor: '#e8f5e9', borderRadius: 2, mb: 1.5 }}>
+                  <Box sx={{ p: 1, bgcolor: '#e8f5e9', borderRadius: 2, mb: 1 }}>
                     <Typography variant="h6" sx={{ color: '#2e7d32', fontSize: '1rem' }}>
                       45 Trees Planted
                     </Typography>
@@ -253,7 +297,7 @@ const ClientReports = () => {
                     </Typography>
                   </Box>
                   
-                  <Box sx={{ p: 1.5, bgcolor: '#e3f2fd', borderRadius: 2, mb: 1.5 }}>
+                  <Box sx={{ p: 1, bgcolor: '#e3f2fd', borderRadius: 2, mb: 1 }}>
                     <Typography variant="h6" sx={{ color: '#1565c0', fontSize: '1rem' }}>
                       950 Gallons of Gas
                     </Typography>
@@ -262,7 +306,7 @@ const ClientReports = () => {
                     </Typography>
                   </Box>
                   
-                  <Box sx={{ p: 1.5, bgcolor: '#fff8e1', borderRadius: 2 }}>
+                  <Box sx={{ p: 1, bgcolor: '#fff8e1', borderRadius: 2 }}>
                     <Typography variant="h6" sx={{ color: '#f57c00', fontSize: '1rem' }}>
                       6,200 kWh of Electricity
                     </Typography>
@@ -276,7 +320,7 @@ const ClientReports = () => {
                   variant="contained" 
                   fullWidth 
                   sx={{ 
-                    mt: 2, 
+                    mt: 1, 
                     bgcolor: '#185B5F',
                     '&:hover': { bgcolor: '#124548' },
                     fontSize: '0.85rem'
@@ -294,22 +338,22 @@ const ClientReports = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <Paper sx={{ p: 2, borderRadius: 2 }}>
-                <Typography variant="h5" sx={{ mb: 2, color: '#185B5F', fontSize: '1.1rem' }}>
+                <Typography variant="h5" sx={{ mb: 1, color: '#185B5F', fontSize: '1.1rem' }}>
                   Waste Diversion Rate
                 </Typography>
-                <Typography variant="body1" sx={{ mb: 2, fontSize: '0.9rem' }}>
+                <Typography variant="body1" sx={{ mb: 1.5, fontSize: '0.9rem' }}>
                   Percentage of e-waste diverted from landfills through recycling and refurbishment.
                 </Typography>
                 
                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                  <ResponsiveContainer width="100%" height={280}>
+                  <ResponsiveContainer width="100%" height={250}>
                     <PieChart>
                       <Pie
                         data={landfillDiversionData}
                         cx="50%"
                         cy="50%"
                         innerRadius={60}
-                        outerRadius={100}
+                        outerRadius={90}
                         fill="#8884d8"
                         paddingAngle={5}
                         dataKey="value"
@@ -325,7 +369,7 @@ const ClientReports = () => {
                   </ResponsiveContainer>
                 </Box>
                 
-                <Divider sx={{ my: 1.5 }} />
+                <Divider sx={{ my: 1 }} />
                 
                 <Typography variant="body1" sx={{ fontWeight: 'bold', textAlign: 'center', color: '#00C49F', fontSize: '0.9rem' }}>
                   You've diverted 75% of your e-waste from landfills!
@@ -338,14 +382,14 @@ const ClientReports = () => {
             
             <Grid item xs={12} md={6}>
               <Paper sx={{ p: 2, borderRadius: 2 }}>
-                <Typography variant="h5" sx={{ mb: 2, color: '#185B5F', fontSize: '1.1rem' }}>
+                <Typography variant="h5" sx={{ mb: 1, color: '#185B5F', fontSize: '1.1rem' }}>
                   Monthly Diversion Trend
                 </Typography>
-                <Typography variant="body1" sx={{ mb: 2, fontSize: '0.9rem' }}>
+                <Typography variant="body1" sx={{ mb: 1.5, fontSize: '0.9rem' }}>
                   Your progress in diverting e-waste from landfills over the past year.
                 </Typography>
                 
-                <ResponsiveContainer width="100%" height={280}>
+                <ResponsiveContainer width="100%" height={250}>
                   <LineChart
                     data={monthlyTrendsData}
                     margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -362,7 +406,7 @@ const ClientReports = () => {
                       dataKey="devices" 
                       name="Devices Recycled" 
                       stroke="#185B5F" 
-                      activeDot={{ r: 8 }} 
+                      activeDot={{ r: 6 }} 
                     />
                     <Line 
                       yAxisId="right"
@@ -374,7 +418,7 @@ const ClientReports = () => {
                   </LineChart>
                 </ResponsiveContainer>
                 
-                <Box sx={{ mt: 1.5, p: 1.5, bgcolor: '#f5f5f5', borderRadius: 2 }}>
+                <Box sx={{ mt: 1, p: 1, bgcolor: '#f5f5f5', borderRadius: 2 }}>
                   <Typography variant="body2" sx={{ fontWeight: 'bold', fontSize: '0.8rem' }}>
                     Key Insights:
                   </Typography>
@@ -398,21 +442,21 @@ const ClientReports = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <Paper sx={{ p: 2, borderRadius: 2 }}>
-                <Typography variant="h5" sx={{ mb: 2, color: '#185B5F', fontSize: '1.1rem' }}>
+                <Typography variant="h5" sx={{ mb: 1, color: '#185B5F', fontSize: '1.1rem' }}>
                   Materials Breakdown
                 </Typography>
-                <Typography variant="body1" sx={{ mb: 2, fontSize: '0.9rem' }}>
+                <Typography variant="body1" sx={{ mb: 1.5, fontSize: '0.9rem' }}>
                   Types of materials recovered from your recycled electronics.
                 </Typography>
                 
                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                  <ResponsiveContainer width="100%" height={280}>
+                  <ResponsiveContainer width="100%" height={250}>
                     <PieChart>
                       <Pie
                         data={materialsCollectedData}
                         cx="50%"
                         cy="50%"
-                        outerRadius={100}
+                        outerRadius={90}
                         fill="#8884d8"
                         dataKey="value"
                         label={({name, percent}) => `${name} ${(percent * 100).toFixed(0)}%`}
@@ -431,14 +475,14 @@ const ClientReports = () => {
             
             <Grid item xs={12} md={6}>
               <Paper sx={{ p: 2, borderRadius: 2 }}>
-                <Typography variant="h5" sx={{ mb: 2, color: '#185B5F', fontSize: '1.1rem' }}>
+                <Typography variant="h5" sx={{ mb: 1, color: '#185B5F', fontSize: '1.1rem' }}>
                   Materials Recovery Impact
                 </Typography>
                 
                 <Grid container spacing={1.5}>
                   <Grid item xs={6}>
                     <Card sx={{ bgcolor: '#e3f2fd', height: '100%' }}>
-                      <CardContent sx={{ p: 1.5, '&:last-child': { pb: 1.5 } }}>
+                      <CardContent sx={{ p: 1, '&:last-child': { pb: 1 } }}>
                         <Typography sx={{ fontSize: 13 }} color="text.secondary" gutterBottom>
                           Precious Metals
                         </Typography>
@@ -454,7 +498,7 @@ const ClientReports = () => {
                   
                   <Grid item xs={6}>
                     <Card sx={{ bgcolor: '#e8f5e9', height: '100%' }}>
-                      <CardContent sx={{ p: 1.5, '&:last-child': { pb: 1.5 } }}>
+                      <CardContent sx={{ p: 1, '&:last-child': { pb: 1 } }}>
                         <Typography sx={{ fontSize: 13 }} color="text.secondary" gutterBottom>
                           Copper
                         </Typography>
@@ -470,7 +514,7 @@ const ClientReports = () => {
                   
                   <Grid item xs={6}>
                     <Card sx={{ bgcolor: '#fff8e1', height: '100%' }}>
-                      <CardContent sx={{ p: 1.5, '&:last-child': { pb: 1.5 } }}>
+                      <CardContent sx={{ p: 1, '&:last-child': { pb: 1 } }}>
                         <Typography sx={{ fontSize: 13 }} color="text.secondary" gutterBottom>
                           Plastics
                         </Typography>
@@ -486,7 +530,7 @@ const ClientReports = () => {
                   
                   <Grid item xs={6}>
                     <Card sx={{ bgcolor: '#ffebee', height: '100%' }}>
-                      <CardContent sx={{ p: 1.5, '&:last-child': { pb: 1.5 } }}>
+                      <CardContent sx={{ p: 1, '&:last-child': { pb: 1 } }}>
                         <Typography sx={{ fontSize: 13 }} color="text.secondary" gutterBottom>
                           Hazardous Materials
                         </Typography>

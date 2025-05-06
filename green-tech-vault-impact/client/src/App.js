@@ -325,6 +325,7 @@ function App() {
                 <Route path="announcements" element={<ClientAnnouncements />} />
                 <Route path="help" element={<Help />} />
                 <Route path="settings" element={<Settings />} />
+                <Route path="schedule-pickup" element={<ClientSchedulePickup />} />
               </Route>
               
               {/* Add the client-profile route outside the dashboard */}
