@@ -25,6 +25,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import { useAuth } from '../../context/AuthContext';
 import { useProfile } from '../../context/ProfileContext';
+import NotificationsPopup from '../NotificationsPopup';
 
 // Styled search component - updated to match button shape
 const Search = styled('div')(({ theme }) => ({
@@ -68,6 +69,7 @@ const Header = () => {
   const { profileData, profilePictureUrl } = useProfile();
   const [anchorEl, setAnchorEl] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [notificationsAnchorEl, setNotificationsAnchorEl] = useState(null);
   
   const menuId = 'primary-client-account-menu';
 
@@ -98,6 +100,14 @@ const Header = () => {
     logout();
     navigate('/login');
     handleMenuClose();
+  };
+
+  const handleNotificationsOpen = (event) => {
+    setNotificationsAnchorEl(event.currentTarget);
+  };
+
+  const handleNotificationsClose = () => {
+    setNotificationsAnchorEl(null);
   };
 
   return (
@@ -139,7 +149,7 @@ const Header = () => {
             <IconButton 
               size="large" 
               sx={{ mr: 1 }} 
-              onClick={() => navigate('/dashboard/notifications')}
+              onClick={handleNotificationsOpen}
             >
               <Badge badgeContent={3} color="error">
                 <NotificationsIcon />
@@ -153,7 +163,7 @@ const Header = () => {
               alignItems: 'flex-end',
             }}>
               <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                {profileData?.fullName || user?.name || "Leila's Company"}
+                {user?.companyName || "Leila's Company"}
               </Typography>
               <Typography variant="caption" color="text.secondary">
                 @{user?.username || 'lmeyer'}
@@ -208,7 +218,7 @@ const Header = () => {
             {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'L')}
           </Avatar>
           <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            {profileData?.fullName || user?.name || "Leila Meyer"}
+            {user?.companyName || "Leila's Company"}
           </Typography>
           <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
             @{user?.username || 'lmeyer'}
@@ -249,11 +259,14 @@ const Header = () => {
           My Profile
         </MenuItem>
         
-        <MenuItem onClick={() => handleNavigation('/dashboard/reports')}>
+        <MenuItem onClick={() => {
+          handleMenuClose();
+          handleNotificationsOpen();
+        }}>
           <ListItemIcon>
-            <DescriptionIcon fontSize="small" />
+            <NotificationsIcon fontSize="small" />
           </ListItemIcon>
-          Reports
+          Notifications
         </MenuItem>
         
         <MenuItem onClick={() => handleNavigation('/dashboard/settings')}>
@@ -272,13 +285,22 @@ const Header = () => {
         
         <Divider />
         
-        <MenuItem onClick={() => handleNavigation('/dashboard/help')}>
-          <ListItemIcon>
-            <HelpIcon fontSize="small" />
-          </ListItemIcon>
-          Help
-        </MenuItem>
+        <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+          <MenuItem onClick={() => handleNavigation('/dashboard/help')}>
+            <ListItemIcon>
+              <HelpIcon fontSize="small" />
+            </ListItemIcon>
+            Help
+          </MenuItem>
+        </Box>
       </Menu>
+
+      {/* Notifications Popup */}
+      <NotificationsPopup 
+        open={Boolean(notificationsAnchorEl)} 
+        anchorEl={notificationsAnchorEl}
+        onClose={handleNotificationsClose}
+      />
     </AppBar>
   );
 };
