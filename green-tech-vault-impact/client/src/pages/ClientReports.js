@@ -256,11 +256,17 @@ const ClientReports = () => {
                   <ResponsiveContainer width="100%" height={280}>
                     <BarChart
                       data={environmentalImpactData}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                      margin={{ top: 20, right: 30, left: 20, bottom: 50 }}
+                      layout="vertical"
                     >
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis />
+                      <XAxis type="number" />
+                      <YAxis 
+                        dataKey="name" 
+                        type="category" 
+                        width={150} 
+                        tick={{ fontSize: 12 }}
+                      />
                       <Tooltip />
                       <Legend />
                       <Bar dataKey="value" name="Amount Saved" fill="#3f51b5">

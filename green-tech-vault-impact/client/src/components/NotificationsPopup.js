@@ -247,7 +247,7 @@ const NotificationsPopup = ({ open, anchorEl, onClose, notifications, onUpdateNo
       sx={{
         position: 'absolute',
         top: 64, // Position right below the header
-        right: isFromDropdown ? 120 : 220, // Adjusted to ensure popup is fully visible
+        right: isFromDropdown ? 30 : 100, // Moved further right to be fully visible
         width: 350, // Slimmer to match reference
         maxHeight: 500,
         boxShadow: '0px 3px 10px rgba(0,0,0,0.08)',
@@ -277,7 +277,7 @@ const NotificationsPopup = ({ open, anchorEl, onClose, notifications, onUpdateNo
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton size="small" onClick={onClose}>
+          <IconButton size="small" onClick={onClose} aria-label="close notifications">
             <CloseIcon fontSize="small" />
           </IconButton>
         </Box>
