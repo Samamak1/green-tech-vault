@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   AppBar, 
   Box, 
@@ -63,6 +63,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+// Mock notifications data to match the NotificationsPopup
+const mockNotifications = [
+  { id: 1, read: false },
+  { id: 2, read: false },
+  { id: 3, read: false },
+  { id: 4, read: false },
+  { id: 5, read: false },
+  { id: 6, read: false },
+  { id: 7, read: false },
+  { id: 8, read: true },
+  { id: 9, read: false },
+  { id: 10, read: true }
+];
+
 const Header = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
@@ -70,7 +84,10 @@ const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [notificationsAnchorEl, setNotificationsAnchorEl] = useState(null);
-  const [notificationCount] = useState(3); // In a real app, this would come from a notification service
+  const [notifications, setNotifications] = useState(mockNotifications);
+  
+  // Calculate unread notification count
+  const notificationCount = notifications.filter(n => !n.read).length;
   
   const menuId = 'primary-client-account-menu';
   const notificationsFromMenu = useRef(false);
@@ -123,6 +140,11 @@ const Header = () => {
       notificationsFromMenu.current = false;
       setAnchorEl(null);
     }
+  };
+
+  // Function to update notification status (to be passed to NotificationsPopup)
+  const handleNotificationUpdate = (updatedNotifications) => {
+    setNotifications(updatedNotifications);
   };
 
   return (
@@ -304,6 +326,8 @@ const Header = () => {
         open={Boolean(notificationsAnchorEl)} 
         anchorEl={notificationsAnchorEl}
         onClose={handleNotificationsClose}
+        onUpdateNotifications={handleNotificationUpdate}
+        notifications={notifications}
       />
     </AppBar>
   );

@@ -180,20 +180,25 @@ const stringToColor = (string) => {
   return color;
 };
 
-const NotificationsPopup = ({ open, anchorEl, onClose }) => {
+const NotificationsPopup = ({ open, anchorEl, onClose, notifications, onUpdateNotifications }) => {
   const navigate = useNavigate();
-  const [notifications, setNotifications] = useState(mockNotifications);
   const [activeTab, setActiveTab] = useState(0); // 0 for All, 1 for Unread
   
+  // Use notifications from props if provided, otherwise use mockNotifications
+  const notificationsData = notifications || mockNotifications;
+  
   // Calculate unread count
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notificationsData.filter(n => !n.read).length;
   
   // Determine if the popup is being opened from the dropdown menu
   // This affects the positioning of the popup
   const isFromDropdown = anchorEl?.getAttribute('role') === 'menuitem';
   
   const handleMarkAllAsRead = () => {
-    setNotifications(notifications.map(n => ({ ...n, read: true })));
+    const updatedNotifications = notificationsData.map(n => ({ ...n, read: true }));
+    if (onUpdateNotifications) {
+      onUpdateNotifications(updatedNotifications);
+    }
   };
 
   const handleTabChange = (event, newValue) => {
@@ -202,10 +207,13 @@ const NotificationsPopup = ({ open, anchorEl, onClose }) => {
 
   const handleNotificationClick = (notification) => {
     // Mark notification as read
-    const updatedNotifications = notifications.map(n => 
+    const updatedNotifications = notificationsData.map(n => 
       n.id === notification.id ? { ...n, read: true } : n
     );
-    setNotifications(updatedNotifications);
+    
+    if (onUpdateNotifications) {
+      onUpdateNotifications(updatedNotifications);
+    }
 
     // Navigate to the appropriate page based on notification type
     if (notification.type === 'message' && notification.link) {
@@ -223,8 +231,8 @@ const NotificationsPopup = ({ open, anchorEl, onClose }) => {
   
   // Filter notifications based on active tab
   const filteredNotifications = activeTab === 0 
-    ? notifications 
-    : notifications.filter(n => !n.read);
+    ? notificationsData 
+    : notificationsData.filter(n => !n.read);
   
   // Group filtered notifications by date
   const groupedNotifications = {
@@ -239,7 +247,7 @@ const NotificationsPopup = ({ open, anchorEl, onClose }) => {
       sx={{
         position: 'absolute',
         top: 64, // Position right below the header
-        right: isFromDropdown ? 180 : 277.5, // Adjust position based on source
+        right: isFromDropdown ? 120 : 220, // Adjusted to ensure popup is fully visible
         width: 350, // Slimmer to match reference
         maxHeight: 500,
         boxShadow: '0px 3px 10px rgba(0,0,0,0.08)',
