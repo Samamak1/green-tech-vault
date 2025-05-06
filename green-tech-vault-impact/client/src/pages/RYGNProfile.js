@@ -61,7 +61,20 @@ const RYGNProfile = () => {
         treesPlanted: 12,
         refurbished: 28,
         recycled: 15,
-        disposed: 2
+        disposed: 2,
+        rygnContact: {
+          name: 'Sarah Johnson',
+          title: 'Account Manager',
+          email: 'sarah.johnson@rygn.com',
+          phone: '(555) 987-6543',
+          preferredTime: '9:00 AM - 5:00 PM EST'
+        },
+        pickupPreferences: {
+          frequency: 'Monthly',
+          preferredDay: 'Wednesday',
+          preferredTime: 'Afternoon (1PM - 5PM)',
+          specialInstructions: 'Please use the loading dock at the back of the building. Call 15 minutes before arrival.'
+        }
       };
 
       // Mock pickups data for this client
@@ -342,10 +355,97 @@ const RYGNProfile = () => {
               {leftPanelTab === 'Pickup Information' && (
                 <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <Typography variant="body1" sx={{ mb: 2 }}>
-                        Contact your RYGN representative to schedule or manage pickups.
+                    <Grid item xs={12} sm={6}>
+                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
+                        RYGN Contact Information
                       </Typography>
+                      <Divider sx={{ mb: 2 }} />
+                      
+                      <Box sx={{ mb: 3 }}>
+                        <Box sx={{ display: 'flex', mb: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                            Name:
+                          </Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                            {client.rygnContact.name}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', mb: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                            Title:
+                          </Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                            {client.rygnContact.title}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', mb: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                            Email:
+                          </Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                            {client.rygnContact.email}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', mb: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                            Phone:
+                          </Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                            {client.rygnContact.phone}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', mb: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                            Hours:
+                          </Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                            {client.rygnContact.preferredTime}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Grid>
+                    
+                    <Grid item xs={12} sm={6}>
+                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
+                        Pickup Preferences
+                      </Typography>
+                      <Divider sx={{ mb: 2 }} />
+                      
+                      <Box sx={{ mb: 3 }}>
+                        <Box sx={{ display: 'flex', mb: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                            Frequency:
+                          </Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                            {client.pickupPreferences.frequency}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', mb: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                            Preferred Day:
+                          </Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                            {client.pickupPreferences.preferredDay}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', mb: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                            Preferred Time:
+                          </Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                            {client.pickupPreferences.preferredTime}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', mb: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                            Special Instructions:
+                          </Typography>
+                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                            {client.pickupPreferences.specialInstructions}
+                          </Typography>
+                        </Box>
+                      </Box>
+                      
                       <Button 
                         variant="contained" 
                         size="small"
@@ -354,7 +454,7 @@ const RYGNProfile = () => {
                           bgcolor: '#185B5F',
                           '&:hover': { bgcolor: '#124548' },
                           fontSize: '0.8rem',
-                          mb: 2
+                          mt: 1
                         }}
                       >
                         Schedule a Pickup

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   AppBar, 
   Box, 
@@ -70,11 +70,10 @@ const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [notificationsAnchorEl, setNotificationsAnchorEl] = useState(null);
+  const [notificationCount] = useState(3); // In a real app, this would come from a notification service
   
   const menuId = 'primary-client-account-menu';
-  
-  // Reference element for positioning notifications popup
-  const notificationsBellRef = React.useRef(null);
+  const notificationsFromMenu = useRef(false);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -91,7 +90,11 @@ const Header = () => {
   };
 
   const handleMenuClose = () => {
-    setAnchorEl(null);
+    // Only close the menu if notifications popup wasn't opened from menu
+    // or if the notifications popup is already closed
+    if (!notificationsFromMenu.current || !notificationsAnchorEl) {
+      setAnchorEl(null);
+    }
   };
 
   const handleNavigation = (path) => {
@@ -106,12 +109,20 @@ const Header = () => {
   };
 
   const handleNotificationsOpen = (event) => {
-    // Use the notification bell as anchor if no event provided
-    setNotificationsAnchorEl(event ? event.currentTarget : notificationsBellRef.current);
+    // Set a flag to track if notifications were opened from menu
+    if (anchorEl) {
+      notificationsFromMenu.current = true;
+    }
+    setNotificationsAnchorEl(event.currentTarget);
   };
 
   const handleNotificationsClose = () => {
     setNotificationsAnchorEl(null);
+    // Reset the flag and close menu if it was previously set
+    if (notificationsFromMenu.current) {
+      notificationsFromMenu.current = false;
+      setAnchorEl(null);
+    }
   };
 
   return (
@@ -148,19 +159,8 @@ const Header = () => {
           {/* Middle section - empty space */}
           <Box sx={{ flexGrow: 1 }} />
 
-          {/* Right - User Profile and Notifications */}
+          {/* Right - User Profile */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton 
-              ref={notificationsBellRef}
-              size="large" 
-              sx={{ mr: 1 }} 
-              onClick={handleNotificationsOpen}
-            >
-              <Badge badgeContent={3} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-
             <Box sx={{ 
               mx: 2,
               display: { xs: 'none', md: 'flex' },
@@ -264,12 +264,11 @@ const Header = () => {
           My Profile
         </MenuItem>
         
-        <MenuItem onClick={() => {
-          handleMenuClose();
-          handleNotificationsOpen();
-        }}>
+        <MenuItem onClick={handleNotificationsOpen}>
           <ListItemIcon>
-            <NotificationsIcon fontSize="small" />
+            <Badge badgeContent={notificationCount} color="error">
+              <NotificationsIcon fontSize="small" />
+            </Badge>
           </ListItemIcon>
           Notifications
         </MenuItem>

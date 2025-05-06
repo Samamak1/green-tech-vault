@@ -188,6 +188,10 @@ const NotificationsPopup = ({ open, anchorEl, onClose }) => {
   // Calculate unread count
   const unreadCount = notifications.filter(n => !n.read).length;
   
+  // Determine if the popup is being opened from the dropdown menu
+  // This affects the positioning of the popup
+  const isFromDropdown = anchorEl?.getAttribute('role') === 'menuitem';
+  
   const handleMarkAllAsRead = () => {
     setNotifications(notifications.map(n => ({ ...n, read: true })));
   };
@@ -235,7 +239,7 @@ const NotificationsPopup = ({ open, anchorEl, onClose }) => {
       sx={{
         position: 'absolute',
         top: 64, // Position right below the header
-        right: 277.5, // Position to allow room for scrollbar access (moved 1/2 grid cell toward dropdown)
+        right: isFromDropdown ? 180 : 277.5, // Adjust position based on source
         width: 350, // Slimmer to match reference
         maxHeight: 500,
         boxShadow: '0px 3px 10px rgba(0,0,0,0.08)',
