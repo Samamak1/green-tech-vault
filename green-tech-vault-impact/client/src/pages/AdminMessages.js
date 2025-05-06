@@ -473,7 +473,7 @@ const AdminMessages = () => {
       case 'question':
         return '#fd8700'; // Orange
       case 'confirmation':
-        return '#4ECDC4'; // Teal
+        return '#185B5F'; // Dark Teal
       default:
         return '#9e9e9e'; // Gray
     }
@@ -569,8 +569,8 @@ const AdminMessages = () => {
                   onClick={handleComposeOpen}
                   startIcon={<PencilIcon />}
                   sx={{
-                    bgcolor: '#4ECDC4',
-                    '&:hover': { bgcolor: '#3dbdb5' },
+                    bgcolor: '#185B5F',
+                    '&:hover': { bgcolor: '#124548' },
                     borderRadius: '4px',
                     py: 1,
                     px: 3,
@@ -692,8 +692,8 @@ const AdminMessages = () => {
                     onClick={handleMarkAsRead}
                     title="Mark as read"
                     sx={{ 
-                      color: '#56C3C9',
-                      '&:hover': { bgcolor: 'rgba(86, 195, 201, 0.08)' }
+                      color: '#185B5F',
+                      '&:hover': { bgcolor: 'rgba(24, 91, 95, 0.08)' }
                     }}
                   >
                     <MarkReadIcon fontSize="small" />
@@ -704,8 +704,8 @@ const AdminMessages = () => {
                     title="Move to folder"
                     sx={{ 
                       ml: 1,
-                      color: '#56C3C9',
-                      '&:hover': { bgcolor: 'rgba(86, 195, 201, 0.08)' }
+                      color: '#185B5F',
+                      '&:hover': { bgcolor: 'rgba(24, 91, 95, 0.08)' }
                     }}
                   >
                     <MoveToIcon fontSize="small" />
@@ -783,7 +783,7 @@ const AdminMessages = () => {
                     sx={{ 
                       p: 1.5, 
                       borderBottom: '1px solid #f0f0f0',
-                      bgcolor: selectedMessage?.id === message.id ? '#f5f5f5' : message.read ? 'transparent' : 'rgba(78, 205, 196, 0.05)',
+                      bgcolor: selectedMessage?.id === message.id ? '#f5f5f5' : message.read ? 'transparent' : 'rgba(24, 91, 95, 0.05)',
                       cursor: 'pointer',
                       '&:hover': { bgcolor: '#f9f9f9' },
                     }}
@@ -946,7 +946,7 @@ const AdminMessages = () => {
                           endIcon={<ArrowDropDownIcon />}
                           onClick={handleTemplatesClick}
                           sx={{ 
-                            color: '#4ECDC4',
+                            color: '#185B5F',
                             borderColor: '#e0e0e0',
                             borderRadius: '20px',
                             py: 0.5,
@@ -955,8 +955,8 @@ const AdminMessages = () => {
                             textTransform: 'none',
                             fontSize: '0.75rem',
                             '&:hover': {
-                              bgcolor: 'rgba(78, 205, 196, 0.08)',
-                              borderColor: '#4ECDC4',
+                              bgcolor: 'rgba(24, 91, 95, 0.08)',
+                              borderColor: '#185B5F',
                             }
                           }}
                         >
@@ -981,7 +981,7 @@ const AdminMessages = () => {
                           endIcon={<ArrowDropDownIcon />}
                           onClick={handleAutomatedClick}
                           sx={{ 
-                            color: '#4ECDC4',
+                            color: '#185B5F',
                             borderColor: '#e0e0e0',
                             borderRadius: '20px',
                             py: 0.5,
@@ -990,8 +990,8 @@ const AdminMessages = () => {
                             textTransform: 'none',
                             fontSize: '0.75rem',
                             '&:hover': {
-                              bgcolor: 'rgba(78, 205, 196, 0.08)',
-                              borderColor: '#4ECDC4',
+                              bgcolor: 'rgba(24, 91, 95, 0.08)',
+                              borderColor: '#185B5F',
                             }
                           }}
                         >
@@ -1020,7 +1020,7 @@ const AdminMessages = () => {
                           size="small" 
                           title="Reply"
                           sx={{ 
-                            color: '#4ECDC4',
+                            color: '#185B5F',
                             border: '1px solid #e0e0e0',
                             borderRadius: '50%',
                             p: 1,
@@ -1028,7 +1028,7 @@ const AdminMessages = () => {
                             width: 36,
                             height: 36,
                             '&:hover': {
-                              bgcolor: 'rgba(78, 205, 196, 0.08)',
+                              bgcolor: 'rgba(24, 91, 95, 0.08)',
                             }
                           }}
                         >
@@ -1038,7 +1038,7 @@ const AdminMessages = () => {
                           size="small" 
                           title="Forward"
                           sx={{ 
-                            color: '#4ECDC4',
+                            color: '#185B5F',
                             border: '1px solid #e0e0e0',
                             borderRadius: '50%',
                             p: 1,
@@ -1046,7 +1046,7 @@ const AdminMessages = () => {
                             width: 36,
                             height: 36,
                             '&:hover': {
-                              bgcolor: 'rgba(78, 205, 196, 0.08)',
+                              bgcolor: 'rgba(24, 91, 95, 0.08)',
                             }
                           }}
                         >
@@ -1082,7 +1082,7 @@ const AdminMessages = () => {
                       <Box key={message.id} sx={{ mb: 4 }}>
                         {index > 0 && <Divider sx={{ my: 3 }} />}
                         <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-                          <Avatar sx={{ width: 40, height: 40, mr: 2, bgcolor: message.sender.id === 'admin' ? '#4ECDC4' : '#1C392B' }}>
+                          <Avatar sx={{ width: 40, height: 40, mr: 2, bgcolor: message.sender.id === 'admin' ? '#185B5F' : '#1C392B' }}>
                             {message.sender.name.charAt(1).toUpperCase()}
                           </Avatar>
                           <Box sx={{ flex: 1 }}>
@@ -1121,8 +1121,8 @@ const AdminMessages = () => {
                         endIcon={<SendIcon />}
                         onClick={handleReplySubmit}
                         sx={{
-                          bgcolor: '#4ECDC4',
-                          '&:hover': { bgcolor: '#3dbdb5' },
+                          bgcolor: '#185B5F',
+                          '&:hover': { bgcolor: '#124548' },
                         }}
                       >
                         Send
@@ -1195,8 +1195,8 @@ const AdminMessages = () => {
                 onClick={handleComposeSend}
                 endIcon={<SendIcon />}
                 sx={{
-                  bgcolor: '#4ECDC4',
-                  '&:hover': { bgcolor: '#3dbdb5' },
+                  bgcolor: '#185B5F',
+                  '&:hover': { bgcolor: '#124548' },
                 }}
               >
                 Send Message

@@ -211,6 +211,7 @@ const ClientMessages = () => {
     
     // Set selected conversation
     setSelectedConversation(conversation);
+    setIsExpanded(true);
   };
 
   const handleSendMessage = () => {
@@ -309,38 +310,25 @@ const ClientMessages = () => {
     handleComposeClose();
   };
 
-  const handleMessageSelect = (message) => {
-    setSelectedMessage(message);
-    setIsExpanded(true);
-  };
-
   const handleCloseMessage = () => {
-    setSelectedMessage(null);
     setIsExpanded(false);
-  };
-
-  const handleCheckboxChange = (id) => {
-    // Handle checkbox change
-  };
-
-  const handleDeleteMessages = (ids) => {
-    // Handle deleting messages
   };
 
   return (
     <Box sx={getContentContainerStyle()} data-boundary="true">
       <Box sx={getContentWrapperStyle()}>
-        <Typography variant="h6" sx={{ mb: 2, fontWeight: 500, fontSize: '1rem' }}>Messages</Typography>
+        <Typography variant="h6" sx={{ mb: 3, fontWeight: 500 }}>Messages</Typography>
         
         {/* Top Controls: Button, Search, and Filter */}
         <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          {/* Compose button */}
           <Button
             variant="contained"
             onClick={handleComposeOpen}
             startIcon={<PencilIcon fontSize="small" />}
             sx={{
-              bgcolor: '#4ECDC4',
-              '&:hover': { bgcolor: '#3dbdb5' },
+              bgcolor: '#185B5F',
+              '&:hover': { bgcolor: '#124548' },
               borderRadius: '4px',
               py: 0.75,
               px: 2,
@@ -352,7 +340,7 @@ const ClientMessages = () => {
           </Button>
           
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            {/* Search bar - aligned right side */}
+            {/* Search bar - aligned right */}
             <Box sx={{ 
               display: 'flex',
               alignItems: 'center',
@@ -361,7 +349,8 @@ const ClientMessages = () => {
               px: 1.5,
               py: 0.5,
               height: 32,
-              width: '250px'
+              maxWidth: '300px',
+              width: '40%'
             }}>
               <SearchIcon sx={{ color: '#aaa', mr: 1, fontSize: '1.2rem' }} />
               <InputBase 
@@ -407,7 +396,7 @@ const ClientMessages = () => {
           </Box>
         </Box>
         
-        {/* Grid layout for side-by-side view */}
+        {/* Grid layout for message list and expanded message */}
         <Grid container spacing={2}>
           {/* Messages List - Left Side */}
           <Grid item xs={12} md={isExpanded ? 5 : 12}>
@@ -416,14 +405,14 @@ const ClientMessages = () => {
               borderRadius: 1, 
               overflow: 'hidden',
               boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-              height: isExpanded ? 'calc(100vh - 180px)' : 'auto', // Extend height
+              height: isExpanded ? 'calc(100vh - 180px)' : 'auto',
               display: 'flex',
               flexDirection: 'column'
             }}>
               <Box sx={{ 
                 flex: 1, 
                 overflow: 'auto',
-                maxHeight: isExpanded ? 'calc(100vh - 180px)' : '55vh' // Extend height
+                maxHeight: isExpanded ? 'calc(100vh - 180px)' : '55vh'
               }}>
                 {filteredConversations.length > 0 ? (
                   filteredConversations.map((conversation) => (
@@ -457,30 +446,18 @@ const ClientMessages = () => {
                         />
                       )}
                       
-                      {/* Checkbox */}
-                      <Checkbox 
-                        size="small" 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleConversationSelect(conversation);
-                        }}
-                        checked={selectedConversation?.id === conversation.id}
-                        sx={{ p: 0.5, mr: 1 }}
-                      />
-                      
-                      {/* Star */}
-                      <IconButton 
-                        size="small" 
-                        sx={{ p: 0.5, mr: 1.5 }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          // Handle star toggle
+                      {/* Avatar Circle */}
+                      <Avatar 
+                        sx={{ 
+                          bgcolor: '#185B5F', 
+                          width: 36, 
+                          height: 36, 
+                          fontSize: '0.9rem',
+                          mr: 2 
                         }}
                       >
-                        {selectedConversation?.id === conversation.id && (
-                          <StarIcon sx={{ fontSize: '1.1rem', color: '#FFB400' }} />
-                        )}
-                      </IconButton>
+                        {getInitials(conversation.contact.name)}
+                      </Avatar>
                       
                       {/* Message content */}
                       <Box sx={{ flexGrow: 1 }}>
@@ -496,7 +473,6 @@ const ClientMessages = () => {
                             >
                               {conversation.contact.name}
                             </Typography>
-                            
                             <Typography 
                               variant="body2" 
                               component="span"
@@ -510,7 +486,7 @@ const ClientMessages = () => {
                             </Typography>
                           </Box>
                           
-                          <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0, ml: 2 }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             {!conversation.unreadCount && (
                               <Box 
                                 sx={{ 
@@ -530,8 +506,28 @@ const ClientMessages = () => {
                                 whiteSpace: 'nowrap'
                               }}
                             >
+                              Sent on:
+                            </Typography>
+                            <Typography 
+                              variant="body2" 
+                              sx={{ 
+                                ml: 0.5, 
+                                fontSize: '0.75rem',
+                                whiteSpace: 'nowrap'
+                              }}
+                            >
                               {formatTimestamp(conversation.lastMessage.timestamp)}
                             </Typography>
+                            <IconButton 
+                              size="small" 
+                              sx={{ ml: 1, p: 0.5 }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                // Menu options would go here
+                              }}
+                            >
+                              <MoreVertIcon sx={{ fontSize: '1.1rem' }} />
+                            </IconButton>
                           </Box>
                         </Box>
                         
@@ -548,25 +544,8 @@ const ClientMessages = () => {
                             maxWidth: '90%'
                           }}
                         >
-                          {conversation.lastMessage.isFromUser ? 'You: ' : ''}
                           {conversation.lastMessage.text}
                         </Typography>
-                      </Box>
-                      
-                      {/* More Menu Icon (replacing Delete) */}
-                      <Box sx={{ ml: 1, mt: 0.5 }}>
-                        <IconButton 
-                          size="small" 
-                          sx={{ p: 0.5 }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            // Here you could add functionality to open a menu
-                            // For now, we'll keep the delete functionality
-                            handleConversationSelect(conversation);
-                          }}
-                        >
-                          <MoreVertIcon sx={{ fontSize: '1.1rem', color: '#888' }} />
-                        </IconButton>
                       </Box>
                     </Box>
                   ))
@@ -589,15 +568,17 @@ const ClientMessages = () => {
                 borderRadius: 1, 
                 overflow: 'hidden',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-                height: 'calc(100vh - 180px)', // Extend height
+                height: 'calc(100vh - 180px)', 
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
               }}>
                 {/* Message header */}
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, borderBottom: '1px solid #f0f0f0' }}>
-                  <Typography variant="h6" sx={{ fontSize: '1.1rem', fontWeight: 500 }}>
-                    {selectedConversation.contact.name}
-                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography variant="h6" sx={{ fontSize: '1.1rem', fontWeight: 500 }}>
+                      {selectedConversation.contact.name}
+                    </Typography>
+                  </Box>
                   <IconButton onClick={handleCloseMessage} size="small">
                     <CloseIcon />
                   </IconButton>
@@ -625,7 +606,7 @@ const ClientMessages = () => {
                     >
                       <Box 
                         sx={{ 
-                          bgcolor: message.isFromUser ? '#4ECDC4' : 'white',
+                          bgcolor: message.isFromUser ? '#185B5F' : 'white',
                           color: message.isFromUser ? 'white' : 'black',
                           p: 1.5,
                           borderRadius: message.isFromUser 
@@ -688,12 +669,11 @@ const ClientMessages = () => {
                     sx={{ mr: 1 }}
                   />
                   <IconButton 
-                    color="primary" 
                     onClick={handleSendMessage}
                     sx={{ 
-                      bgcolor: '#4ECDC4',
+                      bgcolor: '#185B5F',
                       color: 'white', 
-                      '&:hover': { bgcolor: '#3dbdb5' }
+                      '&:hover': { bgcolor: '#124548' }
                     }}
                   >
                     <SendIcon />
@@ -770,8 +750,8 @@ const ClientMessages = () => {
                 onClick={handleComposeSend}
                 endIcon={<SendIcon fontSize="small" />}
                 sx={{
-                  bgcolor: '#4ECDC4',
-                  '&:hover': { bgcolor: '#3dbdb5' },
+                  bgcolor: '#185B5F',
+                  '&:hover': { bgcolor: '#124548' },
                   fontSize: '0.8rem',
                   py: 0.75,
                   px: 2
