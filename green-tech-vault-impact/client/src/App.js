@@ -13,7 +13,6 @@ import { Box } from '@mui/material';
 import Layout from './components/layout/Layout';
 import DashboardLayout from './components/layout/DashboardLayout';
 import MainLayout from './components/layout/MainLayout';
-import ClientDashboardLayout from './components/layout/ClientDashboardLayout';
 import ClientSidebar from './components/layout/ClientSidebar';
 import Header from './components/layout/Header';
 
@@ -219,8 +218,8 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-// Main component layout adjustments
-const ClientDashboardLayout = () => {
+// Main component layout adjustments - renamed to avoid conflict
+const CustomClientDashboardLayout = () => {
   return (
     <>
       <ClientSidebar />
@@ -309,10 +308,10 @@ function App() {
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/unauthorized" element={<Unauthorized />} />
               
-              {/* Client Routes */}
+              {/* Client Routes - Use our custom layout component */}
               <Route path="/dashboard" element={
                 <ProtectedRoute>
-                  <ClientDashboardLayout />
+                  <CustomClientDashboardLayout />
                 </ProtectedRoute>
               }>
                 <Route index element={isAdmin ? <Navigate to="/admin" /> : <Dashboard />} />
