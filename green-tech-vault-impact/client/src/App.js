@@ -50,6 +50,7 @@ import ClientProfile from './pages/ClientProfile';
 import Settings from './pages/Settings';
 import QRMobileLogin from './pages/QRMobileLogin';
 import Help from './pages/Help';
+import ClientReports from './pages/ClientReports';
 
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
@@ -304,7 +305,7 @@ function App() {
                   <Route path="pickups" element={<PickupCalendar />} />
                 <Route path="pickups/:id" element={<PickupDetail />} />
                 <Route path="devices" element={<Devices />} />
-                <Route path="reports" element={<Reports />} />
+                <Route path="reports" element={<ClientReports />} />
                 <Route path="reports/:id" element={<ReportDetail />} />
                   <Route path="messages" element={<ClientMessages />} />
                   <Route path="announcements" element={<ClientAnnouncements />} />
@@ -315,9 +316,9 @@ function App() {
                 <Route path="promotion" element={<h1>Promotion</h1>} />
                 <Route path="store" element={<h1>My Store</h1>} />
                 <Route path="notifications" element={<h1>Notifications</h1>} />
-                <Route path="settings" element={<h1>Settings</h1>} />
+                <Route path="settings" element={<Settings />} />
                 <Route path="trash" element={<h1>Trash</h1>} />
-                <Route path="help" element={<h1>Help</h1>} />
+                <Route path="help" element={<Help />} />
               </Route>
               
               {/* Add the client-profile route outside the dashboard */}
