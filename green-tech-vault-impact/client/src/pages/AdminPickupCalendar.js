@@ -676,7 +676,6 @@ const AdminPickupCalendar = () => {
           </Box>
           <Button
             variant="contained"
-            startIcon={<AddIcon />}
             onClick={() => navigate('/admin/schedule-pickup')}
             sx={{ 
               bgcolor: '#1C392B', 

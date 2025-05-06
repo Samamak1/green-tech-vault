@@ -1103,19 +1103,28 @@ const AdminMessages = () => {
                     ))}
                   </Box>
                   
-                  {/* Reply Section */}
+                  {/* Reply Section - Modern Chat Input Style */}
                   <Box sx={{ mt: 'auto', pt: 2, borderTop: '1px solid #e0e0e0' }}>
-                    <TextField
-                      fullWidth
-                      multiline
-                      rows={3}
-                      placeholder="Type your reply here..."
-                      variant="outlined"
-                      value={replyText}
-                      onChange={(e) => setReplyText(e.target.value)}
-                      sx={{ mb: 2 }}
-                    />
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <TextField
+                        fullWidth
+                        multiline
+                        rows={3}
+                        placeholder="Type your reply here..."
+                        variant="outlined"
+                        value={replyText}
+                        onChange={(e) => setReplyText(e.target.value)}
+                        sx={{ 
+                          mr: 2,
+                          '& .MuiOutlinedInput-root': {
+                            borderRadius: '20px',
+                            bgcolor: '#f9f9f9',
+                            '&.Mui-focused': {
+                              borderColor: '#185B5F'
+                            }
+                          }
+                        }}
+                      />
                       <Button
                         variant="contained"
                         endIcon={<SendIcon />}
@@ -1123,6 +1132,8 @@ const AdminMessages = () => {
                         sx={{
                           bgcolor: '#185B5F',
                           '&:hover': { bgcolor: '#124548' },
+                          borderRadius: '20px',
+                          height: '40px'
                         }}
                       >
                         Send
