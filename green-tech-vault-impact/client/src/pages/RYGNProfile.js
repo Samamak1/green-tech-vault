@@ -69,6 +69,8 @@ const RYGNProfile = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [deleteItemType, setDeleteItemType] = useState('');
+  const [deleteDeviceId, setDeleteDeviceId] = useState(null);
+  const [deleteDeviceDialogOpen, setDeleteDeviceDialogOpen] = useState(false);
   
   // Get the pickup being edited
   const pickupBeingEdited = editPickupId 
@@ -201,6 +203,25 @@ const RYGNProfile = () => {
     handleCloseDeleteDialog();
   };
   
+  // Handle device edit
+  const handleEditDevice = (deviceId) => {
+    setEditDeviceId(deviceId);
+    setDeleteDeviceDialogOpen(true);
+  };
+  
+  // Handle device delete confirmation
+  const handleDeleteDeviceConfirm = (deviceId) => {
+    setDeleteDeviceId(deviceId);
+    setDeleteDeviceDialogOpen(true);
+  };
+  
+  // Handle device delete
+  const handleDeleteDevice = () => {
+    setMockDevices(mockDevices.filter(device => device.id !== deleteDeviceId));
+    setDeleteDeviceId(null);
+    setDeleteDeviceDialogOpen(false);
+  };
+  
   useEffect(() => {
     // Mock data to display until real data fetching is implemented
     const fetchClientData = () => {
@@ -225,6 +246,15 @@ const RYGNProfile = () => {
         refurbished: 28,
         recycled: 15,
         disposed: 2,
+        environmentalImpact: {
+          devicesProcessed: 45,
+          totalWeight: 156.8,
+          co2Saved: 125.7,
+          treesPlanted: 12,
+          devicesRefurbished: 28,
+          devicesRecycled: 15,
+          devicesDisposed: 2
+        },
         rygnContact: {
           name: 'Sarah Johnson',
           title: 'Account Manager',
@@ -262,31 +292,63 @@ const RYGNProfile = () => {
         }
       ];
 
-      // Mock devices data for this client
-      const devices = [
+      // Populate mock devices
+      const mockDevicesData = [
         {
           id: '1',
+          name: 'Laptop #357',
           type: 'Laptop',
-          manufacturer: 'Dell',
-          model: 'XPS 15',
-          serialNumber: 'DL12345678',
-          status: 'Refurbished',
-          weight: 2.5
+          make: 'Dell',
+          model: 'Latitude 7420',
+          serial: 'SN5768291',
+          status: 'Recycled',
+          value: '125.00'
         },
         {
           id: '2',
+          name: 'Desktop #224',
           type: 'Desktop',
-          manufacturer: 'HP',
-          model: 'EliteDesk 800',
-          serialNumber: 'HP87654321',
-          status: 'Recycled',
-          weight: 8.3
+          make: 'HP',
+          model: 'ProDesk 600',
+          serial: 'SN8901234',
+          status: 'Refurbished',
+          value: '210.00'
+        },
+        {
+          id: '3',
+          name: 'Monitor #456',
+          type: 'Monitor',
+          make: 'Samsung',
+          model: 'S24R650',
+          serial: 'SN1209348',
+          status: 'Processed',
+          value: '85.00'
+        },
+        {
+          id: '4',
+          name: 'Tablet #789',
+          type: 'Tablet',
+          make: 'Apple',
+          model: 'iPad Air',
+          serial: 'SN4538721',
+          status: 'Pending',
+          value: '150.00'
+        },
+        {
+          id: '5',
+          name: 'Phone #112',
+          type: 'Smartphone',
+          make: 'Samsung',
+          model: 'Galaxy S21',
+          serial: 'SN9765412',
+          status: 'Refurbished',
+          value: '175.00'
         }
       ];
 
       setClient(mockClient);
       setMockPickups(pickups);
-      setMockDevices(devices);
+      setMockDevices(mockDevicesData);
       setLoading(false);
     };
 
@@ -575,14 +637,15 @@ const RYGNProfile = () => {
                 <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
                   <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
-                      {selectedPickups.length > 0 ? (
-                        <>
-                          <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
-                            Selected Pickup Information
-                          </Typography>
-                          <Divider sx={{ mb: 2 }} />
-                          
-                          {selectedPickups.map(pickupId => {
+                      <>
+                        <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
+                          Selected Pickup Information
+                        </Typography>
+                        <Divider sx={{ mb: 2 }} />
+                        
+                        {selectedPickups.length > 0 ? (
+                          // Show the selected pickup's information
+                          selectedPickups.map(pickupId => {
                             const pickup = mockPickups.find(p => p.id === pickupId);
                             if (!pickup) return null;
                             
@@ -646,51 +709,71 @@ const RYGNProfile = () => {
                                 </Box>
                               </Box>
                             );
-                          })}
-                        </>
-                      ) : (
-                        <>
-                          <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
-                            Pickup Preferences
-                          </Typography>
-                          <Divider sx={{ mb: 2 }} />
-                          
-                          <Box sx={{ mb: 3 }}>
-                            <Box sx={{ display: 'flex', mb: 1 }}>
-                              <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
-                                Frequency:
-                              </Typography>
-                              <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                                {client.pickupPreferences.frequency}
-                              </Typography>
+                          })
+                        ) : (
+                          // Show the first pickup's information if no checkboxes are selected
+                          mockPickups.length > 0 && (
+                            <Box sx={{ mb: 3 }}>
+                              <Box sx={{ display: 'flex', mb: 1 }}>
+                                <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                                  RYGN Contact:
+                                </Typography>
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                                  {mockPickups[0].rygnContact}
+                                </Typography>
+                              </Box>
+                              <Box sx={{ display: 'flex', mb: 1 }}>
+                                <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                                  Date:
+                                </Typography>
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                                  {mockPickups[0].date}
+                                </Typography>
+                              </Box>
+                              <Box sx={{ display: 'flex', mb: 1 }}>
+                                <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                                  Time:
+                                </Typography>
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                                  {mockPickups[0].time}
+                                </Typography>
+                              </Box>
+                              <Box sx={{ display: 'flex', mb: 1 }}>
+                                <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                                  Location:
+                                </Typography>
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                                  {mockPickups[0].location}
+                                </Typography>
+                              </Box>
+                              <Box sx={{ display: 'flex', mb: 1 }}>
+                                <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                                  Status:
+                                </Typography>
+                                <Chip 
+                                  label={mockPickups[0].status} 
+                                  size="small"
+                                  sx={{ 
+                                    borderRadius: 1, 
+                                    fontSize: '0.65rem',
+                                    py: 0,
+                                    height: '20px',
+                                    ...getStatusChipColor(mockPickups[0].status)
+                                  }} 
+                                />
+                              </Box>
+                              <Box sx={{ display: 'flex', mb: 1 }}>
+                                <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                                  Weight (kg):
+                                </Typography>
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                                  {mockPickups[0].weight}
+                                </Typography>
+                              </Box>
                             </Box>
-                            <Box sx={{ display: 'flex', mb: 1 }}>
-                              <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
-                                Preferred Day:
-                              </Typography>
-                              <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                                {client.pickupPreferences.preferredDay}
-                              </Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', mb: 1 }}>
-                              <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
-                                Preferred Time:
-                              </Typography>
-                              <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                                {client.pickupPreferences.preferredTime}
-                              </Typography>
-                            </Box>
-                            <Box sx={{ display: 'flex', mb: 1 }}>
-                              <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
-                                Special Instructions:
-                              </Typography>
-                              <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                                {client.pickupPreferences.specialInstructions}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </>
-                      )}
+                          )
+                        )}
+                      </>
                     </Grid>
                     
                     <Grid item xs={12} sm={6}>
@@ -893,25 +976,23 @@ const RYGNProfile = () => {
               
               {rightPanelTab === 'Devices' && (
                 <TableContainer sx={{ maxHeight: 'calc(100vh - 230px)', overflow: 'auto' }}>
-                  <Table stickyHeader size="small" sx={{ tableLayout: 'fixed' }}>
+                  <Table stickyHeader size="small" sx={{ tableLayout: 'fixed', minWidth: '100%' }}>
                     <TableHead>
                       <TableRow>
                         <TableCell padding="checkbox" sx={{ bgcolor: '#f5f5f5', width: '5%' }}></TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '18%' }}>Serial Number</TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Type</TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '18%' }}>Manufacturer</TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '19%' }}>Model</TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Weight (kg)</TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Status</TableCell>
-                        <TableCell align="center" sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem' }}>Actions</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Device Name</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '13%' }}>Type</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Make</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Model</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Serial</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Status</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Value</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Actions</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {mockDevices.map((device) => (
-                        <TableRow 
-                          key={device.id} 
-                          hover
-                        >
+                        <TableRow key={device.id} hover>
                           <TableCell padding="checkbox">
                             <input 
                               type="checkbox" 
@@ -926,33 +1007,42 @@ const RYGNProfile = () => {
                               }}
                             />
                           </TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem' }}>{device.serialNumber}</TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem' }}>{device.name}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem' }}>{device.type}</TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem' }}>{device.manufacturer}</TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem' }}>{device.make}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem' }}>{device.model}</TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem' }}>{device.weight}</TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem' }}>{device.serial}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem' }}>
                             <Chip 
                               label={device.status} 
                               size="small"
-                              sx={{ borderRadius: 1, fontSize: '0.65rem', py: 0, height: '20px', ...getStatusChipColor(device.status) }} 
+                              sx={{ 
+                                borderRadius: 1, 
+                                fontSize: '0.65rem',
+                                py: 0,
+                                height: '20px',
+                                ...getStatusChipColor(device.status)
+                              }} 
                             />
                           </TableCell>
-                          <TableCell align="center">
-                            <IconButton 
-                              size="small" 
-                              onClick={() => setEditDeviceId(device.id)}
-                              sx={{ color: '#62CBD0', fontSize: '1rem', p: 0.5 }}
-                            >
-                              <EditIcon fontSize="inherit" />
-                            </IconButton>
-                            <IconButton 
-                              size="small" 
-                              onClick={() => handleOpenDeleteDialog(device, 'device')}
-                              sx={{ color: '#ff5252', fontSize: '1rem', p: 0.5 }}
-                            >
-                              <DeleteIcon fontSize="inherit" />
-                            </IconButton>
+                          <TableCell sx={{ fontSize: '0.75rem' }}>${device.value}</TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem' }}>
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                              <IconButton 
+                                size="small" 
+                                sx={{ p: 0.5 }} 
+                                onClick={() => handleEditDevice(device.id)}
+                              >
+                                <EditIcon fontSize="small" />
+                              </IconButton>
+                              <IconButton 
+                                size="small"
+                                sx={{ p: 0.5 }}
+                                onClick={() => handleDeleteDeviceConfirm(device.id)}
+                              >
+                                <DeleteIcon fontSize="small" />
+                              </IconButton>
+                            </Box>
                           </TableCell>
                         </TableRow>
                       ))}
@@ -1216,6 +1306,57 @@ const RYGNProfile = () => {
           </Button>
           <Button 
             onClick={handleDeleteItem} 
+            variant="contained" 
+            sx={{ 
+              bgcolor: '#ff5252',
+              '&:hover': {
+                bgcolor: '#ff3333'
+              }
+            }}
+            autoFocus
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+      
+      {/* Delete Device Confirmation Dialog */}
+      <Dialog
+        open={deleteDeviceDialogOpen}
+        onClose={() => setDeleteDeviceDialogOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        PaperProps={{
+          sx: {
+            borderRadius: 2,
+            maxWidth: '400px'
+          }
+        }}
+      >
+        <DialogTitle id="alert-dialog-title" sx={{ pb: 1 }}>
+          {`Are you sure you want to delete this device?`}
+        </DialogTitle>
+        <DialogContent sx={{ pb: 2 }}>
+          {deleteDeviceId && (
+            <Typography variant="body2">
+              {`Serial Number: ${deleteDeviceId}`}
+            </Typography>
+          )}
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2 }}>
+          <Button 
+            onClick={() => setDeleteDeviceDialogOpen(false)} 
+            sx={{ 
+              color: '#666',
+              '&:hover': {
+                backgroundColor: '#f5f5f5'
+              }
+            }}
+          >
+            Cancel
+          </Button>
+          <Button 
+            onClick={handleDeleteDevice} 
             variant="contained" 
             sx={{ 
               bgcolor: '#ff5252',
