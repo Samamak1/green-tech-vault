@@ -335,14 +335,8 @@ function App() {
                   <Route path="help" element={<Help />} />
                   <Route path="settings" element={<Settings />} />
                   <Route path="schedule-pickup" element={<ClientSchedulePickup />} />
+                  <Route path="client-profile" element={<ClientProfile />} />
                 </Route>
-                
-                {/* Add the client-profile route outside the dashboard */}
-                <Route path="/client-profile" element={
-                  <ProtectedRoute>
-                    <ClientProfile />
-                  </ProtectedRoute>
-                }/>
                 
                 {/* Add routes for the new pages */}
                 <Route path="/settings" element={

@@ -139,7 +139,8 @@ const Settings = () => {
                 onChange={handleTabChange}
                 sx={{
                   '& .MuiTab-root': {
-                    alignItems: 'flex-start',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
                     textAlign: 'left',
                     py: 2,
                     textTransform: 'none'

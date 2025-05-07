@@ -279,7 +279,7 @@ const Header = () => {
         
         <Divider />
         
-        <MenuItem onClick={() => handleNavigation('/dashboard/rygn-profile')}>
+        <MenuItem onClick={() => handleNavigation('/dashboard/client-profile')}>
           <ListItemIcon>
             <PersonIcon fontSize="small" />
           </ListItemIcon>

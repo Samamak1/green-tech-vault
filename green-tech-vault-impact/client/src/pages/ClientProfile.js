@@ -110,43 +110,12 @@ const ClientProfile = () => {
 
   return (
     <Box sx={getContentContainerStyle()} data-boundary="true">
-      {/* Client Header */}
-      <AppBar position="static" sx={{ bgcolor: 'white', color: '#333', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', mb: 3 }}>
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={handleGoBack}
-          >
-            <ArrowBackIcon />
-          </IconButton>
-          <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-            <Typography variant="h6" component="div" sx={{ fontWeight: 500, fontSize: '1.1rem' }}>
-              My Profile
-            </Typography>
-          </Box>
-          <IconButton color="inherit">
-            <NotificationsIcon />
-          </IconButton>
-          <Avatar 
-            sx={{ 
-              ml: 1,
-              bgcolor: profilePictureUrl ? 'transparent' : '#1C392B',
-              width: 36,
-              height: 36
-            }}
-            src={profilePictureUrl}
-          >
-            {profileData.fullName.charAt(0)}
-          </Avatar>
-        </Toolbar>
-      </AppBar>
-      
       <Box sx={getContentWrapperStyle()}>
-        {/* Profile Header Card */}
+        <Typography variant="h5" component="h1" sx={{ mb: 3, fontWeight: 500 }}>
+          My Profile
+        </Typography>
+        
+        {/* Profile Overview */}
         <Paper sx={{ p: 3, borderRadius: 2, mb: 3 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
             <Box>

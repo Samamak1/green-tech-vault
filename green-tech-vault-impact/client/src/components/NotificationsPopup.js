@@ -227,7 +227,7 @@ const NotificationsPopup = ({ open, anchorEl, onClose, notifications, onUpdateNo
   
   // Group notifications by date
   const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-  const tomorrow = new Date(Date.now() + 86400000).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  const yesterday = new Date(Date.now() - 86400000).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   
   // Filter notifications based on active tab
   const filteredNotifications = activeTab === 0 
@@ -236,8 +236,9 @@ const NotificationsPopup = ({ open, anchorEl, onClose, notifications, onUpdateNo
   
   // Group filtered notifications by date
   const groupedNotifications = {
-    'Today': filteredNotifications.filter(n => n.date === 'July 18, 2024'),
-    'Tomorrow': filteredNotifications.filter(n => n.date === 'July 19, 2024')
+    'Today': filteredNotifications.filter(n => n.date === 'July 19, 2024'),
+    'Yesterday': filteredNotifications.filter(n => n.date === 'July 18, 2024'),
+    'Earlier': filteredNotifications.filter(n => n.date !== 'July 19, 2024' && n.date !== 'July 18, 2024')
   };
   
   if (!open) return null;
@@ -247,7 +248,7 @@ const NotificationsPopup = ({ open, anchorEl, onClose, notifications, onUpdateNo
       sx={{
         position: 'absolute',
         top: 64, // Position right below the header
-        right: isFromDropdown ? 30 : 100, // Moved further right to be fully visible
+        right: isFromDropdown ? 250 : 100, // Position it to the left of the profile menu
         width: 350, // Slimmer to match reference
         maxHeight: 500,
         boxShadow: '0px 3px 10px rgba(0,0,0,0.08)',
