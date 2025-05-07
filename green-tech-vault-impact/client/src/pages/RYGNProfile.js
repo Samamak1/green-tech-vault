@@ -445,20 +445,6 @@ const RYGNProfile = () => {
                           </Typography>
                         </Box>
                       </Box>
-                      
-                      <Button 
-                        variant="contained" 
-                        size="small"
-                        onClick={() => navigate('/dashboard/schedule-pickup')}
-                        sx={{ 
-                          bgcolor: '#185B5F',
-                          '&:hover': { bgcolor: '#124548' },
-                          fontSize: '0.8rem',
-                          mt: 1
-                        }}
-                      >
-                        Schedule a Pickup
-                      </Button>
                     </Grid>
                   </Grid>
                 </Box>
@@ -544,6 +530,7 @@ const RYGNProfile = () => {
                   <Table stickyHeader size="small" sx={{ tableLayout: 'fixed' }}>
                     <TableHead>
                       <TableRow>
+                        <TableCell padding="checkbox" sx={{ bgcolor: '#f5f5f5', width: '5%' }}></TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>RYGN Contact</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '12%' }}>Date</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Time</TableCell>
@@ -556,6 +543,12 @@ const RYGNProfile = () => {
                     <TableBody>
                       {mockPickups.map((pickup) => (
                         <TableRow key={pickup.id} sx={{ '&:hover': { bgcolor: '#f9f9f9' } }}>
+                          <TableCell padding="checkbox">
+                            <input 
+                              type="checkbox" 
+                              style={{ cursor: 'pointer' }}
+                            />
+                          </TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                             {pickup.rygnContact}
                           </TableCell>
@@ -589,12 +582,26 @@ const RYGNProfile = () => {
                               <IconButton 
                                 size="small" 
                                 sx={{ color: '#4ECDC4' }}
+                                onClick={() => {
+                                  console.log('Edit pickup:', pickup.id);
+                                  // Edit functionality here
+                                  alert('Edit pickup: ' + pickup.id);
+                                }}
                               >
                                 <EditIcon fontSize="small" />
                               </IconButton>
                               <IconButton 
                                 size="small" 
                                 sx={{ color: '#666' }}
+                                onClick={() => {
+                                  console.log('Delete pickup:', pickup.id);
+                                  // Delete functionality here
+                                  const confirmDelete = window.confirm('Are you sure you want to delete this pickup?');
+                                  if (confirmDelete) {
+                                    // Implement delete logic here
+                                    setMockPickups(mockPickups.filter(p => p.id !== pickup.id));
+                                  }
+                                }}
                               >
                                 <DeleteIcon fontSize="small" />
                               </IconButton>
@@ -612,6 +619,7 @@ const RYGNProfile = () => {
                   <Table stickyHeader size="small" sx={{ tableLayout: 'fixed' }}>
                     <TableHead>
                       <TableRow>
+                        <TableCell padding="checkbox" sx={{ bgcolor: '#f5f5f5', width: '5%' }}></TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Type</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '14%' }}>Manufacturer</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '14%' }}>Model</TableCell>
@@ -624,6 +632,12 @@ const RYGNProfile = () => {
                     <TableBody>
                       {mockDevices.map((device) => (
                         <TableRow key={device.id} sx={{ '&:hover': { bgcolor: '#f9f9f9' } }}>
+                          <TableCell padding="checkbox">
+                            <input 
+                              type="checkbox" 
+                              style={{ cursor: 'pointer' }}
+                            />
+                          </TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>
                             {device.type}
                           </TableCell>
@@ -662,12 +676,26 @@ const RYGNProfile = () => {
                               <IconButton 
                                 size="small" 
                                 sx={{ color: '#4ECDC4' }}
+                                onClick={() => {
+                                  console.log('Edit device:', device.id);
+                                  // Edit functionality here
+                                  alert('Edit device: ' + device.id);
+                                }}
                               >
                                 <EditIcon fontSize="small" />
                               </IconButton>
                               <IconButton 
                                 size="small" 
                                 sx={{ color: '#666' }}
+                                onClick={() => {
+                                  console.log('Delete device:', device.id);
+                                  // Delete functionality here
+                                  const confirmDelete = window.confirm('Are you sure you want to delete this device?');
+                                  if (confirmDelete) {
+                                    // Implement delete logic here
+                                    setMockDevices(mockDevices.filter(d => d.id !== device.id));
+                                  }
+                                }}
                               >
                                 <DeleteIcon fontSize="small" />
                               </IconButton>
