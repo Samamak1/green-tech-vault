@@ -18,7 +18,15 @@ import {
   IconButton,
   Chip,
   Avatar,
-  CircularProgress
+  CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
 } from '@mui/material';
 import {
   Edit as EditIcon,
@@ -37,6 +45,144 @@ const RYGNProfile = () => {
   const [rightPanelTab, setRightPanelTab] = useState('Pickups');
   const [mockPickups, setMockPickups] = useState([]);
   const [mockDevices, setMockDevices] = useState([]);
+  const [selectedPickups, setSelectedPickups] = useState([]);
+  const [selectedDevices, setSelectedDevices] = useState([]);
+  const [editPickupId, setEditPickupId] = useState(null);
+  const [editDeviceId, setEditDeviceId] = useState(null);
+  const [editFormData, setEditFormData] = useState({
+    rygnContact: "",
+    date: "",
+    time: "",
+    location: "",
+    status: "",
+    weight: 0
+  });
+  const [editDeviceFormData, setEditDeviceFormData] = useState({
+    type: "",
+    manufacturer: "",
+    model: "",
+    serialNumber: "",
+    status: "",
+    weight: 0
+  });
+  
+  // Get the pickup being edited
+  const pickupBeingEdited = editPickupId 
+    ? mockPickups.find(p => p.id === editPickupId) 
+    : null;
+  
+  // Get the device being edited
+  const deviceBeingEdited = editDeviceId 
+    ? mockDevices.find(d => d.id === editDeviceId) 
+    : null;
+  
+  // Handle opening the edit modal for pickups
+  useEffect(() => {
+    if (pickupBeingEdited) {
+      setEditFormData({
+        rygnContact: pickupBeingEdited.rygnContact,
+        date: pickupBeingEdited.date,
+        time: pickupBeingEdited.time,
+        location: pickupBeingEdited.location,
+        status: pickupBeingEdited.status,
+        weight: pickupBeingEdited.weight
+      });
+    }
+  }, [pickupBeingEdited]);
+  
+  // Handle opening the edit modal for devices
+  useEffect(() => {
+    if (deviceBeingEdited) {
+      setEditDeviceFormData({
+        type: deviceBeingEdited.type,
+        manufacturer: deviceBeingEdited.manufacturer,
+        model: deviceBeingEdited.model,
+        serialNumber: deviceBeingEdited.serialNumber,
+        status: deviceBeingEdited.status,
+        weight: deviceBeingEdited.weight
+      });
+    }
+  }, [deviceBeingEdited]);
+  
+  // Handle form input changes for pickup
+  const handleEditFormChange = (e) => {
+    const { name, value } = e.target;
+    setEditFormData({
+      ...editFormData,
+      [name]: value
+    });
+  };
+  
+  // Handle form input changes for device
+  const handleDeviceFormChange = (e) => {
+    const { name, value } = e.target;
+    setEditDeviceFormData({
+      ...editDeviceFormData,
+      [name]: value
+    });
+  };
+  
+  // Save pickup edits
+  const handleSavePickupEdit = () => {
+    if (editPickupId) {
+      const updatedPickups = mockPickups.map(pickup => {
+        if (pickup.id === editPickupId) {
+          return {
+            ...pickup,
+            ...editFormData
+          };
+        }
+        return pickup;
+      });
+      
+      setMockPickups(updatedPickups);
+      setEditPickupId(null);
+    }
+  };
+  
+  // Save device edits
+  const handleSaveDeviceEdit = () => {
+    if (editDeviceId) {
+      const updatedDevices = mockDevices.map(device => {
+        if (device.id === editDeviceId) {
+          return {
+            ...device,
+            ...editDeviceFormData
+          };
+        }
+        return device;
+      });
+      
+      setMockDevices(updatedDevices);
+      setEditDeviceId(null);
+    }
+  };
+  
+  // Close edit modals
+  const handleCloseEdit = () => {
+    setEditPickupId(null);
+    setEditDeviceId(null);
+  };
+  
+  // Delete confirmation for pickup
+  const confirmDeletePickup = (pickupId) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this pickup?');
+    if (confirmDelete) {
+      setMockPickups(mockPickups.filter(p => p.id !== pickupId));
+      // Also remove from selected pickups
+      setSelectedPickups(selectedPickups.filter(id => id !== pickupId));
+    }
+  };
+  
+  // Delete confirmation for device
+  const confirmDeleteDevice = (deviceId) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this device?');
+    if (confirmDelete) {
+      setMockDevices(mockDevices.filter(d => d.id !== deviceId));
+      // Also remove from selected devices
+      setSelectedDevices(selectedDevices.filter(id => id !== deviceId));
+    }
+  };
   
   useEffect(() => {
     // Mock data to display until real data fetching is implemented
@@ -129,6 +275,13 @@ const RYGNProfile = () => {
 
     fetchClientData();
   }, []);
+
+  useEffect(() => {
+    // Show pickup information in the left panel when a pickup is selected
+    if (selectedPickups.length > 0 && leftPanelTab !== 'Pickup Information') {
+      setLeftPanelTab('Pickup Information');
+    }
+  }, [selectedPickups]);
 
   const handleLeftPanelTabChange = (tabName) => {
     setLeftPanelTab(tabName);
@@ -354,99 +507,176 @@ const RYGNProfile = () => {
               
               {leftPanelTab === 'Pickup Information' && (
                 <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
-                        RYGN Contact Information
-                      </Typography>
-                      <Divider sx={{ mb: 2 }} />
-                      
-                      <Box sx={{ mb: 3 }}>
-                        <Box sx={{ display: 'flex', mb: 1 }}>
-                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
-                            Name:
-                          </Typography>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                            {client.rygnContact.name}
-                          </Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', mb: 1 }}>
-                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
-                            Title:
-                          </Typography>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                            {client.rygnContact.title}
-                          </Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', mb: 1 }}>
-                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
-                            Email:
-                          </Typography>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                            {client.rygnContact.email}
-                          </Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', mb: 1 }}>
-                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
-                            Phone:
-                          </Typography>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                            {client.rygnContact.phone}
-                          </Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', mb: 1 }}>
-                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
-                            Hours:
-                          </Typography>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                            {client.rygnContact.preferredTime}
-                          </Typography>
-                        </Box>
-                      </Box>
+                  {selectedPickups.length > 0 ? (
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                        <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
+                          Selected Pickup Information
+                        </Typography>
+                        <Divider sx={{ mb: 2 }} />
+                        
+                        {selectedPickups.map(pickupId => {
+                          const pickup = mockPickups.find(p => p.id === pickupId);
+                          if (!pickup) return null;
+                          
+                          return (
+                            <Box key={pickup.id} sx={{ mb: 3 }}>
+                              <Box sx={{ display: 'flex', mb: 1 }}>
+                                <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                                  RYGN Contact:
+                                </Typography>
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                                  {pickup.rygnContact}
+                                </Typography>
+                              </Box>
+                              <Box sx={{ display: 'flex', mb: 1 }}>
+                                <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                                  Date:
+                                </Typography>
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                                  {pickup.date}
+                                </Typography>
+                              </Box>
+                              <Box sx={{ display: 'flex', mb: 1 }}>
+                                <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                                  Time:
+                                </Typography>
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                                  {pickup.time}
+                                </Typography>
+                              </Box>
+                              <Box sx={{ display: 'flex', mb: 1 }}>
+                                <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                                  Location:
+                                </Typography>
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                                  {pickup.location}
+                                </Typography>
+                              </Box>
+                              <Box sx={{ display: 'flex', mb: 1 }}>
+                                <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                                  Status:
+                                </Typography>
+                                <Chip 
+                                  label={pickup.status} 
+                                  size="small"
+                                  sx={{ 
+                                    borderRadius: 1, 
+                                    fontSize: '0.65rem',
+                                    py: 0,
+                                    height: '20px',
+                                    ...getStatusChipColor(pickup.status)
+                                  }} 
+                                />
+                              </Box>
+                              <Box sx={{ display: 'flex', mb: 1 }}>
+                                <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                                  Weight (kg):
+                                </Typography>
+                                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                                  {pickup.weight}
+                                </Typography>
+                              </Box>
+                            </Box>
+                          );
+                        })}
+                      </Grid>
                     </Grid>
-                    
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
-                        Pickup Preferences
-                      </Typography>
-                      <Divider sx={{ mb: 2 }} />
+                  ) : (
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={6}>
+                        <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
+                          RYGN Contact Information
+                        </Typography>
+                        <Divider sx={{ mb: 2 }} />
+                        
+                        <Box sx={{ mb: 3 }}>
+                          <Box sx={{ display: 'flex', mb: 1 }}>
+                            <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                              Name:
+                            </Typography>
+                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                              {client.rygnContact.name}
+                            </Typography>
+                          </Box>
+                          <Box sx={{ display: 'flex', mb: 1 }}>
+                            <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                              Title:
+                            </Typography>
+                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                              {client.rygnContact.title}
+                            </Typography>
+                          </Box>
+                          <Box sx={{ display: 'flex', mb: 1 }}>
+                            <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                              Email:
+                            </Typography>
+                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                              {client.rygnContact.email}
+                            </Typography>
+                          </Box>
+                          <Box sx={{ display: 'flex', mb: 1 }}>
+                            <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                              Phone:
+                            </Typography>
+                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                              {client.rygnContact.phone}
+                            </Typography>
+                          </Box>
+                          <Box sx={{ display: 'flex', mb: 1 }}>
+                            <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                              Hours:
+                            </Typography>
+                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                              {client.rygnContact.preferredTime}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </Grid>
                       
-                      <Box sx={{ mb: 3 }}>
-                        <Box sx={{ display: 'flex', mb: 1 }}>
-                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
-                            Frequency:
-                          </Typography>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                            {client.pickupPreferences.frequency}
-                          </Typography>
+                      <Grid item xs={12} sm={6}>
+                        <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 1, fontSize: '0.95rem' }}>
+                          Pickup Preferences
+                        </Typography>
+                        <Divider sx={{ mb: 2 }} />
+                        
+                        <Box sx={{ mb: 3 }}>
+                          <Box sx={{ display: 'flex', mb: 1 }}>
+                            <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                              Frequency:
+                            </Typography>
+                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                              {client.pickupPreferences.frequency}
+                            </Typography>
+                          </Box>
+                          <Box sx={{ display: 'flex', mb: 1 }}>
+                            <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                              Preferred Day:
+                            </Typography>
+                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                              {client.pickupPreferences.preferredDay}
+                            </Typography>
+                          </Box>
+                          <Box sx={{ display: 'flex', mb: 1 }}>
+                            <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                              Preferred Time:
+                            </Typography>
+                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                              {client.pickupPreferences.preferredTime}
+                            </Typography>
+                          </Box>
+                          <Box sx={{ display: 'flex', mb: 1 }}>
+                            <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
+                              Special Instructions:
+                            </Typography>
+                            <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
+                              {client.pickupPreferences.specialInstructions}
+                            </Typography>
+                          </Box>
                         </Box>
-                        <Box sx={{ display: 'flex', mb: 1 }}>
-                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
-                            Preferred Day:
-                          </Typography>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                            {client.pickupPreferences.preferredDay}
-                          </Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', mb: 1 }}>
-                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
-                            Preferred Time:
-                          </Typography>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                            {client.pickupPreferences.preferredTime}
-                          </Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', mb: 1 }}>
-                          <Typography variant="body2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.8rem', width: '40%' }}>
-                            Special Instructions:
-                          </Typography>
-                          <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                            {client.pickupPreferences.specialInstructions}
-                          </Typography>
-                        </Box>
-                      </Box>
+                      </Grid>
                     </Grid>
-                  </Grid>
+                  )}
                 </Box>
               )}
             </Paper>
@@ -547,6 +777,14 @@ const RYGNProfile = () => {
                             <input 
                               type="checkbox" 
                               style={{ cursor: 'pointer' }}
+                              checked={selectedPickups.includes(pickup.id)}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setSelectedPickups([...selectedPickups, pickup.id]);
+                                } else {
+                                  setSelectedPickups(selectedPickups.filter((id) => id !== pickup.id));
+                                }
+                              }}
                             />
                           </TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -585,7 +823,7 @@ const RYGNProfile = () => {
                                 onClick={() => {
                                   console.log('Edit pickup:', pickup.id);
                                   // Edit functionality here
-                                  alert('Edit pickup: ' + pickup.id);
+                                  setEditPickupId(pickup.id);
                                 }}
                               >
                                 <EditIcon fontSize="small" />
@@ -596,11 +834,7 @@ const RYGNProfile = () => {
                                 onClick={() => {
                                   console.log('Delete pickup:', pickup.id);
                                   // Delete functionality here
-                                  const confirmDelete = window.confirm('Are you sure you want to delete this pickup?');
-                                  if (confirmDelete) {
-                                    // Implement delete logic here
-                                    setMockPickups(mockPickups.filter(p => p.id !== pickup.id));
-                                  }
+                                  confirmDeletePickup(pickup.id);
                                 }}
                               >
                                 <DeleteIcon fontSize="small" />
@@ -636,6 +870,14 @@ const RYGNProfile = () => {
                             <input 
                               type="checkbox" 
                               style={{ cursor: 'pointer' }}
+                              checked={selectedDevices.includes(device.id)}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setSelectedDevices([...selectedDevices, device.id]);
+                                } else {
+                                  setSelectedDevices(selectedDevices.filter((id) => id !== device.id));
+                                }
+                              }}
                             />
                           </TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', py: 0.5 }}>
@@ -679,7 +921,7 @@ const RYGNProfile = () => {
                                 onClick={() => {
                                   console.log('Edit device:', device.id);
                                   // Edit functionality here
-                                  alert('Edit device: ' + device.id);
+                                  setEditDeviceId(device.id);
                                 }}
                               >
                                 <EditIcon fontSize="small" />
@@ -690,11 +932,7 @@ const RYGNProfile = () => {
                                 onClick={() => {
                                   console.log('Delete device:', device.id);
                                   // Delete functionality here
-                                  const confirmDelete = window.confirm('Are you sure you want to delete this device?');
-                                  if (confirmDelete) {
-                                    // Implement delete logic here
-                                    setMockDevices(mockDevices.filter(d => d.id !== device.id));
-                                  }
+                                  confirmDeleteDevice(device.id);
                                 }}
                               >
                                 <DeleteIcon fontSize="small" />
@@ -711,6 +949,206 @@ const RYGNProfile = () => {
           </Grid>
         </Grid>
       </Box>
+      
+      {/* Edit Pickup Dialog */}
+      <Dialog 
+        open={editPickupId !== null} 
+        onClose={handleCloseEdit}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>Edit Pickup</DialogTitle>
+        <DialogContent>
+          <Box sx={{ mt: 2 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="RYGN Contact"
+                  name="rygnContact"
+                  fullWidth
+                  value={editFormData.rygnContact}
+                  onChange={handleEditFormChange}
+                  size="small"
+                  margin="dense"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Date"
+                  name="date"
+                  fullWidth
+                  value={editFormData.date}
+                  onChange={handleEditFormChange}
+                  size="small"
+                  margin="dense"
+                  placeholder="MM/DD/YYYY"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Time"
+                  name="time"
+                  fullWidth
+                  value={editFormData.time}
+                  onChange={handleEditFormChange}
+                  size="small"
+                  margin="dense"
+                  placeholder="HH:MM"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Location"
+                  name="location"
+                  fullWidth
+                  value={editFormData.location}
+                  onChange={handleEditFormChange}
+                  size="small"
+                  margin="dense"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth size="small" margin="dense">
+                  <InputLabel>Status</InputLabel>
+                  <Select
+                    name="status"
+                    value={editFormData.status}
+                    onChange={handleEditFormChange}
+                    label="Status"
+                  >
+                    <MenuItem value="Complete">Complete</MenuItem>
+                    <MenuItem value="In Process">In Process</MenuItem>
+                    <MenuItem value="Scheduled">Scheduled</MenuItem>
+                    <MenuItem value="Cancelled">Cancelled</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Weight (kg)"
+                  name="weight"
+                  type="number"
+                  fullWidth
+                  value={editFormData.weight}
+                  onChange={handleEditFormChange}
+                  size="small"
+                  margin="dense"
+                  inputProps={{ step: 0.1 }}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseEdit} color="inherit">Cancel</Button>
+          <Button 
+            onClick={handleSavePickupEdit} 
+            variant="contained"
+            sx={{ bgcolor: '#185B5F', '&:hover': { bgcolor: '#124548' } }}
+          >
+            Save Changes
+          </Button>
+        </DialogActions>
+      </Dialog>
+      
+      {/* Edit Device Dialog */}
+      <Dialog 
+        open={editDeviceId !== null} 
+        onClose={handleCloseEdit}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>Edit Device</DialogTitle>
+        <DialogContent>
+          <Box sx={{ mt: 2 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Type"
+                  name="type"
+                  fullWidth
+                  value={editDeviceFormData.type}
+                  onChange={handleDeviceFormChange}
+                  size="small"
+                  margin="dense"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Manufacturer"
+                  name="manufacturer"
+                  fullWidth
+                  value={editDeviceFormData.manufacturer}
+                  onChange={handleDeviceFormChange}
+                  size="small"
+                  margin="dense"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Model"
+                  name="model"
+                  fullWidth
+                  value={editDeviceFormData.model}
+                  onChange={handleDeviceFormChange}
+                  size="small"
+                  margin="dense"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Serial Number"
+                  name="serialNumber"
+                  fullWidth
+                  value={editDeviceFormData.serialNumber}
+                  onChange={handleDeviceFormChange}
+                  size="small"
+                  margin="dense"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth size="small" margin="dense">
+                  <InputLabel>Status</InputLabel>
+                  <Select
+                    name="status"
+                    value={editDeviceFormData.status}
+                    onChange={handleDeviceFormChange}
+                    label="Status"
+                  >
+                    <MenuItem value="Refurbished">Refurbished</MenuItem>
+                    <MenuItem value="Recycled">Recycled</MenuItem>
+                    <MenuItem value="Disposed">Disposed</MenuItem>
+                    <MenuItem value="In Process">In Process</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  label="Weight (kg)"
+                  name="weight"
+                  type="number"
+                  fullWidth
+                  value={editDeviceFormData.weight}
+                  onChange={handleDeviceFormChange}
+                  size="small"
+                  margin="dense"
+                  inputProps={{ step: 0.1 }}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseEdit} color="inherit">Cancel</Button>
+          <Button 
+            onClick={handleSaveDeviceEdit} 
+            variant="contained"
+            sx={{ bgcolor: '#185B5F', '&:hover': { bgcolor: '#124548' } }}
+          >
+            Save Changes
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
