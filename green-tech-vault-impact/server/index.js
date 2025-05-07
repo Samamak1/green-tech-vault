@@ -42,6 +42,19 @@ app.use((req, res, next) => {
   next();
 });
 
+// Add error handling before global error handler
+app.use((req, res, next) => {
+  try {
+    next();
+  } catch (err) {
+    console.error('Request error:', err);
+    res.status(500).json({
+      error: 'Server error',
+      message: process.env.NODE_ENV === 'production' ? 'An unexpected error occurred' : err.message
+    });
+  }
+});
+
 // Global error handler middleware
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
@@ -67,10 +80,25 @@ app.use('/api/dashboard', dashboardRoutes);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
+  // Set static folder with explicit content types
+  app.use(express.static(path.join(__dirname, '../client/build'), {
+    setHeaders: (res, path) => {
+      if (path.endsWith('.js')) {
+        res.setHeader('Content-Type', 'application/javascript');
+      } else if (path.endsWith('.css')) {
+        res.setHeader('Content-Type', 'text/css');
+      }
+    }
+  }));
   
+  // Handle all routes (SPA fallback)
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
+    try {
+      res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
+    } catch (err) {
+      console.error('Error serving index.html:', err);
+      res.status(500).send('Error loading application');
+    }
   });
 } else {
   app.get('/', (req, res) => {

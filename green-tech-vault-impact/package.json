@@ -13,8 +13,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:client": "cd client && npm install && npm run build",
     "heroku-postbuild": "npm run build:client",
-    "render-build": "pwd && ls -la && npm install && cd client && pwd && ls -la && npm install && npm run build",
-    "render-start": "node server/index.js"
+    "render-build": "npm install && cd client && npm install && npm run build",
+    "render-start": "NODE_ENV=production node server/index.js"
   },
   "keywords": [
     "e-waste",
