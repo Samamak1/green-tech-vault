@@ -668,8 +668,8 @@ const SchedulePickup = () => {
                     variant="contained"
                     onClick={handleSubmit}
                     sx={{ 
-                      bgcolor: '#4ECDC4', 
-                      '&:hover': { bgcolor: '#3dbdb5' } 
+                      bgcolor: '#62CBD0', // Light A color
+                      '&:hover': { bgcolor: '#50B9BE' } 
                     }}
                   >
                     Submit
@@ -679,8 +679,8 @@ const SchedulePickup = () => {
                     variant="contained"
                     onClick={handleNext}
                     sx={{ 
-                      bgcolor: '#4ECDC4', 
-                      '&:hover': { bgcolor: '#3dbdb5' } 
+                      bgcolor: '#62CBD0', // Light A color
+                      '&:hover': { bgcolor: '#50B9BE' } 
                     }}
                   >
                     Next

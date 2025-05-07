@@ -818,10 +818,10 @@ const ClientSchedulePickup = () => {
                     onClick={handleSubmit}
                     disabled={isSubmitting}
                     sx={{ 
-                      backgroundColor: '#4ECDC4',
+                      backgroundColor: '#62CBD0',
                       color: 'white',
                       '&:hover': {
-                        backgroundColor: '#3dbdb5',
+                        backgroundColor: '#50B9BE',
                       },
                       borderRadius: '4px',
                       minWidth: '80px',
@@ -835,10 +835,10 @@ const ClientSchedulePickup = () => {
                     variant="contained"
                     onClick={handleNext}
                     sx={{ 
-                      backgroundColor: '#4ECDC4',
+                      backgroundColor: '#62CBD0',
                       color: 'white',
                       '&:hover': {
-                        backgroundColor: '#3dbdb5',
+                        backgroundColor: '#50B9BE',
                       },
                       borderRadius: '4px',
                       minWidth: '80px',

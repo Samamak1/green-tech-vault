@@ -59,7 +59,7 @@ const Sidebar = () => {
     <Box sx={{ 
       width: 225, // 5 grid cells * 45px
       height: '100vh',
-      bgcolor: '#1C392B',
+      bgcolor: '#073C3F', // Dark A color
       color: 'white',
       position: 'fixed',
       top: 0,

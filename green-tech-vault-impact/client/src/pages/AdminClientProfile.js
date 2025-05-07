@@ -1103,9 +1103,9 @@ const AdminClientProfile = () => {
                       variant="contained"
                       onClick={handleSchedulePickup}
                       sx={{ 
-                        bgcolor: '#4ECDC4', 
+                        bgcolor: '#62CBD0',
                         color: 'white',
-                        '&:hover': { bgcolor: '#3dbdb5' },
+                        '&:hover': { bgcolor: '#50B9BE' },
                         borderRadius: '8px',
                         textTransform: 'none'
                       }}

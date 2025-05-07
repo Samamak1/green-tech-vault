@@ -130,6 +130,10 @@ const Pickups = () => {
           variant="contained"
           startIcon={<AddIcon />}
           onClick={handleOpenDialog}
+          sx={{ 
+            bgcolor: '#62CBD0',
+            '&:hover': { bgcolor: '#50B9BE' }
+          }}
         >
           Schedule Pickup
         </Button>
@@ -319,6 +323,10 @@ const Pickups = () => {
           <Button 
             onClick={handleSubmit} 
             variant="contained" 
+            sx={{ 
+              bgcolor: '#62CBD0',
+              '&:hover': { bgcolor: '#50B9BE' }
+            }}
             disabled={formLoading}
             startIcon={formLoading ? <CircularProgress size={20} /> : null}
           >

@@ -820,8 +820,8 @@ const AdminDashboard = () => {
                   startIcon={<AddIcon />}
                   onClick={() => navigate('/admin/schedule-pickup')}
                   sx={{ 
-                    bgcolor: '#4ECDC4', 
-                    '&:hover': { bgcolor: '#3BAA9C' },
+                    bgcolor: '#62CBD0', // Light A color
+                    '&:hover': { bgcolor: '#50B9BE' },
                     borderRadius: '8px'
                   }}
                 >

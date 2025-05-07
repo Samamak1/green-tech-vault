@@ -678,8 +678,8 @@ const AdminPickupCalendar = () => {
             variant="contained"
             onClick={() => navigate('/admin/schedule-pickup')}
             sx={{ 
-              bgcolor: '#1C392B', 
-              '&:hover': { bgcolor: '#152b21' },
+              bgcolor: '#62CBD0', // Light A color
+              '&:hover': { bgcolor: '#50B9BE' },
               textTransform: 'none',
               fontSize: '0.7rem',
               py: 0.6,

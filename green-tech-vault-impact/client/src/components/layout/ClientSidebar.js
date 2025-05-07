@@ -85,7 +85,7 @@ const ClientSidebar = () => {
     <Box
       sx={{
         width: 225, // 5 grid cells * 45px
-        backgroundColor: '#1C392B',
+        backgroundColor: '#073C3F', // Dark A color
         color: '#fff',
         height: '100vh',
         position: 'fixed',
