@@ -1,26 +1,36 @@
 const express = require('express');
 const router = express.Router();
 
+// Mock authentication data
+const mockUser = {
+  id: '1',
+  name: "Leila's Company",
+  email: 'leilaameyer2@gmail.com',
+  username: 'lmeyer',
+  role: 'client',
+  companyName: "Leila's Company"
+};
+
+const mockAdminUser = {
+  id: '2',
+  name: 'Admin User',
+  email: 'admin@greentechvault.com',
+  username: 'admin',
+  role: 'admin'
+};
+
 /**
  * @route   POST /api/auth/register
  * @desc    Register a new user
  * @access  Public
  */
 router.post('/register', (req, res) => {
-  // In a real implementation, this would create a new user in the database
-  // For now, we'll return a mock response
-  res.json({ 
-    success: true, 
+  res.json({
+    success: true,
     data: {
-      token: 'sample-jwt-token',
-      user: {
-        id: '1',
-        name: req.body.name || 'Demo User',
-        email: req.body.email || 'demo@example.com',
-        role: 'client' // Default role is client
-      }
-    },
-    message: 'User registered successfully' 
+      token: 'mock-jwt-token',
+      user: mockUser
+    }
   });
 });
 
@@ -30,90 +40,17 @@ router.post('/register', (req, res) => {
  * @access  Public
  */
 router.post('/login', (req, res) => {
-  console.log('Login request received:', req.body);
+  const { email, password, isAdminLogin } = req.body;
   
-  // Check if this is an admin login attempt
-  const isAdminLogin = req.body.isAdminLogin === true;
-  const email = req.body.email || '';
-  const password = req.body.password || '';
+  // For demo, always authenticate
+  const user = isAdminLogin ? mockAdminUser : mockUser;
   
-  console.log('Login details:', { 
-    email, 
-    isAdminLogin, 
-    passwordProvided: !!password 
-  });
-  
-  // In a real implementation, this would verify credentials against the database
-  // For now, we'll return a mock response
-  
-  // Added new admin credentials
-  const isLeilaAdmin = (email.toLowerCase() === 'lmeyer@rygneco.com' && 
-                 password === 'RYGNeco.!');
-  
-  // Original admin credentials 
-  const isOriginalAdmin = (email.toLowerCase() === 'admin@greentech.com' && 
-                  password === 'admin123');
-  
-  // New client credentials
-  const isLeilaClient = (email.toLowerCase() === 'leilaameyer2@gmail.com' && 
-                  password === 'RYGNeco.!');
-                  
-  const isAdmin = isLeilaAdmin || isOriginalAdmin;
-  
-  console.log('Is admin credentials valid:', isAdmin);
-  
-  // If it's an admin login attempt but credentials don't match
-  if (isAdminLogin && !isAdmin) {
-    console.log('Admin login failed: Invalid credentials');
-    return res.status(401).json({
-      success: false,
-      error: 'Invalid admin credentials'
-    });
-  }
-  
-  console.log('Login successful, returning token');
-  
-  // Determine username and role based on login credentials
-  let userName = 'Demo User';
-  let userPosition = '';
-  let userId = 'client-1';
-  let userRole = 'client';
-  let username = null;
-  let companyName = null;
-  
-  if (isLeilaAdmin) {
-    userName = 'Leila Meyer';
-    userPosition = 'CEO';
-    userId = 'admin-1';
-    userRole = 'admin';
-  } else if (isOriginalAdmin) {
-    userName = 'Admin User';
-    userPosition = 'Administrator';
-    userId = 'admin-2';
-    userRole = 'admin';
-  } else if (isLeilaClient) {
-    userName = 'Leila Meyer';
-    userId = 'client-1';
-    userRole = 'client';
-    username = '@lmeyer';
-    companyName = "Leila's Company";
-  }
-  
-  res.json({ 
-    success: true, 
+  res.json({
+    success: true,
     data: {
-      token: userRole === 'admin' ? 'admin-jwt-token' : 'client-jwt-token',
-      user: {
-        id: userId,
-        name: userName,
-        email: email || 'demo@example.com',
-        role: userRole,
-        position: userPosition,
-        username: username,
-        companyName: companyName
-      }
-    },
-    message: 'Login successful' 
+      token: 'mock-jwt-token',
+      user
+    }
   });
 });
 
@@ -123,25 +60,13 @@ router.post('/login', (req, res) => {
  * @access  Private
  */
 router.get('/me', (req, res) => {
-  // In a real implementation, this would fetch the user from the database based on the JWT token
-  // For now, we'll return a mock response
+  // Check for admin header to determine which user to return
+  const isAdmin = req.headers['x-admin'] === 'true';
+  const user = isAdmin ? mockAdminUser : mockUser;
   
-  // For demo purposes, let's check if the Authorization header contains 'admin'
-  const authHeader = req.headers.authorization || '';
-  const isAdmin = authHeader.includes('admin-jwt-token');
-  
-  res.json({ 
-    success: true, 
-    data: {
-      id: isAdmin ? 'admin-1' : 'client-1',
-      name: isAdmin ? 'Leila Meyer' : 'Leila Meyer',
-      email: isAdmin ? 'lmeyer@rygneco.com' : 'leilaameyer2@gmail.com',
-      role: isAdmin ? 'admin' : 'client',
-      position: isAdmin ? 'CEO' : '',
-      username: !isAdmin ? '@lmeyer' : null,
-      companyName: !isAdmin ? "Leila's Company" : null
-    },
-    message: 'User retrieved successfully' 
+  res.json({
+    success: true,
+    data: user
   });
 });
 
@@ -151,9 +76,9 @@ router.get('/me', (req, res) => {
  * @access  Public
  */
 router.post('/forgot-password', (req, res) => {
-  res.json({ 
-    success: true, 
-    message: 'Password reset email sent' 
+  res.json({
+    success: true,
+    message: 'Password reset email sent'
   });
 });
 
@@ -163,9 +88,9 @@ router.post('/forgot-password', (req, res) => {
  * @access  Public
  */
 router.post('/reset-password', (req, res) => {
-  res.json({ 
-    success: true, 
-    message: 'Password reset successful' 
+  res.json({
+    success: true,
+    message: 'Password reset successful'
   });
 });
 

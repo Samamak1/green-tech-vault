@@ -1,84 +1,64 @@
 const express = require('express');
 const router = express.Router();
 
+// Mock device data
+const devices = [
+  {
+    id: '1',
+    type: 'Laptop',
+    make: 'Dell',
+    model: 'Latitude 7420',
+    serial: 'SN5768291',
+    status: 'Recycled',
+    weight: 2.5
+  },
+  {
+    id: '2',
+    type: 'Desktop',
+    make: 'HP',
+    model: 'ProDesk 600',
+    serial: 'SN8901234',
+    status: 'Refurbished',
+    weight: 8.3
+  },
+  {
+    id: '3',
+    type: 'Monitor',
+    make: 'Samsung',
+    model: 'S24R650',
+    serial: 'SN1209348',
+    status: 'Processed',
+    weight: 3.7
+  },
+  {
+    id: '4',
+    type: 'Tablet',
+    make: 'Apple',
+    model: 'iPad Air',
+    serial: 'SN4538721',
+    status: 'Pending',
+    weight: 0.9
+  },
+  {
+    id: '5',
+    type: 'Smartphone',
+    make: 'Samsung',
+    model: 'Galaxy S21',
+    serial: 'SN9765412',
+    status: 'Refurbished',
+    weight: 0.5
+  }
+];
+
 /**
  * @route   GET /api/devices
  * @desc    Get all devices
  * @access  Private
  */
 router.get('/', (req, res) => {
-  // Mock data for devices
-  const devices = [
-    {
-      _id: '1',
-      type: 'Laptop',
-      manufacturer: 'Dell',
-      model: 'XPS 13',
-      serialNumber: 'DL12345678',
-      status: 'Refurbished',
-      weight: 1.2,
-      pickupId: '1',
-      createdAt: '2025-03-01T12:00:00Z',
-      updatedAt: '2025-03-15T16:30:00Z'
-    },
-    {
-      _id: '2',
-      type: 'Desktop',
-      manufacturer: 'HP',
-      model: 'EliteDesk 800',
-      serialNumber: 'HP87654321',
-      status: 'Recycled',
-      weight: 8.3,
-      pickupId: '1',
-      createdAt: '2025-03-01T12:00:00Z',
-      updatedAt: '2025-03-15T16:30:00Z'
-    },
-    {
-      _id: '3',
-      type: 'Monitor',
-      manufacturer: 'LG',
-      model: '27UK850-W',
-      serialNumber: 'LG98765432',
-      status: 'Refurbished',
-      weight: 6.2,
-      pickupId: '3',
-      createdAt: '2025-03-10T14:00:00Z',
-      updatedAt: '2025-03-10T17:45:00Z'
-    }
-  ];
-
-  // Pagination
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10;
-  const startIndex = (page - 1) * limit;
-  const endIndex = page * limit;
-  const total = devices.length;
-
   res.json({
     success: true,
-    count: devices.length,
-    total,
-    data: devices.slice(startIndex, endIndex)
-  });
-});
-
-/**
- * @route   POST /api/devices
- * @desc    Create a new device
- * @access  Private
- */
-router.post('/', (req, res) => {
-  // Mock creating a new device
-  const newDevice = {
-    _id: Date.now().toString(),
-    ...req.body,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  };
-
-  res.status(201).json({
-    success: true,
-    data: newDevice
+    data: devices
   });
 });
 
@@ -88,31 +68,33 @@ router.post('/', (req, res) => {
  * @access  Private
  */
 router.get('/:id', (req, res) => {
-  const id = req.params.id;
+  const device = devices.find(d => d.id === req.params.id);
   
-  // Mock data for a single device
-  const device = {
-    _id: id,
-    type: 'Laptop',
-    manufacturer: 'Dell',
-    model: 'XPS 13',
-    serialNumber: 'DL12345678',
-    status: 'Refurbished',
-    weight: 1.2,
-    pickupId: '1',
-    pickupDate: '2025-03-15',
-    disposition: {
-      method: 'Refurbished',
-      date: '2025-03-20',
-      notes: 'Upgraded RAM and SSD'
-    },
-    createdAt: '2025-03-01T12:00:00Z',
-    updatedAt: '2025-03-15T16:30:00Z'
-  };
-
+  if (!device) {
+    return res.status(404).json({
+      success: false,
+      error: 'Device not found'
+    });
+  }
+  
   res.json({
     success: true,
     data: device
+  });
+});
+
+/**
+ * @route   POST /api/devices
+ * @desc    Create a new device
+ * @access  Private
+ */
+router.post('/', (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      id: Date.now().toString(),
+      ...req.body
+    }
   });
 });
 
@@ -122,18 +104,21 @@ router.get('/:id', (req, res) => {
  * @access  Private
  */
 router.put('/:id', (req, res) => {
-  const id = req.params.id;
+  const device = devices.find(d => d.id === req.params.id);
   
-  // Mock updating a device
-  const updatedDevice = {
-    _id: id,
-    ...req.body,
-    updatedAt: new Date().toISOString()
-  };
-
+  if (!device) {
+    return res.status(404).json({
+      success: false,
+      error: 'Device not found'
+    });
+  }
+  
   res.json({
     success: true,
-    data: updatedDevice
+    data: {
+      ...device,
+      ...req.body
+    }
   });
 });
 
@@ -145,7 +130,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   res.json({
     success: true,
-    data: {}
+    message: 'Device deleted successfully'
   });
 });
 

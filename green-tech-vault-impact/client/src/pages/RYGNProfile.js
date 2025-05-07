@@ -60,9 +60,9 @@ const RYGNProfile = () => {
   });
   const [editDeviceFormData, setEditDeviceFormData] = useState({
     type: "",
-    make: "",
+    manufacturer: "",
     model: "",
-    serial: "",
+    serialNumber: "",
     status: "",
     weight: 0
   });
@@ -101,9 +101,9 @@ const RYGNProfile = () => {
     if (deviceBeingEdited) {
       setEditDeviceFormData({
         type: deviceBeingEdited.type,
-        make: deviceBeingEdited.make,
+        manufacturer: deviceBeingEdited.manufacturer,
         model: deviceBeingEdited.model,
-        serial: deviceBeingEdited.serial,
+        serialNumber: deviceBeingEdited.serialNumber,
         status: deviceBeingEdited.status,
         weight: deviceBeingEdited.weight
       });
@@ -206,18 +206,7 @@ const RYGNProfile = () => {
   // Handle device edit
   const handleEditDevice = (deviceId) => {
     setEditDeviceId(deviceId);
-    // Set the edit device form data
-    const device = mockDevices.find(d => d.id === deviceId);
-    if (device) {
-      setEditDeviceFormData({
-        type: device.type,
-        make: device.make,
-        model: device.model,
-        serial: device.serial,
-        status: device.status,
-        weight: device.weight
-      });
-    }
+    setDeleteDeviceDialogOpen(true);
   };
   
   // Handle device delete confirmation
@@ -307,48 +296,53 @@ const RYGNProfile = () => {
       const mockDevicesData = [
         {
           id: '1',
+          name: 'Laptop #357',
           type: 'Laptop',
           make: 'Dell',
           model: 'Latitude 7420',
           serial: 'SN5768291',
           status: 'Recycled',
-          weight: 2.5
+          value: '125.00'
         },
         {
           id: '2',
+          name: 'Desktop #224',
           type: 'Desktop',
           make: 'HP',
           model: 'ProDesk 600',
           serial: 'SN8901234',
           status: 'Refurbished',
-          weight: 8.3
+          value: '210.00'
         },
         {
           id: '3',
+          name: 'Monitor #456',
           type: 'Monitor',
           make: 'Samsung',
           model: 'S24R650',
           serial: 'SN1209348',
           status: 'Processed',
-          weight: 3.7
+          value: '85.00'
         },
         {
           id: '4',
+          name: 'Tablet #789',
           type: 'Tablet',
           make: 'Apple',
           model: 'iPad Air',
           serial: 'SN4538721',
           status: 'Pending',
-          weight: 0.9
+          value: '150.00'
         },
         {
           id: '5',
+          name: 'Phone #112',
           type: 'Smartphone',
           make: 'Samsung',
           model: 'Galaxy S21',
           serial: 'SN9765412',
           status: 'Refurbished',
-          weight: 0.5
+          value: '175.00'
         }
       ];
 
@@ -519,121 +513,123 @@ const RYGNProfile = () => {
               
               {leftPanelTab === 'Environmental Impact' && (
                 <Box sx={{ p: 2, overflowY: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 2, fontSize: '0.95rem' }}>
-                        Environmental Impact
-                      </Typography>
-                      <Divider sx={{ mb: 2 }} />
-                      
-                      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <Grid container spacing={2} sx={{ mb: 2 }}>
-                          <Grid item xs={6}>
-                            <Paper elevation={0} sx={{ 
-                              p: 2, 
-                              textAlign: 'center',
-                              bgcolor: '#f7f9fc',
-                              borderRadius: 2,
-                              boxShadow: '0px 2px 4px rgba(0,0,0,0.05)',
-                              minHeight: '100px',
-                              display: 'flex',
-                              flexDirection: 'column',
-                              justifyContent: 'center'
-                            }}>
-                              <Typography variant="h4" sx={{ color: '#444', fontWeight: '700', fontSize: '1.5rem', mb: 1 }}>
-                                {client.environmentalImpact.devicesProcessed}
-                              </Typography>
-                              <Typography variant="body2" sx={{ color: '#666' }}>
-                                Devices Processed
-                              </Typography>
-                            </Paper>
-                          </Grid>
-                          <Grid item xs={6}>
-                            <Paper elevation={0} sx={{ 
-                              p: 2, 
-                              textAlign: 'center',
-                              bgcolor: '#f7f9fc',
-                              borderRadius: 2,
-                              boxShadow: '0px 2px 4px rgba(0,0,0,0.05)',
-                              minHeight: '100px',
-                              display: 'flex',
-                              flexDirection: 'column',
-                              justifyContent: 'center'
-                            }}>
-                              <Typography variant="h4" sx={{ color: '#444', fontWeight: '700', fontSize: '1.5rem', mb: 1 }}>
-                                {client.environmentalImpact.totalWeight}
-                              </Typography>
-                              <Typography variant="body2" sx={{ color: '#666' }}>
-                                Total Weight (kg)
-                              </Typography>
-                            </Paper>
-                          </Grid>
-                        </Grid>
-                        
-                        <Grid container spacing={2}>
-                          <Grid item xs={6}>
-                            <Paper elevation={0} sx={{ 
-                              p: 2, 
-                              textAlign: 'center',
-                              bgcolor: '#f7f9fc',
-                              borderRadius: 2,
-                              boxShadow: '0px 2px 4px rgba(0,0,0,0.05)',
-                              minHeight: '100px',
-                              display: 'flex',
-                              flexDirection: 'column',
-                              justifyContent: 'center'
-                            }}>
-                              <Typography variant="h4" sx={{ color: '#444', fontWeight: '700', fontSize: '1.5rem', mb: 1 }}>
-                                {client.environmentalImpact.co2Saved}
-                              </Typography>
-                              <Typography variant="body2" sx={{ color: '#666' }}>
-                                CO2 Saved (kg)
-                              </Typography>
-                            </Paper>
-                          </Grid>
-                          <Grid item xs={6}>
-                            <Paper elevation={0} sx={{ 
-                              p: 2, 
-                              textAlign: 'center',
-                              bgcolor: '#f7f9fc',
-                              borderRadius: 2,
-                              boxShadow: '0px 2px 4px rgba(0,0,0,0.05)',
-                              minHeight: '100px',
-                              display: 'flex',
-                              flexDirection: 'column',
-                              justifyContent: 'center'
-                            }}>
-                              <Typography variant="h4" sx={{ color: '#444', fontWeight: '700', fontSize: '1.5rem', mb: 1 }}>
-                                {client.environmentalImpact.treesPlanted}
-                              </Typography>
-                              <Typography variant="body2" sx={{ color: '#666' }}>
-                                Trees Planted
-                              </Typography>
-                            </Paper>
-                          </Grid>
-                        </Grid>
-                      </Box>
+                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 2, fontSize: '0.95rem' }}>
+                    Environmental Impact
+                  </Typography>
+                  <Divider sx={{ mb: 3 }} />
+                  
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <Grid container spacing={2} sx={{ maxWidth: '90%', mb: 2 }}>
+                      <Grid item xs={6}>
+                        <Paper elevation={0} sx={{ 
+                          p: 2, 
+                          textAlign: 'center',
+                          bgcolor: '#f7f9fc',
+                          borderRadius: 2,
+                          boxShadow: '0px 2px 4px rgba(0,0,0,0.05)',
+                          minHeight: '100px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                          width: '85%',
+                          mx: 'auto'
+                        }}>
+                          <Typography variant="h4" sx={{ color: '#444', fontWeight: '700', fontSize: '1.5rem', mb: 1 }}>
+                            {client.environmentalImpact.devicesProcessed}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: '#666' }}>
+                            Devices Processed
+                          </Typography>
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Paper elevation={0} sx={{ 
+                          p: 2, 
+                          textAlign: 'center',
+                          bgcolor: '#f7f9fc',
+                          borderRadius: 2,
+                          boxShadow: '0px 2px 4px rgba(0,0,0,0.05)',
+                          minHeight: '100px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                          width: '85%',
+                          mx: 'auto'
+                        }}>
+                          <Typography variant="h4" sx={{ color: '#444', fontWeight: '700', fontSize: '1.5rem', mb: 1 }}>
+                            {client.environmentalImpact.totalWeight}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: '#666' }}>
+                            Total Weight (kg)
+                          </Typography>
+                        </Paper>
+                      </Grid>
                     </Grid>
                     
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 2, fontSize: '0.95rem' }}>
-                        Device Disposition
-                      </Typography>
-                      <Divider sx={{ mb: 2 }} />
-                      
-                      <Box sx={{ pl: 2, mb: 4 }}>
-                        <Typography variant="body2" sx={{ color: '#666', mb: 0.5 }}>
-                          <strong>Refurbished:</strong> {client.environmentalImpact.devicesRefurbished}
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: '#666', mb: 0.5 }}>
-                          <strong>Recycled:</strong> {client.environmentalImpact.devicesRecycled}
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: '#666', mb: 0.5 }}>
-                          <strong>Disposed:</strong> {client.environmentalImpact.devicesDisposed}
-                        </Typography>
-                      </Box>
+                    <Grid container spacing={2} sx={{ maxWidth: '90%', mb: 4 }}>
+                      <Grid item xs={6}>
+                        <Paper elevation={0} sx={{ 
+                          p: 2, 
+                          textAlign: 'center',
+                          bgcolor: '#f7f9fc',
+                          borderRadius: 2,
+                          boxShadow: '0px 2px 4px rgba(0,0,0,0.05)',
+                          minHeight: '100px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                          width: '85%',
+                          mx: 'auto'
+                        }}>
+                          <Typography variant="h4" sx={{ color: '#444', fontWeight: '700', fontSize: '1.5rem', mb: 1 }}>
+                            {client.environmentalImpact.co2Saved}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: '#666' }}>
+                            CO2 Saved (kg)
+                          </Typography>
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Paper elevation={0} sx={{ 
+                          p: 2, 
+                          textAlign: 'center',
+                          bgcolor: '#f7f9fc',
+                          borderRadius: 2,
+                          boxShadow: '0px 2px 4px rgba(0,0,0,0.05)',
+                          minHeight: '100px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                          width: '85%',
+                          mx: 'auto'
+                        }}>
+                          <Typography variant="h4" sx={{ color: '#444', fontWeight: '700', fontSize: '1.5rem', mb: 1 }}>
+                            {client.environmentalImpact.treesPlanted}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: '#666' }}>
+                            Trees Planted
+                          </Typography>
+                        </Paper>
+                      </Grid>
                     </Grid>
-                  </Grid>
+                  </Box>
+                  
+                  <Typography variant="h6" sx={{ color: '#444', fontWeight: 500, mb: 2, fontSize: '0.95rem' }}>
+                    Device Disposition
+                  </Typography>
+                  <Divider sx={{ mb: 3 }} />
+                  
+                  <Box sx={{ pl: 2, mb: 4 }}>
+                    <Typography variant="body2" sx={{ color: '#666', mb: 0.5 }}>
+                      <strong>Refurbished:</strong> {client.environmentalImpact.devicesRefurbished}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: '#666', mb: 0.5 }}>
+                      <strong>Recycled:</strong> {client.environmentalImpact.devicesRecycled}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: '#666', mb: 0.5 }}>
+                      <strong>Disposed:</strong> {client.environmentalImpact.devicesDisposed}
+                    </Typography>
+                  </Box>
                 </Box>
               )}
               
@@ -936,9 +932,9 @@ const RYGNProfile = () => {
                               checked={selectedPickups.includes(pickup.id)}
                               onChange={(e) => {
                                 if (e.target.checked) {
-                                  setSelectedPickups([pickup.id]);
+                                  setSelectedPickups([...selectedPickups, pickup.id]);
                                 } else {
-                                  setSelectedPickups([]);
+                                  setSelectedPickups(selectedPickups.filter((id) => id !== pickup.id));
                                 }
                               }}
                             />
@@ -983,18 +979,35 @@ const RYGNProfile = () => {
                   <Table stickyHeader size="small" sx={{ tableLayout: 'fixed', minWidth: '100%' }}>
                     <TableHead>
                       <TableRow>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Type</TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Make</TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Model</TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Serial</TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Status</TableCell>
-                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Weight (kg)</TableCell>
+                        <TableCell padding="checkbox" sx={{ bgcolor: '#f5f5f5', width: '5%' }}></TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '15%' }}>Device Name</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '13%' }}>Type</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Make</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Model</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Serial</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Status</TableCell>
+                        <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Value</TableCell>
                         <TableCell sx={{ bgcolor: '#f5f5f5', fontSize: '0.75rem', width: '10%' }}>Actions</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {mockDevices.map((device) => (
                         <TableRow key={device.id} hover>
+                          <TableCell padding="checkbox">
+                            <input 
+                              type="checkbox" 
+                              style={{ cursor: 'pointer' }}
+                              checked={selectedDevices.includes(device.id)}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setSelectedDevices([...selectedDevices, device.id]);
+                                } else {
+                                  setSelectedDevices(selectedDevices.filter((id) => id !== device.id));
+                                }
+                              }}
+                            />
+                          </TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem' }}>{device.name}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem' }}>{device.type}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem' }}>{device.make}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem' }}>{device.model}</TableCell>
@@ -1012,7 +1025,7 @@ const RYGNProfile = () => {
                               }} 
                             />
                           </TableCell>
-                          <TableCell sx={{ fontSize: '0.75rem' }}>{device.weight}</TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem' }}>${device.value}</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem' }}>
                             <Box sx={{ display: 'flex', gap: 1 }}>
                               <IconButton 
@@ -1167,10 +1180,10 @@ const RYGNProfile = () => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  label="Make"
-                  name="make"
+                  label="Manufacturer"
+                  name="manufacturer"
                   fullWidth
-                  value={editDeviceFormData.make}
+                  value={editDeviceFormData.manufacturer}
                   onChange={handleDeviceFormChange}
                   size="small"
                   margin="dense"
@@ -1190,9 +1203,9 @@ const RYGNProfile = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   label="Serial Number"
-                  name="serial"
+                  name="serialNumber"
                   fullWidth
-                  value={editDeviceFormData.serial}
+                  value={editDeviceFormData.serialNumber}
                   onChange={handleDeviceFormChange}
                   size="small"
                   margin="dense"
@@ -1270,9 +1283,9 @@ const RYGNProfile = () => {
               )}
               {deleteItemType === 'device' && (
                 <Typography variant="body2">
-                  {`Serial Number: ${itemToDelete.serial}`}<br />
+                  {`Serial Number: ${itemToDelete.serialNumber}`}<br />
                   {`Type: ${itemToDelete.type}`}<br />
-                  {`Make: ${itemToDelete.make}`}<br />
+                  {`Manufacturer: ${itemToDelete.manufacturer}`}<br />
                   {`Model: ${itemToDelete.model}`}
                 </Typography>
               )}
@@ -1326,10 +1339,7 @@ const RYGNProfile = () => {
         <DialogContent sx={{ pb: 2 }}>
           {deleteDeviceId && (
             <Typography variant="body2">
-              {`Serial Number: ${mockDevices.find(d => d.id === deleteDeviceId)?.serial || ''}`}<br />
-              {`Type: ${mockDevices.find(d => d.id === deleteDeviceId)?.type || ''}`}<br />
-              {`Make: ${mockDevices.find(d => d.id === deleteDeviceId)?.make || ''}`}<br />
-              {`Model: ${mockDevices.find(d => d.id === deleteDeviceId)?.model || ''}`}
+              {`Serial Number: ${deleteDeviceId}`}
             </Typography>
           )}
         </DialogContent>

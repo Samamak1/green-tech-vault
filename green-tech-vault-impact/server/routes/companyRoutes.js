@@ -1,70 +1,31 @@
 const express = require('express');
 const router = express.Router();
 
+// Mock company data
+const companies = [
+  {
+    id: '1',
+    name: "Leila's Company",
+    contactPerson: 'Leila Meyer',
+    email: 'leilaameyer2@gmail.com',
+    phone: '(555) 123-4567',
+    address: '123 Green St, Cincinnati OH, 51729',
+    website: 'www.leilascompany.com',
+    industry: 'Technology',
+    employees: '42',
+    username: '@lmeyer'
+  }
+];
+
 /**
  * @route   GET /api/companies
  * @desc    Get all companies
  * @access  Private/Admin
  */
 router.get('/', (req, res) => {
-  // Mock data for companies
-  const companies = [
-    {
-      _id: '1',
-      name: 'Tech Solutions Inc.',
-      contactPerson: 'John Smith',
-      email: 'john@techsolutions.com',
-      phone: '(555) 123-4567',
-      address: '123 Tech Blvd, San Francisco, CA',
-      createdAt: '2025-01-01T10:00:00Z',
-      updatedAt: '2025-03-01T14:30:00Z'
-    },
-    {
-      _id: '2',
-      name: 'Global Innovations',
-      contactPerson: 'Sarah Johnson',
-      email: 'sarah@globalinnovations.com',
-      phone: '(555) 987-6543',
-      address: '456 Innovation Way, Boston, MA',
-      createdAt: '2025-01-15T09:15:00Z',
-      updatedAt: '2025-02-20T11:45:00Z'
-    },
-    {
-      _id: '3',
-      name: 'EcoFriendly Corp',
-      contactPerson: 'Michael Brown',
-      email: 'michael@ecofriendly.com',
-      phone: '(555) 456-7890',
-      address: '789 Green St, Portland, OR',
-      createdAt: '2025-02-01T13:20:00Z',
-      updatedAt: '2025-03-10T16:15:00Z'
-    }
-  ];
-
   res.json({
     success: true,
-    count: companies.length,
     data: companies
-  });
-});
-
-/**
- * @route   POST /api/companies
- * @desc    Create a new company
- * @access  Private/Admin
- */
-router.post('/', (req, res) => {
-  // Mock creating a new company
-  const newCompany = {
-    _id: Date.now().toString(),
-    ...req.body,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  };
-
-  res.status(201).json({
-    success: true,
-    data: newCompany
   });
 });
 
@@ -166,24 +127,15 @@ router.get('/me/impact', (req, res) => {
  * @access  Private/Admin
  */
 router.get('/:id', (req, res) => {
-  const id = req.params.id;
+  const company = companies.find(c => c.id === req.params.id);
   
-  // Mock data for a single company
-  const company = {
-    _id: id,
-    name: 'Tech Solutions Inc.',
-    contactPerson: 'John Smith',
-    email: 'john@techsolutions.com',
-    phone: '(555) 123-4567',
-    address: '123 Tech Blvd, San Francisco, CA',
-    logo: null,
-    website: 'https://techsolutions.com',
-    industry: 'Technology',
-    employeeCount: 250,
-    createdAt: '2025-01-01T10:00:00Z',
-    updatedAt: '2025-03-01T14:30:00Z'
-  };
-
+  if (!company) {
+    return res.status(404).json({
+      success: false,
+      error: 'Company not found'
+    });
+  }
+  
   res.json({
     success: true,
     data: company
@@ -196,18 +148,21 @@ router.get('/:id', (req, res) => {
  * @access  Private/Admin
  */
 router.put('/:id', (req, res) => {
-  const id = req.params.id;
+  const company = companies.find(c => c.id === req.params.id);
   
-  // Mock updating a company
-  const updatedCompany = {
-    _id: id,
-    ...req.body,
-    updatedAt: new Date().toISOString()
-  };
-
+  if (!company) {
+    return res.status(404).json({
+      success: false,
+      error: 'Company not found'
+    });
+  }
+  
   res.json({
     success: true,
-    data: updatedCompany
+    data: {
+      ...company,
+      ...req.body
+    }
   });
 });
 
@@ -219,7 +174,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   res.json({
     success: true,
-    data: {}
+    message: 'Company deleted successfully'
   });
 });
 

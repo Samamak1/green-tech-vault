@@ -1,213 +1,81 @@
 const express = require('express');
 const router = express.Router();
 
-/**
- * @route   GET /api/dashboard/summary
- * @desc    Get dashboard summary data
- * @access  Private
- */
-router.get('/summary', (req, res) => {
-  // Create a complete summary object with all possible properties
-  const summaryData = {
-    // Core metrics
-    totalDevices: 156,
-    totalWeight: 1250.5,
-    co2Saved: 3750.8,
-    pickupsCompleted: 12,
-    refurbishedDevices: 87,
-    recycledDevices: 69,
-    
-    // Additional metrics
-    totalDevicesCollected: 156,
-    totalWeightCollected: 1250.5,
-    totalCO2Saved: 3750.8,
-    totalRefurbished: 87,
-    totalRecycled: 69,
-    landfillDiversionRate: 92.5,
-    
-    // Environmental impact
-    environmentalEquivalents: {
-      treesSaved: 187,
-      carEmissions: 15000,
-      homeEnergy: 9500
+// Mock dashboard data
+const dashboardData = {
+  stats: {
+    totalCompanies: 15,
+    totalDevices: 450,
+    totalWeight: 1568,
+    co2Saved: 1257
+  },
+  recentPickups: [
+    {
+      id: '1',
+      rygnContact: "Sarah Johnson",
+      date: '01/24/2025',
+      time: '14:00',
+      location: 'Cincinnati Warehouse',
+      status: 'Complete',
+      weight: 2.5
     },
-    
-    // Materials recovered
-    materialsRecovered: {
-      metals: 625.25,
-      plastics: 375.15,
-      glass: 125.05,
-      rareEarthMetals: 62.53,
-      other: 62.52
-    },
-    
-    // Ensure all properties that might be used with toFixed() are numbers
-    ewasteDiverted: 1250.5,
-    co2Reduction: 3750.8,
-    treesPlanted: 187,
-    waterSaved: 25000,
-    energySaved: 45000,
-    
-    // Time-based metrics
-    monthlyCollection: 125.5,
-    quarterlyCollection: 375.8,
-    yearlyCollection: 1250.5,
-    
-    // Percentage metrics
-    refurbishedPercentage: 55.8,
-    recycledPercentage: 44.2,
-    
-    // Add any other properties that might be needed
-    impactScore: 85.7,
-    sustainabilityRating: 'A',
-    complianceStatus: 'Compliant',
-    nextPickupDate: '2025-04-01'
-  };
-  
+    {
+      id: '2',
+      rygnContact: "Michael Chen",
+      date: '03/15/2025',
+      time: '10:30',
+      location: 'Cincinnati Warehouse',
+      status: 'In Process',
+      weight: 1.8
+    }
+  ],
+  devicesByType: [
+    { type: 'Laptop', count: 150 },
+    { type: 'Desktop', count: 100 },
+    { type: 'Monitor', count: 120 },
+    { type: 'Tablet', count: 50 },
+    { type: 'Smartphone', count: 30 }
+  ],
+  devicesByDisposition: [
+    { status: 'Refurbished', count: 280 },
+    { status: 'Recycled', count: 150 },
+    { status: 'Disposed', count: 20 }
+  ]
+};
+
+// Get dashboard data
+router.get('/', (req, res) => {
   res.json({
     success: true,
-    data: summaryData
+    data: dashboardData
   });
 });
 
-/**
- * @route   GET /api/dashboard/chart
- * @desc    Get chart data for dashboard
- * @access  Private
- */
-router.get('/chart', (req, res) => {
-  const { metric, period } = req.query;
-  
-  let labels = [];
-  let values = [];
-  
-  // Generate sample data based on metric and period
-  if (metric === 'ewaste') {
-    labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    values = [120, 150, 180, 110, 160, 140, 170, 190, 210, 230, 250, 270];
-  } else if (metric === 'co2') {
-    labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    values = [350, 420, 510, 320, 480, 390, 510, 570, 630, 690, 750, 810];
-  } else if (metric === 'deviceTypes') {
-    labels = ['Laptops', 'Desktops', 'Monitors', 'Phones', 'Tablets', 'Printers', 'Other'];
-    values = [45, 25, 30, 20, 15, 10, 5];
-  } else if (metric === 'disposition') {
-    labels = ['Refurbished', 'Recycled', 'Pending'];
-    values = [55, 35, 10];
-  }
-  
+// Get client dashboard data
+router.get('/client', (req, res) => {
   res.json({
     success: true,
     data: {
-      labels,
-      values
+      stats: {
+        totalDevices: 45,
+        totalWeight: 156.8,
+        co2Saved: 125.7,
+        treesPlanted: 12
+      },
+      recentPickups: dashboardData.recentPickups,
+      devicesByType: [
+        { type: 'Laptop', count: 15 },
+        { type: 'Desktop', count: 10 },
+        { type: 'Monitor', count: 12 },
+        { type: 'Tablet', count: 5 },
+        { type: 'Smartphone', count: 3 }
+      ],
+      devicesByDisposition: [
+        { status: 'Refurbished', count: 28 },
+        { status: 'Recycled', count: 15 },
+        { status: 'Disposed', count: 2 }
+      ]
     }
-  });
-});
-
-/**
- * @route   GET /api/dashboard/recent-pickups
- * @desc    Get recent pickups for dashboard
- * @access  Private
- */
-router.get('/recent-pickups', (req, res) => {
-  res.json({
-    success: true,
-    data: [
-      {
-        id: '1',
-        date: '2025-03-01',
-        location: 'Corporate HQ',
-        status: 'completed',
-        devices: 12,
-        weight: 45.2
-      },
-      {
-        id: '2',
-        date: '2025-03-05',
-        location: 'Branch Office',
-        status: 'completed',
-        devices: 8,
-        weight: 32.7
-      },
-      {
-        id: '3',
-        date: '2025-03-10',
-        location: 'Data Center',
-        status: 'completed',
-        devices: 15,
-        weight: 78.3
-      },
-      {
-        id: '4',
-        date: '2025-03-15',
-        location: 'Remote Office',
-        status: 'in-progress',
-        devices: 5,
-        weight: 18.5
-      },
-      {
-        id: '5',
-        date: '2025-03-20',
-        location: 'Warehouse',
-        status: 'scheduled',
-        devices: 0,
-        weight: 0
-      }
-    ]
-  });
-});
-
-/**
- * @route   GET /api/dashboard/recent-devices
- * @desc    Get recent devices for dashboard
- * @access  Private
- */
-router.get('/recent-devices', (req, res) => {
-  res.json({
-    success: true,
-    data: [
-      {
-        id: '1',
-        type: 'Laptop',
-        manufacturer: 'Dell',
-        model: 'XPS 13',
-        status: 'Refurbished',
-        date: '2025-03-01'
-      },
-      {
-        id: '2',
-        type: 'Desktop',
-        manufacturer: 'HP',
-        model: 'EliteDesk 800',
-        status: 'Recycled',
-        date: '2025-03-02'
-      },
-      {
-        id: '3',
-        type: 'Monitor',
-        manufacturer: 'LG',
-        model: '27UK850-W',
-        status: 'Refurbished',
-        date: '2025-03-03'
-      },
-      {
-        id: '4',
-        type: 'Printer',
-        manufacturer: 'Brother',
-        model: 'HL-L2350DW',
-        status: 'Recycled',
-        date: '2025-03-04'
-      },
-      {
-        id: '5',
-        type: 'Phone',
-        manufacturer: 'Apple',
-        model: 'iPhone 12',
-        status: 'Refurbished',
-        date: '2025-03-05'
-      }
-    ]
   });
 });
 

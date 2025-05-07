@@ -232,4 +232,34 @@ router.get('/certificates/:id/thumbnail', (req, res) => {
   });
 });
 
+// Mock impact data
+const impactData = {
+  deviceCount: 45,
+  totalWeight: 156.8,
+  co2Saved: 125.7,
+  treesPlanted: 12,
+  refurbished: 28,
+  recycled: 15,
+  disposed: 2
+};
+
+// Get environmental impact data
+router.get('/', (req, res) => {
+  res.json({
+    success: true,
+    data: impactData
+  });
+});
+
+// Get impact data for a specific company
+router.get('/company/:id', (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      ...impactData,
+      companyId: req.params.id
+    }
+  });
+});
+
 module.exports = router; 
