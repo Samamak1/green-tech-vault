@@ -19,37 +19,24 @@ export const ProfileProvider = ({ children }) => {
       
       if (user) {
         if (isAdmin) {
-          if (user.role === 'ceo') {
-            // CEO profile data
-            setProfileData({
-              fullName: 'Leila Meyer',
-              jobTitle: 'CEO',
-              email: 'leila.meyer@greentechvault.com',
-              phone: '(555) 123-4567',
-              username: 'lmeyer',
-              password: '••••••••',
-              profilePicture: null
-            });
-          } else {
-            // Regular admin profile data
-            setProfileData({
-              fullName: user.name || 'Admin User',
-              jobTitle: user.position || 'Administrator',
-              email: user.email || 'admin@greentechvault.com',
-              phone: user.phone || '',
-              username: user.username || 'admin',
-              password: '••••••••',
-              profilePicture: null
-            });
-          }
-        } else if (user?.companyName) {
-          // Client user profile
+          // Admin users for demo
           setProfileData({
-            fullName: user.companyName,
-            jobTitle: user.position || 'Client',
-            email: user.email,
-            phone: user.phone || '',
-            username: user.username,
+            fullName: 'Leila Meyer',
+            jobTitle: 'CEO',
+            email: 'leila.meyer@greentechvault.com',
+            phone: '(555) 123-4567',
+            username: 'lmeyer',
+            password: '••••••••',
+            profilePicture: null
+          });
+        } else {
+          // Client users for demo
+          setProfileData({
+            fullName: user.companyName || "Leila's Company",
+            jobTitle: user.position || 'Owner',
+            email: user.email || 'leila@leilascompany.com',
+            phone: user.phone || '(555) 987-6543',
+            username: user.username || 'lmeyer',
             password: '••••••••',
             profilePicture: null
           });

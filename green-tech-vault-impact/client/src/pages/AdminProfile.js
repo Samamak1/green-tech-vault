@@ -49,7 +49,7 @@ const AdminProfile = () => {
   };
 
   const handleSave = () => {
-    // Update profile data in the context
+    // Update profile data
     updateProfileData(formData);
     setEditing(false);
     setCurrentSection(null);
