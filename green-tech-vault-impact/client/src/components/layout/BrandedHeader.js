@@ -234,7 +234,7 @@ const BrandedHeader = () => {
     <AppBar 
       position="fixed" 
       sx={{ 
-        backgroundColor: 'white',
+        backgroundColor: '#FF8C00',
         color: 'black',
         boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07), 0px 1px 10px 0px rgba(0,0,0,0.06)',
         height: '64px',
@@ -244,7 +244,7 @@ const BrandedHeader = () => {
         width: 'calc(100% - 225px)', // Adjust width to account for sidebar
       }}
     >
-      <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2, bgcolor: 'white' }}>
+      <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2, bgcolor: '#FF8C00' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           {/* Left side - Logo removed */}
           
