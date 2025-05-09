@@ -147,13 +147,13 @@ const AdminHeader = () => {
             backgroundColor: profilePictureUrl ? 'transparent' : '#1C392B',
           }}
         >
-          {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'L')}
+          {!profilePictureUrl && ((profileData?.fullName || user?.name || 'U').charAt(0))}
         </Avatar>
         <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-          {profileData?.fullName || user?.name || 'Leila Meyer'}
+          {profileData?.fullName || user?.name || 'User'}
         </Typography>
         <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
-          @{user?.username?.replace('@', '') || profileData?.username?.replace('@', '') || 'admin'}
+          {user?.username ? `@${user.username.replace('@', '')}` : ''}
         </Typography>
         <Box 
           sx={{ 
@@ -276,10 +276,10 @@ const AdminHeader = () => {
               alignItems: 'flex-end',
             }}>
               <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                {profileData?.fullName || user?.name || 'Leila Meyer'}
+                {profileData?.fullName || user?.name || 'User'}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                CEO
+                {profileData?.jobTitle || user?.position || ''}
               </Typography>
             </Box>
             
@@ -296,7 +296,7 @@ const AdminHeader = () => {
                 height: 36
               }}
             >
-              {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'L')}
+              {!profilePictureUrl && ((profileData?.fullName || user?.name || 'U').charAt(0))}
             </Avatar>
           </Box>
         </Box>

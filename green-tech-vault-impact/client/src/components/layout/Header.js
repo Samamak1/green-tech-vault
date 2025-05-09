@@ -190,10 +190,10 @@ const Header = () => {
               alignItems: 'flex-end',
             }}>
               <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                {user?.companyName || "Leila's Company"}
+                {profileData?.fullName || user?.name || user?.companyName || 'User'}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                @{user?.username || 'lmeyer'}
+                {user?.username ? `@${user.username.replace('@', '')}` : ''}
               </Typography>
             </Box>
 
@@ -210,7 +210,7 @@ const Header = () => {
                 height: 36
               }}
             >
-              {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'L')}
+              {!profilePictureUrl && ((profileData?.fullName || user?.name || user?.companyName || 'U').charAt(0))}
             </Avatar>
           </Box>
         </Box>
@@ -242,13 +242,13 @@ const Header = () => {
               backgroundColor: profilePictureUrl ? 'transparent' : '#185B5F',
             }}
           >
-            {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'L')}
+            {!profilePictureUrl && ((profileData?.fullName || user?.name || user?.companyName || 'U').charAt(0))}
           </Avatar>
           <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            {user?.companyName || "Leila's Company"}
+            {profileData?.fullName || user?.name || user?.companyName || 'User'}
           </Typography>
           <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
-            @{user?.username || 'lmeyer'}
+            {user?.username ? `@${user.username.replace('@', '')}` : ''}
           </Typography>
           <Box 
             sx={{ 

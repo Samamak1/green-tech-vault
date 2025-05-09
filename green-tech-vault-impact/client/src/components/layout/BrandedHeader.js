@@ -150,13 +150,13 @@ const BrandedHeader = () => {
             backgroundColor: profilePictureUrl ? 'transparent' : '#56C3C9',
           }}
         >
-          {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'L')}
+          {!profilePictureUrl && ((profileData?.fullName || user?.name || user?.companyName || 'U').charAt(0))}
         </Avatar>
         <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-          {profileData?.fullName || user?.companyName || "Leila's Company"}
+          {profileData?.fullName || user?.name || user?.companyName || 'User'}
         </Typography>
         <Typography variant="body2" sx={{ color: '#666', mb: 1 }}>
-          @{user?.username?.replace('@', '') || profileData?.username?.replace('@', '') || 'lmeyer'}
+          {user?.username ? `@${user.username.replace('@', '')}` : ''}
         </Typography>
         <Box 
           sx={{ 
@@ -273,10 +273,10 @@ const BrandedHeader = () => {
               alignItems: 'flex-end',
             }}>
               <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                {profileData?.fullName || user?.companyName || "Leila's Company"}
+                {profileData?.fullName || user?.name || user?.companyName || 'User'}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                @{user?.username?.replace('@', '') || profileData?.username?.replace('@', '') || 'lmeyer'}
+                {user?.username ? `@${user.username.replace('@', '')}` : ''}
               </Typography>
             </Box>
             
@@ -293,7 +293,7 @@ const BrandedHeader = () => {
                 height: 36
               }}
             >
-              {!profilePictureUrl && (profileData?.fullName?.charAt(0) || 'L')}
+              {!profilePictureUrl && ((profileData?.fullName || user?.name || user?.companyName || 'U').charAt(0))}
             </Avatar>
           </Box>
         </Box>
