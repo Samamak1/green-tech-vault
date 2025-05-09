@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Box, 
   Typography, 
@@ -26,6 +26,7 @@ import {
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useProfile } from '../context/ProfileContext';
 import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
 const Input = styled('input')({
@@ -35,23 +36,20 @@ const Input = styled('input')({
 const ClientProfile = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { profileData, profilePictureUrl, updateProfileData, updateProfilePicture } = useProfile();
   const [editing, setEditing] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [currentSection, setCurrentSection] = useState(null);
-  const [profilePictureUrl, setProfilePictureUrl] = useState(null);
-
-  // Mock profile data
-  const [profileData, setProfileData] = useState({
-    fullName: user?.name || 'Leila Meyer',
-    jobTitle: user?.position || 'CEO',
-    email: user?.email || 'leilaameyer2@gmail.com',
-    phone: '(555) 123-4567',
-    username: user?.username || '@lmeyer',
-    companyName: user?.companyName || "Leila's Company"
-  });
-
+  
   // State for form data (used during editing)
-  const [formData, setFormData] = useState({ ...profileData });
+  const [formData, setFormData] = useState({});
+  
+  // Initialize form data when profileData changes
+  useEffect(() => {
+    if (profileData) {
+      setFormData({ ...profileData });
+    }
+  }, [profileData]);
 
   const handleGoBack = () => {
     navigate('/dashboard');
@@ -64,8 +62,8 @@ const ClientProfile = () => {
   };
 
   const handleSave = () => {
-    // Update profile data
-    setProfileData(formData);
+    // Update profile data in the context
+    updateProfileData(formData);
     setEditing(false);
     setCurrentSection(null);
   };
@@ -92,11 +90,7 @@ const ClientProfile = () => {
   const handleProfilePictureChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePictureUrl(reader.result);
-      };
-      reader.readAsDataURL(file);
+      updateProfilePicture(file);
     }
   };
 
@@ -107,6 +101,11 @@ const ClientProfile = () => {
     postalCode: "45202",
     taxId: "TXN-54321"
   };
+
+  // If profileData is not loaded yet, show nothing
+  if (!profileData) {
+    return null;
+  }
 
   return (
     <Box sx={getContentContainerStyle()} data-boundary="true">

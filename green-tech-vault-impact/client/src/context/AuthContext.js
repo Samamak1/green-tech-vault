@@ -145,9 +145,9 @@ export const AuthProvider = ({ children }) => {
         isAdminLogin: true
       });
       
-      // Verify that the user is actually an admin
-      if (res.data.data.user.role !== 'admin') {
-        throw new Error('Not authorized as admin');
+      // Verify that the user is actually an admin or CEO
+      if (res.data.data.user.role !== 'admin' && res.data.data.user.role !== 'ceo') {
+        throw new Error('Not authorized as admin or CEO');
       }
       
       // Save token to localStorage
@@ -158,7 +158,9 @@ export const AuthProvider = ({ children }) => {
       
       setUser(res.data.data.user);
       setIsAuthenticated(true);
-      setIsAdmin(true);
+      
+      // Check if user is admin or CEO role
+      setIsAdmin(res.data.data.user.role === 'admin' || res.data.data.user.role === 'ceo');
       
       return res.data;
     } catch (err) {

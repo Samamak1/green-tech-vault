@@ -20,7 +20,6 @@ import {
   StarBorder as StarBorderIcon,
   MoreVert as MoreVertIcon
 } from '@mui/icons-material';
-import AdminLayout from '../components/layout/AdminLayout';
 import { getContentContainerStyle, getContentWrapperStyle } from '../utils/layoutStyles';
 
 const Announcements = () => {
@@ -164,7 +163,7 @@ const Announcements = () => {
         </Box>
         
         {/* Announcements List */}
-        <Paper sx={{ p: 2, mb: 4 }}>
+        <Paper sx={{ p: 2, mb: 4, width: '100%' }}>
           {announcements
             .filter(announcement => {
               // Filter based on selected filter

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Box, 
   Typography, 
@@ -81,6 +81,13 @@ const AdminProfile = () => {
       updateProfilePicture(file);
     }
   };
+
+  // Use useEffect to sync formData with profileData changes
+  useEffect(() => {
+    if (profileData) {
+      setFormData({ ...profileData });
+    }
+  }, [profileData]);
 
   if (loading) {
     return (

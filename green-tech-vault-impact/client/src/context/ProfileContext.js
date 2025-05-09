@@ -18,23 +18,35 @@ export const ProfileProvider = ({ children }) => {
       setLoading(true);
       
       if (user) {
-        // Show different profile data based on whether user is admin or client
-        if (!isAdmin && user?.companyName) {
+        if (isAdmin) {
+          if (user.role === 'ceo') {
+            // CEO profile data
+            setProfileData({
+              fullName: 'Leila Meyer',
+              jobTitle: 'CEO',
+              email: 'leila.meyer@greentechvault.com',
+              phone: '(555) 123-4567',
+              username: 'lmeyer',
+              password: '••••••••',
+              profilePicture: null
+            });
+          } else {
+            // Regular admin profile data
+            setProfileData({
+              fullName: user.name || 'Admin User',
+              jobTitle: user.position || 'Administrator',
+              email: user.email || 'admin@greentechvault.com',
+              phone: user.phone || '',
+              username: user.username || 'admin',
+              password: '••••••••',
+              profilePicture: null
+            });
+          }
+        } else if (user?.companyName) {
           // Client user profile
           setProfileData({
             fullName: user.companyName,
             jobTitle: user.position || 'Client',
-            email: user.email,
-            phone: user.phone || '',
-            username: user.username,
-            password: '••••••••',
-            profilePicture: null
-          });
-        } else if (isAdmin) {
-          // Admin user profile
-          setProfileData({
-            fullName: user.name,
-            jobTitle: user.position || 'Administrator',
             email: user.email,
             phone: user.phone || '',
             username: user.username,
