@@ -17,36 +17,13 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 // Import our custom components
 import RecyclingIconCustom from '../components/branding/RecyclingIcon';
 
-// Styled wave divider for the hero section
-const WaveDivider = styled(Box)(({ theme }) => ({
-  height: 80,
-  background: 'white',
-  borderRadius: '50% 50% 0 0 / 100% 100% 0 0',
-  width: '100%',
-  marginTop: -40,
-  position: 'relative',
-  zIndex: 2
-}));
-
-// Inverse wave divider (for bottom of sections)
-const InverseWaveDivider = styled(Box)(({ theme }) => ({
-  height: 80,
-  background: theme.palette.teal.main,
-  borderRadius: '0 0 50% 50% / 0 0 100% 100%',
-  width: '100%',
-  marginBottom: -40,
-  position: 'relative',
-  zIndex: 2
-}));
-
 // Styled teal-colored section
 const TealSection = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.teal.main,
   color: 'white',
   position: 'relative',
-  padding: theme.spacing(4, 0),
+  padding: theme.spacing(6, 0),
   zIndex: 1,
-  overflow: 'hidden'
 }));
 
 // Styled service card
@@ -162,34 +139,31 @@ const NewLandingPage = () => {
     <Box>
       {/* Hero Section */}
       <Box sx={{ 
-        background: 'url(/images/e-waste-hero.png) no-repeat center center',
+        background: 'url(/images/e-waste-hero.png) no-repeat center top',
         backgroundSize: 'cover',
-        color: 'white',
         position: 'relative',
         pt: 6,
-        pb: 10,
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'rgba(0,0,0,0.6)',
-          zIndex: 1
-        }
+        pb: 6,
+        height: '500px', // Fixed height to crop the image
+        display: 'flex',
+        alignItems: 'center'
       }}>
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
-          <Box sx={{ pt: 4, pb: 10 }}>
-            <Typography variant="subtitle1" component="div" gutterBottom>
+          <Box sx={{ 
+            p: 4, 
+            backgroundColor: 'rgba(255, 255, 255, 0.85)', 
+            borderRadius: 2,
+            maxWidth: 700
+          }}>
+            <Typography variant="subtitle1" component="div" gutterBottom color="text.primary">
               Welcome To EcoCycle Solutions
             </Typography>
-            <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 2 }}>
+            <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 2, color: 'black' }}>
               Responsible E-Waste<br />
               Recycling for a<br />
               Cleaner Tomorrow!
             </Typography>
-            <Typography variant="body1" sx={{ maxWidth: 600, mb: 4, fontSize: '1.1rem' }}>
+            <Typography variant="body1" sx={{ mb: 4, fontSize: '1.1rem', color: 'black' }}>
               At EcoCycle Solutions, we make it easy for businesses and individuals to safely
               and responsibly recycle their electronic waste. From outdated computers to
               broken printers and everything in-between — we help reduce landfill waste,
@@ -214,7 +188,6 @@ const NewLandingPage = () => {
             </Button>
           </Box>
         </Container>
-        <WaveDivider />
       </Box>
       
       {/* What We Offer Section */}
@@ -223,8 +196,8 @@ const NewLandingPage = () => {
           What We Offer
         </Typography>
         <Typography variant="body1" textAlign="center" paragraph sx={{ maxWidth: 800, mx: 'auto', mb: 6 }}>
-          Whether you're a small office or a large corporation, we provide reliable, 
-          secure,<br />and eco-conscious solutions that make it easy to dispose of your electronic waste.
+          Whether you're a small office or a large corporation, we provide reliable, secure, 
+          and eco-conscious<br />solutions that make it easy to dispose of your electronic waste.
         </Typography>
 
         <Grid container spacing={4}>
@@ -249,30 +222,26 @@ const NewLandingPage = () => {
       </Container>
 
       {/* Stats Section */}
-      <Box sx={{ py: 2 }}>
-        <InverseWaveDivider />
-        <TealSection sx={{ py: 8 }}>
-          <Container maxWidth="lg">
-            <Typography variant="h4" textAlign="center" fontWeight="bold" sx={{ mb: 6 }}>
-              We take pride in our numbers
-            </Typography>
-            
-            <Grid container spacing={2} justifyContent="center">
-              {stats.map((stat, index) => (
-                <Grid item xs={6} sm={4} md={true} key={index} sx={{ textAlign: 'center' }}>
-                  <Typography variant="h3" fontWeight="bold" component="div">
-                    {stat.value}
-                  </Typography>
-                  <Typography variant="body2">
-                    {stat.label}
-                  </Typography>
-                </Grid>
-              ))}
-            </Grid>
-          </Container>
-        </TealSection>
-        <WaveDivider />
-      </Box>
+      <TealSection>
+        <Container maxWidth="lg">
+          <Typography variant="h4" textAlign="center" fontWeight="bold" sx={{ mb: 6 }}>
+            We take pride in our numbers
+          </Typography>
+          
+          <Grid container spacing={2} justifyContent="center">
+            {stats.map((stat, index) => (
+              <Grid item xs={6} sm={4} md={true} key={index} sx={{ textAlign: 'center' }}>
+                <Typography variant="h3" fontWeight="bold" component="div">
+                  {stat.value}
+                </Typography>
+                <Typography variant="body2">
+                  {stat.label}
+                </Typography>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </TealSection>
 
       {/* Our Process Section */}
       <Container maxWidth="lg" sx={{ py: 8 }}>

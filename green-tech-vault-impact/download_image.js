@@ -2,7 +2,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
-// URL of the circuit board image that's similar to the attachment
+// URL of a brighter circuit board image
 const imageUrl = 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop';
 
 // Destination path
