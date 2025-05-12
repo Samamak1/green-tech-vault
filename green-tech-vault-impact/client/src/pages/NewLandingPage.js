@@ -162,7 +162,7 @@ const NewLandingPage = () => {
     <Box>
       {/* Hero Section */}
       <Box sx={{ 
-        background: 'url(https://images.unsplash.com/photo-1630332458162-c53bc4b02230?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80) no-repeat center center',
+        background: 'url(/images/e-waste-hero.png) no-repeat center center',
         backgroundSize: 'cover',
         color: 'white',
         position: 'relative',
@@ -224,7 +224,7 @@ const NewLandingPage = () => {
         </Typography>
         <Typography variant="body1" textAlign="center" paragraph sx={{ maxWidth: 800, mx: 'auto', mb: 6 }}>
           Whether you're a small office or a large corporation, we provide reliable, 
-          secure, and eco-conscious solutions that make it easy to dispose of your electronic waste.
+          secure,<br />and eco-conscious solutions that make it easy to dispose of your electronic waste.
         </Typography>
 
         <Grid container spacing={4}>
