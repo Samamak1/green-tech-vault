@@ -253,10 +253,10 @@ const BrandedHeader = () => {
     >
       <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2, bgcolor: '#2A8784' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-          {/* Left side - Add Robot Logo */}
+          {/* Left side - Robot Logo */}
           <RobotLogo 
             src="/images/robot-logo.svg" 
-            alt="EcoCycle Solutions Logo" 
+            alt="Robot Logo" 
             onClick={() => {
               console.log("Robot logo clicked! Image path: /images/robot-logo.svg");
               navigate('/');

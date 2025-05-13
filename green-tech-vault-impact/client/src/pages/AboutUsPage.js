@@ -133,9 +133,9 @@ const AboutUsPage = () => {
   const teamMembers = [
     {
       name: "Leila Meyer",
-      title: "CEO",
-      description: "Proof that your materials were responsibly processed in accordance with regulations.",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+      title: "CEO / Architect LEED AP",
+      description: "Registered architect with expertise in sustainable design practices and implementing eco-conscious building solutions.",
+      image: "/images/leila-meyer.jpg"
     },
     {
       name: "Sama Mushtaq",

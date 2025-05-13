@@ -18,7 +18,7 @@ import { Link as RouterLink } from 'react-router-dom';
 const Footer = () => {
   const theme = useTheme();
   
-  const footerBgColor = '#064e40';
+  const footerBgColor = '#073C3F';
   
   // Footer sections
   const corporateLinks = [
