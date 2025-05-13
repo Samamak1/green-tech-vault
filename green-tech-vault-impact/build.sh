@@ -20,6 +20,7 @@ echo "Copying critical images to build directory"
 cp public/images/robot-logo.svg build/images/robot-logo.svg || echo "Warning: Failed to copy robot logo"
 cp public/images/e-waste-hero.png build/images/e-waste-hero.png || echo "Warning: Failed to copy hero image"
 cp public/images/leila-meyer.jpg build/images/leila-meyer.jpg || echo "Warning: Failed to copy CEO image"
+cp public/images/stock-chart.jpg build/images/stock-chart.jpg || echo "Warning: Failed to copy stock chart image"
 
 # Verify the copies were made successfully
 echo "Verifying image files in build directory:"

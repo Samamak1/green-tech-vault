@@ -26,6 +26,41 @@ const TealSection = styled(Box)(({ theme }) => ({
   zIndex: 1,
 }));
 
+// Styled parallax section
+const ParallaxSection = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  height: '400px',
+  width: '100%',
+  overflow: 'hidden',
+  display: 'flex',
+  alignItems: 'center',
+  color: 'white',
+  zIndex: 1,
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundImage: 'url(/images/stock-chart.jpg)',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundAttachment: 'fixed',
+    zIndex: -2,
+  },
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(42, 135, 132, 0.85)',
+    zIndex: -1,
+  }
+}));
+
 // Styled service card
 const ServiceCard = styled(Card)(({ theme }) => ({
   height: '100%',
@@ -83,6 +118,20 @@ const ImpactCard = styled(Paper)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   boxShadow: '0 4px 20px rgba(0,0,0,0.08)'
+}));
+
+// Stat showcase component
+const StatShowcase = styled(Box)(({ theme }) => ({
+  textAlign: 'center',
+  padding: theme.spacing(2),
+  backgroundColor: 'rgba(255, 255, 255, 0.15)',
+  borderRadius: theme.spacing(2),
+  backdropFilter: 'blur(5px)',
+  transition: 'transform 0.3s ease',
+  '&:hover': {
+    transform: 'translateY(-5px)',
+    backgroundColor: 'rgba(255, 255, 255, 0.25)'
+  }
 }));
 
 const NewLandingPage = () => {
@@ -231,27 +280,29 @@ const NewLandingPage = () => {
         </Grid>
       </Container>
 
-      {/* Stats Section */}
-      <TealSection>
+      {/* Stats Section - with Parallax Effect */}
+      <ParallaxSection>
         <Container maxWidth="lg">
-          <Typography variant="h4" textAlign="center" fontWeight="bold" sx={{ mb: 6 }}>
+          <Typography variant="h3" component="h2" textAlign="center" fontWeight="bold" sx={{ mb: 6 }}>
             We take pride in our numbers
           </Typography>
           
-          <Grid container spacing={2} justifyContent="center">
+          <Grid container spacing={3} justifyContent="center">
             {stats.map((stat, index) => (
-              <Grid item xs={6} sm={4} md={true} key={index} sx={{ textAlign: 'center' }}>
-                <Typography variant="h3" fontWeight="bold" component="div">
-                  {stat.value}
-                </Typography>
-                <Typography variant="body2">
-                  {stat.label}
-                </Typography>
+              <Grid item xs={6} sm={4} md={true} key={index}>
+                <StatShowcase>
+                  <Typography variant="h3" fontWeight="bold" component="div" sx={{ mb: 1 }}>
+                    {stat.value}
+                  </Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
+                    {stat.label}
+                  </Typography>
+                </StatShowcase>
               </Grid>
             ))}
           </Grid>
         </Container>
-      </TealSection>
+      </ParallaxSection>
 
       {/* Our Process Section */}
       <Container maxWidth="lg" sx={{ py: 8 }}>

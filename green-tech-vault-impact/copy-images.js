@@ -14,7 +14,8 @@ if (!fs.existsSync(buildImagesDir)) {
 const criticalImages = [
   { src: 'client/public/images/robot-logo.svg', dest: 'client/build/images/robot-logo.svg' },
   { src: 'client/public/images/e-waste-hero.png', dest: 'client/build/images/e-waste-hero.png' },
-  { src: 'client/public/images/leila-meyer.jpg', dest: 'client/build/images/leila-meyer.jpg' }
+  { src: 'client/public/images/leila-meyer.jpg', dest: 'client/build/images/leila-meyer.jpg' },
+  { src: 'client/public/images/stock-chart.jpg', dest: 'client/build/images/stock-chart.jpg' }
 ];
 
 // Copy each image file, ensuring source exists
