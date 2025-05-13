@@ -1,41 +1,85 @@
+/**
+ * This script sends regular requests to the website to keep it from idling,
+ * which is useful for free hosting plans that sleep after inactivity.
+ */
+
 const https = require('https');
 const http = require('http');
 
-// URL of your Render service
-const url = 'https://green-tech-vault.onrender.com/wakeup';
+// Configuration
+const BASE_URL = process.env.BASE_URL || 'https://green-tech-vault.onrender.com';
+const PING_INTERVAL = process.env.PING_INTERVAL || 10 * 60 * 1000; // 10 minutes by default
+const ADDITIONAL_PATHS = ['/wakeup', '/', '/api/auth/me']; // Add key endpoints to keep warm
+const USE_HTTPS = BASE_URL.startsWith('https');
 
-// Function to ping the service
-function pingService() {
-  console.log(`Pinging service at ${new Date().toISOString()}`);
+console.log(`Keep-alive service started for ${BASE_URL}`);
+console.log(`Will ping every ${PING_INTERVAL / 60000} minutes`);
+
+/**
+ * Send a ping request to a specified path
+ */
+function ping(path) {
+  const url = `${BASE_URL}${path}`;
+  console.log(`Pinging: ${url} at ${new Date().toISOString()}`);
   
-  // Determine which protocol to use
-  const requester = url.startsWith('https') ? https : http;
+  const httpClient = USE_HTTPS ? https : http;
   
-  requester.get(url, (res) => {
-    let data = '';
+  const req = httpClient.get(url, (res) => {
+    const { statusCode } = res;
     
-    res.on('data', (chunk) => {
-      data += chunk;
-    });
+    if (statusCode !== 200) {
+      console.log(`Received status code ${statusCode} from ${path}`);
+    } else {
+      console.log(`Successfully pinged ${path} - Status: ${statusCode}`);
+    }
     
-    res.on('end', () => {
-      console.log(`Response: ${res.statusCode}`);
-      try {
-        if (data) {
-          const parsed = JSON.parse(data);
-          console.log(`Service status: ${parsed.status}, ready: ${parsed.ready}, database: ${parsed.database}, timestamp: ${parsed.timestamp}`);
-        }
-      } catch (e) {
-        console.log('Could not parse response as JSON');
-      }
-    });
-  }).on('error', (err) => {
-    console.error(`Error pinging service: ${err.message}`);
+    // Consume response data to free up memory
+    res.resume();
+  });
+  
+  req.on('error', (e) => {
+    console.error(`Error pinging ${path}: ${e.message}`);
+  });
+  
+  // Set a timeout to prevent hanging
+  req.setTimeout(15000, () => {
+    console.error(`Request to ${path} timed out`);
+    req.abort();
   });
 }
 
-// Ping immediately then every 14 minutes (Render free tier spins down after 15 minutes of inactivity)
-pingService();
-setInterval(pingService, 14 * 60 * 1000);
+/**
+ * Ping all configured paths
+ */
+function pingAll() {
+  console.log('\n--- Starting ping cycle ---');
+  
+  // Ping each path with a small delay between requests
+  ADDITIONAL_PATHS.forEach((path, index) => {
+    setTimeout(() => {
+      ping(path);
+    }, index * 5000); // 5-second gap between pings
+  });
+}
 
-console.log('Keep-alive service started. Pinging every 14 minutes.'); 
+// Start immediately
+pingAll();
+
+// Then run on the configured interval
+setInterval(pingAll, PING_INTERVAL);
+
+console.log(`Keep-alive service will run until process is terminated.`);
+
+// Keep the script running
+process.stdin.resume();
+
+// Handle graceful shutdown
+process.on('SIGINT', () => {
+  console.log('Keep-alive service terminated.');
+  process.exit(0);
+});
+
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught exception:', error);
+  // Continue running despite errors
+}); 

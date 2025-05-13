@@ -276,11 +276,9 @@ const NewLandingPage = () => {
             </Grid>
           ))}
         </Grid>
-      </Container>
-
-      {/* Impact Section */}
-      <Box sx={{ bgcolor: '#f5f5f5', py: 4 }}>
-        <Container maxWidth="lg">
+        
+        {/* Impact Section - Moved to be part of Our Process section */}
+        <Box sx={{ mt: 4 }}>
           <ImpactCard>
             <BarChartIcon sx={{ fontSize: 40, color: theme.palette.teal.main, mr: 2 }} />
             <Box>
@@ -307,8 +305,8 @@ const NewLandingPage = () => {
               </Button>
             </Box>
           </ImpactCard>
-        </Container>
-      </Box>
+        </Box>
+      </Container>
 
       {/* Learn More Button Section */}
       <Container maxWidth="lg" sx={{ textAlign: 'center', mt: 4, mb: 8 }}>

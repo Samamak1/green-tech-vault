@@ -241,7 +241,7 @@ const BrandedHeader = () => {
     <AppBar 
       position="fixed" 
       sx={{ 
-        backgroundColor: '#FF8C00',
+        backgroundColor: '#2A8784',
         color: 'black',
         boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07), 0px 1px 10px 0px rgba(0,0,0,0.06)',
         height: '64px',
@@ -251,13 +251,20 @@ const BrandedHeader = () => {
         width: 'calc(100% - 225px)', // Adjust width to account for sidebar
       }}
     >
-      <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2, bgcolor: '#FF8C00' }}>
+      <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2, bgcolor: '#2A8784' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           {/* Left side - Add Robot Logo */}
           <RobotLogo 
             src="/images/robot-logo.svg" 
             alt="EcoCycle Solutions Logo" 
-            onClick={() => navigate('/')}
+            onClick={() => {
+              console.log("Robot logo clicked! Image path: /images/robot-logo.svg");
+              navigate('/');
+            }}
+            onError={(e) => {
+              console.error("Failed to load robot logo image");
+              console.log(e);
+            }}
           />
           
           {/* Center - Search - Now after the logo */}

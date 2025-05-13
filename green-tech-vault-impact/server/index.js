@@ -48,7 +48,9 @@ app.get('/wakeup', (req, res) => {
     status: 'awake',
     ready: isServerReady,
     database: dbConnected,
-    timestamp: new Date().toISOString() 
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV,
+    version: '1.0.1' // Increment this when making significant changes
   });
 });
 
