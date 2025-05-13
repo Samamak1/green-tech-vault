@@ -20,6 +20,9 @@ const Footer = () => {
   
   const footerBgColor = '#073C3F';
   
+  // Log footer color to verify it's correctly set
+  console.log('Footer background color set to:', footerBgColor);
+  
   // Footer sections
   const corporateLinks = [
     { title: 'About Us', url: '/about-us' },

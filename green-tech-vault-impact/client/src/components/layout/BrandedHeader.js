@@ -67,11 +67,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-// Robot logo component
-const RobotLogo = styled('img')(({ theme }) => ({
+// Robot logo component - inline SVG instead of external image
+const RobotLogo = styled('div')(({ theme }) => ({
   height: '40px',
+  width: '40px',
   marginRight: theme.spacing(2),
   cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
 }));
 
 const BrandedHeader = () => {
@@ -255,20 +259,19 @@ const BrandedHeader = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           {/* Left side - Robot Logo */}
           <RobotLogo 
-            src="/images/robot-logo.svg" 
-            alt="Robot Logo" 
             onClick={() => {
-              console.log("Robot logo clicked! Image path: /images/robot-logo.svg");
+              console.log("Robot logo clicked!");
               navigate('/');
             }}
-            onError={(e) => {
-              console.error("Failed to load robot logo image");
-              e.target.src = "/images/robot-logo.svg"; // Try loading again
-              e.target.onerror = () => {
-                console.error("Second attempt to load robot logo failed");
-              };
-            }}
-          />
+          >
+            {/* Inline SVG robot logo */}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="40" height="40">
+              <circle cx="50" cy="50" r="40" fill="#FF8C00" />
+              <circle cx="35" cy="40" r="10" fill="white" />
+              <circle cx="65" cy="40" r="10" fill="white" />
+              <rect x="30" y="65" width="40" height="5" fill="white" />
+            </svg>
+          </RobotLogo>
           
           {/* Center - Search - Now after the logo */}
           <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start' }}>

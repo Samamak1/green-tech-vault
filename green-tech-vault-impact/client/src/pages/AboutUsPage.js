@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 import RecyclingIcon from '../components/branding/RecyclingIcon';
+import PersonIcon from '@mui/icons-material/Person';
 
 // Images
 const heroBackground = 'teal';
@@ -135,7 +136,7 @@ const AboutUsPage = () => {
       name: "Leila Meyer",
       title: "CEO / Architect LEED AP",
       description: "Registered architect and sustainability leader with expertise in eco-conscious design and responsible e-waste management.",
-      image: "/images/leila-meyer.jpg"
+      image: null
     },
     {
       name: "Sama Mushtaq",
@@ -254,10 +255,22 @@ const AboutUsPage = () => {
                           justifyContent: 'center',
                           alignItems: 'center',
                           height: '100%',
-                          bgcolor: '#f5f5f5'
+                          bgcolor: member.name === "Leila Meyer" ? theme.palette.teal.main : '#f5f5f5'
                         }}
                       >
-                        <RecyclingIcon size={80} color="black" />
+                        {member.name === "Leila Meyer" ? (
+                          <Avatar 
+                            sx={{ 
+                              width: 80, 
+                              height: 80, 
+                              bgcolor: theme.palette.teal.main
+                            }}
+                          >
+                            <PersonIcon sx={{ fontSize: 40 }} />
+                          </Avatar>
+                        ) : (
+                          <RecyclingIcon size={80} color="black" />
+                        )}
                       </Box>
                     )}
                   </Grid>

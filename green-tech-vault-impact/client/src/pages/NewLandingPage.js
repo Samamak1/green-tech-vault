@@ -43,7 +43,7 @@ const ParallaxSection = styled(Box)(({ theme }) => ({
     left: 0,
     width: '100%',
     height: '100%',
-    backgroundImage: 'url(/images/stock-chart.jpg)',
+    background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)', // Gradient fallback instead of image
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundAttachment: 'fixed',

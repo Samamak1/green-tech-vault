@@ -6,9 +6,10 @@ import {
   Container,
   Button,
   useTheme,
-  Paper
+  Paper,
+  Avatar
 } from '@mui/material';
-import { ArrowBack } from '@mui/icons-material';
+import { ArrowBack, Person } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 const CEOProfile = () => {
@@ -58,16 +59,28 @@ const CEOProfile = () => {
             {/* CEO Image */}
             <Grid item xs={12} md={4}>
               <Box
-                component="img"
-                src="/images/leila-meyer.jpg" 
-                alt="Leila Meyer - CEO"
                 sx={{
                   width: '100%',
                   maxWidth: '300px',
                   borderRadius: 2,
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                  display: 'flex',
+                  justifyContent: 'center'
                 }}
-              />
+              >
+                {/* Placeholder avatar instead of loading image */}
+                <Avatar 
+                  sx={{ 
+                    width: 250, 
+                    height: 250, 
+                    bgcolor: theme.palette.teal.main,
+                    color: 'white',
+                    fontSize: '5rem'
+                  }}
+                >
+                  <Person sx={{ fontSize: 120 }} />
+                </Avatar>
+              </Box>
             </Grid>
             
             {/* CEO Information */}
