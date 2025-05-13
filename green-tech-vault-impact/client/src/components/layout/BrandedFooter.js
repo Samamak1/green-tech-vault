@@ -9,7 +9,7 @@ import Logo from '../branding/Logo';
 const BrandedFooter = () => {
   return (
     <Box sx={{ 
-      bgcolor: '#0e1001', 
+      bgcolor: '#073C3F', 
       color: 'white', 
       py: 6, 
       mt: 'auto',

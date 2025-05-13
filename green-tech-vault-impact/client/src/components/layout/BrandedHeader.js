@@ -67,6 +67,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+// Robot logo component
+const RobotLogo = styled('img')(({ theme }) => ({
+  height: '40px',
+  marginRight: theme.spacing(2),
+  cursor: 'pointer',
+}));
+
 const BrandedHeader = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -246,9 +253,14 @@ const BrandedHeader = () => {
     >
       <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2, bgcolor: '#FF8C00' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-          {/* Left side - Logo removed */}
+          {/* Left side - Add Robot Logo */}
+          <RobotLogo 
+            src="/images/robot-logo.svg" 
+            alt="EcoCycle Solutions Logo" 
+            onClick={() => navigate('/')}
+          />
           
-          {/* Center - Search - Now positioned to the very left */}
+          {/* Center - Search - Now after the logo */}
           <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start' }}>
             <Search>
               <SearchIconWrapper>
