@@ -263,7 +263,10 @@ const BrandedHeader = () => {
             }}
             onError={(e) => {
               console.error("Failed to load robot logo image");
-              console.log(e);
+              e.target.src = "/images/robot-logo.svg"; // Try loading again
+              e.target.onerror = () => {
+                console.error("Second attempt to load robot logo failed");
+              };
             }}
           />
           

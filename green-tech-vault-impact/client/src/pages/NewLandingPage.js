@@ -136,6 +136,21 @@ const StatShowcase = styled(Box)(({ theme }) => ({
 
 const NewLandingPage = () => {
   const theme = useTheme();
+  
+  // Add useEffect to log image loading status
+  React.useEffect(() => {
+    // Check if the stock chart image exists
+    const img = new Image();
+    img.onload = () => console.log("Stock chart image loaded successfully");
+    img.onerror = () => console.error("Failed to load stock chart image");
+    img.src = "/images/stock-chart.jpg";
+    
+    // Also check robot logo
+    const robotImg = new Image();
+    robotImg.onload = () => console.log("Robot logo loaded successfully");
+    robotImg.onerror = () => console.error("Failed to load robot logo");
+    robotImg.src = "/images/robot-logo.svg";
+  }, []);
 
   // Service offerings data
   const services = [

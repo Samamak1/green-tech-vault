@@ -6,6 +6,10 @@ chmod +x ./build.sh
 echo "Current directory: $(pwd)"
 echo "Listing files: $(ls -la)"
 
+# Check for placeholder images
+echo "Checking for placeholder images before build..."
+node verify-images.js
+
 # Install dependencies in root directory
 npm install
 

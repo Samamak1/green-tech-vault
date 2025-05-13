@@ -134,7 +134,7 @@ const AboutUsPage = () => {
     {
       name: "Leila Meyer",
       title: "CEO / Architect LEED AP",
-      description: "Registered architect with expertise in sustainable design practices and implementing eco-conscious building solutions.",
+      description: "Registered architect and sustainability leader with expertise in eco-conscious design and responsible e-waste management.",
       image: "/images/leila-meyer.jpg"
     },
     {
@@ -243,7 +243,8 @@ const AboutUsPage = () => {
                         sx={{
                           width: '100%',
                           height: '100%',
-                          objectFit: 'cover'
+                          objectFit: 'cover',
+                          display: 'block'
                         }}
                       />
                     ) : (
