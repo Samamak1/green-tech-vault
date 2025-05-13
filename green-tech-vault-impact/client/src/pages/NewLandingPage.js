@@ -75,6 +75,16 @@ const ProcessIconWrapper = styled(Box)(({ theme }) => ({
   color: 'white'
 }));
 
+// Impact card
+const ImpactCard = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(3),
+  backgroundColor: 'white',
+  borderRadius: 16,
+  display: 'flex',
+  alignItems: 'center',
+  boxShadow: '0 4px 20px rgba(0,0,0,0.08)'
+}));
+
 const NewLandingPage = () => {
   const theme = useTheme();
 
@@ -196,8 +206,8 @@ const NewLandingPage = () => {
           What We Offer
         </Typography>
         <Typography variant="body1" textAlign="center" paragraph sx={{ maxWidth: 800, mx: 'auto', mb: 6 }}>
-          Whether you're a small office or a large corporation, we provide reliable, secure, 
-          and eco-conscious<br />solutions that make it easy to dispose of your electronic waste.
+          Whether you're a small office or a large corporation, we provide reliable, secure, and<br />
+          eco-conscious solutions that make it easy to dispose of your electronic waste.
         </Typography>
 
         <Grid container spacing={4}>
@@ -266,47 +276,21 @@ const NewLandingPage = () => {
             </Grid>
           ))}
         </Grid>
-
-        <Box sx={{ textAlign: 'center', mt: 6 }}>
-          <Button
-            variant="contained"
-            size="large"
-            component={RouterLink}
-            to="/how-it-works"
-            sx={{
-              bgcolor: theme.palette.teal.main,
-              px: 4,
-              py: 1.5,
-              fontWeight: 'bold',
-              '&:hover': {
-                bgcolor: theme.palette.teal.dark
-              }
-            }}
-          >
-            LEARN MORE ABOUT OUR PROCESS
-          </Button>
-        </Box>
       </Container>
 
       {/* Impact Section */}
-      <Box sx={{ bgcolor: '#f5f5f5', py: 8 }}>
+      <Box sx={{ bgcolor: '#f5f5f5', py: 4 }}>
         <Container maxWidth="lg">
-          <Box 
-            sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              p: 3, 
-              borderRadius: 2,
-              border: `1px solid ${theme.palette.teal.main}`
-            }}
-          >
+          <ImpactCard>
             <BarChartIcon sx={{ fontSize: 40, color: theme.palette.teal.main, mr: 2 }} />
-            <Typography variant="h5" component="h3" fontWeight="bold">
-              Impact
-            </Typography>
-            <Typography variant="body1" sx={{ ml: 2 }}>
-              Receive detailed reports on your environmental impact and data security
-            </Typography>
+            <Box>
+              <Typography variant="h5" component="h3" fontWeight="bold">
+                Impact
+              </Typography>
+              <Typography variant="body1">
+                Receive detailed reports on your environmental impact and data security
+              </Typography>
+            </Box>
             <Box sx={{ ml: 'auto' }}>
               <Button 
                 variant="contained"
@@ -322,9 +306,30 @@ const NewLandingPage = () => {
                 VIEW SAMPLE REPORT
               </Button>
             </Box>
-          </Box>
+          </ImpactCard>
         </Container>
       </Box>
+
+      {/* Learn More Button Section */}
+      <Container maxWidth="lg" sx={{ textAlign: 'center', mt: 4, mb: 8 }}>
+        <Button
+          variant="contained"
+          size="large"
+          component={RouterLink}
+          to="/how-it-works"
+          sx={{
+            bgcolor: theme.palette.teal.main,
+            px: 4,
+            py: 1.5,
+            fontWeight: 'bold',
+            '&:hover': {
+              bgcolor: theme.palette.teal.dark
+            }
+          }}
+        >
+          LEARN MORE ABOUT OUR PROCESS
+        </Button>
+      </Container>
 
       {/* CTA Section */}
       <Box sx={{ bgcolor: theme.palette.teal.main, color: 'white', py: 8 }}>

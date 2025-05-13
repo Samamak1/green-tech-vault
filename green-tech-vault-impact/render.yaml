@@ -2,7 +2,7 @@ services:
   - type: web
     name: green-tech-vault
     env: node
-    buildCommand: npm install && cd client && npm install && npm run build
+    buildCommand: bash build.sh
     startCommand: NODE_ENV=production npm start
     envVars:
       - key: NODE_ENV
