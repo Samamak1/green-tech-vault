@@ -247,6 +247,12 @@ const NewLandingPage = () => {
           Our Process
         </Typography>
         
+        <Typography variant="body1" textAlign="center" paragraph sx={{ maxWidth: 800, mx: 'auto', mb: 6 }}>
+          From collection to refurbishment, reuse to responsible recycling, our process<br />
+          is designed with care. Whether you're an individual or an organization, we<br />
+          make it simple—so you can be part of the solution, every step of the way.
+        </Typography>
+        
         <Grid container spacing={4} sx={{ mt: 4 }}>
           {processSteps.map((step, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
@@ -294,27 +300,6 @@ const NewLandingPage = () => {
             </Box>
           </ImpactCard>
         </Box>
-      </Container>
-
-      {/* Learn More Button Section */}
-      <Container maxWidth="lg" sx={{ textAlign: 'center', mt: 4, mb: 8 }}>
-        <Button
-          variant="contained"
-          size="large"
-          component={RouterLink}
-          to="/how-it-works"
-          sx={{
-            bgcolor: theme.palette.teal.main,
-            px: 4,
-            py: 1.5,
-            fontWeight: 'bold',
-            '&:hover': {
-              bgcolor: theme.palette.teal.dark
-            }
-          }}
-        >
-          LEARN MORE ABOUT OUR PROCESS
-        </Button>
       </Container>
 
       {/* CTA Section */}
