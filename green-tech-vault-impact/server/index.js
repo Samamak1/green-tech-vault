@@ -18,6 +18,9 @@ const authRoutes = require('./routes/authRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 
+// Import server middleware for image fallbacks
+const imageMiddleware = require('../server');
+
 // Initialize express app
 const app = express();
 
@@ -41,6 +44,9 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(morgan('dev'));
+
+// Add our custom image middleware before any other routes
+app.use(imageMiddleware);
 
 // Wake-up endpoint for faster response on initial load
 app.get('/wakeup', (req, res) => {

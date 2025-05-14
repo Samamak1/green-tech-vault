@@ -6,10 +6,14 @@ import {
   Container,
   Button,
   useTheme,
-  Paper
+  Paper,
+  Avatar
 } from '@mui/material';
-import { ArrowBack } from '@mui/icons-material';
+import { ArrowBack, Person } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+
+// Base64 fallback image option - using a direct inline image
+const inlineCeoImage = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzJBODc4NCI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyQzIgMTcuNTIgNi40OCAyMiAxMiAyMkMxNy41MiAyMiAyMiAxNy41MiAyMiAxMkMyMiA2LjQ4IDE3LjUyIDIgMTIgMk0xMiA1QzEzLjY2IDUgMTUgNi4zNCAxNSA4QzE1IDkuNjYgMTMuNjYgMTEgMTIgMTFDMTAuMzQgMTEgOSA5LjY2IDkgOEM5IDYuMzQgMTAuMzQgNSAxMiA1TTEyIDE5LjJDOS41IDE5LjIgNy4yOSAxNy45MiA2IDE1Ljk4QzYuMDMgMTMuOTkgMTAgMTIuOSAxMiAxMi45QzEzLjk5IDEyLjkgMTcuOTcgMTMuOTkgMTggMTUuOThDMTYuNzEgMTcuOTIgMTQuNSAxOS4yIDEyIDE5LjJaIi8+PC9zdmc+";
 
 const CEOProfile = () => {
   const theme = useTheme();
@@ -56,18 +60,36 @@ const CEOProfile = () => {
         <Paper elevation={2} sx={{ p: 4, borderRadius: 2 }}>
           <Grid container spacing={5} alignItems="flex-start">
             {/* CEO Image */}
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={4} sx={{ display: 'flex', justifyContent: 'center' }}>
+              {/* First try to load the image file, with inline SVG fallback */}
               <Box
-                component="img"
-                src="/images/leila-meyer.jpg" 
-                alt="Leila Meyer - CEO"
                 sx={{
                   width: '100%',
                   maxWidth: '300px',
                   borderRadius: 2,
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+                  overflow: 'hidden',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                  backgroundColor: theme.palette.teal.main,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  aspectRatio: '1',
                 }}
-              />
+              >
+                {/* Attempt to load the external image with fallback */}
+                <Avatar
+                  src={inlineCeoImage}
+                  alt="Leila Meyer - CEO"
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: 0,
+                    backgroundColor: theme.palette.teal.light,
+                  }}
+                >
+                  <Person sx={{ fontSize: 120, color: 'white' }} />
+                </Avatar>
+              </Box>
             </Grid>
             
             {/* CEO Information */}

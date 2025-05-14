@@ -67,7 +67,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-// Robot logo component - inline SVG instead of external image
+// Robot logo component - fully inline SVG with no external dependencies
 const RobotLogo = styled('div')(({ theme }) => ({
   height: '40px',
   width: '40px',
@@ -75,7 +75,10 @@ const RobotLogo = styled('div')(({ theme }) => ({
   cursor: 'pointer',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  backgroundColor: '#FF8C00', // Orange background
+  borderRadius: '50%', // Make it circular
+  color: 'white'
 }));
 
 const BrandedHeader = () => {
@@ -264,12 +267,14 @@ const BrandedHeader = () => {
               navigate('/');
             }}
           >
-            {/* Inline SVG robot logo */}
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="40" height="40">
-              <circle cx="50" cy="50" r="40" fill="#FF8C00" />
-              <circle cx="35" cy="40" r="10" fill="white" />
-              <circle cx="65" cy="40" r="10" fill="white" />
-              <rect x="30" y="65" width="40" height="5" fill="white" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="currentColor"
+            >
+              <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM16 16H8V14H16V16ZM15 7.5C15 8.33 14.33 9 13.5 9C12.67 9 12 8.33 12 7.5C12 6.67 12.67 6 13.5 6C14.33 6 15 6.67 15 7.5ZM9 7.5C9 8.33 8.33 9 7.5 9C6.67 9 6 8.33 6 7.5C6 6.67 6.67 6 7.5 6C8.33 6 9 6.67 9 7.5Z" />
             </svg>
           </RobotLogo>
           

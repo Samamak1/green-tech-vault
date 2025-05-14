@@ -20,6 +20,9 @@ import PersonIcon from '@mui/icons-material/Person';
 // Images
 const heroBackground = 'teal';
 
+// Base64 fallback image option - using a direct inline image
+const inlineCeoImage = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzJBODc4NCI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyQzIgMTcuNTIgNi40OCAyMiAxMiAyMkMxNy41MiAyMiAyMiAxNy41MiAyMiAxMkMyMiA2LjQ4IDE3LjUyIDIgMTIgMk0xMiA1QzEzLjY2IDUgMTUgNi4zNCAxNSA4QzE1IDkuNjYgMTMuNjYgMTEgMTIgMTFDMTAuMzQgMTEgOSA5LjY2IDkgOEM5IDYuMzQgMTAuMzQgNSAxMiA1TTEyIDE5LjJDOS41IDE5LjIgNy4yOSAxNy45MiA2IDE1Ljk4QzYuMDMgMTMuOTkgMTAgMTIuOSAxMiAxMi45QzEzLjk5IDEyLjkgMTcuOTcgMTMuOTkgMTggMTUuOThDMTYuNzEgMTcuOTIgMTQuNSAxOS4yIDEyIDE5LjJaIi8+PC9zdmc+";
+
 // Value icons
 const ValueIcon = ({ type }) => {
   const theme = useTheme();
@@ -136,7 +139,7 @@ const AboutUsPage = () => {
       name: "Leila Meyer",
       title: "CEO",
       description: "Passionate entrepreneur committed to tackling the global e-waste crisis through innovative, community-driven solutions.",
-      image: "/images/leila-meyer.jpg"
+      image: inlineCeoImage // Using direct inline image
     },
     {
       name: "Sama Mushtaq",
