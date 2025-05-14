@@ -134,9 +134,9 @@ const AboutUsPage = () => {
   const teamMembers = [
     {
       name: "Leila Meyer",
-      title: "CEO / Architect LEED AP",
-      description: "Registered architect and sustainability leader with expertise in eco-conscious design and responsible e-waste management.",
-      image: null
+      title: "CEO",
+      description: "Passionate entrepreneur committed to tackling the global e-waste crisis through innovative, community-driven solutions.",
+      image: "/images/leila-meyer.jpg"
     },
     {
       name: "Sama Mushtaq",

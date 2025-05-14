@@ -6,10 +6,9 @@ import {
   Container,
   Button,
   useTheme,
-  Paper,
-  Avatar
+  Paper
 } from '@mui/material';
-import { ArrowBack, Person } from '@mui/icons-material';
+import { ArrowBack } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 const CEOProfile = () => {
@@ -59,42 +58,34 @@ const CEOProfile = () => {
             {/* CEO Image */}
             <Grid item xs={12} md={4}>
               <Box
+                component="img"
+                src="/images/leila-meyer.jpg" 
+                alt="Leila Meyer - CEO"
                 sx={{
                   width: '100%',
                   maxWidth: '300px',
                   borderRadius: 2,
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-                  display: 'flex',
-                  justifyContent: 'center'
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
                 }}
-              >
-                {/* Placeholder avatar instead of loading image */}
-                <Avatar 
-                  sx={{ 
-                    width: 250, 
-                    height: 250, 
-                    bgcolor: theme.palette.teal.main,
-                    color: 'white',
-                    fontSize: '5rem'
-                  }}
-                >
-                  <Person sx={{ fontSize: 120 }} />
-                </Avatar>
-              </Box>
+              />
             </Grid>
             
             {/* CEO Information */}
             <Grid item xs={12} md={8}>
               <Typography variant="h4" sx={{ color: theme.palette.teal.main, mb: 2 }}>
-                CEO / Architect LEED AP
+                CEO
               </Typography>
               
               <Typography variant="body1" paragraph sx={{ mb: 3 }}>
-                Leila Meyer is an accomplished architect and sustainability leader with over 15 years of experience in eco-conscious design and green technology solutions. As the CEO of EcoCycle Solutions, she has transformed the company into a leading force in responsible e-waste management and circular economy practices.
+                Leila Meyer is a passionate entrepreneur committed to tackling the global e-waste crisis through innovative, community-driven solutions. With a multidisciplinary background spanning Architecture, Construction, Education, Interior Design, and Marketing, she brings a unique and holistic perspective to sustainability and circular design.
+              </Typography>
+              
+              <Typography variant="body1" paragraph sx={{ mb: 3 }}>
+                Leila earned her Bachelor of Science in Architecture from the University of Cincinnati, where she cultivated a deep understanding of design thinking and environmental responsibility. Over the years, she has expanded her expertise across industries through internships, sharpening the skills that now guide her leadership at RYGNeco.
               </Typography>
               
               <Typography variant="body1" paragraph>
-                With a Master of Architecture from The Ohio State University and LEED AP certification, Leila combines her architectural expertise with environmental commitment to create innovative recycling programs that benefit both businesses and the planet. Under her leadership, EcoCycle Solutions has diverted thousands of electronic devices from landfills while creating measurable environmental impact for clients across diverse industries.
+                Leila's vision for RYGNeco is to revolutionize how we manage electronic waste—transforming discarded tech into opportunity and paving the way for a more sustainable future.
               </Typography>
               
               <Button 
