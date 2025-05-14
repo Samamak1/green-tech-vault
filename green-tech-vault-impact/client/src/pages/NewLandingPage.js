@@ -16,6 +16,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 
 // Import our custom components
 import RecyclingIconCustom from '../components/branding/RecyclingIcon';
+import ParallaxStatsSection from '../components/layout/ParallaxStatsSection';
 
 // Styled teal-colored section
 const TealSection = styled(Box)(({ theme }) => ({
@@ -24,41 +25,6 @@ const TealSection = styled(Box)(({ theme }) => ({
   position: 'relative',
   padding: theme.spacing(6, 0),
   zIndex: 1,
-}));
-
-// Styled parallax section
-const ParallaxSection = styled(Box)(({ theme }) => ({
-  position: 'relative',
-  height: '400px',
-  width: '100%',
-  overflow: 'hidden',
-  display: 'flex',
-  alignItems: 'center',
-  color: 'white',
-  zIndex: 1,
-  '&::before': {
-    content: '""',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)', // Gradient fallback instead of image
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    backgroundAttachment: 'fixed',
-    zIndex: -2,
-  },
-  '&::after': {
-    content: '""',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(42, 135, 132, 0.85)',
-    zIndex: -1,
-  }
 }));
 
 // Styled service card
@@ -296,28 +262,7 @@ const NewLandingPage = () => {
       </Container>
 
       {/* Stats Section - with Parallax Effect */}
-      <ParallaxSection>
-        <Container maxWidth="lg">
-          <Typography variant="h3" component="h2" textAlign="center" fontWeight="bold" sx={{ mb: 6 }}>
-            We take pride in our numbers
-          </Typography>
-          
-          <Grid container spacing={3} justifyContent="center">
-            {stats.map((stat, index) => (
-              <Grid item xs={6} sm={4} md={true} key={index}>
-                <StatShowcase>
-                  <Typography variant="h3" fontWeight="bold" component="div" sx={{ mb: 1 }}>
-                    {stat.value}
-                  </Typography>
-                  <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
-                    {stat.label}
-                  </Typography>
-                </StatShowcase>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      </ParallaxSection>
+      <ParallaxStatsSection />
 
       {/* Our Process Section */}
       <Container maxWidth="lg" sx={{ py: 8 }}>
