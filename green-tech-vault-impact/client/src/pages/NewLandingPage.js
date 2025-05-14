@@ -86,20 +86,6 @@ const ImpactCard = styled(Paper)(({ theme }) => ({
   boxShadow: '0 4px 20px rgba(0,0,0,0.08)'
 }));
 
-// Stat showcase component
-const StatShowcase = styled(Box)(({ theme }) => ({
-  textAlign: 'center',
-  padding: theme.spacing(2),
-  backgroundColor: 'rgba(255, 255, 255, 0.15)',
-  borderRadius: theme.spacing(2),
-  backdropFilter: 'blur(5px)',
-  transition: 'transform 0.3s ease',
-  '&:hover': {
-    transform: 'translateY(-5px)',
-    backgroundColor: 'rgba(255, 255, 255, 0.25)'
-  }
-}));
-
 const NewLandingPage = () => {
   const theme = useTheme();
   
@@ -140,15 +126,6 @@ const NewLandingPage = () => {
       description: "Clear, itemized reports that prove your disposal met all audits and tracking.",
       icon: <DescriptionIcon sx={{ fontSize: 40 }} />
     }
-  ];
-
-  // Statistics data
-  const stats = [
-    { value: "1,560", label: "E-Waste Partners" },
-    { value: "1,560", label: "Devices Collected" },
-    { value: "5,428", label: "Total Weight (kg)" },
-    { value: "870", label: "Devices Refurbished" },
-    { value: "690", label: "Devices Recycled" }
   ];
 
   // Process steps data

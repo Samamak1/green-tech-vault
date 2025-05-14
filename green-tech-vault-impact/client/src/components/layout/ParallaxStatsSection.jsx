@@ -1,45 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Container, Typography, Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
-
-// Styled parallax section with circuit board background
-const ParallaxWrapper = styled(Box)(({ theme }) => ({
-  position: 'relative',
-  height: 'auto',
-  width: '100%',
-  overflow: 'hidden',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: 'white',
-  zIndex: 1,
-  padding: theme.spacing(6, 0),
-  // Circuit board background with parallax effect
-  '&::before': {
-    content: '""',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundImage: 'url(/images/stock-chart.jpg)',
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    backgroundAttachment: 'fixed',
-    zIndex: -2,
-  },
-  // Dark teal overlay for better text contrast
-  '&::after': {
-    content: '""',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(42, 135, 132, 0.85)', // ~85% teal overlay
-    zIndex: -1,
-  }
-}));
 
 // Styled stat card with frosted glass effect
 const StatCard = styled(Box)(({ theme }) => ({
@@ -56,6 +17,22 @@ const StatCard = styled(Box)(({ theme }) => ({
 }));
 
 const ParallaxStatsSection = () => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  // Check if the image is loaded
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      console.log('ParallaxStatsSection: Circuit board image loaded successfully');
+      setImageLoaded(true);
+    };
+    img.onerror = () => {
+      console.error('ParallaxStatsSection: Failed to load circuit board image');
+      setImageLoaded(false);
+    };
+    img.src = '/images/stock-chart.jpg';
+  }, []);
+
   // Stats data
   const stats = [
     { value: "1,560", label: "E-Waste Partners" },
@@ -66,8 +43,37 @@ const ParallaxStatsSection = () => {
   ];
 
   return (
-    <ParallaxWrapper>
-      <Container maxWidth="lg">
+    <Box
+      sx={{
+        position: 'relative',
+        minHeight: '400px',
+        width: '100%',
+        py: 6,
+        color: 'white',
+        backgroundColor: 'rgba(42, 135, 132, 1)', // Fallback color if image doesn't load
+        backgroundImage: imageLoaded ? 'url(/images/stock-chart.jpg)' : 'none',
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        backgroundAttachment: 'fixed',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(42, 135, 132, 0.85)', // ~85% teal overlay
+          zIndex: 0,
+        },
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Container 
+        maxWidth="lg"
+        sx={{ position: 'relative', zIndex: 1 }}
+      >
         <Typography 
           variant="h3" 
           component="h2" 
@@ -101,7 +107,7 @@ const ParallaxStatsSection = () => {
           ))}
         </Grid>
       </Container>
-    </ParallaxWrapper>
+    </Box>
   );
 };
 
