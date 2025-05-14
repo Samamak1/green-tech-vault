@@ -338,7 +338,9 @@ const HowItWorksPage = () => {
           Our Process
         </Typography>
         <Typography variant="body1" paragraph sx={{ textAlign: 'center', maxWidth: 800, mx: 'auto', mb: 8 }}>
-          From collection to refurbishment, reuse to responsible recycling, our process is designed with care. Whether you're an individual or an organization, we make it simple—so you can be part of the solution, every step of the way.
+          From collection to refurbishment, reuse to responsible recycling, our process<br />
+          is designed with care. Whether you're an individual or an organization, we<br />
+          make it simple—so you can be part of the solution, every step of the way.
         </Typography>
         
         <Grid container spacing={5}>
