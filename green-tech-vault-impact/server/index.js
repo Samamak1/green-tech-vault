@@ -18,13 +18,25 @@ const authRoutes = require('./routes/authRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 
+// Import server middleware for image fallbacks
+const imageMiddleware = require('../server');
+
 // Initialize express app
 const app = express();
 
+// Track server readiness
+let isServerReady = false;
+let dbConnected = false;
+
 // Connect to MongoDB
-connectDB().catch(err => {
+connectDB().then(() => {
+  console.log('MongoDB Connected successfully');
+  dbConnected = true;
+  isServerReady = true;
+}).catch(err => {
   console.error('Failed to connect to MongoDB:', err.message);
-  // Don't exit process here to allow server to start even if DB connection fails
+  // Mark server as ready even if DB fails - we'll handle DB errors in routes
+  isServerReady = true;
 });
 
 // Middleware
@@ -32,6 +44,31 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(morgan('dev'));
+
+// Add our custom image middleware before any other routes
+app.use(imageMiddleware);
+
+// Wake-up endpoint for faster response on initial load
+app.get('/wakeup', (req, res) => {
+  res.status(200).json({ 
+    status: 'awake',
+    ready: isServerReady,
+    database: dbConnected,
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV,
+    version: '1.0.1' // Increment this when making significant changes
+  });
+});
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'ok', 
+    ready: isServerReady,
+    database: dbConnected,
+    timestamp: new Date().toISOString() 
+  });
+});
 
 // Add request timeout handling
 app.use((req, res, next) => {
@@ -53,20 +90,6 @@ app.use((req, res, next) => {
       message: process.env.NODE_ENV === 'production' ? 'An unexpected error occurred' : err.message
     });
   }
-});
-
-// Global error handler middleware
-app.use((err, req, res, next) => {
-  console.error('Unhandled error:', err);
-  res.status(500).json({
-    error: 'Server error',
-    message: process.env.NODE_ENV === 'production' ? 'An unexpected error occurred' : err.message
-  });
-});
-
-// Health check endpoint
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // API Routes
@@ -105,6 +128,15 @@ if (process.env.NODE_ENV === 'production') {
     res.send('API is running...');
   });
 }
+
+// Global error handler middleware - moved after routes
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(500).json({
+    error: 'Server error',
+    message: process.env.NODE_ENV === 'production' ? 'An unexpected error occurred' : err.message
+  });
+});
 
 // Define port
 const PORT = process.env.PORT || 5000;

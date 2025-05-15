@@ -67,6 +67,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+// Robot logo component - fully inline SVG with no external dependencies
+const RobotLogo = styled('div')(({ theme }) => ({
+  height: '40px',
+  width: '40px',
+  marginRight: theme.spacing(2),
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: '#FF8C00', // Orange background
+  borderRadius: '50%', // Make it circular
+  color: 'white'
+}));
+
 const BrandedHeader = () => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -234,7 +248,7 @@ const BrandedHeader = () => {
     <AppBar 
       position="fixed" 
       sx={{ 
-        backgroundColor: '#FF8C00',
+        backgroundColor: '#2A8784',
         color: 'black',
         boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07), 0px 1px 10px 0px rgba(0,0,0,0.06)',
         height: '64px',
@@ -244,11 +258,27 @@ const BrandedHeader = () => {
         width: 'calc(100% - 225px)', // Adjust width to account for sidebar
       }}
     >
-      <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2, bgcolor: '#FF8C00' }}>
+      <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2, bgcolor: '#2A8784' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-          {/* Left side - Logo removed */}
+          {/* Left side - Robot Logo */}
+          <RobotLogo 
+            onClick={() => {
+              console.log("Robot logo clicked!");
+              navigate('/');
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="currentColor"
+            >
+              <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM16 16H8V14H16V16ZM15 7.5C15 8.33 14.33 9 13.5 9C12.67 9 12 8.33 12 7.5C12 6.67 12.67 6 13.5 6C14.33 6 15 6.67 15 7.5ZM9 7.5C9 8.33 8.33 9 7.5 9C6.67 9 6 8.33 6 7.5C6 6.67 6.67 6 7.5 6C8.33 6 9 6.67 9 7.5Z" />
+            </svg>
+          </RobotLogo>
           
-          {/* Center - Search - Now positioned to the very left */}
+          {/* Center - Search - Now after the logo */}
           <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start' }}>
             <Search>
               <SearchIconWrapper>

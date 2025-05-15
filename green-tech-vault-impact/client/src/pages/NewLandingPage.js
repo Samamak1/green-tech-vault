@@ -16,37 +16,15 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 
 // Import our custom components
 import RecyclingIconCustom from '../components/branding/RecyclingIcon';
-
-// Styled wave divider for the hero section
-const WaveDivider = styled(Box)(({ theme }) => ({
-  height: 80,
-  background: 'white',
-  borderRadius: '50% 50% 0 0 / 100% 100% 0 0',
-  width: '100%',
-  marginTop: -40,
-  position: 'relative',
-  zIndex: 2
-}));
-
-// Inverse wave divider (for bottom of sections)
-const InverseWaveDivider = styled(Box)(({ theme }) => ({
-  height: 80,
-  background: theme.palette.teal.main,
-  borderRadius: '0 0 50% 50% / 0 0 100% 100%',
-  width: '100%',
-  marginBottom: -40,
-  position: 'relative',
-  zIndex: 2
-}));
+import ParallaxStatsSection from '../components/layout/ParallaxStatsSection';
 
 // Styled teal-colored section
 const TealSection = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.teal.main,
   color: 'white',
   position: 'relative',
-  padding: theme.spacing(4, 0),
+  padding: theme.spacing(6, 0),
   zIndex: 1,
-  overflow: 'hidden'
 }));
 
 // Styled service card
@@ -98,8 +76,33 @@ const ProcessIconWrapper = styled(Box)(({ theme }) => ({
   color: 'white'
 }));
 
+// Impact card
+const ImpactCard = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(3),
+  backgroundColor: 'white',
+  borderRadius: 16,
+  display: 'flex',
+  alignItems: 'center',
+  boxShadow: '0 4px 20px rgba(0,0,0,0.08)'
+}));
+
 const NewLandingPage = () => {
   const theme = useTheme();
+  
+  // Add useEffect to log image loading status
+  React.useEffect(() => {
+    // Check if the stock chart image exists
+    const img = new Image();
+    img.onload = () => console.log("Stock chart image loaded successfully");
+    img.onerror = () => console.error("Failed to load stock chart image");
+    img.src = "/images/stock-chart.jpg";
+    
+    // Also check robot logo
+    const robotImg = new Image();
+    robotImg.onload = () => console.log("Robot logo loaded successfully");
+    robotImg.onerror = () => console.error("Failed to load robot logo");
+    robotImg.src = "/images/robot-logo.svg";
+  }, []);
 
   // Service offerings data
   const services = [
@@ -123,15 +126,6 @@ const NewLandingPage = () => {
       description: "Clear, itemized reports that prove your disposal met all audits and tracking.",
       icon: <DescriptionIcon sx={{ fontSize: 40 }} />
     }
-  ];
-
-  // Statistics data
-  const stats = [
-    { value: "1,560", label: "E-Waste Partners" },
-    { value: "1,560", label: "Devices Collected" },
-    { value: "5,428", label: "Total Weight (kg)" },
-    { value: "870", label: "Devices Refurbished" },
-    { value: "690", label: "Devices Recycled" }
   ];
 
   // Process steps data
@@ -162,34 +156,31 @@ const NewLandingPage = () => {
     <Box>
       {/* Hero Section */}
       <Box sx={{ 
-        background: 'url(https://images.unsplash.com/photo-1630332458162-c53bc4b02230?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80) no-repeat center center',
+        background: 'url(/images/e-waste-hero.png) no-repeat center top',
         backgroundSize: 'cover',
-        color: 'white',
         position: 'relative',
         pt: 6,
-        pb: 10,
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'rgba(0,0,0,0.6)',
-          zIndex: 1
-        }
+        pb: 6,
+        height: '500px', // Fixed height to crop the image
+        display: 'flex',
+        alignItems: 'center'
       }}>
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
-          <Box sx={{ pt: 4, pb: 10 }}>
-            <Typography variant="subtitle1" component="div" gutterBottom>
+          <Box sx={{ 
+            p: 4, 
+            backgroundColor: 'rgba(255, 255, 255, 0.85)', 
+            borderRadius: 2,
+            maxWidth: 700
+          }}>
+            <Typography variant="subtitle1" component="div" gutterBottom color="text.primary">
               Welcome To EcoCycle Solutions
             </Typography>
-            <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 2 }}>
+            <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 2, color: 'black' }}>
               Responsible E-Waste<br />
               Recycling for a<br />
               Cleaner Tomorrow!
             </Typography>
-            <Typography variant="body1" sx={{ maxWidth: 600, mb: 4, fontSize: '1.1rem' }}>
+            <Typography variant="body1" sx={{ mb: 4, fontSize: '1.1rem', color: 'black' }}>
               At EcoCycle Solutions, we make it easy for businesses and individuals to safely
               and responsibly recycle their electronic waste. From outdated computers to
               broken printers and everything in-between — we help reduce landfill waste,
@@ -214,7 +205,6 @@ const NewLandingPage = () => {
             </Button>
           </Box>
         </Container>
-        <WaveDivider />
       </Box>
       
       {/* What We Offer Section */}
@@ -223,8 +213,8 @@ const NewLandingPage = () => {
           What We Offer
         </Typography>
         <Typography variant="body1" textAlign="center" paragraph sx={{ maxWidth: 800, mx: 'auto', mb: 6 }}>
-          Whether you're a small office or a large corporation, we provide reliable, 
-          secure, and eco-conscious solutions that make it easy to dispose of your electronic waste.
+          Whether you're a small office or a large corporation, we provide reliable, secure, and<br />
+          eco-conscious solutions that make it easy to dispose of your electronic waste.
         </Typography>
 
         <Grid container spacing={4}>
@@ -248,36 +238,19 @@ const NewLandingPage = () => {
         </Grid>
       </Container>
 
-      {/* Stats Section */}
-      <Box sx={{ py: 2 }}>
-        <InverseWaveDivider />
-        <TealSection sx={{ py: 8 }}>
-          <Container maxWidth="lg">
-            <Typography variant="h4" textAlign="center" fontWeight="bold" sx={{ mb: 6 }}>
-              We take pride in our numbers
-            </Typography>
-            
-            <Grid container spacing={2} justifyContent="center">
-              {stats.map((stat, index) => (
-                <Grid item xs={6} sm={4} md={true} key={index} sx={{ textAlign: 'center' }}>
-                  <Typography variant="h3" fontWeight="bold" component="div">
-                    {stat.value}
-                  </Typography>
-                  <Typography variant="body2">
-                    {stat.label}
-                  </Typography>
-                </Grid>
-              ))}
-            </Grid>
-          </Container>
-        </TealSection>
-        <WaveDivider />
-      </Box>
+      {/* Stats Section - with Parallax Effect */}
+      <ParallaxStatsSection />
 
       {/* Our Process Section */}
       <Container maxWidth="lg" sx={{ py: 8 }}>
         <Typography variant="h3" component="h2" textAlign="center" fontWeight="bold" gutterBottom>
           Our Process
+        </Typography>
+        
+        <Typography variant="body1" textAlign="center" paragraph sx={{ maxWidth: 800, mx: 'auto', mb: 6 }}>
+          From collection to refurbishment, reuse to responsible recycling, our process<br />
+          is designed with care. Whether you're an individual or an organization, we<br />
+          make it simple—so you can be part of the solution, every step of the way.
         </Typography>
         
         <Grid container spacing={4} sx={{ mt: 4 }}>
@@ -297,47 +270,19 @@ const NewLandingPage = () => {
             </Grid>
           ))}
         </Grid>
-
-        <Box sx={{ textAlign: 'center', mt: 6 }}>
-          <Button
-            variant="contained"
-            size="large"
-            component={RouterLink}
-            to="/how-it-works"
-            sx={{
-              bgcolor: theme.palette.teal.main,
-              px: 4,
-              py: 1.5,
-              fontWeight: 'bold',
-              '&:hover': {
-                bgcolor: theme.palette.teal.dark
-              }
-            }}
-          >
-            LEARN MORE ABOUT OUR PROCESS
-          </Button>
-        </Box>
-      </Container>
-
-      {/* Impact Section */}
-      <Box sx={{ bgcolor: '#f5f5f5', py: 8 }}>
-        <Container maxWidth="lg">
-          <Box 
-            sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              p: 3, 
-              borderRadius: 2,
-              border: `1px solid ${theme.palette.teal.main}`
-            }}
-          >
+        
+        {/* Impact Section - Moved to be part of Our Process section */}
+        <Box sx={{ mt: 4 }}>
+          <ImpactCard>
             <BarChartIcon sx={{ fontSize: 40, color: theme.palette.teal.main, mr: 2 }} />
-            <Typography variant="h5" component="h3" fontWeight="bold">
-              Impact
-            </Typography>
-            <Typography variant="body1" sx={{ ml: 2 }}>
-              Receive detailed reports on your environmental impact and data security
-            </Typography>
+            <Box>
+              <Typography variant="h5" component="h3" fontWeight="bold">
+                Impact
+              </Typography>
+              <Typography variant="body1">
+                Receive detailed reports on your environmental impact and data security
+              </Typography>
+            </Box>
             <Box sx={{ ml: 'auto' }}>
               <Button 
                 variant="contained"
@@ -353,9 +298,9 @@ const NewLandingPage = () => {
                 VIEW SAMPLE REPORT
               </Button>
             </Box>
-          </Box>
-        </Container>
-      </Box>
+          </ImpactCard>
+        </Box>
+      </Container>
 
       {/* CTA Section */}
       <Box sx={{ bgcolor: theme.palette.teal.main, color: 'white', py: 8 }}>

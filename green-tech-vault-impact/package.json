@@ -9,12 +9,15 @@
     "client": "cd client && npm start",
     "dev:full": "concurrently \"npm run dev\" \"npm run client\"",
     "install:all": "npm install && cd client && npm install",
-    "build": "cd client && npm run build",
+    "build": "cd client && npm run build && node copy-images.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:client": "cd client && npm install && npm run build",
+    "build:client": "cd client && npm install && npm run build && cd .. && node copy-images.js",
     "heroku-postbuild": "npm run build:client",
-    "render-build": "npm install && cd client && npm install && npm run build",
-    "render-start": "NODE_ENV=production node server/index.js"
+    "render-build": "npm install && cd client && npm install && npm run build && cd .. && node copy-images.js",
+    "render-start": "NODE_ENV=production node server/index.js",
+    "keep-alive": "node keep-alive.js",
+    "copy-images": "node copy-images.js",
+    "verify-build": "ls -la client/build/images"
   },
   "keywords": [
     "e-waste",

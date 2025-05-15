@@ -2,7 +2,7 @@ services:
   - type: web
     name: green-tech-vault
     env: node
-    buildCommand: npm install && cd client && npm install && npm run build
+    buildCommand: bash build.sh
     startCommand: NODE_ENV=production npm start
     envVars:
       - key: NODE_ENV
@@ -10,4 +10,29 @@ services:
       - key: PORT
         value: 10000
       - key: MONGODB_URI
-        value: mongodb+srv://greentechuser:greentechpassword@cluster0.mongodb.net/green-tech-vault?retryWrites=true&w=majority 
+        value: mongodb+srv://greentechuser:greentechpassword@cluster0.mongodb.net/green-tech-vault?retryWrites=true&w=majority
+    healthCheckPath: /wakeup
+    healthCheckTimeout: 60
+    autoDeploy: true
+    routes:
+      - type: redirect
+        source: /
+        destination: /
+      - type: rewrite
+        source: /*
+        destination: /index.html
+  
+  # Keep-alive service to prevent the app from sleeping
+  - type: worker
+    name: green-tech-vault-keep-alive
+    env: node
+    buildCommand: npm install
+    startCommand: node keep-alive.js
+    envVars:
+      - key: BASE_URL
+        fromService:
+          name: green-tech-vault
+          type: web
+          property: url
+      - key: PING_INTERVAL
+        value: "600000" # 10 minutes 

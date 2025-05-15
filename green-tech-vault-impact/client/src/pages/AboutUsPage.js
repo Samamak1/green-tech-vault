@@ -15,9 +15,13 @@ import {
 } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 import RecyclingIcon from '../components/branding/RecyclingIcon';
+import PersonIcon from '@mui/icons-material/Person';
 
 // Images
 const heroBackground = 'teal';
+
+// Base64 fallback image option - using a direct inline image
+const inlineCeoImage = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzJBODc4NCI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyQzIgMTcuNTIgNi40OCAyMiAxMiAyMkMxNy41MiAyMiAyMiAxNy41MiAyMiAxMkMyMiA2LjQ4IDE3LjUyIDIgMTIgMk0xMiA1QzEzLjY2IDUgMTUgNi4zNCAxNSA4QzE1IDkuNjYgMTMuNjYgMTEgMTIgMTFDMTAuMzQgMTEgOSA5LjY2IDkgOEM5IDYuMzQgMTAuMzQgNSAxMiA1TTEyIDE5LjJDOS41IDE5LjIgNy4yOSAxNy45MiA2IDE1Ljk4QzYuMDMgMTMuOTkgMTAgMTIuOSAxMiAxMi45QzEzLjk5IDEyLjkgMTcuOTcgMTMuOTkgMTggMTUuOThDMTYuNzEgMTcuOTIgMTQuNSAxOS4yIDEyIDE5LjJaIi8+PC9zdmc+";
 
 // Value icons
 const ValueIcon = ({ type }) => {
@@ -134,8 +138,8 @@ const AboutUsPage = () => {
     {
       name: "Leila Meyer",
       title: "CEO",
-      description: "Proof that your materials were responsibly processed in accordance with regulations.",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+      description: "Passionate entrepreneur committed to tackling the global e-waste crisis through innovative, community-driven solutions.",
+      image: inlineCeoImage // Using direct inline image
     },
     {
       name: "Sama Mushtaq",
@@ -243,7 +247,8 @@ const AboutUsPage = () => {
                         sx={{
                           width: '100%',
                           height: '100%',
-                          objectFit: 'cover'
+                          objectFit: 'cover',
+                          display: 'block'
                         }}
                       />
                     ) : (
@@ -253,10 +258,22 @@ const AboutUsPage = () => {
                           justifyContent: 'center',
                           alignItems: 'center',
                           height: '100%',
-                          bgcolor: '#f5f5f5'
+                          bgcolor: member.name === "Leila Meyer" ? theme.palette.teal.main : '#f5f5f5'
                         }}
                       >
-                        <RecyclingIcon size={80} color="black" />
+                        {member.name === "Leila Meyer" ? (
+                          <Avatar 
+                            sx={{ 
+                              width: 80, 
+                              height: 80, 
+                              bgcolor: theme.palette.teal.main
+                            }}
+                          >
+                            <PersonIcon sx={{ fontSize: 40 }} />
+                          </Avatar>
+                        ) : (
+                          <RecyclingIcon size={80} color="black" />
+                        )}
                       </Box>
                     )}
                   </Grid>

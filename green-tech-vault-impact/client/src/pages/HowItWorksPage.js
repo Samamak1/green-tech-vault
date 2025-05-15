@@ -325,7 +325,7 @@ const HowItWorksPage = () => {
             </Grid>
             <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Box sx={{ maxWidth: 200 }}>
-                <RecyclingIcon size={200} color="black" />
+                <RecyclingIcon size={200} color="white" />
               </Box>
             </Grid>
           </Grid>
@@ -338,7 +338,9 @@ const HowItWorksPage = () => {
           Our Process
         </Typography>
         <Typography variant="body1" paragraph sx={{ textAlign: 'center', maxWidth: 800, mx: 'auto', mb: 8 }}>
-          From collection to refurbishment, reuse to responsible recycling, our process is designed with care. Whether you're an individual or an organization, we make it simple—so you can be part of the solution, every step of the way.
+          From collection to refurbishment, reuse to responsible recycling, our process<br />
+          is designed with care. Whether you're an individual or an organization, we<br />
+          make it simple—so you can be part of the solution, every step of the way.
         </Typography>
         
         <Grid container spacing={5}>
@@ -603,7 +605,8 @@ const HowItWorksPage = () => {
             Recycling Reports You Can Rely On
           </Typography>
           <Typography variant="body1" paragraph sx={{ textAlign: 'center', maxWidth: 800, mx: 'auto', mb: 8 }}>
-            We provide detailed documentation with every pickup and processing job. Our reporting is complete, transparent, and eco-conscious.
+            We provide detailed documentation with every pickup and processing<br />
+            job. Our reporting is complete, transparent, and eco-conscious.
           </Typography>
           
           <Grid container spacing={5} justifyContent="center">
