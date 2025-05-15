@@ -431,7 +431,7 @@ const AdminProfile = () => {
             
             {/* Tax ID */}
             <Grid item xs={12} md={6}>
-              <Typography variant="body2" color="text.secondary">TAX ID</Typography>
+              <Typography variant="body2" color="text.secondary">STATE</Typography>
               {editing && currentSection === 'address' ? (
                 <TextField
                   fullWidth
