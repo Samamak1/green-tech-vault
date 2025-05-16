@@ -208,7 +208,7 @@ const AboutUsPage = () => {
               Our Mission
             </Typography>
             <Typography variant="body1" paragraph>
-              At our company, we are committed to transforming the way the world views electronic waste. Rooted in the principles of circular economy, clean technology, and community empowerment, we work to give devices a second life—reducing waste and restoring value. We want to close the loop on e-waste by creating accessible, ethical, and sustainable systems for reuse, repair, and recycling.
+              We're on a mission to turn yesterday's tech into tomorrow's possibilities. By making e-waste recycling simple, smart, and community-powered, we help people and businesses everywhere take part in building a cleaner planet—one device at a time!
             </Typography>
             
             <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mt: 6 }}>

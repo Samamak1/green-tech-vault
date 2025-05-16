@@ -53,6 +53,8 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import RecyclingIcon from '../components/branding/RecyclingIcon';
 // Import our scroll to hash hook
 import useScrollToHash from '../hooks/useScrollToHash';
+// Import the EwasteItemSearch component
+import EwasteItemSearch from '../components/search/EwasteItemSearch';
 
 // Styled components
 const ProcessIcon = styled(Box)(({ theme }) => ({
@@ -93,7 +95,6 @@ const StyledTableCell = styled(TableCell)(({ theme, type }) => ({
 
 const HowItWorksPage = () => {
   const theme = useTheme();
-  const [searchQuery, setSearchQuery] = useState('');
   
   // Use the scroll to hash hook to enable scrolling to sections
   useScrollToHash();
@@ -269,10 +270,6 @@ const HowItWorksPage = () => {
     }
   ];
   
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-  
   return (
     <Box>
       {/* Hero Section */}
@@ -400,48 +397,8 @@ const HowItWorksPage = () => {
             Use our search tool below to look up specific items!
           </Typography>
           
-          {/* Search tool */}
-          <Box 
-            component="form" 
-            sx={{ 
-              display: 'flex', 
-              justifyContent: 'center', 
-              mb: 4,
-              maxWidth: 600,
-              mx: 'auto'
-            }}
-          >
-            <TextField
-              fullWidth
-              placeholder="Search here"
-              variant="outlined"
-              value={searchQuery}
-              onChange={handleSearchChange}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start" sx={{ ml: 1 }}>
-                    <SearchIcon sx={{ color: 'text.secondary' }} />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                bgcolor: 'white',
-                borderRadius: 1.5,
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: 1.5,
-                  height: 56,
-                  '& fieldset': {
-                    borderColor: 'rgba(0, 0, 0, 0.1)',
-                    borderWidth: 1,
-                  },
-                  '&:hover fieldset': {
-                    borderColor: 'rgba(0, 0, 0, 0.2)',
-                  },
-                },
-                boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
-              }}
-            />
-          </Box>
+          {/* Replace the old search tool with the new EwasteItemSearch component */}
+          <EwasteItemSearch acceptedItems={acceptedItems} />
           
           <Typography 
             variant="body2" 

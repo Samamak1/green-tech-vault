@@ -55,6 +55,7 @@ import QRMobileLogin from './pages/QRMobileLogin';
 import Help from './pages/Help';
 import ClientReports from './pages/ClientReports';
 import CEOProfile from './pages/CEOProfile';
+import EwasteItemDetailPage from './pages/EwasteItemDetailPage';
 
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
@@ -308,6 +309,13 @@ function App() {
                 <Route path="/schedule-pickup/:clientId" element={
                   <MainLayout hideFooter={true}>
                     <SchedulePickup />
+                  </MainLayout>
+                } />
+                
+                {/* E-waste Item Detail Page */}
+                <Route path="/e-waste-item/:itemName" element={
+                  <MainLayout>
+                    <EwasteItemDetailPage />
                   </MainLayout>
                 } />
                 
