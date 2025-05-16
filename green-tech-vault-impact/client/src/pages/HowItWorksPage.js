@@ -117,7 +117,7 @@ const HowItWorksPage = () => {
       description: "All data is securely wiped from all devices following industry standards."
     },
     {
-      icon: <RecyclingIcon fontSize="large" style={{ width: '1.5em', height: '1.5em' }} />,
+      icon: <RecyclingMUIIcon fontSize="large" />,
       title: "Process",
       description: "Devices are examined, refurbished, or responsibly recycled."
     },

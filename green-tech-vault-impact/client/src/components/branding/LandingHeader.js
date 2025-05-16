@@ -12,9 +12,17 @@ import {
   ListItemText,
   ListItemIcon,
   Divider,
-  useTheme
+  useTheme,
+  Menu,
+  MenuItem,
+  Popper,
+  Grow,
+  Paper,
+  ClickAwayListener,
+  MenuList
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Link as RouterLink } from 'react-router-dom';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import RecyclingIcon from '@mui/icons-material/Recycling';
@@ -31,9 +39,36 @@ import Logo from './Logo';
 const LandingHeader = () => {
   const theme = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [aboutUsAnchorEl, setAboutUsAnchorEl] = useState(null);
+  const [joinUsAnchorEl, setJoinUsAnchorEl] = useState(null);
+  const [howItWorksAnchorEl, setHowItWorksAnchorEl] = useState(null);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const handleAboutUsOpen = (event) => {
+    setAboutUsAnchorEl(event.currentTarget);
+  };
+
+  const handleAboutUsClose = () => {
+    setAboutUsAnchorEl(null);
+  };
+
+  const handleJoinUsOpen = (event) => {
+    setJoinUsAnchorEl(event.currentTarget);
+  };
+
+  const handleJoinUsClose = () => {
+    setJoinUsAnchorEl(null);
+  };
+
+  const handleHowItWorksOpen = (event) => {
+    setHowItWorksAnchorEl(event.currentTarget);
+  };
+
+  const handleHowItWorksClose = () => {
+    setHowItWorksAnchorEl(null);
   };
 
   const menuItems = [
@@ -80,10 +115,39 @@ const LandingHeader = () => {
   ];
 
   const navItems = [
-    { text: 'How It Works', link: '/how-it-works' },
-    { text: 'Join Us', link: '/recycling-offers' },
+    { 
+      text: 'How It Works', 
+      link: '/how-it-works',
+      hasDropdown: true,
+      dropdownItems: [
+        { text: 'Accepted Items', link: '/how-it-works#accepted-items' },
+        { text: 'Data Destruction', link: '/services/data-destruction' },
+        { text: 'Our Process', link: '/how-it-works#our-process' },
+        { text: 'Pickup Services', link: '/services/pickup' },
+        { text: 'Reports', link: '/how-it-works#reports' }
+      ]
+    },
+    { 
+      text: 'Join Us', 
+      link: '/recycling-offers',
+      hasDropdown: true,
+      dropdownItems: [
+        { text: 'Client Benefits', link: '/recycling-offers#benefits' },
+        { text: 'Make a difference', link: '/recycling-offers#difference' }
+      ]
+    },
     { text: 'Education', link: '/education' },
-    { text: 'About Us', link: '/about-us' },
+    { 
+      text: 'About Us', 
+      link: '/about-us',
+      hasDropdown: true,
+      dropdownItems: [
+        { text: 'Certified Recycling', link: '/services/recycling' },
+        { text: 'Our Numbers', link: '/our-numbers' },
+        { text: 'Our Team', link: '/about-us#team' },
+        { text: 'Philosophy', link: '/about-us#philosophy' }
+      ]
+    },
     { text: 'Contact', link: '/contact' }
   ];
 
@@ -144,22 +208,107 @@ const LandingHeader = () => {
           
           {/* Right side - Navigation */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {navItems.map((item) => (
-              <Typography 
-                key={item.text}
-                component={RouterLink}
-                to={item.link}
-                sx={{ 
-                  mx: 1.5, 
-                  color: 'text.primary', 
-                  textDecoration: 'none',
-                  fontSize: '0.875rem',
-                  '&:hover': { color: 'primary.main' }
-                }}
-              >
-                {item.text}
-              </Typography>
-            ))}
+            {navItems.map((item) => 
+              item.hasDropdown ? (
+                <Box 
+                  key={item.text}
+                  sx={{ 
+                    position: 'relative',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                >
+                  <Box
+                    aria-controls={item.text === 'About Us' ? "about-menu" : item.text === 'Join Us' ? "join-menu" : "how-menu"}
+                    aria-haspopup="true"
+                    onClick={
+                      item.text === 'About Us' 
+                        ? handleAboutUsOpen 
+                        : item.text === 'Join Us' 
+                          ? handleJoinUsOpen 
+                          : handleHowItWorksOpen
+                    }
+                    sx={{ 
+                      display: 'flex',
+                      alignItems: 'center',
+                      mx: 1.5, 
+                      cursor: 'pointer',
+                      color: 'text.primary',
+                      fontSize: '0.875rem',
+                      '&:hover': { color: 'primary.main' }
+                    }}
+                  >
+                    {item.text}
+                    <ArrowDropDownIcon fontSize="small" />
+                  </Box>
+                  <Menu
+                    id={item.text === 'About Us' ? "about-menu" : item.text === 'Join Us' ? "join-menu" : "how-menu"}
+                    anchorEl={
+                      item.text === 'About Us' 
+                        ? aboutUsAnchorEl 
+                        : item.text === 'Join Us' 
+                          ? joinUsAnchorEl 
+                          : howItWorksAnchorEl
+                    }
+                    open={Boolean(
+                      item.text === 'About Us' 
+                        ? aboutUsAnchorEl 
+                        : item.text === 'Join Us' 
+                          ? joinUsAnchorEl 
+                          : howItWorksAnchorEl
+                    )}
+                    onClose={
+                      item.text === 'About Us' 
+                        ? handleAboutUsClose 
+                        : item.text === 'Join Us' 
+                          ? handleJoinUsClose 
+                          : handleHowItWorksClose
+                    }
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'center',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'center',
+                    }}
+                    sx={{ mt: 0.5 }}
+                  >
+                    {item.dropdownItems.map((dropdownItem) => (
+                      <MenuItem 
+                        key={dropdownItem.text} 
+                        component={RouterLink} 
+                        to={dropdownItem.link}
+                        onClick={
+                          item.text === 'About Us' 
+                            ? handleAboutUsClose 
+                            : item.text === 'Join Us' 
+                              ? handleJoinUsClose 
+                              : handleHowItWorksClose
+                        }
+                      >
+                        {dropdownItem.text}
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </Box>
+              ) : (
+                <Typography 
+                  key={item.text}
+                  component={RouterLink}
+                  to={item.link}
+                  sx={{ 
+                    mx: 1.5, 
+                    color: 'text.primary', 
+                    textDecoration: 'none',
+                    fontSize: '0.875rem',
+                    '&:hover': { color: 'primary.main' }
+                  }}
+                >
+                  {item.text}
+                </Typography>
+              )
+            )}
             
             <Button 
               variant="outlined" 
