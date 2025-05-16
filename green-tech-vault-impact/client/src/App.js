@@ -319,6 +319,41 @@ function App() {
                   </MainLayout>
                 } />
                 
+                {/* Specific E-waste Item Pages */}
+                <Route path="/e-waste-item/keyboards" element={
+                  <MainLayout>
+                    <EwasteItemDetailPage preloadedItemData={{
+                      name: "Keyboards",
+                      category: "Peripherals",
+                      description: "Computer keyboards are one of the most commonly used peripheral devices. They come in various forms—wired, wireless, mechanical, and membrane. While small in size, they contain a mix of plastics, metals, and electronic components that can be hazardous if not properly recycled.",
+                      conditions: [
+                        "Wired or wireless keyboards",
+                        "Mechanical, membrane, or ergonomic models",
+                        "Keyboards with minor cosmetic damage (scratches, missing keycaps)",
+                        "No batteries leaking or excessive corrosion"
+                      ],
+                      notes: [
+                        "Remove batteries before drop-off (especially AA/AAA batteries).",
+                        "No wet or moldy items."
+                      ],
+                      process: [
+                        "Manual Disassembly – Plastic casing, rubber, and electronic parts are separated.",
+                        "Material Sorting – Metals like copper and aluminum are extracted.",
+                        "Shredding – Remaining parts are shredded and sorted by material type.",
+                        "Reuse & Repurposing – Usable components are recovered for refurbishing or raw material supply."
+                      ],
+                      impact: [
+                        "Prevent plastic waste from entering landfills",
+                        "Recover precious metals like gold, copper, and silver",
+                        "Reduce the demand for virgin materials used in new electronics",
+                        "Lower greenhouse gas emissions associated with raw material extraction"
+                      ],
+                      relatedItems: ["Mouse", "Monitor", "USB Cable", "Laptop Dock"],
+                      categoryDetail: "Computer Peripherals"
+                    }} />
+                  </MainLayout>
+                } />
+                
                 {/* Auth Routes */}
                 <Route path="/login" element={<ClientLogin />} />
                 <Route path="/register" element={<ClientRegister />} />

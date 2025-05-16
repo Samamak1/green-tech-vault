@@ -61,9 +61,18 @@ const EwasteItemSearch = ({ acceptedItems }) => {
       return;
     }
     
-    const results = allItems.filter(item => 
-      item.name.toLowerCase().includes(query)
-    );
+    // Improved search to handle singular/plural forms 
+    const results = allItems.filter(item => {
+      const itemName = item.name.toLowerCase();
+      // Check if the item name contains the query
+      if (itemName.includes(query)) return true;
+      
+      // Check for singular/plural variations (simple s/es ending check)
+      const singularQuery = query.endsWith('s') ? query.slice(0, -1) : query;
+      const pluralQuery = query.endsWith('s') ? query : `${query}s`;
+      
+      return itemName.includes(singularQuery) || itemName.includes(pluralQuery);
+    });
     
     setSearchResults(results);
     setShowResults(true);
@@ -71,10 +80,15 @@ const EwasteItemSearch = ({ acceptedItems }) => {
   };
   
   const handleItemClick = (item) => {
-    // Navigate to a temporary item info page (placeholder)
-    navigate(`/e-waste-item/${item.name.toLowerCase().replace(/\s+/g, '-')}`, { 
-      state: { item: item } 
-    });
+    // Special handling for keyboards to use the dedicated page
+    if (item.name.toLowerCase() === "keyboards" || item.name.toLowerCase() === "keyboard") {
+      navigate(`/e-waste-item/keyboards`);
+    } else {
+      // For other items, use the generic route with state
+      navigate(`/e-waste-item/${item.name.toLowerCase().replace(/\s+/g, '-')}`, { 
+        state: { item: item } 
+      });
+    }
     setShowResults(false);
   };
   
