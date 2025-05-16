@@ -178,7 +178,7 @@ const ContactPage = () => {
               {/* Social Media Links */}
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <Link 
-                  href="https://instagram.com" 
+                  href="https://www.instagram.com/rygneco/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   sx={{ 

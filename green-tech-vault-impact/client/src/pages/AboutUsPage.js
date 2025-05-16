@@ -208,7 +208,13 @@ const AboutUsPage = () => {
               Our Mission
             </Typography>
             <Typography variant="body1" paragraph>
-              We're on a mission to turn yesterday's tech into tomorrow's possibilities. By making e-waste recycling simple, smart, and community-powered, we help people and businesses everywhere take part in building a cleaner planet—one device at a time!
+              We're on a mission to turn yesterday's tech into tomorrow's possibilities. By making 
+            </Typography>
+            <Typography variant="body1" paragraph>
+              e-waste recycling simple, smart, and community-powered, we help people and 
+            </Typography>
+            <Typography variant="body1" paragraph>
+              businesses everywhere take part in building a cleaner planet—one device at a time!
             </Typography>
             
             <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mt: 6 }}>

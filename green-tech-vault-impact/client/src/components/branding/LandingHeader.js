@@ -5,7 +5,6 @@ import {
   Toolbar, 
   Typography, 
   Button, 
-  IconButton,
   Drawer,
   List,
   ListItem,
@@ -22,7 +21,6 @@ import {
   MenuList
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Link as RouterLink } from 'react-router-dom';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import RecyclingIcon from '@mui/icons-material/Recycling';
@@ -39,36 +37,18 @@ import Logo from './Logo';
 const LandingHeader = () => {
   const theme = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [aboutUsAnchorEl, setAboutUsAnchorEl] = useState(null);
-  const [joinUsAnchorEl, setJoinUsAnchorEl] = useState(null);
-  const [howItWorksAnchorEl, setHowItWorksAnchorEl] = useState(null);
+  const [hoveredItem, setHoveredItem] = useState(null);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
-  const handleAboutUsOpen = (event) => {
-    setAboutUsAnchorEl(event.currentTarget);
+  const handleMouseEnter = (item) => {
+    setHoveredItem(item);
   };
 
-  const handleAboutUsClose = () => {
-    setAboutUsAnchorEl(null);
-  };
-
-  const handleJoinUsOpen = (event) => {
-    setJoinUsAnchorEl(event.currentTarget);
-  };
-
-  const handleJoinUsClose = () => {
-    setJoinUsAnchorEl(null);
-  };
-
-  const handleHowItWorksOpen = (event) => {
-    setHowItWorksAnchorEl(event.currentTarget);
-  };
-
-  const handleHowItWorksClose = () => {
-    setHowItWorksAnchorEl(null);
+  const handleMouseLeave = () => {
+    setHoveredItem(null);
   };
 
   const menuItems = [
@@ -188,19 +168,8 @@ const LandingHeader = () => {
         }}
       >
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          {/* Left side - Menu button and Logo */}
+          {/* Left side - Logo */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              onClick={toggleMenu}
-              sx={{ mr: 1, color: '#1C392B' }}
-            >
-              <MenuIcon />
-            </IconButton>
-            
             <Box component={RouterLink} to="/" sx={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
               <Logo size="medium" showText={false} />
             </Box>
@@ -217,80 +186,61 @@ const LandingHeader = () => {
                     display: 'flex',
                     alignItems: 'center'
                   }}
+                  onMouseEnter={() => handleMouseEnter(item.text)}
+                  onMouseLeave={handleMouseLeave}
                 >
-                  <Box
-                    aria-controls={item.text === 'About Us' ? "about-menu" : item.text === 'Join Us' ? "join-menu" : "how-menu"}
-                    aria-haspopup="true"
-                    onClick={
-                      item.text === 'About Us' 
-                        ? handleAboutUsOpen 
-                        : item.text === 'Join Us' 
-                          ? handleJoinUsOpen 
-                          : handleHowItWorksOpen
-                    }
+                  <Typography
+                    component={RouterLink}
+                    to={item.link}
                     sx={{ 
-                      display: 'flex',
-                      alignItems: 'center',
                       mx: 1.5, 
-                      cursor: 'pointer',
-                      color: 'text.primary',
+                      color: hoveredItem === item.text ? 'primary.main' : 'text.primary', 
+                      textDecoration: 'none',
                       fontSize: '0.875rem',
+                      cursor: 'pointer',
                       '&:hover': { color: 'primary.main' }
                     }}
                   >
                     {item.text}
-                    <ArrowDropDownIcon fontSize="small" />
-                  </Box>
-                  <Menu
-                    id={item.text === 'About Us' ? "about-menu" : item.text === 'Join Us' ? "join-menu" : "how-menu"}
-                    anchorEl={
-                      item.text === 'About Us' 
-                        ? aboutUsAnchorEl 
-                        : item.text === 'Join Us' 
-                          ? joinUsAnchorEl 
-                          : howItWorksAnchorEl
-                    }
-                    open={Boolean(
-                      item.text === 'About Us' 
-                        ? aboutUsAnchorEl 
-                        : item.text === 'Join Us' 
-                          ? joinUsAnchorEl 
-                          : howItWorksAnchorEl
-                    )}
-                    onClose={
-                      item.text === 'About Us' 
-                        ? handleAboutUsClose 
-                        : item.text === 'Join Us' 
-                          ? handleJoinUsClose 
-                          : handleHowItWorksClose
-                    }
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'center',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'center',
-                    }}
-                    sx={{ mt: 0.5 }}
-                  >
-                    {item.dropdownItems.map((dropdownItem) => (
-                      <MenuItem 
-                        key={dropdownItem.text} 
-                        component={RouterLink} 
-                        to={dropdownItem.link}
-                        onClick={
-                          item.text === 'About Us' 
-                            ? handleAboutUsClose 
-                            : item.text === 'Join Us' 
-                              ? handleJoinUsClose 
-                              : handleHowItWorksClose
-                        }
-                      >
-                        {dropdownItem.text}
-                      </MenuItem>
-                    ))}
-                  </Menu>
+                  </Typography>
+                  
+                  {hoveredItem === item.text && (
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: '100%',
+                        left: 0,
+                        zIndex: 1,
+                        backgroundColor: 'white',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                        borderRadius: 1,
+                        width: 180,
+                        mt: 0.5
+                      }}
+                    >
+                      {item.dropdownItems.map((dropdownItem) => (
+                        <Typography
+                          key={dropdownItem.text}
+                          component={RouterLink}
+                          to={dropdownItem.link}
+                          sx={{
+                            display: 'block',
+                            py: 1.5,
+                            px: 2,
+                            textDecoration: 'none',
+                            color: 'text.primary',
+                            fontSize: '0.875rem',
+                            '&:hover': {
+                              backgroundColor: 'rgba(0,0,0,0.04)',
+                              color: 'primary.main',
+                            }
+                          }}
+                        >
+                          {dropdownItem.text}
+                        </Typography>
+                      ))}
+                    </Box>
+                  )}
                 </Box>
               ) : (
                 <Typography 
