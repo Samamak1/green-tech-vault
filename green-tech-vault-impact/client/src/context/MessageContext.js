@@ -14,12 +14,35 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+    if (token && token !== 'undefined' && token !== 'null') {
+      try {
+        // Basic validation to ensure token looks valid
+        const parts = token.split('.');
+        if (parts.length === 3) {
+          config.headers['Authorization'] = `Bearer ${token}`;
+        }
+      } catch (error) {
+        console.error('Invalid token format:', error);
+        localStorage.removeItem('token');
+      }
     }
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Add response interceptor to handle auth errors
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // Clear invalid token
+      localStorage.removeItem('token');
+      // Don't log 401 errors as they're expected for unauthenticated users
+      return Promise.reject(new Error('Authentication required'));
+    }
     return Promise.reject(error);
   }
 );
@@ -34,7 +57,7 @@ export const useMessages = () => useContext(MessageContext);
 export const MessageProvider = ({ children }) => {
   const { user } = useAuth();
   const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [unreadCount, setUnreadCount] = useState(0);
   const [selectedMessage, setSelectedMessage] = useState(null);
@@ -51,9 +74,26 @@ export const MessageProvider = ({ children }) => {
   // Base API URL for messages
   const API_URL = '/messages';
 
+  // Check if user is authenticated with valid token
+  const isAuthenticated = () => {
+    if (!user) return false;
+    const token = localStorage.getItem('token');
+    if (!token || token === 'undefined' || token === 'null') return false;
+    try {
+      const parts = token.split('.');
+      return parts.length === 3;
+    } catch {
+      return false;
+    }
+  };
+
   // Fetch messages (either received or sent)
   const fetchMessages = async (type = messageType, page = 1, limit = 10) => {
-    if (!user) return;
+    if (!isAuthenticated()) {
+      setMessages([]);
+      setPagination({ page: 1, limit: 10, total: 0, pages: 0 });
+      return;
+    }
     
     setLoading(true);
     setError(null);
@@ -81,9 +121,15 @@ export const MessageProvider = ({ children }) => {
       }
       setMessageType(type);
     } catch (error) {
-      console.error('Error fetching messages:', error);
-      setError('Failed to load messages. Please try again later.');
-      setMessages([]);
+      if (error.message === 'Authentication required') {
+        // Silent fail for auth errors - user is not logged in
+        setMessages([]);
+        setError(null);
+      } else {
+        console.error('Error fetching messages:', error);
+        setError('Failed to load messages. Please try again later.');
+        setMessages([]);
+      }
     } finally {
       setLoading(false);
     }
@@ -91,7 +137,7 @@ export const MessageProvider = ({ children }) => {
 
   // Fetch a single message by ID
   const fetchMessage = async (messageId) => {
-    if (!user || !messageId) return;
+    if (!isAuthenticated() || !messageId) return null;
     
     setLoading(true);
     setError(null);
@@ -101,8 +147,10 @@ export const MessageProvider = ({ children }) => {
       setSelectedMessage(response.data.data);
       return response.data.data;
     } catch (error) {
-      console.error('Error fetching message:', error);
-      setError('Failed to load message. Please try again later.');
+      if (error.message !== 'Authentication required') {
+        console.error('Error fetching message:', error);
+        setError('Failed to load message. Please try again later.');
+      }
       return null;
     } finally {
       setLoading(false);
@@ -111,7 +159,7 @@ export const MessageProvider = ({ children }) => {
 
   // Send a new message
   const sendMessage = async (recipientId, subject, content) => {
-    if (!user) return null;
+    if (!isAuthenticated()) return null;
     
     setLoading(true);
     setError(null);
@@ -130,8 +178,10 @@ export const MessageProvider = ({ children }) => {
       
       return response.data.data;
     } catch (error) {
-      console.error('Error sending message:', error);
-      setError('Failed to send message. Please try again later.');
+      if (error.message !== 'Authentication required') {
+        console.error('Error sending message:', error);
+        setError('Failed to send message. Please try again later.');
+      }
       return null;
     } finally {
       setLoading(false);
@@ -140,7 +190,7 @@ export const MessageProvider = ({ children }) => {
 
   // Mark a message as read
   const markAsRead = async (messageId) => {
-    if (!user || !messageId) return;
+    if (!isAuthenticated() || !messageId) return;
     
     try {
       await apiClient.patch(`${API_URL}/${messageId}/read`);
@@ -160,13 +210,15 @@ export const MessageProvider = ({ children }) => {
       // Update unread count
       fetchUnreadCount();
     } catch (error) {
-      console.error('Error marking message as read:', error);
+      if (error.message !== 'Authentication required') {
+        console.error('Error marking message as read:', error);
+      }
     }
   };
 
   // Delete a message
   const deleteMessage = async (messageId) => {
-    if (!user || !messageId) return;
+    if (!isAuthenticated() || !messageId) return false;
     
     try {
       await apiClient.delete(`${API_URL}/${messageId}`);
@@ -183,15 +235,17 @@ export const MessageProvider = ({ children }) => {
       
       return true;
     } catch (error) {
-      console.error('Error deleting message:', error);
-      setError('Failed to delete message. Please try again later.');
+      if (error.message !== 'Authentication required') {
+        console.error('Error deleting message:', error);
+        setError('Failed to delete message. Please try again later.');
+      }
       return false;
     }
   };
 
   // Search for users to message (for admin use)
   const searchUsers = async (query) => {
-    if (!user) return [];
+    if (!isAuthenticated()) return [];
     
     setSearchQuery(query);
     
@@ -200,15 +254,20 @@ export const MessageProvider = ({ children }) => {
       setRecipients(response.data.data);
       return response.data.data;
     } catch (error) {
-      console.error('Error searching users:', error);
-      setError('Failed to search users. Please try again later.');
+      if (error.message !== 'Authentication required') {
+        console.error('Error searching users:', error);
+        setError('Failed to search users. Please try again later.');
+      }
       return [];
     }
   };
 
   // Get unread message count
   const fetchUnreadCount = async () => {
-    if (!user) return;
+    if (!isAuthenticated()) {
+      setUnreadCount(0);
+      return 0;
+    }
     
     try {
       const response = await apiClient.get(`${API_URL}/count/unread`);
@@ -216,7 +275,9 @@ export const MessageProvider = ({ children }) => {
       setUnreadCount(count);
       return count;
     } catch (error) {
-      console.error('Error fetching unread count:', error);
+      if (error.message !== 'Authentication required') {
+        console.error('Error fetching unread count:', error);
+      }
       setUnreadCount(0);
       return 0;
     }
@@ -224,13 +285,14 @@ export const MessageProvider = ({ children }) => {
 
   // Initial data fetch when user changes
   useEffect(() => {
-    if (user) {
+    if (user && isAuthenticated()) {
       fetchMessages('received', 1, 10);
       fetchUnreadCount();
     } else {
       setMessages([]);
       setUnreadCount(0);
       setSelectedMessage(null);
+      setError(null);
     }
   }, [user]);
 
