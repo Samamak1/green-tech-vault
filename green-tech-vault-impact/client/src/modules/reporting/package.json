@@ -1,0 +1,41 @@
+{
+  "name": "ewaste-reporting-module",
+  "version": "1.0.0",
+  "description": "E-waste management reporting module for customer dashboard integration",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "lint": "eslint src --ext .js,.ts",
+    "format": "prettier --write src/**/*.{js,ts,css,html}"
+  },
+  "keywords": ["e-waste", "reporting", "dashboard", "sustainability"],
+  "author": "EcoTech Solutions",
+  "license": "MIT",
+  "dependencies": {
+    "handlebars": "^4.7.8",
+    "chart.js": "^4.4.0",
+    "jspdf": "^2.5.1",
+    "html2canvas": "^1.4.1",
+    "date-fns": "^2.30.0",
+    "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "vitest": "^1.0.0",
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.0",
+    "@types/node": "^20.10.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./styles": "./dist/styles.css",
+    "./templates": "./dist/templates/"
+  }
+} 
