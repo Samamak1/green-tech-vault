@@ -38,12 +38,30 @@ export const MessageProvider = ({ children }) => {
     
     try {
       const response = await axios.get(`${API_URL}?type=${type}&page=${page}&limit=${limit}`);
-      setMessages(response.data.data.messages);
-      setPagination(response.data.data.pagination);
+      // Handle different response formats
+      if (response.data && response.data.data) {
+        setMessages(response.data.data.messages || []);
+        setPagination(response.data.data.pagination || {
+          page: 1,
+          limit: 10,
+          total: 0,
+          pages: 0
+        });
+      } else {
+        // Fallback for empty or malformed responses
+        setMessages([]);
+        setPagination({
+          page: 1,
+          limit: 10,
+          total: 0,
+          pages: 0
+        });
+      }
       setMessageType(type);
     } catch (error) {
       console.error('Error fetching messages:', error);
       setError('Failed to load messages. Please try again later.');
+      setMessages([]);
     } finally {
       setLoading(false);
     }
@@ -172,10 +190,12 @@ export const MessageProvider = ({ children }) => {
     
     try {
       const response = await axios.get(`${API_URL}/count/unread`);
-      setUnreadCount(response.data.data.count);
-      return response.data.data.count;
+      const count = response.data?.data?.count || 0;
+      setUnreadCount(count);
+      return count;
     } catch (error) {
       console.error('Error fetching unread count:', error);
+      setUnreadCount(0);
       return 0;
     }
   };
