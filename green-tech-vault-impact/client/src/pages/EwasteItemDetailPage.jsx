@@ -17,12 +17,16 @@ import {
 } from '@mui/material';
 import { Link as RouterLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import KeyboardIcon from '@mui/icons-material/Keyboard';
+import ComputerIcon from '@mui/icons-material/Computer';
+import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import PrintIcon from '@mui/icons-material/Print';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import InfoIcon from '@mui/icons-material/Info';
 import CachedIcon from '@mui/icons-material/Cached';
 import NatureIcon from '@mui/icons-material/Nature';
 import CategoryIcon from '@mui/icons-material/Category';
 import CircleIcon from '@mui/icons-material/Circle';
+import { getItemDataBySlug } from '../data/ewasteItems';
 
 const EwasteItemDetailPage = ({ preloadedItemData }) => {
   const theme = useTheme();
@@ -30,31 +34,52 @@ const EwasteItemDetailPage = ({ preloadedItemData }) => {
   const navigate = useNavigate();
   const params = useParams();
   
-  // Get the item data from preloaded data, location state, or use placeholder data based on URL param
-  const item = preloadedItemData || location.state?.item || { 
-    name: params.itemName ? params.itemName.split('-').map(word => 
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ') : 'Unknown Item', 
-    category: 'Miscellaneous',
-    description: "This is a placeholder page for item details. In a production environment, this page would contain detailed information about the item.",
-    conditions: [],
-    notes: [],
-    process: [],
-    impact: [],
-    relatedItems: [],
-    categoryDetail: ""
-  };
+  // Get the item data from multiple sources
+  let item = preloadedItemData;
+  
+  // If no preloaded data, try to get from the data file
+  if (!item && params.itemSlug) {
+    item = getItemDataBySlug(params.itemSlug);
+  }
+  
+  // If still no item data, try from location state
+  if (!item) {
+    item = location.state?.item;
+  }
+  
+  // Default fallback item
+  if (!item) {
+    item = { 
+      name: params.itemSlug ? params.itemSlug.split('-').map(word => 
+        word.charAt(0).toUpperCase() + word.slice(1)
+      ).join(' ') : 'Unknown Item', 
+      category: 'Miscellaneous',
+      description: "This is a placeholder page for item details. In a production environment, this page would contain detailed information about the item.",
+      conditions: [],
+      notes: [],
+      process: [],
+      impact: [],
+      relatedItems: [],
+      categoryDetail: ""
+    };
+  }
   
   const handleGoBack = () => {
     navigate(-1);
   };
 
-  // Get icon based on category
+  // Get icon based on category or item name
   const getItemIcon = () => {
     if (item.name === "Keyboards" || item.category === "Peripherals") {
       return <KeyboardIcon sx={{ fontSize: 48 }} />;
+    } else if (item.category === "Computers") {
+      return <ComputerIcon sx={{ fontSize: 48 }} />;
+    } else if (item.category === "Mobile Devices") {
+      return <PhoneAndroidIcon sx={{ fontSize: 48 }} />;
+    } else if (item.category === "Office Equipment") {
+      return <PrintIcon sx={{ fontSize: 48 }} />;
     }
-    return null;
+    return <CategoryIcon sx={{ fontSize: 48 }} />;
   };
   
   return (

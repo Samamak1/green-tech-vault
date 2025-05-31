@@ -354,6 +354,85 @@ function App() {
                   </MainLayout>
                 } />
                 
+                {/* Desktop Computer */}
+                <Route path="/e-waste-item/desktop-computer" element={
+                  <MainLayout>
+                    <EwasteItemDetailPage preloadedItemData={{
+                      name: "Desktop Computer",
+                      category: "Computers",
+                      description: "Desktop computers are complex electronic devices containing valuable materials including precious metals, rare earth elements, and hazardous substances. A typical desktop contains steel, aluminum, copper, gold, silver, and various plastics. Proper recycling can recover up to 95% of these materials while preventing toxic substances like lead, mercury, and cadmium from entering the environment.",
+                      conditions: [
+                        "Complete desktop towers (CPU units)",
+                        "All brands and models accepted",
+                        "Working or non-working condition",
+                        "Units with minor physical damage",
+                        "Business and consumer desktop computers"
+                      ],
+                      notes: [
+                        "Remove all personal data before disposal",
+                        "No CRT monitors included (processed separately)",
+                        "Remove batteries from internal components if accessible"
+                      ],
+                      process: [
+                        "Data Destruction – Secure wiping of all storage devices",
+                        "Disassembly – Manual removal of components like motherboards, power supplies, and drives",
+                        "Material Separation – Steel cases, aluminum heat sinks, and copper wiring are sorted",
+                        "Precious Metal Recovery – Gold, silver, and platinum extracted from circuit boards",
+                        "Plastic Processing – Various plastics separated and prepared for recycling"
+                      ],
+                      impact: [
+                        "Recover $91 billion worth of materials from global e-waste annually",
+                        "Prevent 58,000 kg of mercury from entering ecosystems",
+                        "Reduce CO2 emissions by 93 billion kg through material recovery",
+                        "Conserve rare earth elements critical for new technology production"
+                      ]
+                    }} />
+                  </MainLayout>
+                } />
+                
+                {/* Laptop */}
+                <Route path="/e-waste-item/laptop" element={
+                  <MainLayout>
+                    <EwasteItemDetailPage preloadedItemData={{
+                      name: "Laptop",
+                      category: "Computers",
+                      description: "Laptops contain concentrated amounts of valuable materials in a compact form factor. They include lithium-ion batteries, LCD screens, motherboards with precious metals, and various rare earth elements. Due to their portable design, laptops require specialized recycling processes to safely handle integrated batteries and recover valuable components.",
+                      conditions: [
+                        "All laptop brands and models",
+                        "Working or non-working condition",
+                        "Laptops with cracked screens accepted",
+                        "Units with missing keys or damaged cases",
+                        "Gaming laptops and workstations included"
+                      ],
+                      notes: [
+                        "Remove all personal data and perform secure data wiping",
+                        "Batteries will be removed and recycled separately",
+                        "Remove any external accessories before drop-off"
+                      ],
+                      process: [
+                        "Secure Data Destruction – Multiple-pass data wiping or physical drive destruction",
+                        "Battery Removal – Lithium-ion batteries safely extracted and processed separately", 
+                        "Component Disassembly – LCD screens, motherboards, and memory modules separated",
+                        "Precious Metal Extraction – Gold, silver, and palladium recovered from circuit boards",
+                        "Material Recovery – Aluminum chassis, copper wiring, and rare earth magnets processed"
+                      ],
+                      impact: [
+                        "Prevent lithium-ion battery fires in landfills",
+                        "Recover critical materials like lithium, cobalt, and rare earth elements",
+                        "Reduce demand for new mining of precious metals",
+                        "Keep toxic substances like lead and mercury from contaminating soil and water"
+                      ]
+                    }} />
+                  </MainLayout>
+                } />
+                
+                {/* Add more routes for all accepted items... */}
+                <Route path="/e-waste-item/:itemSlug" element={
+                  <MainLayout>
+                    <EwasteItemDetailPage />
+                  </MainLayout>
+                } />
+                
                 {/* Auth Routes */}
                 <Route path="/login" element={<ClientLogin />} />
                 <Route path="/register" element={<ClientRegister />} />

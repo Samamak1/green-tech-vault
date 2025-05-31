@@ -457,12 +457,14 @@ const HowItWorksPage = () => {
                             />
                           </ListItemIcon>
                           <ListItemText 
-                            primary={category.category === "Peripherals" && item === "Keyboards" ? 
+                            primary={
                               <RouterLink 
-                                to="/e-waste-item/keyboards" 
+                                to={`/e-waste-item/${item.toLowerCase().replace(/\s+/g, '-')}`} 
                                 style={{ 
                                   color: 'inherit', 
-                                  textDecoration: 'none',
+                                  textDecoration: 'none'
+                                }}
+                                sx={{
                                   '&:hover': {
                                     textDecoration: 'underline',
                                     color: theme.palette.teal.main
@@ -470,12 +472,17 @@ const HowItWorksPage = () => {
                                 }}
                               >
                                 {item}
-                              </RouterLink> 
-                              : item
+                              </RouterLink>
                             } 
                             primaryTypographyProps={{ 
                               variant: 'body2',
-                              sx: { fontWeight: 'medium' }
+                              sx: { 
+                                fontWeight: 'medium',
+                                '& a:hover': {
+                                  color: theme.palette.teal.main,
+                                  textDecoration: 'underline'
+                                }
+                              }
                             }}
                           />
                         </ListItem>

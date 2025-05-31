@@ -171,7 +171,7 @@ const LandingHeader = () => {
           {/* Left side - Logo */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box component={RouterLink} to="/" sx={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-              <Logo size="medium" showText={true} />
+              <Logo size="medium" showText={false} />
             </Box>
           </Box>
           

@@ -10,6 +10,12 @@ import {
   useTheme
 } from '@mui/material';
 
+// Import icons for different offers
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance'; // For tax breaks
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney'; // For turning e-waste into cash
+import GroupIcon from '@mui/icons-material/Group'; // For referrals
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'; // For challenges/winning
+
 // Import components
 import RecyclingIcon from '../components/branding/RecyclingIcon';
 
@@ -21,22 +27,22 @@ const RecyclingOffersPage = () => {
     {
       title: "Unlock Tax Breaks",
       description: "By partnering with us, you could score valuable tax incentives, cutting down your tax bill and putting more money back in your pocket!",
-      icon: <RecyclingIcon size={80} color="black" />
+      icon: <AccountBalanceIcon sx={{ fontSize: 80, color: theme.palette.teal.main }} />
     },
     {
       title: "Turn E-Waste into Cash",
       description: "Why throw away recyclables when you can earn a cut from their sale? Partnering with a recycling company could turn your waste into extra revenue.",
-      icon: <RecyclingIcon size={80} color="black" />
+      icon: <AttachMoneyIcon sx={{ fontSize: 80, color: theme.palette.teal.main }} />
     },
     {
       title: "Earn Rewards for Referrals",
       description: "Spread the word! By referring other businesses, you could unlock cash rewards, discounts, and exclusive deals—just for sharing the love.",
-      icon: <RecyclingIcon size={80} color="black" />
+      icon: <GroupIcon sx={{ fontSize: 80, color: theme.palette.teal.main }} />
     },
     {
       title: "Win Challenges",
       description: "Join our company's exciting challenges today for a chance to showcase your skills and win amazing prizes. The adventure starts now!",
-      icon: <RecyclingIcon size={80} color="black" />
+      icon: <EmojiEventsIcon sx={{ fontSize: 80, color: theme.palette.teal.main }} />
     }
   ];
 
