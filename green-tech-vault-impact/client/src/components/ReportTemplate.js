@@ -17,7 +17,7 @@ import {
   LinearProgress
 } from '@mui/material';
 import {
-  Eco as EcoIcon,
+  Park as ParkIcon,
   Recycling as RecyclingIcon,
   Cloud as CloudIcon,
   Nature as NatureIcon,
@@ -151,7 +151,7 @@ const ReportTemplate = ({ reportData }) => {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <MetricCard
-            icon={<EcoIcon />}
+            icon={<ParkIcon />}
             title="E-Waste Diverted"
             value={formatWeight(impactSummary.totalWeightCollected)}
             subtitle="Kept from landfills"
