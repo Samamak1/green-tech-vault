@@ -44,7 +44,7 @@ const Footer = () => {
   
   const socialLinks = [
     { icon: <InstagramIcon />, url: 'https://www.instagram.com/rygneco/' },
-    { icon: <FacebookIcon />, url: 'https://facebook.com' },
+    { icon: <FacebookIcon />, url: 'https://www.facebook.com/people/RYGNeco/61575273422314/?mibextid=LQQJ4d&rdid=jOGvLhXNFJslFT3H&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F19DdG1NYvL%2F%3Fmibextid%3DLQQJ4d' },
     { icon: <YouTubeIcon />, url: 'https://youtube.com' },
     { icon: <LinkedInIcon />, url: 'https://linkedin.com' }
   ];

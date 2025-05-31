@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography, Container, Grid, Link, IconButton } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
+import XIcon from '@mui/icons-material/X';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import Logo from '../branding/Logo';
@@ -26,16 +26,44 @@ const BrandedFooter = () => {
               We help you safely dispose of electronic waste while protecting your data and the environment.
             </Typography>
             <Box sx={{ display: 'flex', gap: 1 }}>
-              <IconButton sx={{ color: '#8cc63f' }} aria-label="Facebook">
+              <IconButton 
+                component={Link}
+                href="https://www.facebook.com/people/RYGNeco/61575273422314/?mibextid=LQQJ4d&rdid=jOGvLhXNFJslFT3H&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F19DdG1NYvL%2F%3Fmibextid%3DLQQJ4d"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ color: '#8cc63f' }} 
+                aria-label="Facebook"
+              >
                 <FacebookIcon />
               </IconButton>
-              <IconButton sx={{ color: '#8cc63f' }} aria-label="Twitter">
-                <TwitterIcon />
+              <IconButton 
+                component={Link}
+                href="https://x.com/RYGNeco"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ color: '#8cc63f' }} 
+                aria-label="X (Twitter)"
+              >
+                <XIcon />
               </IconButton>
-              <IconButton sx={{ color: '#8cc63f' }} aria-label="Instagram">
+              <IconButton 
+                component={Link}
+                href="https://www.instagram.com/rygneco/"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ color: '#8cc63f' }} 
+                aria-label="Instagram"
+              >
                 <InstagramIcon />
               </IconButton>
-              <IconButton sx={{ color: '#8cc63f' }} aria-label="LinkedIn">
+              <IconButton 
+                component={Link}
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ color: '#8cc63f' }} 
+                aria-label="LinkedIn"
+              >
                 <LinkedInIcon />
               </IconButton>
             </Box>
@@ -61,20 +89,20 @@ const BrandedFooter = () => {
               CONTACT US
             </Typography>
             <Typography variant="body2" sx={{ mb: 1, color: 'rgba(255,255,255,0.8)' }}>
-              Email: info@greentechvault.com
+              Email: info@rygneco.com
             </Typography>
             <Typography variant="body2" sx={{ mb: 1, color: 'rgba(255,255,255,0.8)' }}>
               Phone: (555) 123-4567
             </Typography>
             <Typography variant="body2" sx={{ mb: 1, color: 'rgba(255,255,255,0.8)' }}>
-              Address: 123 Green Street, Eco City, EC 12345
+              Location: Cincinnati, OH
             </Typography>
           </Grid>
         </Grid>
         
         <Box sx={{ borderTop: 1, borderColor: 'rgba(255,255,255,0.1)', mt: 4, pt: 2, textAlign: 'center' }}>
           <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)' }}>
-            © {new Date().getFullYear()} Green Tech Vault. All rights reserved.
+            © {new Date().getFullYear()} RYGNeco. All rights reserved.
           </Typography>
         </Box>
       </Container>

@@ -16,7 +16,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import PlaceIcon from '@mui/icons-material/Place';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
+import XIcon from '@mui/icons-material/X';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -149,11 +149,11 @@ const ContactPage = () => {
                 </Box>
                 <Box>
                   <Typography variant="body2" sx={{ fontWeight: 'bold' }}>Email</Typography>
-                  <Typography variant="body2">info@ecocyclesolutions.com</Typography>
+                  <Typography variant="body2">info@rygneco.com</Typography>
                 </Box>
               </Box>
               
-              {/* Address */}
+              {/* Location */}
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
                 <Box 
                   sx={{ 
@@ -170,8 +170,8 @@ const ContactPage = () => {
                   <PlaceIcon sx={{ color: 'white' }} />
                 </Box>
                 <Box>
-                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>Address</Typography>
-                  <Typography variant="body2">1234 Green Ave, Cincinnati, OH 45701</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>Location</Typography>
+                  <Typography variant="body2">Cincinnati, OH</Typography>
                 </Box>
               </Box>
               
@@ -198,7 +198,7 @@ const ContactPage = () => {
                   <InstagramIcon fontSize="small" />
                 </Link>
                 <Link 
-                  href="https://facebook.com" 
+                  href="https://www.facebook.com/people/RYGNeco/61575273422314/?mibextid=LQQJ4d&rdid=jOGvLhXNFJslFT3H&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F19DdG1NYvL%2F%3Fmibextid%3DLQQJ4d" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   sx={{ 
@@ -218,7 +218,7 @@ const ContactPage = () => {
                   <FacebookIcon fontSize="small" />
                 </Link>
                 <Link 
-                  href="https://twitter.com" 
+                  href="https://x.com/RYGNeco" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   sx={{ 
@@ -235,7 +235,7 @@ const ContactPage = () => {
                     }
                   }}
                 >
-                  <TwitterIcon fontSize="small" />
+                  <XIcon fontSize="small" />
                 </Link>
                 <Link 
                   href="https://linkedin.com" 
@@ -382,44 +382,6 @@ const ContactPage = () => {
           loading="lazy"
           title="Company Location"
         ></iframe>
-      </Box>
-      
-      {/* Call to Action Section */}
-      <Box sx={{ bgcolor: '#256B65', color: 'white', py: 6, px: 2 }}>
-        <Container maxWidth="lg">
-          <Typography variant="h4" component="h2" gutterBottom align="center">
-            Ready to responsibly manage your e-waste?
-          </Typography>
-          <Typography variant="body1" paragraph align="center" sx={{ mb: 4 }}>
-            Schedule a pickup today and take a step toward a greener future. By recycling with us, you're helping reduce landfill waste and conserving valuable resources.
-          </Typography>
-          <Grid container spacing={4} alignItems="center">
-            <Grid item xs={12} md={8}>
-              <Typography variant="h4" component="h2" gutterBottom>
-                Ready to make a change?
-              </Typography>
-              <Typography variant="body1">
-                Divert toxic e-waste from landfills with sustainable partnerships. Join us for your e-waste management needs!
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={4} sx={{ textAlign: 'center' }}>
-              <Button 
-                variant="contained" 
-                size="large"
-                sx={{ 
-                  bgcolor: '#064e40',
-                  '&:hover': {
-                    bgcolor: '#053a30'
-                  },
-                  px: 3,
-                  py: 1
-                }}
-              >
-                SCHEDULE A PICKUP TODAY
-              </Button>
-            </Grid>
-          </Grid>
-        </Container>
       </Box>
     </Box>
   );
