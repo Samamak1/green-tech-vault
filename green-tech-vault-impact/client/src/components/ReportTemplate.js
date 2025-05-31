@@ -35,25 +35,46 @@ const ReportTemplate = ({ reportData }) => {
   if (!reportData) return null;
 
   const {
-    title,
-    type,
-    dateRange,
+    title = 'Report',
+    type = 'Custom',
+    dateRange = { startDate: new Date(), endDate: new Date() },
     company,
-    impactSummary,
+    impactSummary = {
+      totalDevicesCollected: 0,
+      totalWeightCollected: 0,
+      totalCO2Saved: 0,
+      totalLandfillDiverted: 0,
+      totalRefurbished: 0,
+      totalRecycled: 0,
+      materialsRecovered: {
+        metals: 0,
+        plastics: 0,
+        glass: 0,
+        rareEarthMetals: 0
+      },
+      environmentalEquivalents: {
+        trees: 0,
+        cars: 0
+      }
+    },
     options = {}
-  } = reportData;
+  } = reportData || {};
+
+  // Ensure we have valid dates
+  const startDate = dateRange?.startDate ? new Date(dateRange.startDate) : new Date();
+  const endDate = dateRange?.endDate ? new Date(dateRange.endDate) : new Date();
 
   // Prepare data for charts
   const deviceBreakdown = [
-    { name: 'Refurbished', value: impactSummary.totalRefurbished },
-    { name: 'Recycled', value: impactSummary.totalRecycled }
+    { name: 'Refurbished', value: impactSummary.totalRefurbished || 0 },
+    { name: 'Recycled', value: impactSummary.totalRecycled || 0 }
   ];
 
   const materialsRecovered = [
-    { name: 'Metals', value: impactSummary.materialsRecovered.metals },
-    { name: 'Plastics', value: impactSummary.materialsRecovered.plastics },
-    { name: 'Glass', value: impactSummary.materialsRecovered.glass },
-    { name: 'Rare Earth', value: impactSummary.materialsRecovered.rareEarthMetals }
+    { name: 'Metals', value: impactSummary.materialsRecovered?.metals || 0 },
+    { name: 'Plastics', value: impactSummary.materialsRecovered?.plastics || 0 },
+    { name: 'Glass', value: impactSummary.materialsRecovered?.glass || 0 },
+    { name: 'Rare Earth', value: impactSummary.materialsRecovered?.rareEarthMetals || 0 }
   ];
 
   const MetricCard = ({ icon, title, value, subtitle, color = 'primary' }) => (
@@ -102,7 +123,7 @@ const ReportTemplate = ({ reportData }) => {
               />
               <Chip 
                 icon={<DateRangeIcon />} 
-                label={`${new Date(dateRange.startDate).toLocaleDateString()} - ${new Date(dateRange.endDate).toLocaleDateString()}`} 
+                label={`${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`} 
               />
               <Chip label={type} color="secondary" />
             </Box>
@@ -124,7 +145,7 @@ const ReportTemplate = ({ reportData }) => {
         </Typography>
         <Divider sx={{ mb: 3 }} />
         <Typography variant="body1" paragraph>
-          During the reporting period from {new Date(dateRange.startDate).toLocaleDateString()} to {new Date(dateRange.endDate).toLocaleDateString()}, 
+          During the reporting period from {startDate.toLocaleDateString()} to {endDate.toLocaleDateString()}, 
           your organization successfully diverted {formatWeight(impactSummary.totalWeightCollected)} of electronic waste from landfills, 
           resulting in a significant positive environmental impact.
         </Typography>
@@ -171,7 +192,7 @@ const ReportTemplate = ({ reportData }) => {
           <MetricCard
             icon={<TrendingUpIcon />}
             title="Diversion Rate"
-            value={`${Math.round((impactSummary.totalRefurbished / impactSummary.totalDevicesCollected) * 100)}%`}
+            value={`${impactSummary.totalDevicesCollected > 0 ? Math.round((impactSummary.totalRefurbished / impactSummary.totalDevicesCollected) * 100) : 0}%`}
             subtitle="Devices given new life"
             color="warning"
           />
@@ -292,7 +313,7 @@ const ReportTemplate = ({ reportData }) => {
                   <TableCell>Metals</TableCell>
                   <TableCell align="right">{impactSummary.materialsRecovered.metals}</TableCell>
                   <TableCell align="right">
-                    {Math.round((impactSummary.materialsRecovered.metals / impactSummary.totalWeightCollected) * 100)}%
+                    {impactSummary.totalWeightCollected > 0 ? Math.round((impactSummary.materialsRecovered.metals / impactSummary.totalWeightCollected) * 100) : 0}%
                   </TableCell>
                   <TableCell align="right">Reduced mining impact</TableCell>
                 </TableRow>
@@ -300,7 +321,7 @@ const ReportTemplate = ({ reportData }) => {
                   <TableCell>Plastics</TableCell>
                   <TableCell align="right">{impactSummary.materialsRecovered.plastics}</TableCell>
                   <TableCell align="right">
-                    {Math.round((impactSummary.materialsRecovered.plastics / impactSummary.totalWeightCollected) * 100)}%
+                    {impactSummary.totalWeightCollected > 0 ? Math.round((impactSummary.materialsRecovered.plastics / impactSummary.totalWeightCollected) * 100) : 0}%
                   </TableCell>
                   <TableCell align="right">Prevented ocean pollution</TableCell>
                 </TableRow>
@@ -308,7 +329,7 @@ const ReportTemplate = ({ reportData }) => {
                   <TableCell>Glass</TableCell>
                   <TableCell align="right">{impactSummary.materialsRecovered.glass}</TableCell>
                   <TableCell align="right">
-                    {Math.round((impactSummary.materialsRecovered.glass / impactSummary.totalWeightCollected) * 100)}%
+                    {impactSummary.totalWeightCollected > 0 ? Math.round((impactSummary.materialsRecovered.glass / impactSummary.totalWeightCollected) * 100) : 0}%
                   </TableCell>
                   <TableCell align="right">100% recyclable material</TableCell>
                 </TableRow>
@@ -316,7 +337,7 @@ const ReportTemplate = ({ reportData }) => {
                   <TableCell>Rare Earth Metals</TableCell>
                   <TableCell align="right">{impactSummary.materialsRecovered.rareEarthMetals}</TableCell>
                   <TableCell align="right">
-                    {Math.round((impactSummary.materialsRecovered.rareEarthMetals / impactSummary.totalWeightCollected) * 100)}%
+                    {impactSummary.totalWeightCollected > 0 ? Math.round((impactSummary.materialsRecovered.rareEarthMetals / impactSummary.totalWeightCollected) * 100) : 0}%
                   </TableCell>
                   <TableCell align="right">Critical resource recovery</TableCell>
                 </TableRow>

@@ -2,6 +2,28 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from './AuthContext';
 
+// Configure axios with auth interceptor
+const apiClient = axios.create({
+  baseURL: '/api',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
+// Add auth token to requests
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 // Create message context
 const MessageContext = createContext();
 
@@ -27,7 +49,7 @@ export const MessageProvider = ({ children }) => {
   });
 
   // Base API URL for messages
-  const API_URL = '/api/messages';
+  const API_URL = '/messages';
 
   // Fetch messages (either received or sent)
   const fetchMessages = async (type = messageType, page = 1, limit = 10) => {
@@ -37,7 +59,7 @@ export const MessageProvider = ({ children }) => {
     setError(null);
     
     try {
-      const response = await axios.get(`${API_URL}?type=${type}&page=${page}&limit=${limit}`);
+      const response = await apiClient.get(`${API_URL}?type=${type}&page=${page}&limit=${limit}`);
       // Handle different response formats
       if (response.data && response.data.data) {
         setMessages(response.data.data.messages || []);
@@ -75,7 +97,7 @@ export const MessageProvider = ({ children }) => {
     setError(null);
     
     try {
-      const response = await axios.get(`${API_URL}/${messageId}`);
+      const response = await apiClient.get(`${API_URL}/${messageId}`);
       setSelectedMessage(response.data.data);
       return response.data.data;
     } catch (error) {
@@ -95,7 +117,7 @@ export const MessageProvider = ({ children }) => {
     setError(null);
     
     try {
-      const response = await axios.post(API_URL, {
+      const response = await apiClient.post(API_URL, {
         recipientId,
         subject,
         content
@@ -121,7 +143,7 @@ export const MessageProvider = ({ children }) => {
     if (!user || !messageId) return;
     
     try {
-      await axios.patch(`${API_URL}/${messageId}/read`);
+      await apiClient.patch(`${API_URL}/${messageId}/read`);
       
       // Update the message in the list
       setMessages(prevMessages => 
@@ -147,7 +169,7 @@ export const MessageProvider = ({ children }) => {
     if (!user || !messageId) return;
     
     try {
-      await axios.delete(`${API_URL}/${messageId}`);
+      await apiClient.delete(`${API_URL}/${messageId}`);
       
       // Remove the message from the list
       setMessages(prevMessages => 
@@ -174,7 +196,7 @@ export const MessageProvider = ({ children }) => {
     setSearchQuery(query);
     
     try {
-      const response = await axios.get(`${API_URL}/search/users?query=${query}`);
+      const response = await apiClient.get(`${API_URL}/search/users?query=${query}`);
       setRecipients(response.data.data);
       return response.data.data;
     } catch (error) {
@@ -189,7 +211,7 @@ export const MessageProvider = ({ children }) => {
     if (!user) return;
     
     try {
-      const response = await axios.get(`${API_URL}/count/unread`);
+      const response = await apiClient.get(`${API_URL}/count/unread`);
       const count = response.data?.data?.count || 0;
       setUnreadCount(count);
       return count;
