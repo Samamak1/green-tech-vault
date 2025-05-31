@@ -1,5 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const { ObjectId } = require('mongoose').Types;
 const router = express.Router();
 
 // Helper function to generate JWT token
@@ -11,9 +12,9 @@ const generateToken = (user) => {
   );
 };
 
-// Mock authentication data
+// Mock authentication data with valid ObjectIds
 const mockUser = {
-  id: '1',
+  id: new ObjectId('507f1f77bcf86cd799439011'), // Valid ObjectId
   name: "Leila's Company",
   email: 'leilaameyer2@gmail.com',
   username: 'lmeyer',
@@ -22,7 +23,7 @@ const mockUser = {
 };
 
 const mockAdminUser = {
-  id: '2',
+  id: new ObjectId('507f1f77bcf86cd799439012'), // Valid ObjectId
   name: 'Admin User',
   email: 'admin@greentechvault.com',
   username: 'admin',

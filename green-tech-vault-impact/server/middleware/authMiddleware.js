@@ -1,5 +1,25 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { ObjectId } = require('mongoose').Types;
+
+// Mock users for demo purposes
+const mockUsers = {
+  '507f1f77bcf86cd799439011': {
+    _id: new ObjectId('507f1f77bcf86cd799439011'),
+    name: "Leila's Company",
+    email: 'leilaameyer2@gmail.com',
+    username: 'lmeyer',
+    role: 'client',
+    companyName: "Leila's Company"
+  },
+  '507f1f77bcf86cd799439012': {
+    _id: new ObjectId('507f1f77bcf86cd799439012'),
+    name: 'Admin User',
+    email: 'admin@greentechvault.com',
+    username: 'admin',
+    role: 'admin'
+  }
+};
 
 /**
  * Authentication middleware to protect routes
@@ -19,8 +39,21 @@ const authMiddleware = async (req, res, next) => {
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'defaultsecret');
     
-    // Find user by id
-    const user = await User.findById(decoded.id).select('-password');
+    let user = null;
+    
+    // First try to find in mock users for demo
+    if (mockUsers[decoded.id.toString()]) {
+      user = mockUsers[decoded.id.toString()];
+    } else {
+      // Try to find user in database
+      try {
+        user = await User.findById(decoded.id).select('-password');
+      } catch (dbError) {
+        console.error('Database user lookup failed, using mock user:', dbError.message);
+        // If database lookup fails, try mock users again
+        user = mockUsers[decoded.id.toString()];
+      }
+    }
     
     if (!user) {
       return res.status(401).json({ 
