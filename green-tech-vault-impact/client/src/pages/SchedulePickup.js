@@ -187,6 +187,7 @@ const SchedulePickup = () => {
               name="companyName"
               value={formData.companyName}
               onChange={handleChange}
+              placeholder="Enter your company name"
               sx={{ mb: 2 }}
               InputLabelProps={{ shrink: true }}
               size="small"
@@ -201,6 +202,7 @@ const SchedulePickup = () => {
                   name="contactName"
                   value={formData.contactName}
                   onChange={handleChange}
+                  placeholder="Enter contact person's name"
                   InputLabelProps={{ shrink: true }}
                   size="small"
                 />
@@ -213,6 +215,7 @@ const SchedulePickup = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
+                  placeholder="Enter email address"
                   InputLabelProps={{ shrink: true }}
                   size="small"
                 />
@@ -226,6 +229,7 @@ const SchedulePickup = () => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
+              placeholder="Enter phone number"
               sx={{ mb: 2 }}
               InputLabelProps={{ shrink: true }}
               size="small"
@@ -238,6 +242,7 @@ const SchedulePickup = () => {
               name="address"
               value={formData.address}
               onChange={handleChange}
+              placeholder="Enter street address"
               sx={{ mb: 2 }}
               InputLabelProps={{ shrink: true }}
               size="small"
@@ -252,6 +257,7 @@ const SchedulePickup = () => {
                   name="city"
                   value={formData.city}
                   onChange={handleChange}
+                  placeholder="Enter city"
                   InputLabelProps={{ shrink: true }}
                   size="small"
                 />
@@ -264,6 +270,7 @@ const SchedulePickup = () => {
                   name="state"
                   value={formData.state}
                   onChange={handleChange}
+                  placeholder="Enter state"
                   InputLabelProps={{ shrink: true }}
                   size="small"
                 />
@@ -276,6 +283,7 @@ const SchedulePickup = () => {
                   name="zipCode"
                   value={formData.zipCode}
                   onChange={handleChange}
+                  placeholder="Enter zip code"
                   InputLabelProps={{ shrink: true }}
                   size="small"
                 />
@@ -299,6 +307,7 @@ const SchedulePickup = () => {
                   name="onSiteContactName"
                   value={formData.onSiteContactName}
                   onChange={handleChange}
+                  placeholder="Enter contact person's name"
                   size="small"
                 />
               </Grid>
@@ -309,6 +318,7 @@ const SchedulePickup = () => {
                   name="onSiteContactJobTitle"
                   value={formData.onSiteContactJobTitle}
                   onChange={handleChange}
+                  placeholder="Enter job title"
                   size="small"
                 />
               </Grid>
@@ -322,6 +332,7 @@ const SchedulePickup = () => {
                   name="onSiteContactPhone"
                   value={formData.onSiteContactPhone}
                   onChange={handleChange}
+                  placeholder="Enter phone number"
                   size="small"
                 />
               </Grid>
@@ -332,6 +343,7 @@ const SchedulePickup = () => {
                   name="onSiteContactEmail"
                   value={formData.onSiteContactEmail}
                   onChange={handleChange}
+                  placeholder="Enter email address"
                   size="small"
                 />
               </Grid>
@@ -348,6 +360,7 @@ const SchedulePickup = () => {
                       <TextField
                         {...params}
                         fullWidth
+                        placeholder="Select preferred date"
                         size="small"
                       />
                     )}
@@ -364,6 +377,7 @@ const SchedulePickup = () => {
                       <TextField
                         {...params}
                         fullWidth
+                        placeholder="Select preferred time"
                         size="small"
                       />
                     )}
@@ -378,6 +392,7 @@ const SchedulePickup = () => {
               name="pickupAddress"
               value={formData.pickupAddress}
               onChange={handleChange}
+              placeholder="Enter pickup address (if different from company address)"
               sx={{ mb: 2 }}
               size="small"
             />
@@ -390,6 +405,7 @@ const SchedulePickup = () => {
                   name="pickupCity"
                   value={formData.pickupCity}
                   onChange={handleChange}
+                  placeholder="Enter city"
                   size="small"
                 />
               </Grid>
@@ -400,6 +416,7 @@ const SchedulePickup = () => {
                   name="pickupState"
                   value={formData.pickupState}
                   onChange={handleChange}
+                  placeholder="Enter state"
                   size="small"
                 />
               </Grid>
@@ -410,6 +427,7 @@ const SchedulePickup = () => {
                   name="pickupZipCode"
                   value={formData.pickupZipCode}
                   onChange={handleChange}
+                  placeholder="Enter zip code"
                   size="small"
                 />
               </Grid>

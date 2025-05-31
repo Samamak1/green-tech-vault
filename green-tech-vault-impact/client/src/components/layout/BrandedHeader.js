@@ -31,76 +31,15 @@ import { useProfile } from '../../context/ProfileContext';
 import { useLayoutEditor } from '../../context/LayoutEditorContext';
 import NotificationsPopup from '../NotificationsPopup';
 
-// Styled search component - updated to match button shape
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: 4,
-  backgroundColor: '#f5f5f5',
-  border: '1px solid #e0e0e0',
-  width: '100%',
-  maxWidth: '400px',
-  display: 'flex',
-  alignItems: 'center',
-  marginLeft: 0, // Move to the far left (no margin)
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#757575',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: '#333333',
-  width: '100%',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    height: '20px',
-  },
-}));
-
-// Robot logo component - fully inline SVG with no external dependencies
-const RobotLogo = styled('div')(({ theme }) => ({
-  height: '40px',
-  width: '40px',
-  marginRight: theme.spacing(2),
-  cursor: 'pointer',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: '#FF8C00', // Orange background
-  borderRadius: '50%', // Make it circular
-  color: 'white'
-}));
-
 const BrandedHeader = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { profileData, profilePictureUrl } = useProfile();
   const { isEditMode, toggleEditMode } = useLayoutEditor();
-  const [searchQuery, setSearchQuery] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [notificationsAnchorEl, setNotificationsAnchorEl] = useState(null);
-
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleSearchSubmit = (e) => {
-    if (e.key === 'Enter') {
-      console.log('Searching for:', searchQuery);
-    }
-  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -117,11 +56,8 @@ const BrandedHeader = () => {
   };
 
   const handleNotificationsClick = (event) => {
-    // Position next to the profile menu instead of replacing it
     setNotificationsAnchorEl(event.currentTarget);
     setNotificationsOpen(true);
-    // Don't close the profile menu anymore
-    // handleMenuClose();
   };
 
   const handleNotificationsClose = () => {
@@ -132,9 +68,8 @@ const BrandedHeader = () => {
   const isMenuOpen = Boolean(anchorEl);
   const menuId = 'primary-client-account-menu';
   
-  // Calculate unread notification count (assuming we have mock data for now)
-  // In a real app, this would come from your notifications service/context
-  const unreadNotificationCount = 7; // Hard-coded for now based on the mockNotifications length
+  // Calculate unread notification count
+  const unreadNotificationCount = 7;
 
   const renderMenu = (
     <Menu
@@ -248,89 +183,154 @@ const BrandedHeader = () => {
     <AppBar 
       position="fixed" 
       sx={{ 
-        backgroundColor: '#2A8784',
+        backgroundColor: 'white',
         color: 'black',
-        boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.07), 0px 1px 10px 0px rgba(0,0,0,0.06)',
+        boxShadow: 'none',
+        borderBottom: '1px solid #e0e0e0',
         height: '64px',
         zIndex: 1300,
-        borderRadius: 0, // Sharp corners
-        ml: '225px', // Start after sidebar (5 grid cells * 45px)
-        width: 'calc(100% - 225px)', // Adjust width to account for sidebar
       }}
     >
-      <Toolbar sx={{ height: '64px', minHeight: '64px', px: 2, bgcolor: '#2A8784' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-          {/* Left side - Robot Logo */}
-          <RobotLogo 
-            onClick={() => {
-              console.log("Robot logo clicked!");
-              navigate('/');
-            }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-              fill="currentColor"
-            >
-              <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM16 16H8V14H16V16ZM15 7.5C15 8.33 14.33 9 13.5 9C12.67 9 12 8.33 12 7.5C12 6.67 12.67 6 13.5 6C14.33 6 15 6.67 15 7.5ZM9 7.5C9 8.33 8.33 9 7.5 9C6.67 9 6 8.33 6 7.5C6 6.67 6.67 6 7.5 6C8.33 6 9 6.67 9 7.5Z" />
-            </svg>
-          </RobotLogo>
-          
-          {/* Center - Search - Now after the logo */}
-          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start' }}>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search here"
-                inputProps={{ 'aria-label': 'search' }}
-                value={searchQuery}
-                onChange={handleSearchChange}
-                onKeyPress={handleSearchSubmit}
-              />
-            </Search>
-          </Box>
-
-          {/* Right side - User info */}
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ 
-              mr: 1,
-              display: { xs: 'none', md: 'flex' },
-              flexDirection: 'column',
-              alignItems: 'flex-end',
-            }}>
-              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                {profileData?.fullName || user?.name || user?.companyName || 'User'}
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                {user?.username ? `@${user.username.replace('@', '')}` : ''}
-              </Typography>
+      <Container maxWidth="lg">
+        <Toolbar sx={{ height: '64px', minHeight: '64px', px: 0 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
+            {/* Left side - RYGNeco Logo */}
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Logo variant="default" size="medium" showText={true} linkTo="/" />
             </Box>
-            
-            <Avatar
-              src={profilePictureUrl}
-              onClick={handleProfileMenuOpen}
-              aria-controls={menuId}
-              aria-haspopup="true"
-              sx={{ 
-                cursor: 'pointer',
-                bgcolor: profilePictureUrl ? 'transparent' : '#56C3C9',
-                color: '#fff',
-                width: 36,
-                height: 36
-              }}
-            >
-              {!profilePictureUrl && ((profileData?.fullName || user?.name || user?.companyName || 'U').charAt(0))}
-            </Avatar>
+
+            {/* Center - Navigation Menu */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              <Button
+                component={RouterLink}
+                to="/join-us"
+                sx={{ 
+                  color: 'text.primary',
+                  textTransform: 'none',
+                  '&:hover': { backgroundColor: 'transparent', color: 'primary.main' }
+                }}
+              >
+                Join Us
+              </Button>
+              <Button
+                component={RouterLink}
+                to="/how-it-works"
+                sx={{ 
+                  color: 'text.primary',
+                  textTransform: 'none',
+                  '&:hover': { backgroundColor: 'transparent', color: 'primary.main' }
+                }}
+              >
+                How It Works
+              </Button>
+              <Button
+                component={RouterLink}
+                to="/education"
+                sx={{ 
+                  color: 'text.primary',
+                  textTransform: 'none',
+                  '&:hover': { backgroundColor: 'transparent', color: 'primary.main' }
+                }}
+              >
+                Education
+              </Button>
+              <Button
+                component={RouterLink}
+                to="/about-us"
+                sx={{ 
+                  color: 'text.primary',
+                  textTransform: 'none',
+                  '&:hover': { backgroundColor: 'transparent', color: 'primary.main' }
+                }}
+              >
+                About Us
+              </Button>
+              <Button
+                component={RouterLink}
+                to="/contact"
+                sx={{ 
+                  color: 'text.primary',
+                  textTransform: 'none',
+                  '&:hover': { backgroundColor: 'transparent', color: 'primary.main' }
+                }}
+              >
+                Contact
+              </Button>
+            </Box>
+
+            {/* Right side - Sign In/Register or User Profile */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              {user ? (
+                <>
+                  <Box sx={{ 
+                    mr: 1,
+                    display: { xs: 'none', md: 'flex' },
+                    flexDirection: 'column',
+                    alignItems: 'flex-end',
+                  }}>
+                    <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                      {profileData?.fullName || user?.name || user?.companyName || 'User'}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {user?.username ? `@${user.username.replace('@', '')}` : ''}
+                    </Typography>
+                  </Box>
+                  
+                  <Avatar
+                    src={profilePictureUrl}
+                    onClick={handleProfileMenuOpen}
+                    aria-controls={menuId}
+                    aria-haspopup="true"
+                    sx={{ 
+                      cursor: 'pointer',
+                      bgcolor: profilePictureUrl ? 'transparent' : '#56C3C9',
+                      color: '#fff',
+                      width: 36,
+                      height: 36
+                    }}
+                  >
+                    {!profilePictureUrl && ((profileData?.fullName || user?.name || user?.companyName || 'U').charAt(0))}
+                  </Avatar>
+                </>
+              ) : (
+                <>
+                  <Button
+                    component={RouterLink}
+                    to="/login"
+                    variant="outlined"
+                    sx={{ 
+                      borderRadius: '20px',
+                      px: 3,
+                      textTransform: 'none',
+                      color: 'text.primary',
+                      borderColor: '#e0e0e0'
+                    }}
+                  >
+                    Sign in
+                  </Button>
+                  <Button
+                    component={RouterLink}
+                    to="/register"
+                    variant="contained"
+                    sx={{ 
+                      borderRadius: '20px',
+                      px: 3,
+                      textTransform: 'none',
+                      bgcolor: '#333',
+                      '&:hover': { bgcolor: '#555' }
+                    }}
+                  >
+                    Register
+                  </Button>
+                </>
+              )}
+            </Box>
           </Box>
-        </Box>
-      </Toolbar>
+        </Toolbar>
+      </Container>
       {renderMenu}
       
-      {/* Notifications Popup - positioned to the left of the dropdown */}
+      {/* Notifications Popup */}
       <NotificationsPopup 
         open={notificationsOpen} 
         anchorEl={notificationsAnchorEl} 

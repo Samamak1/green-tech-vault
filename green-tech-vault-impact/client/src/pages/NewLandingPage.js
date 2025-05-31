@@ -109,22 +109,22 @@ const NewLandingPage = () => {
     {
       title: "Business Pick-Up Services",
       description: "Scheduled or on-demand e-waste collection from your business location.",
-      icon: <BusinessIcon sx={{ fontSize: 40 }} />
+      icon: <BusinessIcon sx={{ fontSize: 40, color: '#FB8C00' }} />
     },
     {
       title: "Secure Data Destruction",
       description: "Certified wiping or shredding with documentation for your records.",
-      icon: <DeleteIcon sx={{ fontSize: 40 }} />
+      icon: <DeleteIcon sx={{ fontSize: 40, color: '#FDD835' }} />
     },
     {
       title: "Certified Recycling",
       description: "Environmentally responsible processing that meets all regulations.",
-      icon: <VerifiedIcon sx={{ fontSize: 40 }} />
+      icon: <VerifiedIcon sx={{ fontSize: 40, color: '#62CBD0' }} />
     },
     {
       title: "Compliance Documentation",
       description: "Clear, itemized reports that prove your disposal met all audits and tracking.",
-      icon: <DescriptionIcon sx={{ fontSize: 40 }} />
+      icon: <DescriptionIcon sx={{ fontSize: 40, color: '#2A7074' }} />
     }
   ];
 
