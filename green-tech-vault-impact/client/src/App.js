@@ -372,7 +372,7 @@ function App() {
                   <Route path="pickups" element={<PickupCalendar />} />
                   <Route path="pickups/:id" element={<PickupDetail />} />
                   <Route path="devices" element={<Devices />} />
-                  <Route path="reports" element={<Reports />} />
+                  <Route path="reports" element={<ClientReports />} />
                   <Route path="messages" element={<ClientMessages />} />
                   <Route path="announcements" element={<ClientAnnouncements />} />
                   <Route path="help" element={<Help />} />
@@ -380,6 +380,13 @@ function App() {
                   <Route path="schedule-pickup" element={<ClientSchedulePickup />} />
                   <Route path="client-profile" element={<ClientProfile />} />
                 </Route>
+                
+                {/* Report Detail Route - Outside of dashboard layout */}
+                <Route path="/reports/:id" element={
+                  <ProtectedRoute>
+                    <ReportDetail />
+                  </ProtectedRoute>
+                } />
                 
                 {/* Add routes for the new pages */}
                 <Route path="/settings" element={
