@@ -372,7 +372,7 @@ function App() {
                   <Route path="pickups" element={<PickupCalendar />} />
                   <Route path="pickups/:id" element={<PickupDetail />} />
                   <Route path="devices" element={<Devices />} />
-                  <Route path="reports" element={<ClientReports />} />
+                  <Route path="reports" element={<Reports />} />
                   <Route path="messages" element={<ClientMessages />} />
                   <Route path="announcements" element={<ClientAnnouncements />} />
                   <Route path="help" element={<Help />} />
@@ -408,7 +408,7 @@ function App() {
                 }>
                   <Route index element={<AdminDashboard />} />
                   <Route path="dashboard" element={<AdminDashboard />} />
-                  <Route path="reports" element={<h1>Admin Reports</h1>} />
+                  <Route path="reports" element={<Reports />} />
                     <Route path="messages" element={<AdminMessages />} />
                     <Route path="announcements" element={<TrialPage />} />
                     <Route path="schedule-pickup" element={<AdminAnnouncements />} />
