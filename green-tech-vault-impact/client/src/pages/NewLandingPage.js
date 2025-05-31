@@ -273,22 +273,23 @@ const NewLandingPage = () => {
         </Grid>
         
         {/* Impact Section - Moved to be part of Our Process section */}
-        <Box sx={{ mt: 4 }}>
-          <ImpactCard>
-            <BarChartIcon sx={{ fontSize: 40, color: theme.palette.teal.main, mr: 2 }} />
-            <Box>
-              <Typography variant="h5" component="h3" fontWeight="bold">
+        <Grid container spacing={4} sx={{ mt: 4 }} justifyContent="center">
+          <Grid item xs={12} sm={6} md={3}>
+            <ProcessCard elevation={1}>
+              <ProcessIconWrapper>
+                <BarChartIcon fontSize="large" />
+              </ProcessIconWrapper>
+              <Typography variant="h6" fontWeight="bold" gutterBottom>
                 Impact
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                 Receive detailed reports on your environmental impact and data security
               </Typography>
-            </Box>
-            <Box sx={{ ml: 'auto' }}>
               <Button 
                 variant="contained"
                 component={RouterLink}
                 to="/environmental-impact-report"
+                size="small"
                 sx={{ 
                   bgcolor: theme.palette.teal.main,
                   '&:hover': {
@@ -298,9 +299,9 @@ const NewLandingPage = () => {
               >
                 VIEW SAMPLE REPORT
               </Button>
-            </Box>
-          </ImpactCard>
-        </Box>
+            </ProcessCard>
+          </Grid>
+        </Grid>
       </Container>
 
       {/* CTA Section */}
