@@ -61,10 +61,11 @@ const SchedulePickup = () => {
       // In a real app, this would come from the user profile
       setFormData(prev => ({
         ...prev,
-        companyName: user.companyName || "Leila's Company",
-        contactName: user.fullName || "Leila Meyer",
-        email: user.email || "leilaameyer2@gmail.com",
-        phone: user.phone || "(555) 123-4567"
+        // Remove pre-filled data, let users fill in their own information
+        companyName: user.companyName || "",
+        contactName: user.fullName || "",
+        email: user.email || "",
+        phone: user.phone || ""
       }));
     }
   }, [user]);
@@ -631,8 +632,8 @@ const SchedulePickup = () => {
   };
 
   return (
-    <Box sx={getContentContainerStyle()} data-boundary="true">
-      <Box sx={getContentWrapperStyle()}>
+    <Box sx={{...getContentContainerStyle(), display: 'flex', justifyContent: 'center', alignItems: 'flex-start', minHeight: '100vh', pt: 4}} data-boundary="true">
+      <Box sx={{...getContentWrapperStyle(), maxWidth: '800px', width: '100%'}}>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
           <Typography variant="h5" sx={{ mb: 3, textAlign: 'center' }}>
             Schedule E-Waste Pickup

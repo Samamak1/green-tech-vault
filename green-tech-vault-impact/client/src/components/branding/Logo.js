@@ -60,12 +60,12 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
   const { iconSize, textVariant, taglineVariant, spacing } = sizeConfig[size] || sizeConfig.medium;
   const { iconBgColor, iconColor, textColor, textSecondaryColor, taglineColor } = variantConfig[variant] || variantConfig.default;
 
-  // Custom logo icon that uses the robot image
+  // Custom logo icon that uses the RYGNeco logo image
   const LogoIcon = () => (
     <Box 
       component="img"
-      src="/images/robot-logo.svg"
-      alt="Robot Logo"
+      src="/images/rygneco-logo.png"
+      alt="RYGNeco Logo"
       sx={{ 
         width: iconSize * 1.8,
         height: iconSize * 1.8,
@@ -104,7 +104,7 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
               lineHeight: 1.2,
             }}
           >
-            {variant === 'admin' ? 'Green Tech Vault' : 'EcoCycle Solutions'}
+            {variant === 'admin' ? 'RYGNeco Admin' : 'RYGNeco'}
           </Typography>
         )}
       </Box>

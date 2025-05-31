@@ -12,7 +12,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import RecyclingIcon from '../branding/RecyclingIcon';
+import Logo from '../branding/Logo';
 import { Link as RouterLink } from 'react-router-dom';
 
 const Footer = () => {
@@ -38,12 +38,12 @@ const Footer = () => {
   ];
   
   const contactInfo = [
-    { title: 'info@ecocyclesolutions.com', url: 'mailto:info@ecocyclesolutions.com' },
+    { title: 'info@rygneco.com', url: 'mailto:info@rygneco.com' },
     { title: 'Phone Number', url: 'tel:+1-800-123-4567' }
   ];
   
   const socialLinks = [
-    { icon: <InstagramIcon />, url: 'https://instagram.com' },
+    { icon: <InstagramIcon />, url: 'https://www.instagram.com/rygneco/' },
     { icon: <FacebookIcon />, url: 'https://facebook.com' },
     { icon: <YouTubeIcon />, url: 'https://youtube.com' },
     { icon: <LinkedInIcon />, url: 'https://linkedin.com' }
@@ -85,10 +85,10 @@ const Footer = () => {
                     mr: 1 
                   }}
                 >
-                  <RecyclingIcon size={90} color="white" />
+                  <Logo variant="light" size="large" showText={false} linkTo={null} />
                 </Box>
                 <Typography variant="h6" component="span">
-                  Corporate Information
+                  RYGNeco
                 </Typography>
               </Box>
             </Box>
