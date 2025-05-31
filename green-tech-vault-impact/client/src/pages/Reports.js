@@ -93,11 +93,36 @@ const Reports = () => {
     try {
       setLoading(true);
       const res = await reportAPI.getAll();
-      setReports(res.data.data);
+      const reportsData = res.data?.data || [];
+      
+      // Ensure each report has the required structure
+      const normalizedReports = reportsData.map(report => ({
+        _id: report._id || Date.now().toString(),
+        title: report.title || 'Untitled Report',
+        type: report.type || 'Custom',
+        status: report.status || 'Draft',
+        dateRange: report.dateRange || {
+          startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 days ago
+          endDate: new Date()
+        },
+        impactSummary: report.impactSummary || {
+          totalDevicesCollected: 0,
+          totalCO2Saved: 0,
+          totalWeightCollected: 0,
+          totalLandfillDiverted: 0
+        },
+        company: report.company || null,
+        createdAt: report.createdAt || new Date(),
+        ...report
+      }));
+      
+      setReports(normalizedReports);
       setError(null);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to load reports');
       console.error('Reports fetch error:', err);
+      // Set empty array on error to prevent undefined issues
+      setReports([]);
     } finally {
       setLoading(false);
     }
@@ -139,9 +164,17 @@ const Reports = () => {
 
   const handleInputChange = (e) => {
     const { name, value, checked, type } = e.target;
+    
+    let processedValue = value;
+    
+    // Handle date inputs
+    if (name === 'startDate' || name === 'endDate') {
+      processedValue = value ? new Date(value) : null;
+    }
+    
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : processedValue
     });
     
     // Clear error for this field
@@ -187,8 +220,8 @@ const Reports = () => {
       const reportData = {
         type: formData.type,
         title: formData.title,
-        startDate: formData.startDate.toISOString(),
-        endDate: formData.endDate.toISOString(),
+        startDate: formData.startDate ? formData.startDate.toISOString() : new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+        endDate: formData.endDate ? formData.endDate.toISOString() : new Date().toISOString(),
         options: {
           includeCharts: formData.includeCharts,
           includeDetailedBreakdown: formData.includeDetailedBreakdown,
@@ -476,24 +509,26 @@ const Reports = () => {
                 {filteredReports.map((report) => (
                   <TableRow key={report._id}>
                     <TableCell component="th" scope="row">
-                      {report.title}
+                      {report.title || 'Untitled Report'}
                     </TableCell>
                     <TableCell>
-                      <Chip label={report.type} size="small" color="primary" variant="outlined" />
+                      <Chip label={report.type || 'Unknown'} size="small" color="primary" variant="outlined" />
                     </TableCell>
                     <TableCell>{report.company?.companyName || 'All Clients'}</TableCell>
                     <TableCell>
-                      {new Date(report.dateRange.startDate).toLocaleDateString()} - {new Date(report.dateRange.endDate).toLocaleDateString()}
+                      {report.dateRange?.startDate && report.dateRange?.endDate 
+                        ? `${new Date(report.dateRange.startDate).toLocaleDateString()} - ${new Date(report.dateRange.endDate).toLocaleDateString()}`
+                        : 'Date range not available'}
                     </TableCell>
                     <TableCell align="right">
-                      {report.impactSummary.totalDevicesCollected}
+                      {report.impactSummary?.totalDevicesCollected || 0}
                     </TableCell>
                     <TableCell align="right">
-                      {formatCO2(report.impactSummary.totalCO2Saved)}
+                      {formatCO2(report.impactSummary?.totalCO2Saved || 0)}
                     </TableCell>
                     <TableCell align="center">
                       <Chip 
-                        label={report.status} 
+                        label={report.status || 'Draft'} 
                         color={report.status === 'Published' ? 'success' : 'default'} 
                         size="small" 
                       />
