@@ -47,8 +47,9 @@ const ImagePlaceholder = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: '12px',
-  backgroundColor: theme.palette.background.default
+  borderRadius: '50%',
+  backgroundColor: theme.palette.teal.main,
+  color: 'white'
 }));
 
 // Process step card
@@ -109,22 +110,22 @@ const NewLandingPage = () => {
     {
       title: "Business Pick-Up Services",
       description: "Scheduled or on-demand e-waste collection from your business location.",
-      icon: <BusinessIcon sx={{ fontSize: 40, color: '#FB8C00' }} />
+      icon: <BusinessIcon sx={{ fontSize: 40, color: 'white' }} />
     },
     {
       title: "Secure Data Destruction",
       description: "Certified wiping or shredding with documentation for your records.",
-      icon: <DeleteIcon sx={{ fontSize: 40, color: '#FDD835' }} />
+      icon: <DeleteIcon sx={{ fontSize: 40, color: 'white' }} />
     },
     {
       title: "Certified Recycling",
       description: "Environmentally responsible processing that meets all regulations.",
-      icon: <VerifiedIcon sx={{ fontSize: 40, color: '#62CBD0' }} />
+      icon: <VerifiedIcon sx={{ fontSize: 40, color: 'white' }} />
     },
     {
       title: "Compliance Documentation",
       description: "Clear, itemized reports that prove your disposal met all audits and tracking.",
-      icon: <DescriptionIcon sx={{ fontSize: 40, color: '#2A7074' }} />
+      icon: <DescriptionIcon sx={{ fontSize: 40, color: 'white' }} />
     }
   ];
 

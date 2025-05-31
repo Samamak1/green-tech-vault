@@ -28,6 +28,16 @@ const BrandedFooter = () => {
             <Box sx={{ display: 'flex', gap: 1 }}>
               <IconButton 
                 component={Link}
+                href="https://www.instagram.com/rygneco/"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ color: '#8cc63f' }} 
+                aria-label="Instagram"
+              >
+                <InstagramIcon />
+              </IconButton>
+              <IconButton 
+                component={Link}
                 href="https://www.facebook.com/people/RYGNeco/61575273422314/?mibextid=LQQJ4d&rdid=jOGvLhXNFJslFT3H&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F19DdG1NYvL%2F%3Fmibextid%3DLQQJ4d"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -45,16 +55,6 @@ const BrandedFooter = () => {
                 aria-label="X (Twitter)"
               >
                 <XIcon />
-              </IconButton>
-              <IconButton 
-                component={Link}
-                href="https://www.instagram.com/rygneco/"
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={{ color: '#8cc63f' }} 
-                aria-label="Instagram"
-              >
-                <InstagramIcon />
               </IconButton>
               <IconButton 
                 component={Link}

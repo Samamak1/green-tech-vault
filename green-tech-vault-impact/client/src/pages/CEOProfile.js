@@ -17,41 +17,6 @@ const CEOProfile = () => {
 
   return (
     <Box>
-      {/* Header Section */}
-      <Box
-        sx={{
-          backgroundColor: theme.palette.teal.main,
-          color: 'white',
-          py: 3,
-          position: 'relative',
-          textAlign: 'center'
-        }}
-      >
-        <Container maxWidth="lg">
-          <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 2 }}>
-            Leila Meyer
-          </Typography>
-          
-          <Button
-            component={Link}
-            to="/about-us"
-            startIcon={<ArrowBack />}
-            sx={{ 
-              color: 'white',
-              border: '1px solid white',
-              borderRadius: 1,
-              px: 2,
-              py: 0.75,
-              '&:hover': {
-                backgroundColor: 'rgba(255, 255, 255, 0.1)'
-              }
-            }}
-          >
-            Back to Team
-          </Button>
-        </Container>
-      </Box>
-      
       {/* Profile Content Section */}
       <Container maxWidth="md" sx={{ py: 5 }}>
         <Paper elevation={2} sx={{ p: 4, borderRadius: 2 }}>
@@ -103,7 +68,10 @@ const CEOProfile = () => {
             
             {/* CEO Information */}
             <Grid item xs={12} md={8}>
-              <Typography variant="h4" sx={{ color: theme.palette.teal.main, mb: 2 }}>
+              <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold', mb: 1 }}>
+                Leila Meyer
+              </Typography>
+              <Typography variant="h4" sx={{ color: theme.palette.teal.main, mb: 3 }}>
                 CEO
               </Typography>
               

@@ -106,7 +106,7 @@ const ContactPage = () => {
                 Get In Touch
               </Typography>
               <Typography variant="body1" paragraph sx={{ color: 'text.secondary', mb: 3 }}>
-                Get help with e-waste recycling for businesses and organizations.
+                Partner with us to responsibly recycle your e-waste. Make a measurable impact on the environment and your community.
               </Typography>
               
               {/* Phone */}
