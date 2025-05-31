@@ -1,0 +1,309 @@
+/* Print-specific styles for E-Waste Reporting Module */
+
+@media print {
+    /* General print settings */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    body {
+        margin: 0;
+        padding: 0;
+        font-size: 11pt;
+        line-height: 1.5;
+    }
+    
+    /* Page setup */
+    @page {
+        size: letter;
+        margin: 0.5in;
+    }
+    
+    @page :first {
+        margin-top: 0.5in;
+    }
+    
+    /* Remove screen-only elements */
+    .no-print,
+    .report-customizer,
+    .export-options,
+    .notification,
+    .loading-overlay,
+    button,
+    .edit-button,
+    .delete-button {
+        display: none !important;
+    }
+    
+    /* Page layout for print */
+    .page {
+        width: 100%;
+        min-height: auto;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        page-break-after: always;
+        page-break-inside: avoid;
+    }
+    
+    .page:last-child {
+        page-break-after: auto;
+    }
+    
+    /* Headers and footers */
+    .header {
+        position: relative;
+        top: auto;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .footer {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        margin-top: 40px;
+        padding-top: 15px;
+    }
+    
+    .page-number {
+        position: absolute;
+        top: -0.25in;
+        right: 0;
+    }
+    
+    /* Typography adjustments */
+    h1 {
+        font-size: 24pt;
+        page-break-after: avoid;
+    }
+    
+    h2 {
+        font-size: 18pt;
+        page-break-after: avoid;
+    }
+    
+    h3 {
+        font-size: 14pt;
+        page-break-after: avoid;
+        margin-top: 20px;
+    }
+    
+    h4 {
+        font-size: 12pt;
+        page-break-after: avoid;
+    }
+    
+    p {
+        orphans: 3;
+        widows: 3;
+    }
+    
+    /* Tables */
+    table {
+        page-break-inside: avoid;
+    }
+    
+    .data-table {
+        font-size: 9pt;
+        border: 1px solid #dee2e6;
+    }
+    
+    .data-table th {
+        background-color: #f8f9fa !important;
+        font-weight: bold;
+        border: 1px solid #dee2e6;
+    }
+    
+    .data-table td {
+        border: 1px solid #dee2e6;
+    }
+    
+    .data-table tr:nth-child(even) {
+        background-color: #f8f9fa !important;
+    }
+    
+    /* KPI and Impact Cards */
+    .kpi-grid,
+    .impact-grid {
+        page-break-inside: avoid;
+    }
+    
+    .kpi-card,
+    .impact-card {
+        page-break-inside: avoid;
+        border: 1px solid #dee2e6;
+        background-color: #f8f9fa !important;
+    }
+    
+    /* Charts */
+    .chart-container {
+        page-break-inside: avoid;
+    }
+    
+    .bar-chart,
+    .donut-chart {
+        background-color: #f8f9fa !important;
+    }
+    
+    /* Executive Summary */
+    .executive-summary {
+        page-break-inside: avoid;
+        background: #e3f2fd !important;
+        border: 1px solid #2196f3;
+        color: #1565c0 !important;
+    }
+    
+    .executive-summary h3 {
+        color: #1565c0 !important;
+    }
+    
+    /* Alert boxes */
+    .alert-box {
+        page-break-inside: avoid;
+        background-color: #fff3cd !important;
+        border: 1px solid #ffeaa7;
+    }
+    
+    /* Compliance badges */
+    .compliance-badge {
+        background-color: #27ae60 !important;
+        color: white !important;
+        border: 1px solid #27ae60;
+    }
+    
+    /* Progress bars */
+    .progress-bar {
+        background-color: #e9ecef !important;
+        border: 1px solid #dee2e6;
+    }
+    
+    .progress-fill {
+        background-color: #27ae60 !important;
+    }
+    
+    /* Timeline */
+    .timeline::before {
+        background-color: #27ae60 !important;
+    }
+    
+    .timeline-item {
+        page-break-inside: avoid;
+    }
+    
+    /* Two column layout */
+    .two-column {
+        page-break-inside: avoid;
+    }
+    
+    /* Links */
+    a {
+        color: #1976d2 !important;
+        text-decoration: underline;
+    }
+    
+    a[href]:after {
+        content: " (" attr(href) ")";
+        font-size: 8pt;
+        color: #666;
+    }
+    
+    /* Hide link URLs for internal links */
+    a[href^="#"]:after,
+    a[href^="javascript:"]:after {
+        content: "";
+    }
+    
+    /* Images */
+    img {
+        max-width: 100%;
+        page-break-inside: avoid;
+    }
+    
+    /* Ensure colors print correctly */
+    .kpi-value,
+    h3 {
+        color: #27ae60 !important;
+    }
+    
+    .kpi-change.positive {
+        background-color: #d4edda !important;
+        color: #155724 !important;
+    }
+    
+    .kpi-change.negative {
+        background-color: #f8d7da !important;
+        color: #721c24 !important;
+    }
+    
+    /* Section styling */
+    .section {
+        page-break-inside: avoid;
+    }
+    
+    /* Fix positioning issues */
+    .page {
+        position: relative !important;
+    }
+    
+    /* Optimize spacing */
+    .section {
+        margin: 20px 0;
+    }
+    
+    .kpi-grid,
+    .impact-grid {
+        margin: 15px 0;
+    }
+    
+    /* Ensure proper page breaks */
+    .page-break {
+        page-break-after: always;
+    }
+    
+    .no-break {
+        page-break-inside: avoid;
+    }
+    
+    /* Watermark support */
+    .watermark {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+        font-size: 120pt;
+        color: rgba(0, 0, 0, 0.05);
+        z-index: -1;
+        font-weight: bold;
+    }
+    
+    /* Report metadata */
+    .report-metadata {
+        font-size: 9pt;
+        color: #666;
+        border-top: 1px solid #dee2e6;
+        padding-top: 10px;
+        margin-top: 20px;
+    }
+    
+    /* Signature lines */
+    .signature-section {
+        margin-top: 40px;
+        page-break-inside: avoid;
+    }
+    
+    .signature-line {
+        border-bottom: 1px solid #000;
+        width: 200px;
+        margin-top: 40px;
+        display: inline-block;
+    }
+    
+    .signature-label {
+        font-size: 9pt;
+        color: #666;
+        margin-top: 5px;
+    }
+} 

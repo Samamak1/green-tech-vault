@@ -381,6 +381,13 @@ function App() {
                   <Route path="client-profile" element={<ClientProfile />} />
                 </Route>
                 
+                {/* Report Detail Route - Outside of dashboard layout */}
+                <Route path="/reports/:id" element={
+                  <ProtectedRoute>
+                    <ReportDetail />
+                  </ProtectedRoute>
+                } />
+                
                 {/* Add routes for the new pages */}
                 <Route path="/settings" element={
                   <ProtectedRoute>
@@ -408,7 +415,7 @@ function App() {
                 }>
                   <Route index element={<AdminDashboard />} />
                   <Route path="dashboard" element={<AdminDashboard />} />
-                  <Route path="reports" element={<h1>Admin Reports</h1>} />
+                  <Route path="reports" element={<Reports />} />
                     <Route path="messages" element={<AdminMessages />} />
                     <Route path="announcements" element={<TrialPage />} />
                     <Route path="schedule-pickup" element={<AdminAnnouncements />} />

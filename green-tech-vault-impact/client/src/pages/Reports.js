@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import {
   Box,
   Typography,
@@ -27,7 +28,12 @@ import {
   CircularProgress,
   Tooltip,
   Chip,
-  Alert
+  Alert,
+  Tabs,
+  Tab,
+  FormControlLabel,
+  Checkbox,
+  Autocomplete
 } from '@mui/material';
 import { 
   Add as AddIcon,
@@ -36,7 +42,11 @@ import {
   PictureAsPdf as PdfIcon,
   TableChart as CsvIcon,
   Delete as DeleteIcon,
-  Publish as PublishIcon
+  Publish as PublishIcon,
+  FilterList as FilterIcon,
+  Schedule as ScheduleIcon,
+  Business as BusinessIcon,
+  Assessment as AssessmentIcon
 } from '@mui/icons-material';
 import { reportAPI } from '../services/api';
 import { formatCO2, formatWeight } from '../utils/environmentalImpact';
@@ -47,35 +57,89 @@ const Reports = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [tabValue, setTabValue] = useState(0);
+  const [clients, setClients] = useState([]);
+  const [selectedClient, setSelectedClient] = useState(null);
   const [formData, setFormData] = useState({
     type: 'Monthly',
     title: '',
     startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)),
-    endDate: new Date()
+    endDate: new Date(),
+    includeCharts: true,
+    includeDetailedBreakdown: true,
+    includeEnvironmentalImpact: true,
+    includeFinancialSummary: false,
+    clientId: null
   });
   const [formErrors, setFormErrors] = useState({});
   const [generating, setGenerating] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [reportToDelete, setReportToDelete] = useState(null);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    type: 'All',
+    status: 'All',
+    clientId: null
+  });
   
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchReports();
+    fetchClients();
   }, []);
 
   const fetchReports = async () => {
     try {
       setLoading(true);
       const res = await reportAPI.getAll();
-      setReports(res.data.data);
+      const reportsData = res.data?.data || [];
+      
+      // Ensure each report has the required structure
+      const normalizedReports = reportsData.map(report => ({
+        _id: report._id || Date.now().toString(),
+        title: report.title || 'Untitled Report',
+        type: report.type || 'Custom',
+        status: report.status || 'Draft',
+        dateRange: report.dateRange || {
+          startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 days ago
+          endDate: new Date()
+        },
+        impactSummary: report.impactSummary || {
+          totalDevicesCollected: 0,
+          totalCO2Saved: 0,
+          totalWeightCollected: 0,
+          totalLandfillDiverted: 0
+        },
+        company: report.company || null,
+        createdAt: report.createdAt || new Date(),
+        ...report
+      }));
+      
+      setReports(normalizedReports);
       setError(null);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to load reports');
       console.error('Reports fetch error:', err);
+      // Set empty array on error to prevent undefined issues
+      setReports([]);
     } finally {
       setLoading(false);
     }
+  };
+
+  const fetchClients = async () => {
+    try {
+      // Fetch client list for filtering
+      const res = await axios.get('/api/companies');
+      setClients(res.data.data || []);
+    } catch (err) {
+      console.error('Failed to fetch clients:', err);
+    }
+  };
+
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
   };
 
   const handleOpenDialog = () => {
@@ -88,16 +152,29 @@ const Reports = () => {
       type: 'Monthly',
       title: '',
       startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)),
-      endDate: new Date()
+      endDate: new Date(),
+      includeCharts: true,
+      includeDetailedBreakdown: true,
+      includeEnvironmentalImpact: true,
+      includeFinancialSummary: false,
+      clientId: null
     });
     setFormErrors({});
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, checked, type } = e.target;
+    
+    let processedValue = value;
+    
+    // Handle date inputs
+    if (name === 'startDate' || name === 'endDate') {
+      processedValue = value ? new Date(value) : null;
+    }
+    
     setFormData({
       ...formData,
-      [name]: value
+      [name]: type === 'checkbox' ? checked : processedValue
     });
     
     // Clear error for this field
@@ -143,8 +220,15 @@ const Reports = () => {
       const reportData = {
         type: formData.type,
         title: formData.title,
-        startDate: formData.startDate.toISOString(),
-        endDate: formData.endDate.toISOString()
+        startDate: formData.startDate ? formData.startDate.toISOString() : new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+        endDate: formData.endDate ? formData.endDate.toISOString() : new Date().toISOString(),
+        options: {
+          includeCharts: formData.includeCharts,
+          includeDetailedBreakdown: formData.includeDetailedBreakdown,
+          includeEnvironmentalImpact: formData.includeEnvironmentalImpact,
+          includeFinancialSummary: formData.includeFinancialSummary
+        },
+        clientId: formData.clientId
       };
       
       await reportAPI.generate(reportData);
@@ -263,6 +347,24 @@ const Reports = () => {
     }
   };
 
+  const filteredReports = reports.filter(report => {
+    if (filters.type !== 'All' && report.type !== filters.type) return false;
+    if (filters.status !== 'All' && report.status !== filters.status) return false;
+    if (filters.clientId && report.company !== filters.clientId) return false;
+    return true;
+  });
+
+  const reportTypes = [
+    { value: 'Pickup', label: 'Pickup Report', description: 'Individual pickup transaction details' },
+    { value: 'Monthly', label: 'Monthly Report', description: 'Monthly summary of activities' },
+    { value: 'Quarterly', label: 'Quarterly Report', description: 'Comprehensive quarterly analysis' },
+    { value: 'Annual', label: 'Annual Report', description: 'Year-end sustainability report' },
+    { value: 'Custom', label: 'Custom Report', description: 'Custom date range report' },
+    { value: 'Client', label: 'Client Report', description: 'Client-specific impact report' },
+    { value: 'Compliance', label: 'Compliance Report', description: 'Regulatory compliance report' },
+    { value: 'Financial', label: 'Financial Report', description: 'Financial impact and savings report' }
+  ];
+
   if (loading && reports.length === 0) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
@@ -278,24 +380,97 @@ const Reports = () => {
           <Typography variant="h4" component="h1" gutterBottom>
             Environmental Impact Reports
           </Typography>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={handleOpenDialog}
-          >
-            Generate New Report
-          </Button>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Button
+              variant="outlined"
+              startIcon={<FilterIcon />}
+              onClick={() => setFilterOpen(!filterOpen)}
+            >
+              Filters
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<ScheduleIcon />}
+              onClick={() => navigate('/admin/reports/scheduled')}
+            >
+              Scheduled Reports
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={handleOpenDialog}
+            >
+              Generate New Report
+            </Button>
+          </Box>
         </Box>
 
         {error && (
-          <Box sx={{ mb: 3 }}>
-            <Typography color="error" variant="body1">
-              {error}
-            </Typography>
-          </Box>
+          <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError(null)}>
+            {error}
+          </Alert>
         )}
 
-        {reports.length === 0 ? (
+        <Paper sx={{ mb: 3 }}>
+          <Tabs value={tabValue} onChange={handleTabChange} aria-label="report tabs">
+            <Tab label="All Reports" icon={<AssessmentIcon />} iconPosition="start" />
+            <Tab label="Published Reports" icon={<PublishIcon />} iconPosition="start" />
+            <Tab label="Draft Reports" icon={<PdfIcon />} iconPosition="start" />
+            <Tab label="Client Reports" icon={<BusinessIcon />} iconPosition="start" />
+          </Tabs>
+        </Paper>
+
+        {filterOpen && (
+          <Card sx={{ mb: 3 }}>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                Filter Reports
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={4}>
+                  <FormControl fullWidth>
+                    <InputLabel>Report Type</InputLabel>
+                    <Select
+                      value={filters.type}
+                      onChange={(e) => setFilters({ ...filters, type: e.target.value })}
+                      label="Report Type"
+                    >
+                      <MenuItem value="All">All Types</MenuItem>
+                      {reportTypes.map(type => (
+                        <MenuItem key={type.value} value={type.value}>{type.label}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <FormControl fullWidth>
+                    <InputLabel>Status</InputLabel>
+                    <Select
+                      value={filters.status}
+                      onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                      label="Status"
+                    >
+                      <MenuItem value="All">All Status</MenuItem>
+                      <MenuItem value="Published">Published</MenuItem>
+                      <MenuItem value="Draft">Draft</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <Autocomplete
+                    options={clients}
+                    getOptionLabel={(option) => option.companyName || option.name}
+                    value={clients.find(c => c._id === filters.clientId) || null}
+                    onChange={(e, newValue) => setFilters({ ...filters, clientId: newValue?._id || null })}
+                    renderInput={(params) => <TextField {...params} label="Client" />}
+                  />
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        )}
+
+        {filteredReports.length === 0 ? (
           <Card>
             <CardContent>
               <Box sx={{ textAlign: 'center', py: 4 }}>
@@ -322,6 +497,7 @@ const Reports = () => {
                 <TableRow>
                   <TableCell>Title</TableCell>
                   <TableCell>Type</TableCell>
+                  <TableCell>Client</TableCell>
                   <TableCell>Date Range</TableCell>
                   <TableCell align="right">Devices</TableCell>
                   <TableCell align="right">CO₂ Saved</TableCell>
@@ -330,24 +506,29 @@ const Reports = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {reports.map((report) => (
+                {filteredReports.map((report) => (
                   <TableRow key={report._id}>
                     <TableCell component="th" scope="row">
-                      {report.title}
+                      {report.title || 'Untitled Report'}
                     </TableCell>
-                    <TableCell>{report.type}</TableCell>
                     <TableCell>
-                      {new Date(report.dateRange.startDate).toLocaleDateString()} - {new Date(report.dateRange.endDate).toLocaleDateString()}
+                      <Chip label={report.type || 'Unknown'} size="small" color="primary" variant="outlined" />
+                    </TableCell>
+                    <TableCell>{report.company?.companyName || 'All Clients'}</TableCell>
+                    <TableCell>
+                      {report.dateRange?.startDate && report.dateRange?.endDate 
+                        ? `${new Date(report.dateRange.startDate).toLocaleDateString()} - ${new Date(report.dateRange.endDate).toLocaleDateString()}`
+                        : 'Date range not available'}
                     </TableCell>
                     <TableCell align="right">
-                      {report.impactSummary.totalDevicesCollected}
+                      {report.impactSummary?.totalDevicesCollected || 0}
                     </TableCell>
                     <TableCell align="right">
-                      {formatCO2(report.impactSummary.totalCO2Saved)}
+                      {formatCO2(report.impactSummary?.totalCO2Saved || 0)}
                     </TableCell>
                     <TableCell align="center">
                       <Chip 
-                        label={report.status} 
+                        label={report.status || 'Draft'} 
                         color={report.status === 'Published' ? 'success' : 'default'} 
                         size="small" 
                       />
@@ -391,7 +572,7 @@ const Reports = () => {
         )}
 
         {/* Generate Report Dialog */}
-        <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+        <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth>
           <DialogTitle>Generate Environmental Impact Report</DialogTitle>
           <DialogContent>
             <Box sx={{ mt: 2 }}>
@@ -408,7 +589,7 @@ const Reports = () => {
                     required
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={6}>
                   <FormControl fullWidth>
                     <InputLabel id="report-type-label">Report Type</InputLabel>
                     <Select
@@ -419,13 +600,27 @@ const Reports = () => {
                       label="Report Type"
                       onChange={handleInputChange}
                     >
-                      <MenuItem value="Pickup">Pickup</MenuItem>
-                      <MenuItem value="Monthly">Monthly</MenuItem>
-                      <MenuItem value="Quarterly">Quarterly</MenuItem>
-                      <MenuItem value="Annual">Annual</MenuItem>
-                      <MenuItem value="Custom">Custom</MenuItem>
+                      {reportTypes.map(type => (
+                        <MenuItem key={type.value} value={type.value}>
+                          <Box>
+                            <Typography variant="body1">{type.label}</Typography>
+                            <Typography variant="caption" color="text.secondary">
+                              {type.description}
+                            </Typography>
+                          </Box>
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Autocomplete
+                    options={clients}
+                    getOptionLabel={(option) => option.companyName || option.name}
+                    value={clients.find(c => c._id === formData.clientId) || null}
+                    onChange={(e, newValue) => setFormData({ ...formData, clientId: newValue?._id || null })}
+                    renderInput={(params) => <TextField {...params} label="Client (Optional)" />}
+                  />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -454,6 +649,61 @@ const Reports = () => {
                     helperText={formErrors.endDate}
                     required
                   />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle1" gutterBottom>
+                    Report Sections
+                  </Typography>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12} sm={6}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={formData.includeCharts}
+                            onChange={handleInputChange}
+                            name="includeCharts"
+                          />
+                        }
+                        label="Include Charts & Visualizations"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={formData.includeDetailedBreakdown}
+                            onChange={handleInputChange}
+                            name="includeDetailedBreakdown"
+                          />
+                        }
+                        label="Include Detailed Device Breakdown"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={formData.includeEnvironmentalImpact}
+                            onChange={handleInputChange}
+                            name="includeEnvironmentalImpact"
+                          />
+                        }
+                        label="Include Environmental Impact"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={formData.includeFinancialSummary}
+                            onChange={handleInputChange}
+                            name="includeFinancialSummary"
+                          />
+                        }
+                        label="Include Financial Summary"
+                      />
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </Box>

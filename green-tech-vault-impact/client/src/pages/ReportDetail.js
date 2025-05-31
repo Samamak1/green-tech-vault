@@ -3,41 +3,22 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box,
   Typography,
-  Card,
-  CardContent,
-  Grid,
   Button,
-  Divider,
   CircularProgress,
   Alert,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   IconButton,
-  Chip,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon
+  Container
 } from '@mui/material';
 import { 
   Download as DownloadIcon,
   Share as ShareIcon,
   ArrowBack as ArrowBackIcon,
-  PieChart as PieChartIcon,
-  BarChart as BarChartIcon,
-  Park as ParkIcon,
-  Devices as DevicesIcon,
-  Recycling as RecyclingIcon,
-  LocalShipping as ShippingIcon
+  PictureAsPdf as PdfIcon,
+  TableChart as CsvIcon,
+  Print as PrintIcon
 } from '@mui/icons-material';
 import { reportAPI } from '../services/api';
-import { formatDate } from '../utils/formatters';
-import { formatWeight, formatCO2 } from '../utils/environmentalImpact';
+import ReportTemplate from '../components/ReportTemplate';
 
 const ReportDetail = () => {
   const { id } = useParams();
@@ -64,46 +45,71 @@ const ReportDetail = () => {
     }
   };
 
-  const handleDownloadReport = async () => {
+  const handleDownloadPdf = async () => {
     try {
       const res = await reportAPI.downloadPdf(id);
       
-      // Create a blob from the response data
-      const blob = new Blob([res.data], { type: res.headers['content-type'] });
-      
-      // Create a link element and trigger download
+      const blob = new Blob([res.data], { type: 'application/pdf' });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       
-      // Get filename from content-disposition header or use default
-      const contentDisposition = res.headers['content-disposition'];
-      let filename = 'report';
-      
-      if (contentDisposition) {
-        const filenameMatch = contentDisposition.match(/filename="(.+)"/);
-        if (filenameMatch && filenameMatch.length === 2) {
-          filename = filenameMatch[1];
-        }
-      }
+      const filename = report ? `${report.title.replace(/\s+/g, '_')}.pdf` : `report_${id}.pdf`;
       
       link.setAttribute('download', filename);
       document.body.appendChild(link);
       link.click();
-      link.remove();
+      
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(link);
     } catch (err) {
-      console.error('Report download error:', err);
-      setError('Failed to download report. Please try again.');
+      console.error('PDF download error:', err);
+      setError('Failed to download PDF. Please try again.');
     }
   };
 
-  const getReportTypeLabel = (type) => {
-    switch (type) {
-      case 'monthly': return 'Monthly';
-      case 'quarterly': return 'Quarterly';
-      case 'annual': return 'Annual';
-      case 'custom': return 'Custom';
-      default: return type;
+  const handleDownloadCsv = async () => {
+    try {
+      const res = await reportAPI.downloadCsv(id);
+      
+      const blob = new Blob([res.data], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      
+      const filename = report ? `${report.title.replace(/\s+/g, '_')}.csv` : `report_${id}.csv`;
+      
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+      
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error('CSV download error:', err);
+      setError('Failed to download CSV. Please try again.');
+    }
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleShare = () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      navigator.share({
+        title: report.title,
+        text: `Check out this environmental impact report: ${report.title}`,
+        url: url
+      }).catch(err => console.error('Error sharing:', err));
+    } else {
+      // Fallback - copy to clipboard
+      navigator.clipboard.writeText(url).then(() => {
+        alert('Report link copied to clipboard!');
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+      });
     }
   };
 
@@ -117,299 +123,101 @@ const ReportDetail = () => {
 
   if (!report && !loading) {
     return (
-      <Box sx={{ p: 3 }}>
+      <Container maxWidth="lg" sx={{ mt: 4 }}>
         <Alert severity="error">
           Report not found. The report may have been deleted or you don't have permission to view it.
         </Alert>
         <Button 
           variant="contained" 
           sx={{ mt: 2 }}
-          onClick={() => navigate('/reports')}
+          onClick={() => navigate(-1)}
           startIcon={<ArrowBackIcon />}
         >
-          Back to Reports
+          Go Back
         </Button>
-      </Box>
+      </Container>
     );
   }
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton 
-            sx={{ mr: 1 }}
-            onClick={() => navigate('/reports')}
-          >
-            <ArrowBackIcon />
-          </IconButton>
-          <Typography variant="h4" component="h1">
-            {report.title}
-          </Typography>
-        </Box>
-        <Box>
-          <Button
-            variant="outlined"
-            startIcon={<DownloadIcon />}
-            onClick={handleDownloadReport}
-            sx={{ mr: 1 }}
-          >
-            Download
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<ShareIcon />}
-          >
-            Share
-          </Button>
-        </Box>
+    <Box sx={{ backgroundColor: '#f5f5f5', minHeight: '100vh' }}>
+      {/* Action Bar - No print on print */}
+      <Box 
+        sx={{ 
+          backgroundColor: 'white', 
+          borderBottom: '1px solid #e0e0e0',
+          position: 'sticky',
+          top: 0,
+          zIndex: 1000,
+          '@media print': {
+            display: 'none'
+          }
+        }}
+      >
+        <Container maxWidth="xl">
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center', 
+            py: 2 
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <IconButton 
+                sx={{ mr: 2 }}
+                onClick={() => navigate(-1)}
+              >
+                <ArrowBackIcon />
+              </IconButton>
+              <Typography variant="h6">
+                View Report
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <Button
+                variant="outlined"
+                startIcon={<PrintIcon />}
+                onClick={handlePrint}
+              >
+                Print
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<PdfIcon />}
+                onClick={handleDownloadPdf}
+              >
+                Download PDF
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<CsvIcon />}
+                onClick={handleDownloadCsv}
+              >
+                Download CSV
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<ShareIcon />}
+                onClick={handleShare}
+              >
+                Share
+              </Button>
+            </Box>
+          </Box>
+        </Container>
       </Box>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {error}
-        </Alert>
+        <Container maxWidth="xl">
+          <Alert severity="error" sx={{ mt: 2 }} onClose={() => setError(null)}>
+            {error}
+          </Alert>
+        </Container>
       )}
 
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Report Information
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-              
-              <List dense>
-                <ListItem>
-                  <ListItemIcon>
-                    <PieChartIcon />
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary="Report Type" 
-                    secondary={getReportTypeLabel(report.type)} 
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <BarChartIcon />
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary="Date Range" 
-                    secondary={`${formatDate(report.dateRange.startDate)} - ${formatDate(report.dateRange.endDate)}`} 
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <DevicesIcon />
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary="Total Devices" 
-                    secondary={report.impactSummary?.totalDevicesCollected || 0} 
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <ShippingIcon />
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary="Pickups" 
-                    secondary={report.pickupCount || 0} 
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <RecyclingIcon />
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary="Format" 
-                    secondary={report.format?.toUpperCase() || 'PDF'} 
-                  />
-                </ListItem>
-              </List>
-            </CardContent>
-          </Card>
-
-          <Card sx={{ mt: 3 }}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Environmental Impact
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-              
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <Typography variant="subtitle2" color="text.secondary">
-                    CO₂ Emissions Saved
-                  </Typography>
-                  <Typography variant="h5">
-                    {formatCO2(report.impactSummary?.totalCO2Saved || 0)}
-                  </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="subtitle2" color="text.secondary">
-                    E-Waste Collected
-                  </Typography>
-                  <Typography variant="h5">
-                    {formatWeight(report.impactSummary?.totalWeightCollected || 0)}
-                  </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Devices Refurbished
-                  </Typography>
-                  <Typography variant="h5">
-                    {report.impactSummary?.totalRefurbished || 0}
-                  </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Devices Recycled
-                  </Typography>
-                  <Typography variant="h5">
-                    {report.impactSummary?.totalRecycled || 0}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Landfill Diversion Rate
-                  </Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Typography variant="h5" sx={{ mr: 1 }}>
-                      {report.landfillDiversionRate?.toFixed(1) || 0}%
-                    </Typography>
-                    <ParkIcon color="success" />
-                  </Box>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-        
-        <Grid item xs={12} md={8}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Device Breakdown
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-              
-              {report.deviceBreakdown && Object.keys(report.deviceBreakdown).length > 0 ? (
-                <TableContainer component={Paper} variant="outlined">
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Device Type</TableCell>
-                        <TableCell align="right">Count</TableCell>
-                        <TableCell align="right">Weight</TableCell>
-                        <TableCell align="right">CO₂ Saved</TableCell>
-                        <TableCell align="right">Refurbished</TableCell>
-                        <TableCell align="right">Recycled</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {Object.entries(report.deviceBreakdown).map(([type, data]) => (
-                        <TableRow key={type}>
-                          <TableCell>{type}</TableCell>
-                          <TableCell align="right">{data.count}</TableCell>
-                          <TableCell align="right">{formatWeight(data.weight)}</TableCell>
-                          <TableCell align="right">{formatCO2(data.co2Saved)}</TableCell>
-                          <TableCell align="right">{data.refurbished}</TableCell>
-                          <TableCell align="right">{data.recycled}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              ) : (
-                <Typography variant="body1" color="text.secondary" sx={{ textAlign: 'center', py: 3 }}>
-                  No device data available for this report period.
-                </Typography>
-              )}
-            </CardContent>
-          </Card>
-
-          <Card sx={{ mt: 3 }}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Materials Recovered
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-              
-              {report.impactSummary?.materialsRecovered && 
-               Object.keys(report.impactSummary.materialsRecovered).length > 0 ? (
-                <Grid container spacing={3}>
-                  <Grid item xs={12} sm={6}>
-                    <TableContainer component={Paper} variant="outlined">
-                      <Table>
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>Material</TableCell>
-                            <TableCell align="right">Amount</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {Object.entries(report.impactSummary.materialsRecovered).map(([material, amount]) => (
-                            <TableRow key={material}>
-                              <TableCell>
-                                {material.charAt(0).toUpperCase() + material.slice(1)}
-                              </TableCell>
-                              <TableCell align="right">{formatWeight(amount)}</TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </Grid>
-                  
-                  <Grid item xs={12} sm={6}>
-                    <Card variant="outlined" sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                      <CardContent>
-                        <Typography variant="subtitle1" gutterBottom>
-                          Environmental Benefits
-                        </Typography>
-                        <List dense>
-                          <ListItem>
-                            <ListItemIcon>
-                              <ParkIcon color="success" />
-                            </ListItemIcon>
-                            <ListItemText 
-                              primary="Reduced Mining Impact" 
-                              secondary="Recovering materials reduces the need for raw material extraction" 
-                            />
-                          </ListItem>
-                          <ListItem>
-                            <ListItemIcon>
-                              <ParkIcon color="success" />
-                            </ListItemIcon>
-                            <ListItemText 
-                              primary="Energy Conservation" 
-                              secondary="Recycling materials uses less energy than processing raw materials" 
-                            />
-                          </ListItem>
-                          <ListItem>
-                            <ListItemIcon>
-                              <ParkIcon color="success" />
-                            </ListItemIcon>
-                            <ListItemText 
-                              primary="Reduced Landfill Waste" 
-                              secondary="Materials diverted from landfills reduce environmental contamination" 
-                            />
-                          </ListItem>
-                        </List>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                </Grid>
-              ) : (
-                <Typography variant="body1" color="text.secondary" sx={{ textAlign: 'center', py: 3 }}>
-                  No materials recovery data available for this report period.
-                </Typography>
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+      {/* Report Content */}
+      <Container maxWidth="xl" sx={{ py: 4 }}>
+        <ReportTemplate reportData={report} />
+      </Container>
     </Box>
   );
 };
