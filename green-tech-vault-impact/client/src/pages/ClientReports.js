@@ -89,10 +89,31 @@ const ClientReports = () => {
     try {
       setLoading(true);
       const res = await reportAPI.getAll({ clientId: user.clientId || user.id });
-      setReports(res.data.data || []);
+      const reportsData = res.data?.data || [];
+      
+      // Normalize reports data to prevent undefined errors
+      const normalizedReports = reportsData.map(report => ({
+        _id: report._id || Date.now().toString(),
+        title: report.title || 'Untitled Report',
+        type: report.type || 'Custom',
+        status: report.status || 'Draft',
+        dateRange: report.dateRange || {
+          startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+          endDate: new Date()
+        },
+        impactSummary: report.impactSummary || {
+          totalDevicesCollected: 0,
+          totalCO2Saved: 0,
+          totalWeightCollected: 0
+        },
+        ...report
+      }));
+      
+      setReports(normalizedReports);
     } catch (err) {
       setError('Failed to load report history');
       console.error(err);
+      setReports([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
@@ -308,20 +329,21 @@ const ClientReports = () => {
                 <TableBody>
                   {reports.map((report) => (
                     <TableRow key={report._id}>
-                      <TableCell>{report.title}</TableCell>
+                      <TableCell>{report.title || 'Untitled Report'}</TableCell>
                       <TableCell>
-                        <Chip label={report.type} size="small" variant="outlined" />
+                        <Chip label={report.type || 'Custom'} size="small" variant="outlined" />
                       </TableCell>
                       <TableCell>
-                        {new Date(report.dateRange.startDate).toLocaleDateString()} - 
-                        {new Date(report.dateRange.endDate).toLocaleDateString()}
+                        {report.dateRange?.startDate && report.dateRange?.endDate 
+                          ? `${new Date(report.dateRange.startDate).toLocaleDateString()} - ${new Date(report.dateRange.endDate).toLocaleDateString()}`
+                          : 'Date range not available'}
                       </TableCell>
                       <TableCell align="right">
-                        {formatCO2(report.impactSummary.totalCO2Saved)}
+                        {formatCO2(report.impactSummary?.totalCO2Saved || 0)}
                       </TableCell>
                       <TableCell align="center">
                         <Chip 
-                          label={report.status} 
+                          label={report.status || 'Draft'} 
                           color={report.status === 'Published' ? 'success' : 'default'} 
                           size="small" 
                         />
