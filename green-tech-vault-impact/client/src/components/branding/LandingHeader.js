@@ -116,7 +116,6 @@ const LandingHeader = () => {
         { text: 'Make a difference', link: '/recycling-offers#difference' }
       ]
     },
-    { text: 'Education', link: '/education' },
     { 
       text: 'About Us', 
       link: '/about-us',

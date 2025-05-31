@@ -225,17 +225,6 @@ const BrandedHeader = () => {
               </Button>
               <Button
                 component={RouterLink}
-                to="/education"
-                sx={{ 
-                  color: 'text.primary',
-                  textTransform: 'none',
-                  '&:hover': { backgroundColor: 'transparent', color: 'primary.main' }
-                }}
-              >
-                Education
-              </Button>
-              <Button
-                component={RouterLink}
                 to="/about-us"
                 sx={{ 
                   color: 'text.primary',
