@@ -28,6 +28,7 @@
   "author": "Green Tech Vault",
   "license": "ISC",
   "dependencies": {
+    "@mui/lab": "^7.0.0-beta.12",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
