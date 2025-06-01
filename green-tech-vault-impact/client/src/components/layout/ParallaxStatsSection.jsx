@@ -15,12 +15,13 @@ const ParallaxWrapper = styled(Box)({
 // Styled parallax background
 const ParallaxBg = styled(Box)({
   position: 'absolute',
-  top: '-25%', // Start higher to ensure visibility at the top
+  top: 0, // Reset to start from top
   left: 0,
-  height: '150%',
+  height: '120%', // Reduced height for better performance
   width: '100%',
   backgroundSize: 'cover',
-  backgroundPosition: 'center top', // Ensure image starts from top
+  backgroundPosition: 'center center', // Center the image properly
+  backgroundRepeat: 'no-repeat',
   zIndex: -1,
   transform: 'translateY(0)',
   transition: 'transform 0.1s ease-out',
@@ -31,7 +32,7 @@ const ParallaxBg = styled(Box)({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dark overlay for better text readability
+    backgroundColor: 'rgba(0, 0, 0, 0.4)', // Slightly lighter overlay
     zIndex: 1
   }
 });
@@ -51,35 +52,19 @@ const StatCard = styled(Box)(({ theme }) => ({
 }));
 
 const ParallaxStatsSection = () => {
-  const [imageLoaded, setImageLoaded] = useState(false);
   const parallaxRef = useRef(null);
-
-  // Check if the image is loaded
-  useEffect(() => {
-    const img = new Image();
-    img.onload = () => {
-      console.log('ParallaxStatsSection: Stock chart image loaded successfully');
-      setImageLoaded(true);
-    };
-    img.onerror = () => {
-      console.error('ParallaxStatsSection: Failed to load stock chart image');
-      setImageLoaded(false);
-    };
-    // Using the stock chart image as background
-    img.src = '/images/stock-chart.jpg';
-  }, []);
 
   // JavaScript parallax effect
   useEffect(() => {
     const handleScroll = () => {
       if (parallaxRef.current) {
         const scrollOffset = window.pageYOffset;
-        const parallaxSpeed = 0.5; // Adjust this value to make it faster or slower
+        const parallaxSpeed = 0.3; // Slower parallax for better performance
         parallaxRef.current.style.transform = `translateY(${scrollOffset * parallaxSpeed}px)`;
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -100,8 +85,8 @@ const ParallaxStatsSection = () => {
       <ParallaxBg
         ref={parallaxRef}
         sx={{
-          backgroundImage: imageLoaded ? 'url(/images/stock-chart.jpg)' : 'none',
-          backgroundColor: '#f5f5f5', // Light gray fallback color
+          backgroundImage: 'url(/images/stock-chart.jpg)',
+          backgroundColor: '#2A8784', // Teal fallback color that matches theme
         }}
       />
       <Container 

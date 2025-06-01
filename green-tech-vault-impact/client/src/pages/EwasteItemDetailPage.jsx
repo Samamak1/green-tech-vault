@@ -286,7 +286,7 @@ const EwasteItemDetailPage = ({ preloadedItemData }) => {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                   <Box
                     component="img"
-                    src="/images/Orange Y  (1).png"
+                    src="/images/orange-y-logo.png"
                     alt="Environmental Impact"
                     sx={{
                       height: '1.5rem', // Height matches h6 text

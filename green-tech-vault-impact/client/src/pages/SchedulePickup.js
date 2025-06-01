@@ -15,7 +15,8 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  DialogContentText
+  DialogContentText,
+  Container
 } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -58,14 +59,13 @@ const SchedulePickup = () => {
   // If logged in as a client, pre-populate with user's company info
   useEffect(() => {
     if (user) {
-      // In a real app, this would come from the user profile
+      // Don't pre-populate - let users enter their own information
       setFormData(prev => ({
         ...prev,
-        // Remove pre-filled data, let users fill in their own information
-        companyName: user.companyName || "",
-        contactName: user.fullName || "",
-        email: user.email || "",
-        phone: user.phone || ""
+        companyName: "",
+        contactName: "",
+        email: "",
+        phone: ""
       }));
     }
   }, [user]);
@@ -74,26 +74,22 @@ const SchedulePickup = () => {
   useEffect(() => {
     if (clientId) {
       // In a real implementation, you would fetch client data from an API
-      // For demo purposes, we'll use mock data
+      // For demo purposes, don't pre-populate with mock data
       const fetchClientData = async () => {
         // Simulating API call delay
         await new Promise(resolve => setTimeout(resolve, 500));
         
-        // Mock client data
-        const mockClientData = {
-          companyName: 'Tech Solutions Inc.',
-          contactName: 'John Smith',
-          email: 'john@techsolutions.com',
-          phone: '(555) 123-4567',
-          address: '123 Tech Blvd',
-          city: 'San Francisco',
-          state: 'CA',
-          zipCode: '94105'
-        };
-        
+        // Don't set mock data - let users fill their own information
         setFormData(prev => ({
           ...prev,
-          ...mockClientData
+          companyName: '',
+          contactName: '',
+          email: '',
+          phone: '',
+          address: '',
+          city: '',
+          state: '',
+          zipCode: ''
         }));
       };
       
@@ -183,13 +179,12 @@ const SchedulePickup = () => {
             <TextField
               fullWidth
               required
-              label="Company Name *"
+              label="Company Name"
               name="companyName"
               value={formData.companyName}
               onChange={handleChange}
-              placeholder="Enter your company name"
+              placeholder="Enter company name"
               sx={{ mb: 2 }}
-              InputLabelProps={{ shrink: true }}
               size="small"
             />
             
@@ -198,12 +193,11 @@ const SchedulePickup = () => {
                 <TextField
                   fullWidth
                   required
-                  label="Contact Name *"
+                  label="Contact Name"
                   name="contactName"
                   value={formData.contactName}
                   onChange={handleChange}
                   placeholder="Enter contact person's name"
-                  InputLabelProps={{ shrink: true }}
                   size="small"
                 />
               </Grid>
@@ -211,12 +205,11 @@ const SchedulePickup = () => {
                 <TextField
                   fullWidth
                   required
-                  label="Email *"
+                  label="Email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Enter email address"
-                  InputLabelProps={{ shrink: true }}
                   size="small"
                 />
               </Grid>
@@ -225,26 +218,24 @@ const SchedulePickup = () => {
             <TextField
               fullWidth
               required
-              label="Phone *"
+              label="Phone"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
               placeholder="Enter phone number"
               sx={{ mb: 2 }}
-              InputLabelProps={{ shrink: true }}
               size="small"
             />
             
             <TextField
               fullWidth
               required
-              label="Address *"
+              label="Address"
               name="address"
               value={formData.address}
               onChange={handleChange}
               placeholder="Enter street address"
               sx={{ mb: 2 }}
-              InputLabelProps={{ shrink: true }}
               size="small"
             />
             
@@ -253,12 +244,11 @@ const SchedulePickup = () => {
                 <TextField
                   fullWidth
                   required
-                  label="City *"
+                  label="City"
                   name="city"
                   value={formData.city}
                   onChange={handleChange}
                   placeholder="Enter city"
-                  InputLabelProps={{ shrink: true }}
                   size="small"
                 />
               </Grid>
@@ -266,12 +256,11 @@ const SchedulePickup = () => {
                 <TextField
                   fullWidth
                   required
-                  label="State *"
+                  label="State"
                   name="state"
                   value={formData.state}
                   onChange={handleChange}
                   placeholder="Enter state"
-                  InputLabelProps={{ shrink: true }}
                   size="small"
                 />
               </Grid>
@@ -279,12 +268,11 @@ const SchedulePickup = () => {
                 <TextField
                   fullWidth
                   required
-                  label="Zip Code *"
+                  label="Zip Code"
                   name="zipCode"
                   value={formData.zipCode}
                   onChange={handleChange}
                   placeholder="Enter zip code"
-                  InputLabelProps={{ shrink: true }}
                   size="small"
                 />
               </Grid>
@@ -650,18 +638,32 @@ const SchedulePickup = () => {
   };
 
   return (
-    <Box sx={{...getContentContainerStyle(), display: 'flex', justifyContent: 'center', alignItems: 'flex-start', minHeight: '100vh', pt: 4}} data-boundary="true">
-      <Box sx={{...getContentWrapperStyle(), maxWidth: '800px', width: '100%'}}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-          <Typography variant="h5" sx={{ mb: 3, textAlign: 'center' }}>
+    <Box sx={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'flex-start', 
+      minHeight: '100vh', 
+      pt: 4,
+      px: 2, // Add horizontal padding for mobile
+      background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)'
+    }}>
+      <Container maxWidth="md" sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          width: '100%',
+          maxWidth: '700px'
+        }}>
+          <Typography variant="h4" sx={{ mb: 3, textAlign: 'center', fontWeight: 'bold' }}>
             Schedule E-Waste Pickup
           </Typography>
           
-          <Typography variant="body1" sx={{ mb: 4, textAlign: 'center', maxWidth: '600px' }}>
+          <Typography variant="body1" sx={{ mb: 4, textAlign: 'center', maxWidth: '600px', color: 'text.secondary' }}>
             Fill out the form below to schedule your electronic waste pickup.
           </Typography>
           
-          <Box sx={{ maxWidth: '700px', width: '100%' }}>
+          <Box sx={{ width: '100%' }}>
             <Stepper activeStep={activeStep} orientation="horizontal" sx={{ mb: 4 }}>
               {steps.map((step, index) => (
                 <Step key={step.label}>
@@ -709,7 +711,7 @@ const SchedulePickup = () => {
             </Paper>
           </Box>
         </Box>
-      </Box>
+      </Container>
       
       {/* Validation Dialog */}
       <Dialog

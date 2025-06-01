@@ -271,7 +271,7 @@ const NewLandingPage = () => {
             </Grid>
           ))}
           
-          {/* Impact Section - Reorganized to be long and half height */}
+          {/* Impact Section - Reorganized to match width and move button right */}
           <Grid item xs={12}>
             <Box
               sx={{
@@ -282,8 +282,8 @@ const NewLandingPage = () => {
                 backgroundColor: 'white',
                 borderRadius: 2,
                 boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-                maxWidth: 800,
-                mx: 'auto',
+                maxWidth: 'none', // Remove max width constraint
+                mx: 0, // Remove auto margins
                 height: 'auto',
                 minHeight: '120px'
               }}
@@ -305,14 +305,18 @@ const NewLandingPage = () => {
                 <BarChartIcon fontSize="large" />
               </Box>
               
-              {/* Content area */}
+              {/* Content area - flexible */}
               <Box sx={{ flex: 1 }}>
                 <Typography variant="h6" fontWeight="bold" gutterBottom>
                   Impact
                 </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                <Typography variant="body2" color="text.secondary">
                   Receive detailed reports on your environmental impact and data security
                 </Typography>
+              </Box>
+              
+              {/* Button at far right */}
+              <Box sx={{ flexShrink: 0 }}>
                 <Button 
                   variant="contained"
                   component={RouterLink}
