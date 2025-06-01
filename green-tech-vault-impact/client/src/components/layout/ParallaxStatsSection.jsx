@@ -1,6 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Box, Container, Typography, Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
+
+// Styled parallax wrapper
+const ParallaxWrapper = styled(Box)({
+  position: 'relative',
+  height: '100vh',
+  overflow: 'hidden',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
+});
+
+// Styled parallax background
+const ParallaxBg = styled(Box)({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  height: '150%',
+  width: '100%',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  zIndex: -1,
+  transform: 'translateY(0)',
+  transition: 'transform 0.1s ease-out',
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dark overlay for better text readability
+    zIndex: 1
+  }
+});
 
 // Styled stat card with frosted glass effect
 const StatCard = styled(Box)(({ theme }) => ({
@@ -18,6 +52,7 @@ const StatCard = styled(Box)(({ theme }) => ({
 
 const ParallaxStatsSection = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const parallaxRef = useRef(null);
 
   // Check if the image is loaded
   useEffect(() => {
@@ -34,6 +69,23 @@ const ParallaxStatsSection = () => {
     img.src = '/images/stock-chart.jpg';
   }, []);
 
+  // JavaScript parallax effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (parallaxRef.current) {
+        const scrollOffset = window.pageYOffset;
+        const parallaxSpeed = 0.5; // Adjust this value to make it faster or slower
+        parallaxRef.current.style.transform = `translateY(${scrollOffset * parallaxSpeed}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   // Stats data
   const stats = [
     { value: "1,560", label: "E-Waste Partners" },
@@ -44,31 +96,21 @@ const ParallaxStatsSection = () => {
   ];
 
   return (
-    <Box
-      sx={{
-        position: 'relative',
-        minHeight: '500px',
-        width: '100%',
-        py: 8,
-        color: '#333',
-        backgroundColor: '#f5f5f5', // Light gray fallback color
-        backgroundImage: imageLoaded ? 'url(/images/stock-chart.jpg)' : 'none',
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        backgroundAttachment: 'fixed',
-        backgroundRepeat: 'no-repeat',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        // Mobile fallback - disable fixed attachment on small screens for better performance
-        '@media (max-width: 768px)': {
-          backgroundAttachment: 'scroll',
-        }
-      }}
-    >
+    <ParallaxWrapper>
+      <ParallaxBg
+        ref={parallaxRef}
+        sx={{
+          backgroundImage: imageLoaded ? 'url(/images/stock-chart.jpg)' : 'none',
+          backgroundColor: '#f5f5f5', // Light gray fallback color
+        }}
+      />
       <Container 
         maxWidth="lg"
-        sx={{ position: 'relative', zIndex: 1 }}
+        sx={{ 
+          position: 'relative', 
+          zIndex: 2,
+          color: 'white'
+        }}
       >
         <Typography 
           variant="h3" 
@@ -77,8 +119,8 @@ const ParallaxStatsSection = () => {
           fontWeight="bold" 
           sx={{ 
             mb: 6,
-            color: '#333',
-            textShadow: '0 1px 3px rgba(0,0,0,0.1)'
+            color: 'white',
+            textShadow: '0 2px 4px rgba(0,0,0,0.7)'
           }}
         >
           We take pride in our numbers
@@ -103,7 +145,7 @@ const ParallaxStatsSection = () => {
                   variant="body1" 
                   sx={{ 
                     fontWeight: 'medium',
-                    color: '#555' // Darker gray for labels
+                    color: '#fff' // White color for labels for better contrast
                   }}
                 >
                   {stat.label}
@@ -113,7 +155,7 @@ const ParallaxStatsSection = () => {
           ))}
         </Grid>
       </Container>
-    </Box>
+    </ParallaxWrapper>
   );
 };
 
