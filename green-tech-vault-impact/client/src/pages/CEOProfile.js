@@ -26,7 +26,7 @@ const CEOProfile = () => {
               <Box
                 sx={{
                   width: '100%',
-                  maxWidth: '300px',
+                  maxWidth: '400px',
                   borderRadius: 2,
                   overflow: 'hidden',
                   boxShadow: '0 4px 20px rgba(0,0,0,0.1)',

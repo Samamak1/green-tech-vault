@@ -214,6 +214,17 @@ const BrandedHeader = () => {
               </Button>
               <Button
                 component={RouterLink}
+                to="/schedule-pickup"
+                sx={{ 
+                  color: 'text.primary',
+                  textTransform: 'none',
+                  '&:hover': { backgroundColor: 'transparent', color: 'primary.main' }
+                }}
+              >
+                Schedule A Pickup
+              </Button>
+              <Button
+                component={RouterLink}
                 to="/how-it-works"
                 sx={{ 
                   color: 'text.primary',

@@ -96,6 +96,10 @@ const LandingHeader = () => {
 
   const navItems = [
     { 
+      text: 'Schedule A Pickup', 
+      link: '/schedule-pickup'
+    },
+    { 
       text: 'How It Works', 
       link: '/how-it-works',
       hasDropdown: true,
