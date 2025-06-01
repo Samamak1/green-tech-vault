@@ -10,6 +10,9 @@ import {
   useTheme
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import HandshakeIcon from '@mui/icons-material/Handshake';
+import ComputerIcon from '@mui/icons-material/Computer';
+import CampaignIcon from '@mui/icons-material/Campaign';
 
 // Import icons for different offers
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'; // For tax breaks
@@ -282,15 +285,7 @@ const RecyclingOffersPage = () => {
                 p: 3
               }}>
                 <Box sx={{ mb: 2 }}>
-                  <Box
-                    component="svg"
-                    width="80"
-                    height="80"
-                    viewBox="0 0 24 24"
-                    fill={theme.palette.teal.main}
-                  >
-                    <path d="M16 7c0 2.21-1.79 4-4 4s-4-1.79-4-4 1.79-4 4-4 4 1.79 4 4zm-4 5c-2.76 0-5 2.24-5 5v1h10v-1c0-2.76-2.24-5-5-5zm-12-4h4.5c.28 0 .5.22.5.5s-.22.5-.5.5h-4.5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm0 4h4.5c.28 0 .5.22.5.5s-.22.5-.5.5h-4.5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm0 4h4.5c.28 0 .5.22.5.5s-.22.5-.5.5h-4.5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm0 4h4.5c.28 0 .5.22.5.5s-.22.5-.5.5h-4.5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5zm16.5-1.5v-1h-13v1c0 .55.45 1 1 1h11c.55 0 1-.45 1-1z" />
-                  </Box>
+                  <HandshakeIcon sx={{ fontSize: 80, color: theme.palette.teal.main }} />
                 </Box>
                 <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
                   Partner With Us
@@ -331,15 +326,7 @@ const RecyclingOffersPage = () => {
                 p: 3
               }}>
                 <Box sx={{ mb: 2 }}>
-                  <Box
-                    component="svg"
-                    width="80"
-                    height="80"
-                    viewBox="0 0 24 24"
-                    fill={theme.palette.teal.main}
-                  >
-                    <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
-                  </Box>
+                  <ComputerIcon sx={{ fontSize: 80, color: theme.palette.teal.main }} />
                 </Box>
                 <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
                   Donate Your Devices
@@ -380,15 +367,7 @@ const RecyclingOffersPage = () => {
                 p: 3
               }}>
                 <Box sx={{ mb: 2 }}>
-                  <Box
-                    component="svg"
-                    width="80"
-                    height="80"
-                    viewBox="0 0 24 24"
-                    fill={theme.palette.teal.main}
-                  >
-                    <path d="M18 11v2h4v-2h-4zm-2 6.61c.96.71 2.21 1.65 3.2 2.39.4-.53.8-1.07 1.2-1.6-.99-.74-2.24-1.68-3.2-2.4-.4.54-.8 1.08-1.2 1.61zm4.4-12.01L12 1 3.6 5.6l8.4 4.6 8.4-4.6zm-17.4 6.4c-.4-.53-.8-1.07-1.2-1.6.99-.74 2.24-1.68 3.2-2.4.4.54.8 1.08 1.2 1.61-.96.71-2.21 1.65-3.2 2.39zM4.4 4.599L3.2 6.199l8.8 4.8 1.2-1.6-8.8-4.8zM2 11v2h4v-2H2zm15.6-6.601l-8.8 4.8 1.2 1.6 8.8-4.8-1.2-1.6z" />
-                  </Box>
+                  <CampaignIcon sx={{ fontSize: 80, color: theme.palette.teal.main }} />
                 </Box>
                 <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
                   Spread The Word

@@ -90,6 +90,9 @@ const EwasteItemSearch = ({ acceptedItems }) => {
       });
     }
     setShowResults(false);
+    
+    // Scroll to top of the page
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   
   return (

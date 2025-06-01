@@ -242,66 +242,6 @@ const GetInvolvedPage = () => {
         </Container>
       </Box>
 
-      {/* What We've Been Doing Section */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Typography variant="h3" component="h2" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mb: 5 }}>
-          What We've Been Up To
-        </Typography>
-        
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={4}>
-            <Paper elevation={2} sx={{ p: 4, borderRadius: 2, height: '100%' }}>
-              <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold', color: theme.palette.teal.main }}>
-                Community Outreach
-              </Typography>
-              <Typography variant="body1" paragraph>
-                We've been actively engaging with local communities through educational workshops, 
-                e-waste collection events, and sustainability presentations at schools and community centers.
-              </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                • 15+ community events hosted
-                • 500+ devices collected through drives
-                • 20+ educational workshops conducted
-              </Typography>
-            </Paper>
-          </Grid>
-          
-          <Grid item xs={12} md={4}>
-            <Paper elevation={2} sx={{ p: 4, borderRadius: 2, height: '100%' }}>
-              <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold', color: theme.palette.teal.main }}>
-                Business Partnerships
-              </Typography>
-              <Typography variant="body1" paragraph>
-                Building strong relationships with local businesses to create comprehensive e-waste 
-                management solutions and corporate sustainability programs.
-              </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                • 50+ business partners
-                • Corporate recycling programs
-                • Sustainability consulting services
-              </Typography>
-            </Paper>
-          </Grid>
-          
-          <Grid item xs={12} md={4}>
-            <Paper elevation={2} sx={{ p: 4, borderRadius: 2, height: '100%' }}>
-              <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold', color: theme.palette.teal.main }}>
-                Environmental Impact
-              </Typography>
-              <Typography variant="body1" paragraph>
-                Making measurable differences in waste reduction, material recovery, and environmental protection 
-                through responsible e-waste processing and community education.
-              </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                • 10,000+ lbs of e-waste diverted
-                • 95% material recovery rate
-                • Zero landfill disposal
-              </Typography>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Container>
-
       {/* Call to Action */}
       <Box sx={{ bgcolor: theme.palette.teal.main, color: 'white', py: 6 }}>
         <Container maxWidth="md" sx={{ textAlign: 'center' }}>
