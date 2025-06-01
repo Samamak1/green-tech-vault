@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 // Styled parallax wrapper
 const ParallaxWrapper = styled(Box)({
   position: 'relative',
-  height: '100vh',
+  minHeight: '100vh',
   overflow: 'hidden',
   display: 'flex',
   alignItems: 'center',
@@ -15,12 +15,12 @@ const ParallaxWrapper = styled(Box)({
 // Styled parallax background
 const ParallaxBg = styled(Box)({
   position: 'absolute',
-  top: 0,
+  top: '-25%', // Start higher to ensure visibility at the top
   left: 0,
   height: '150%',
   width: '100%',
   backgroundSize: 'cover',
-  backgroundPosition: 'center',
+  backgroundPosition: 'center top', // Ensure image starts from top
   zIndex: -1,
   transform: 'translateY(0)',
   transition: 'transform 0.1s ease-out',

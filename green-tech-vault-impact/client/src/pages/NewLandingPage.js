@@ -271,33 +271,64 @@ const NewLandingPage = () => {
             </Grid>
           ))}
           
-          {/* Impact Section - Now in the same row as the process steps */}
+          {/* Impact Section - Reorganized to be long and half height */}
           <Grid item xs={12}>
-            <ProcessCard elevation={1} sx={{ maxWidth: 400, mx: 'auto' }}>
-              <ProcessIconWrapper>
-                <BarChartIcon fontSize="large" />
-              </ProcessIconWrapper>
-              <Typography variant="h6" fontWeight="bold" gutterBottom>
-                Impact
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                Receive detailed reports on your environmental impact and data security
-              </Typography>
-              <Button 
-                variant="contained"
-                component={RouterLink}
-                to="/environmental-impact-report"
-                size="small"
-                sx={{ 
-                  bgcolor: theme.palette.teal.main,
-                  '&:hover': {
-                    bgcolor: theme.palette.teal.dark
-                  }
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 3,
+                p: 3,
+                backgroundColor: 'white',
+                borderRadius: 2,
+                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                maxWidth: 800,
+                mx: 'auto',
+                height: 'auto',
+                minHeight: '120px'
+              }}
+            >
+              {/* Icon at far left */}
+              <Box
+                sx={{
+                  width: 64,
+                  height: 64,
+                  borderRadius: '50%',
+                  backgroundColor: theme.palette.teal.main,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'white',
+                  flexShrink: 0
                 }}
               >
-                VIEW SAMPLE REPORT
-              </Button>
-            </ProcessCard>
+                <BarChartIcon fontSize="large" />
+              </Box>
+              
+              {/* Content area */}
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="h6" fontWeight="bold" gutterBottom>
+                  Impact
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  Receive detailed reports on your environmental impact and data security
+                </Typography>
+                <Button 
+                  variant="contained"
+                  component={RouterLink}
+                  to="/environmental-impact-report"
+                  size="small"
+                  sx={{ 
+                    bgcolor: theme.palette.teal.main,
+                    '&:hover': {
+                      bgcolor: theme.palette.teal.dark
+                    }
+                  }}
+                >
+                  VIEW SAMPLE REPORT
+                </Button>
+              </Box>
+            </Box>
           </Grid>
         </Grid>
       </Container>

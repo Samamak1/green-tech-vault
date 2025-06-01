@@ -286,7 +286,7 @@ const EwasteItemDetailPage = ({ preloadedItemData }) => {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                   <Box
                     component="img"
-                    src="/images/stock-chart.jpg"
+                    src="/images/Orange Y  (1).png"
                     alt="Environmental Impact"
                     sx={{
                       height: '1.5rem', // Height matches h6 text
@@ -418,7 +418,7 @@ const EwasteItemDetailPage = ({ preloadedItemData }) => {
                     }
                   }}
                 >
-                  🔄 Schedule a Drop-Off
+                  🔄 SCHEDULE A PICKUP
                 </Button>
                 
                 <Button 
@@ -427,7 +427,7 @@ const EwasteItemDetailPage = ({ preloadedItemData }) => {
                   to="/how-it-works"
                   fullWidth
                 >
-                  📍 Find a Collection Site
+                  📍 FIND A COLLECTION SITE
                 </Button>
                 
                 <Button 
@@ -436,7 +436,7 @@ const EwasteItemDetailPage = ({ preloadedItemData }) => {
                   to="/contact"
                   fullWidth
                 >
-                  ❓ Contact Us
+                  ❓ CONTACT US
                 </Button>
               </Box>
             </Paper>
