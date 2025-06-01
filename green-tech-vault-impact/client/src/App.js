@@ -308,13 +308,13 @@ function App() {
                 } />
                 
                 <Route path="/schedule-pickup" element={
-                  <MainLayout hideFooter={true}>
+                  <MainLayout>
                     <SchedulePickup />
                   </MainLayout>
                 } />
                 
                 <Route path="/schedule-pickup/:clientId" element={
-                  <MainLayout hideFooter={true}>
+                  <MainLayout>
                     <SchedulePickup />
                   </MainLayout>
                 } />

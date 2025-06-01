@@ -192,7 +192,12 @@ const BrandedHeader = () => {
       }}
     >
       <Container maxWidth="lg">
-        <Toolbar sx={{ height: '64px', minHeight: '64px', px: 0 }}>
+        <Toolbar sx={{ 
+          height: '64px', 
+          minHeight: '64px !important', // Override Material-UI default
+          maxHeight: '64px', // Prevent expansion
+          px: 0 
+        }}>
           <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
             {/* Left side - RYGNeco Logo */}
             <Box sx={{ display: 'flex', alignItems: 'center' }}>

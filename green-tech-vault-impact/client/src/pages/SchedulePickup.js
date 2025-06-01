@@ -639,106 +639,104 @@ const SchedulePickup = () => {
   };
 
   return (
-    <MainLayout>
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'flex-start', 
-        minHeight: '100vh', 
-        pt: 4,
-        px: 2, // Add horizontal padding for mobile
-        backgroundColor: 'white' // Changed from gradient to white
-      }}>
-        <Container maxWidth="md" sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Box sx={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            alignItems: 'center', 
-            width: '100%',
-            maxWidth: '700px'
-          }}>
-            <Typography variant="h4" sx={{ mb: 3, textAlign: 'center', fontWeight: 'bold' }}>
-              Schedule E-Waste Pickup
-            </Typography>
+    <Box sx={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'flex-start', 
+      minHeight: '100vh', 
+      pt: 4,
+      px: 2, // Add horizontal padding for mobile
+      backgroundColor: 'white' // Changed from gradient to white
+    }}>
+      <Container maxWidth="md" sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          width: '100%',
+          maxWidth: '700px'
+        }}>
+          <Typography variant="h4" sx={{ mb: 3, textAlign: 'center', fontWeight: 'bold' }}>
+            Schedule E-Waste Pickup
+          </Typography>
+          
+          <Typography variant="body1" sx={{ mb: 4, textAlign: 'center', maxWidth: '600px', color: 'text.secondary' }}>
+            Fill out the form below to schedule your electronic waste pickup.
+          </Typography>
+          
+          <Box sx={{ width: '100%' }}>
+            <Stepper activeStep={activeStep} orientation="horizontal" sx={{ mb: 4 }}>
+              {steps.map((step, index) => (
+                <Step key={step.label}>
+                  <StepLabel>{step.label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
             
-            <Typography variant="body1" sx={{ mb: 4, textAlign: 'center', maxWidth: '600px', color: 'text.secondary' }}>
-              Fill out the form below to schedule your electronic waste pickup.
-            </Typography>
-            
-            <Box sx={{ width: '100%' }}>
-              <Stepper activeStep={activeStep} orientation="horizontal" sx={{ mb: 4 }}>
-                {steps.map((step, index) => (
-                  <Step key={step.label}>
-                    <StepLabel>{step.label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
+            <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
+              {getStepContent(activeStep)}
               
-              <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
-                {getStepContent(activeStep)}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  variant="outlined"
+                >
+                  Back
+                </Button>
                 
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    variant="outlined"
+                {activeStep === steps.length - 1 ? (
+                  <Button 
+                    variant="contained"
+                    onClick={handleSubmit}
+                    sx={{ 
+                      bgcolor: '#62CBD0', // Light A color
+                      '&:hover': { bgcolor: '#50B9BE' } 
+                    }}
                   >
-                    Back
+                    Submit
                   </Button>
-                  
-                  {activeStep === steps.length - 1 ? (
-                    <Button 
-                      variant="contained"
-                      onClick={handleSubmit}
-                      sx={{ 
-                        bgcolor: '#62CBD0', // Light A color
-                        '&:hover': { bgcolor: '#50B9BE' } 
-                      }}
-                    >
-                      Submit
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="contained"
-                      onClick={handleNext}
-                      sx={{ 
-                        bgcolor: '#62CBD0', // Light A color
-                        '&:hover': { bgcolor: '#50B9BE' } 
-                      }}
-                    >
-                      Next
-                    </Button>
-                  )}
-                </Box>
-              </Paper>
-            </Box>
+                ) : (
+                  <Button
+                    variant="contained"
+                    onClick={handleNext}
+                    sx={{ 
+                      bgcolor: '#62CBD0', // Light A color
+                      '&:hover': { bgcolor: '#50B9BE' } 
+                    }}
+                  >
+                    Next
+                  </Button>
+                )}
+              </Box>
+            </Paper>
           </Box>
-        </Container>
-        
-        {/* Validation Dialog */}
-        <Dialog
-          open={validationDialogOpen}
-          onClose={handleCloseValidationDialog}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"Required Information Missing"}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Please complete all required fields in the Company Information section before proceeding.
-              Required fields are marked with an asterisk (*).
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseValidationDialog} autoFocus color="primary">
-              OK
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Box>
-    </MainLayout>
+        </Box>
+      </Container>
+      
+      {/* Validation Dialog */}
+      <Dialog
+        open={validationDialogOpen}
+        onClose={handleCloseValidationDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Required Information Missing"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Please complete all required fields in the Company Information section before proceeding.
+            Required fields are marked with an asterisk (*).
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseValidationDialog} autoFocus color="primary">
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
 };
 

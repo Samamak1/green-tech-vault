@@ -170,7 +170,12 @@ const LandingHeader = () => {
           zIndex: 1100
         }}
       >
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
+        <Toolbar sx={{ 
+          justifyContent: 'space-between',
+          height: '64px', // Fixed height
+          minHeight: '64px !important', // Override Material-UI default
+          maxHeight: '64px' // Prevent expansion
+        }}>
           {/* Left side - Logo */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box component={RouterLink} to="/" sx={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>

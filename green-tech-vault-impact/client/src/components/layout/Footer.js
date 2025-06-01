@@ -26,16 +26,16 @@ const Footer = () => {
   
   // Footer sections
   const corporateLinks = [
-    { title: 'About Us', url: '/about-us' },
-    { title: 'Certifications', url: '/certifications' },
-    { title: 'Locations', url: '/locations' },
-    { title: 'Services', url: '/services' }
+    { title: 'Accepted Items', url: '/how-it-works#accepted-items' },
+    { title: 'Data Destruction', url: '/services/data-destruction' },
+    { title: 'Our Process', url: '/how-it-works#our-process' },
+    { title: 'Reports', url: '/how-it-works#reports' }
   ];
   
   const ewasteLinks = [
-    { title: 'Let\'s Get Educated', url: '/education' },
-    { title: 'Reports', url: '/reports' },
-    { title: 'Research', url: '/research' }
+    { title: 'About Us', url: '/about-us' },
+    { title: 'Join Us', url: '/recycling-offers' },
+    { title: 'Schedule A Pickup', url: '/schedule-pickup' }
   ];
   
   const contactInfo = [
@@ -66,24 +66,24 @@ const Footer = () => {
         <Grid container spacing={4}>
           {/* Logo only - no text */}
           <Grid item xs={12} sm={3}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
               <Box
                 component={RouterLink}
                 to="/"
                 sx={{
                   display: 'flex',
-                  alignItems: 'center',
+                  alignItems: 'flex-start',
                   textDecoration: 'none',
                   color: 'white'
                 }}
               >
                 <Box 
                   sx={{ 
-                    width: 90, // Reverted from 270 back to 90
-                    height: 90, // Reverted from 270 back to 90
+                    width: 90,
+                    height: 90,
                     display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start'
                   }}
                 >
                   <Logo variant="light" size="medium" showText={false} linkTo={null} />
