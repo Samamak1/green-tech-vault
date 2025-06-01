@@ -23,14 +23,15 @@ const ParallaxStatsSection = () => {
   useEffect(() => {
     const img = new Image();
     img.onload = () => {
-      console.log('ParallaxStatsSection: Circuit board image loaded successfully');
+      console.log('ParallaxStatsSection: Financial trading image loaded successfully');
       setImageLoaded(true);
     };
     img.onerror = () => {
-      console.error('ParallaxStatsSection: Failed to load circuit board image');
+      console.error('ParallaxStatsSection: Failed to load financial trading image');
       setImageLoaded(false);
     };
-    img.src = '/images/stock-chart.jpg';
+    // Using a placeholder financial trading image URL - you'll replace this with your actual image
+    img.src = '/images/financial-trading-background.jpg';
   }, []);
 
   // Stats data
@@ -46,15 +47,16 @@ const ParallaxStatsSection = () => {
     <Box
       sx={{
         position: 'relative',
-        minHeight: '400px',
+        minHeight: '500px',
         width: '100%',
-        py: 6,
-        color: 'white',
-        backgroundColor: 'rgba(42, 135, 132, 1)', // Fallback color if image doesn't load
-        backgroundImage: imageLoaded ? 'url(/images/stock-chart.jpg)' : 'none',
+        py: 8,
+        color: '#333',
+        backgroundColor: '#f5f5f5', // Light gray fallback color
+        backgroundImage: imageLoaded ? 'url(/images/financial-trading-background.jpg)' : 'none',
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundAttachment: 'fixed',
+        backgroundRepeat: 'no-repeat',
         '&::before': {
           content: '""',
           position: 'absolute',
@@ -62,12 +64,16 @@ const ParallaxStatsSection = () => {
           left: 0,
           width: '100%',
           height: '100%',
-          backgroundColor: 'rgba(42, 135, 132, 0.85)', // ~85% teal overlay
+          backgroundColor: 'rgba(255, 255, 255, 0.85)', // White translucent overlay
           zIndex: 0,
         },
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        // Mobile fallback - disable fixed attachment on small screens for better performance
+        '@media (max-width: 768px)': {
+          backgroundAttachment: 'scroll',
+        }
       }}
     >
       <Container 
@@ -79,7 +85,11 @@ const ParallaxStatsSection = () => {
           component="h2" 
           textAlign="center" 
           fontWeight="bold" 
-          sx={{ mb: 6 }}
+          sx={{ 
+            mb: 6,
+            color: '#333',
+            textShadow: '0 1px 3px rgba(0,0,0,0.1)'
+          }}
         >
           We take pride in our numbers
         </Typography>
@@ -92,13 +102,19 @@ const ParallaxStatsSection = () => {
                   variant="h3" 
                   fontWeight="bold" 
                   component="div" 
-                  sx={{ mb: 1 }}
+                  sx={{ 
+                    mb: 1,
+                    color: '#2A8784' // Teal color for the numbers
+                  }}
                 >
                   {stat.value}
                 </Typography>
                 <Typography 
                   variant="body1" 
-                  sx={{ fontWeight: 'medium' }}
+                  sx={{ 
+                    fontWeight: 'medium',
+                    color: '#555' // Darker gray for labels
+                  }}
                 >
                   {stat.label}
                 </Typography>
