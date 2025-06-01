@@ -270,12 +270,10 @@ const NewLandingPage = () => {
               </ProcessCard>
             </Grid>
           ))}
-        </Grid>
-        
-        {/* Impact Section - Moved to be part of Our Process section */}
-        <Grid container spacing={4} sx={{ mt: 4 }} justifyContent="center">
-          <Grid item xs={12} sm={6} md={3}>
-            <ProcessCard elevation={1}>
+          
+          {/* Impact Section - Now in the same row as the process steps */}
+          <Grid item xs={12}>
+            <ProcessCard elevation={1} sx={{ maxWidth: 400, mx: 'auto' }}>
               <ProcessIconWrapper>
                 <BarChartIcon fontSize="large" />
               </ProcessIconWrapper>

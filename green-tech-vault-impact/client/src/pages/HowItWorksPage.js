@@ -57,11 +57,11 @@ import useScrollToHash from '../hooks/useScrollToHash';
 import EwasteItemSearch from '../components/search/EwasteItemSearch';
 
 // Styled components
-const ProcessIcon = styled(Box)(({ theme }) => ({
+const ProcessIcon = styled(Box)(({ theme, bgcolor }) => ({
   width: 80,
   height: 80,
   borderRadius: '50%',
-  backgroundColor: theme.palette.teal.main,
+  backgroundColor: bgcolor || theme.palette.teal.main,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -102,29 +102,34 @@ const HowItWorksPage = () => {
   // Process steps data
   const processSteps = [
     {
-      icon: <AccessTimeIcon fontSize="large" sx={{ color: '#FB8C00' }} />,
+      icon: <AccessTimeIcon fontSize="large" />,
+      iconColor: '#FB8C00',
       title: "Schedule",
       description: "Schedule a pickup for your e-waste through our easy online form, or drop by one of our online hubs."
     },
     {
-      icon: <LocalShippingIcon fontSize="large" sx={{ color: '#62CBD0' }} />,
+      icon: <LocalShippingIcon fontSize="large" />,
+      iconColor: '#62CBD0',
       title: "Collect",
       description: "Our team collects your devices from your location to the scheduled time."
     },
     {
-      icon: <SecurityIcon fontSize="large" sx={{ color: '#FDD835' }} />,
+      icon: <SecurityIcon fontSize="large" />,
+      iconColor: '#FDD835',
       title: "Secure",
       description: "All data is securely wiped from all devices following industry standards."
     },
     {
-      icon: <RecyclingMUIIcon fontSize="large" sx={{ color: '#2A7074' }} />,
+      icon: <RecyclingMUIIcon fontSize="large" />,
+      iconColor: '#2A7074',
       title: "Process",
       description: "Devices are examined, refurbished, or responsibly recycled."
     },
     {
       title: "Environmental Impact Report",
       description: "See your positive impact in resources saved and waste diverted from landfills.",
-      icon: <ParkIcon sx={{ color: '#073C3F' }} />,
+      icon: <ParkIcon />,
+      iconColor: '#073C3F',
       link: "/environmental-impact-report"
     }
   ];
@@ -288,7 +293,8 @@ const HowItWorksPage = () => {
                 Recycle Responsibly
               </Typography>
               <Typography variant="h6" paragraph>
-                Dispose of your electronics safely while protecting your data and the environment!
+                Dispose of your electronics safely while <br />
+                protecting your data and the environment!
               </Typography>
               <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
                 <Button 
@@ -302,21 +308,7 @@ const HowItWorksPage = () => {
                     fontWeight: 'bold'
                   }}
                 >
-                  REGISTER
-                </Button>
-                <Button 
-                  variant="outlined" 
-                  sx={{ 
-                    color: 'white', 
-                    borderColor: 'white',
-                    '&:hover': {
-                      borderColor: 'white',
-                      bgcolor: 'rgba(255,255,255,0.1)'
-                    },
-                    fontWeight: 'bold'
-                  }}
-                >
-                  CLIENT LOGIN
+                  SCHEDULE A PICKUP
                 </Button>
               </Box>
             </Grid>
@@ -345,7 +337,7 @@ const HowItWorksPage = () => {
             <Grid item xs={12} sm={6} md={4} lg={2.4} key={index}>
               <ProcessCard elevation={2}>
                 <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', py: 3 }}>
-                  <ProcessIcon>
+                  <ProcessIcon bgcolor={step.iconColor}>
                     {step.icon}
                   </ProcessIcon>
                   <Typography variant="h6" component="h3" sx={{ my: 2, fontWeight: 'bold' }}>

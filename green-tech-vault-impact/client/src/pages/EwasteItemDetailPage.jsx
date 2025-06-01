@@ -286,11 +286,11 @@ const EwasteItemDetailPage = ({ preloadedItemData }) => {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                   <Box
                     component="img"
-                    src="/images/financial-trading-background.jpg"
+                    src="/images/stock-chart.jpg"
                     alt="Environmental Impact"
                     sx={{
-                      width: 24,
-                      height: 24,
+                      height: '1.5rem', // Height matches h6 text
+                      width: 'auto',
                       objectFit: 'cover',
                       borderRadius: '4px'
                     }}
