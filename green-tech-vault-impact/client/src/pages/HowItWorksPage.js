@@ -242,35 +242,41 @@ const HowItWorksPage = () => {
     {
       title: "Certificate of Recycling",
       description: "Proof that your materials were responsibly processed in accordance with regulations.",
-      icon: <ArticleIcon sx={{ color: '#FB8C00' }} />
+      icon: <ArticleIcon />,
+      iconColor: '#FB8C00'
     },
     {
       title: "Data Destruction Certificate",
       description: "Confirms secure erasure or shredding of data-containing media.",
-      icon: <GppGoodIcon sx={{ color: '#62CBD0' }} />
+      icon: <GppGoodIcon />,
+      iconColor: '#62CBD0'
     },
     {
       title: "Asset Tracking Report",
       description: "Itemized list with serial numbers and descriptions of every device collected.",
-      icon: <DevicesIcon sx={{ color: '#FDD835' }} />,
+      icon: <DevicesIcon />,
+      iconColor: '#FDD835',
       link: "/asset-tracking-report"
     },
     {
       title: "Weight Summary",
       description: "Breakdown of total materials collected, categorized by type.",
-      icon: <ScaleIcon sx={{ color: '#2A7074' }} />,
+      icon: <ScaleIcon />,
+      iconColor: '#2A7074',
       link: "/environmental-impact-report#weight-summary"
     },
     {
       title: "Environmental Impact Report",
       description: "See your positive impact in resources saved and waste diverted from landfills.",
-      icon: <ParkIcon sx={{ color: '#073C3F' }} />,
+      icon: <ParkIcon />,
+      iconColor: '#073C3F',
       link: "/environmental-impact-report"
     },
     {
       title: "Chain of Custody",
       description: "A full record of how your e-waste was handled throughout processing.",
-      icon: <LinkIcon sx={{ color: '#94F1F1' }} />,
+      icon: <LinkIcon />,
+      iconColor: '#94F1F1',
       link: "/asset-tracking-report#chain-of-custody"
     }
   ];
@@ -597,21 +603,9 @@ const HowItWorksPage = () => {
                 }}>
                   <CardContent sx={{ p: 3 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                      <Box 
-                        sx={{ 
-                          width: 50, 
-                          height: 50, 
-                          borderRadius: '50%', 
-                          bgcolor: theme.palette.teal.main,
-                          color: 'white',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          mr: 2
-                        }}
-                      >
+                      <ProcessIcon bgcolor={report.iconColor} sx={{ width: 50, height: 50, mr: 2 }}>
                         {report.icon}
-                      </Box>
+                      </ProcessIcon>
                       <Typography variant="h6" component="h3" sx={{ fontWeight: 'bold' }}>
                         {report.title}
                       </Typography>

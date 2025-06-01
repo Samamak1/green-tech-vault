@@ -23,15 +23,15 @@ const ParallaxStatsSection = () => {
   useEffect(() => {
     const img = new Image();
     img.onload = () => {
-      console.log('ParallaxStatsSection: Financial trading image loaded successfully');
+      console.log('ParallaxStatsSection: Stock chart image loaded successfully');
       setImageLoaded(true);
     };
     img.onerror = () => {
-      console.error('ParallaxStatsSection: Failed to load financial trading image');
+      console.error('ParallaxStatsSection: Failed to load stock chart image');
       setImageLoaded(false);
     };
-    // Using a placeholder financial trading image URL - you'll replace this with your actual image
-    img.src = '/images/financial-trading-background.jpg';
+    // Using the stock chart image as background
+    img.src = '/images/stock-chart.jpg';
   }, []);
 
   // Stats data
@@ -52,7 +52,7 @@ const ParallaxStatsSection = () => {
         py: 8,
         color: '#333',
         backgroundColor: '#f5f5f5', // Light gray fallback color
-        backgroundImage: imageLoaded ? 'url(/images/financial-trading-background.jpg)' : 'none',
+        backgroundImage: imageLoaded ? 'url(/images/stock-chart.jpg)' : 'none',
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundAttachment: 'fixed',

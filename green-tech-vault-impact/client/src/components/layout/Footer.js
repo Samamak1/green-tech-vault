@@ -79,14 +79,14 @@ const Footer = () => {
               >
                 <Box 
                   sx={{ 
-                    width: 270, // Tripled from 90
-                    height: 270, // Tripled from 90
+                    width: 90, // Reverted from 270 back to 90
+                    height: 90, // Reverted from 270 back to 90
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
                   }}
                 >
-                  <Logo variant="light" size="large" showText={false} linkTo={null} />
+                  <Logo variant="light" size="medium" showText={false} linkTo={null} />
                 </Box>
               </Box>
             </Box>

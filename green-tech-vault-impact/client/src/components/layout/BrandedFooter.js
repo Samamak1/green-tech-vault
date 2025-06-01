@@ -21,14 +21,14 @@ const BrandedFooter = () => {
             <Box sx={{ mb: 2 }}>
               <Box 
                 sx={{ 
-                  width: 270, // Tripled from 90
-                  height: 270, // Tripled from 90
+                  width: 90, // Reverted from 270 back to 90
+                  height: 90, // Reverted from 270 back to 90
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'flex-start'
                 }}
               >
-                <Logo variant="light" size="large" showText={false} showTagline={false} />
+                <Logo variant="light" size="medium" showText={false} showTagline={false} />
               </Box>
             </Box>
             <Typography variant="body2" sx={{ mb: 2, color: 'rgba(255,255,255,0.8)' }}>

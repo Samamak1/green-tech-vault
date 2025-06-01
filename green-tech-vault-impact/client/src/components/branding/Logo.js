@@ -6,22 +6,22 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
   // Size configurations
   const sizeConfig = {
     small: {
-      iconSize: 72,
+      iconSize: 24,
       textVariant: 'h4',
       taglineVariant: 'body1',
-      spacing: 3,
+      spacing: 1,
     },
     medium: {
-      iconSize: 96,
+      iconSize: 32,
       textVariant: 'h3',
       taglineVariant: 'body1',
-      spacing: 4.5,
+      spacing: 1.5,
     },
     large: {
-      iconSize: 120,
+      iconSize: 40,
       textVariant: 'h2',
       taglineVariant: 'h6',
-      spacing: 6,
+      spacing: 2,
     },
   };
 
@@ -64,7 +64,7 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
   const LogoIcon = () => (
     <Box 
       component="img"
-      src="/images/e-waste-hero.svg"
+      src="/images/rygneco-logo.png"
       alt="RYGNeco Logo"
       sx={{ 
         width: iconSize * 1.8,
