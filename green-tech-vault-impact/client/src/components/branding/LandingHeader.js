@@ -174,8 +174,8 @@ const LandingHeader = () => {
             </Box>
           </Box>
           
-          {/* Right side - Navigation */}
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          {/* Right side - Navigation (pushed to far right) */}
+          <Box sx={{ display: 'flex', alignItems: 'center', ml: 'auto' }}>
             {navItems.map((item) => 
               item.hasDropdown ? (
                 <Box 
@@ -259,61 +259,66 @@ const LandingHeader = () => {
               )
             )}
             
-            <Button 
-              variant="outlined" 
-              component={RouterLink} 
-              to="/login"
-              sx={{ 
-                mx: 1, 
-                borderRadius: 30,
-                px: 4,
-                py: 1,
-                fontSize: '0.875rem',
-                fontWeight: 'normal',
-                textTransform: 'none',
-                backgroundColor: '#e6e6e6',
-                borderColor: '#9c9c9c',
-                color: '#333333',
-                minWidth: '110px',
-                height: '38px',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  borderColor: '#333333',
-                  backgroundColor: '#dbdbdb',
-                  transform: 'scale(1.05)'
-                }
-              }}
-            >
-              Sign in
-            </Button>
-            
-            <Button 
-              variant="contained" 
-              component={RouterLink}
-              to="/register"
-              sx={{ 
-                ml: 1, 
-                borderRadius: 30,
-                px: 4,
-                py: 1,
-                fontSize: '0.875rem',
-                fontWeight: 'normal',
-                textTransform: 'none',
-                backgroundColor: '#333333',
-                color: 'white',
-                minWidth: '110px',
-                height: '38px',
-                boxShadow: 'none',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  backgroundColor: '#222222',
-                  boxShadow: 'none',
-                  transform: 'scale(1.05)'
-                }
-              }}
-            >
-              Register
-            </Button>
+            {/* Hidden Sign in and Register buttons */}
+            {false && (
+              <>
+                <Button 
+                  variant="outlined" 
+                  component={RouterLink} 
+                  to="/login"
+                  sx={{ 
+                    mx: 1, 
+                    borderRadius: 30,
+                    px: 4,
+                    py: 1,
+                    fontSize: '0.875rem',
+                    fontWeight: 'normal',
+                    textTransform: 'none',
+                    backgroundColor: '#e6e6e6',
+                    borderColor: '#9c9c9c',
+                    color: '#333333',
+                    minWidth: '110px',
+                    height: '38px',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      borderColor: '#333333',
+                      backgroundColor: '#dbdbdb',
+                      transform: 'scale(1.05)'
+                    }
+                  }}
+                >
+                  Sign in
+                </Button>
+                
+                <Button 
+                  variant="contained" 
+                  component={RouterLink}
+                  to="/register"
+                  sx={{ 
+                    ml: 1, 
+                    borderRadius: 30,
+                    px: 4,
+                    py: 1,
+                    fontSize: '0.875rem',
+                    fontWeight: 'normal',
+                    textTransform: 'none',
+                    backgroundColor: '#333333',
+                    color: 'white',
+                    minWidth: '110px',
+                    height: '38px',
+                    boxShadow: 'none',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      backgroundColor: '#222222',
+                      boxShadow: 'none',
+                      transform: 'scale(1.05)'
+                    }
+                  }}
+                >
+                  Register
+                </Button>
+              </>
+            )}
           </Box>
         </Toolbar>
       </AppBar>

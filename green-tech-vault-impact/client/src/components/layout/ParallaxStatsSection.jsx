@@ -64,7 +64,7 @@ const ParallaxStatsSection = () => {
           left: 0,
           width: '100%',
           height: '100%',
-          backgroundColor: 'rgba(255, 255, 255, 0.85)', // White translucent overlay
+          backgroundColor: 'rgba(255, 255, 255, 0.30)', // White translucent overlay reduced to 30%
           zIndex: 0,
         },
         display: 'flex',

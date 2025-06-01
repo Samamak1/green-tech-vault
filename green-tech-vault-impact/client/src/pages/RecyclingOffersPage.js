@@ -9,6 +9,7 @@ import {
   Button,
   useTheme
 } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 // Import icons for different offers
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'; // For tax breaks
@@ -398,6 +399,8 @@ const RecyclingOffersPage = () => {
                 <Button 
                   variant="outlined" 
                   size="small"
+                  component={RouterLink}
+                  to="/get-involved"
                   sx={{ mt: 2 }}
                 >
                   Get Involved

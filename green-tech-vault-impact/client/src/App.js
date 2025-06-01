@@ -56,6 +56,7 @@ import Help from './pages/Help';
 import ClientReports from './pages/ClientReports';
 import CEOProfile from './pages/CEOProfile';
 import EwasteItemDetailPage from './pages/EwasteItemDetailPage';
+import GetInvolvedPage from './pages/GetInvolvedPage';
 
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
@@ -285,6 +286,12 @@ function App() {
                 <Route path="/how-it-works" element={
                   <MainLayout>
                     <HowItWorksPage />
+                  </MainLayout>
+                } />
+                
+                <Route path="/get-involved" element={
+                  <MainLayout>
+                    <GetInvolvedPage />
                   </MainLayout>
                 } />
                 

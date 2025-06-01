@@ -102,29 +102,29 @@ const HowItWorksPage = () => {
   // Process steps data
   const processSteps = [
     {
-      icon: <AccessTimeIcon fontSize="large" />,
+      icon: <AccessTimeIcon fontSize="large" sx={{ color: '#FB8C00' }} />,
       title: "Schedule",
       description: "Schedule a pickup for your e-waste through our easy online form, or drop by one of our online hubs."
     },
     {
-      icon: <LocalShippingIcon fontSize="large" />,
+      icon: <LocalShippingIcon fontSize="large" sx={{ color: '#62CBD0' }} />,
       title: "Collect",
       description: "Our team collects your devices from your location to the scheduled time."
     },
     {
-      icon: <SecurityIcon fontSize="large" />,
+      icon: <SecurityIcon fontSize="large" sx={{ color: '#FDD835' }} />,
       title: "Secure",
       description: "All data is securely wiped from all devices following industry standards."
     },
     {
-      icon: <RecyclingMUIIcon fontSize="large" />,
+      icon: <RecyclingMUIIcon fontSize="large" sx={{ color: '#2A7074' }} />,
       title: "Process",
       description: "Devices are examined, refurbished, or responsibly recycled."
     },
     {
       title: "Environmental Impact Report",
       description: "See your positive impact in resources saved and waste diverted from landfills.",
-      icon: <ParkIcon />,
+      icon: <ParkIcon sx={{ color: '#073C3F' }} />,
       link: "/environmental-impact-report"
     }
   ];
@@ -237,35 +237,35 @@ const HowItWorksPage = () => {
     {
       title: "Certificate of Recycling",
       description: "Proof that your materials were responsibly processed in accordance with regulations.",
-      icon: <ArticleIcon />
+      icon: <ArticleIcon sx={{ color: '#FB8C00' }} />
     },
     {
       title: "Data Destruction Certificate",
       description: "Confirms secure erasure or shredding of data-containing media.",
-      icon: <GppGoodIcon />
+      icon: <GppGoodIcon sx={{ color: '#62CBD0' }} />
     },
     {
       title: "Asset Tracking Report",
       description: "Itemized list with serial numbers and descriptions of every device collected.",
-      icon: <DevicesIcon />,
+      icon: <DevicesIcon sx={{ color: '#FDD835' }} />,
       link: "/asset-tracking-report"
     },
     {
       title: "Weight Summary",
       description: "Breakdown of total materials collected, categorized by type.",
-      icon: <ScaleIcon />,
+      icon: <ScaleIcon sx={{ color: '#2A7074' }} />,
       link: "/environmental-impact-report#weight-summary"
     },
     {
       title: "Environmental Impact Report",
       description: "See your positive impact in resources saved and waste diverted from landfills.",
-      icon: <ParkIcon />,
+      icon: <ParkIcon sx={{ color: '#073C3F' }} />,
       link: "/environmental-impact-report"
     },
     {
       title: "Chain of Custody",
       description: "A full record of how your e-waste was handled throughout processing.",
-      icon: <LinkIcon />,
+      icon: <LinkIcon sx={{ color: '#94F1F1' }} />,
       link: "/asset-tracking-report#chain-of-custody"
     }
   ];
