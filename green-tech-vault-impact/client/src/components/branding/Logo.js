@@ -67,8 +67,8 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
       src="/images/unnamed.png"
       alt="RYGNeco Logo"
       sx={{ 
-        width: iconSize * 1.8,
-        height: iconSize * 1.8,
+        width: iconSize * 5.4,
+        height: iconSize * 5.4,
         objectFit: 'contain'
       }}
     />
