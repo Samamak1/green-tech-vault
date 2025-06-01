@@ -57,16 +57,6 @@ const ParallaxStatsSection = () => {
         backgroundSize: 'cover',
         backgroundAttachment: 'fixed',
         backgroundRepeat: 'no-repeat',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'rgba(255, 255, 255, 0.30)', // White translucent overlay reduced to 30%
-          zIndex: 0,
-        },
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

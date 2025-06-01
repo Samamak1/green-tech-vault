@@ -20,8 +20,21 @@ import PersonIcon from '@mui/icons-material/Person';
 // Images
 const heroBackground = 'teal';
 
-// Base64 fallback image option - using a direct inline image
-const inlineCeoImage = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzJBODc4NCI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyQzIgMTcuNTIgNi40OCAyMiAxMiAyMkMxNy41MiAyMiAyMiAxNy41MiAyMiAxMkMyMiA2LjQ4IDE3LjUyIDIgMTIgMk0xMiA1QzEzLjY2IDUgMTUgNi4zNCAxNSA4QzE1IDkuNjYgMTMuNjYgMTEgMTIgMTFDMTAuMzQgMTEgOSA5LjY2IDkgOEM5IDYuMzQgMTAuMzQgNSAxMiA1TTEyIDE5LjJDOS41IDE5LjIgNy4yOSAxNy45MiA2IDE1Ljk4QzYuMDMgMTMuOTkgMTAgMTIuOSAxMiAxMi45QzEzLjk5IDEyLjkgMTcuOTcgMTMuOTkgMTggMTUuOThDMTYuNzEgMTcuOTIgMTQuNSAxOS4yIDEyIDE5LjJaIi8+PC9zdmc+";
+// Team members
+const teamMembers = [
+  {
+    name: "Leila Meyer",
+    title: "CEO",
+    description: "Passionate entrepreneur committed to tackling the global e-waste crisis through innovative, community-driven solutions.",
+    image: "/images/leila-meyer-headshot.jpg"
+  },
+  {
+    name: "Sama Mushtaq",
+    title: "CSO",
+    description: "Proof that your materials were responsibly processed in accordance with regulations.",
+    image: null
+  }
+];
 
 // Value icons
 const ValueIcon = ({ type }) => {
@@ -49,25 +62,39 @@ const ValueIcon = ({ type }) => {
   }
   
   return (
-    <Box
-      sx={{
-        width: 80,
-        height: 80,
-        borderRadius: '50%',
-        backgroundColor: theme.palette.teal.main,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
       <Box
-        component="svg"
-        width="40"
-        height="40"
-        viewBox="0 0 24 24"
-        fill="white"
+        sx={{
+          width: 80,
+          height: 80,
+          borderRadius: '50%',
+          backgroundColor: theme.palette.teal.main,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'relative',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: -10,
+            left: -10,
+            right: -10,
+            bottom: -10,
+            backgroundColor: '#EEF3F3',
+            borderRadius: '50%',
+            zIndex: -1
+          }
+        }}
       >
-        <path d={path} />
+        <Box
+          component="svg"
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="white"
+        >
+          <path d={path} />
+        </Box>
       </Box>
     </Box>
   );
@@ -96,25 +123,39 @@ const BenefitIcon = ({ type }) => {
   }
   
   return (
-    <Box
-      sx={{
-        width: 80,
-        height: 80,
-        borderRadius: '50%',
-        backgroundColor: theme.palette.teal.main,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
       <Box
-        component="svg"
-        width="40"
-        height="40"
-        viewBox="0 0 24 24"
-        fill="white"
+        sx={{
+          width: 80,
+          height: 80,
+          borderRadius: '50%',
+          backgroundColor: theme.palette.teal.main,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'relative',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: -10,
+            left: -10,
+            right: -10,
+            bottom: -10,
+            backgroundColor: '#EEF3F3',
+            borderRadius: '50%',
+            zIndex: -1
+          }
+        }}
       >
-        <path d={path} />
+        <Box
+          component="svg"
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="white"
+        >
+          <path d={path} />
+        </Box>
       </Box>
     </Box>
   );
@@ -131,22 +172,6 @@ const AboutUsPage = () => {
     "Community Workshops & Education",
     "Business Pick-Up Services",
     "Certified Recycling Programs"
-  ];
-  
-  // Team members
-  const teamMembers = [
-    {
-      name: "Leila Meyer",
-      title: "CEO",
-      description: "Passionate entrepreneur committed to tackling the global e-waste crisis through innovative, community-driven solutions.",
-      image: inlineCeoImage // Using direct inline image
-    },
-    {
-      name: "Sama Mushtaq",
-      title: "CSO",
-      description: "Proof that your materials were responsibly processed in accordance with regulations.",
-      image: null
-    }
   ];
   
   // Values
@@ -256,8 +281,15 @@ const AboutUsPage = () => {
                           objectFit: 'cover',
                           display: 'block'
                         }}
+                        onError={(e) => {
+                          // Fallback to placeholder if image fails to load
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'flex';
+                        }}
                       />
-                    ) : (
+                    ) : null}
+                    {/* Fallback for image loading errors or no image */}
+                    {!member.image && (
                       <Box
                         sx={{
                           display: 'flex',
@@ -282,6 +314,30 @@ const AboutUsPage = () => {
                         )}
                       </Box>
                     )}
+                    {/* Hidden fallback for image error */}
+                    <Box
+                      sx={{
+                        display: 'none',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '100%',
+                        bgcolor: member.name === "Leila Meyer" ? theme.palette.teal.main : '#f5f5f5'
+                      }}
+                    >
+                      {member.name === "Leila Meyer" ? (
+                        <Avatar 
+                          sx={{ 
+                            width: 80, 
+                            height: 80, 
+                            bgcolor: theme.palette.teal.main
+                          }}
+                        >
+                          <PersonIcon sx={{ fontSize: 40 }} />
+                        </Avatar>
+                      ) : (
+                        <RecyclingIcon size={80} color="black" />
+                      )}
+                    </Box>
                   </Grid>
                   <Grid item xs={8}>
                     <CardContent>
@@ -334,12 +390,10 @@ const AboutUsPage = () => {
           <Grid container spacing={3} sx={{ mt: 4, textAlign: 'center' }}>
             {benefits.map((benefit, index) => (
               <Grid item xs={6} sm={3} key={index}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-                  <BenefitIcon type={benefit.type} />
-                  <Typography variant="subtitle1" sx={{ fontWeight: 'medium' }}>
-                    {benefit.title}
-                  </Typography>
-                </Box>
+                <BenefitIcon type={benefit.type} />
+                <Typography variant="subtitle1" sx={{ fontWeight: 'medium', mt: 2 }}>
+                  {benefit.title}
+                </Typography>
               </Grid>
             ))}
           </Grid>
@@ -359,12 +413,10 @@ const AboutUsPage = () => {
         <Grid container spacing={3} sx={{ mt: 4, textAlign: 'center' }}>
           {values.map((value, index) => (
             <Grid item xs={4} sm={2.4} key={index}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-                <ValueIcon type={value.type} />
-                <Typography variant="subtitle1" sx={{ fontWeight: 'medium' }}>
-                  {value.title}
-                </Typography>
-              </Box>
+              <ValueIcon type={value.type} />
+              <Typography variant="subtitle1" sx={{ fontWeight: 'medium', mt: 2 }}>
+                {value.title}
+              </Typography>
             </Grid>
           ))}
         </Grid>

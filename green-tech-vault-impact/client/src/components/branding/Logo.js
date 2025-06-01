@@ -6,22 +6,22 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
   // Size configurations
   const sizeConfig = {
     small: {
-      iconSize: 24,
-      textVariant: 'subtitle1',
-      taglineVariant: 'caption',
-      spacing: 1,
+      iconSize: 72,
+      textVariant: 'h4',
+      taglineVariant: 'body1',
+      spacing: 3,
     },
     medium: {
-      iconSize: 32,
-      textVariant: 'h6',
-      taglineVariant: 'caption',
-      spacing: 1.5,
+      iconSize: 96,
+      textVariant: 'h3',
+      taglineVariant: 'body1',
+      spacing: 4.5,
     },
     large: {
-      iconSize: 40,
-      textVariant: 'h5',
-      taglineVariant: 'body2',
-      spacing: 2,
+      iconSize: 120,
+      textVariant: 'h2',
+      taglineVariant: 'h6',
+      spacing: 6,
     },
   };
 
@@ -29,10 +29,10 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
   const variantConfig = {
     default: {
       iconBgColor: 'transparent',
-      iconColor: '#c70039', // Changed from olive green to rich red
-      textColor: '#c70039', // Changed from olive green to rich red
-      textSecondaryColor: '#c70039', // Changed from olive green to rich red
-      taglineColor: '#c70039', // Changed from olive green to rich red
+      iconColor: '#c70039',
+      textColor: '#c70039',
+      textSecondaryColor: '#c70039',
+      taglineColor: '#c70039',
     },
     light: {
       iconBgColor: 'transparent',
@@ -43,10 +43,10 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
     },
     dark: {
       iconBgColor: 'transparent',
-      iconColor: '#c70039', // Changed from olive green to rich red
-      textColor: '#c70039', // Changed from olive green to rich red
-      textSecondaryColor: '#c70039', // Changed from olive green to rich red
-      taglineColor: '#c70039', // Changed from olive green to rich red
+      iconColor: '#c70039',
+      textColor: '#c70039',
+      textSecondaryColor: '#c70039',
+      taglineColor: '#c70039',
     },
     admin: {
       iconBgColor: 'transparent',
@@ -118,7 +118,7 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
             letterSpacing: 0.5,
             mt: 0.5,
             fontSize: '0.7rem',
-            ml: iconSize * 1.5 + spacing * 8, // Align with the text above
+            ml: iconSize * 1.5 + spacing * 8,
           }}
         >
           {variant === 'admin' ? 'Admin Portal' : 'Responsible E-Waste Recycling'}

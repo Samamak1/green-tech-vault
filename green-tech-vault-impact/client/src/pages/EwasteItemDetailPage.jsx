@@ -23,7 +23,6 @@ import PrintIcon from '@mui/icons-material/Print';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import InfoIcon from '@mui/icons-material/Info';
 import CachedIcon from '@mui/icons-material/Cached';
-import NatureIcon from '@mui/icons-material/Nature';
 import CategoryIcon from '@mui/icons-material/Category';
 import CircleIcon from '@mui/icons-material/Circle';
 import { getItemDataBySlug } from '../data/ewasteItems';
@@ -193,7 +192,7 @@ const EwasteItemDetailPage = ({ preloadedItemData }) => {
                         {item.notes.map((note, index) => (
                           <ListItem key={index} sx={{ py: 0.5 }}>
                             <ListItemIcon sx={{ minWidth: 28 }}>
-                              <InfoIcon sx={{ fontSize: 16, color: theme.palette.teal.main }} />
+                              <InfoIcon sx={{ fontSize: 16, color: '#FB8C00' }} />
                             </ListItemIcon>
                             <ListItemText primary={note} />
                           </ListItem>
@@ -285,7 +284,32 @@ const EwasteItemDetailPage = ({ preloadedItemData }) => {
                 }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                  <NatureIcon sx={{ color: theme.palette.teal.main }} />
+                  <Box
+                    component="img"
+                    src="/images/financial-trading-background.jpg"
+                    alt="Environmental Impact"
+                    sx={{
+                      width: 24,
+                      height: 24,
+                      objectFit: 'cover',
+                      borderRadius: '4px'
+                    }}
+                    onError={(e) => {
+                      // Fallback to icon if image fails to load
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'inline';
+                    }}
+                  />
+                  <Box
+                    component="svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill={theme.palette.teal.main}
+                    sx={{ display: 'none' }}
+                  >
+                    <path d="M12,3L19.07,7.75L15.5,12L19.07,16.25L12,21L4.93,16.25L8.5,12L4.93,7.75L12,3M12,7.5A4.5,4.5 0 0,0 7.5,12A4.5,4.5 0 0,0 12,16.5A4.5,4.5 0 0,0 16.5,12A4.5,4.5 0 0,0 12,7.5Z" />
+                  </Box>
                   <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                     Environmental Impact
                   </Typography>

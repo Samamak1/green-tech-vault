@@ -64,7 +64,7 @@ const Footer = () => {
     >
       <Container maxWidth="lg">
         <Grid container spacing={4}>
-          {/* Logo and company name */}
+          {/* Logo only - no text */}
           <Grid item xs={12} sm={3}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
               <Box
@@ -79,35 +79,31 @@ const Footer = () => {
               >
                 <Box 
                   sx={{ 
-                    width: 90, 
-                    height: 90,
+                    width: 270, // Tripled from 90
+                    height: 270, // Tripled from 90
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    mr: 1 
+                    justifyContent: 'center'
                   }}
                 >
                   <Logo variant="light" size="large" showText={false} linkTo={null} />
                 </Box>
-                <Typography variant="h6" component="span">
-                  RYGNeco
-                </Typography>
               </Box>
             </Box>
           </Grid>
 
           {/* Corporate Information */}
-          <Grid item xs={6} sm={3}>
-            <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
-              Corporate Information
+          <Grid item xs={12} sm={3}>
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+              Corporate
             </Typography>
-            <Stack spacing={1.5}>
+            <Stack spacing={1}>
               {corporateLinks.map((link, index) => (
-                <Link 
-                  key={index} 
-                  component={RouterLink} 
-                  to={link.url} 
-                  color="inherit" 
+                <Link
+                  key={index}
+                  component={RouterLink}
+                  to={link.url}
+                  color="inherit"
                   underline="hover"
                   sx={{ fontSize: '0.9rem' }}
                 >
@@ -118,17 +114,17 @@ const Footer = () => {
           </Grid>
 
           {/* E-Waste Information */}
-          <Grid item xs={6} sm={3}>
-            <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
-              E-Waste Information
+          <Grid item xs={12} sm={3}>
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+              E-Waste
             </Typography>
-            <Stack spacing={1.5}>
+            <Stack spacing={1}>
               {ewasteLinks.map((link, index) => (
-                <Link 
-                  key={index} 
-                  component={RouterLink} 
-                  to={link.url} 
-                  color="inherit" 
+                <Link
+                  key={index}
+                  component={RouterLink}
+                  to={link.url}
+                  color="inherit"
                   underline="hover"
                   sx={{ fontSize: '0.9rem' }}
                 >
@@ -138,47 +134,68 @@ const Footer = () => {
             </Stack>
           </Grid>
 
-          {/* Contact */}
+          {/* Contact Information */}
           <Grid item xs={12} sm={3}>
-            <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
               Contact
             </Typography>
-            <Stack spacing={1.5} sx={{ mb: 2 }}>
-              {contactInfo.map((info, index) => (
-                <Link 
-                  key={index} 
-                  href={info.url} 
-                  color="inherit" 
+            <Stack spacing={1}>
+              {contactInfo.map((contact, index) => (
+                <Link
+                  key={index}
+                  href={contact.url}
+                  color="inherit"
                   underline="hover"
                   sx={{ fontSize: '0.9rem' }}
                 >
-                  {info.title}
+                  {contact.title}
                 </Link>
               ))}
             </Stack>
             
-            {/* Social media links */}
-            <Box sx={{ display: 'flex', gap: 1.5, mt: 2 }}>
+            {/* Social Media Icons */}
+            <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
               {socialLinks.map((social, index) => (
-                <Link 
-                  key={index} 
-                  href={social.url} 
-                  color="inherit" 
-                  target="_blank" 
+                <Link
+                  key={index}
+                  href={social.url}
+                  target="_blank"
                   rel="noopener noreferrer"
-                  sx={{ 
+                  color="inherit"
+                  sx={{
                     display: 'flex',
-                    '&:hover': { 
-                      color: 'rgba(255,255,255,0.8)' 
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: 32,
+                    height: 32,
+                    borderRadius: '50%',
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    '&:hover': {
+                      backgroundColor: 'rgba(255, 255, 255, 0.2)',
                     }
                   }}
                 >
-                  {social.icon}
+                  {React.cloneElement(social.icon, { sx: { fontSize: 18 } })}
                 </Link>
               ))}
-            </Box>
+            </Stack>
           </Grid>
         </Grid>
+
+        {/* Bottom section with copyright */}
+        <Box 
+          sx={{ 
+            borderTop: 1, 
+            borderColor: 'rgba(255, 255, 255, 0.1)', 
+            mt: 4, 
+            pt: 3, 
+            textAlign: 'center' 
+          }}
+        >
+          <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+            © {new Date().getFullYear()} RYGNeco. All rights reserved.
+          </Typography>
+        </Box>
       </Container>
     </Box>
   );

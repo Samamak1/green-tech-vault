@@ -19,50 +19,54 @@ const BrandedFooter = () => {
         <Grid container spacing={4}>
           <Grid item xs={12} md={4}>
             <Box sx={{ mb: 2 }}>
-              <Logo variant="light" size="medium" showTagline={true} />
+              <Box 
+                sx={{ 
+                  width: 270, // Tripled from 90
+                  height: 270, // Tripled from 90
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start'
+                }}
+              >
+                <Logo variant="light" size="large" showText={false} showTagline={false} />
+              </Box>
             </Box>
             <Typography variant="body2" sx={{ mb: 2, color: 'rgba(255,255,255,0.8)' }}>
               Responsible e-waste management solutions for businesses and organizations.
               We help you safely dispose of electronic waste while protecting your data and the environment.
             </Typography>
+            
+            {/* Social Media Icons */}
             <Box sx={{ display: 'flex', gap: 1 }}>
               <IconButton 
-                component={Link}
-                href="https://www.instagram.com/rygneco/"
+                component="a" 
+                href="https://www.instagram.com/rygneco/" 
                 target="_blank"
-                rel="noopener noreferrer"
-                sx={{ color: '#8cc63f' }} 
-                aria-label="Instagram"
+                sx={{ color: 'white', '&:hover': { color: 'rgba(255,255,255,0.8)' } }}
               >
                 <InstagramIcon />
               </IconButton>
               <IconButton 
-                component={Link}
-                href="https://www.facebook.com/people/RYGNeco/61575273422314/?mibextid=LQQJ4d&rdid=jOGvLhXNFJslFT3H&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F19DdG1NYvL%2F%3Fmibextid%3DLQQJ4d"
+                component="a" 
+                href="https://www.facebook.com/people/RYGNeco/61575273422314/?mibextid=LQQJ4d&rdid=jOGvLhXNFJslFT3H&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F19DdG1NYvL%2F%3Fmibextid%3DLQQJ4d" 
                 target="_blank"
-                rel="noopener noreferrer"
-                sx={{ color: '#8cc63f' }} 
-                aria-label="Facebook"
+                sx={{ color: 'white', '&:hover': { color: 'rgba(255,255,255,0.8)' } }}
               >
                 <FacebookIcon />
               </IconButton>
               <IconButton 
-                component={Link}
-                href="https://x.com/RYGNeco"
+                component="a" 
+                href="https://x.com/RYGNeco" 
                 target="_blank"
-                rel="noopener noreferrer"
-                sx={{ color: '#8cc63f' }} 
-                aria-label="X (Twitter)"
+                sx={{ color: 'white', '&:hover': { color: 'rgba(255,255,255,0.8)' } }}
               >
                 <XIcon />
               </IconButton>
               <IconButton 
-                component={Link}
-                href="https://linkedin.com"
+                component="a" 
+                href="https://linkedin.com" 
                 target="_blank"
-                rel="noopener noreferrer"
-                sx={{ color: '#8cc63f' }} 
-                aria-label="LinkedIn"
+                sx={{ color: 'white', '&:hover': { color: 'rgba(255,255,255,0.8)' } }}
               >
                 <LinkedInIcon />
               </IconButton>
