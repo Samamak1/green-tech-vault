@@ -34,6 +34,7 @@ const Footer = () => {
   
   const ewasteLinks = [
     { title: 'About Us', url: '/about-us' },
+    { title: 'How It Works', url: '/how-it-works' },
     { title: 'Join Us', url: '/recycling-offers' },
     { title: 'Schedule A Pickup', url: '/schedule-pickup' }
   ];
@@ -74,7 +75,8 @@ const Footer = () => {
                   display: 'flex',
                   alignItems: 'flex-start',
                   textDecoration: 'none',
-                  color: 'white'
+                  color: 'white',
+                  mt: '-8px'
                 }}
               >
                 <Box 
@@ -154,7 +156,7 @@ const Footer = () => {
             </Stack>
             
             {/* Social Media Icons */}
-            <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
+            <Stack direction="row" spacing={1} sx={{ mt: 4 }}>
               {socialLinks.map((social, index) => (
                 <Link
                   key={index}

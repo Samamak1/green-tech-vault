@@ -40,10 +40,30 @@ const teamMembers = [
 const ValueIcon = ({ type }) => {
   const theme = useTheme();
   
+  // Define colors for each type
+  const getColors = (type) => {
+    switch(type) {
+      case "sustainability":
+        return { main: '#1F5A3E', light: '#2D6B4D' }; // Dark green
+      case "community":
+        return { main: '#62C7CC', light: '#7BD3D8' }; // Light teal
+      case "innovation":
+        return { main: '#1F5A3E', light: '#2D6B4D' }; // Dark green
+      case "responsibility":
+        return { main: '#7BD3D8', light: '#8EDDEA' }; // Very light teal
+      case "equity":
+        return { main: '#1F5A3E', light: '#2D6B4D' }; // Dark green
+      default:
+        return { main: theme.palette.teal.main, light: theme.palette.teal.light };
+    }
+  };
+  
+  const colors = getColors(type);
+  
   let path = "";
   switch(type) {
     case "sustainability":
-      path = "M7.24,17.66L6,16.76L8.24,14H4V12H8.24L6,9.24L7.24,8.34L10.96,13L7.24,17.66M16.5,10C19,10 21,12 21,14.5C21,17 19,19 16.5,19C14.5,19 12.73,17.58 12.16,15.63C12.06,15.26 12,14.89 12,14.5C12,12 14,10 16.5,10M16.5,8C12.91,8 10,10.91 10,14.5C10,18.09 12.91,21 16.5,21C20.09,21 23,18.09 23,14.5C23,10.91 20.09,8 16.5,8M16.5,12C15.12,12 14,13.12 14,14.5C14,15.88 15.12,17 16.5,17C17.88,17 19,15.88 19,14.5C19,13.12 17.88,12 16.5,12M4,22V20H10V22H4Z";
+      path = "M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z";
       break;
     case "community":
       path = "M16 17V19H2V17S2 13 9 13 16 17 16 17M12.5 7.5A3.5 3.5 0 1 0 9 11A3.5 3.5 0 0 0 12.5 7.5M15.94 13A5.32 5.32 0 0 1 18 17V19H22V17S22 13.37 15.94 13M15 4A3.39 3.39 0 0 0 13.07 4.59A5 5 0 0 1 13.07 10.41A3.39 3.39 0 0 0 15 11A3.5 3.5 0 0 0 15 4Z";
@@ -52,10 +72,10 @@ const ValueIcon = ({ type }) => {
       path = "M12,2A7,7 0 0,0 5,9C5,11.38 6.19,13.47 8,14.74V17A1,1 0 0,0 9,18H15A1,1 0 0,0 16,17V14.74C17.81,13.47 19,11.38 19,9A7,7 0 0,0 12,2M9,21A1,1 0 0,0 10,22H14A1,1 0 0,0 15,21V20H9V21Z";
       break;
     case "responsibility":
-      path = "M5,3C3.89,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3H5M5,5H19V19H5V5M7,7V9H17V7H7M7,11V13H17V11H7M7,15V17H14V15H7Z";
+      path = "M9,7H15A3,3 0 0,1 18,10A3,3 0 0,1 15,13H13V16H15A1,1 0 0,1 16,17A1,1 0 0,1 15,18H9A1,1 0 0,1 8,17A1,1 0 0,1 9,16H11V13H9A3,3 0 0,1 6,10A3,3 0 0,1 9,7Z";
       break;
     case "equity":
-      path = "M12,3C10.73,3 9.6,3.8 9.18,5H3V7H4.95L2,14C1.53,16 3,17 5.5,17C8,17 9.56,16 9,14L6.05,7H9.17C9.5,7.85 10.15,8.5 11,8.83V20H2V22H22V20H13V8.82C13.85,8.5 14.5,7.85 14.82,7H17.95L15,14C14.53,16 16,17 18.5,17C21,17 22.56,16 22,14L19.05,7H21V5H14.83C14.4,3.8 13.27,3 12,3M12,5A1,1 0 0,1 13,6A1,1 0 0,1 12,7A1,1 0 0,1 11,6A1,1 0 0,1 12,5M5.5,10.25L7,14H4L5.5,10.25M18.5,10.25L20,14H17L18.5,10.25Z";
+      path = "M12,3L2,12H5V20H19V12H22L12,3M12,8.75L17,12.25V18H15V14H9V18H7V12.25L12,8.75Z";
       break;
     default:
       path = "";
@@ -65,31 +85,20 @@ const ValueIcon = ({ type }) => {
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
       <Box
         sx={{
-          width: 80,
-          height: 80,
+          width: 100,
+          height: 100,
           borderRadius: '50%',
-          backgroundColor: theme.palette.teal.main,
+          backgroundColor: colors.main,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          position: 'relative',
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: -10,
-            left: -10,
-            right: -10,
-            bottom: -10,
-            backgroundColor: '#EEF3F3',
-            borderRadius: '50%',
-            zIndex: -1
-          }
+          position: 'relative'
         }}
       >
         <Box
           component="svg"
-          width="40"
-          height="40"
+          width="50"
+          height="50"
           viewBox="0 0 24 24"
           fill="white"
         >
@@ -104,16 +113,34 @@ const ValueIcon = ({ type }) => {
 const BenefitIcon = ({ type }) => {
   const theme = useTheme();
   
+  // Define colors for each type
+  const getColors = (type) => {
+    switch(type) {
+      case "reducing":
+        return { main: '#62C7CC', light: '#7BD3D8' }; // Light teal
+      case "conserving":
+        return { main: '#1F5A3E', light: '#2D6B4D' }; // Dark green  
+      case "circular":
+        return { main: '#7BD3D8', light: '#8EDDEA' }; // Very light teal
+      case "spreading":
+        return { main: '#1F5A3E', light: '#2D6B4D' }; // Dark green
+      default:
+        return { main: theme.palette.teal.main, light: theme.palette.teal.light };
+    }
+  };
+  
+  const colors = getColors(type);
+  
   let path = "";
   switch(type) {
     case "reducing":
-      path = "M19.36,2.72L20.78,4.14L15.06,9.85C16.13,11.39 16.28,13.24 15.38,14.44L9.06,8.12C10.26,7.22 12.11,7.37 13.65,8.44L19.36,2.72M5.93,17.57C3.92,15.56 2.69,13.16 2.35,10.92L7.23,8.83L14.67,16.27L12.58,21.15C10.34,20.81 7.94,19.58 5.93,17.57Z";
+      path = "M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V19H5V5H19Z";
       break;
     case "conserving":
-      path = "M2.5,19H21.5V21H2.5V19M22,3H2V17H22V3M20,15H4V5H20V15M8,11H6V13H8V11M8,7H6V9H8V7M10,7H12V9H10V7M14,7H16V9H14V7M18,7H16V9H18V7M12,11H10V13H12V11M14,11H16V13H14V11Z";
+      path = "M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z";
       break;
     case "circular":
-      path = "M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9Z";
+      path = "M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M16.18,7.76L15.12,8.82L14.06,7.76L13,8.82L14.06,9.88L13,10.94L14.06,12L15.12,10.94L16.18,12L17.24,10.94L16.18,9.88L17.24,8.82L16.18,7.76M7.82,12L8.88,10.94L9.94,12L11,10.94L9.94,9.88L11,8.82L9.94,7.76L8.88,8.82L7.82,7.76L6.76,8.82L7.82,9.88L6.76,10.94L7.82,12Z";
       break;
     case "spreading":
       path = "M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z";
@@ -126,31 +153,20 @@ const BenefitIcon = ({ type }) => {
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
       <Box
         sx={{
-          width: 80,
-          height: 80,
+          width: 100,
+          height: 100,
           borderRadius: '50%',
-          backgroundColor: theme.palette.teal.main,
+          backgroundColor: colors.main,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          position: 'relative',
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: -10,
-            left: -10,
-            right: -10,
-            bottom: -10,
-            backgroundColor: '#EEF3F3',
-            borderRadius: '50%',
-            zIndex: -1
-          }
+          position: 'relative'
         }}
       >
         <Box
           component="svg"
-          width="40"
-          height="40"
+          width="50"
+          height="50"
           viewBox="0 0 24 24"
           fill="white"
         >
@@ -377,23 +393,38 @@ const AboutUsPage = () => {
       </Container>
       
       {/* Why It Matters Section */}
-      <Box sx={{ bgcolor: '#f5f5f5', py: 6 }}>
+      <Box sx={{ bgcolor: '#f9f9f9', py: 8 }}>
         <Container maxWidth="lg">
-          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 4 }}>
+          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 4, textAlign: 'center' }}>
             Why Does It Matter?
           </Typography>
-          <Typography variant="body1" paragraph>
-            E-waste is one of the fastest-growing waste streams in the world. Toxic materials can leak into soil and water when improperly disposed of. By choosing EcoCycle, you're making a measurable difference. Our Company represents a future where electronics aren't discarded—they're revived, respected, and reintegrated into the world responsibly.
+          <Typography variant="body1" paragraph sx={{ textAlign: 'center', maxWidth: '800px', mx: 'auto', mb: 6 }}>
+            E-waste is one of the fastest-growing waste streams in the world. Toxic materials can leak into soil and water when improperly disposed of. By choosing RYGNeco, you're making a measurable difference. Our Company represents a future where electronics aren't discarded—they're revived, respected, and reintegrated into the world responsibly...
           </Typography>
           
           {/* Benefits Grid */}
-          <Grid container spacing={3} sx={{ mt: 4, textAlign: 'center' }}>
+          <Grid container spacing={4} sx={{ mt: 4 }}>
             {benefits.map((benefit, index) => (
               <Grid item xs={6} sm={3} key={index}>
-                <BenefitIcon type={benefit.type} />
-                <Typography variant="subtitle1" sx={{ fontWeight: 'medium', mt: 2 }}>
-                  {benefit.title}
-                </Typography>
+                <Box
+                  sx={{
+                    textAlign: 'center',
+                    p: 3,
+                    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                    borderRadius: 2,
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <BenefitIcon type={benefit.type} />
+                  <Typography variant="subtitle1" sx={{ fontWeight: 'medium', mt: 2 }}>
+                    {benefit.title}
+                  </Typography>
+                </Box>
               </Grid>
             ))}
           </Grid>
@@ -401,22 +432,37 @@ const AboutUsPage = () => {
       </Box>
       
       {/* Values Section */}
-      <Container maxWidth="lg" sx={{ py: 6 }}>
-        <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
+      <Container maxWidth="lg" sx={{ py: 8 }}>
+        <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mb: 4 }}>
           Our Values
         </Typography>
-        <Typography variant="body1" paragraph>
+        <Typography variant="body1" paragraph sx={{ textAlign: 'center', maxWidth: '800px', mx: 'auto', mb: 6 }}>
           At our company, our values guide every step we take. We believe in <strong>sustainability</strong> as a long-term commitment to the planet—not just a quick fix. Our work is grounded in <strong>community</strong>, partnering locally to create jobs, share knowledge, and spark meaningful change. With a focus on <strong>innovation</strong>, we're always looking for smarter, cleaner ways to manage e-waste through thoughtful design and technology. We take <strong>responsibility</strong> seriously, ensuring every device we collect is handled with care—ethically reused, repurposed, or recycled. And at the core of it all is <strong>equity</strong>—because access to clean, affordable technology should be a right, not a privilege.
         </Typography>
         
         {/* Values Icons */}
-        <Grid container spacing={3} sx={{ mt: 4, textAlign: 'center' }}>
+        <Grid container spacing={4} sx={{ mt: 4 }}>
           {values.map((value, index) => (
-            <Grid item xs={4} sm={2.4} key={index}>
-              <ValueIcon type={value.type} />
-              <Typography variant="subtitle1" sx={{ fontWeight: 'medium', mt: 2 }}>
-                {value.title}
-              </Typography>
+            <Grid item xs={6} sm={2.4} key={index}>
+              <Box
+                sx={{
+                  textAlign: 'center',
+                  p: 3,
+                  backgroundColor: 'rgba(240, 245, 245, 0.8)',
+                  borderRadius: 2,
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <ValueIcon type={value.type} />
+                <Typography variant="subtitle1" sx={{ fontWeight: 'medium', mt: 2 }}>
+                  {value.title}
+                </Typography>
+              </Box>
             </Grid>
           ))}
         </Grid>
