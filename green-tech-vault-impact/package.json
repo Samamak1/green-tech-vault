@@ -4,7 +4,7 @@
   "description": "Environmental impact tracking system for Green Tech Vault",
   "main": "server/index.js",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "NODE_ENV=production node server/index.js",
     "dev": "nodemon server/index.js",
     "client": "cd client && npm start",
     "dev:full": "concurrently \"npm run dev\" \"npm run client\"",
@@ -17,7 +17,9 @@
     "render-start": "NODE_ENV=production node server/index.js",
     "keep-alive": "node keep-alive.js",
     "copy-images": "node copy-images.js",
-    "verify-build": "ls -la client/build/images"
+    "verify-build": "ls -la client/build/images",
+    "health-check": "curl -f http://localhost:$PORT/health || exit 1",
+    "logs": "echo 'Server logs would appear here in production'"
   },
   "keywords": [
     "e-waste",
@@ -41,5 +43,9 @@
   "devDependencies": {
     "concurrently": "^8.0.1",
     "nodemon": "^2.0.22"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   }
 }
