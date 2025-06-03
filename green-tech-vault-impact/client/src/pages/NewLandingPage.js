@@ -32,11 +32,12 @@ const dropDown = keyframes`
 
 // Styled animated content box
 const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
-  backgroundColor: 'white',
+  backgroundColor: 'rgba(255, 255, 255, 0.4)',
   borderRadius: '0 0 20px 20px',
   padding: theme.spacing(6),
   maxWidth: '600px',
-  margin: '0 auto',
+  margin: '0',
+  marginLeft: '10%',
   position: 'relative',
   zIndex: 2,
   animation: animate ? `${dropDown} 1.2s ease-out forwards` : 'none',
@@ -170,22 +171,26 @@ const NewLandingPage = () => {
     {
       title: "Pickup Service",
       description: "Convenient collection from your location with flexible scheduling",
-      icon: <LocalShippingIcon fontSize="large" />
+      icon: <LocalShippingIcon fontSize="large" />,
+      color: '#56D0C5'
     },
     {
       title: "Secure Data Destruction",
       description: "Professional data wiping and destruction with certified reporting",
-      icon: <SecurityIcon fontSize="large" />
+      icon: <SecurityIcon fontSize="large" />,
+      color: '#16615A'
     },
     {
       title: "Responsible Recycling",
       description: "Eco-friendly processing that recovers valuable materials",
-      icon: <RecyclingIcon fontSize="large" />
+      icon: <RecyclingIcon fontSize="large" />,
+      color: '#AEF1EB'
     },
     {
       title: "Corporate Solutions",
       description: "Tailored programs for businesses of all sizes",
-      icon: <BusinessIcon fontSize="large" />
+      icon: <BusinessIcon fontSize="large" />,
+      color: '#41918A'
     }
   ];
 
@@ -194,22 +199,26 @@ const NewLandingPage = () => {
     {
       title: "Schedule",
       description: "Book your pickup online or contact us directly",
-      icon: <AccessTimeIcon fontSize="large" />
+      icon: <AccessTimeIcon fontSize="large" />,
+      color: '#41918A'
     },
     {
       title: "Collect",
       description: "We safely collect your electronic devices",
-      icon: <LocalShippingIcon fontSize="large" />
+      icon: <LocalShippingIcon fontSize="large" />,
+      color: '#56D0C5'
     },
     {
       title: "Secure",
       description: "Data destruction with certified reporting",
-      icon: <VerifiedIcon fontSize="large" />
+      icon: <VerifiedIcon fontSize="large" />,
+      color: '#16615A'
     },
     {
       title: "Process",
       description: "Responsible recycling or refurbishment",
-      icon: <RecyclingIcon fontSize="large" />
+      icon: <RecyclingIcon fontSize="large" />,
+      color: '#AEF1EB'
     }
   ];
 
@@ -217,7 +226,7 @@ const NewLandingPage = () => {
     <Box>
       {/* Hero Section */}
       <HeroSection>
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 8 }}>
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 0 }}>
           <AnimatedContentBox animate={animate}>
             <Typography variant="subtitle1" component="div" gutterBottom color="text.primary">
               Welcome to RYGNeco
@@ -266,9 +275,21 @@ const NewLandingPage = () => {
             <Grid item xs={12} sm={6} md={3} key={index}>
               <ServiceCard elevation={2}>
                 <CardContent sx={{ p: 3 }}>
-                  <ImagePlaceholder>
+                  <Box
+                    sx={{
+                      width: 80,
+                      height: 80,
+                      margin: '0 auto 16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: '50%',
+                      backgroundColor: service.color,
+                      color: 'white'
+                    }}
+                  >
                     {service.icon}
-                  </ImagePlaceholder>
+                  </Box>
                   <Typography variant="h6" component="h3" fontWeight="bold" gutterBottom>
                     {service.title}
                   </Typography>
@@ -301,9 +322,21 @@ const NewLandingPage = () => {
           {processSteps.map((step, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
               <ProcessCard elevation={1}>
-                <ProcessIconWrapper>
+                <Box
+                  sx={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: '50%',
+                    backgroundColor: step.color,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: theme.spacing(2),
+                    color: 'white'
+                  }}
+                >
                   {step.icon}
-                </ProcessIconWrapper>
+                </Box>
                 <Typography variant="h6" fontWeight="bold" gutterBottom>
                   {step.title}
                 </Typography>
@@ -337,7 +370,7 @@ const NewLandingPage = () => {
                   width: 64,
                   height: 64,
                   borderRadius: '50%',
-                  backgroundColor: theme.palette.teal.main,
+                  backgroundColor: '#16615A', // Using the fifth color as requested
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',

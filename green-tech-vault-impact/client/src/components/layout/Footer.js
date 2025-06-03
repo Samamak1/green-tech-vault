@@ -76,7 +76,7 @@ const Footer = () => {
                   alignItems: 'flex-start',
                   textDecoration: 'none',
                   color: 'white',
-                  mt: '-94px'
+                  mt: '-40px'
                 }}
               >
                 <Box 

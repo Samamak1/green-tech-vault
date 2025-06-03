@@ -15,7 +15,7 @@ const ParallaxWrapper = styled(Box)({
 // Styled parallax background
 const ParallaxBg = styled(Box)({
   position: 'absolute',
-  top: 0, // Reset to start from top
+  top: '-150px', // Raised the image by 150px (about 1.5 inches at 96 DPI)
   left: 0,
   height: '120%', // Reduced height for better performance
   width: '100%',
