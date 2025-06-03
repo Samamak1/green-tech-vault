@@ -76,7 +76,7 @@ const Footer = () => {
                   alignItems: 'flex-start',
                   textDecoration: 'none',
                   color: 'white',
-                  mt: '-8px'
+                  mt: '-180px'
                 }}
               >
                 <Box 
@@ -94,10 +94,10 @@ const Footer = () => {
             </Box>
           </Grid>
 
-          {/* Corporate Information */}
+          {/* Explore Information */}
           <Grid item xs={12} sm={3}>
             <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
-              Corporate
+              Explore
             </Typography>
             <Stack spacing={1}>
               {corporateLinks.map((link, index) => (

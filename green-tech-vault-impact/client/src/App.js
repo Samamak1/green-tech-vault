@@ -320,6 +320,7 @@ function App() {
                 } />
                 
                 {/* E-waste Item Detail Page */}
+                {/* Temporarily hidden - detail pages not accessible to users
                 <Route path="/e-waste-item/:itemName" element={
                   <MainLayout>
                     <EwasteItemDetailPage />
@@ -327,7 +328,7 @@ function App() {
                 } />
                 
                 {/* Specific E-waste Item Pages */}
-                <Route path="/e-waste-item/keyboards" element={
+                {/* <Route path="/e-waste-item/keyboards" element={
                   <MainLayout>
                     <EwasteItemDetailPage preloadedItemData={{
                       name: "Keyboards",
@@ -362,7 +363,7 @@ function App() {
                 } />
                 
                 {/* Desktop Computer */}
-                <Route path="/e-waste-item/desktop-computer" element={
+                {/* <Route path="/e-waste-item/desktop-computer" element={
                   <MainLayout>
                     <EwasteItemDetailPage preloadedItemData={{
                       name: "Desktop Computer",
@@ -398,7 +399,7 @@ function App() {
                 } />
                 
                 {/* Laptop */}
-                <Route path="/e-waste-item/laptop" element={
+                {/* <Route path="/e-waste-item/laptop" element={
                   <MainLayout>
                     <EwasteItemDetailPage preloadedItemData={{
                       name: "Laptop",
@@ -434,7 +435,7 @@ function App() {
                 } />
                 
                 {/* Smartphones */}
-                <Route path="/e-waste-item/smartphones" element={
+                {/* <Route path="/e-waste-item/smartphones" element={
                   <MainLayout>
                     <EwasteItemDetailPage preloadedItemData={{
                       name: "Smartphones",
@@ -472,7 +473,7 @@ function App() {
                 } />
                 
                 {/* Monitors */}
-                <Route path="/e-waste-item/monitors" element={
+                {/* <Route path="/e-waste-item/monitors" element={
                   <MainLayout>
                     <EwasteItemDetailPage preloadedItemData={{
                       name: "Monitors",
@@ -510,7 +511,7 @@ function App() {
                 } />
                 
                 {/* Printers */}
-                <Route path="/e-waste-item/printers" element={
+                {/* <Route path="/e-waste-item/printers" element={
                   <MainLayout>
                     <EwasteItemDetailPage preloadedItemData={{
                       name: "Printers",
@@ -548,7 +549,7 @@ function App() {
                 } />
                 
                 {/* Tablets */}
-                <Route path="/e-waste-item/tablets" element={
+                {/* <Route path="/e-waste-item/tablets" element={
                   <MainLayout>
                     <EwasteItemDetailPage preloadedItemData={{
                       name: "Tablets",
@@ -586,7 +587,7 @@ function App() {
                 } />
                 
                 {/* Televisions */}
-                <Route path="/e-waste-item/televisions" element={
+                {/* <Route path="/e-waste-item/televisions" element={
                   <MainLayout>
                     <EwasteItemDetailPage preloadedItemData={{
                       name: "Televisions",
@@ -624,11 +625,11 @@ function App() {
                 } />
                 
                 {/* Add more routes for all accepted items... */}
-                <Route path="/e-waste-item/:itemSlug" element={
+                {/* <Route path="/e-waste-item/:itemSlug" element={
                   <MainLayout>
                     <EwasteItemDetailPage />
                   </MainLayout>
-                } />
+                } /> */}
                 
                 {/* Auth Routes */}
                 <Route path="/login" element={<ClientLogin />} />

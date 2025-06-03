@@ -243,22 +243,17 @@ const AboutUsPage = () => {
       
       {/* Mission Section */}
       <Container maxWidth="lg" sx={{ py: 6 }}>
-        <Grid container spacing={6}>
-          <Grid item xs={12} md={7}>
+        <Grid container spacing={6} alignItems="stretch">
+          {/* Left side - Mission and What We Do */}
+          <Grid item xs={12} md={6}>
             <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
               Our Mission
             </Typography>
             <Typography variant="body1" paragraph>
-              We're on a mission to turn yesterday's tech into tomorrow's possibilities. By making 
-            </Typography>
-            <Typography variant="body1" paragraph>
-              e-waste recycling simple, smart, and community-powered, we help people and 
-            </Typography>
-            <Typography variant="body1" paragraph>
-              businesses everywhere take part in building a cleaner planet—one device at a time!
+              At our company, we are committed to transforming the way the world thinks about electronic waste. Rooted in the principles of circular economy, clean technology, and community empowerment, we work to give devices a second life—reducing waste and restoring value. We want to close the loop on e-waste by creating accessible, ethical, and sustainable systems for reuse, repair, and recycling.
             </Typography>
             
-            <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mt: 6 }}>
+            <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mt: 4 }}>
               What We Do
             </Typography>
             <List>
@@ -273,46 +268,79 @@ const AboutUsPage = () => {
             </List>
           </Grid>
           
-          {/* Team Cards */}
-          <Grid item xs={12} md={5}>
-            {teamMembers.map((member, index) => (
-              <Card 
-                key={index} 
-                sx={{ 
-                  mb: 2, 
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                  borderRadius: 2
-                }}
-              >
-                <Grid container>
-                  <Grid item xs={4}>
-                    {member.image ? (
+          {/* Right side - Team Cards side by side */}
+          <Grid item xs={12} md={6}>
+            <Grid container spacing={2} sx={{ height: '100%' }}>
+              {teamMembers.map((member, index) => (
+                <Grid item xs={6} key={index} sx={{ height: 'fit-content' }}>
+                  <Card 
+                    sx={{ 
+                      height: '100%',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                      borderRadius: 2,
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }}
+                  >
+                    {/* Image Section */}
+                    <Box sx={{ height: 200, position: 'relative' }}>
+                      {member.image ? (
+                        <Box
+                          component="img"
+                          src={member.image}
+                          alt={member.name}
+                          sx={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            display: 'block'
+                          }}
+                          onError={(e) => {
+                            // Fallback to placeholder if image fails to load
+                            e.target.style.display = 'none';
+                            e.target.nextSibling.style.display = 'flex';
+                          }}
+                        />
+                      ) : null}
+                      {/* Fallback for image loading errors or no image */}
+                      {!member.image && (
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            height: '100%',
+                            bgcolor: member.name === "Leila Meyer" ? theme.palette.teal.main : '#f5f5f5'
+                          }}
+                        >
+                          {member.name === "Leila Meyer" ? (
+                            <Avatar 
+                              sx={{ 
+                                width: 80, 
+                                height: 80, 
+                                bgcolor: theme.palette.teal.main
+                              }}
+                            >
+                              <PersonIcon sx={{ fontSize: 40 }} />
+                            </Avatar>
+                          ) : (
+                            <RecyclingIcon size={80} color="black" />
+                          )}
+                        </Box>
+                      )}
+                      {/* Hidden fallback for image error */}
                       <Box
-                        component="img"
-                        src={member.image}
-                        alt={member.name}
                         sx={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                          display: 'block'
-                        }}
-                        onError={(e) => {
-                          // Fallback to placeholder if image fails to load
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
-                        }}
-                      />
-                    ) : null}
-                    {/* Fallback for image loading errors or no image */}
-                    {!member.image && (
-                      <Box
-                        sx={{
-                          display: 'flex',
+                          display: 'none',
                           justifyContent: 'center',
                           alignItems: 'center',
                           height: '100%',
-                          bgcolor: member.name === "Leila Meyer" ? theme.palette.teal.main : '#f5f5f5'
+                          bgcolor: member.name === "Leila Meyer" ? theme.palette.teal.main : '#f5f5f5',
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0
                         }}
                       >
                         {member.name === "Leila Meyer" ? (
@@ -329,35 +357,11 @@ const AboutUsPage = () => {
                           <RecyclingIcon size={80} color="black" />
                         )}
                       </Box>
-                    )}
-                    {/* Hidden fallback for image error */}
-                    <Box
-                      sx={{
-                        display: 'none',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100%',
-                        bgcolor: member.name === "Leila Meyer" ? theme.palette.teal.main : '#f5f5f5'
-                      }}
-                    >
-                      {member.name === "Leila Meyer" ? (
-                        <Avatar 
-                          sx={{ 
-                            width: 80, 
-                            height: 80, 
-                            bgcolor: theme.palette.teal.main
-                          }}
-                        >
-                          <PersonIcon sx={{ fontSize: 40 }} />
-                        </Avatar>
-                      ) : (
-                        <RecyclingIcon size={80} color="black" />
-                      )}
                     </Box>
-                  </Grid>
-                  <Grid item xs={8}>
-                    <CardContent>
-                      <Typography variant="h6" component="h3" gutterBottom>
+                    
+                    {/* Content Section */}
+                    <CardContent sx={{ flexGrow: 1, p: 2, textAlign: 'center' }}>
+                      <Typography variant="h6" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
                         {member.name === "Leila Meyer" ? (
                           <Box
                             component="a"
@@ -377,17 +381,17 @@ const AboutUsPage = () => {
                           member.name
                         )}
                       </Typography>
-                      <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                      <Typography variant="subtitle1" color="text.secondary" gutterBottom sx={{ fontWeight: 'medium' }}>
                         {member.title}
                       </Typography>
-                      <Typography variant="body2">
+                      <Typography variant="body2" sx={{ lineHeight: 1.4 }}>
                         {member.description}
                       </Typography>
                     </CardContent>
-                  </Grid>
+                  </Card>
                 </Grid>
-              </Card>
-            ))}
+              ))}
+            </Grid>
           </Grid>
         </Grid>
       </Container>
@@ -395,77 +399,85 @@ const AboutUsPage = () => {
       {/* Why It Matters Section */}
       <Box sx={{ bgcolor: '#f9f9f9', py: 8 }}>
         <Container maxWidth="lg">
-          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 4, textAlign: 'center' }}>
+          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 4 }}>
             Why Does It Matter?
           </Typography>
-          <Typography variant="body1" paragraph sx={{ textAlign: 'center', maxWidth: '800px', mx: 'auto', mb: 6 }}>
+          <Typography variant="body1" paragraph sx={{ maxWidth: '800px', mb: 6 }}>
             E-waste is one of the fastest-growing waste streams in the world. Toxic materials can leak into soil and water when improperly disposed of. By choosing RYGNeco, you're making a measurable difference. Our Company represents a future where electronics aren't discarded—they're revived, respected, and reintegrated into the world responsibly...
           </Typography>
           
-          {/* Benefits Grid */}
-          <Grid container spacing={4} sx={{ mt: 4 }}>
-            {benefits.map((benefit, index) => (
-              <Grid item xs={6} sm={3} key={index}>
+          {/* Benefits Grid with Rectangle Background */}
+          <Box 
+            sx={{ 
+              backgroundColor: '#EEF3F3', 
+              borderRadius: 2, 
+              p: 4, 
+              mt: 4 
+            }}
+          >
+            <Grid container spacing={4}>
+              {benefits.map((benefit, index) => (
+                <Grid item xs={6} sm={3} key={index}>
+                  <Box
+                    sx={{
+                      textAlign: 'center',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    <BenefitIcon type={benefit.type} />
+                    <Typography variant="subtitle1" sx={{ fontWeight: 'medium', mt: 2 }}>
+                      {benefit.title}
+                    </Typography>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </Container>
+      </Box>
+      
+      {/* Values Section */}
+      <Container maxWidth="lg" sx={{ py: 8 }}>
+        <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 4 }}>
+          Our Values
+        </Typography>
+        <Typography variant="body1" paragraph sx={{ maxWidth: '800px', mb: 6 }}>
+          At our company, our values guide every step we take. We believe in <strong>sustainability</strong> as a long-term commitment to the planet—not just a quick fix. Our work is grounded in <strong>community</strong>, partnering locally to create jobs, share knowledge, and spark meaningful change. With a focus on <strong>innovation</strong>, we're always looking for smarter, cleaner ways to manage e-waste through thoughtful design and technology. We take <strong>responsibility</strong> seriously, ensuring every device we collect is handled with care—ethically reused, repurposed, or recycled. And at the core of it all is <strong>equity</strong>—because access to clean, affordable technology should be a right, not a privilege.
+        </Typography>
+        
+        {/* Values Icons with Rectangle Background */}
+        <Box 
+          sx={{ 
+            backgroundColor: '#EEF3F3', 
+            borderRadius: 2, 
+            p: 4, 
+            mt: 4 
+          }}
+        >
+          <Grid container spacing={4}>
+            {values.map((value, index) => (
+              <Grid item xs={6} sm={2.4} key={index}>
                 <Box
                   sx={{
                     textAlign: 'center',
-                    p: 3,
-                    backgroundColor: 'rgba(255, 255, 255, 0.7)',
-                    borderRadius: 2,
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-                    height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center'
                   }}
                 >
-                  <BenefitIcon type={benefit.type} />
+                  <ValueIcon type={value.type} />
                   <Typography variant="subtitle1" sx={{ fontWeight: 'medium', mt: 2 }}>
-                    {benefit.title}
+                    {value.title}
                   </Typography>
                 </Box>
               </Grid>
             ))}
           </Grid>
-        </Container>
-      </Box>
-      
-      {/* Values Section */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mb: 4 }}>
-          Our Values
-        </Typography>
-        <Typography variant="body1" paragraph sx={{ textAlign: 'center', maxWidth: '800px', mx: 'auto', mb: 6 }}>
-          At our company, our values guide every step we take. We believe in <strong>sustainability</strong> as a long-term commitment to the planet—not just a quick fix. Our work is grounded in <strong>community</strong>, partnering locally to create jobs, share knowledge, and spark meaningful change. With a focus on <strong>innovation</strong>, we're always looking for smarter, cleaner ways to manage e-waste through thoughtful design and technology. We take <strong>responsibility</strong> seriously, ensuring every device we collect is handled with care—ethically reused, repurposed, or recycled. And at the core of it all is <strong>equity</strong>—because access to clean, affordable technology should be a right, not a privilege.
-        </Typography>
-        
-        {/* Values Icons */}
-        <Grid container spacing={4} sx={{ mt: 4 }}>
-          {values.map((value, index) => (
-            <Grid item xs={6} sm={2.4} key={index}>
-              <Box
-                sx={{
-                  textAlign: 'center',
-                  p: 3,
-                  backgroundColor: 'rgba(240, 245, 245, 0.8)',
-                  borderRadius: 2,
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                <ValueIcon type={value.type} />
-                <Typography variant="subtitle1" sx={{ fontWeight: 'medium', mt: 2 }}>
-                  {value.title}
-                </Typography>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
+        </Box>
       </Container>
       
       {/* Learn More Section */}
