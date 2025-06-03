@@ -18,7 +18,6 @@ import PlaceIcon from '@mui/icons-material/Place';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import XIcon from '@mui/icons-material/X';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import YouTubeIcon from '@mui/icons-material/YouTube';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
 // Hero image for contact page
@@ -256,26 +255,6 @@ const ContactPage = () => {
                   }}
                 >
                   <LinkedInIcon fontSize="small" />
-                </Link>
-                <Link 
-                  href="https://youtube.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  sx={{ 
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: 32,
-                    height: 32,
-                    borderRadius: '50%',
-                    bgcolor: theme.palette.teal.main,
-                    color: 'white',
-                    '&:hover': {
-                      bgcolor: theme.palette.teal.dark
-                    }
-                  }}
-                >
-                  <YouTubeIcon fontSize="small" />
                 </Link>
               </Box>
             </Box>

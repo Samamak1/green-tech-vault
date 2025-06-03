@@ -167,13 +167,40 @@ const RecyclingOffersPage = () => {
         </Container>
       </HeroSection>
       
-      {/* Recycling Made Accessible Section with Image */}
+      {/* Movement Section - Moved to come first */}
+      <Container maxWidth="lg" sx={{ py: 8 }}>
+        <Grid container spacing={6}>
+          <Grid item xs={12} md={7}>
+            <Typography variant="h3" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
+              Join The Movement<br />
+              Towards Cleaner Tech
+            </Typography>
+            <Typography variant="body1" paragraph>
+              Be part of the solution and help reduce electronic waste one device at a time. Our mission is to create a sustainable future for all.
+            </Typography>
+            
+            <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold', mt: 4 }}>
+              Why E-Waste? Why Us?
+            </Typography>
+            <Typography variant="body1" paragraph>
+              The sad reality that millions of tons of e-waste ends up in landfills each year. Not only does this create environmental hazards, but it's a waste of valuable resources. At EcoCycle Solutions, we believe that sustainability begins with proper e-waste management. Our team has the expertise to help recycle your old electronics that are otherwise destined for the landfill, and work with you to create a recycling program that can make a substantial positive impact. Don't let the chance for positive change slip away—work with us today!
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={5} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Box sx={{ width: '100%', maxWidth: 300 }}>
+              <RecyclingIcon size={300} color="black" />
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+      
+      {/* Recycling Made Accessible Section with Updated Image */}
       <Container maxWidth="lg" sx={{ py: 8 }}>
         <Grid container spacing={6} alignItems="center">
           <Grid item xs={12} md={6}>
             <Box
               component="img"
-              src="https://images.unsplash.com/photo-1571772996211-2f02c9727629?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" // Recycling workers stock photo
+              src="/images/elly-filho-prFmxl4FPP4-unsplash.jpg" // Updated to use the new worker image
               alt="Recycling team at work"
               sx={{
                 width: '100%',
@@ -210,33 +237,6 @@ const RecyclingOffersPage = () => {
               you're making. It's all part of our commitment to transparency and 
               community impact.
             </Typography>
-          </Grid>
-        </Grid>
-      </Container>
-      
-      {/* Movement Section */}
-      <Container maxWidth="lg" sx={{ py: 6 }}>
-        <Grid container spacing={6}>
-          <Grid item xs={12} md={7}>
-            <Typography variant="h3" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
-              Join The Movement<br />
-              Towards Cleaner Tech
-            </Typography>
-            <Typography variant="body1" paragraph>
-              Be part of the solution and help reduce electronic waste one device at a time. Our mission is to create a sustainable future for all.
-            </Typography>
-            
-            <Typography variant="h5" component="h3" gutterBottom sx={{ fontWeight: 'bold', mt: 4 }}>
-              Why E-Waste? Why Us?
-            </Typography>
-            <Typography variant="body1" paragraph>
-              The sad reality that millions of tons of e-waste ends up in landfills each year. Not only does this create environmental hazards, but it's a waste of valuable resources. At EcoCycle Solutions, we believe that sustainability begins with proper e-waste management. Our team has the expertise to help recycle your old electronics that are otherwise destined for the landfill, and work with you to create a recycling program that can make a substantial positive impact. Don't let the chance for positive change slip away—work with us today!
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={5} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Box sx={{ width: '100%', maxWidth: 300 }}>
-              <RecyclingIcon size={300} color="black" />
-            </Box>
           </Grid>
         </Grid>
       </Container>

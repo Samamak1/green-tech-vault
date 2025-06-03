@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import YouTubeIcon from '@mui/icons-material/YouTube';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import Logo from '../branding/Logo';
 import { Link as RouterLink } from 'react-router-dom';
@@ -48,8 +47,7 @@ const Footer = () => {
     { icon: <InstagramIcon />, url: 'https://www.instagram.com/rygneco/' },
     { icon: <FacebookIcon />, url: 'https://www.facebook.com/people/RYGNeco/61575273422314/?mibextid=LQQJ4d&rdid=jOGvLhXNFJslFT3H&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F19DdG1NYvL%2F%3Fmibextid%3DLQQJ4d' },
     { icon: <XIcon />, url: 'https://x.com/RYGNeco' },
-    { icon: <LinkedInIcon />, url: 'https://linkedin.com' },
-    { icon: <YouTubeIcon />, url: 'https://youtube.com' }
+    { icon: <LinkedInIcon />, url: 'https://linkedin.com' }
   ];
   
   return (
@@ -76,7 +74,7 @@ const Footer = () => {
                   alignItems: 'flex-start',
                   textDecoration: 'none',
                   color: 'white',
-                  mt: '-40px'
+                  mt: '-8px'
                 }}
               >
                 <Box 
@@ -155,7 +153,7 @@ const Footer = () => {
               ))}
             </Stack>
             
-            {/* Social Media Icons */}
+            {/* Social Media Icons - YouTube removed */}
             <Stack direction="row" spacing={1} sx={{ mt: 4 }}>
               {socialLinks.map((social, index) => (
                 <Link
