@@ -60,25 +60,80 @@ const ValueIcon = ({ type }) => {
   
   const colors = getColors(type);
   
-  let path = "";
+  let iconComponent = null;
   switch(type) {
     case "sustainability":
-      path = "M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z";
+      iconComponent = (
+        <Box
+          component="svg"
+          width="50"
+          height="50"
+          viewBox="0 0 24 24"
+          fill="white"
+        >
+          {/* Recycle/circular arrow icon */}
+          <path d="M19.3,16.9C20.4,16.9 21.1,15.8 20.7,14.8L17.3,7.4C16.9,6.4 15.7,6.4 15.3,7.4L13.8,10.9L9.9,3.4C9.5,2.4 8.3,2.4 7.9,3.4L2.3,15.4C1.9,16.4 2.6,17.5 3.7,17.5H7.6L5.5,21.2C5.1,22.2 5.8,23.3 6.9,23.3C7.6,23.3 8.1,22.9 8.4,22.3L12,15L15.6,22.3C15.9,22.9 16.4,23.3 17.1,23.3C18.2,23.3 18.9,22.2 18.5,21.2L16.4,17.5H19.3V16.9Z" />
+        </Box>
+      );
       break;
     case "community":
-      path = "M16 17V19H2V17S2 13 9 13 16 17 16 17M12.5 7.5A3.5 3.5 0 1 0 9 11A3.5 3.5 0 0 0 12.5 7.5M15.94 13A5.32 5.32 0 0 1 18 17V19H22V17S22 13.37 15.94 13M15 4A3.39 3.39 0 0 0 13.07 4.59A5 5 0 0 1 13.07 10.41A3.39 3.39 0 0 0 15 11A3.5 3.5 0 0 0 15 4Z";
+      iconComponent = (
+        <Box
+          component="svg"
+          width="50"
+          height="50"
+          viewBox="0 0 24 24"
+          fill="white"
+        >
+          {/* Group/people icon */}
+          <path d="M16 4C18.2 4 20 5.8 20 8S18.2 12 16 12 12 10.2 12 8 13.8 4 16 4M16 14C20.4 14 24 15.8 24 18V20H8V18C8 15.8 11.6 14 16 14M8 4C10.2 4 12 5.8 12 8S10.2 12 8 12 4 10.2 4 8 5.8 4 8 4M8 14C12.4 14 16 15.8 16 18V20H0V18C0 15.8 3.6 14 8 14Z" />
+        </Box>
+      );
       break;
     case "innovation":
-      path = "M12,2A7,7 0 0,0 5,9C5,11.38 6.19,13.47 8,14.74V17A1,1 0 0,0 9,18H15A1,1 0 0,0 16,17V14.74C17.81,13.47 19,11.38 19,9A7,7 0 0,0 12,2M9,21A1,1 0 0,0 10,22H14A1,1 0 0,0 15,21V20H9V21Z";
+      iconComponent = (
+        <Box
+          component="svg"
+          width="50"
+          height="50"
+          viewBox="0 0 24 24"
+          fill="white"
+        >
+          {/* Lightbulb/idea icon */}
+          <path d="M12,2A7,7 0 0,0 5,9C5,11.38 6.19,13.47 8,14.74V17A1,1 0 0,0 9,18H15A1,1 0 0,0 16,17V14.74C17.81,13.47 19,11.38 19,9A7,7 0 0,0 12,2M9,21A1,1 0 0,0 10,22H14A1,1 0 0,0 15,21V20H9V21Z" />
+        </Box>
+      );
       break;
     case "responsibility":
-      path = "M9,7H15A3,3 0 0,1 18,10A3,3 0 0,1 15,13H13V16H15A1,1 0 0,1 16,17A1,1 0 0,1 15,18H9A1,1 0 0,1 8,17A1,1 0 0,1 9,16H11V13H9A3,3 0 0,1 6,10A3,3 0 0,1 9,7Z";
+      iconComponent = (
+        <Box
+          component="svg"
+          width="50"
+          height="50"
+          viewBox="0 0 24 24"
+          fill="white"
+        >
+          {/* Shield/protection icon */}
+          <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V16.2C14.8,17.2 14,18 13,18H11C10,18 9.2,17.2 9.2,16.2V10C9.2,8.6 10.6,7 12,7Z" />
+        </Box>
+      );
       break;
     case "equity":
-      path = "M12,3L2,12H5V20H19V12H22L12,3M12,8.75L17,12.25V18H15V14H9V18H7V12.25L12,8.75Z";
+      iconComponent = (
+        <Box
+          component="svg"
+          width="50"
+          height="50"
+          viewBox="0 0 24 24"
+          fill="white"
+        >
+          {/* Balance/scale icon */}
+          <path d="M7,15H9C9,16.08 9.37,17 10,17.5V22H8V19H6V22H4V17.5C4.63,17 5,16.08 5,15H7M16,15H18C18,16.08 18.37,17 19,17.5V22H17V19H15V22H13V17.5C13.63,17 14,16.08 14,15H16M7.5,14L4.5,5H9.5L6.5,14H7.5M16.5,14L13.5,5H18.5L15.5,14H16.5M11,14V10H12.5V14H14V8.5H10V14H11Z" />
+        </Box>
+      );
       break;
     default:
-      path = "";
+      iconComponent = null;
   }
   
   return (
@@ -95,15 +150,7 @@ const ValueIcon = ({ type }) => {
           position: 'relative'
         }}
       >
-        <Box
-          component="svg"
-          width="50"
-          height="50"
-          viewBox="0 0 24 24"
-          fill="white"
-        >
-          <path d={path} />
-        </Box>
+        {iconComponent}
       </Box>
     </Box>
   );
@@ -131,22 +178,66 @@ const BenefitIcon = ({ type }) => {
   
   const colors = getColors(type);
   
-  let path = "";
+  let iconComponent = null;
   switch(type) {
     case "reducing":
-      path = "M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V19H5V5H19Z";
+      iconComponent = (
+        <Box
+          component="svg"
+          width="50"
+          height="50"
+          viewBox="0 0 24 24"
+          fill="white"
+        >
+          {/* Waste bin icon */}
+          <path d="M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19M8,9H10V19H8V9M14,9H16V19H14V9M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z" />
+        </Box>
+      );
       break;
     case "conserving":
-      path = "M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z";
+      iconComponent = (
+        <Box
+          component="svg"
+          width="50"
+          height="50"
+          viewBox="0 0 24 24"
+          fill="white"
+        >
+          {/* Leaf/nature icon */}
+          <path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z" />
+        </Box>
+      );
       break;
     case "circular":
-      path = "M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M16.18,7.76L15.12,8.82L14.06,7.76L13,8.82L14.06,9.88L13,10.94L14.06,12L15.12,10.94L16.18,12L17.24,10.94L16.18,9.88L17.24,8.82L16.18,7.76M7.82,12L8.88,10.94L9.94,12L11,10.94L9.94,9.88L11,8.82L9.94,7.76L8.88,8.82L7.82,7.76L6.76,8.82L7.82,9.88L6.76,10.94L7.82,12Z";
+      iconComponent = (
+        <Box
+          component="svg"
+          width="50"
+          height="50"
+          viewBox="0 0 24 24"
+          fill="white"
+        >
+          {/* Circular arrow/recycling icon */}
+          <path d="M19,8L15,12H18A6,6 0 0,1 12,18C9.94,18 8.19,16.72 7.39,15H5.27C6.28,18.6 9.74,21 12,21A9,9 0 0,0 21,12H24L20,8H19M12,3C14.05,3 15.81,4.28 16.61,6H18.73C17.72,2.4 14.26,0 12,0A9,9 0 0,0 3,9H0L4,13H5L9,9H6A6,6 0 0,1 12,3Z" />
+        </Box>
+      );
       break;
     case "spreading":
-      path = "M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z";
+      iconComponent = (
+        <Box
+          component="svg"
+          width="50"
+          height="50"
+          viewBox="0 0 24 24"
+          fill="white"
+        >
+          {/* Knowledge/book icon */}
+          <path d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z" />
+        </Box>
+      );
       break;
     default:
-      path = "";
+      iconComponent = null;
   }
   
   return (
@@ -163,15 +254,7 @@ const BenefitIcon = ({ type }) => {
           position: 'relative'
         }}
       >
-        <Box
-          component="svg"
-          width="50"
-          height="50"
-          viewBox="0 0 24 24"
-          fill="white"
-        >
-          <path d={path} />
-        </Box>
+        {iconComponent}
       </Box>
     </Box>
   );
@@ -279,11 +362,12 @@ const AboutUsPage = () => {
                       boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                       borderRadius: 2,
                       display: 'flex',
-                      flexDirection: 'column'
+                      flexDirection: 'column',
+                      minHeight: '400px' // Ensure consistent minimum height
                     }}
                   >
                     {/* Image Section */}
-                    <Box sx={{ height: 200, position: 'relative' }}>
+                    <Box sx={{ height: 250, position: 'relative' }}>
                       {member.image ? (
                         <Box
                           component="img"
@@ -293,6 +377,7 @@ const AboutUsPage = () => {
                             width: '100%',
                             height: '100%',
                             objectFit: 'cover',
+                            objectPosition: 'top center', // Focus on the head/face area
                             display: 'block'
                           }}
                           onError={(e) => {
@@ -405,16 +490,17 @@ const AboutUsPage = () => {
           <Typography variant="body1" paragraph sx={{ maxWidth: '800px', mb: 6 }}>
             E-waste is one of the fastest-growing waste streams in the world. Toxic materials can leak into soil and water when improperly disposed of. By choosing RYGNeco, you're making a measurable difference. Our Company represents a future where electronics aren't discarded—they're revived, respected, and reintegrated into the world responsibly...
           </Typography>
-          
-          {/* Benefits Grid with Rectangle Background */}
-          <Box 
-            sx={{ 
-              backgroundColor: '#EEF3F3', 
-              borderRadius: 2, 
-              p: 4, 
-              mt: 4 
-            }}
-          >
+        </Container>
+        
+        {/* Benefits Grid with Full Width Rectangle Background */}
+        <Box 
+          sx={{ 
+            backgroundColor: '#EEF3F3', 
+            py: 4,
+            mt: 4 
+          }}
+        >
+          <Container maxWidth="lg">
             <Grid container spacing={4}>
               {benefits.map((benefit, index) => (
                 <Grid item xs={6} sm={3} key={index}>
@@ -435,8 +521,8 @@ const AboutUsPage = () => {
                 </Grid>
               ))}
             </Grid>
-          </Box>
-        </Container>
+          </Container>
+        </Box>
       </Box>
       
       {/* Values Section */}
@@ -447,16 +533,17 @@ const AboutUsPage = () => {
         <Typography variant="body1" paragraph sx={{ maxWidth: '800px', mb: 6 }}>
           At our company, our values guide every step we take. We believe in <strong>sustainability</strong> as a long-term commitment to the planet—not just a quick fix. Our work is grounded in <strong>community</strong>, partnering locally to create jobs, share knowledge, and spark meaningful change. With a focus on <strong>innovation</strong>, we're always looking for smarter, cleaner ways to manage e-waste through thoughtful design and technology. We take <strong>responsibility</strong> seriously, ensuring every device we collect is handled with care—ethically reused, repurposed, or recycled. And at the core of it all is <strong>equity</strong>—because access to clean, affordable technology should be a right, not a privilege.
         </Typography>
-        
-        {/* Values Icons with Rectangle Background */}
-        <Box 
-          sx={{ 
-            backgroundColor: '#EEF3F3', 
-            borderRadius: 2, 
-            p: 4, 
-            mt: 4 
-          }}
-        >
+      </Container>
+      
+      {/* Values Icons with Full Width Rectangle Background */}
+      <Box 
+        sx={{ 
+          backgroundColor: '#EEF3F3', 
+          py: 4,
+          mb: 8
+        }}
+      >
+        <Container maxWidth="lg">
           <Grid container spacing={4}>
             {values.map((value, index) => (
               <Grid item xs={6} sm={2.4} key={index}>
@@ -477,8 +564,8 @@ const AboutUsPage = () => {
               </Grid>
             ))}
           </Grid>
-        </Box>
-      </Container>
+        </Container>
+      </Box>
       
       {/* Learn More Section */}
       <Box sx={{ bgcolor: '#f5f5f5', py: 6 }}>

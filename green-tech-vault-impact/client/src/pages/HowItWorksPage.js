@@ -455,31 +455,11 @@ const HowItWorksPage = () => {
                             />
                           </ListItemIcon>
                           <ListItemText 
-                            primary={
-                              <RouterLink 
-                                to={`/e-waste-item/${item.toLowerCase().replace(/\s+/g, '-')}`} 
-                                style={{ 
-                                  color: 'inherit', 
-                                  textDecoration: 'none'
-                                }}
-                                sx={{
-                                  '&:hover': {
-                                    textDecoration: 'underline',
-                                    color: theme.palette.teal.main
-                                  }
-                                }}
-                              >
-                                {item}
-                              </RouterLink>
-                            } 
+                            primary={item} 
                             primaryTypographyProps={{ 
                               variant: 'body2',
                               sx: { 
-                                fontWeight: 'medium',
-                                '& a:hover': {
-                                  color: theme.palette.teal.main,
-                                  textDecoration: 'underline'
-                                }
+                                fontWeight: 'medium'
                               }
                             }}
                           />
