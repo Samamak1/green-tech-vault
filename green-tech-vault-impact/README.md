@@ -180,4 +180,32 @@ This project is proprietary and owned by Green Tech Vault.
 
 Green Tech Vault - [contact@greentechvault.com](mailto:contact@greentechvault.com)
 
-Project Link: [https://github.com/greentechvault/environmental-impact-tracker](https://github.com/greentechvault/environmental-impact-tracker) 
+Project Link: [https://github.com/greentechvault/environmental-impact-tracker](https://github.com/greentechvault/environmental-impact-tracker)
+
+<!-- Last updated: 2024-12-19 with design fixes for footer, parallax, and hero section -->
+
+## Features
+
+- React-based frontend with Material-UI
+- Node.js/Express backend
+- MongoDB database
+- E-waste tracking and reporting
+- User management system
+- Environmental impact calculations
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Install client dependencies
+cd client && npm install
+
+# Run development server
+npm run dev:full
+```
+
+## Deployment
+
+The application is deployed on Render with automatic builds from the main branch. 
