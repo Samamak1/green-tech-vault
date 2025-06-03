@@ -1,0 +1,9 @@
+Deployment trigger file created on 2024-12-19
+
+This file contains all the recent design changes:
+- Footer logo alignment fixed
+- Parallax background image positioning improved
+- Hero section with 40% opacity and off-center positioning
+- Custom icon colors for services and process steps
+
+All changes are ready for deployment to Render. 
