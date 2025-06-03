@@ -10,14 +10,16 @@ import {
   TableHead,
   TableRow,
   Grid,
+  LinearProgress
+} from '@mui/material';
+import {
   Timeline,
   TimelineItem,
   TimelineSeparator,
   TimelineConnector,
   TimelineContent,
-  TimelineDot,
-  LinearProgress
-} from '@mui/material';
+  TimelineDot
+} from '@mui/lab';
 
 const AssetTracking = () => {
   const sampleAssetJourney = [
