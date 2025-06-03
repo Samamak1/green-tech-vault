@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Container, Typography, Grid, Button, Paper, Card, CardContent, useTheme } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled, keyframes } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
 
 // Import Material-UI icons
@@ -17,6 +17,56 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 // Import our custom components
 import RecyclingIconCustom from '../components/branding/RecyclingIcon';
 import ParallaxStatsSection from '../components/layout/ParallaxStatsSection';
+
+// Animation for dropdown
+const dropDown = keyframes`
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
+// Styled animated content box
+const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
+  backgroundColor: 'white',
+  borderRadius: '0 0 20px 20px',
+  padding: theme.spacing(6),
+  maxWidth: '600px',
+  margin: '0 auto',
+  position: 'relative',
+  zIndex: 2,
+  animation: animate ? `${dropDown} 1.2s ease-out forwards` : 'none',
+  transform: animate ? 'translateY(0)' : 'translateY(-100%)',
+  opacity: animate ? 1 : 0,
+  boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+}));
+
+// Hero section with background image
+const HeroSection = styled(Box)({
+  position: 'relative',
+  minHeight: '100vh',
+  backgroundImage: 'url(https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=2025&q=80)', // Circuit board background
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  display: 'flex',
+  alignItems: 'flex-start',
+  paddingTop: '0',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    zIndex: 1
+  }
+});
 
 // Styled teal-colored section
 const TealSection = styled(Box)(({ theme }) => ({
@@ -89,7 +139,17 @@ const ImpactCard = styled(Paper)(({ theme }) => ({
 
 const NewLandingPage = () => {
   const theme = useTheme();
-  
+  const [animate, setAnimate] = useState(false);
+
+  // Trigger animation when component mounts
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimate(true);
+    }, 500); // Start animation after 500ms
+
+    return () => clearTimeout(timer);
+  }, []);
+
   // Add useEffect to log image loading status
   React.useEffect(() => {
     // Check if the stock chart image exists
@@ -108,47 +168,47 @@ const NewLandingPage = () => {
   // Service offerings data
   const services = [
     {
-      title: "Business Pick-Up Services",
-      description: "Scheduled or on-demand e-waste collection from your business location.",
-      icon: <BusinessIcon sx={{ fontSize: 40, color: 'white' }} />
+      title: "Pickup Service",
+      description: "Convenient collection from your location with flexible scheduling",
+      icon: <LocalShippingIcon fontSize="large" />
     },
     {
       title: "Secure Data Destruction",
-      description: "Certified wiping or shredding with documentation for your records.",
-      icon: <DeleteIcon sx={{ fontSize: 40, color: 'white' }} />
+      description: "Professional data wiping and destruction with certified reporting",
+      icon: <SecurityIcon fontSize="large" />
     },
     {
-      title: "Certified Recycling",
-      description: "Environmentally responsible processing that meets all regulations.",
-      icon: <VerifiedIcon sx={{ fontSize: 40, color: 'white' }} />
+      title: "Responsible Recycling",
+      description: "Eco-friendly processing that recovers valuable materials",
+      icon: <RecyclingIcon fontSize="large" />
     },
     {
-      title: "Compliance Documentation",
-      description: "Clear, itemized reports that prove your disposal met all audits and tracking.",
-      icon: <DescriptionIcon sx={{ fontSize: 40, color: 'white' }} />
+      title: "Corporate Solutions",
+      description: "Tailored programs for businesses of all sizes",
+      icon: <BusinessIcon fontSize="large" />
     }
   ];
 
-  // Process steps data
+  // Process steps
   const processSteps = [
     {
       title: "Schedule",
-      description: "Schedule a pickup for your e-waste through our easy online form.",
+      description: "Book your pickup online or contact us directly",
       icon: <AccessTimeIcon fontSize="large" />
     },
     {
       title: "Collect",
-      description: "Our team collects your devices from your location at the scheduled time.",
+      description: "We safely collect your electronic devices",
       icon: <LocalShippingIcon fontSize="large" />
     },
     {
       title: "Secure",
-      description: "All data is securely wiped from all devices following industry standards.",
-      icon: <SecurityIcon fontSize="large" />
+      description: "Data destruction with certified reporting",
+      icon: <VerifiedIcon fontSize="large" />
     },
     {
       title: "Process",
-      description: "Devices are refurbished, repurposed, or responsibly recycled.",
+      description: "Responsible recycling or refurbishment",
       icon: <RecyclingIcon fontSize="large" />
     }
   ];
@@ -156,36 +216,20 @@ const NewLandingPage = () => {
   return (
     <Box>
       {/* Hero Section */}
-      <Box sx={{ 
-        background: 'url(/images/e-waste-hero.png) no-repeat center top',
-        backgroundSize: 'cover',
-        position: 'relative',
-        pt: 6,
-        pb: 6,
-        height: '500px', // Fixed height to crop the image
-        display: 'flex',
-        alignItems: 'center'
-      }}>
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
-          <Box sx={{ 
-            p: 4, 
-            backgroundColor: 'rgba(255, 255, 255, 0.85)', 
-            borderRadius: 2,
-            maxWidth: 700
-          }}>
+      <HeroSection>
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 8 }}>
+          <AnimatedContentBox animate={animate}>
             <Typography variant="subtitle1" component="div" gutterBottom color="text.primary">
-              Welcome To EcoCycle Solutions
+              Welcome to RYGNeco
             </Typography>
-            <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 2, color: 'black' }}>
-              Responsible E-Waste<br />
-              Recycling for a<br />
-              Cleaner Tomorrow!
+            <Typography variant="h2" component="h1" gutterBottom color="text.primary" sx={{ fontWeight: 'bold' }}>
+              Responsible E-Waste Recycling for a Cleaner Tomorrow!
             </Typography>
-            <Typography variant="body1" sx={{ mb: 4, fontSize: '1.1rem', color: 'black' }}>
-              At EcoCycle Solutions, we make it easy for businesses and individuals to safely
-              and responsibly recycle their electronic waste. From outdated computers to
-              broken printers and everything in-between — we help reduce landfill waste,
-              recover valuable materials, and protect the environment.
+            <Typography variant="body1" paragraph color="text.primary" sx={{ mb: 4 }}>
+              At RYGNeco, we make it easy for businesses and individuals to safely and 
+              responsibly recycle their electronic waste. From outdated computers to broken 
+              printers and everything in between — we help reduce landfill waste, recover 
+              valuable materials, and protect the environment.
             </Typography>
             <Button 
               variant="contained" 
@@ -193,9 +237,8 @@ const NewLandingPage = () => {
               component={RouterLink}
               to="/schedule-pickup"
               sx={{ 
-                bgcolor: theme.palette.teal.main, 
-                px: 4, 
-                py: 1.5,
+                bgcolor: theme.palette.teal.main,
+                color: 'white',
                 fontWeight: 'bold',
                 '&:hover': {
                   bgcolor: theme.palette.teal.dark
@@ -204,9 +247,9 @@ const NewLandingPage = () => {
             >
               SCHEDULE A PICKUP
             </Button>
-          </Box>
+          </AnimatedContentBox>
         </Container>
-      </Box>
+      </HeroSection>
       
       {/* What We Offer Section */}
       <Container maxWidth="lg" sx={{ py: 8 }}>

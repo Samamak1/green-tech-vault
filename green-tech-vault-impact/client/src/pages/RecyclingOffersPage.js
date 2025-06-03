@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Box, 
   Container, 
@@ -9,6 +9,7 @@ import {
   Button,
   useTheme
 } from '@mui/material';
+import { styled, keyframes } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import ComputerIcon from '@mui/icons-material/Computer';
@@ -23,8 +24,68 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'; // For challenges
 // Import components
 import RecyclingIcon from '../components/branding/RecyclingIcon';
 
+// Animation for dropdown
+const dropDown = keyframes`
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
+// Styled animated content box
+const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
+  backgroundColor: 'white',
+  borderRadius: '0 0 20px 20px',
+  padding: theme.spacing(6),
+  maxWidth: '600px',
+  margin: '0 auto',
+  position: 'relative',
+  zIndex: 2,
+  animation: animate ? `${dropDown} 1.2s ease-out forwards` : 'none',
+  transform: animate ? 'translateY(0)' : 'translateY(-100%)',
+  opacity: animate ? 1 : 0,
+  boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+}));
+
+// Hero section with background image
+const HeroSection = styled(Box)({
+  position: 'relative',
+  minHeight: '100vh',
+  backgroundImage: 'url(https://images.unsplash.com/photo-1601972599748-4a2ce8e8f6c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80)', // E-waste phones background
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  display: 'flex',
+  alignItems: 'flex-start',
+  paddingTop: '0',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    zIndex: 1
+  }
+});
+
 const RecyclingOffersPage = () => {
   const theme = useTheme();
+  const [animate, setAnimate] = useState(false);
+
+  // Trigger animation when component mounts
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimate(true);
+    }, 500); // Start animation after 500ms
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Array of recycling offers
   const recyclingOffers = [
@@ -52,71 +113,106 @@ const RecyclingOffersPage = () => {
 
   return (
     <Box>
-      {/* Hero Section with Call to Action */}
-      <Box 
-        sx={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          color: 'white',
-          position: 'relative',
-          pt: 8,
-          pb: 8,
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'rgba(0,0,0,0.6)',
-            zIndex: 1
-          }
-        }}
-      >
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
-          <Grid container spacing={4} alignItems="center">
-            <Grid item xs={12} md={7}>
-              <Typography variant="h2" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
-                Join Us Today!
-              </Typography>
-              <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', mb: 4 }}>
-                Ready to make a real impact? Sign up right now to start recycling your e-waste and turn your commitment to a greener future into action!
-              </Typography>
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                <Button 
-                  variant="contained" 
-                  color="primary"
-                  size="large"
-                  sx={{ 
-                    fontWeight: 'bold',
-                    px: 4,
-                    py: 1
-                  }}
-                >
-                  REGISTER
-                </Button>
-                <Button 
-                  variant="outlined"
-                  sx={{ 
-                    color: 'white',
-                    borderColor: 'white',
-                    '&:hover': {
-                      borderColor: 'white',
-                      backgroundColor: 'rgba(255,255,255,0.1)'
-                    },
-                    fontWeight: 'bold',
-                    px: 4,
-                    py: 1
-                  }}
-                >
-                  CLIENT LOGIN
-                </Button>
-              </Box>
-            </Grid>
-          </Grid>
+      {/* Hero Section with Animated Dropdown */}
+      <HeroSection>
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 8 }}>
+          <AnimatedContentBox animate={animate}>
+            <Typography variant="h2" component="h1" gutterBottom color="text.primary" sx={{ fontWeight: 'bold' }}>
+              Join Us Today!
+            </Typography>
+            <Typography variant="body1" paragraph color="text.primary" sx={{ mb: 4 }}>
+              Ready to make a real impact? Sign up or login now to start recycling your e-waste and track 
+              your contribution to a greener, cleaner future!
+            </Typography>
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
+              <Button 
+                variant="contained" 
+                size="large"
+                component={RouterLink}
+                to="/register"
+                sx={{ 
+                  bgcolor: theme.palette.teal.main,
+                  color: 'white',
+                  fontWeight: 'bold',
+                  px: 4,
+                  py: 1.5,
+                  '&:hover': {
+                    bgcolor: theme.palette.teal.dark
+                  }
+                }}
+              >
+                REGISTER
+              </Button>
+              <Button 
+                variant="outlined"
+                size="large"
+                component={RouterLink}
+                to="/login"
+                sx={{ 
+                  color: theme.palette.teal.main,
+                  borderColor: theme.palette.teal.main,
+                  fontWeight: 'bold',
+                  px: 4,
+                  py: 1.5,
+                  '&:hover': {
+                    borderColor: theme.palette.teal.dark,
+                    backgroundColor: 'rgba(0,0,0,0.04)'
+                  }
+                }}
+              >
+                CLIENT LOGIN
+              </Button>
+            </Box>
+          </AnimatedContentBox>
         </Container>
-      </Box>
+      </HeroSection>
+      
+      {/* Recycling Made Accessible Section with Image */}
+      <Container maxWidth="lg" sx={{ py: 8 }}>
+        <Grid container spacing={6} alignItems="center">
+          <Grid item xs={12} md={6}>
+            <Box
+              component="img"
+              src="https://images.unsplash.com/photo-1571772996211-2f02c9727629?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" // Recycling workers stock photo
+              alt="Recycling team at work"
+              sx={{
+                width: '100%',
+                height: 'auto',
+                borderRadius: 2,
+                boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
+              Recycling made Accessible
+            </Typography>
+            <Typography variant="body1" paragraph>
+              Whether you're cleaning out your drawers at home or handling large-scale 
+              e-waste for your business, we make it simple to get your unwanted devices 
+              to the right place. Our online platform connects individuals, small 
+              businesses, and large companies to make e-waste recycling both accessible 
+              and rewarding. But we're not just about the "pick-up-and-go" — we're about 
+              getting everyone involved, sharing the knowledge, and being part of a 
+              global solution.
+            </Typography>
+            
+            <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mt: 6 }}>
+              Proof That Progress is Possible
+            </Typography>
+            <Typography variant="body1" paragraph>
+              What sets us apart? At [Company Name], we track every piece of e-waste 
+              we collect and send out meaningful, easy-to-read reports to our clients. 
+              Want to know how much CO2 you saved by recycling your devices? Curious 
+              about how many materials were recovered or how many trees were planted 
+              thanks to your recycling efforts? We've got you covered! We give you the 
+              numbers and the feel-good facts that show just how much of a difference 
+              you're making. It's all part of our commitment to transparency and 
+              community impact.
+            </Typography>
+          </Grid>
+        </Grid>
+      </Container>
       
       {/* Movement Section */}
       <Container maxWidth="lg" sx={{ py: 6 }}>
@@ -144,18 +240,6 @@ const RecyclingOffersPage = () => {
           </Grid>
         </Grid>
       </Container>
-      
-      {/* Recycling Made Accessible Section */}
-      <Box sx={{ bgcolor: '#f5f5f5', py: 6 }}>
-        <Container maxWidth="lg">
-          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 4 }}>
-            Recycling made Accessible
-          </Typography>
-          <Typography variant="body1" paragraph>
-            Whether you're clearing out your drawers at home or handling large-scale e-waste for your business, we make it easier to get your e-waste recycled. With free drop-offs, scheduled pickups, and certified data destruction, we make responsible e-waste disposal simple and secure. Contact us today to learn how our services can be tailored to your specific needs, or check out our recycling events and programs.
-          </Typography>
-        </Container>
-      </Box>
       
       {/* Recycling Offers Section */}
       <Box sx={{ bgcolor: '#f5f5f5', py: 6 }}>

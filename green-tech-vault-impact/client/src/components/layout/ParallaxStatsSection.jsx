@@ -85,7 +85,7 @@ const ParallaxStatsSection = () => {
       <ParallaxBg
         ref={parallaxRef}
         sx={{
-          backgroundImage: 'url(/images/stock-chart.jpg)',
+          backgroundImage: 'url(https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80)',
           backgroundColor: '#2A8784', // Teal fallback color that matches theme
         }}
       />
