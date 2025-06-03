@@ -232,7 +232,7 @@ const NewLandingPage = () => {
               Welcome to RYGNeco
             </Typography>
             <Typography variant="h2" component="h1" gutterBottom color="text.primary" sx={{ fontWeight: 'bold' }}>
-              Responsible E-Waste Recycling for a Cleaner Tomorrow!
+              🚀 CACHE TEST 2024 🚀 Responsible E-Waste Recycling for a Cleaner Tomorrow!
             </Typography>
             <Typography variant="body1" paragraph color="text.primary" sx={{ mb: 4 }}>
               At RYGNeco, we make it easy for businesses and individuals to safely and 
