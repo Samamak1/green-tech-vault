@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
+const pickupRoutes = require('./routes/pickupRoutes');
 
 // Load environment variables
 dotenv.config();
@@ -30,6 +31,7 @@ mongoose
 
 // API Routes
 app.use('/api/messages', messageRoutes);
+app.use('/api/pickups', pickupRoutes);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {

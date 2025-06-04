@@ -51,7 +51,7 @@ const HeroSection = styled(Box)(({ imageLoaded }) => ({
   position: 'relative',
   minHeight: '100vh',
   backgroundImage: imageLoaded 
-    ? `url('/images/circuit-board-hero.jpg.png'), url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`
+    ? `url('/images/circuit-board-hero.jpg')`  // Changed extension from .jpg.png to .jpg
     : `linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)`, // Fallback gradient
   backgroundSize: 'cover',
   backgroundPosition: 'center',
@@ -68,7 +68,7 @@ const HeroSection = styled(Box)(({ imageLoaded }) => ({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: imageLoaded ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.3)',
+    backgroundColor: imageLoaded ? 'rgba(0, 0, 0, 0.4)' : 'rgba(0, 0, 0, 0.3)',
     zIndex: 1
   }
 }));
@@ -158,7 +158,7 @@ const NewLandingPage = () => {
 
   // Preload background image
   useEffect(() => {
-    const imageUrl = '/images/circuit-board-hero.jpg.png'; // Updated extension
+    const imageUrl = '/images/circuit-board-hero.jpg'; // Changed extension
     const img = new Image();
     img.onload = () => {
       console.log('Circuit board background image loaded successfully');

@@ -65,7 +65,12 @@ const Footer = () => {
         <Grid container spacing={4}>
           {/* Logo only - no text */}
           <Grid item xs={12} sm={3}>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'flex-start', 
+              mb: 2,
+              mt: -4 // Add negative margin top to move logo up
+            }}>
               <Box
                 component={RouterLink}
                 to="/"

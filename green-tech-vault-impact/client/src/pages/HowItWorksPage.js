@@ -448,20 +448,13 @@ const HowItWorksPage = () => {
             Use our search tool below to look up specific items!
           </Typography>
           
-          {/* Replace the old search tool with the new EwasteItemSearch component */}
-          <EwasteItemSearch acceptedItems={acceptedItems} />
-          
-          <Typography 
-            variant="body2" 
-            sx={{ 
-              textAlign: 'center', 
-              mb: 8, 
-              color: 'text.secondary',
-              fontSize: '0.9rem'
-            }}
-          >
-            For further questions, please reach us at ourcompany@email.com or call (555) 123-4567
-          </Typography>
+          {/* Search bar */}
+          <Box sx={{ maxWidth: 600, mx: 'auto', mb: 2 }}>
+            <EwasteItemSearch />
+            <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 1 }}>
+              For further questions, please reach us at info@rygneco.com or call (Phone Number)
+            </Typography>
+          </Box>
           
           {/* Items Categories */}
           <Grid container spacing={5}>
