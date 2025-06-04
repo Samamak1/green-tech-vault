@@ -13,21 +13,31 @@ const messageRoutes = require('./routes/messageRoutes');
 
 // Create Express app
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Connect to MongoDB
+// Updated MongoDB connection options
+const mongooseOptions = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+};
+
+// Connect to MongoDB with updated options
 mongoose
-  .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/green-tech-vault', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+  .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/green-tech-vault', mongooseOptions)
+  .then(() => {
+    console.log('MongoDB Connected successfully');
   })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
+  .catch(err => {
+    console.error('MongoDB connection error:', err.message);
+    console.log('Continuing without database connection - some features may be limited');
+  });
 
 // API Routes
 app.use('/api/messages', messageRoutes);
@@ -56,4 +66,5 @@ app.use((err, req, res, next) => {
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV}`);
 }); 

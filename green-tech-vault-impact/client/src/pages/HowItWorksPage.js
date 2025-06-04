@@ -89,7 +89,7 @@ const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
 const HeroSection = styled(Box)({
   position: 'relative',
   minHeight: '100vh',
-  backgroundImage: 'url(/images/how-it-works-hero.jpg.jpg)',
+  backgroundImage: 'url(/images/how-it-works-hero.jpg)',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
@@ -318,29 +318,25 @@ const HowItWorksPage = () => {
       title: "Asset Tracking Report",
       description: "Itemized list with serial numbers and descriptions of every device collected.",
       icon: <DevicesIcon />,
-      iconColor: '#FDD835',
-      link: "/asset-tracking-report"
+      iconColor: '#FDD835'
     },
     {
       title: "Weight Summary",
       description: "Breakdown of total materials collected, categorized by type.",
       icon: <ScaleIcon />,
-      iconColor: '#2A7074',
-      link: "/environmental-impact-report#weight-summary"
+      iconColor: '#2A7074'
     },
     {
       title: "Environmental Impact Report",
       description: "See your positive impact in resources saved and waste diverted from landfills.",
       icon: <ParkIcon />,
-      iconColor: '#073C3F',
-      link: "/environmental-impact-report"
+      iconColor: '#073C3F'
     },
     {
       title: "Chain of Custody",
       description: "A full record of how your e-waste was handled throughout processing.",
       icon: <LinkIcon />,
-      iconColor: '#94F1F1',
-      link: "/asset-tracking-report#chain-of-custody"
+      iconColor: '#94F1F1'
     }
   ];
   
@@ -414,7 +410,7 @@ const HowItWorksPage = () => {
       
       {/* What Items Do We Accept Section */}
       <Box id="accepted-items" sx={{ 
-        bgcolor: theme.palette.teal.light, 
+        bgcolor: '#62CBD0',
         py: 10,
         textAlign: 'center'
       }}>
