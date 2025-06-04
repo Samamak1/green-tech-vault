@@ -54,6 +54,7 @@ const HeroSection = styled(Box)({
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
+  backgroundAttachment: 'fixed', // Added for better parallax effect
   display: 'flex',
   alignItems: 'flex-start',
   paddingTop: '0',
@@ -64,7 +65,7 @@ const HeroSection = styled(Box)({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)', // Increased overlay for better text readability
     zIndex: 1
   }
 });
@@ -412,61 +413,6 @@ const NewLandingPage = () => {
           </Grid>
         </Grid>
       </Container>
-
-      {/* CTA Section */}
-      <Box sx={{ bgcolor: theme.palette.teal.main, color: 'white', py: 8 }}>
-        <Container maxWidth="md" sx={{ textAlign: 'center' }}>
-          <Typography variant="h3" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
-            Ready to make a difference?
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 4, maxWidth: 700, mx: 'auto' }}>
-            Join us in our mission to make e-waste recycling accessible, secure, and sustainable for everyone.
-          </Typography>
-          <Grid container spacing={3} justifyContent="center">
-            <Grid item>
-              <Button 
-                variant="contained" 
-                size="large"
-                component={RouterLink}
-                to="/schedule-pickup"
-                sx={{ 
-                  bgcolor: 'white', 
-                  color: theme.palette.teal.main,
-                  '&:hover': {
-                    bgcolor: 'rgba(255,255,255,0.9)',
-                  },
-                  fontWeight: 'bold',
-                  px: 4,
-                  py: 1.5
-                }}
-              >
-                SCHEDULE A PICKUP
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button 
-                variant="outlined" 
-                size="large"
-                component={RouterLink}
-                to="/contact"
-                sx={{ 
-                  color: 'white', 
-                  borderColor: 'white',
-                  '&:hover': {
-                    borderColor: 'white',
-                    bgcolor: 'rgba(255,255,255,0.1)'
-                  },
-                  fontWeight: 'bold',
-                  px: 4,
-                  py: 1.5
-                }}
-              >
-                CONTACT US
-              </Button>
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
     </Box>
   );
 };

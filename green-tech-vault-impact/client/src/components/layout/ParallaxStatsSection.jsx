@@ -15,16 +15,15 @@ const ParallaxWrapper = styled(Box)({
 // Styled parallax background
 const ParallaxBg = styled(Box)({
   position: 'absolute',
-  top: '-150px', // Raised the image by 150px (about 1.5 inches at 96 DPI)
+  top: 0,
   left: 0,
-  height: '120%', // Reduced height for better performance
+  height: '100%',
   width: '100%',
   backgroundSize: 'cover',
-  backgroundPosition: 'center center', // Center the image properly
+  backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
-  zIndex: -1,
-  transform: 'translateY(0)',
-  transition: 'transform 0.1s ease-out',
+  backgroundImage: 'url(https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80)',
+  zIndex: 0,
   '&::after': {
     content: '""',
     position: 'absolute',
@@ -32,7 +31,7 @@ const ParallaxBg = styled(Box)({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)', // Slightly lighter overlay
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
     zIndex: 1
   }
 });

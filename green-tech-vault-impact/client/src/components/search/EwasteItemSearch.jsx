@@ -11,7 +11,6 @@ import {
   Alert
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { useNavigate } from 'react-router-dom';
 
 const EwasteItemSearch = ({ acceptedItems }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -19,7 +18,6 @@ const EwasteItemSearch = ({ acceptedItems }) => {
   const [showResults, setShowResults] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const searchRef = useRef(null);
-  const navigate = useNavigate();
   
   // Flatten the items array for easier searching
   const allItems = acceptedItems.reduce((acc, category) => {
@@ -78,23 +76,7 @@ const EwasteItemSearch = ({ acceptedItems }) => {
     setShowResults(true);
     setNotFound(results.length === 0);
   };
-  
-  const handleItemClick = (item) => {
-    // Special handling for keyboards to use the dedicated page
-    if (item.name.toLowerCase() === "keyboards" || item.name.toLowerCase() === "keyboard") {
-      navigate(`/e-waste-item/keyboards`);
-    } else {
-      // For other items, use the generic route with state
-      navigate(`/e-waste-item/${item.name.toLowerCase().replace(/\s+/g, '-')}`, { 
-        state: { item: item } 
-      });
-    }
-    setShowResults(false);
-    
-    // Scroll to top of the page
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-  
+
   return (
     <Box 
       ref={searchRef}
@@ -137,7 +119,7 @@ const EwasteItemSearch = ({ acceptedItems }) => {
         />
       </Box>
       
-      {/* Search Results */}
+      {/* Search Results - Made non-clickable */}
       {showResults && (
         <Fade in={showResults}>
           <Paper
@@ -161,13 +143,12 @@ const EwasteItemSearch = ({ acceptedItems }) => {
                 {searchResults.map((item, index) => (
                   <ListItem
                     key={index}
-                    button
                     divider={index < searchResults.length - 1}
-                    onClick={() => handleItemClick(item)}
                     sx={{
                       py: 1.5,
+                      cursor: 'default', // Remove pointer cursor
                       '&:hover': {
-                        bgcolor: 'rgba(0, 0, 0, 0.04)'
+                        bgcolor: 'transparent' // Remove hover effect
                       }
                     }}
                   >

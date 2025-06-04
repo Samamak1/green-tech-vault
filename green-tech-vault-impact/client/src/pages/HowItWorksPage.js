@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Box, 
   Container, 
@@ -24,6 +24,7 @@ import {
   styled,
   InputAdornment
 } from '@mui/material';
+import { keyframes } from '@mui/material/styles';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import SecurityIcon from '@mui/icons-material/Security';
@@ -55,6 +56,58 @@ import RecyclingIcon from '../components/branding/RecyclingIcon';
 import useScrollToHash from '../hooks/useScrollToHash';
 // Import the EwasteItemSearch component
 import EwasteItemSearch from '../components/search/EwasteItemSearch';
+
+// Animation for dropdown
+const dropDown = keyframes`
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
+// Styled animated content box
+const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
+  backgroundColor: 'rgba(255, 255, 255, 0.4)',
+  borderRadius: '0 0 20px 20px',
+  padding: theme.spacing(6),
+  maxWidth: '600px',
+  margin: '0',
+  marginLeft: '10%',
+  position: 'relative',
+  zIndex: 2,
+  animation: animate ? `${dropDown} 1.2s ease-out forwards` : 'none',
+  transform: animate ? 'translateY(0)' : 'translateY(-100%)',
+  opacity: animate ? 1 : 0,
+  boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+}));
+
+// Hero section with background image
+const HeroSection = styled(Box)({
+  position: 'relative',
+  minHeight: '100vh',
+  backgroundImage: 'url(https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=2025&q=80)', // Circuit board background
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  backgroundAttachment: 'fixed',
+  display: 'flex',
+  alignItems: 'flex-start',
+  paddingTop: '0',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    zIndex: 1
+  }
+});
 
 // Styled components
 const ProcessIcon = styled(Box)(({ theme, bgcolor }) => ({
@@ -95,9 +148,19 @@ const StyledTableCell = styled(TableCell)(({ theme, type }) => ({
 
 const HowItWorksPage = () => {
   const theme = useTheme();
+  const [animate, setAnimate] = useState(false);
   
   // Use the scroll to hash hook to enable scrolling to sections
   useScrollToHash();
+  
+  // Trigger animation when component mounts
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimate(true);
+    }, 500); // Start animation after 500ms
+
+    return () => clearTimeout(timer);
+  }, []);
   
   // Process steps data
   const processSteps = [
@@ -284,48 +347,38 @@ const HowItWorksPage = () => {
   return (
     <Box>
       {/* Hero Section */}
-      <Box
-        sx={{
-          backgroundColor: theme.palette.teal.main,
-          color: 'white',
-          py: 6,
-          position: 'relative'
-        }}
-      >
-        <Container maxWidth="lg">
-          <Grid container spacing={4} alignItems="center">
-            <Grid item xs={12} md={6}>
-              <Typography variant="h2" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
-                Recycle Responsibly
-              </Typography>
-              <Typography variant="h6" paragraph>
-                Dispose of your electronics safely while <br />
-                protecting your data and the environment!
-              </Typography>
-              <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
-                <Button 
-                  variant="contained" 
-                  sx={{ 
-                    bgcolor: 'white', 
-                    color: theme.palette.teal.main,
-                    '&:hover': {
-                      bgcolor: 'rgba(255,255,255,0.9)'
-                    },
-                    fontWeight: 'bold'
-                  }}
-                >
-                  SCHEDULE A PICKUP
-                </Button>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center' }}>
-              <Box sx={{ maxWidth: 200 }}>
-                <RecyclingIcon size={200} color="white" />
-              </Box>
-            </Grid>
-          </Grid>
+      <HeroSection>
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 0 }}>
+          <AnimatedContentBox animate={animate}>
+            <Typography variant="subtitle1" component="div" gutterBottom color="text.primary">
+              How It Works
+            </Typography>
+            <Typography variant="h2" component="h1" gutterBottom color="text.primary" sx={{ fontWeight: 'bold' }}>
+              Recycle Responsibly
+            </Typography>
+            <Typography variant="body1" paragraph color="text.primary" sx={{ mb: 4 }}>
+              Dispose of your electronics safely while protecting your data and the environment! 
+              Learn about our comprehensive process from collection to responsible recycling.
+            </Typography>
+            <Button 
+              variant="contained" 
+              size="large"
+              component={RouterLink}
+              to="/schedule-pickup"
+              sx={{ 
+                bgcolor: theme.palette.teal.main,
+                color: 'white',
+                fontWeight: 'bold',
+                '&:hover': {
+                  bgcolor: theme.palette.teal.dark
+                }
+              }}
+            >
+              SCHEDULE A PICKUP
+            </Button>
+          </AnimatedContentBox>
         </Container>
-      </Box>
+      </HeroSection>
       
       {/* Our Process Section */}
       <Container id="our-process" maxWidth="lg" sx={{ py: 8 }}>
