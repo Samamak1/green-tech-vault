@@ -21,7 +21,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
 // Hero image for contact page
-const heroImage = 'https://images.unsplash.com/photo-1529078155058-5d716f45d604?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80';
+const heroImage = '/images/e-waste-recycling.jpg';
 
 const ContactPage = () => {
   const theme = useTheme();

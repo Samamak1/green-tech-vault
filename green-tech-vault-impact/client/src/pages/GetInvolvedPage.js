@@ -50,12 +50,6 @@ const GetInvolvedPage = () => {
       icon: <LinkedInIcon />,
       url: 'https://linkedin.com',
       color: '#0A66C2'
-    },
-    {
-      name: 'YouTube',
-      icon: <YouTubeIcon />,
-      url: 'https://youtube.com',
-      color: '#FF0000'
     }
   ];
 
