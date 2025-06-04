@@ -160,37 +160,18 @@ const ValueIcon = ({ type }) => {
 const BenefitIcon = ({ type }) => {
   const theme = useTheme();
   
-  // Define colors for each type
-  const getColors = (type) => {
-    switch(type) {
-      case "reducing":
-        return { main: '#62C7CC', light: '#7BD3D8' }; // Light teal
-      case "conserving":
-        return { main: '#1F5A3E', light: '#2D6B4D' }; // Dark green  
-      case "circular":
-        return { main: '#7BD3D8', light: '#8EDDEA' }; // Very light teal
-      case "spreading":
-        return { main: '#1F5A3E', light: '#2D6B4D' }; // Dark green
-      default:
-        return { main: theme.palette.teal.main, light: theme.palette.teal.light };
-    }
-  };
-  
-  const colors = getColors(type);
-  
   let iconComponent = null;
   switch(type) {
     case "reducing":
       iconComponent = (
         <Box
           component="svg"
-          width="24"
-          height="24"
+          width="32"
+          height="32"
           viewBox="0 0 24 24"
           fill="white"
         >
-          {/* Waste bin icon */}
-          <path d="M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19M8,9H10V19H8V9M14,9H16V19H14V9M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z" />
+          <path d="M21.82,15.42L19.32,19.75C18.83,20.61 17.92,21.06 17,21H15V23L12.5,18.5L15,14V16H17.82L15.6,12.15L19.93,9.65L21.73,12.77C22.25,13.54 22.32,14.57 21.82,15.42M9.21,3.06H14.21C15.19,3.06 16.04,3.63 16.45,4.45L17.45,6.19L19.18,5.19L16.54,9.6L11.39,9.69L13.12,8.69L11.71,6.24L9.5,10.09L5.16,7.59L6.96,4.47C7.37,3.64 8.22,3.06 9.21,3.06M5.05,19.76L2.55,15.43C2.06,14.58 2.13,13.56 2.64,12.79L3.64,11.06L1.91,10.06L7.05,10.14L9.7,14.56L7.97,13.56L6.56,16H11V21H7.4C6.47,21.06 5.55,20.61 5.05,19.76Z" />
         </Box>
       );
       break;
@@ -198,13 +179,12 @@ const BenefitIcon = ({ type }) => {
       iconComponent = (
         <Box
           component="svg"
-          width="24"
-          height="24"
+          width="32"
+          height="32"
           viewBox="0 0 24 24"
           fill="white"
         >
-          {/* Leaf/nature icon */}
-          <path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z" />
+          <path d="M6.05 8.05a7.001 7.001 0 0 0-.02 9.88c1.47-3.4 4.09-6.24 7.36-7.93A15.952 15.952 0 0 0 8 19.25l2 2a17.94 17.94 0 0 1 12.45-7.22c-.2-1.1-.9-2.1-1.9-2.6l-2.5-1.44a3.02 3.02 0 0 1-1.5-2.62v-5.22c0-2.76-2.24-5-5-5S6.5 2.2 6.5 4.96v.03a4.464 4.464 0 0 0-.45 3.06zm7.45 6.45c-4 2.86-6.55 7.14-6.55 12v.5h2c0-4.14 2.33-7.75 5.76-9.6a8.81 8.81 0 0 1-.95-2.45c-.09-.15-.16-.3-.26-.45z" />
         </Box>
       );
       break;
@@ -212,13 +192,12 @@ const BenefitIcon = ({ type }) => {
       iconComponent = (
         <Box
           component="svg"
-          width="24"
-          height="24"
+          width="32"
+          height="32"
           viewBox="0 0 24 24"
           fill="white"
         >
-          {/* Circular arrow/recycling icon */}
-          <path d="M19,8L15,12H18A6,6 0 0,1 12,18C9.94,18 8.19,16.72 7.39,15H5.27C6.28,18.6 9.74,21 12,21A9,9 0 0,0 21,12H24L20,8H19M12,3C14.05,3 15.81,4.28 16.61,6H18.73C17.72,2.4 14.26,0 12,0A9,9 0 0,0 3,9H0L4,13H5L9,9H6A6,6 0 0,1 12,3Z" />
+          <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c2.12 0 4.07-.74 5.62-1.97l-2.5-2.5C14.32 17.5 13.21 18 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.21 0 2.32.5 3.12 1.47l2.5-2.5C16.07 3.74 14.12 3 12 3m7 6v-3l-4 4 4 4v-3h3v-2h-3m-7-1c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z" />
         </Box>
       );
       break;
@@ -226,18 +205,15 @@ const BenefitIcon = ({ type }) => {
       iconComponent = (
         <Box
           component="svg"
-          width="24"
-          height="24"
+          width="32"
+          height="32"
           viewBox="0 0 24 24"
           fill="white"
         >
-          {/* Knowledge/book icon */}
-          <path d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z" />
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z" />
         </Box>
       );
       break;
-    default:
-      iconComponent = null;
   }
   
   return (
@@ -247,7 +223,7 @@ const BenefitIcon = ({ type }) => {
           width: 80,
           height: 80,
           borderRadius: '50%',
-          backgroundColor: colors.main,
+          backgroundColor: '#E7F5F5',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -455,7 +431,7 @@ const AboutUsPage = () => {
       </Container>
       
       {/* Why It Matters Section */}
-      <Box sx={{ bgcolor: '#f9f9f9', py: 8 }}>
+      <Box sx={{ bgcolor: 'white', py: 8 }}>
         <Container maxWidth="lg">
           <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 4 }}>
             Why Does It Matter?
@@ -468,7 +444,7 @@ const AboutUsPage = () => {
         {/* Benefits Grid with Full Width Rectangle Background */}
         <Box 
           sx={{ 
-            backgroundColor: '#EEF3F3', 
+            backgroundColor: '#E7F5F5', 
             py: 4,
             mt: 4 
           }}
@@ -499,7 +475,7 @@ const AboutUsPage = () => {
       </Box>
       
       {/* Values Section */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
+      <Container maxWidth="lg" sx={{ py: 8, bgcolor: 'white' }}>
         <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 4 }}>
           Our Values
         </Typography>
@@ -511,7 +487,7 @@ const AboutUsPage = () => {
       {/* Values Icons with Full Width Rectangle Background */}
       <Box 
         sx={{ 
-          backgroundColor: '#EEF3F3', 
+          backgroundColor: '#E7F5F5', 
           py: 4,
           mb: 8
         }}
@@ -541,7 +517,7 @@ const AboutUsPage = () => {
       </Box>
       
       {/* Learn More Section */}
-      <Box sx={{ bgcolor: '#f5f5f5', py: 6 }}>
+      <Box sx={{ bgcolor: 'white', py: 6 }}>
         <Container maxWidth="lg">
           <Grid container spacing={4} alignItems="center">
             <Grid item xs={12} md={6}>
@@ -549,7 +525,8 @@ const AboutUsPage = () => {
                 Learn More
               </Typography>
               <Typography variant="body1" paragraph>
-                See what we do, why it matters, and how you can help create a cleaner, more connected world.
+                See what we do, why it matters, and how you<br />
+                can help create a cleaner, more connected world.
               </Typography>
               <Box sx={{ display: 'flex', gap: 2, mt: 4 }}>
                 <Box
@@ -567,23 +544,6 @@ const AboutUsPage = () => {
                   }}
                 >
                   How It Works
-                </Box>
-                <Box
-                  component="a"
-                  href="#learn-more"
-                  sx={{
-                    display: 'inline-block',
-                    px: 3,
-                    py: 1.5,
-                    bgcolor: 'white',
-                    color: 'text.primary',
-                    textDecoration: 'none',
-                    borderRadius: 1,
-                    border: '1px solid #ddd',
-                    fontWeight: 'medium'
-                  }}
-                >
-                  Learn More
                 </Box>
               </Box>
             </Grid>

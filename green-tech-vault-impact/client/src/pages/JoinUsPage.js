@@ -29,6 +29,12 @@ const HeroSection = styled(Box)({
   display: 'flex',
   alignItems: 'flex-start',
   paddingTop: '0',
+  transform: 'translateZ(0)',
+  WebkitTransform: 'translateZ(0)',
+  willChange: 'transform',
+  '@media (max-width: 768px)': {
+    backgroundAttachment: 'scroll', // Disable parallax on mobile
+  },
   '&::before': {
     content: '""',
     position: 'absolute',
@@ -60,10 +66,17 @@ const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
 const JoinUsPage = () => {
   const theme = useTheme();
   const [animate, setAnimate] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const imageRef = useRef(null);
   const textRef = useRef(null);
 
   useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      setImageLoaded(true);
+    };
+    img.src = '/images/circuit-board-hero.jpg.png';
+
     const timer = setTimeout(() => {
       setAnimate(true);
     }, 500);
@@ -91,7 +104,7 @@ const JoinUsPage = () => {
   return (
     <Box>
       {/* Hero Section */}
-      <HeroSection>
+      <HeroSection sx={{ visibility: imageLoaded ? 'visible' : 'hidden' }}>
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 8 }}>
           <AnimatedContentBox animate={animate}>
             <Typography variant="h2" component="h1" gutterBottom color="text.primary" sx={{ fontWeight: 'bold' }}>
