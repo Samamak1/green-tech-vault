@@ -225,20 +225,6 @@ const NewLandingPage = () => {
 
   return (
     <Box>
-      {/* TEMPORARY TEST BANNER - REMOVE AFTER CONFIRMING CACHE CLEAR */}
-      <Box sx={{ 
-        backgroundColor: 'red', 
-        color: 'white', 
-        textAlign: 'center', 
-        py: 2, 
-        fontSize: '18px', 
-        fontWeight: 'bold',
-        zIndex: 9999,
-        position: 'relative'
-      }}>
-        🚨 CACHE TEST - DEC 19 2024 - 3:30 PM - IF YOU SEE THIS, CACHE IS CLEARED! 🚨
-      </Box>
-      
       {/* Hero Section */}
       <HeroSection>
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 0 }}>
