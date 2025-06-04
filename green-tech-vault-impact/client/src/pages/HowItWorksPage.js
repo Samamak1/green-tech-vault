@@ -89,7 +89,7 @@ const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
 const HeroSection = styled(Box)({
   position: 'relative',
   minHeight: '100vh',
-  backgroundImage: 'url(/images/circuit-board-hero.jpg.png)',
+  backgroundImage: 'url(/images/how-it-works-hero.jpg)',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
