@@ -182,18 +182,18 @@ const JoinUsPage = () => {
             <Box
               ref={imageRef}
               component="img"
-              src="/images/leila-meyer-headshot.jpg"
-              alt="Team collaboration"
+              src="/images/hands-together.jpg"
+              alt="Hands joined together in unity"
               sx={{
                 width: '100%',
-                height: '100%',
                 objectFit: 'cover',
                 objectPosition: 'center',
-                borderRadius: '16px',
+                borderRadius: '20px',
                 boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-                maxHeight: 'calc(100% - 32px)', // Subtracting padding
                 display: 'block',
-                position: 'relative'
+                position: 'relative',
+                mt: { xs: 2, md: 0 }, // Margin top on mobile
+                height: '100%' // This will make it stretch from top text to bottom text
               }}
             />
           </Grid>

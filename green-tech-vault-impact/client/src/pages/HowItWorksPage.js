@@ -634,39 +634,30 @@ const HowItWorksPage = () => {
                     boxShadow: '0 8px 16px rgba(0,0,0,0.1)'
                   }
                 }}>
-                  <CardContent sx={{ p: 3 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                      <ProcessIcon bgcolor={report.iconColor} sx={{ width: 50, height: 50, mr: 2 }}>
-                        {report.icon}
-                      </ProcessIcon>
-                      <Typography variant="h6" component="h3" sx={{ fontWeight: 'bold' }}>
-                        {report.title}
-                      </Typography>
+                  <CardContent sx={{ 
+                    p: 4, 
+                    display: 'flex', 
+                    flexDirection: 'column',
+                    height: '100%'
+                  }}>
+                    <Box sx={{ 
+                      width: 60,
+                      height: 60,
+                      borderRadius: '50%',
+                      bgcolor: report.iconColor,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      mb: 2
+                    }}>
+                      {React.cloneElement(report.icon, { sx: { fontSize: 30, color: 'white' } })}
                     </Box>
-                    <Typography variant="body2">
+                    <Typography variant="h6" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
+                      {report.title}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', flexGrow: 1 }}>
                       {report.description}
                     </Typography>
-                    {report.link && (
-                      <Box sx={{ mt: 2 }}>
-                        <Button
-                          component={RouterLink}
-                          to={report.link}
-                          variant="text"
-                          color="primary"
-                          endIcon={<ArrowForwardIcon />}
-                          sx={{ 
-                            fontSize: '0.875rem',
-                            color: theme.palette.teal.main,
-                            '&:hover': {
-                              backgroundColor: 'transparent',
-                              color: theme.palette.teal.dark
-                            }
-                          }}
-                        >
-                          Learn More
-                        </Button>
-                      </Box>
-                    )}
                   </CardContent>
                 </Card>
               </Grid>
