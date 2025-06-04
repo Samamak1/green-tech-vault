@@ -37,9 +37,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && echo 'Build completed with cache bust'",
+    "build": "GENERATE_SOURCEMAP=false REACT_APP_ENV=production react-scripts build && echo 'Build completed with cache bust'",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -59,5 +62,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:5000",
+  "devDependencies": {
+    "source-map-explorer": "^2.5.3"
+  }
 }
