@@ -355,46 +355,52 @@ const AboutUsPage = () => {
           <Grid item xs={12} md={6}>
             <Grid container spacing={2} sx={{ height: '100%' }}>
               {teamMembers.map((member, index) => (
-                <Grid item xs={6} key={index} sx={{ height: 'fit-content' }}>
+                <Grid item xs={6} key={index}>
                   <Card 
                     sx={{ 
                       height: '100%',
                       boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                       borderRadius: 2,
                       display: 'flex',
-                      flexDirection: 'column',
-                      minHeight: '400px' // Ensure consistent minimum height
+                      flexDirection: 'column'
                     }}
                   >
                     {/* Image Section */}
-                    <Box sx={{ height: 250, position: 'relative' }}>
+                    <Box sx={{ 
+                      position: 'relative',
+                      paddingTop: '100%', // 1:1 Aspect ratio
+                      backgroundColor: '#f5f5f5'
+                    }}>
                       {member.image ? (
                         <Box
                           component="img"
                           src={member.image}
                           alt={member.name}
                           sx={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
                             width: '100%',
                             height: '100%',
-                            objectFit: 'cover',
-                            objectPosition: 'top center', // Focus on the head/face area
-                            display: 'block'
+                            objectFit: 'contain',
+                            p: 2
                           }}
                           onError={(e) => {
-                            // Fallback to placeholder if image fails to load
                             e.target.style.display = 'none';
                             e.target.nextSibling.style.display = 'flex';
                           }}
                         />
-                      ) : null}
-                      {/* Fallback for image loading errors or no image */}
-                      {!member.image && (
+                      ) : (
                         <Box
                           sx={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            height: '100%',
                             bgcolor: member.name === "Leila Meyer" ? theme.palette.teal.main : '#f5f5f5'
                           }}
                         >
@@ -413,39 +419,10 @@ const AboutUsPage = () => {
                           )}
                         </Box>
                       )}
-                      {/* Hidden fallback for image error */}
-                      <Box
-                        sx={{
-                          display: 'none',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          height: '100%',
-                          bgcolor: member.name === "Leila Meyer" ? theme.palette.teal.main : '#f5f5f5',
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          bottom: 0
-                        }}
-                      >
-                        {member.name === "Leila Meyer" ? (
-                          <Avatar 
-                            sx={{ 
-                              width: 80, 
-                              height: 80, 
-                              bgcolor: theme.palette.teal.main
-                            }}
-                          >
-                            <PersonIcon sx={{ fontSize: 40 }} />
-                          </Avatar>
-                        ) : (
-                          <RecyclingIcon size={80} color="black" />
-                        )}
-                      </Box>
                     </Box>
                     
                     {/* Content Section */}
-                    <CardContent sx={{ flexGrow: 1, p: 2, textAlign: 'center' }}>
+                    <CardContent sx={{ p: 2, textAlign: 'center' }}>
                       <Typography variant="h6" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
                         {member.name === "Leila Meyer" ? (
                           <Box

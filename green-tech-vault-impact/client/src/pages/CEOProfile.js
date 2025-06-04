@@ -4,12 +4,9 @@ import {
   Typography,
   Grid,
   Container,
-  Button,
   useTheme,
   Paper,
 } from '@mui/material';
-import { ArrowBack } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
 
 const CEOProfile = () => {
   const theme = useTheme();
@@ -27,7 +24,7 @@ const CEOProfile = () => {
                   borderRadius: 2,
                   overflow: 'hidden',
                   boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-                  aspectRatio: '3/4',
+                  height: '100%', // Match container height
                 }}
               >
                 <Box
@@ -45,7 +42,7 @@ const CEOProfile = () => {
             </Grid>
             
             {/* CEO Information */}
-            <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Grid item xs={12} md={8}>
               <Box>
                 <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold', mb: 1 }}>
                   Leila Meyer
@@ -62,27 +59,9 @@ const CEOProfile = () => {
                   Leila earned her Bachelor of Science in Architecture from the University of Cincinnati, where she cultivated a deep understanding of design thinking and environmental responsibility. Over the years, she has expanded her expertise across industries through internships, sharpening the skills that now guide her leadership at RYGNeco.
                 </Typography>
                 
-                <Typography variant="body1" paragraph>
+                <Typography variant="body1">
                   Leila's vision for RYGNeco is to revolutionize how we manage electronic waste—transforming discarded tech into opportunity and paving the way for a more sustainable future.
                 </Typography>
-              </Box>
-              
-              <Box sx={{ mt: 'auto', pt: 4 }}>
-                <Button 
-                  component={Link}
-                  to="/about-us"
-                  startIcon={<ArrowBack />}
-                  sx={{ 
-                    color: theme.palette.teal.main,
-                    borderColor: theme.palette.teal.main,
-                    border: '1px solid',
-                    '&:hover': {
-                      backgroundColor: 'rgba(42, 135, 132, 0.1)'
-                    }
-                  }}
-                >
-                  Back to Team
-                </Button>
               </Box>
             </Grid>
           </Grid>
