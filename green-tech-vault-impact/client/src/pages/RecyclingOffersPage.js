@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Box, 
   Container, 
@@ -77,6 +77,8 @@ const HeroSection = styled(Box)({
 const RecyclingOffersPage = () => {
   const theme = useTheme();
   const [animate, setAnimate] = useState(false);
+  const imageRef = useRef(null);
+  const textRef = useRef(null);
 
   // Trigger animation when component mounts
   useEffect(() => {
@@ -85,6 +87,23 @@ const RecyclingOffersPage = () => {
     }, 500); // Start animation after 500ms
 
     return () => clearTimeout(timer);
+  }, []);
+
+  // Adjust image height to match text
+  useEffect(() => {
+    const adjustImageHeight = () => {
+      if (imageRef.current && textRef.current) {
+        const textHeight = textRef.current.offsetHeight;
+        imageRef.current.style.height = `${textHeight}px`;
+      }
+    };
+
+    adjustImageHeight();
+    window.addEventListener('resize', adjustImageHeight);
+
+    return () => {
+      window.removeEventListener('resize', adjustImageHeight);
+    };
   }, []);
 
   // Array of recycling offers
@@ -196,47 +215,52 @@ const RecyclingOffersPage = () => {
       
       {/* Recycling Made Accessible Section with Updated Image */}
       <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Grid container spacing={6} alignItems="center">
+        <Grid container spacing={6} alignItems="flex-start">
           <Grid item xs={12} md={6}>
             <Box
+              ref={imageRef}
               component="img"
-              src="/images/elly-filho-prFmxl4FPP4-unsplash.jpg" // Updated to use the new worker image
+              src="/images/elly-filho-prFmxl4FPP4-unsplash.jpg"
               alt="Recycling team at work"
               sx={{
                 width: '100%',
-                height: 'auto',
-                borderRadius: 2,
-                boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: 4,
+                boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                maxHeight: 'calc(100% - 32px)' // Subtracting padding
               }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
-              Recycling made Accessible
-            </Typography>
-            <Typography variant="body1" paragraph>
-              Whether you're cleaning out your drawers at home or handling large-scale 
-              e-waste for your business, we make it simple to get your unwanted devices 
-              to the right place. Our online platform connects individuals, small 
-              businesses, and large companies to make e-waste recycling both accessible 
-              and rewarding. But we're not just about the "pick-up-and-go" — we're about 
-              getting everyone involved, sharing the knowledge, and being part of a 
-              global solution.
-            </Typography>
-            
-            <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mt: 6 }}>
-              Proof That Progress is Possible
-            </Typography>
-            <Typography variant="body1" paragraph>
-              What sets us apart? At [Company Name], we track every piece of e-waste 
-              we collect and send out meaningful, easy-to-read reports to our clients. 
-              Want to know how much CO2 you saved by recycling your devices? Curious 
-              about how many materials were recovered or how many trees were planted 
-              thanks to your recycling efforts? We've got you covered! We give you the 
-              numbers and the feel-good facts that show just how much of a difference 
-              you're making. It's all part of our commitment to transparency and 
-              community impact.
-            </Typography>
+            <Box ref={textRef}>
+              <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
+                Recycling made Accessible
+              </Typography>
+              <Typography variant="body1" paragraph>
+                Whether you're cleaning out your drawers at home or handling large-scale 
+                e-waste for your business, we make it simple to get your unwanted devices 
+                to the right place. Our online platform connects individuals, small 
+                businesses, and large companies to make e-waste recycling both accessible 
+                and rewarding. But we're not just about the "pick-up-and-go" — we're about 
+                getting everyone involved, sharing the knowledge, and being part of a 
+                global solution.
+              </Typography>
+              
+              <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mt: 6 }}>
+                Proof That Progress is Possible
+              </Typography>
+              <Typography variant="body1" paragraph>
+                What sets us apart? At RYGNeco, we track every piece of e-waste 
+                we collect and send out meaningful, easy-to-read reports to our clients. 
+                Want to know how much CO2 you saved by recycling your devices? Curious 
+                about how many materials were recovered or how many trees were planted 
+                thanks to your recycling efforts? We've got you covered! We give you the 
+                numbers and the feel-good facts that show just how much of a difference 
+                you're making. It's all part of our commitment to transparency and 
+                community impact.
+              </Typography>
+            </Box>
           </Grid>
         </Grid>
       </Container>
