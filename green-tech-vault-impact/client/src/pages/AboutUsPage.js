@@ -382,12 +382,8 @@ const AboutUsPage = () => {
                             left: 0,
                             width: '100%',
                             height: '100%',
-                            objectFit: 'contain',
-                            p: 2
-                          }}
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                            e.target.nextSibling.style.display = 'flex';
+                            objectFit: 'cover',
+                            objectPosition: 'center'
                           }}
                         />
                       ) : (
@@ -422,7 +418,7 @@ const AboutUsPage = () => {
                     </Box>
                     
                     {/* Content Section */}
-                    <CardContent sx={{ p: 2, textAlign: 'center' }}>
+                    <CardContent sx={{ p: 3, textAlign: 'center' }}>
                       <Typography variant="h6" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
                         {member.name === "Leila Meyer" ? (
                           <Box

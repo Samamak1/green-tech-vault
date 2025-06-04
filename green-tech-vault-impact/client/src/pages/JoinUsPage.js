@@ -3,22 +3,32 @@ import { Box, Container, Typography, Grid, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+import { keyframes } from '@emotion/react';
+
+// Animation for dropdown
+const dropDown = keyframes`
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
 
 // Hero section with background image
-const HeroSection = styled(Box)(({ imageLoaded }) => ({
+const HeroSection = styled(Box)({
   position: 'relative',
   minHeight: '100vh',
-  backgroundImage: imageLoaded 
-    ? `url('/images/circuit-board-hero.jpg.png')`
-    : `linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)`,
+  backgroundImage: 'url(/images/circuit-board-hero.jpg.png)',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
-  backgroundColor: '#2A2A2A',
+  backgroundAttachment: 'fixed',
   display: 'flex',
   alignItems: 'flex-start',
   paddingTop: '0',
-  transition: 'background-image 0.5s ease-in-out',
   '&::before': {
     content: '""',
     position: 'absolute',
@@ -26,10 +36,10 @@ const HeroSection = styled(Box)(({ imageLoaded }) => ({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: imageLoaded ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.3)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
     zIndex: 1
   }
-}));
+});
 
 // Styled animated content box
 const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
@@ -41,36 +51,19 @@ const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
   marginLeft: '10%',
   position: 'relative',
   zIndex: 2,
-  animation: animate ? 'dropDown 1.2s ease-out forwards' : 'none',
+  animation: animate ? `${dropDown} 1.2s ease-out forwards` : 'none',
   transform: animate ? 'translateY(0)' : 'translateY(-100%)',
   opacity: animate ? 1 : 0,
   boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-  '@keyframes dropDown': {
-    '0%': {
-      transform: 'translateY(-100%)',
-      opacity: 0
-    },
-    '100%': {
-      transform: 'translateY(0)',
-      opacity: 1
-    }
-  }
 }));
 
 const JoinUsPage = () => {
   const theme = useTheme();
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [animate, setAnimate] = useState(false);
   const imageRef = useRef(null);
   const textRef = useRef(null);
 
   useEffect(() => {
-    const img = new Image();
-    img.onload = () => {
-      setImageLoaded(true);
-    };
-    img.src = '/images/circuit-board-hero.jpg.png';
-
     const timer = setTimeout(() => {
       setAnimate(true);
     }, 500);
@@ -78,7 +71,7 @@ const JoinUsPage = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Effect to adjust image height to match text height
+  // Effect to adjust image height to match text
   useEffect(() => {
     const adjustImageHeight = () => {
       if (imageRef.current && textRef.current) {
@@ -98,7 +91,7 @@ const JoinUsPage = () => {
   return (
     <Box>
       {/* Hero Section */}
-      <HeroSection imageLoaded={imageLoaded}>
+      <HeroSection>
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 8 }}>
           <AnimatedContentBox animate={animate}>
             <Typography variant="h2" component="h1" gutterBottom color="text.primary" sx={{ fontWeight: 'bold' }}>
@@ -176,7 +169,7 @@ const JoinUsPage = () => {
             <Box
               ref={imageRef}
               component="img"
-              src="/images/hands-together.jpg"
+              src="/images/leila-meyer-headshot.jpg"
               alt="Team collaboration"
               sx={{
                 width: '100%',
