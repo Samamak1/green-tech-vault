@@ -7,9 +7,8 @@ import {
   Button,
   useTheme,
   Paper,
-  Avatar
 } from '@mui/material';
-import { ArrowBack, Person } from '@mui/icons-material';
+import { ArrowBack } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 const CEOProfile = () => {
@@ -20,20 +19,15 @@ const CEOProfile = () => {
       {/* Profile Content Section */}
       <Container maxWidth="md" sx={{ py: 5 }}>
         <Paper elevation={2} sx={{ p: 4, borderRadius: 2 }}>
-          <Grid container spacing={5} alignItems="flex-start">
+          <Grid container spacing={5} alignItems="stretch">
             {/* CEO Image */}
-            <Grid item xs={12} md={4} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Grid item xs={12} md={4}>
               <Box
                 sx={{
-                  width: '100%',
-                  maxWidth: '800px',
+                  height: '100%',
                   borderRadius: 2,
                   overflow: 'hidden',
                   boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  aspectRatio: '1',
                 }}
               >
                 <Box
@@ -46,23 +40,7 @@ const CEOProfile = () => {
                     objectFit: 'cover',
                     borderRadius: 2,
                   }}
-                  onError={(e) => {
-                    // Fallback to placeholder if image fails to load
-                    e.target.style.display = 'none';
-                    e.target.nextSibling.style.display = 'flex';
-                  }}
                 />
-                <Avatar
-                  sx={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: 2,
-                    backgroundColor: theme.palette.teal.light,
-                    display: 'none', // Hidden by default, shown on error
-                  }}
-                >
-                  <Person sx={{ fontSize: 120, color: 'white' }} />
-                </Avatar>
               </Box>
             </Grid>
             

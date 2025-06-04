@@ -184,8 +184,8 @@ const BenefitIcon = ({ type }) => {
       iconComponent = (
         <Box
           component="svg"
-          width="50"
-          height="50"
+          width="32"
+          height="32"
           viewBox="0 0 24 24"
           fill="white"
         >
@@ -198,8 +198,8 @@ const BenefitIcon = ({ type }) => {
       iconComponent = (
         <Box
           component="svg"
-          width="50"
-          height="50"
+          width="32"
+          height="32"
           viewBox="0 0 24 24"
           fill="white"
         >
@@ -212,8 +212,8 @@ const BenefitIcon = ({ type }) => {
       iconComponent = (
         <Box
           component="svg"
-          width="50"
-          height="50"
+          width="32"
+          height="32"
           viewBox="0 0 24 24"
           fill="white"
         >
@@ -226,8 +226,8 @@ const BenefitIcon = ({ type }) => {
       iconComponent = (
         <Box
           component="svg"
-          width="50"
-          height="50"
+          width="32"
+          height="32"
           viewBox="0 0 24 24"
           fill="white"
         >
@@ -244,8 +244,8 @@ const BenefitIcon = ({ type }) => {
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
       <Box
         sx={{
-          width: 100,
-          height: 100,
+          width: 80,
+          height: 80,
           borderRadius: '50%',
           backgroundColor: colors.main,
           display: 'flex',
