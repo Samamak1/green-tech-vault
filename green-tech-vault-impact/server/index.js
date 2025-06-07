@@ -162,24 +162,20 @@ if (process.env.NODE_ENV === 'production') {
     console.log('✓ Static files served from:', buildPath);
     
     // Important: This route needs to be after API routes but before the 404 handler
-    app.get('/*', (req, res) => {
+    app.get('/*', function(req, res, next) {
       // Don't handle API routes here
       if (req.url.startsWith('/api/')) {
         return next();
       }
       
-      try {
-        const indexPath = path.resolve(buildPath, 'index.html');
-        if (require('fs').existsSync(indexPath)) {
-          res.sendFile(indexPath);
-        } else {
-          console.error('index.html not found at:', indexPath);
-          res.status(404).send('Application not found');
+      // For all other routes, serve the React app
+      const indexPath = path.resolve(buildPath, 'index.html');
+      res.sendFile(indexPath, function(err) {
+        if (err) {
+          console.error('Error serving React app:', err);
+          next(err);
         }
-      } catch (err) {
-        console.error('Error serving React app:', err);
-        res.status(500).send('Error loading application');
-      }
+      });
     });
   } catch (err) {
     console.error('✗ Error setting up static file serving:', err);

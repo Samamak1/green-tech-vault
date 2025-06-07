@@ -11,14 +11,12 @@ const CEOProfile = () => {
   const theme = useTheme();
 
   return (
-    <>
+    <Box sx={{ minHeight: '100vh', bgcolor: '#ffffff' }}>
       <BrandedHeader />
       <Box 
         component="main"
         sx={{ 
-          minHeight: '100vh',
-          bgcolor: '#ffffff',
-          pt: { xs: 8, md: 12 },
+          pt: { xs: '64px', md: '80px' },
           pb: 8
         }}
       >
@@ -27,7 +25,8 @@ const CEOProfile = () => {
             display: 'flex',
             gap: 6,
             alignItems: 'flex-start',
-            flexDirection: { xs: 'column', md: 'row' }
+            flexDirection: { xs: 'column', md: 'row' },
+            py: { xs: 4, md: 6 }
           }}>
             {/* CEO Image */}
             <Box
@@ -84,7 +83,7 @@ const CEOProfile = () => {
           </Box>
         </Container>
       </Box>
-    </>
+    </Box>
   );
 };
 
