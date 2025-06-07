@@ -24,8 +24,15 @@ app.use(express.urlencoded({ extended: true }));
 const mongooseOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 5000,
+  serverSelectionTimeoutMS: 30000,
   socketTimeoutMS: 45000,
+  connectTimeoutMS: 30000,
+  maxPoolSize: 10,
+  minPoolSize: 5,
+  maxIdleTimeMS: 30000,
+  heartbeatFrequencyMS: 10000,
+  retryWrites: true,
+  retryReads: true
 };
 
 // Connect to MongoDB with updated options

@@ -7,18 +7,17 @@ const connectDB = async () => {
       // For production, use the real MongoDB connection
       const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://greentechuser:greentechpassword@cluster0.mongodb.net/green-tech-vault?retryWrites=true&w=majority';
       
+      // Updated MongoDB connection options
       const options = {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        serverSelectionTimeoutMS: 30000, // Timeout after 30s instead of 30s
-        socketTimeoutMS: 45000, // Close sockets after 45s of inactivity
-        connectTimeoutMS: 30000, // Give up initial connection after 30s
-        maxPoolSize: 10, // Maintain up to 10 socket connections
-        minPoolSize: 5, // Maintain a minimum of 5 socket connections
-        maxIdleTimeMS: 30000, // Close connections after 30s of inactivity
-        bufferMaxEntries: 0, // Disable mongoose buffering
-        bufferCommands: false, // Disable mongoose buffering
-        heartbeatFrequencyMS: 10000, // Send a ping every 10s to keep connection alive
+        serverSelectionTimeoutMS: 30000,
+        socketTimeoutMS: 45000,
+        connectTimeoutMS: 30000,
+        maxPoolSize: 10,
+        minPoolSize: 5,
+        maxIdleTimeMS: 30000,
+        heartbeatFrequencyMS: 10000,
         retryWrites: true,
         retryReads: true
       };
