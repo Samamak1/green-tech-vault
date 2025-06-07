@@ -189,10 +189,10 @@ const HowItWorksPage = () => {
       description: "Devices are examined, refurbished, or responsibly recycled."
     },
     {
+      icon: <ParkIcon fontSize="large" />,
+      iconColor: '#94F1F1',
       title: "Environmental Impact Report",
       description: "See your positive impact in resources saved and waste diverted from landfills.",
-      icon: <ParkIcon />,
-      iconColor: '#94F1F1',
       link: "/environmental-impact-report"
     }
   ];
@@ -669,21 +669,17 @@ const HowItWorksPage = () => {
             <Button 
               variant="contained" 
               size="large"
+              component={RouterLink}
+              to="/contact"
               sx={{ 
-                bgcolor: 'white', 
+                bgcolor: 'white',
                 color: theme.palette.teal.main,
                 '&:hover': {
                   bgcolor: 'rgba(255,255,255,0.9)',
-                  transform: 'scale(1.05)'
-                },
-                fontWeight: 'bold',
-                px: 4,
-                py: 1.5,
-                transition: 'all 0.3s ease',
-                borderRadius: 2
+                }
               }}
             >
-              SCHEDULE A PICKUP
+              Get Started
             </Button>
           </Box>
         </Container>
