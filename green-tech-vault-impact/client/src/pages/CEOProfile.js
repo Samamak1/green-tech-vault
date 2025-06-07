@@ -5,20 +5,29 @@ import {
   Container,
   useTheme,
 } from '@mui/material';
-import MainLayout from '../components/layout/MainLayout';
+import BrandedHeader from '../components/layout/BrandedHeader';
 
 const CEOProfile = () => {
   const theme = useTheme();
 
   return (
-    <MainLayout>
-      <Box sx={{ py: 8 }}>
+    <>
+      <BrandedHeader />
+      <Box 
+        component="main"
+        sx={{ 
+          minHeight: '100vh',
+          bgcolor: '#ffffff',
+          pt: { xs: 8, md: 12 },
+          pb: 8
+        }}
+      >
         <Container maxWidth="lg">
           <Box sx={{ 
             display: 'flex',
             gap: 6,
             alignItems: 'flex-start',
-            flexDirection: { xs: 'column', md: 'row' } // Stack on mobile, side by side on desktop
+            flexDirection: { xs: 'column', md: 'row' }
           }}>
             {/* CEO Image */}
             <Box
@@ -46,13 +55,13 @@ const CEOProfile = () => {
               <Typography variant="h3" component="h1" sx={{ 
                 fontWeight: 'bold', 
                 mb: 1,
-                color: theme.palette.text.primary,
+                color: '#333333',
                 fontSize: { xs: '2rem', md: '3rem' }
               }}>
                 Leila Meyer
               </Typography>
               <Typography variant="h4" sx={{ 
-                color: theme.palette.teal?.main || '#185B5F', 
+                color: '#185B5F', 
                 mb: 4,
                 fontWeight: 'medium',
                 fontSize: { xs: '1.5rem', md: '2rem' }
@@ -60,22 +69,22 @@ const CEOProfile = () => {
                 CEO
               </Typography>
               
-              <Typography variant="body1" paragraph sx={{ mb: 3 }}>
+              <Typography variant="body1" paragraph sx={{ mb: 3, color: '#555555' }}>
                 Leila Meyer is a passionate entrepreneur committed to tackling the global e-waste crisis through innovative, community-driven solutions. With a multidisciplinary background spanning Architecture, Construction, Education, Interior Design, and Marketing, she brings a unique and holistic perspective to sustainability and circular design.
               </Typography>
               
-              <Typography variant="body1" paragraph sx={{ mb: 3 }}>
+              <Typography variant="body1" paragraph sx={{ mb: 3, color: '#555555' }}>
                 Leila earned her Bachelor of Science in Architecture from the University of Cincinnati, where she cultivated a deep understanding of design thinking and environmental responsibility. Over the years, she has expanded her expertise across industries through internships, sharpening the skills that now guide her leadership at RYGNeco.
               </Typography>
               
-              <Typography variant="body1">
+              <Typography variant="body1" sx={{ color: '#555555' }}>
                 Leila's vision for RYGNeco is to revolutionize how we manage electronic waste—transforming discarded tech into opportunity and paving the way for a more sustainable future.
               </Typography>
             </Box>
           </Box>
         </Container>
       </Box>
-    </MainLayout>
+    </>
   );
 };
 
