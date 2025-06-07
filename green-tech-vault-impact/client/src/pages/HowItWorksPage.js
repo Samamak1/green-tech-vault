@@ -166,25 +166,25 @@ const HowItWorksPage = () => {
   const processSteps = [
     {
       icon: <AccessTimeIcon fontSize="large" />,
-      iconColor: '#FB8C00',
+      iconColor: '#073C3F',
       title: "Schedule",
       description: "Schedule a pickup for your e-waste through our easy online form, or drop by one of our online hubs."
     },
     {
       icon: <LocalShippingIcon fontSize="large" />,
-      iconColor: '#62CBD0',
+      iconColor: '#2A7074',
       title: "Collect",
       description: "Our team collects your devices from your location to the scheduled time."
     },
     {
       icon: <SecurityIcon fontSize="large" />,
-      iconColor: '#FDD835',
+      iconColor: '#62CBD0',
       title: "Secure",
       description: "All data is securely wiped from all devices following industry standards."
     },
     {
       icon: <RecyclingMUIIcon fontSize="large" />,
-      iconColor: '#2A7074',
+      iconColor: '#185B5F',
       title: "Process",
       description: "Devices are examined, refurbished, or responsibly recycled."
     },
@@ -192,7 +192,7 @@ const HowItWorksPage = () => {
       title: "Environmental Impact Report",
       description: "See your positive impact in resources saved and waste diverted from landfills.",
       icon: <ParkIcon />,
-      iconColor: '#073C3F',
+      iconColor: '#94F1F1',
       link: "/environmental-impact-report"
     }
   ];
@@ -662,9 +662,10 @@ const HowItWorksPage = () => {
             Ready to start recycling?
           </Typography>
           <Typography variant="body1" sx={{ mb: 5, maxWidth: 700, mx: 'auto' }}>
-            Join us in our mission to make e-waste recycling accessible, secure, and sustainable for everyone.
+            Join us in our mission to make e-waste recycling<br />
+            accessible, secure, and sustainable for everyone.
           </Typography>
-          <Box sx={{ display: 'flex', gap: 3, justifyContent: 'center' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button 
               variant="contained" 
               size="large"
@@ -683,26 +684,6 @@ const HowItWorksPage = () => {
               }}
             >
               SCHEDULE A PICKUP
-            </Button>
-            <Button 
-              variant="outlined" 
-              size="large"
-              sx={{ 
-                color: 'white', 
-                borderColor: 'white',
-                '&:hover': {
-                  borderColor: 'white',
-                  bgcolor: 'rgba(255,255,255,0.1)',
-                  transform: 'scale(1.05)'
-                },
-                fontWeight: 'bold',
-                px: 4,
-                py: 1.5,
-                transition: 'all 0.3s ease',
-                borderRadius: 2
-              }}
-            >
-              LEARN MORE
             </Button>
           </Box>
         </Container>
