@@ -11,11 +11,12 @@ import JoinUsPage from './pages/JoinUsPage';
 import EducationPage from './pages/EducationPage';
 import AssetTrackingReportPage from './pages/AssetTrackingReportPage';
 import EnvironmentalImpactReportPage from './pages/EnvironmentalImpactReportPage';
+import CEOProfile from './pages/CEOProfile';
 
 function App() {
   return (
     <Router>
-      <Routes>
+              <Routes>
         <Route path="/" element={<NewLandingPage />} />
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/contact" element={<ContactPage />} />
@@ -25,7 +26,8 @@ function App() {
         <Route path="/education" element={<EducationPage />} />
         <Route path="/asset-tracking-report" element={<AssetTrackingReportPage />} />
         <Route path="/environmental-impact-report" element={<EnvironmentalImpactReportPage />} />
-      </Routes>
+        <Route path="/ceo-profile" element={<CEOProfile />} />
+              </Routes>
     </Router>
   );
 }

@@ -137,51 +137,51 @@ const RecyclingOffersPage = () => {
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 8 }}>
           <AnimatedContentBox animate={animate}>
             <Typography variant="h2" component="h1" gutterBottom color="text.primary" sx={{ fontWeight: 'bold' }}>
-              Join Us Today!
-            </Typography>
+                Join Us Today!
+              </Typography>
             <Typography variant="body1" paragraph color="text.primary" sx={{ mb: 4 }}>
               Ready to make a real impact? Sign up or login now to start recycling your e-waste and track 
               your contribution to a greener, cleaner future!
-            </Typography>
+              </Typography>
             <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
-              <Button 
-                variant="contained" 
-                size="large"
+                <Button 
+                  variant="contained" 
+                  size="large"
                 component={RouterLink}
                 to="/register"
-                sx={{ 
+                  sx={{ 
                   bgcolor: theme.palette.teal.main,
                   color: 'white',
-                  fontWeight: 'bold',
-                  px: 4,
+                    fontWeight: 'bold',
+                    px: 4,
                   py: 1.5,
                   '&:hover': {
                     bgcolor: theme.palette.teal.dark
                   }
-                }}
-              >
-                REGISTER
-              </Button>
-              <Button 
-                variant="outlined"
+                  }}
+                >
+                  REGISTER
+                </Button>
+                <Button 
+                  variant="outlined"
                 size="large"
                 component={RouterLink}
                 to="/login"
-                sx={{ 
+                  sx={{ 
                   color: theme.palette.teal.main,
                   borderColor: theme.palette.teal.main,
-                  fontWeight: 'bold',
-                  px: 4,
+                    fontWeight: 'bold',
+                    px: 4,
                   py: 1.5,
                   '&:hover': {
                     borderColor: theme.palette.teal.dark,
                     backgroundColor: 'rgba(0,0,0,0.04)'
                   }
-                }}
-              >
-                CLIENT LOGIN
-              </Button>
-            </Box>
+                  }}
+                >
+                  CLIENT LOGIN
+                </Button>
+              </Box>
           </AnimatedContentBox>
         </Container>
       </HeroSection>
@@ -235,9 +235,9 @@ const RecyclingOffersPage = () => {
           <Grid item xs={12} md={6}>
             <Box ref={textRef}>
               <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
-                Recycling made Accessible
-              </Typography>
-              <Typography variant="body1" paragraph>
+            Recycling made Accessible
+          </Typography>
+          <Typography variant="body1" paragraph>
                 Whether you're cleaning out your drawers at home or handling large-scale 
                 e-waste for your business, we make it simple to get your unwanted devices 
                 to the right place. Our online platform connects individuals, small 
@@ -259,11 +259,11 @@ const RecyclingOffersPage = () => {
                 numbers and the feel-good facts that show just how much of a difference 
                 you're making. It's all part of our commitment to transparency and 
                 community impact.
-              </Typography>
+          </Typography>
             </Box>
           </Grid>
         </Grid>
-      </Container>
+        </Container>
       
       {/* Recycling Offers Section */}
       <Box sx={{ bgcolor: '#f5f5f5', py: 6 }}>
