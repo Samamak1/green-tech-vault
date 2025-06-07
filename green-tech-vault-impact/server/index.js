@@ -157,40 +157,33 @@ if (process.env.NODE_ENV === 'production') {
   const buildPath = path.join(__dirname, '../client/build');
   
   try {
-    app.use(express.static(buildPath, {
-      maxAge: '1d', // Cache static assets for 1 day
-      setHeaders: (res, filePath) => {
-        if (filePath.endsWith('.js')) {
-          res.setHeader('Content-Type', 'application/javascript');
-        } else if (filePath.endsWith('.css')) {
-          res.setHeader('Content-Type', 'text/css');
-        } else if (filePath.endsWith('.svg')) {
-          res.setHeader('Content-Type', 'image/svg+xml');
-        }
-      }
-    }));
-    
+    // Serve static files
+    app.use(express.static(buildPath));
     console.log('✓ Static files served from:', buildPath);
+    
+    // Important: This route needs to be after API routes but before the 404 handler
+    app.get('/*', (req, res) => {
+      // Don't handle API routes here
+      if (req.url.startsWith('/api/')) {
+        return next();
+      }
+      
+      try {
+        const indexPath = path.resolve(buildPath, 'index.html');
+        if (require('fs').existsSync(indexPath)) {
+          res.sendFile(indexPath);
+        } else {
+          console.error('index.html not found at:', indexPath);
+          res.status(404).send('Application not found');
+        }
+      } catch (err) {
+        console.error('Error serving React app:', err);
+        res.status(500).send('Error loading application');
+      }
+    });
   } catch (err) {
     console.error('✗ Error setting up static file serving:', err);
   }
-  
-  // Handle all routes (SPA fallback) with better error handling
-  app.get('*', (req, res) => {
-    try {
-      const indexPath = path.resolve(__dirname, '../client/build/index.html');
-      
-      if (require('fs').existsSync(indexPath)) {
-        res.sendFile(indexPath);
-      } else {
-        console.error('index.html not found at:', indexPath);
-        res.status(404).send('Application not found');
-      }
-    } catch (err) {
-      console.error('Error serving SPA route:', err);
-      res.status(500).send('Error loading application');
-    }
-  });
 } else {
   app.get('/', (req, res) => {
     res.json({ 

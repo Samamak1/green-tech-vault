@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Pages
 import NewLandingPage from './pages/NewLandingPage';
@@ -15,20 +15,20 @@ import CEOProfile from './pages/CEOProfile';
 
 function App() {
   return (
-    <Router>
-              <Routes>
-        <Route path="/" element={<NewLandingPage />} />
-        <Route path="/about" element={<AboutUsPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/get-involved" element={<GetInvolvedPage />} />
-        <Route path="/how-it-works" element={<HowItWorksPage />} />
-        <Route path="/join" element={<JoinUsPage />} />
-        <Route path="/education" element={<EducationPage />} />
-        <Route path="/asset-tracking-report" element={<AssetTrackingReportPage />} />
-        <Route path="/environmental-impact-report" element={<EnvironmentalImpactReportPage />} />
-        <Route path="/ceo-profile" element={<CEOProfile />} />
-              </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<NewLandingPage />} />
+      <Route path="/about" element={<AboutUsPage />} />
+      <Route path="/contact" element={<ContactPage />} />
+      <Route path="/get-involved" element={<GetInvolvedPage />} />
+      <Route path="/how-it-works" element={<HowItWorksPage />} />
+      <Route path="/join" element={<JoinUsPage />} />
+      <Route path="/education" element={<EducationPage />} />
+      <Route path="/asset-tracking-report" element={<AssetTrackingReportPage />} />
+      <Route path="/environmental-impact-report" element={<EnvironmentalImpactReportPage />} />
+      <Route path="/ceo-profile" element={<CEOProfile />} />
+      {/* Catch all route - redirect to home */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 
