@@ -25,7 +25,7 @@ const STATIC_ASSETS = [
   '/schedule-pickup',
   // Add critical images
   '/images/robot-logo.svg',
-  '/images/circuit-board-hero.jpg',
+  '/images/e-waste-hero.png',
   '/images/trading-chart.jpg',
   // Offline fallback page
   '/offline.html'
@@ -142,7 +142,7 @@ self.addEventListener('install', (event) => {
         console.log('Service Worker: Preparing image cache');
         return cache.addAll([
           '/images/robot-logo.svg',
-          '/images/circuit-board-hero.jpg'
+          '/images/e-waste-hero.png'
         ]);
       })
     ])

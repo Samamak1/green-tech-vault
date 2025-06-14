@@ -51,7 +51,7 @@ const HeroSection = styled(Box)(({ imageLoaded }) => ({
   position: 'relative',
   minHeight: '100vh',
   backgroundImage: imageLoaded 
-    ? `url('/images/circuit-board-hero.jpg'), url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`
+    ? `url('/images/e-waste-hero.png'), url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`
     : `linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)`, // Fallback gradient
   backgroundSize: 'cover',
   backgroundPosition: 'center',
@@ -158,14 +158,14 @@ const NewLandingPage = () => {
 
   // Preload background image
   useEffect(() => {
-    const imageUrl = '/images/circuit-board-hero.jpg'; // Local image path
+    const imageUrl = '/images/e-waste-hero.png'; // Local image path
     const img = new Image();
     img.onload = () => {
-      console.log('Circuit board background image loaded successfully');
+      console.log('E-waste hero background image loaded successfully');
       setImageLoaded(true);
     };
     img.onerror = () => {
-      console.error('Failed to load circuit board background image');
+      console.error('Failed to load e-waste hero background image');
       // Fallback to Unsplash image if local image fails
       const fallbackImg = new Image();
       fallbackImg.onload = () => setImageLoaded(true);
