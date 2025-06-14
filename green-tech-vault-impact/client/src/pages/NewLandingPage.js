@@ -405,21 +405,7 @@ const ValueEcosystemHexagon = () => {
 
   return (
     <Box sx={{ py: 8, backgroundColor: '#f9fafb' }}>
-      <Container maxWidth="lg">
-        <Typography 
-          variant="h3" 
-          component="h2" 
-          textAlign="center" 
-          fontWeight="bold" 
-          gutterBottom
-          sx={{
-            fontSize: { xs: '1.75rem', sm: '2.25rem', md: '3rem' },
-            mb: 6
-          }}
-        >
-          Six Dimensions of Value
-        </Typography>
-        
+      <Container maxWidth="lg">        
         <ValueHexagonContainer className="value-hexagon">
           {/* Central Counter */}
           <ValueCounter>
