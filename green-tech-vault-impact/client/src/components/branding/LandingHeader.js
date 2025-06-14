@@ -12,15 +12,18 @@ import {
   ListItemIcon,
   Divider,
   useTheme,
+  useMediaQuery,
   Menu,
   MenuItem,
   Popper,
   Grow,
   Paper,
   ClickAwayListener,
-  MenuList
+  MenuList,
+  IconButton
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import { Link as RouterLink } from 'react-router-dom';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import RecyclingIcon from '@mui/icons-material/Recycling';
@@ -36,6 +39,7 @@ import Logo from './Logo';
 
 const LandingHeader = () => {
   const theme = useTheme();
+  const isMobile = useMediaQuery('(max-width:720px)'); // Custom breakpoint for navigation crowding
   const [menuOpen, setMenuOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
 
@@ -134,28 +138,54 @@ const LandingHeader = () => {
     { text: 'Contact', link: '/contact' }
   ];
 
-  const sideMenu = (
-    <Box
-      sx={{ width: 280 }}
-      role="presentation"
-      onClick={toggleMenu}
-      aria-label="Navigation menu"
+  // Mobile drawer menu
+  const mobileMenu = (
+    <Drawer
+      anchor="right"
+      open={menuOpen}
+      onClose={toggleMenu}
+      PaperProps={{
+        sx: {
+          width: 280,
+          backgroundColor: 'white',
+        }
+      }}
     >
-      <Box sx={{ p: 2, bgcolor: theme.palette.primary.main, color: 'white' }}>
-        <Typography variant="h6">Menu</Typography>
+      <Box sx={{ p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e0e0e0' }}>
+        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+          Menu
+        </Typography>
+        <IconButton onClick={toggleMenu}>
+          <CloseIcon />
+        </IconButton>
       </Box>
-      <Divider />
-      <List>
-        {menuItems.map((item, index) => (
-          <ListItem button key={item.text} component={RouterLink} to={item.link}>
-            <ListItemIcon>
-              {item.icon}
-            </ListItemIcon>
-            <ListItemText primary={item.text} />
+      
+      <List sx={{ pt: 0 }}>
+        {navItems.map((item, index) => (
+          <ListItem 
+            key={index}
+            component={RouterLink} 
+            to={item.link}
+            onClick={toggleMenu}
+            sx={{
+              py: 2,
+              borderBottom: index < navItems.length - 1 ? '1px solid #f0f0f0' : 'none',
+              '&:hover': {
+                backgroundColor: '#f5f5f5'
+              }
+            }}
+          >
+            <ListItemText 
+              primary={item.text} 
+              primaryTypographyProps={{
+                fontSize: '16px',
+                fontWeight: '500'
+              }}
+            />
           </ListItem>
         ))}
       </List>
-    </Box>
+    </Drawer>
   );
 
   return (
@@ -184,162 +214,114 @@ const LandingHeader = () => {
             </Box>
           </Box>
           
-          {/* Right side - Navigation (pushed to far right) */}
+          {/* Right side - Navigation (Desktop) or Hamburger (Mobile) */}
           <Box sx={{ display: 'flex', alignItems: 'center', ml: 'auto' }}>
-            {navItems.map((item) => 
-              item.hasDropdown ? (
-                <Box 
-                  key={item.text}
-                  sx={{ 
-                    position: 'relative',
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}
-                  onMouseEnter={() => handleMouseEnter(item.text)}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <Typography
-                    component={RouterLink}
-                    to={item.link}
-                    sx={{ 
-                      mx: 1.5, 
-                      color: hoveredItem === item.text ? 'primary.main' : 'text.primary', 
-                      textDecoration: 'none',
-                      fontSize: '0.875rem',
-                      cursor: 'pointer',
-                      '&:hover': { color: 'primary.main' }
-                    }}
-                  >
-                    {item.text}
-                  </Typography>
-                  
-                  {hoveredItem === item.text && (
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: '100%',
-                        left: 0,
-                        zIndex: 1,
-                        backgroundColor: 'white',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                        borderRadius: 1,
-                        width: 180,
-                        mt: 0.5
+            {/* Desktop Navigation */}
+            {!isMobile && (
+              <>
+                {navItems.map((item) => 
+                  item.hasDropdown ? (
+                    <Box 
+                      key={item.text}
+                      sx={{ 
+                        position: 'relative',
+                        display: 'flex',
+                        alignItems: 'center'
                       }}
+                      onMouseEnter={() => handleMouseEnter(item.text)}
+                      onMouseLeave={handleMouseLeave}
                     >
-                      {item.dropdownItems.map((dropdownItem) => (
-                        <Typography
-                          key={dropdownItem.text}
-                          component={RouterLink}
-                          to={dropdownItem.link}
+                      <Typography
+                        component={RouterLink}
+                        to={item.link}
+                        sx={{ 
+                          mx: 1.5, 
+                          color: hoveredItem === item.text ? 'primary.main' : 'text.primary', 
+                          textDecoration: 'none',
+                          fontSize: '0.875rem',
+                          cursor: 'pointer',
+                          '&:hover': { color: 'primary.main' }
+                        }}
+                      >
+                        {item.text}
+                      </Typography>
+                      
+                      {hoveredItem === item.text && (
+                        <Box
                           sx={{
-                            display: 'block',
-                            py: 1.5,
-                            px: 2,
-                            textDecoration: 'none',
-                            color: 'text.primary',
-                            fontSize: '0.875rem',
-                            '&:hover': {
-                              backgroundColor: 'rgba(0,0,0,0.04)',
-                              color: 'primary.main',
-                            }
+                            position: 'absolute',
+                            top: '100%',
+                            left: 0,
+                            zIndex: 1,
+                            backgroundColor: 'white',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                            borderRadius: 1,
+                            width: 180,
+                            mt: 0.5
                           }}
                         >
-                          {dropdownItem.text}
-                        </Typography>
-                      ))}
+                          {item.dropdownItems.map((dropdownItem) => (
+                            <Typography
+                              key={dropdownItem.text}
+                              component={RouterLink}
+                              to={dropdownItem.link}
+                              sx={{
+                                display: 'block',
+                                py: 1.5,
+                                px: 2,
+                                textDecoration: 'none',
+                                color: 'text.primary',
+                                fontSize: '0.875rem',
+                                '&:hover': {
+                                  backgroundColor: 'rgba(0,0,0,0.04)',
+                                  color: 'primary.main',
+                                }
+                              }}
+                            >
+                              {dropdownItem.text}
+                            </Typography>
+                          ))}
+                        </Box>
+                      )}
                     </Box>
-                  )}
-                </Box>
-              ) : (
-                <Typography 
-                  key={item.text}
-                  component={RouterLink}
-                  to={item.link}
-                  sx={{ 
-                    mx: 1.5, 
-                    color: 'text.primary', 
-                    textDecoration: 'none',
-                    fontSize: '0.875rem',
-                    '&:hover': { color: 'primary.main' }
-                  }}
-                >
-                  {item.text}
-                </Typography>
-              )
-            )}
-            
-            {/* Hidden Sign in and Register buttons */}
-            {false && (
-              <>
-                <Button 
-                  variant="outlined" 
-                  component={RouterLink} 
-                  to="/login"
-                  sx={{ 
-                    mx: 1, 
-                    borderRadius: 30,
-                    px: 4,
-                    py: 1,
-                    fontSize: '0.875rem',
-                    fontWeight: 'normal',
-                    textTransform: 'none',
-                    backgroundColor: '#e6e6e6',
-                    borderColor: '#9c9c9c',
-                    color: '#333333',
-                    minWidth: '110px',
-                    height: '38px',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      borderColor: '#333333',
-                      backgroundColor: '#dbdbdb',
-                      transform: 'scale(1.05)'
-                    }
-                  }}
-                >
-                  Sign in
-                </Button>
-                
-                <Button 
-                  variant="contained" 
-                  component={RouterLink}
-                  to="/register"
-                  sx={{ 
-                    ml: 1, 
-                    borderRadius: 30,
-                    px: 4,
-                    py: 1,
-                    fontSize: '0.875rem',
-                    fontWeight: 'normal',
-                    textTransform: 'none',
-                    backgroundColor: '#333333',
-                    color: 'white',
-                    minWidth: '110px',
-                    height: '38px',
-                    boxShadow: 'none',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      backgroundColor: '#222222',
-                      boxShadow: 'none',
-                      transform: 'scale(1.05)'
-                    }
-                  }}
-                >
-                  Register
-                </Button>
+                  ) : (
+                    <Typography 
+                      key={item.text}
+                      component={RouterLink}
+                      to={item.link}
+                      sx={{ 
+                        mx: 1.5, 
+                        color: 'text.primary', 
+                        textDecoration: 'none',
+                        fontSize: '0.875rem',
+                        '&:hover': { color: 'primary.main' }
+                      }}
+                    >
+                      {item.text}
+                    </Typography>
+                  )
+                )}
               </>
+            )}
+
+            {/* Mobile Hamburger Menu */}
+            {isMobile && (
+              <IconButton
+                onClick={toggleMenu}
+                sx={{ 
+                  color: 'text.primary',
+                  ml: 1 
+                }}
+                aria-label="Open navigation menu"
+              >
+                <MenuIcon />
+              </IconButton>
             )}
           </Box>
         </Toolbar>
       </AppBar>
       
-      <Drawer
-        anchor="left"
-        open={menuOpen}
-        onClose={toggleMenu}
-      >
-        {sideMenu}
-      </Drawer>
+      {mobileMenu}
     </>
   );
 };
