@@ -56,21 +56,14 @@ const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
   }
 }));
 
-// Hero section with background image
-const HeroSection = styled(Box)(({ imageLoaded }) => ({
+// Hero section with solid background
+const HeroSection = styled(Box)(() => ({
   position: 'relative',
   minHeight: '100vh',
-  backgroundImage: imageLoaded 
-    ? `url('/images/e-waste-hero.png'), url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`
-    : `linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)`, // Fallback gradient
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  backgroundRepeat: 'no-repeat',
-  backgroundColor: '#2A2A2A', // Fallback dark color
+  backgroundColor: '#ffffff', // Clean white background
   display: 'flex',
   alignItems: 'flex-start',
   paddingTop: '0',
-  transition: 'background-image 0.5s ease-in-out',
   '&::before': {
     content: '""',
     position: 'absolute',
@@ -78,7 +71,7 @@ const HeroSection = styled(Box)(({ imageLoaded }) => ({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: imageLoaded ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.3)',
+    backgroundColor: 'rgba(0, 0, 0, 0.02)', // Very light overlay
     zIndex: 1
   }
 }));
@@ -155,7 +148,6 @@ const ImpactCard = styled(Paper)(({ theme }) => ({
 const NewLandingPage = () => {
   const theme = useTheme();
   const [animate, setAnimate] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
 
   // Trigger animation when component mounts
   useEffect(() => {
@@ -164,24 +156,6 @@ const NewLandingPage = () => {
     }, 500); // Start animation after 500ms
 
     return () => clearTimeout(timer);
-  }, []);
-
-  // Preload background image
-  useEffect(() => {
-    const imageUrl = '/images/e-waste-hero.png'; // Local image path
-    const img = new Image();
-    img.onload = () => {
-      console.log('E-waste hero background image loaded successfully');
-      setImageLoaded(true);
-    };
-    img.onerror = () => {
-      console.error('Failed to load e-waste hero background image');
-      // Fallback to Unsplash image if local image fails
-      const fallbackImg = new Image();
-      fallbackImg.onload = () => setImageLoaded(true);
-      fallbackImg.src = 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
-    };
-    img.src = imageUrl;
   }, []);
 
   // Add useEffect to log image loading status
@@ -258,7 +232,7 @@ const NewLandingPage = () => {
   return (
     <Box>
       {/* Hero Section */}
-      <HeroSection imageLoaded={imageLoaded}>
+      <HeroSection>
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 0 }}>
           <AnimatedContentBox animate={animate}>
             <Typography 
