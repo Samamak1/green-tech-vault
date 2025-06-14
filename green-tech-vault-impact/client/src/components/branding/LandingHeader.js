@@ -139,6 +139,7 @@ const LandingHeader = () => {
       sx={{ width: 280 }}
       role="presentation"
       onClick={toggleMenu}
+      aria-label="Navigation menu"
     >
       <Box sx={{ p: 2, bgcolor: theme.palette.primary.main, color: 'white' }}>
         <Typography variant="h6">Menu</Typography>
@@ -178,7 +179,7 @@ const LandingHeader = () => {
         }}>
           {/* Left side - Logo */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box component={RouterLink} to="/" sx={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+            <Box component={RouterLink} to="/" sx={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }} aria-label="RYGNeco home page">
               <Logo size="medium" showText={false} />
             </Box>
           </Box>

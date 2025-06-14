@@ -36,7 +36,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && echo 'Build completed with cache bust'",
+    "build": "GENERATE_SOURCEMAP=true react-scripts build && echo 'Build completed with source maps and cache bust'",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
