@@ -388,8 +388,8 @@ function App() {
 
   useEffect(() => {
     // Initialize analytics
-    if (window.gtag) {
-      analytics.setUserProperties({
+    if (window.gtag && analytics.trackEvent) {
+      analytics.trackEvent('app_init', {
         app_version: process.env.REACT_APP_VERSION || '1.0.0',
         environment: process.env.NODE_ENV || 'development'
       });

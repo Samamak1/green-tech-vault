@@ -98,31 +98,8 @@
       });
     </script>
     
-    <!-- Sentry Error Tracking -->
-    <script src="https://browser.sentry-cdn.com/7.91.0/bundle.tracing.min.js" integrity="sha384-cVlgvzlGhXoHZzqX2XsK8w/CULJvLNYvNZtvQ9rOAzJEJHwbwjfSlrQgvW4JFV6E" crossorigin="anonymous"></script>
-    <script>
-      Sentry.init({
-        dsn: "https://your-sentry-dsn@sentry.io/project-id",
-        integrations: [
-          new Sentry.BrowserTracing(),
-          new Sentry.Replay()
-        ],
-        tracesSampleRate: 0.1,
-        replaysSessionSampleRate: 0.1,
-        replaysOnErrorSampleRate: 1.0,
-        environment: "production",
-        beforeSend(event) {
-          // Filter out certain errors
-          if (event.exception) {
-            const error = event.exception.values[0];
-            if (error.type === 'ChunkLoadError' || error.type === 'ResizeObserver loop limit exceeded') {
-              return null;
-            }
-          }
-          return event;
-        }
-      });
-    </script>
+    <!-- Sentry Error Tracking - Temporarily disabled to fix loading issues -->
+    <!-- Will be re-enabled with proper configuration in future update -->
     
     <!-- Performance Monitoring -->
     <script>
@@ -137,48 +114,8 @@
             value: Math.round(loadTime)
           });
           
-          // Track Core Web Vitals
-          import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-            getCLS(metric => {
-              gtag('event', 'web_vitals', {
-                event_category: 'Performance',
-                event_label: 'CLS',
-                value: Math.round(metric.value * 1000)
-              });
-            });
-            
-            getFID(metric => {
-              gtag('event', 'web_vitals', {
-                event_category: 'Performance',
-                event_label: 'FID',
-                value: Math.round(metric.value)
-              });
-            });
-            
-            getFCP(metric => {
-              gtag('event', 'web_vitals', {
-                event_category: 'Performance',
-                event_label: 'FCP',
-                value: Math.round(metric.value)
-              });
-            });
-            
-            getLCP(metric => {
-              gtag('event', 'web_vitals', {
-                event_category: 'Performance',
-                event_label: 'LCP',
-                value: Math.round(metric.value)
-              });
-            });
-            
-            getTTFB(metric => {
-              gtag('event', 'web_vitals', {
-                event_category: 'Performance',
-                event_label: 'TTFB',
-                value: Math.round(metric.value)
-              });
-            });
-          });
+          // Core Web Vitals tracking handled by analytics utility
+          // Web Vitals are tracked via the React app's analytics module
         }
       });
       

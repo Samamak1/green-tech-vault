@@ -467,6 +467,18 @@ const mountRoute = (path, router, name) => {
   }
 };
 
+// Error reporting endpoint for client-side errors
+app.post('/api/errors', (req, res) => {
+  try {
+    console.error('Client Error Report:', req.body);
+    // Log the error (in production, you might want to send to a logging service)
+    res.status(200).json({ success: true, message: 'Error logged successfully' });
+  } catch (err) {
+    console.error('Error logging client error:', err);
+    res.status(500).json({ error: 'Failed to log error' });
+  }
+});
+
 // Mount API Routes with error handling
 mountRoute('/api/companies', companyRoutes, 'Company');
 mountRoute('/api/pickups', pickupRoutes, 'Pickup');
