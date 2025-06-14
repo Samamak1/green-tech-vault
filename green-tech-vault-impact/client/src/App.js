@@ -9,7 +9,7 @@ import { MessageProvider } from './context/MessageContext';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Box } from '@mui/material';
-import { BrowserRouter as Router, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 // Layout components
 import Layout from './components/layout/Layout';
@@ -454,13 +454,12 @@ function App() {
             <MessageProvider>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <CssBaseline />
-                <Router>
-                  <AnalyticsTracker />
-                  <AccessibilitySetup />
-                  <div className="App" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-                    <Header />
-                    <main style={{ flex: 1 }}>
-                      <Routes>
+                <AnalyticsTracker />
+                <AccessibilitySetup />
+                <div className="App" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+                  <Header />
+                  <main style={{ flex: 1 }}>
+                    <Routes>
                         {/* Public Routes with MainLayout */}
                         <Route path="/" element={
                           <MainLayout>
@@ -934,7 +933,6 @@ function App() {
                     <AccessibilityToolbar />
                     <PerformanceMonitor />
                   </div>
-                </Router>
               </LocalizationProvider>
             </MessageProvider>
           </LayoutEditorProvider>
