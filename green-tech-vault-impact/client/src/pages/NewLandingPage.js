@@ -242,7 +242,7 @@ const NewLandingPage = () => {
               color="text.primary" 
               sx={{ 
                 fontWeight: 'bold',
-                fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3.75rem' },
+                fontSize: { xs: '1.225rem', sm: '1.75rem', md: '2.625rem' },
                 lineHeight: { xs: 1.2, sm: 1.3, md: 1.2 },
                 mb: { xs: 2, sm: 3 }
               }}
@@ -256,7 +256,7 @@ const NewLandingPage = () => {
               color="text.primary" 
               sx={{ 
                 fontWeight: 'bold',
-                fontSize: { xs: '1.25rem', sm: '1.75rem', md: '2.5rem' },
+                fontSize: { xs: '0.875rem', sm: '1.225rem', md: '1.75rem' },
                 lineHeight: { xs: 1.2, sm: 1.3, md: 1.2 },
                 mb: { xs: 2, sm: 3 }
               }}
