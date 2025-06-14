@@ -76,7 +76,7 @@ const Login = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in to Green Tech Vault
+                              Sign in to RYGNeco
           </Typography>
           {error && (
             <Alert severity="error" sx={{ mt: 2, width: '100%' }}>
@@ -138,7 +138,7 @@ const Login = () => {
               <Typography variant="body2" color="text.secondary" align="center">
                 {'Copyright © '}
                 <Link color="inherit" href="https://greentechvault.com/">
-                  Green Tech Vault
+                  RYGNeco
                 </Link>{' '}
                 {new Date().getFullYear()}
                 {'.'}

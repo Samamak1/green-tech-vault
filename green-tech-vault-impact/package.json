@@ -1,7 +1,7 @@
 {
   "name": "green-tech-vault-impact",
   "version": "1.0.0",
-  "description": "Environmental impact tracking system for Green Tech Vault",
+  "description": "Environmental impact tracking system for RYGNeco",
   "main": "server/index.js",
   "scripts": {
     "start": "NODE_ENV=production node server/index.js",
@@ -27,7 +27,7 @@
     "environmental-impact",
     "sustainability"
   ],
-  "author": "Green Tech Vault",
+  "author": "RYGNeco",
   "license": "ISC",
   "dependencies": {
     "@mui/lab": "^7.0.0-beta.12",

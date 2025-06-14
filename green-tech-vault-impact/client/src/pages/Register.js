@@ -61,7 +61,7 @@ const Register = () => {
           Create Account
         </Typography>
         <Typography variant="body1" color="text.secondary" align="center" sx={{ mb: 3 }}>
-          Join Green Tech Vault to track your environmental impact
+                        Join RYGNeco to track your environmental impact
         </Typography>
 
         {error && (

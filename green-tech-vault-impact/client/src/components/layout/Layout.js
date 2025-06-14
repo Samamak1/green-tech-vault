@@ -140,7 +140,7 @@ const Layout = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            Green Tech Vault - Environmental Impact Tracker
+            RYGNeco - Environmental Impact Tracker
           </Typography>
           <div>
             <IconButton

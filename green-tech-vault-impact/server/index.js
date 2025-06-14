@@ -194,7 +194,7 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   app.get('/', (req, res) => {
     res.json({ 
-      message: 'Green Tech Vault API is running...',
+      message: 'RYGNeco API is running...',
       environment: 'development',
       version: '1.0.2'
     });
