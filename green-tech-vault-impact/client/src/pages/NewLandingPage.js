@@ -13,6 +13,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import DescriptionIcon from '@mui/icons-material/Description';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import LinkIcon from '@mui/icons-material/Link';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import NatureIcon from '@mui/icons-material/Nature';
+import StarIcon from '@mui/icons-material/Star';
+import ShieldIcon from '@mui/icons-material/Shield';
 
 // Import our custom components
 import RecyclingIconCustom from '../components/branding/RecyclingIcon';
@@ -154,6 +160,333 @@ const ImpactCard = styled(Paper)(({ theme }) => ({
   alignItems: 'center',
   boxShadow: '0 4px 20px rgba(0,0,0,0.08)'
 }));
+
+// Value Hexagon Ecosystem Components
+const ValueHexagonContainer = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  width: '500px',
+  height: '500px',
+  margin: '0 auto',
+  [theme.breakpoints.down('md')]: {
+    width: '400px',
+    height: '400px',
+  },
+  [theme.breakpoints.down('sm')]: {
+    width: '300px',
+    height: '300px',
+  }
+}));
+
+const HexNode = styled(Box)(({ theme, color, position }) => ({
+  position: 'absolute',
+  width: 100,
+  height: 100,
+  borderRadius: '50%',
+  backgroundColor: color,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  zIndex: 10,
+  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+  color: 'white',
+  ...position,
+  '&:hover': {
+    transform: 'scale(1.15)',
+    zIndex: 100,
+  },
+  [theme.breakpoints.down('md')]: {
+    width: 80,
+    height: 80,
+    top: position.top ? `${parseInt(position.top) * 0.8}px` : position.top,
+    left: position.left ? `${parseInt(position.left) * 0.8}px` : position.left,
+  },
+  [theme.breakpoints.down('sm')]: {
+    width: 60,
+    height: 60,
+    top: position.top ? `${parseInt(position.top) * 0.6}px` : position.top,
+    left: position.left ? `${parseInt(position.left) * 0.6}px` : position.left,
+  }
+}));
+
+const HexLabel = styled(Typography)(({ theme }) => ({
+  fontSize: '12px',
+  fontWeight: 600,
+  textAlign: 'center',
+  maxWidth: '80px',
+  lineHeight: 1.2,
+  marginTop: '4px',
+  [theme.breakpoints.down('md')]: {
+    fontSize: '10px',
+    maxWidth: '60px',
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '8px',
+    maxWidth: '45px',
+  }
+}));
+
+const ValueCounter = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  fontSize: '24px',
+  fontWeight: 700,
+  color: '#0d9488',
+  textAlign: 'center',
+  background: 'white',
+  borderRadius: '50%',
+  width: 180,
+  height: 180,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  boxShadow: '0 4px 20px rgba(13, 148, 136, 0.2)',
+  zIndex: 5,
+  [theme.breakpoints.down('md')]: {
+    width: 140,
+    height: 140,
+    fontSize: '20px',
+  },
+  [theme.breakpoints.down('sm')]: {
+    width: 100,
+    height: 100,
+    fontSize: '16px',
+  }
+}));
+
+const Connector = styled(Box)(({ theme, length, angle, startX, startY }) => ({
+  position: 'absolute',
+  height: 3,
+  width: length,
+  background: '#0d9488',
+  transformOrigin: '0 0',
+  transform: `rotate(${angle}deg)`,
+  left: startX,
+  top: startY,
+  zIndex: 1,
+  opacity: 0.3,
+  transition: 'opacity 0.3s ease',
+}));
+
+const HexTooltip = styled(Box)(({ theme, show, x, y }) => ({
+  position: 'absolute',
+  background: 'white',
+  padding: '15px',
+  borderRadius: '8px',
+  boxShadow: '0 5px 15px rgba(0,0,0,0.15)',
+  width: '200px',
+  zIndex: 200,
+  opacity: show ? 1 : 0,
+  transition: 'opacity 0.3s ease',
+  pointerEvents: 'none',
+  left: x,
+  top: y,
+  [theme.breakpoints.down('sm')]: {
+    width: '150px',
+    padding: '10px',
+    fontSize: '12px',
+  }
+}));
+
+// Value Ecosystem Hexagon Component
+const ValueEcosystemHexagon = () => {
+  const theme = useTheme();
+  const [hoveredPillar, setHoveredPillar] = useState(null);
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [currentValue, setCurrentValue] = useState(0);
+
+  // Animate counter on mount
+  useEffect(() => {
+    const targetValue = 4812;
+    const duration = 3000;
+    const startTime = Date.now();
+
+    const animateCounter = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      setCurrentValue(Math.floor(progress * targetValue));
+      
+      if (progress < 1) {
+        requestAnimationFrame(animateCounter);
+      }
+    };
+
+    const timer = setTimeout(animateCounter, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Pillar data
+  const pillars = [
+    {
+      id: 'blockchain',
+      title: 'Blockchain Tracking',
+      description: 'Immutable device-to-value journey verification with GPS-validated custody transfers',
+      icon: <LinkIcon fontSize="large" />,
+      color: '#0d9488',
+      position: { top: '50px', left: '200px' }
+    },
+    {
+      id: 'profit',
+      title: 'Profit Sharing',
+      description: '15-40% revenue share on refurbished sales through our global marketplace',
+      icon: <AttachMoneyIcon fontSize="large" />,
+      color: '#eab308',
+      position: { top: '150px', left: '400px' }
+    },
+    {
+      id: 'tax',
+      title: 'Tax Strategies',
+      description: 'Automated IRS Form 8283 preparation and fair market value documentation',
+      icon: <AssignmentIcon fontSize="large" />,
+      color: '#2563eb',
+      position: { top: '350px', left: '400px' }
+    },
+    {
+      id: 'carbon',
+      title: 'Carbon Credits',
+      description: 'Gold Standard-certified carbon credits from emissions avoidance',
+      icon: <NatureIcon fontSize="large" />,
+      color: '#16a34a',
+      position: { top: '450px', left: '200px' }
+    },
+    {
+      id: 'esg',
+      title: 'ESG Impact',
+      description: 'SDG-aligned impact metrics for sustainability disclosures and reporting',
+      icon: <StarIcon fontSize="large" />,
+      color: '#7e22ce',
+      position: { top: '350px', left: '0px' }
+    },
+    {
+      id: 'compliance',
+      title: 'Compliance',
+      description: 'Audit-proof R2/e-Stewards certified processing with blockchain verification',
+      icon: <ShieldIcon fontSize="large" />,
+      color: '#4b5563',
+      position: { top: '150px', left: '0px' }
+    }
+  ];
+
+  // Node positions for connectors
+  const nodePositions = [
+    { x: 250, y: 100 },  // blockchain (center of node)
+    { x: 450, y: 200 },  // profit
+    { x: 450, y: 400 },  // tax
+    { x: 250, y: 500 },  // carbon
+    { x: 50, y: 400 },   // esg
+    { x: 50, y: 200 }    // compliance
+  ];
+
+  // Connection lines
+  const connections = [
+    [0,1], [1,2], [2,3], [3,4], [4,5], [5,0], // Outer hexagon
+    [0,2], [1,3], [2,4], [3,5], [4,0], [5,1]  // Inner connections
+  ];
+
+  const handleNodeHover = (pillar, event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const hexRect = event.currentTarget.closest('.value-hexagon').getBoundingClientRect();
+    
+    setTooltipPosition({
+      x: rect.left - hexRect.left + 50,
+      y: rect.top - hexRect.top + 120
+    });
+    setHoveredPillar(pillar);
+  };
+
+  const handleNodeLeave = () => {
+    setHoveredPillar(null);
+  };
+
+  return (
+    <Box sx={{ py: 8, backgroundColor: '#f9fafb' }}>
+      <Container maxWidth="lg">
+        <Typography 
+          variant="h3" 
+          component="h2" 
+          textAlign="center" 
+          fontWeight="bold" 
+          gutterBottom
+          sx={{
+            fontSize: { xs: '1.75rem', sm: '2.25rem', md: '3rem' },
+            mb: 6
+          }}
+        >
+          Six Dimensions of Value
+        </Typography>
+        
+        <ValueHexagonContainer className="value-hexagon">
+          {/* Central Counter */}
+          <ValueCounter>
+            <Box>
+              <Typography variant="inherit" component="div">
+                ${currentValue.toLocaleString()}
+              </Typography>
+              <Typography variant="body2" component="div" sx={{ fontSize: { xs: '12px', sm: '14px' } }}>
+                Value Unlocked
+              </Typography>
+            </Box>
+          </ValueCounter>
+
+          {/* Connection Lines */}
+          {connections.map((conn, index) => {
+            const p1 = nodePositions[conn[0]];
+            const p2 = nodePositions[conn[1]];
+            const length = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+            const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+            
+            return (
+              <Connector
+                key={index}
+                length={length}
+                angle={angle}
+                startX={p1.x}
+                startY={p1.y}
+              />
+            );
+          })}
+
+          {/* Pillar Nodes */}
+          {pillars.map((pillar) => (
+            <HexNode
+              key={pillar.id}
+              color={pillar.color}
+              position={pillar.position}
+              onMouseEnter={(e) => handleNodeHover(pillar, e)}
+              onMouseLeave={handleNodeLeave}
+            >
+              {pillar.icon}
+              <HexLabel variant="body2">
+                {pillar.title}
+              </HexLabel>
+            </HexNode>
+          ))}
+
+          {/* Tooltip */}
+          {hoveredPillar && (
+            <HexTooltip
+              show={!!hoveredPillar}
+              x={tooltipPosition.x}
+              y={tooltipPosition.y}
+            >
+              <Typography variant="h6" sx={{ color: hoveredPillar.color, mb: 1 }}>
+                {hoveredPillar.title}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {hoveredPillar.description}
+              </Typography>
+            </HexTooltip>
+          )}
+        </ValueHexagonContainer>
+      </Container>
+    </Box>
+  );
+};
 
 const NewLandingPage = () => {
   const theme = useTheme();
@@ -303,6 +636,9 @@ const NewLandingPage = () => {
           </AnimatedContentBox>
         </Container>
       </HeroSection>
+      
+      {/* Value Ecosystem Hexagon Section */}
+      <ValueEcosystemHexagon />
       
       {/* What We Offer Section */}
       <Container maxWidth="lg" sx={{ py: 8 }}>
