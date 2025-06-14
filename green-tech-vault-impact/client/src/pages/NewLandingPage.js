@@ -45,7 +45,7 @@ const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
   backgroundColor: 'rgba(255, 255, 255, 0.4)',
   borderRadius: '20px',
   padding: theme.spacing(3, 4), // Reduced vertical padding, kept horizontal
-  maxWidth: '900px', // Made wider
+  maxWidth: '720px', // Reduced by 20%
   margin: '0 auto', // Horizontally centered
   position: 'relative',
   zIndex: 2,
@@ -55,7 +55,7 @@ const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
   boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
   [theme.breakpoints.up('md')]: {
     padding: theme.spacing(4, 6), // Reduced vertical padding from 6 to 4
-    maxWidth: '1000px', // Even wider on larger screens
+    maxWidth: '800px', // Reduced by 20%
   },
   [theme.breakpoints.down('sm')]: {
     padding: theme.spacing(2.5, 3), // Reduced vertical padding
@@ -73,7 +73,7 @@ const HeroSection = styled(Box)(() => ({
   display: 'flex',
   alignItems: 'flex-start', // Align content to top
   justifyContent: 'center', // Center content horizontally
-  paddingTop: '96px', // About 1 inch space from top (96px ≈ 1 inch at 96 DPI)
+  paddingTop: '64px', // Moved up from header
   '&::before': {
     content: '""',
     position: 'absolute',
