@@ -236,19 +236,7 @@ const NewLandingPage = () => {
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 0 }}>
           <AnimatedContentBox animate={animate}>
             <Typography 
-              variant="subtitle1" 
-              component="div" 
-              gutterBottom 
-              color="text.primary"
-              sx={{ 
-                fontSize: { xs: '14px', sm: '16px' },
-                mb: { xs: 1, sm: 2 }
-              }}
-            >
-              Welcome to RYGNeco
-            </Typography>
-            <Typography 
-              variant="h2" 
+              variant="h1" 
               component="h1" 
               gutterBottom 
               color="text.primary" 
@@ -259,7 +247,21 @@ const NewLandingPage = () => {
                 mb: { xs: 2, sm: 3 }
               }}
             >
-              Responsible E-Waste Recycling for a Cleaner Tomorrow!
+              One Platform. Six Dimensions of Value.
+            </Typography>
+            <Typography 
+              variant="h2" 
+              component="h2" 
+              gutterBottom 
+              color="text.primary" 
+              sx={{ 
+                fontWeight: 'bold',
+                fontSize: { xs: '1.25rem', sm: '1.75rem', md: '2.5rem' },
+                lineHeight: { xs: 1.2, sm: 1.3, md: 1.2 },
+                mb: { xs: 2, sm: 3 }
+              }}
+            >
+              Blockchain-Verified E-Waste Intelligence: Profit • ESG • Compliance
             </Typography>
             <Typography 
               variant="body1" 
@@ -271,10 +273,7 @@ const NewLandingPage = () => {
                 lineHeight: { xs: 1.4, sm: 1.5 }
               }}
             >
-              At RYGNeco, we make it easy for businesses and individuals to safely and 
-              responsibly recycle their electronic waste. From outdated computers to broken 
-              printers and everything in between — we help reduce landfill waste, recover 
-              valuable materials, and protect the environment.
+              RYGNeco's unified platform transforms retired electronics into measurable business value through integrated blockchain tracking, profit recovery, tax optimization, carbon credits, ESG impact, and ironclad compliance.
             </Typography>
             <Button 
               variant="contained" 
