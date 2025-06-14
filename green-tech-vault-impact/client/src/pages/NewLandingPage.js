@@ -33,11 +33,10 @@ const dropDown = keyframes`
 // Styled animated content box
 const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
   backgroundColor: 'rgba(255, 255, 255, 0.4)',
-  borderRadius: '0 0 20px 20px',
-  padding: theme.spacing(4),
-  maxWidth: '600px',
-  margin: '0',
-  marginLeft: '0',
+  borderRadius: '20px',
+  padding: theme.spacing(3, 4), // Reduced vertical padding, kept horizontal
+  maxWidth: '900px', // Made wider
+  margin: '0 auto', // Horizontally centered
   position: 'relative',
   zIndex: 2,
   animation: animate ? `${dropDown} 1.2s ease-out forwards` : 'none',
@@ -45,12 +44,12 @@ const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
   opacity: animate ? 1 : 0,
   boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
   [theme.breakpoints.up('md')]: {
-    padding: theme.spacing(6),
-    marginLeft: '10%',
+    padding: theme.spacing(4, 6), // Reduced vertical padding from 6 to 4
+    maxWidth: '1000px', // Even wider on larger screens
   },
   [theme.breakpoints.down('sm')]: {
-    padding: theme.spacing(3),
-    borderRadius: '10px',
+    padding: theme.spacing(2.5, 3), // Reduced vertical padding
+    borderRadius: '15px',
     margin: '0 16px',
     maxWidth: 'calc(100% - 32px)'
   }
@@ -62,7 +61,8 @@ const HeroSection = styled(Box)(() => ({
   minHeight: '100vh',
   backgroundColor: '#ffffff', // Clean white background
   display: 'flex',
-  alignItems: 'flex-start',
+  alignItems: 'center', // Center content vertically
+  justifyContent: 'center', // Center content horizontally
   paddingTop: '0',
   '&::before': {
     content: '""',
@@ -233,7 +233,7 @@ const NewLandingPage = () => {
     <Box>
       {/* Hero Section */}
       <HeroSection>
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 0 }}>
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, display: 'flex', justifyContent: 'center' }}>
           <AnimatedContentBox animate={animate}>
             <Typography 
               variant="h1" 
