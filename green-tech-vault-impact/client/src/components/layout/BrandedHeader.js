@@ -41,7 +41,7 @@ import NotificationsPopup from '../NotificationsPopup';
 const BrandedHeader = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery('(max-width:720px)'); // Custom breakpoint for navigation crowding
   const { user, logout } = useAuth();
   const { profileData, profilePictureUrl } = useProfile();
   const { isEditMode, toggleEditMode } = useLayoutEditor();
