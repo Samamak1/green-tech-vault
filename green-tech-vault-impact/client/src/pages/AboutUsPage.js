@@ -376,11 +376,10 @@ const AboutUsPage = () => {
                           sx={{
                             width: '100%',
                             height: '100%',
-                            objectFit: 'cover',
-                            objectPosition: member.name === "Sama Mushtaq" ? 'center center' : 'top center', // Center Sama's image, focus on head/face for others
+                            objectFit: member.name === "Sama Mushtaq" ? 'contain' : 'cover', // Show entire image for Sama, crop for others
+                            objectPosition: 'center center', // Center all images
                             display: 'block',
-                            transform: member.name === "Sama Mushtaq" ? 'scale(1.2)' : 'none', // Slight zoom for Sama to fill frame better
-                            transformOrigin: 'center center'
+                            backgroundColor: member.name === "Sama Mushtaq" ? '#f5f5f5' : 'transparent' // Light background for Sama to fill any gaps
                           }}
                           onError={(e) => {
                             // Fallback to placeholder if image fails to load
