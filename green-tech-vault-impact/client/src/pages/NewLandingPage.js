@@ -30,13 +30,13 @@ const dropDown = keyframes`
   }
 `;
 
-// One-way right to left gradient animation
+// One-way left to right gradient animation
 const pulsatingGradient = keyframes`
   0% {
-    background-position: 200% 50%;
+    background-position: -100% 50%;
   }
   100% {
-    background-position: -100% 50%;
+    background-position: 200% 50%;
   }
 `;
 
@@ -262,7 +262,7 @@ const NewLandingPage = () => {
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
-                animation: `${pulsatingGradient} 5.2s linear infinite`
+                animation: `${pulsatingGradient} 6.76s linear infinite`
               }}
             >
               One Platform. Six Dimensions of Value.
