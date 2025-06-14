@@ -299,27 +299,7 @@ const NewLandingPage = () => {
             >
               RYGNeco's unified platform transforms retired electronics into measurable business value through integrated blockchain tracking, profit recovery, tax optimization, carbon credits, ESG impact, and ironclad compliance.
             </Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: { xs: 2, sm: 3 } }}>
-              <Button 
-                variant="contained" 
-                size="large"
-                component={RouterLink}
-                to="/schedule-pickup"
-                sx={{ 
-                  bgcolor: theme.palette.teal.main,
-                  color: 'white',
-                  fontWeight: 'bold',
-                  fontSize: { xs: '14px', sm: '16px' },
-                  px: { xs: 3, sm: 4 },
-                  py: { xs: 1.5, sm: 2 },
-                  '&:hover': {
-                    bgcolor: theme.palette.teal.dark
-                  }
-                }}
-              >
-                SCHEDULE A PICKUP
-              </Button>
-            </Box>
+
           </AnimatedContentBox>
         </Container>
       </HeroSection>
