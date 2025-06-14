@@ -52,7 +52,7 @@ const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
   animation: animate ? `${dropDown} 1.2s ease-out forwards` : 'none',
   transform: animate ? 'translateY(0)' : 'translateY(-100%)',
   opacity: animate ? 1 : 0,
-  boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+
   [theme.breakpoints.up('md')]: {
     padding: theme.spacing(2.5, 6), // Further reduced vertical padding
     maxWidth: '800px', // Reduced by 20%
