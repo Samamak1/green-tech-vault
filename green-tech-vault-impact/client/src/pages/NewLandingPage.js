@@ -404,7 +404,7 @@ const ValueEcosystemHexagon = () => {
   };
 
   return (
-    <Box sx={{ py: 8, backgroundColor: '#f9fafb' }}>
+    <Box sx={{ py: 4, backgroundColor: '#f9fafb' }}>
       <Container maxWidth="lg">        
         <ValueHexagonContainer className="value-hexagon">
           {/* Central Counter */}
