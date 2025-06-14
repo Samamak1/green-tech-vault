@@ -34,16 +34,26 @@ const dropDown = keyframes`
 const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
   backgroundColor: 'rgba(255, 255, 255, 0.4)',
   borderRadius: '0 0 20px 20px',
-  padding: theme.spacing(6),
+  padding: theme.spacing(4),
   maxWidth: '600px',
   margin: '0',
-  marginLeft: '10%',
+  marginLeft: '0',
   position: 'relative',
   zIndex: 2,
   animation: animate ? `${dropDown} 1.2s ease-out forwards` : 'none',
   transform: animate ? 'translateY(0)' : 'translateY(-100%)',
   opacity: animate ? 1 : 0,
-  boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+  boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+  [theme.breakpoints.up('md')]: {
+    padding: theme.spacing(6),
+    marginLeft: '10%',
+  },
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(3),
+    borderRadius: '10px',
+    margin: '0 16px',
+    maxWidth: 'calc(100% - 32px)'
+  }
 }));
 
 // Hero section with background image
@@ -251,13 +261,42 @@ const NewLandingPage = () => {
       <HeroSection imageLoaded={imageLoaded}>
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 0 }}>
           <AnimatedContentBox animate={animate}>
-            <Typography variant="subtitle1" component="div" gutterBottom color="text.primary">
+            <Typography 
+              variant="subtitle1" 
+              component="div" 
+              gutterBottom 
+              color="text.primary"
+              sx={{ 
+                fontSize: { xs: '14px', sm: '16px' },
+                mb: { xs: 1, sm: 2 }
+              }}
+            >
               Welcome to RYGNeco
             </Typography>
-            <Typography variant="h2" component="h1" gutterBottom color="text.primary" sx={{ fontWeight: 'bold' }}>
+            <Typography 
+              variant="h2" 
+              component="h1" 
+              gutterBottom 
+              color="text.primary" 
+              sx={{ 
+                fontWeight: 'bold',
+                fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3.75rem' },
+                lineHeight: { xs: 1.2, sm: 1.3, md: 1.2 },
+                mb: { xs: 2, sm: 3 }
+              }}
+            >
               Responsible E-Waste Recycling for a Cleaner Tomorrow!
             </Typography>
-            <Typography variant="body1" paragraph color="text.primary" sx={{ mb: 4 }}>
+            <Typography 
+              variant="body1" 
+              paragraph 
+              color="text.primary" 
+              sx={{ 
+                mb: { xs: 3, sm: 4 },
+                fontSize: { xs: '14px', sm: '16px' },
+                lineHeight: { xs: 1.4, sm: 1.5 }
+              }}
+            >
               At RYGNeco, we make it easy for businesses and individuals to safely and 
               responsibly recycle their electronic waste. From outdated computers to broken 
               printers and everything in between — we help reduce landfill waste, recover 
@@ -272,6 +311,9 @@ const NewLandingPage = () => {
                 bgcolor: theme.palette.teal.main,
                 color: 'white',
                 fontWeight: 'bold',
+                fontSize: { xs: '14px', sm: '16px' },
+                px: { xs: 3, sm: 4 },
+                py: { xs: 1.5, sm: 2 },
                 '&:hover': {
                   bgcolor: theme.palette.teal.dark
                 }
@@ -285,11 +327,32 @@ const NewLandingPage = () => {
       
       {/* What We Offer Section */}
       <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Typography variant="h3" component="h2" textAlign="center" fontWeight="bold" gutterBottom>
+        <Typography 
+          variant="h3" 
+          component="h2" 
+          textAlign="center" 
+          fontWeight="bold" 
+          gutterBottom
+          sx={{
+            fontSize: { xs: '1.75rem', sm: '2.25rem', md: '3rem' },
+            px: { xs: 2, sm: 0 }
+          }}
+        >
           What We Offer
         </Typography>
-        <Typography variant="body1" textAlign="center" paragraph sx={{ maxWidth: 800, mx: 'auto', mb: 6 }}>
-          Whether you're a small office or a large corporation, we provide reliable, secure, and<br />
+        <Typography 
+          variant="body1" 
+          textAlign="center" 
+          paragraph 
+          sx={{ 
+            maxWidth: 800, 
+            mx: 'auto', 
+            mb: 6,
+            fontSize: { xs: '14px', sm: '16px' },
+            px: { xs: 2, sm: 0 }
+          }}
+        >
+          Whether you're a small office or a large corporation, we provide reliable, secure, and
           eco-conscious solutions that make it easy to dispose of your electronic waste.
         </Typography>
 
@@ -331,13 +394,34 @@ const NewLandingPage = () => {
 
       {/* Our Process Section */}
       <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Typography variant="h3" component="h2" textAlign="center" fontWeight="bold" gutterBottom>
+        <Typography 
+          variant="h3" 
+          component="h2" 
+          textAlign="center" 
+          fontWeight="bold" 
+          gutterBottom
+          sx={{
+            fontSize: { xs: '1.75rem', sm: '2.25rem', md: '3rem' },
+            px: { xs: 2, sm: 0 }
+          }}
+        >
           Our Process
         </Typography>
         
-        <Typography variant="body1" textAlign="center" paragraph sx={{ maxWidth: 800, mx: 'auto', mb: 6 }}>
-          From collection to refurbishment, reuse to responsible recycling, our process<br />
-          is designed with care. Whether you're an individual or an organization, we<br />
+        <Typography 
+          variant="body1" 
+          textAlign="center" 
+          paragraph 
+          sx={{ 
+            maxWidth: 800, 
+            mx: 'auto', 
+            mb: 6,
+            fontSize: { xs: '14px', sm: '16px' },
+            px: { xs: 2, sm: 0 }
+          }}
+        >
+          From collection to refurbishment, reuse to responsible recycling, our process
+          is designed with care. Whether you're an individual or an organization, we
           make it simple—so you can be part of the solution, every step of the way.
         </Typography>
         
@@ -375,25 +459,27 @@ const NewLandingPage = () => {
             <Box
               sx={{
                 display: 'flex',
-                alignItems: 'center',
+                flexDirection: { xs: 'column', sm: 'row' },
+                alignItems: { xs: 'center', sm: 'center' },
                 gap: 3,
                 p: 3,
                 backgroundColor: 'white',
                 borderRadius: 2,
                 boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-                maxWidth: 'none', // Remove max width constraint
-                mx: 0, // Remove auto margins
+                maxWidth: 'none',
+                mx: 0,
                 height: 'auto',
-                minHeight: '120px'
+                minHeight: { xs: 'auto', sm: '120px' },
+                textAlign: { xs: 'center', sm: 'left' }
               }}
             >
-              {/* Icon at far left */}
+              {/* Icon */}
               <Box
                 sx={{
                   width: 64,
                   height: 64,
                   borderRadius: '50%',
-                  backgroundColor: '#16615A', // Using the fifth color as requested
+                  backgroundColor: '#16615A',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -404,18 +490,27 @@ const NewLandingPage = () => {
                 <BarChartIcon fontSize="large" />
               </Box>
               
-              {/* Content area - flexible */}
+              {/* Content area */}
               <Box sx={{ flex: 1 }}>
-                <Typography variant="h6" fontWeight="bold" gutterBottom>
+                <Typography 
+                  variant="h6" 
+                  fontWeight="bold" 
+                  gutterBottom
+                  sx={{ fontSize: { xs: '18px', sm: '20px' } }}
+                >
                   Impact
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography 
+                  variant="body2" 
+                  color="text.secondary"
+                  sx={{ fontSize: { xs: '14px', sm: '14px' } }}
+                >
                   Receive detailed reports on your environmental impact and data security
                 </Typography>
               </Box>
               
-              {/* Button at far right */}
-              <Box sx={{ flexShrink: 0 }}>
+              {/* Button */}
+              <Box sx={{ flexShrink: 0, mt: { xs: 2, sm: 0 } }}>
                 <Button 
                   variant="contained"
                   component={RouterLink}
@@ -423,6 +518,8 @@ const NewLandingPage = () => {
                   size="small"
                   sx={{ 
                     bgcolor: theme.palette.teal.main,
+                    fontSize: { xs: '12px', sm: '14px' },
+                    px: { xs: 2, sm: 3 },
                     '&:hover': {
                       bgcolor: theme.palette.teal.dark
                     }

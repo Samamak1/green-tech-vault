@@ -10,13 +10,20 @@ import {
   Avatar, 
   IconButton, 
   useTheme,
+  useMediaQuery,
   Menu,
   MenuItem,
   Divider,
   ListItemIcon,
-  Badge
+  Badge,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
@@ -34,12 +41,14 @@ import NotificationsPopup from '../NotificationsPopup';
 const BrandedHeader = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { user, logout } = useAuth();
   const { profileData, profilePictureUrl } = useProfile();
   const { isEditMode, toggleEditMode } = useLayoutEditor();
   const [anchorEl, setAnchorEl] = useState(null);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [notificationsAnchorEl, setNotificationsAnchorEl] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -65,8 +74,25 @@ const BrandedHeader = () => {
     setNotificationsAnchorEl(null);
   };
 
+  const handleMobileMenuToggle = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMenuOpen(false);
+  };
+
   const isMenuOpen = Boolean(anchorEl);
   const menuId = 'primary-client-account-menu';
+
+  // Navigation items for both desktop and mobile
+  const navigationItems = [
+    { text: 'Schedule A Pickup', link: '/schedule-pickup' },
+    { text: 'How It Works', link: '/how-it-works' },
+    { text: 'Join Us', link: '/join-us' },
+    { text: 'About Us', link: '/about-us' },
+    { text: 'Contact', link: '/contact' }
+  ];
   
   // Calculate unread notification count
   const unreadNotificationCount = 7;
@@ -179,6 +205,102 @@ const BrandedHeader = () => {
     </Menu>
   );
 
+  // Mobile drawer menu
+  const mobileMenu = (
+    <Drawer
+      anchor="right"
+      open={mobileMenuOpen}
+      onClose={handleMobileMenuClose}
+      PaperProps={{
+        sx: {
+          width: 280,
+          backgroundColor: 'white',
+        }
+      }}
+    >
+      <Box sx={{ p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e0e0e0' }}>
+        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+          Menu
+        </Typography>
+        <IconButton onClick={handleMobileMenuClose}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
+      
+      <List sx={{ pt: 0 }}>
+        {navigationItems.map((item, index) => (
+          <ListItem 
+            key={index}
+            component={RouterLink} 
+            to={item.link}
+            onClick={handleMobileMenuClose}
+            sx={{
+              py: 2,
+              borderBottom: index < navigationItems.length - 1 ? '1px solid #f0f0f0' : 'none',
+              '&:hover': {
+                backgroundColor: '#f5f5f5'
+              }
+            }}
+          >
+            <ListItemText 
+              primary={item.text} 
+              primaryTypographyProps={{
+                fontSize: '16px',
+                fontWeight: '500'
+              }}
+            />
+          </ListItem>
+        ))}
+        
+        {!user && (
+          <>
+            <Divider sx={{ my: 2 }} />
+            <ListItem 
+              component={RouterLink} 
+              to="/login"
+              onClick={handleMobileMenuClose}
+              sx={{ py: 2 }}
+            >
+              <ListItemText 
+                primary="Sign In" 
+                primaryTypographyProps={{
+                  fontSize: '16px',
+                  fontWeight: '500',
+                  color: 'primary.main'
+                }}
+              />
+            </ListItem>
+            <ListItem 
+              component={RouterLink} 
+              to="/register"
+              onClick={handleMobileMenuClose}
+              sx={{ 
+                py: 2,
+                mx: 2,
+                mb: 2,
+                backgroundColor: 'primary.main',
+                borderRadius: 2,
+                '&:hover': {
+                  backgroundColor: 'primary.dark'
+                }
+              }}
+            >
+              <ListItemText 
+                primary="Register" 
+                primaryTypographyProps={{
+                  fontSize: '16px',
+                  fontWeight: '500',
+                  color: 'white',
+                  textAlign: 'center'
+                }}
+              />
+            </ListItem>
+          </>
+        )}
+      </List>
+    </Drawer>
+  );
+
   return (
     <AppBar 
       position="fixed" 
@@ -204,68 +326,67 @@ const BrandedHeader = () => {
               <Logo variant="default" size="medium" showText={true} linkTo="/" />
             </Box>
 
-            {/* Center - Navigation Menu */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              <Button
-                component={RouterLink}
-                to="/join-us"
-                sx={{ 
-                  color: 'text.primary',
-                  textTransform: 'none',
-                  '&:hover': { backgroundColor: 'transparent', color: 'primary.main' }
-                }}
-              >
-                Join Us
-              </Button>
-              <Button
-                component={RouterLink}
-                to="/schedule-pickup"
-                sx={{ 
-                  color: 'text.primary',
-                  textTransform: 'none',
-                  '&:hover': { backgroundColor: 'transparent', color: 'primary.main' }
-                }}
-              >
-                Schedule A Pickup
-              </Button>
-              <Button
-                component={RouterLink}
-                to="/how-it-works"
-                sx={{ 
-                  color: 'text.primary',
-                  textTransform: 'none',
-                  '&:hover': { backgroundColor: 'transparent', color: 'primary.main' }
-                }}
-              >
-                How It Works
-              </Button>
-              <Button
-                component={RouterLink}
-                to="/about-us"
-                sx={{ 
-                  color: 'text.primary',
-                  textTransform: 'none',
-                  '&:hover': { backgroundColor: 'transparent', color: 'primary.main' }
-                }}
-              >
-                About Us
-              </Button>
-              <Button
-                component={RouterLink}
-                to="/contact"
-                sx={{ 
-                  color: 'text.primary',
-                  textTransform: 'none',
-                  '&:hover': { backgroundColor: 'transparent', color: 'primary.main' }
-                }}
-              >
-                Contact
-              </Button>
-            </Box>
+            {/* Center - Navigation Menu (Desktop only) */}
+            {!isMobile && (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                {navigationItems.map((item, index) => (
+                  <Button
+                    key={index}
+                    component={RouterLink}
+                    to={item.link}
+                    sx={{ 
+                      color: 'text.primary',
+                      textTransform: 'none',
+                      fontSize: '14px',
+                      '&:hover': { backgroundColor: 'transparent', color: 'primary.main' }
+                    }}
+                  >
+                    {item.text}
+                  </Button>
+                ))}
+              </Box>
+            )}
 
-            {/* Right side - Sign In/Register or User Profile */}
+            {/* Right side - Sign In/Register or User Profile + Mobile Menu */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              {user ? (
+              {/* Desktop Auth Buttons */}
+              {!isMobile && !user && (
+                <>
+                  <Button
+                    component={RouterLink}
+                    to="/login"
+                    variant="outlined"
+                    sx={{ 
+                      borderRadius: '20px',
+                      px: 3,
+                      textTransform: 'none',
+                      color: 'text.primary',
+                      borderColor: '#e0e0e0',
+                      fontSize: '14px'
+                    }}
+                  >
+                    Sign in
+                  </Button>
+                  <Button
+                    component={RouterLink}
+                    to="/register"
+                    variant="contained"
+                    sx={{ 
+                      borderRadius: '20px',
+                      px: 3,
+                      textTransform: 'none',
+                      bgcolor: '#333',
+                      fontSize: '14px',
+                      '&:hover': { bgcolor: '#555' }
+                    }}
+                  >
+                    Register
+                  </Button>
+                </>
+              )}
+
+              {/* User Profile (if logged in) */}
+              {user && (
                 <>
                   <Box sx={{ 
                     mr: 1,
@@ -273,10 +394,10 @@ const BrandedHeader = () => {
                     flexDirection: 'column',
                     alignItems: 'flex-end',
                   }}>
-                    <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                    <Typography variant="body2" sx={{ fontWeight: 'bold', fontSize: '14px' }}>
                       {profileData?.fullName || user?.name || user?.companyName || 'User'}
                     </Typography>
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography variant="caption" color="text.secondary" sx={{ fontSize: '12px' }}>
                       {user?.username ? `@${user.username.replace('@', '')}` : ''}
                     </Typography>
                   </Box>
@@ -297,43 +418,27 @@ const BrandedHeader = () => {
                     {!profilePictureUrl && ((profileData?.fullName || user?.name || user?.companyName || 'U').charAt(0))}
                   </Avatar>
                 </>
-              ) : (
-                <>
-                  <Button
-                    component={RouterLink}
-                    to="/login"
-                    variant="outlined"
-                    sx={{ 
-                      borderRadius: '20px',
-                      px: 3,
-                      textTransform: 'none',
-                      color: 'text.primary',
-                      borderColor: '#e0e0e0'
-                    }}
-                  >
-                    Sign in
-                  </Button>
-                  <Button
-                    component={RouterLink}
-                    to="/register"
-                    variant="contained"
-                    sx={{ 
-                      borderRadius: '20px',
-                      px: 3,
-                      textTransform: 'none',
-                      bgcolor: '#333',
-                      '&:hover': { bgcolor: '#555' }
-                    }}
-                  >
-                    Register
-                  </Button>
-                </>
+              )}
+
+              {/* Mobile Hamburger Menu */}
+              {isMobile && (
+                <IconButton
+                  onClick={handleMobileMenuToggle}
+                  sx={{ 
+                    color: 'text.primary',
+                    ml: 1 
+                  }}
+                  aria-label="Open navigation menu"
+                >
+                  <MenuIcon />
+                </IconButton>
               )}
             </Box>
           </Box>
         </Toolbar>
       </Container>
       {renderMenu}
+      {mobileMenu}
       
       {/* Notifications Popup */}
       <NotificationsPopup 
