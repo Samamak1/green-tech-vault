@@ -22,9 +22,9 @@ class AccessibilityManager {
     if (typeof window !== 'undefined') {
       this.loadPreferences();
       this.detectSystemPreferences();
-      this.setupKeyboardNavigation();
-      this.setupFocusManagement();
-      this.setupScreenReaderSupport();
+    this.setupKeyboardNavigation();
+    this.setupFocusManagement();
+    this.setupScreenReaderSupport();
       this.setupAccessibilityShortcuts();
       this.isInitialized = true;
       console.log('Accessibility Manager initialized');

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
+  <defs>
+    <style>
+      .leaf { fill: #4ECDC4; }
+      .stem { fill: #4ECDC4; }
+    </style>
+  </defs>
+  
+  <!-- Stem -->
+  <path class="stem" d="M45 85 L48 45 L52 45 L50 85 Z"/>
+  
+  <!-- Small left leaf -->
+  <path class="leaf" d="M25 35 Q20 25 25 15 Q35 12 45 20 Q48 25 48 35 Q45 45 35 45 Q25 45 25 35 Z"/>
+  
+  <!-- Large right leaf -->
+  <path class="leaf" d="M52 50 Q48 35 55 20 Q70 15 85 25 Q88 35 85 50 Q80 65 70 70 Q55 70 52 50 Z"/>
+  
+  <!-- Leaf details/veins -->
+  <path class="stem" d="M30 25 Q35 30 42 35" stroke="#2E8B7A" stroke-width="1" fill="none"/>
+  <path class="stem" d="M60 30 Q65 35 75 45" stroke="#2E8B7A" stroke-width="1.5" fill="none"/>
+  <path class="stem" d="M58 45 Q68 50 75 55" stroke="#2E8B7A" stroke-width="1" fill="none"/>
+</svg> 
