@@ -20,7 +20,6 @@ import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import GridOverlay from './components/GridOverlay';
 import AccessibilityToolbar from './components/AccessibilityToolbar';
-import PerformanceMonitor from './components/PerformanceMonitor';
 
 // Pages
 import Dashboard from './pages/Dashboard';
@@ -561,7 +560,6 @@ function ConditionalLayout() {
       <GridOverlay />
       <PWAInstallPrompt />
       <AccessibilityToolbar />
-      <PerformanceMonitor />
     </div>
   );
 }
