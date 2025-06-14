@@ -376,10 +376,8 @@ const AboutUsPage = () => {
                             width: '100%',
                             height: '100%',
                             objectFit: 'cover',
-                            objectPosition: member.name === "Sama Mushtaq" ? 'center 0%' : 'center center', // Move Sama's image to top to eliminate white space and align bottom boundary
-                            display: 'block',
-                            transform: member.name === "Sama Mushtaq" ? 'scale(1.15)' : 'none', // Increased zoom for Sama to eliminate white space and match bottom boundary
-                            transformOrigin: 'center center'
+                            objectPosition: 'center center',
+                            display: 'block'
                           }}
                           onError={(e) => {
                             // Fallback to placeholder if image fails to load
