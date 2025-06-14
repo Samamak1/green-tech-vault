@@ -42,7 +42,7 @@ const pulsatingGradient = keyframes`
 
 // Styled animated content box
 const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
-  backgroundColor: 'rgba(255, 255, 255, 0.4)',
+  background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.3) 70%, rgba(255, 255, 255, 0.1) 90%, rgba(255, 255, 255, 0) 100%)',
   borderRadius: '20px',
   padding: theme.spacing(2, 4), // Further reduced vertical padding
   maxWidth: '720px', // Reduced by 20%
