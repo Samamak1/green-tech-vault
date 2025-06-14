@@ -1,487 +1,408 @@
-// Analytics utility for RYGNeco
-// Handles Google Analytics, performance monitoring, and custom event tracking
+// Enhanced Analytics utility for RYGNeco
+// Handles Google Analytics, custom events, user engagement, and performance tracking
+
+import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals';
 
 class Analytics {
   constructor() {
     this.isInitialized = false;
-    this.userId = null;
     this.sessionId = this.generateSessionId();
-    this.pageLoadTime = null;
+    this.startTime = Date.now();
+    this.userInteractions = 0;
+    this.engagementEvents = [];
     this.performanceMetrics = {};
     
     this.init();
   }
 
   init() {
-    // Initialize analytics when DOM is ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => this.setup());
-    } else {
-      this.setup();
-    }
-  }
-
-  setup() {
-    // Check if gtag is available
     if (typeof window !== 'undefined' && window.gtag) {
       this.isInitialized = true;
-      this.setupPerformanceMonitoring();
-      this.setupUserTracking();
-      this.trackPageLoad();
-    } else {
-      console.warn('Google Analytics not available');
+      console.log('Analytics initialized');
+      
+      // Track session start
+      this.trackEvent('session_start', {
+        session_id: this.sessionId,
+        timestamp: this.startTime
+      });
+      
+      // Set up Core Web Vitals tracking
+      this.initWebVitals();
+      
+      // Set up user engagement tracking
+      this.initEngagementTracking();
+      
+      // Set up error tracking
+      this.initErrorTracking();
     }
   }
 
   generateSessionId() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    return 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
   }
 
-  // User and Session Tracking
-  setUserId(userId) {
-    this.userId = userId;
-    if (this.isInitialized) {
-      window.gtag('config', 'G-XXXXXXXXXX', {
-        user_id: userId
-      });
-    }
-  }
-
-  setUserProperties(properties) {
-    if (this.isInitialized) {
-      window.gtag('set', {
-        user_properties: properties
-      });
-    }
-  }
-
-  // Page Tracking
-  trackPageView(pagePath, pageTitle) {
-    if (this.isInitialized) {
-      window.gtag('config', 'G-XXXXXXXXXX', {
-        page_path: pagePath,
-        page_title: pageTitle,
-        session_id: this.sessionId
-      });
-    }
+  // Page view tracking
+  trackPageView(path, title) {
+    if (!this.isInitialized) return;
     
-    // Track custom page view event
-    this.trackEvent('page_view', {
-      page_path: pagePath,
-      page_title: pageTitle,
-      timestamp: new Date().toISOString()
-    });
-  }
-
-  // Event Tracking
-  trackEvent(eventName, parameters = {}) {
-    if (this.isInitialized) {
-      window.gtag('event', eventName, {
-        ...parameters,
-        session_id: this.sessionId,
-        user_id: this.userId
-      });
-    }
-    
-    // Log for development
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Analytics Event:', eventName, parameters);
-    }
-  }
-
-  // E-commerce and Business Events
-  trackPickupRequest(pickupData) {
-    this.trackEvent('pickup_request', {
-      event_category: 'E-waste',
-      event_label: 'Pickup Scheduled',
-      value: 1,
-      pickup_type: pickupData.type,
-      device_count: pickupData.deviceCount,
-      company_size: pickupData.companySize
-    });
-  }
-
-  trackQuoteRequest(quoteData) {
-    this.trackEvent('quote_request', {
-      event_category: 'Lead Generation',
-      event_label: 'Quote Requested',
-      value: 1,
-      service_type: quoteData.serviceType,
-      estimated_devices: quoteData.deviceCount
-    });
-  }
-
-  trackFormSubmission(formName, formData) {
-    this.trackEvent('form_submit', {
-      event_category: 'Form',
-      event_label: formName,
-      form_name: formName,
-      form_fields: Object.keys(formData).length
-    });
-  }
-
-  trackDownload(fileName, fileType) {
-    this.trackEvent('file_download', {
-      event_category: 'Download',
-      event_label: fileName,
-      file_name: fileName,
-      file_type: fileType
-    });
-  }
-
-  trackSearch(searchTerm, resultsCount) {
-    this.trackEvent('search', {
-      event_category: 'Search',
-      search_term: searchTerm,
-      results_count: resultsCount
-    });
-  }
-
-  // User Engagement
-  trackTimeOnPage(pagePath, timeSpent) {
-    this.trackEvent('time_on_page', {
-      event_category: 'Engagement',
-      event_label: pagePath,
-      value: Math.round(timeSpent / 1000), // Convert to seconds
-      page_path: pagePath
-    });
-  }
-
-  trackScrollDepth(percentage) {
-    this.trackEvent('scroll_depth', {
-      event_category: 'Engagement',
-      event_label: `${percentage}%`,
-      value: percentage
-    });
-  }
-
-  trackButtonClick(buttonName, location) {
-    this.trackEvent('button_click', {
-      event_category: 'UI Interaction',
-      event_label: buttonName,
-      button_name: buttonName,
-      button_location: location
-    });
-  }
-
-  trackVideoPlay(videoTitle, videoDuration) {
-    this.trackEvent('video_play', {
-      event_category: 'Video',
-      event_label: videoTitle,
-      video_title: videoTitle,
-      video_duration: videoDuration
-    });
-  }
-
-  // Performance Monitoring
-  setupPerformanceMonitoring() {
-    // Track Core Web Vitals using web-vitals library
-    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-      getCLS(this.onCLS.bind(this));
-      getFID(this.onFID.bind(this));
-      getFCP(this.onFCP.bind(this));
-      getLCP(this.onLCP.bind(this));
-      getTTFB(this.onTTFB.bind(this));
-    }).catch(() => {
-      console.warn('web-vitals library not available, using fallback performance monitoring');
-      this.setupFallbackPerformanceMonitoring();
-    });
-
-    // Track page load performance
-    window.addEventListener('load', () => {
-      this.trackPageLoadPerformance();
-    });
-  }
-
-  setupFallbackPerformanceMonitoring() {
-    // Fallback performance monitoring without web-vitals library
-    if ('PerformanceObserver' in window) {
-      try {
-        // Observe paint metrics
-        const paintObserver = new PerformanceObserver((list) => {
-          for (const entry of list.getEntries()) {
-            if (entry.name === 'first-contentful-paint') {
-              this.performanceMetrics.fcp = entry.startTime;
-              this.trackEvent('web_vital_fcp', {
-                event_category: 'Performance',
-                value: Math.round(entry.startTime),
-                metric_value: entry.startTime
-              });
-            }
-          }
-        });
-        paintObserver.observe({ entryTypes: ['paint'] });
-
-        // Observe largest contentful paint
-        const lcpObserver = new PerformanceObserver((list) => {
-          const entries = list.getEntries();
-          const lastEntry = entries[entries.length - 1];
-          this.performanceMetrics.lcp = lastEntry.startTime;
-          this.trackEvent('web_vital_lcp', {
-            event_category: 'Performance',
-            value: Math.round(lastEntry.startTime),
-            metric_value: lastEntry.startTime
-          });
-        });
-        lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
-
-        // Observe layout shifts
-        let clsValue = 0;
-        const clsObserver = new PerformanceObserver((list) => {
-          for (const entry of list.getEntries()) {
-            if (!entry.hadRecentInput) {
-              clsValue += entry.value;
-            }
-          }
-          this.performanceMetrics.cls = clsValue;
-          this.trackEvent('web_vital_cls', {
-            event_category: 'Performance',
-            value: Math.round(clsValue * 1000),
-            metric_value: clsValue
-          });
-        });
-        clsObserver.observe({ entryTypes: ['layout-shift'] });
-
-        // Observe first input delay
-        const fidObserver = new PerformanceObserver((list) => {
-          for (const entry of list.getEntries()) {
-            const fidValue = entry.processingStart - entry.startTime;
-            this.performanceMetrics.fid = fidValue;
-            this.trackEvent('web_vital_fid', {
-              event_category: 'Performance',
-              value: Math.round(fidValue),
-              metric_value: fidValue
-            });
-          }
-        });
-        fidObserver.observe({ entryTypes: ['first-input'] });
-
-      } catch (error) {
-        console.warn('Performance monitoring not fully supported:', error);
+    window.gtag('config', 'G-RYGNECO2024', {
+      page_path: path,
+      page_title: title,
+      custom_map: {
+        'dimension1': this.getUserType(),
+        'dimension2': this.getPageCategory(path)
       }
+    });
+    
+    // Track page load performance
+    this.trackPagePerformance(path);
+  }
+
+  // Custom event tracking
+  trackEvent(eventName, parameters = {}) {
+    if (!this.isInitialized) return;
+    
+    const eventData = {
+      ...parameters,
+      session_id: this.sessionId,
+      user_type: this.getUserType(),
+      timestamp: Date.now()
+    };
+    
+    window.gtag('event', eventName, eventData);
+    
+    console.log('Analytics Event:', eventName, eventData);
+  }
+
+  // User interaction tracking
+  trackInteraction(action, element, value = null) {
+    this.userInteractions++;
+    
+    this.trackEvent('user_interaction', {
+      action: action,
+      element: element,
+      value: value,
+      interaction_count: this.userInteractions
+    });
+  }
+
+  // E-commerce tracking for pickup scheduling
+  trackPickupScheduled(pickupData) {
+    this.trackEvent('schedule_pickup', {
+      event_category: 'E-commerce',
+      event_label: 'Pickup Scheduled',
+      pickup_type: pickupData.type,
+      pickup_value: pickupData.estimatedValue || 0,
+      device_count: pickupData.deviceCount || 0,
+      location: pickupData.location
+    });
+    
+    // Enhanced e-commerce tracking
+    window.gtag('event', 'purchase', {
+      transaction_id: pickupData.id,
+      value: pickupData.estimatedValue || 0,
+      currency: 'USD',
+      items: [{
+        item_id: pickupData.id,
+        item_name: 'E-waste Pickup',
+        category: pickupData.type,
+        quantity: 1,
+        price: pickupData.estimatedValue || 0
+      }]
+    });
+  }
+
+  // User engagement metrics
+  trackEngagement(eventType, data = {}) {
+    const engagementEvent = {
+      type: eventType,
+      timestamp: Date.now(),
+      data: data
+    };
+    
+    this.engagementEvents.push(engagementEvent);
+    
+    // Track significant engagement milestones
+    if (this.engagementEvents.length % 10 === 0) {
+      this.trackEvent('engagement_milestone', {
+        total_events: this.engagementEvents.length,
+        session_duration: Date.now() - this.startTime,
+        event_type: eventType
+      });
     }
   }
 
-  onCLS(metric) {
-    this.performanceMetrics.cls = metric.value;
-    this.trackEvent('web_vital_cls', {
-      event_category: 'Performance',
-      value: Math.round(metric.value * 1000),
-      metric_value: metric.value
+  // Form tracking
+  trackFormStart(formName) {
+    this.trackEvent('form_start', {
+      form_name: formName,
+      event_category: 'Form Interaction'
     });
   }
 
-  onFID(metric) {
-    this.performanceMetrics.fid = metric.value;
-    this.trackEvent('web_vital_fid', {
-      event_category: 'Performance',
-      value: Math.round(metric.value),
-      metric_value: metric.value
+  trackFormSubmit(formName, success = true, errorMessage = null) {
+    this.trackEvent('form_submit', {
+      form_name: formName,
+      success: success,
+      error_message: errorMessage,
+      event_category: 'Form Interaction'
     });
   }
 
-  onFCP(metric) {
-    this.performanceMetrics.fcp = metric.value;
-    this.trackEvent('web_vital_fcp', {
-      event_category: 'Performance',
-      value: Math.round(metric.value),
-      metric_value: metric.value
+  trackFormFieldError(formName, fieldName, errorType) {
+    this.trackEvent('form_field_error', {
+      form_name: formName,
+      field_name: fieldName,
+      error_type: errorType,
+      event_category: 'Form Interaction'
     });
   }
 
-  onLCP(metric) {
-    this.performanceMetrics.lcp = metric.value;
-    this.trackEvent('web_vital_lcp', {
-      event_category: 'Performance',
-      value: Math.round(metric.value),
-      metric_value: metric.value
+  // Search tracking
+  trackSearch(searchTerm, resultsCount, category = null) {
+    this.trackEvent('search', {
+      search_term: searchTerm,
+      results_count: resultsCount,
+      category: category,
+      event_category: 'Search'
     });
   }
 
-  onTTFB(metric) {
-    this.performanceMetrics.ttfb = metric.value;
-    this.trackEvent('web_vital_ttfb', {
-      event_category: 'Performance',
-      value: Math.round(metric.value),
-      metric_value: metric.value
+  // File download/upload tracking
+  trackFileDownload(fileName, fileType, fileSize = null) {
+    this.trackEvent('file_download', {
+      file_name: fileName,
+      file_type: fileType,
+      file_size: fileSize,
+      event_category: 'File Interaction'
     });
   }
 
-  trackPageLoadPerformance() {
-    if ('performance' in window) {
+  trackFileUpload(fileName, fileType, fileSize = null, success = true) {
+    this.trackEvent('file_upload', {
+      file_name: fileName,
+      file_type: fileType,
+      file_size: fileSize,
+      success: success,
+      event_category: 'File Interaction'
+    });
+  }
+
+  // Core Web Vitals tracking
+  initWebVitals() {
+    getCLS((metric) => {
+      this.performanceMetrics.cls = metric.value;
+      this.trackEvent('web_vitals_cls', {
+        value: Math.round(metric.value * 1000),
+        rating: metric.rating,
+        event_category: 'Performance'
+      });
+    });
+
+    getFID((metric) => {
+      this.performanceMetrics.fid = metric.value;
+      this.trackEvent('web_vitals_fid', {
+        value: Math.round(metric.value),
+        rating: metric.rating,
+        event_category: 'Performance'
+      });
+    });
+
+    getFCP((metric) => {
+      this.performanceMetrics.fcp = metric.value;
+      this.trackEvent('web_vitals_fcp', {
+        value: Math.round(metric.value),
+        rating: metric.rating,
+        event_category: 'Performance'
+      });
+    });
+
+    getLCP((metric) => {
+      this.performanceMetrics.lcp = metric.value;
+      this.trackEvent('web_vitals_lcp', {
+        value: Math.round(metric.value),
+        rating: metric.rating,
+        event_category: 'Performance'
+      });
+    });
+
+    getTTFB((metric) => {
+      this.performanceMetrics.ttfb = metric.value;
+      this.trackEvent('web_vitals_ttfb', {
+        value: Math.round(metric.value),
+        rating: metric.rating,
+        event_category: 'Performance'
+      });
+    });
+
+    // INP (Interaction to Next Paint) not available in this web-vitals version
+    // Will be added when web-vitals is updated to support it
+  }
+
+  // Page performance tracking
+  trackPagePerformance(path) {
+    if (typeof window !== 'undefined' && window.performance) {
       const navigation = performance.getEntriesByType('navigation')[0];
       
       if (navigation) {
-        const loadTime = navigation.loadEventEnd - navigation.fetchStart;
-        const domContentLoaded = navigation.domContentLoadedEventEnd - navigation.fetchStart;
-        const firstByte = navigation.responseStart - navigation.fetchStart;
-        
-        this.pageLoadTime = loadTime;
-        
-        this.trackEvent('page_load_performance', {
-          event_category: 'Performance',
-          load_time: Math.round(loadTime),
-          dom_content_loaded: Math.round(domContentLoaded),
-          time_to_first_byte: Math.round(firstByte)
+        const metrics = {
+          dns_lookup: navigation.domainLookupEnd - navigation.domainLookupStart,
+          tcp_connection: navigation.connectEnd - navigation.connectStart,
+          tls_handshake: navigation.secureConnectionStart > 0 ? navigation.connectEnd - navigation.secureConnectionStart : 0,
+          ttfb: navigation.responseStart - navigation.requestStart,
+          content_download: navigation.responseEnd - navigation.responseStart,
+          dom_processing: navigation.domContentLoadedEventEnd - navigation.responseEnd,
+          resource_loading: navigation.loadEventEnd - navigation.domContentLoadedEventEnd,
+          total_load_time: navigation.loadEventEnd - navigation.navigationStart
+        };
+
+        this.trackEvent('page_performance', {
+          page_path: path,
+          ...metrics,
+          event_category: 'Performance'
         });
       }
     }
   }
 
-  // Error Tracking
-  trackError(error, errorInfo = {}) {
-    this.trackEvent('javascript_error', {
-      event_category: 'Error',
-      event_label: error.message,
-      error_message: error.message,
-      error_stack: error.stack,
-      error_url: window.location.href,
-      ...errorInfo
-    });
-  }
+  // User engagement tracking setup
+  initEngagementTracking() {
+    if (typeof window === 'undefined') return;
 
-  trackApiError(endpoint, statusCode, errorMessage) {
-    this.trackEvent('api_error', {
-      event_category: 'API Error',
-      event_label: endpoint,
-      api_endpoint: endpoint,
-      status_code: statusCode,
-      error_message: errorMessage
-    });
-  }
+    let isActive = true;
+    let activeTime = 0;
+    let lastActiveTime = Date.now();
 
-  // User Behavior Tracking
-  setupUserTracking() {
-    // Track user interactions
-    this.setupScrollTracking();
-    this.setupClickTracking();
-    this.setupFormTracking();
-  }
-
-  setupScrollTracking() {
-    let maxScroll = 0;
-    let scrollTimer = null;
-    
-    window.addEventListener('scroll', () => {
-      const scrollPercent = Math.round(
-        (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
-      );
-      
-      if (scrollPercent > maxScroll) {
-        maxScroll = scrollPercent;
+    const trackActivity = () => {
+      if (isActive) {
+        activeTime += Date.now() - lastActiveTime;
       }
-      
-      // Debounce scroll tracking
-      clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(() => {
-        if (maxScroll >= 25 && maxScroll % 25 === 0) {
-          this.trackScrollDepth(maxScroll);
-        }
-      }, 500);
-    });
-  }
+      lastActiveTime = Date.now();
+      isActive = true;
+    };
 
-  setupClickTracking() {
-    document.addEventListener('click', (event) => {
-      const target = event.target;
-      
-      // Track button clicks
-      if (target.tagName === 'BUTTON' || target.closest('button')) {
-        const button = target.tagName === 'BUTTON' ? target : target.closest('button');
-        const buttonText = button.textContent.trim();
-        const buttonId = button.id || 'unknown';
-        
-        this.trackButtonClick(buttonText || buttonId, window.location.pathname);
-      }
-      
-      // Track link clicks
-      if (target.tagName === 'A' || target.closest('a')) {
-        const link = target.tagName === 'A' ? target : target.closest('a');
-        const linkText = link.textContent.trim();
-        const linkHref = link.href;
-        
-        this.trackEvent('link_click', {
-          event_category: 'Navigation',
-          event_label: linkText,
-          link_text: linkText,
-          link_url: linkHref,
-          link_external: !linkHref.includes(window.location.hostname)
+    const trackInactivity = () => {
+      isActive = false;
+    };
+
+    // Track user activity
+    ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'].forEach(event => {
+      document.addEventListener(event, trackActivity, { passive: true });
+    });
+
+    // Track when user becomes inactive
+    ['blur', 'visibilitychange'].forEach(event => {
+      document.addEventListener(event, trackInactivity);
+    });
+
+    // Send engagement data periodically
+    setInterval(() => {
+      if (activeTime > 1000) { // Only track if user was active for more than 1 second
+        this.trackEvent('user_engagement_interval', {
+          active_time: Math.round(activeTime / 1000),
+          total_time: Math.round((Date.now() - this.startTime) / 1000),
+          engagement_rate: Math.round((activeTime / (Date.now() - this.startTime)) * 100),
+          event_category: 'Engagement'
         });
       }
+    }, 60000); // Every minute
+
+    // Track session end on page unload
+    window.addEventListener('beforeunload', () => {
+      const sessionDuration = Date.now() - this.startTime;
+      this.trackEvent('session_end', {
+        session_duration: Math.round(sessionDuration / 1000),
+        active_time: Math.round(activeTime / 1000),
+        total_interactions: this.userInteractions,
+        engagement_events: this.engagementEvents.length,
+        performance_metrics: this.performanceMetrics
+      });
     });
   }
 
-  setupFormTracking() {
-    document.addEventListener('submit', (event) => {
-      const form = event.target;
-      if (form.tagName === 'FORM') {
-        const formName = form.name || form.id || 'unknown_form';
-        const formData = new FormData(form);
-        const formFields = {};
-        
-        for (let [key, value] of formData.entries()) {
-          formFields[key] = typeof value === 'string' ? value.length : 'file';
-        }
-        
-        this.trackFormSubmission(formName, formFields);
+  // Error tracking
+  initErrorTracking() {
+    if (typeof window === 'undefined') return;
+
+    window.addEventListener('error', (event) => {
+      this.trackEvent('javascript_error', {
+        error_message: event.message,
+        error_filename: event.filename,
+        error_line: event.lineno,
+        error_column: event.colno,
+        event_category: 'Error'
+      });
+    });
+
+    window.addEventListener('unhandledrejection', (event) => {
+      this.trackEvent('promise_rejection', {
+        error_message: event.reason?.message || 'Unknown promise rejection',
+        event_category: 'Error'
+      });
+    });
+  }
+
+  // Utility functions
+  getUserType() {
+    // Determine user type based on authentication status, role, etc.
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const token = localStorage.getItem('token');
+      const userRole = localStorage.getItem('userRole');
+      
+      if (token) {
+        return userRole || 'authenticated';
       }
+    }
+    return 'anonymous';
+  }
+
+  getPageCategory(path) {
+    if (path.includes('/dashboard')) return 'dashboard';
+    if (path.includes('/schedule')) return 'scheduling';
+    if (path.includes('/pickup')) return 'pickup';
+    if (path.includes('/impact')) return 'impact';
+    if (path.includes('/contact')) return 'contact';
+    if (path.includes('/about')) return 'about';
+    if (path.includes('/login') || path.includes('/register')) return 'auth';
+    return 'general';
+  }
+
+  // A/B Testing support
+  trackExperiment(experimentName, variant) {
+    this.trackEvent('experiment_view', {
+      experiment_name: experimentName,
+      variant: variant,
+      event_category: 'Experiment'
     });
   }
 
-  // Conversion Tracking
-  trackConversion(conversionName, value = 0, currency = 'USD') {
+  // Conversion tracking
+  trackConversion(conversionType, value = null, currency = 'USD') {
     this.trackEvent('conversion', {
-      event_category: 'Conversion',
-      event_label: conversionName,
+      conversion_type: conversionType,
       value: value,
       currency: currency,
-      conversion_name: conversionName
+      event_category: 'Conversion'
     });
-  }
-
-  // Custom Dimensions and Metrics
-  setCustomDimension(index, value) {
-    if (this.isInitialized) {
-      window.gtag('config', 'G-XXXXXXXXXX', {
-        [`custom_map.dimension${index}`]: value
-      });
-    }
-  }
-
-  // Utility Methods
-  getPerformanceMetrics() {
-    return {
-      ...this.performanceMetrics,
-      pageLoadTime: this.pageLoadTime,
-      sessionId: this.sessionId,
-      userId: this.userId
-    };
-  }
-
-  // Debug Mode
-  enableDebugMode() {
-    if (this.isInitialized) {
-      window.gtag('config', 'G-XXXXXXXXXX', {
-        debug_mode: true
-      });
-    }
   }
 }
 
-// Create singleton instance
+// Create and export analytics instance
 const analytics = new Analytics();
 
-// Export convenience methods
+// Export tracking functions for easy use
+export const trackPageView = (path, title) => analytics.trackPageView(path, title);
 export const trackEvent = (eventName, parameters) => analytics.trackEvent(eventName, parameters);
-export const trackPageView = (pagePath, pageTitle) => analytics.trackPageView(pagePath, pageTitle);
-export const trackPickupRequest = (pickupData) => analytics.trackPickupRequest(pickupData);
-export const trackQuoteRequest = (quoteData) => analytics.trackQuoteRequest(quoteData);
-export const trackFormSubmission = (formName, formData) => analytics.trackFormSubmission(formName, formData);
-export const trackError = (error, errorInfo) => analytics.trackError(error, errorInfo);
-export const trackApiError = (endpoint, statusCode, errorMessage) => analytics.trackApiError(endpoint, statusCode, errorMessage);
-export const trackConversion = (conversionName, value, currency) => analytics.trackConversion(conversionName, value, currency);
-export const setUserId = (userId) => analytics.setUserId(userId);
-export const setUserProperties = (properties) => analytics.setUserProperties(properties);
-export const getPerformanceMetrics = () => analytics.getPerformanceMetrics();
+export const trackInteraction = (action, element, value) => analytics.trackInteraction(action, element, value);
+export const trackPickupScheduled = (pickupData) => analytics.trackPickupScheduled(pickupData);
+export const trackEngagement = (eventType, data) => analytics.trackEngagement(eventType, data);
+export const trackFormStart = (formName) => analytics.trackFormStart(formName);
+export const trackFormSubmit = (formName, success, errorMessage) => analytics.trackFormSubmit(formName, success, errorMessage);
+export const trackFormFieldError = (formName, fieldName, errorType) => analytics.trackFormFieldError(formName, fieldName, errorType);
+export const trackSearch = (searchTerm, resultsCount, category) => analytics.trackSearch(searchTerm, resultsCount, category);
+export const trackFileDownload = (fileName, fileType, fileSize) => analytics.trackFileDownload(fileName, fileType, fileSize);
+export const trackFileUpload = (fileName, fileType, fileSize, success) => analytics.trackFileUpload(fileName, fileType, fileSize, success);
+export const trackExperiment = (experimentName, variant) => analytics.trackExperiment(experimentName, variant);
+export const trackConversion = (conversionType, value, currency) => analytics.trackConversion(conversionType, value, currency);
 
 export default analytics; 

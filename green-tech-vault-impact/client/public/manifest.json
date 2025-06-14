@@ -1,25 +1,92 @@
 {
   "short_name": "RYGNeco",
   "name": "RYGNeco - Responsible E-waste Management Solutions",
+  "description": "Professional e-waste recycling and environmental impact solutions. Keep it green. Keep it safe. Keep it connected.",
   "icons": [
     {
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/x-icon",
+      "purpose": "any"
     },
     {
       "src": "logo192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "logo512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#c70039",
-  "background_color": "#0e1001"
+  "orientation": "portrait-primary",
+  "theme_color": "#4ECDC4",
+  "background_color": "#1C392B",
+  "categories": ["business", "utilities", "productivity"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "scope": "/",
+  "id": "com.rygneco.app",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "shortcuts": [
+    {
+      "name": "Schedule Pickup",
+      "short_name": "Schedule",
+      "description": "Schedule an e-waste pickup",
+      "url": "/schedule-pickup",
+      "icons": [
+        {
+          "src": "logo192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Track Impact",
+      "short_name": "Impact",
+      "description": "View environmental impact",
+      "url": "/impact",
+      "icons": [
+        {
+          "src": "logo192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Access your dashboard",
+      "url": "/dashboard",
+      "icons": [
+        {
+          "src": "logo192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "form_factor": "narrow"
+    }
+  ],
+  "prefer_related_applications": false,
+  "protocol_handlers": [
+    {
+      "protocol": "web+rygneco",
+      "url": "/?action=%s"
+    }
+  ]
 } 

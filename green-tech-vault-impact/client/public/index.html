@@ -42,24 +42,91 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="RYGNeco" />
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts with display=swap for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
     
+    <!-- Structured Data Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "RYGNeco",
+      "description": "Responsible e-waste management and environmental impact solutions",
+      "url": "https://green-tech-vault.onrender.com/",
+      "logo": "https://green-tech-vault.onrender.com/logo512.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+1-555-ECO-RECYCLE",
+        "contactType": "customer service",
+        "email": "info@rygneco.com"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "US"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/company/rygneco",
+        "https://twitter.com/rygneco"
+      ],
+      "serviceType": "E-waste Management",
+      "areaServed": "United States"
+    }
+    </script>
+    
     <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RYGNECO2024"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX', {
+      gtag('config', 'G-RYGNECO2024', {
         page_title: 'RYGNeco - Responsible E-waste Management',
-        custom_map: {'custom_parameter_1': 'page_category'}
+        custom_map: {'custom_parameter_1': 'page_category'},
+        send_page_view: true,
+        enhanced_ecommerce: true
+      });
+      
+      // Enhanced ecommerce tracking
+      gtag('config', 'G-RYGNECO2024', {
+        custom_map: {
+          'dimension1': 'user_type',
+          'dimension2': 'pickup_category',
+          'dimension3': 'device_type'
+        }
+      });
+    </script>
+    
+    <!-- Sentry Error Tracking -->
+    <script src="https://browser.sentry-cdn.com/7.91.0/bundle.tracing.min.js" integrity="sha384-cVlgvzlGhXoHZzqX2XsK8w/CULJvLNYvNZtvQ9rOAzJEJHwbwjfSlrQgvW4JFV6E" crossorigin="anonymous"></script>
+    <script>
+      Sentry.init({
+        dsn: "https://your-sentry-dsn@sentry.io/project-id",
+        integrations: [
+          new Sentry.BrowserTracing(),
+          new Sentry.Replay()
+        ],
+        tracesSampleRate: 0.1,
+        replaysSessionSampleRate: 0.1,
+        replaysOnErrorSampleRate: 1.0,
+        environment: "production",
+        beforeSend(event) {
+          // Filter out certain errors
+          if (event.exception) {
+            const error = event.exception.values[0];
+            if (error.type === 'ChunkLoadError' || error.type === 'ResizeObserver loop limit exceeded') {
+              return null;
+            }
+          }
+          return event;
+        }
       });
     </script>
     
     <!-- Performance Monitoring -->
     <script>
-      // Web Vitals tracking
+      // Web Vitals tracking with enhanced metrics
       window.addEventListener('load', function() {
         if ('performance' in window) {
           // Track page load time
@@ -69,11 +136,132 @@
             event_label: 'Load Time',
             value: Math.round(loadTime)
           });
+          
+          // Track Core Web Vitals
+          import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+            getCLS(metric => {
+              gtag('event', 'web_vitals', {
+                event_category: 'Performance',
+                event_label: 'CLS',
+                value: Math.round(metric.value * 1000)
+              });
+            });
+            
+            getFID(metric => {
+              gtag('event', 'web_vitals', {
+                event_category: 'Performance',
+                event_label: 'FID',
+                value: Math.round(metric.value)
+              });
+            });
+            
+            getFCP(metric => {
+              gtag('event', 'web_vitals', {
+                event_category: 'Performance',
+                event_label: 'FCP',
+                value: Math.round(metric.value)
+              });
+            });
+            
+            getLCP(metric => {
+              gtag('event', 'web_vitals', {
+                event_category: 'Performance',
+                event_label: 'LCP',
+                value: Math.round(metric.value)
+              });
+            });
+            
+            getTTFB(metric => {
+              gtag('event', 'web_vitals', {
+                event_category: 'Performance',
+                event_label: 'TTFB',
+                value: Math.round(metric.value)
+              });
+            });
+          });
+        }
+      });
+      
+      // Track user engagement
+      let engagementTime = 0;
+      let lastActiveTime = Date.now();
+      
+      function trackEngagement() {
+        engagementTime += Date.now() - lastActiveTime;
+        lastActiveTime = Date.now();
+      }
+      
+      ['click', 'scroll', 'keydown', 'mousemove'].forEach(event => {
+        document.addEventListener(event, trackEngagement, { passive: true });
+      });
+      
+      // Send engagement data on page unload
+      window.addEventListener('beforeunload', function() {
+        if (engagementTime > 5000) { // Only track if user was engaged for more than 5 seconds
+          gtag('event', 'user_engagement', {
+            event_category: 'Engagement',
+            event_label: 'Time on Page',
+            value: Math.round(engagementTime / 1000)
+          });
+        }
+      });
+    </script>
+    
+    <!-- Accessibility Features -->
+    <script>
+      // Skip link functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const skipLink = document.createElement('a');
+        skipLink.href = '#main-content';
+        skipLink.textContent = 'Skip to main content';
+        skipLink.className = 'skip-link';
+        skipLink.style.cssText = `
+          position: absolute;
+          top: -40px;
+          left: 6px;
+          background: #000;
+          color: #fff;
+          padding: 8px;
+          text-decoration: none;
+          border-radius: 0 0 4px 4px;
+          z-index: 10000;
+          transition: top 0.2s ease;
+        `;
+        
+        skipLink.addEventListener('focus', function() {
+          this.style.top = '0';
+        });
+        
+        skipLink.addEventListener('blur', function() {
+          this.style.top = '-40px';
+        });
+        
+        document.body.insertBefore(skipLink, document.body.firstChild);
+        
+        // High contrast mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-contrast: high)').matches) {
+          document.documentElement.classList.add('high-contrast');
+        }
+        
+        // Reduced motion detection
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.documentElement.classList.add('reduced-motion');
+        }
+        
+        // Color scheme detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.classList.add('dark-mode');
         }
       });
     </script>
     
     <title>RYGNeco - Responsible E-waste Management Solutions</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/images/robot-logo.svg" as="image" type="image/svg+xml">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://browser.sentry-cdn.com">
   </head>
   <body>
     <noscript>
@@ -83,7 +271,7 @@
         <p>Please enable JavaScript in your browser settings and refresh the page.</p>
       </div>
     </noscript>
-    <div id="root"></div>
+    <div id="root" role="main" aria-label="RYGNeco Application"></div>
     
     <!-- Service Worker Registration -->
     <script>
@@ -92,9 +280,24 @@
           navigator.serviceWorker.register('/sw.js')
             .then(function(registration) {
               console.log('SW registered: ', registration);
+              
+              // Check for service worker updates
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // New service worker is available
+                    gtag('event', 'sw_update_available', {
+                      event_category: 'Service Worker',
+                      event_label: 'Update Available'
+                    });
+                  }
+                });
+              });
             })
             .catch(function(registrationError) {
               console.log('SW registration failed: ', registrationError);
+              Sentry.captureException(registrationError);
             });
         });
       }

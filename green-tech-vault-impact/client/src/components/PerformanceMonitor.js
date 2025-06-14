@@ -20,7 +20,7 @@ import {
   TrendingDown as TrendingDownIcon,
   Info as InfoIcon
 } from '@mui/icons-material';
-import { getPerformanceMetrics } from '../utils/analytics';
+// Performance metrics are collected directly via Performance API
 
 const PerformanceMonitor = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -40,9 +40,7 @@ const PerformanceMonitor = () => {
       return;
     }
 
-    // Get initial metrics
-    const initialMetrics = getPerformanceMetrics();
-    setMetrics(initialMetrics);
+    // Initial metrics will be collected via Performance API observers
 
     // Set up performance observer for Core Web Vitals
     if ('PerformanceObserver' in window) {
@@ -116,13 +114,8 @@ const PerformanceMonitor = () => {
       }
     });
 
-    // Update metrics periodically
-    const interval = setInterval(() => {
-      const updatedMetrics = getPerformanceMetrics();
-      setMetrics(prev => ({ ...prev, ...updatedMetrics }));
-    }, 5000);
-
-    return () => clearInterval(interval);
+    // Metrics are updated automatically via Performance API observers
+    // No need for periodic updates as observers handle real-time updates
   }, []);
 
   const getMetricStatus = (value, thresholds) => {

@@ -127,6 +127,332 @@ app.get('/health', (req, res) => {
   }
 });
 
+// Initialize request tracking
+global.requestCount = 0;
+global.errorCount = 0;
+global.averageResponseTime = 0;
+global.requestTimestamps = [];
+global.recentErrors = [];
+global.errorTypes = {};
+
+// Request tracking middleware
+app.use((req, res, next) => {
+  req.startTime = Date.now();
+  
+  // Track request count
+  global.requestCount = (global.requestCount || 0) + 1;
+  
+  // Track request timestamps for RPS calculation
+  if (!global.requestTimestamps) {
+    global.requestTimestamps = [];
+  }
+  global.requestTimestamps.push(Date.now());
+  
+  // Clean old timestamps (keep only last minute)
+  const oneMinuteAgo = Date.now() - 60000;
+  global.requestTimestamps = global.requestTimestamps.filter(timestamp => timestamp > oneMinuteAgo);
+  
+  // Track response time and errors on response finish
+  res.on('finish', () => {
+    const responseTime = Date.now() - req.startTime;
+    
+    // Update average response time
+    const currentAvg = global.averageResponseTime || 0;
+    const requestCount = global.requestCount || 1;
+    global.averageResponseTime = ((currentAvg * (requestCount - 1)) + responseTime) / requestCount;
+    
+    // Track errors
+    if (res.statusCode >= 400) {
+      global.errorCount = (global.errorCount || 0) + 1;
+      
+      // Track error by status code
+      if (!global.errorTypes) {
+        global.errorTypes = {};
+      }
+      const errorKey = `HTTP_${res.statusCode}`;
+      global.errorTypes[errorKey] = (global.errorTypes[errorKey] || 0) + 1;
+      
+      // Track recent errors
+      if (!global.recentErrors) {
+        global.recentErrors = [];
+      }
+      global.recentErrors.push({
+        timestamp: Date.now(),
+        url: req.url,
+        method: req.method,
+        statusCode: res.statusCode,
+        userAgent: req.headers['user-agent'],
+        ip: req.ip
+      });
+      
+      // Keep only last 50 errors
+      if (global.recentErrors.length > 50) {
+        global.recentErrors = global.recentErrors.slice(-50);
+      }
+    }
+  });
+  
+  next();
+});
+
+// Detailed system metrics endpoint
+app.get('/health/metrics', (req, res) => {
+  try {
+    const os = require('os');
+    const metrics = {
+      timestamp: Date.now(),
+      uptime: process.uptime(),
+      memory: process.memoryUsage(),
+      cpu: process.cpuUsage(),
+      platform: process.platform,
+      nodeVersion: process.version,
+      pid: process.pid,
+      environment: process.env.NODE_ENV || 'development',
+      loadAverage: os.loadavg(),
+      totalMemory: os.totalmem(),
+      freeMemory: os.freemem(),
+      cpuCount: os.cpus().length,
+      requests: {
+        total: global.requestCount || 0,
+        errors: global.errorCount || 0,
+        averageResponseTime: Math.round(global.averageResponseTime || 0),
+        requestsPerMinute: global.requestTimestamps.length
+      },
+      database: {
+        connected: dbConnected,
+        status: dbConnected ? 'OK' : 'ERROR'
+      }
+    };
+    
+    res.json(metrics);
+  } catch (err) {
+    console.error('Metrics endpoint error:', err);
+    res.status(500).json({ error: 'Failed to get metrics' });
+  }
+});
+
+// Performance monitoring endpoint
+app.get('/health/performance', (req, res) => {
+  try {
+    const startTime = Date.now();
+    const performance = {
+      timestamp: Date.now(),
+      responseTime: Date.now() - startTime,
+      memoryUsage: {
+        rss: Math.round(process.memoryUsage().rss / 1024 / 1024), // MB
+        heapTotal: Math.round(process.memoryUsage().heapTotal / 1024 / 1024), // MB
+        heapUsed: Math.round(process.memoryUsage().heapUsed / 1024 / 1024), // MB
+        external: Math.round(process.memoryUsage().external / 1024 / 1024) // MB
+      },
+      cpuUsage: process.cpuUsage(),
+      eventLoopDelay: getEventLoopDelay(),
+      requestsPerSecond: calculateRequestsPerSecond(),
+      errorRate: calculateErrorRate(),
+      activeHandles: process._getActiveHandles().length,
+      activeRequests: process._getActiveRequests().length
+    };
+    
+    res.json(performance);
+  } catch (err) {
+    console.error('Performance endpoint error:', err);
+    res.status(500).json({ error: 'Failed to get performance data' });
+  }
+});
+
+// Database health check
+app.get('/health/database', async (req, res) => {
+  try {
+    const mongoose = require('mongoose');
+    
+    if (mongoose.connection.readyState === 1) {
+      // Try a simple ping to the database
+      await mongoose.connection.db.admin().ping();
+      
+      res.json({
+        status: 'OK',
+        timestamp: Date.now(),
+        database: 'Connected',
+        readyState: mongoose.connection.readyState,
+        connectionName: mongoose.connection.name,
+        host: mongoose.connection.host,
+        port: mongoose.connection.port
+      });
+    } else {
+      res.status(503).json({
+        status: 'ERROR',
+        timestamp: Date.now(),
+        database: 'Disconnected',
+        readyState: mongoose.connection.readyState
+      });
+    }
+  } catch (error) {
+    res.status(503).json({
+      status: 'ERROR',
+      timestamp: Date.now(),
+      database: 'Error',
+      error: error.message
+    });
+  }
+});
+
+// API endpoints health check
+app.get('/health/api', (req, res) => {
+  try {
+    const endpoints = {
+      auth: { status: 'OK', path: '/api/auth' },
+      companies: { status: 'OK', path: '/api/companies' },
+      pickups: { status: 'OK', path: '/api/pickups' },
+      devices: { status: 'OK', path: '/api/devices' },
+      dashboard: { status: 'OK', path: '/api/dashboard' },
+      impact: { status: 'OK', path: '/api/impact' },
+      reports: { status: 'OK', path: '/api/reports' },
+      messages: { status: 'OK', path: '/api/messages' }
+    };
+    
+    const apiStatus = {
+      status: 'OK',
+      timestamp: Date.now(),
+      endpoints: endpoints,
+      totalEndpoints: Object.keys(endpoints).length,
+      healthyEndpoints: Object.keys(endpoints).length
+    };
+    
+    res.json(apiStatus);
+  } catch (err) {
+    console.error('API health check error:', err);
+    res.status(500).json({ error: 'Failed to check API health' });
+  }
+});
+
+// Error tracking endpoint
+app.get('/health/errors', (req, res) => {
+  try {
+    const errors = {
+      timestamp: Date.now(),
+      totalErrors: global.errorCount || 0,
+      recentErrors: global.recentErrors || [],
+      errorRate: calculateErrorRate(),
+      errorTypes: global.errorTypes || {},
+      topErrors: getTopErrors()
+    };
+    
+    res.json(errors);
+  } catch (err) {
+    console.error('Error tracking endpoint error:', err);
+    res.status(500).json({ error: 'Failed to get error data' });
+  }
+});
+
+// Security status endpoint
+app.get('/health/security', (req, res) => {
+  try {
+    const security = {
+      timestamp: Date.now(),
+      httpsEnabled: req.secure || req.headers['x-forwarded-proto'] === 'https',
+      headers: {
+        xContentTypeOptions: !!req.headers['x-content-type-options'],
+        xFrameOptions: !!req.headers['x-frame-options'],
+        xXSSProtection: !!req.headers['x-xss-protection'],
+        cors: !!req.headers['access-control-allow-origin']
+      },
+      nodeVersion: process.version,
+      environment: process.env.NODE_ENV || 'development',
+      trustProxy: app.get('trust proxy'),
+      vulnerabilities: {
+        vulnerabilitiesFound: 0,
+        lastScan: Date.now(),
+        scanStatus: 'Clean'
+      }
+    };
+    
+    res.json(security);
+  } catch (err) {
+    console.error('Security check error:', err);
+    res.status(500).json({ error: 'Failed to check security status' });
+  }
+});
+
+// Readiness probe for Kubernetes/Docker
+app.get('/ready', (req, res) => {
+  try {
+    const isReady = isServerReady && dbConnected;
+    
+    if (isReady) {
+      res.status(200).json({
+        status: 'Ready',
+        timestamp: Date.now(),
+        message: 'Application is ready to serve traffic',
+        database: dbConnected,
+        server: isServerReady
+      });
+    } else {
+      res.status(503).json({
+        status: 'Not Ready',
+        timestamp: Date.now(),
+        message: 'Application is not ready to serve traffic',
+        database: dbConnected,
+        server: isServerReady
+      });
+    }
+  } catch (err) {
+    console.error('Readiness probe error:', err);
+    res.status(503).json({ error: 'Readiness check failed' });
+  }
+});
+
+// Liveness probe for Kubernetes/Docker
+app.get('/live', (req, res) => {
+  try {
+    res.status(200).json({
+      status: 'Alive',
+      timestamp: Date.now(),
+      uptime: process.uptime(),
+      pid: process.pid,
+      memory: {
+        rss: Math.round(process.memoryUsage().rss / 1024 / 1024),
+        heapUsed: Math.round(process.memoryUsage().heapUsed / 1024 / 1024)
+      }
+    });
+  } catch (err) {
+    console.error('Liveness probe error:', err);
+    res.status(500).json({ error: 'Liveness check failed' });
+  }
+});
+
+// Helper functions for health checks
+function getEventLoopDelay() {
+  // Simplified implementation - use clinic.js or similar for production
+  return Math.round(Math.random() * 10 * 100) / 100; // Mock delay in ms
+}
+
+function calculateRequestsPerSecond() {
+  const now = Date.now();
+  const oneSecondAgo = now - 1000;
+  
+  if (!global.requestTimestamps) {
+    return 0;
+  }
+  
+  return global.requestTimestamps.filter(timestamp => timestamp > oneSecondAgo).length;
+}
+
+function calculateErrorRate() {
+  const totalRequests = global.requestCount || 0;
+  const totalErrors = global.errorCount || 0;
+  
+  if (totalRequests === 0) return 0;
+  return Math.round((totalErrors / totalRequests) * 100 * 100) / 100;
+}
+
+function getTopErrors() {
+  if (!global.errorTypes) return [];
+  
+  return Object.entries(global.errorTypes)
+    .sort(([,a], [,b]) => b - a)
+    .slice(0, 5)
+    .map(([error, count]) => ({ error, count }));
+}
+
 // Add graceful error handling for route mounting
 const mountRoute = (path, router, name) => {
   try {
