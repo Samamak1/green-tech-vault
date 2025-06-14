@@ -33,10 +33,10 @@ const dropDown = keyframes`
 // One-way left to right gradient animation
 const pulsatingGradient = keyframes`
   0% {
-    background-position: -200% 50%;
+    background-position: 200% 50%;
   }
   100% {
-    background-position: 100% 50%;
+    background-position: -100% 50%;
   }
 `;
 
