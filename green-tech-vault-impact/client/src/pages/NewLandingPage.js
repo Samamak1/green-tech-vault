@@ -44,7 +44,7 @@ const pulsatingGradient = keyframes`
 const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
   backgroundColor: 'rgba(255, 255, 255, 0.4)',
   borderRadius: '20px',
-  padding: theme.spacing(3, 4), // Reduced vertical padding, kept horizontal
+  padding: theme.spacing(2, 4), // Further reduced vertical padding
   maxWidth: '720px', // Reduced by 20%
   margin: '0 auto', // Horizontally centered
   position: 'relative',
@@ -54,11 +54,11 @@ const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
   opacity: animate ? 1 : 0,
   boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
   [theme.breakpoints.up('md')]: {
-    padding: theme.spacing(4, 6), // Reduced vertical padding from 6 to 4
+    padding: theme.spacing(2.5, 6), // Further reduced vertical padding
     maxWidth: '800px', // Reduced by 20%
   },
   [theme.breakpoints.down('sm')]: {
-    padding: theme.spacing(2.5, 3), // Reduced vertical padding
+    padding: theme.spacing(1.5, 3), // Further reduced vertical padding
     borderRadius: '15px',
     margin: '0 16px',
     maxWidth: 'calc(100% - 32px)'
