@@ -32,7 +32,7 @@ const teamMembers = [
     name: "Sama Mushtaq",
     title: "CSO",
     description: "Proof that your materials were responsibly processed in accordance with regulations.",
-    image: null
+    image: "/images/Sama-temp.jpg"
   }
 ];
 
@@ -377,8 +377,10 @@ const AboutUsPage = () => {
                             width: '100%',
                             height: '100%',
                             objectFit: 'cover',
-                            objectPosition: 'top center', // Focus on the head/face area
-                            display: 'block'
+                            objectPosition: member.name === "Sama Mushtaq" ? 'center center' : 'top center', // Center Sama's image, focus on head/face for others
+                            display: 'block',
+                            transform: member.name === "Sama Mushtaq" ? 'scale(1.2)' : 'none', // Slight zoom for Sama to fill frame better
+                            transformOrigin: 'center center'
                           }}
                           onError={(e) => {
                             // Fallback to placeholder if image fails to load
