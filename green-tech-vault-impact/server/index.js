@@ -41,7 +41,12 @@ app.set('trust proxy', 1);
 // Basic middleware setup
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://green-tech-vault.onrender.com', 'https://green-tech-vault-impact.onrender.com']
+    ? [
+        'https://rygneco.com', 
+        'https://www.rygneco.com',
+        'https://green-tech-vault.onrender.com', 
+        'https://green-tech-vault-impact.onrender.com'
+      ]
     : ['http://localhost:3000', 'http://localhost:3001'],
   credentials: true
 }));
