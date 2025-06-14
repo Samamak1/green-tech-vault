@@ -257,7 +257,7 @@ const NewLandingPage = () => {
                 textAlign: 'center',
                 margin: 0,
                 marginBottom: { xs: 2, sm: 3 },
-                background: 'linear-gradient(90deg, #FB8C00 0%, #FDD835 14.3%, #94F1F1 28.6%, #62CBD0 42.9%, #418D91 57.1%, #2A7074 71.4%, #185B5F 85.7%, #073C3F 100%)',
+                background: 'linear-gradient(90deg, #FB8C00 0%, #FDD835 6.67%, #94F1F1 13.33%, #62CBD0 20%, #418D91 26.67%, #2A7074 33.33%, #185B5F 40%, #073C3F 46.67%, #185B5F 53.33%, #2A7074 60%, #418D91 66.67%, #62CBD0 73.33%, #94F1F1 80%, #FDD835 86.67%, #FB8C00 93.33%, #FB8C00 100%)',
                 backgroundSize: '300% 100%',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
