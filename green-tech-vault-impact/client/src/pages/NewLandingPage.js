@@ -61,9 +61,9 @@ const HeroSection = styled(Box)(() => ({
   minHeight: '100vh',
   backgroundColor: '#ffffff', // Clean white background
   display: 'flex',
-  alignItems: 'center', // Center content vertically
+  alignItems: 'flex-start', // Align content to top
   justifyContent: 'center', // Center content horizontally
-  paddingTop: '0',
+  paddingTop: '96px', // About 1 inch space from top (96px ≈ 1 inch at 96 DPI)
   '&::before': {
     content: '""',
     position: 'absolute',
