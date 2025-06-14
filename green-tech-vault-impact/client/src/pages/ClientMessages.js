@@ -65,7 +65,7 @@ const ClientMessages = () => {
         },
         unreadCount: 2,
         lastMessage: {
-          text: "We've successfully completed your pickup. Thank you for choosing Green Tech Vault.",
+          text: "We've successfully completed your pickup. Thank you for choosing RYGNeco.",
           timestamp: 'March 27, 2025 at 7:56pm',
           isFromUser: false
         },
@@ -102,13 +102,13 @@ const ClientMessages = () => {
           },
           {
             id: '1-6',
-            text: "Great! We've scheduled your pickup for Monday at 2pm. Our driver will call you when they're on the way. Thank you for choosing Green Tech Vault!",
+            text: "Great! We've scheduled your pickup for Monday at 2pm. Our driver will call you when they're on the way. Thank you for choosing RYGNeco!",
             timestamp: 'March 26, 2025 at 12:10pm',
             isFromUser: false
           },
           {
             id: '1-7',
-            text: "We've successfully completed your pickup. Thank you for choosing Green Tech Vault for your e-waste recycling needs. Your pickup details: 4 devices weighing 12.8kg. You'll receive a detailed report of your environmental impact within 5 business days.",
+            text: "We've successfully completed your pickup. Thank you for choosing RYGNeco for your e-waste recycling needs. Your pickup details: 4 devices weighing 12.8kg. You'll receive a detailed report of your environmental impact within 5 business days.",
             timestamp: 'March 27, 2025 at 7:56pm',
             isFromUser: false
           }
@@ -704,7 +704,7 @@ const ClientMessages = () => {
               fullWidth
               label="To"
               disabled
-              value="Green Tech Vault Support"
+              value="RYGNeco Support"
               size="small"
               sx={{ mb: 2 }}
               InputProps={{ style: { fontSize: '0.85rem' } }}

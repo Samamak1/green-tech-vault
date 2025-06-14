@@ -53,7 +53,7 @@ const Announcements = () => {
       id: '3',
       title: 'Come Join Us!',
       category: 'Event',
-      content: 'Green Tech Vault will be speaking at a confrence in Columbus 07/03/2026. Come listen and learn about the...',
+      content: 'RYGNeco will be speaking at a confrence in Columbus 07/03/2026. Come listen and learn about the...',
       sender: 'GTV Admin',
       recipients: 'usernames',
       sentOn: 'March 27th, 2025, 7:56pm',

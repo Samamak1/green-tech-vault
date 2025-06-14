@@ -350,7 +350,7 @@ const ReportTemplate = ({ reportData }) => {
       {/* Footer */}
       <Paper sx={{ p: 4, mt: 4, backgroundColor: '#f5f5f5' }}>
         <Typography variant="body2" color="text.secondary" align="center">
-          This report was generated on {new Date().toLocaleDateString()} by Green Tech Vault Impact System.
+                      This report was generated on {new Date().toLocaleDateString()} by RYGNeco Impact System.
           All calculations are based on industry-standard environmental impact metrics.
         </Typography>
       </Paper>

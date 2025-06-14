@@ -70,7 +70,7 @@ const QRMobileLogin = () => {
                 <QrCodeIcon sx={{ fontSize: 48, color: '#1C392B', mb: 2 }} />
                 
                 <Typography variant="h6" sx={{ mb: 3, textAlign: 'center' }}>
-                  Scan this QR code with the Green Tech Vault mobile app
+                  Scan this QR code with the RYGNeco mobile app
                 </Typography>
                 
                 <Box 
@@ -119,7 +119,7 @@ const QRMobileLogin = () => {
                     <PhoneIcon sx={{ color: '#4ECDC4' }} />
                   </ListItemIcon>
                   <ListItemText 
-                    primary="1. Download the Green Tech Vault Mobile App" 
+                    primary="1. Download the RYGNeco Mobile App" 
                     secondary="Available on iOS and Android app stores"
                   />
                 </ListItem>

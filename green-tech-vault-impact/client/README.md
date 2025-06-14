@@ -1,6 +1,6 @@
-# Green Tech Vault - Environmental Impact Tracker (Frontend)
+# RYGNeco - Environmental Impact Tracker (Frontend)
 
-This is the frontend application for the Green Tech Vault Environmental Impact Tracking System. It provides a user interface for tracking, measuring, and showcasing the environmental impact of e-waste management efforts.
+This is the frontend application for the RYGNeco Environmental Impact Tracking System. It provides a user interface for tracking, measuring, and showcasing the environmental impact of e-waste management efforts.
 
 ## Features
 
@@ -80,4 +80,4 @@ The application calculates and displays various environmental impact metrics:
 
 ## License
 
-This project is proprietary and owned by Green Tech Vault. 
+This project is proprietary and owned by RYGNeco. 

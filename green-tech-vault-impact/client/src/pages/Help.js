@@ -77,7 +77,7 @@ const Help = () => {
   const tutorials = [
     {
       title: 'Getting Started Guide',
-      description: 'Learn the basics of the Green Tech Vault platform',
+      description: 'Learn the basics of the RYGNeco platform',
       icon: <GuideIcon sx={{ fontSize: 40, color: '#185B5F' }} />,
       link: '#'
     },

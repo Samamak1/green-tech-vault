@@ -133,7 +133,7 @@ const TrialPage = () => {
       id: 3,
       title: 'Come Join Us!',
       sender: 'GTV Admin, usernames',
-      preview: 'Green Tech Vault will be speaking at a confrence in Columbus 07/03/2026. Come listen and learn about the...',
+      preview: 'RYGNeco will be speaking at a confrence in Columbus 07/03/2026. Come listen and learn about the...',
       date: 'March 27th, 2025, 7:56pm',
       read: false
     },

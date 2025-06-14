@@ -141,7 +141,7 @@ const BrandedLanding = () => {
             Ready to Make an Impact?
           </Typography>
           <Typography variant="h6" sx={{ mb: 4 }}>
-            Join hundreds of businesses that trust Green Tech Vault for their e-waste management needs.
+            Join hundreds of businesses that trust RYGNeco for their e-waste management needs.
           </Typography>
           <Button 
             variant="contained" 

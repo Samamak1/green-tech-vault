@@ -94,7 +94,7 @@ GTV Events Team`,
       id: '3',
       title: 'Come Join Us at Columbus Conference!',
       category: 'Event',
-      content: `Green Tech Vault will be speaking at the Sustainable Tech Conference in Columbus on July 3rd, 2026. 
+      content: `RYGNeco will be speaking at the Sustainable Tech Conference in Columbus on July 3rd, 2026. 
 
 Come listen and learn about the latest innovations in electronic recycling and sustainable technology practices. Our CEO will be giving the keynote address on "The Future of E-Waste Management."
 
@@ -148,7 +148,7 @@ Please be advised that GTV will be operating on a modified schedule during the u
 
 If you have pickups scheduled during these dates, our team will contact you to reschedule. We apologize for any inconvenience and appreciate your understanding.
 
-Happy Holidays from all of us at Green Tech Vault!
+        Happy Holidays from all of us at RYGNeco!
 
 Warm regards,
 GTV Management`,
