@@ -171,15 +171,21 @@ const LandingHeader = () => {
               py: 2,
               borderBottom: index < navItems.length - 1 ? '1px solid #f0f0f0' : 'none',
               '&:hover': {
-                backgroundColor: '#f5f5f5'
+                backgroundColor: 'transparent',
+                '& .MuiListItemText-primary': {
+                  color: 'primary.main'
+                }
               }
             }}
           >
             <ListItemText 
               primary={item.text} 
               primaryTypographyProps={{
-                fontSize: '16px',
-                fontWeight: '500'
+                fontSize: '0.875rem', // Match desktop navigation
+                fontWeight: 'normal', // Match desktop navigation
+                color: 'text.primary', // Match desktop navigation
+                fontFamily: 'inherit', // Use same font family
+                textDecoration: 'none'
               }}
             />
           </ListItem>
