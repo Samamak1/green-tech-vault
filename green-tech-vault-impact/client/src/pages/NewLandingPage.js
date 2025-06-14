@@ -30,6 +30,19 @@ const dropDown = keyframes`
   }
 `;
 
+// Pulsating gradient animation
+const pulsatingGradient = keyframes`
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+`;
+
 // Styled animated content box
 const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
   backgroundColor: 'rgba(255, 255, 255, 0.4)',
@@ -239,7 +252,6 @@ const NewLandingPage = () => {
               variant="h1" 
               component="h1" 
               gutterBottom 
-              color="text.primary" 
               sx={{ 
                 fontWeight: 'bold',
                 fontSize: { xs: '1.225rem', sm: '1.75rem', md: '2.625rem' },
@@ -247,7 +259,13 @@ const NewLandingPage = () => {
                 mb: { xs: 2, sm: 3 },
                 textAlign: 'center',
                 margin: 0,
-                marginBottom: { xs: 2, sm: 3 }
+                marginBottom: { xs: 2, sm: 3 },
+                background: 'linear-gradient(90deg, #FB8C00 0%, #FDD835 50%, #073C3F 100%)',
+                backgroundSize: '200% 100%',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                animation: `${pulsatingGradient} 3s ease-in-out infinite`
               }}
             >
               One Platform. Six Dimensions of Value.
