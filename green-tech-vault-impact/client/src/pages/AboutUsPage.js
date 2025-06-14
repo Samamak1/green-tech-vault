@@ -358,16 +358,15 @@ const AboutUsPage = () => {
                 <Grid item xs={6} key={index} sx={{ height: 'fit-content' }}>
                   <Card 
                     sx={{ 
-                      height: '100%',
+                      height: '480px', // Fixed height for both cards to ensure consistency
                       boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                       borderRadius: 2,
                       display: 'flex',
-                      flexDirection: 'column',
-                      minHeight: '400px' // Ensure consistent minimum height
+                      flexDirection: 'column'
                     }}
                   >
                     {/* Image Section */}
-                    <Box sx={{ height: 250, position: 'relative' }}>
+                    <Box sx={{ height: 280, position: 'relative' }}>
                       {member.image ? (
                         <Box
                           component="img"
@@ -376,10 +375,10 @@ const AboutUsPage = () => {
                           sx={{
                             width: '100%',
                             height: '100%',
-                            objectFit: member.name === "Sama Mushtaq" ? 'cover' : 'cover', // Use cover for both to eliminate white space
-                            objectPosition: member.name === "Sama Mushtaq" ? 'center top' : 'center center', // Slight crop from top for Sama
+                            objectFit: 'cover',
+                            objectPosition: member.name === "Sama Mushtaq" ? 'center 20%' : 'center center', // Move Sama's image up to show face, eliminate top white space
                             display: 'block',
-                            transform: member.name === "Sama Mushtaq" ? 'scale(1.05)' : 'none', // Very slight zoom for Sama to eliminate white space
+                            transform: member.name === "Sama Mushtaq" ? 'scale(1.1)' : 'none', // Slight zoom for Sama to eliminate all white space
                             transformOrigin: 'center center'
                           }}
                           onError={(e) => {
@@ -447,7 +446,7 @@ const AboutUsPage = () => {
                     </Box>
                     
                     {/* Content Section */}
-                    <CardContent sx={{ flexGrow: 1, p: 2, textAlign: 'center' }}>
+                    <CardContent sx={{ flexGrow: 1, p: 2, textAlign: 'center', height: '200px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                       <Typography variant="h6" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
                         {member.name === "Leila Meyer" ? (
                           <Box
