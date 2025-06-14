@@ -234,7 +234,7 @@ const NewLandingPage = () => {
       {/* Hero Section */}
       <HeroSection>
         <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, display: 'flex', justifyContent: 'center' }}>
-          <AnimatedContentBox animate={animate}>
+          <AnimatedContentBox animate={animate} sx={{ textAlign: 'center' }}>
             <Typography 
               variant="h1" 
               component="h1" 
@@ -244,7 +244,10 @@ const NewLandingPage = () => {
                 fontWeight: 'bold',
                 fontSize: { xs: '1.225rem', sm: '1.75rem', md: '2.625rem' },
                 lineHeight: { xs: 1.2, sm: 1.3, md: 1.2 },
-                mb: { xs: 2, sm: 3 }
+                mb: { xs: 2, sm: 3 },
+                textAlign: 'center',
+                margin: 0,
+                marginBottom: { xs: 2, sm: 3 }
               }}
             >
               One Platform. Six Dimensions of Value.
@@ -258,7 +261,10 @@ const NewLandingPage = () => {
                 fontWeight: 'bold',
                 fontSize: { xs: '0.875rem', sm: '1.225rem', md: '1.75rem' },
                 lineHeight: { xs: 1.2, sm: 1.3, md: 1.2 },
-                mb: { xs: 2, sm: 3 }
+                mb: { xs: 2, sm: 3 },
+                textAlign: 'center',
+                margin: 0,
+                marginBottom: { xs: 2, sm: 3 }
               }}
             >
               Blockchain-Verified E-Waste Intelligence: Profit • ESG • Compliance
@@ -270,30 +276,35 @@ const NewLandingPage = () => {
               sx={{ 
                 mb: { xs: 3, sm: 4 },
                 fontSize: { xs: '14px', sm: '16px' },
-                lineHeight: { xs: 1.4, sm: 1.5 }
+                lineHeight: { xs: 1.4, sm: 1.5 },
+                textAlign: 'center',
+                margin: 0,
+                marginBottom: { xs: 3, sm: 4 }
               }}
             >
               RYGNeco's unified platform transforms retired electronics into measurable business value through integrated blockchain tracking, profit recovery, tax optimization, carbon credits, ESG impact, and ironclad compliance.
             </Typography>
-            <Button 
-              variant="contained" 
-              size="large"
-              component={RouterLink}
-              to="/schedule-pickup"
-              sx={{ 
-                bgcolor: theme.palette.teal.main,
-                color: 'white',
-                fontWeight: 'bold',
-                fontSize: { xs: '14px', sm: '16px' },
-                px: { xs: 3, sm: 4 },
-                py: { xs: 1.5, sm: 2 },
-                '&:hover': {
-                  bgcolor: theme.palette.teal.dark
-                }
-              }}
-            >
-              SCHEDULE A PICKUP
-            </Button>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: { xs: 2, sm: 3 } }}>
+              <Button 
+                variant="contained" 
+                size="large"
+                component={RouterLink}
+                to="/schedule-pickup"
+                sx={{ 
+                  bgcolor: theme.palette.teal.main,
+                  color: 'white',
+                  fontWeight: 'bold',
+                  fontSize: { xs: '14px', sm: '16px' },
+                  px: { xs: 3, sm: 4 },
+                  py: { xs: 1.5, sm: 2 },
+                  '&:hover': {
+                    bgcolor: theme.palette.teal.dark
+                  }
+                }}
+              >
+                SCHEDULE A PICKUP
+              </Button>
+            </Box>
           </AnimatedContentBox>
         </Container>
       </HeroSection>
