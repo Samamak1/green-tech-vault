@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Box,
   IconButton,
@@ -13,22 +13,23 @@ import {
   Paper,
   Fab,
   Collapse,
-  ButtonGroup
+  ButtonGroup,
+  Grid
 } from '@mui/material';
 import {
-  Accessibility as AccessibilityIcon,
+  Accessibility as AccessibilityNewIcon,
   TextIncrease as TextIncreaseIcon,
   TextDecrease as TextDecreaseIcon,
-  Contrast as ContrastIcon,
+  VolumeUp as SpeakerIcon,
   VolumeUp as VolumeUpIcon,
-  Keyboard as KeyboardIcon,
-  Close as CloseIcon,
+  Contrast as ContrastIcon,
   Refresh as RefreshIcon,
-  Speed as MotionIcon,
   Settings as SettingsIcon,
+  Close as CloseIcon,
   Visibility as VisibilityIcon,
-  RecordVoiceOver as ScreenReaderIcon,
-  Help as HelpIcon
+  Keyboard as KeyboardIcon,
+  Help as HelpIcon,
+  RecordVoiceOver as ScreenReaderIcon
 } from '@mui/icons-material';
 import {
   increaseFontSize,
@@ -56,6 +57,7 @@ const AccessibilityToolbar = () => {
   });
   const [fontSize, setFontSize] = useState(100);
   const [showHelp, setShowHelp] = useState(false);
+  const liveRegionRef = useRef(null);
 
   useEffect(() => {
     // Load accessibility preferences on mount
@@ -134,16 +136,16 @@ const AccessibilityToolbar = () => {
     const root = document.documentElement;
     root.style.setProperty('--base-font-size', `${newValue}%`);
     announce(`Font size changed to ${newValue}%`);
+    localStorage.setItem('fontSize', newValue.toString());
   };
 
-  const handleKeyboardNavigationInfo = () => {
+  const handleKeyboardShortcuts = () => {
     const shortcuts = [
-      'Tab: Navigate forward',
-      'Shift + Tab: Navigate backward',
-      'Enter/Space: Activate buttons',
-      'Escape: Close dialogs',
-      'Arrow keys: Navigate menus',
-      'Alt + Shift + A: Open accessibility toolbar'
+      'Alt + Shift + A: Toggle accessibility toolbar',
+      'Alt + Shift + H: Toggle high contrast',
+      'Alt + Shift + M: Toggle reduced motion',
+      'Alt + Shift + T: Toggle large text',
+      'Tab: Navigate between elements'
     ];
     
     announce(`Keyboard shortcuts: ${shortcuts.join(', ')}`);
@@ -197,7 +199,7 @@ const AccessibilityToolbar = () => {
       description: 'Reduces animations and transitions',
       enabled: preferences.reducedMotion,
       toggle: handleReducedMotion,
-      icon: <MotionIcon />
+      icon: <ContrastIcon />
     },
     {
       title: 'Large Text',
@@ -222,189 +224,324 @@ const AccessibilityToolbar = () => {
   }, [isOpen]);
 
   return (
-    <Box
-      sx={{
-        position: 'fixed',
-        top: 20,
-        right: 20,
-        zIndex: 10000,
-        '& .accessibility-toolbar': {
-          filter: preferences.highContrast ? 'contrast(1.5)' : 'none'
-        }
-      }}
-    >
-      {/* Main Toggle Button */}
-      <Tooltip title="Accessibility Options (Alt + Shift + A)" arrow>
-        <IconButton
-          onClick={handleToggleToolbar}
-          aria-label="Open accessibility toolbar"
-          aria-expanded={isOpen}
-          sx={{
-            backgroundColor: theme.palette.primary.main,
-            color: 'white',
-            '&:hover': {
-              backgroundColor: theme.palette.primary.dark,
-            },
-            marginBottom: 1,
-            boxShadow: 3
-          }}
-        >
-          <AccessibilityIcon />
-        </IconButton>
-      </Tooltip>
+    <>
+      {/* Accessibility Button - Fixed position */}
+      <Button
+        onClick={handleToggleToolbar}
+        onKeyDown={handleKeyboardShortcuts}
+        aria-label={isOpen ? 'Close accessibility toolbar' : 'Open accessibility toolbar'}
+        aria-expanded={isOpen}
+        aria-controls="accessibility-toolbar"
+        sx={{
+          position: 'fixed',
+          bottom: 16,
+          right: 16,
+          zIndex: 2000, // Higher z-index to ensure it's clickable
+          minWidth: 48,
+          width: 48,
+          height: 48,
+          borderRadius: '50%',
+          backgroundColor: '#1C392B',
+          color: 'white',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+          '&:hover': {
+            backgroundColor: '#4ECDC4',
+            transform: 'scale(1.05)',
+          },
+          '&:focus': {
+            outline: '2px solid #4ECDC4',
+            outlineOffset: '2px',
+          },
+          transition: 'all 0.2s ease',
+        }}
+      >
+        <AccessibilityNewIcon />
+      </Button>
 
-      {/* Accessibility Panel */}
-      <Collapse in={isOpen}>
-        <Paper
-          className="accessibility-toolbar"
-          elevation={8}
-          sx={{
-            p: 2,
-            maxWidth: 350,
-            backgroundColor: preferences.highContrast ? '#000' : 'background.paper',
-            color: preferences.highContrast ? '#fff' : 'text.primary',
-            border: preferences.highContrast ? '2px solid #fff' : 'none'
-          }}
-        >
-          {/* Header */}
-          <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-            <Typography variant="h6" component="h2">
-              Accessibility Options
+      {/* Accessibility Toolbar Panel */}
+      <Paper
+        id="accessibility-toolbar"
+        elevation={8}
+        sx={{
+          position: 'fixed',
+          bottom: 80,
+          right: 16,
+          width: 320,
+          maxHeight: '80vh',
+          overflowY: 'auto',
+          zIndex: 1999, // High z-index but below button
+          display: isOpen ? 'block' : 'none',
+          backgroundColor: 'white',
+          border: '2px solid #4ECDC4',
+          borderRadius: 2,
+        }}
+        role="dialog"
+        aria-labelledby="toolbar-title"
+        aria-describedby="toolbar-description"
+      >
+        <Box sx={{ p: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Typography id="toolbar-title" variant="h6" sx={{ fontWeight: 'bold', color: '#1C392B' }}>
+              Accessibility Tools
             </Typography>
-            <Box>
-              <Tooltip title="Help">
-                <IconButton onClick={handleShowHelp} size="small">
-                  <HelpIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Close">
-                <IconButton onClick={handleToggleToolbar} size="small">
-                  <CloseIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Box>
-
-          {/* Help Panel */}
-          <Collapse in={showHelp}>
-            <Paper 
-              variant="outlined" 
-              sx={{ p: 2, mb: 2, backgroundColor: 'action.hover' }}
+            <IconButton
+              onClick={handleToggleToolbar}
+              aria-label="Close accessibility toolbar"
+              size="small"
+              sx={{ 
+                color: '#1C392B',
+                '&:hover': { backgroundColor: 'rgba(76, 205, 196, 0.1)' }
+              }}
             >
-              <Typography variant="subtitle2" gutterBottom>
-                Keyboard Shortcuts:
-              </Typography>
-              <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                • Alt + Shift + A: Toggle this toolbar<br/>
-                • Tab / Shift+Tab: Navigate elements<br/>
-                • Enter/Space: Activate buttons<br/>
-                • Escape: Close dialogs<br/>
-                • Alt + 1-6: Jump to headings<br/>
-                • Alt + Shift + M: Skip to main content
-              </Typography>
-            </Paper>
-          </Collapse>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+          
+          <Typography id="toolbar-description" variant="body2" sx={{ mb: 2, color: '#666' }}>
+            Customize your browsing experience with these accessibility options.
+          </Typography>
 
-          {/* Accessibility Features */}
-          {accessibilityFeatures.map((feature, index) => (
-            <Box key={index} mb={2}>
-              <Box display="flex" alignItems="center" justifyContent="space-between">
-                <Box display="flex" alignItems="center" flex={1}>
-                  <Box mr={1} sx={{ color: feature.enabled ? 'primary.main' : 'text.secondary' }}>
-                    {feature.icon}
-                  </Box>
-                  <Box flex={1}>
-                    <Typography variant="body2" fontWeight="medium">
-                      {feature.title}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {feature.description}
-                    </Typography>
-                  </Box>
+          {/* Settings Grid */}
+          <Grid container spacing={2}>
+            {/* High Contrast Toggle */}
+            <Grid item xs={12}>
+              <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                p: 1.5,
+                border: '1px solid #e0e0e0',
+                borderRadius: 1,
+                backgroundColor: preferences.highContrast ? 'rgba(76, 205, 196, 0.1)' : 'transparent'
+              }}>
+                <Box>
+                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                    High Contrast
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    Increase color contrast for better visibility
+                  </Typography>
                 </Box>
                 <Switch
-                  checked={feature.enabled}
-                  onChange={feature.toggle}
-                  size="small"
-                  aria-label={feature.title}
+                  checked={preferences.highContrast}
+                  onChange={handleHighContrast}
+                  color="primary"
+                  inputProps={{ 'aria-label': 'Toggle high contrast mode' }}
                 />
               </Box>
-            </Box>
-          ))}
+            </Grid>
 
-          <Divider sx={{ my: 2 }} />
+            {/* Reduced Motion Toggle */}
+            <Grid item xs={12}>
+              <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                p: 1.5,
+                border: '1px solid #e0e0e0',
+                borderRadius: 1,
+                backgroundColor: preferences.reducedMotion ? 'rgba(76, 205, 196, 0.1)' : 'transparent'
+              }}>
+                <Box>
+                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                    Reduced Motion
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    Minimize animations and transitions
+                  </Typography>
+                </Box>
+                <Switch
+                  checked={preferences.reducedMotion}
+                  onChange={handleReducedMotion}
+                  color="primary"
+                  inputProps={{ 'aria-label': 'Toggle reduced motion' }}
+                />
+              </Box>
+            </Grid>
 
-          {/* Font Size Control */}
-          <Box mb={2}>
-            <Typography variant="body2" gutterBottom>
-              Font Size: {fontSize}%
-            </Typography>
-            <Slider
-              value={fontSize}
-              onChange={handleFontSizeChange}
-              min={75}
-              max={150}
-              step={5}
-              marks={[
-                { value: 75, label: '75%' },
-                { value: 100, label: '100%' },
-                { value: 125, label: '125%' },
-                { value: 150, label: '150%' }
-              ]}
-              aria-label="Font size"
-              sx={{ mt: 1 }}
-            />
-          </Box>
+            {/* Large Text Toggle */}
+            <Grid item xs={12}>
+              <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                p: 1.5,
+                border: '1px solid #e0e0e0',
+                borderRadius: 1,
+                backgroundColor: preferences.largeText ? 'rgba(76, 205, 196, 0.1)' : 'transparent'
+              }}>
+                <Box>
+                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                    Large Text
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    Increase text size for easier reading
+                  </Typography>
+                </Box>
+                <Switch
+                  checked={preferences.largeText}
+                  onChange={handleLargeText}
+                  color="primary"
+                  inputProps={{ 'aria-label': 'Toggle large text' }}
+                />
+              </Box>
+            </Grid>
 
-          <Divider sx={{ my: 2 }} />
+            {/* Font Size Slider */}
+            <Grid item xs={12}>
+              <Box sx={{ p: 1.5, border: '1px solid #e0e0e0', borderRadius: 1 }}>
+                <Typography variant="body2" sx={{ fontWeight: 'bold', mb: 1 }}>
+                  Font Size: {fontSize}%
+                </Typography>
+                <Slider
+                  value={fontSize}
+                  onChange={handleFontSizeChange}
+                  min={75}
+                  max={150}
+                  step={5}
+                  marks={[
+                    { value: 75, label: '75%' },
+                    { value: 100, label: '100%' },
+                    { value: 150, label: '150%' }
+                  ]}
+                  valueLabelDisplay="auto"
+                  aria-label="Font size adjustment"
+                  sx={{
+                    '& .MuiSlider-thumb': {
+                      backgroundColor: '#4ECDC4',
+                    },
+                    '& .MuiSlider-track': {
+                      backgroundColor: '#4ECDC4',
+                    },
+                  }}
+                />
+              </Box>
+            </Grid>
 
-          {/* Utility Buttons */}
-          <Box display="flex" flexDirection="column" gap={1}>
-            <Button
-              variant="outlined"
-              size="small"
-              startIcon={<KeyboardIcon />}
-              onClick={handleKeyboardNavigationInfo}
-              aria-label="Announce keyboard shortcuts"
-            >
-              Keyboard Shortcuts
-            </Button>
-            
-            <Button
-              variant="outlined"
-              size="small"
-              startIcon={<ScreenReaderIcon />}
-              onClick={handleScreenReaderTest}
-              aria-label="Test screen reader"
-            >
-              Test Screen Reader
-            </Button>
-            
-            <Button
-              variant="outlined"
-              size="small"
-              startIcon={<SettingsIcon />}
-              onClick={handleReset}
-              aria-label="Reset accessibility settings"
-            >
-              Reset Settings
-            </Button>
-          </Box>
+            {/* Action Buttons */}
+            <Grid item xs={12}>
+              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={handleKeyboardShortcuts}
+                  sx={{ 
+                    borderColor: '#4ECDC4', 
+                    color: '#1C392B',
+                    '&:hover': { 
+                      borderColor: '#1C392B',
+                      backgroundColor: 'rgba(76, 205, 196, 0.1)' 
+                    }
+                  }}
+                  aria-label="Announce keyboard shortcuts"
+                >
+                  <KeyboardIcon sx={{ mr: 0.5, fontSize: '1rem' }} />
+                  Shortcuts
+                </Button>
+                
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={handleScreenReaderTest}
+                  sx={{ 
+                    borderColor: '#4ECDC4', 
+                    color: '#1C392B',
+                    '&:hover': { 
+                      borderColor: '#1C392B',
+                      backgroundColor: 'rgba(76, 205, 196, 0.1)' 
+                    }
+                  }}
+                  aria-label="Test screen reader functionality"
+                >
+                  <ScreenReaderIcon sx={{ mr: 0.5, fontSize: '1rem' }} />
+                  Test
+                </Button>
+                
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={handleShowHelp}
+                  sx={{ 
+                    borderColor: '#4ECDC4', 
+                    color: '#1C392B',
+                    '&:hover': { 
+                      borderColor: '#1C392B',
+                      backgroundColor: 'rgba(76, 205, 196, 0.1)' 
+                    }
+                  }}
+                  aria-label={showHelp ? 'Hide help panel' : 'Show help panel'}
+                >
+                  <HelpIcon sx={{ mr: 0.5, fontSize: '1rem' }} />
+                  Help
+                </Button>
+                
+                <Button
+                  variant="text"
+                  size="small"
+                  onClick={handleReset}
+                  sx={{ 
+                    color: '#666',
+                    '&:hover': { 
+                      backgroundColor: 'rgba(102, 102, 102, 0.1)' 
+                    }
+                  }}
+                  aria-label="Reset all accessibility settings to defaults"
+                >
+                  Reset
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
 
-          {/* Status Indicator */}
-          <Box mt={2} p={1} bgcolor="action.hover" borderRadius={1}>
-            <Typography variant="caption" display="block">
-              Status: {Object.values(preferences).filter(Boolean).length} features enabled
-            </Typography>
-            {preferences.screenReader && (
-              <Typography variant="caption" color="primary.main" display="block">
-                Screen reader detected
+          {/* Help Panel */}
+          {showHelp && (
+            <Box sx={{ 
+              mt: 2, 
+              p: 2, 
+              backgroundColor: 'rgba(76, 205, 196, 0.05)', 
+              borderRadius: 1,
+              border: '1px solid rgba(76, 205, 196, 0.2)'
+            }}>
+              <Typography variant="body2" sx={{ fontWeight: 'bold', mb: 1 }}>
+                Keyboard Shortcuts:
               </Typography>
-            )}
-          </Box>
-        </Paper>
-      </Collapse>
-    </Box>
+              <Typography variant="caption" component="div" sx={{ mb: 0.5 }}>
+                • Alt + Shift + A: Toggle accessibility toolbar
+              </Typography>
+              <Typography variant="caption" component="div" sx={{ mb: 0.5 }}>
+                • Alt + Shift + H: Toggle high contrast
+              </Typography>
+              <Typography variant="caption" component="div" sx={{ mb: 0.5 }}>
+                • Alt + Shift + M: Toggle reduced motion
+              </Typography>
+              <Typography variant="caption" component="div" sx={{ mb: 0.5 }}>
+                • Alt + Shift + T: Toggle large text
+              </Typography>
+              <Typography variant="caption" component="div" sx={{ mb: 0.5 }}>
+                • Alt + Shift + R: Reset all settings
+              </Typography>
+              <Typography variant="caption" component="div">
+                • Tab: Navigate between elements
+              </Typography>
+            </Box>
+          )}
+        </Box>
+      </Paper>
+
+      {/* Screen Reader Live Region */}
+      <div
+        ref={liveRegionRef}
+        aria-live="polite"
+        aria-atomic="true"
+        style={{
+          position: 'absolute',
+          left: '-10000px',
+          width: '1px',
+          height: '1px',
+          overflow: 'hidden',
+        }}
+      />
+    </>
   );
 };
 
