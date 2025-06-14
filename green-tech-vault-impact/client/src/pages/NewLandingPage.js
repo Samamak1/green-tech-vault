@@ -251,7 +251,7 @@ const NewLandingPage = () => {
               gutterBottom 
               sx={{ 
                 fontWeight: 'bold',
-                fontSize: { xs: '1.225rem', sm: '1.75rem', md: '2.625rem' },
+                fontSize: { xs: '0.8575rem', sm: '1.225rem', md: '1.8375rem' },
                 lineHeight: { xs: 1.2, sm: 1.3, md: 1.2 },
                 mb: { xs: 2, sm: 3 },
                 textAlign: 'center',
@@ -274,7 +274,7 @@ const NewLandingPage = () => {
               color="text.primary" 
               sx={{ 
                 fontWeight: 'bold',
-                fontSize: { xs: '0.875rem', sm: '1.225rem', md: '1.75rem' },
+                fontSize: { xs: '0.6125rem', sm: '0.8575rem', md: '1.225rem' },
                 lineHeight: { xs: 1.2, sm: 1.3, md: 1.2 },
                 mb: { xs: 2, sm: 3 },
                 textAlign: 'center',
