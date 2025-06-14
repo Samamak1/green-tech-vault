@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#4ECDC4" />
     
     <!-- Cache busting for deployment - 2024-12-19-16-00 -->
     <meta name="cache-bust" content="2024-12-19-16-00" />
@@ -12,20 +12,92 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     
+    <!-- Enhanced SEO Meta Tags -->
     <meta
       name="description"
       content="RYGNeco - Responsible e-waste management and environmental impact solutions. Keep it green. Keep it safe. Keep it connected."
     />
+    <meta name="keywords" content="e-waste recycling, electronic waste management, responsible recycling, environmental impact, data destruction, corporate e-waste solutions" />
+    <meta name="author" content="RYGNeco" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://green-tech-vault.onrender.com/" />
+    <meta property="og:title" content="RYGNeco - Responsible E-waste Management Solutions" />
+    <meta property="og:description" content="Professional e-waste recycling and environmental impact solutions. Keep it green. Keep it safe. Keep it connected." />
+    <meta property="og:image" content="%PUBLIC_URL%/logo512.png" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://green-tech-vault.onrender.com/" />
+    <meta property="twitter:title" content="RYGNeco - Responsible E-waste Management Solutions" />
+    <meta property="twitter:description" content="Professional e-waste recycling and environmental impact solutions. Keep it green. Keep it safe. Keep it connected." />
+    <meta property="twitter:image" content="%PUBLIC_URL%/logo512.png" />
+    
+    <!-- PWA Meta Tags -->
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="RYGNeco" />
     
     <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
     
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', {
+        page_title: 'RYGNeco - Responsible E-waste Management',
+        custom_map: {'custom_parameter_1': 'page_category'}
+      });
+    </script>
+    
+    <!-- Performance Monitoring -->
+    <script>
+      // Web Vitals tracking
+      window.addEventListener('load', function() {
+        if ('performance' in window) {
+          // Track page load time
+          const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+          gtag('event', 'page_load_time', {
+            event_category: 'Performance',
+            event_label: 'Load Time',
+            value: Math.round(loadTime)
+          });
+        }
+      });
+    </script>
+    
     <title>RYGNeco - Responsible E-waste Management Solutions</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>
+      <div style="padding: 20px; text-align: center; background: #f8f9fa; border: 1px solid #dee2e6; margin: 20px; border-radius: 8px;">
+        <h2>JavaScript Required</h2>
+        <p>You need to enable JavaScript to run this RYGNeco application.</p>
+        <p>Please enable JavaScript in your browser settings and refresh the page.</p>
+      </div>
+    </noscript>
     <div id="root"></div>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js')
+            .then(function(registration) {
+              console.log('SW registered: ', registration);
+            })
+            .catch(function(registrationError) {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
   </body>
 </html> 

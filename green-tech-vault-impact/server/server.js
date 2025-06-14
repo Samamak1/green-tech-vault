@@ -9,6 +9,7 @@ dotenv.config();
 
 // Import routes
 const messageRoutes = require('./routes/messageRoutes');
+const errorRoutes = require('./routes/errors');
 
 // Create Express app
 const app = express();
@@ -30,6 +31,7 @@ mongoose
 
 // API Routes
 app.use('/api/messages', messageRoutes);
+app.use('/api/errors', errorRoutes);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
