@@ -4,6 +4,12 @@
   "description": "Professional e-waste recycling and environmental impact solutions. Keep it green. Keep it safe. Keep it connected.",
   "icons": [
     {
+      "src": "favicon.png",
+      "sizes": "32x32 16x16",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon",
