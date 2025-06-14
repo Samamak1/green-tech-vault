@@ -376,7 +376,7 @@ const AboutUsPage = () => {
                             width: '100%',
                             height: '100%',
                             objectFit: 'cover',
-                            objectPosition: member.name === "Sama Mushtaq" ? 'center 20%' : 'center center', // Move Sama's image up to show face, eliminate top white space
+                            objectPosition: member.name === "Sama Mushtaq" ? 'center 10%' : 'center center', // Move Sama's image further up to eliminate all top white space
                             display: 'block',
                             transform: member.name === "Sama Mushtaq" ? 'scale(1.1)' : 'none', // Slight zoom for Sama to eliminate all white space
                             transformOrigin: 'center center'
