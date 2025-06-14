@@ -30,8 +30,8 @@ const teamMembers = [
   },
   {
     name: "Sama Mushtaq",
-    title: "CSO",
-    description: "Proof that your materials were responsibly processed in accordance with regulations.",
+    title: "Founder & CSO",
+    description: "Engineering-driven entrepreneur leveraging 12+ years of operational excellence to innovate sustainable e-waste solutions through strategic business development.",
     image: "/images/Sama-temp.jpg"
   }
 ];
@@ -376,10 +376,11 @@ const AboutUsPage = () => {
                           sx={{
                             width: '100%',
                             height: '100%',
-                            objectFit: member.name === "Sama Mushtaq" ? 'contain' : 'cover', // Show entire image for Sama, crop for others
-                            objectPosition: 'center center', // Center all images
+                            objectFit: member.name === "Sama Mushtaq" ? 'cover' : 'cover', // Use cover for both to eliminate white space
+                            objectPosition: member.name === "Sama Mushtaq" ? 'center top' : 'center center', // Slight crop from top for Sama
                             display: 'block',
-                            backgroundColor: member.name === "Sama Mushtaq" ? '#f5f5f5' : 'transparent' // Light background for Sama to fill any gaps
+                            transform: member.name === "Sama Mushtaq" ? 'scale(1.05)' : 'none', // Very slight zoom for Sama to eliminate white space
+                            transformOrigin: 'center center'
                           }}
                           onError={(e) => {
                             // Fallback to placeholder if image fails to load
