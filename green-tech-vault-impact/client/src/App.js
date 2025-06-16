@@ -59,6 +59,7 @@ import QRMobileLogin from './pages/QRMobileLogin';
 import Help from './pages/Help';
 import ClientReports from './pages/ClientReports';
 import CEOProfile from './pages/CEOProfile';
+import SamaMushtaqProfile from './pages/SamaMushtaqProfile';
 import EwasteItemDetailPage from './pages/EwasteItemDetailPage';
 import GetInvolvedPage from './pages/GetInvolvedPage';
 import EducationPage from './pages/EducationPage';
@@ -432,6 +433,12 @@ function ConditionalLayout() {
           <Route path="/ceo-profile" element={
             <MainLayout>
               <CEOProfile />
+            </MainLayout>
+          } />
+          
+          <Route path="/team/sama-mushtaq" element={
+            <MainLayout>
+              <SamaMushtaqProfile />
             </MainLayout>
           } />
           

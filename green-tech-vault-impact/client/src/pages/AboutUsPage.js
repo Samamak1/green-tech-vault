@@ -356,15 +356,32 @@ const AboutUsPage = () => {
             <Grid container spacing={2} sx={{ height: '100%' }}>
               {teamMembers.map((member, index) => (
                 <Grid item xs={6} key={index} sx={{ height: 'fit-content' }}>
-                  <Card 
-                    sx={{ 
-                      height: '480px', // Fixed height for both cards to ensure consistency
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                      borderRadius: 2,
-                      display: 'flex',
-                      flexDirection: 'column'
+                  <Box
+                    component="a"
+                    href={member.name === "Leila Meyer" ? "/ceo-profile" : "/team/sama-mushtaq"}
+                    sx={{
+                      textDecoration: 'none',
+                      color: 'inherit',
+                      display: 'block',
+                      '&:hover': {
+                        transform: 'translateY(-2px)',
+                        transition: 'transform 0.2s ease'
+                      }
                     }}
                   >
+                    <Card 
+                      sx={{ 
+                        height: '480px', // Fixed height for both cards to ensure consistency
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                        borderRadius: 2,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        cursor: 'pointer',
+                        '&:hover': {
+                          boxShadow: '0 6px 16px rgba(0,0,0,0.15)'
+                        }
+                      }}
+                    >
                     {/* Image Section */}
                     <Box sx={{ height: 280, position: 'relative' }}>
                       {member.image ? (
@@ -461,6 +478,21 @@ const AboutUsPage = () => {
                           >
                             {member.name}
                           </Box>
+                        ) : member.name === "Sama Mushtaq" ? (
+                          <Box
+                            component="a"
+                            href="/team/sama-mushtaq"
+                            sx={{
+                              color: 'inherit',
+                              textDecoration: 'none',
+                              '&:hover': {
+                                color: theme.palette.teal.main,
+                                textDecoration: 'underline'
+                              }
+                            }}
+                          >
+                            {member.name}
+                          </Box>
                         ) : (
                           member.name
                         )}
@@ -477,6 +509,7 @@ const AboutUsPage = () => {
                       </Typography>
                     </CardContent>
                   </Card>
+                  </Box>
                 </Grid>
               ))}
             </Grid>
@@ -579,12 +612,13 @@ const AboutUsPage = () => {
                 Learn More
               </Typography>
               <Typography variant="body1" paragraph>
-                See what we do, why it matters, and how you can help create a cleaner, more connected world.
+                See what we do, why it matters, and how you<br />
+                can help create a cleaner, more connected world.
               </Typography>
               <Box sx={{ display: 'flex', gap: 2, mt: 4 }}>
                 <Box
                   component="a"
-                  href="/schedule-pickup"
+                  href="/how-it-works"
                   sx={{
                     display: 'inline-block',
                     px: 3,
@@ -596,7 +630,7 @@ const AboutUsPage = () => {
                     fontWeight: 'medium'
                   }}
                 >
-                  SCHEDULE A PICKUP
+                  How It Works
                 </Box>
               </Box>
             </Grid>
