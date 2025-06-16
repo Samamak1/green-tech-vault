@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Container, Typography, Grid, Button, Paper, Card, CardContent, useTheme } from '@mui/material';
+import { 
+  Box, 
+  Container, 
+  Typography, 
+  Grid, 
+  Button, 
+  Paper,
+  Card,
+  CardContent,
+  useTheme
+} from '@mui/material';
 import { styled, keyframes } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -9,9 +19,7 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import SecurityIcon from '@mui/icons-material/Security';
 import RecyclingIcon from '@mui/icons-material/Recycling';
 import BusinessIcon from '@mui/icons-material/Business';
-import DeleteIcon from '@mui/icons-material/Delete';
 import VerifiedIcon from '@mui/icons-material/Verified';
-import DescriptionIcon from '@mui/icons-material/Description';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LinkIcon from '@mui/icons-material/Link';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -46,13 +54,50 @@ const pulsatingGradient = keyframes`
   }
 `;
 
+// Traveling gradient animation from Profit Sharing to Blockchain Tracking
+const travelingLineGradient = keyframes`
+  0% {
+    background: linear-gradient(90deg, #d1d5db 0%, #d1d5db 20%, #ffffff 50%, #d1d5db 80%, #d1d5db 100%);
+    background-size: 200% 100%;
+    background-position: -100% 50%;
+  }
+  100% {
+    background: linear-gradient(90deg, #d1d5db 0%, #d1d5db 20%, #ffffff 50%, #d1d5db 80%, #d1d5db 100%);
+    background-size: 200% 100%;
+    background-position: 100% 50%;
+  }
+`;
+
+
+
+
+
+// Live indicator pulse animation
+const livePulse = keyframes`
+  0% {
+    background-color: #DC2626;
+    transform: scale(1);
+  }
+  50% {
+    background-color: rgba(255, 255, 255, 0.8);
+    transform: scale(1.1);
+  }
+  100% {
+    background-color: #DC2626;
+    transform: scale(1);
+  }
+`;
+
 // Styled animated content box
-const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
-  background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 60%, rgba(255, 255, 255, 0.3) 80%, rgba(255, 255, 255, 0.1) 95%, rgba(255, 255, 255, 0) 100%)',
+const AnimatedContentBox = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'animate',
+})(({ theme, animate }) => ({
+  backgroundColor: '#ffffff',
   borderRadius: '20px',
-  padding: theme.spacing(2, 4), // Further reduced vertical padding
-  maxWidth: '720px', // Reduced by 20%
-  margin: '0 auto', // Horizontally centered
+  padding: theme.spacing(2, 4),
+  paddingBottom: theme.spacing(54), // Increased bottom padding by 100% more (27 -> 54)
+  maxWidth: '720px',
+  margin: '0 auto',
   position: 'relative',
   zIndex: 2,
   animation: animate ? `${dropDown} 1.2s ease-out forwards` : 'none',
@@ -60,26 +105,31 @@ const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
   opacity: animate ? 1 : 0,
 
   [theme.breakpoints.up('md')]: {
-    padding: theme.spacing(2.5, 6), // Further reduced vertical padding
-    maxWidth: '800px', // Reduced by 20%
+    padding: theme.spacing(2.5, 6),
+    paddingBottom: theme.spacing(72), // Increased bottom padding by 100% more (36 -> 72)
+    maxWidth: '800px',
   },
   [theme.breakpoints.down('sm')]: {
-    padding: theme.spacing(1.5, 3), // Further reduced vertical padding
+    padding: theme.spacing(1.5, 3),
+    paddingBottom: theme.spacing(36), // Increased bottom padding by 100% more (18 -> 36)
     borderRadius: '15px',
     margin: '0 16px',
     maxWidth: 'calc(100% - 32px)'
   }
 }));
 
-// Hero section with solid background
+// Hero section with background image
 const HeroSection = styled(Box)(() => ({
   position: 'relative',
   minHeight: '100vh',
-  backgroundColor: '#ffffff', // Clean white background
+  backgroundImage: 'url(/images/maybe.png)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
   display: 'flex',
-  alignItems: 'flex-start', // Align content to top
-  justifyContent: 'center', // Center content horizontally
-  paddingTop: '64px', // Moved up from header
+  alignItems: 'flex-start',
+  justifyContent: 'center',
+  paddingTop: '64px',
   '&::before': {
     content: '""',
     position: 'absolute',
@@ -87,18 +137,242 @@ const HeroSection = styled(Box)(() => ({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.02)', // Very light overlay
+    background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.1) 20%, rgba(255, 255, 255, 0.2) 40%, rgba(255, 255, 255, 0.35) 60%, rgba(255, 255, 255, 0.5) 75%, rgba(255, 255, 255, 0.7) 85%, rgba(255, 255, 255, 0.9) 95%, rgba(255, 255, 255, 1) 100%)',
     zIndex: 1
   }
 }));
 
-// Styled teal-colored section
-const TealSection = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.teal.main,
-  color: 'white',
+// New Value Proposition Box Styled Components
+const ValuePropContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
-  padding: theme.spacing(6, 0),
-  zIndex: 1,
+  width: '100%',
+  maxWidth: '800px',
+  height: '420px',
+  margin: '40px auto 0',
+  [theme.breakpoints.down('md')]: {
+    height: '340px',
+    maxWidth: '720px',
+  },
+  [theme.breakpoints.down('sm')]: {
+    height: '260px',
+    maxWidth: 'calc(100% - 32px)',
+  }
+}));
+
+const ValuePropBox = styled(Box)(({ theme, position, connectTo, verticalConnectToContent, boxId }) => ({
+  position: 'absolute',
+  width: '110px',
+  height: boxId === 'blockchain' ? '175px' : '75px',
+  backgroundColor: 'rgba(255, 255, 255, 0.2)',
+  backdropFilter: 'blur(10px)',
+  WebkitBackdropFilter: 'blur(10px)',
+  border: '1px solid rgba(255, 255, 255, 0.3)',
+  borderRadius: '12px',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1)',
+  padding: '4px',
+  zIndex: 10, // Higher z-index to appear in front of hero text container
+  ...position,
+
+  // Add connecting line for profit box to blockchain box
+  ...(connectTo === 'blockchain' && {
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      top: '50%',
+      left: '-185px',
+      width: '185px',
+      height: '2px',
+      background: 'linear-gradient(90deg, #d1d5db 0%, #d1d5db 20%, #ffffff 50%, #d1d5db 80%, #d1d5db 100%)',
+      backgroundSize: '200% 100%',
+      animation: `${travelingLineGradient} 2s linear infinite`,
+      zIndex: 5,
+      transform: 'translateY(-50%)',
+    }
+  }),
+
+
+
+  // Add connecting line for blockchain box to compliance box
+  ...(connectTo === 'compliance' && {
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      top: '50%',
+      left: '-185px',
+      width: '185px',
+      height: '2px',
+      background: 'linear-gradient(90deg, #d1d5db 0%, #d1d5db 20%, #ffffff 50%, #d1d5db 80%, #d1d5db 100%)',
+      backgroundSize: '200% 100%',
+      animation: `${travelingLineGradient} 2s linear infinite`,
+      zIndex: 5,
+      transform: 'translateY(-50%)',
+    }
+  }),
+
+
+
+
+
+
+  '&:hover': {
+    transform: 'translateY(-3px)',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    backdropFilter: 'blur(15px)',
+    WebkitBackdropFilter: 'blur(15px)',
+    border: '1px solid rgba(255, 255, 255, 0.4)',
+    boxShadow: '0 6px 20px rgba(0,0,0,0.15), 0 12px 24px rgba(0,0,0,0.1)',
+  },
+  [theme.breakpoints.down('md')]: {
+    width: '88px',
+    height: boxId === 'blockchain' ? '140px' : '60px',
+    padding: '3px',
+    top: position.top ? `${parseInt(position.top) * 0.8}px` : position.top,
+    left: position.left ? `${parseInt(position.left) * 0.8}px` : position.left,
+  },
+  [theme.breakpoints.down('sm')]: {
+    width: '66px',
+    height: boxId === 'blockchain' ? '105px' : '45px',
+    padding: '2px',
+    top: position.top ? `${parseInt(position.top) * 0.6}px` : position.top,
+    left: position.left ? `${parseInt(position.left) * 0.6}px` : position.left,
+  }
+}));
+
+const ValuePropIcon = styled(Box)(({ theme }) => ({
+  marginBottom: '2px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  '& .MuiSvgIcon-root': {
+    fontSize: '18px',
+    color: 'rgba(0, 0, 0, 0.8)',
+    filter: 'drop-shadow(0 1px 2px rgba(255, 255, 255, 0.8))',
+  },
+  [theme.breakpoints.down('md')]: {
+    marginBottom: '2px',
+    '& .MuiSvgIcon-root': {
+      fontSize: '16px',
+      color: 'rgba(0, 0, 0, 0.8)',
+      filter: 'drop-shadow(0 1px 2px rgba(255, 255, 255, 0.8))',
+    },
+  },
+  [theme.breakpoints.down('sm')]: {
+    marginBottom: '1px',
+    '& .MuiSvgIcon-root': {
+      fontSize: '12px',
+      color: 'rgba(0, 0, 0, 0.8)',
+      filter: 'drop-shadow(0 1px 2px rgba(255, 255, 255, 0.8))',
+    },
+  }
+}));
+
+const ValuePropLabel = styled(Typography)(({ theme }) => ({
+  fontSize: '0.75rem',
+  fontWeight: 'bold',
+  fontFamily: 'inherit',
+  textAlign: 'center',
+  color: 'rgba(0, 0, 0, 0.8)',
+  textShadow: '0 1px 2px rgba(255, 255, 255, 0.8)',
+  lineHeight: 1.2,
+  textDecoration: 'none',
+  whiteSpace: 'pre-line',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  [theme.breakpoints.down('md')]: {
+    fontSize: '0.75rem',
+    color: 'rgba(0, 0, 0, 0.8)',
+    textShadow: '0 1px 2px rgba(255, 255, 255, 0.8)',
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.75rem',
+    color: 'rgba(0, 0, 0, 0.8)',
+    textShadow: '0 1px 2px rgba(255, 255, 255, 0.8)',
+  }
+}));
+
+// Popup backdrop with blur effect
+const PopupBackdrop = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'exiting',
+})(({ exiting }) => ({
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: 'rgba(255, 255, 255, 0.8)',
+  backdropFilter: 'blur(2.5px)',
+  zIndex: 999,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  pointerEvents: 'none',
+  animation: exiting ? 'fadeOutBackdrop 0.45s cubic-bezier(0.4, 0.0, 0.2, 1)' : 'fadeInBackdrop 0.3s ease-out',
+  '@keyframes fadeInBackdrop': {
+    '0%': {
+      opacity: 0,
+      backdropFilter: 'blur(0px)'
+    },
+    '100%': {
+      opacity: 1,
+      backdropFilter: 'blur(2.5px)'
+    }
+  },
+  '@keyframes fadeOutBackdrop': {
+    '0%': {
+      opacity: 1,
+      backdropFilter: 'blur(2.5px)'
+    },
+    '100%': {
+      opacity: 0,
+      backdropFilter: 'blur(0px)'
+    }
+  }
+}));
+
+// Popup text box
+const PopupTextBox = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'exiting',
+})(({ theme, exiting }) => ({
+  backgroundColor: '#ffffff',
+  borderRadius: '16px',
+  padding: '24px',
+  maxWidth: '320px',
+  boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
+  border: '2px solid',
+  borderImage: 'linear-gradient(90deg, #FB8C00 0%, #FDD835 6.67%, #94F1F1 13.33%, #62CBD0 20%, #418D91 26.67%, #2A7074 33.33%, #185B5F 40%, #073C3F 46.67%, #185B5F 53.33%, #2A7074 60%, #418D91 66.67%, #62CBD0 73.33%, #94F1F1 80%, #FDD835 86.67%, #FB8C00 93.33%, #FB8C00 100%) 1',
+  animation: exiting ? 'fadeOutScale 0.45s cubic-bezier(0.4, 0.0, 0.2, 1)' : 'fadeInScale 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+  transform: 'scale(1)',
+  '@keyframes fadeInScale': {
+    '0%': {
+      opacity: 0,
+      transform: 'scale(0.85) translateY(10px)'
+    },
+    '100%': {
+      opacity: 1,
+      transform: 'scale(1) translateY(0px)'
+    }
+  },
+  '@keyframes fadeOutScale': {
+    '0%': {
+      opacity: 1,
+      transform: 'scale(1) translateY(0px)'
+    },
+    '100%': {
+      opacity: 0,
+      transform: 'scale(0.95) translateY(-3px)'
+    }
+  },
+  [theme.breakpoints.down('sm')]: {
+    maxWidth: '280px',
+    padding: '20px'
+  }
 }));
 
 // Styled service card
@@ -113,19 +387,6 @@ const ServiceCard = styled(Card)(({ theme }) => ({
   }
 }));
 
-// Image placeholder styled component (will be replaced with actual images)
-const ImagePlaceholder = styled(Box)(({ theme }) => ({
-  width: 80,
-  height: 80,
-  margin: '0 auto 16px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: '50%',
-  backgroundColor: theme.palette.teal.main,
-  color: 'white'
-}));
-
 // Process step card
 const ProcessCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
@@ -138,369 +399,115 @@ const ProcessCard = styled(Paper)(({ theme }) => ({
   boxShadow: '0 4px 20px rgba(0,0,0,0.08)'
 }));
 
-// Process icon wrapper
-const ProcessIconWrapper = styled(Box)(({ theme }) => ({
-  width: 64,
-  height: 64,
-  borderRadius: '50%',
-  backgroundColor: theme.palette.teal.main,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginBottom: theme.spacing(2),
-  color: 'white'
-}));
 
-// Impact card
-const ImpactCard = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(3),
-  backgroundColor: 'white',
-  borderRadius: 16,
-  display: 'flex',
-  alignItems: 'center',
-  boxShadow: '0 4px 20px rgba(0,0,0,0.08)'
-}));
-
-// Value Hexagon Ecosystem Components
-const ValueHexagonContainer = styled(Box)(({ theme }) => ({
-  position: 'relative',
-  width: '500px',
-  height: '500px',
-  margin: '0 auto',
-  [theme.breakpoints.down('md')]: {
-    width: '400px',
-    height: '400px',
-  },
-  [theme.breakpoints.down('sm')]: {
-    width: '300px',
-    height: '300px',
-  }
-}));
-
-const HexNode = styled(Box)(({ theme, color, position }) => ({
-  position: 'absolute',
-  width: 100,
-  height: 100,
-  borderRadius: '50%',
-  backgroundColor: color,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  cursor: 'pointer',
-  transition: 'all 0.3s ease',
-  zIndex: 10,
-  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-  color: 'white',
-  ...position,
-  '&:hover': {
-    transform: 'scale(1.15)',
-    zIndex: 100,
-  },
-  [theme.breakpoints.down('md')]: {
-    width: 80,
-    height: 80,
-    top: position.top ? `${parseInt(position.top) * 0.8}px` : position.top,
-    left: position.left ? `${parseInt(position.left) * 0.8}px` : position.left,
-  },
-  [theme.breakpoints.down('sm')]: {
-    width: 60,
-    height: 60,
-    top: position.top ? `${parseInt(position.top) * 0.6}px` : position.top,
-    left: position.left ? `${parseInt(position.left) * 0.6}px` : position.left,
-  }
-}));
-
-const HexLabel = styled(Typography)(({ theme }) => ({
-  fontSize: '12px',
-  fontWeight: 600,
-  textAlign: 'center',
-  maxWidth: '80px',
-  lineHeight: 1.2,
-  marginTop: '4px',
-  [theme.breakpoints.down('md')]: {
-    fontSize: '10px',
-    maxWidth: '60px',
-  },
-  [theme.breakpoints.down('sm')]: {
-    fontSize: '8px',
-    maxWidth: '45px',
-  }
-}));
-
-const ValueCounter = styled(Box)(({ theme }) => ({
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  fontSize: '24px',
-  fontWeight: 700,
-  color: '#0d9488',
-  textAlign: 'center',
-  background: 'white',
-  borderRadius: '50%',
-  width: 180,
-  height: 180,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  boxShadow: '0 4px 20px rgba(13, 148, 136, 0.2)',
-  zIndex: 5,
-  [theme.breakpoints.down('md')]: {
-    width: 140,
-    height: 140,
-    fontSize: '20px',
-  },
-  [theme.breakpoints.down('sm')]: {
-    width: 100,
-    height: 100,
-    fontSize: '16px',
-  }
-}));
-
-const Connector = styled(Box)(({ theme, length, angle, startX, startY }) => ({
-  position: 'absolute',
-  height: 3,
-  width: length,
-  background: '#0d9488',
-  transformOrigin: '0 0',
-  transform: `rotate(${angle}deg)`,
-  left: startX,
-  top: startY,
-  zIndex: 1,
-  opacity: 0.3,
-  transition: 'opacity 0.3s ease',
-}));
-
-const HexTooltip = styled(Box)(({ theme, show, x, y }) => ({
-  position: 'absolute',
-  background: 'white',
-  padding: '15px',
-  borderRadius: '8px',
-  boxShadow: '0 5px 15px rgba(0,0,0,0.15)',
-  width: '200px',
-  zIndex: 200,
-  opacity: show ? 1 : 0,
-  transition: 'opacity 0.3s ease',
-  pointerEvents: 'none',
-  left: x,
-  top: y,
-  [theme.breakpoints.down('sm')]: {
-    width: '150px',
-    padding: '10px',
-    fontSize: '12px',
-  }
-}));
-
-// Value Ecosystem Hexagon Component
-const ValueEcosystemHexagon = () => {
-  const theme = useTheme();
-  const [hoveredPillar, setHoveredPillar] = useState(null);
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
-  const [currentValue, setCurrentValue] = useState(0);
-
-  // Animate counter on mount
-  useEffect(() => {
-    const targetValue = 4812;
-    const duration = 3000;
-    const startTime = Date.now();
-
-    const animateCounter = () => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      setCurrentValue(Math.floor(progress * targetValue));
-      
-      if (progress < 1) {
-        requestAnimationFrame(animateCounter);
-      }
-    };
-
-    const timer = setTimeout(animateCounter, 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Pillar data
-  const pillars = [
-    {
-      id: 'blockchain',
-      title: 'Blockchain Tracking',
-      description: 'Immutable device-to-value journey verification with GPS-validated custody transfers',
-      icon: <LinkIcon fontSize="large" />,
-      color: '#0d9488',
-      position: { top: '50px', left: '200px' }
-    },
-    {
-      id: 'profit',
-      title: 'Profit Sharing',
-      description: '15-40% revenue share on refurbished sales through our global marketplace',
-      icon: <AttachMoneyIcon fontSize="large" />,
-      color: '#eab308',
-      position: { top: '150px', left: '400px' }
-    },
-    {
-      id: 'tax',
-      title: 'Tax Strategies',
-      description: 'Automated IRS Form 8283 preparation and fair market value documentation',
-      icon: <AssignmentIcon fontSize="large" />,
-      color: '#2563eb',
-      position: { top: '350px', left: '400px' }
-    },
-    {
-      id: 'carbon',
-      title: 'Carbon Credits',
-      description: 'Gold Standard-certified carbon credits from emissions avoidance',
-      icon: <NatureIcon fontSize="large" />,
-      color: '#16a34a',
-      position: { top: '450px', left: '200px' }
-    },
-    {
-      id: 'esg',
-      title: 'ESG Impact',
-      description: 'SDG-aligned impact metrics for sustainability disclosures and reporting',
-      icon: <StarIcon fontSize="large" />,
-      color: '#7e22ce',
-      position: { top: '350px', left: '0px' }
-    },
-    {
-      id: 'compliance',
-      title: 'Compliance',
-      description: 'Audit-proof R2/e-Stewards certified processing with blockchain verification',
-      icon: <ShieldIcon fontSize="large" />,
-      color: '#4b5563',
-      position: { top: '150px', left: '0px' }
-    }
-  ];
-
-  // Node positions for connectors
-  const nodePositions = [
-    { x: 250, y: 100 },  // blockchain (center of node)
-    { x: 450, y: 200 },  // profit
-    { x: 450, y: 400 },  // tax
-    { x: 250, y: 500 },  // carbon
-    { x: 50, y: 400 },   // esg
-    { x: 50, y: 200 }    // compliance
-  ];
-
-  // Connection lines
-  const connections = [
-    [0,1], [1,2], [2,3], [3,4], [4,5], [5,0], // Outer hexagon
-    [0,2], [1,3], [2,4], [3,5], [4,0], [5,1]  // Inner connections
-  ];
-
-  const handleNodeHover = (pillar, event) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const hexRect = event.currentTarget.closest('.value-hexagon').getBoundingClientRect();
-    
-    setTooltipPosition({
-      x: rect.left - hexRect.left + 50,
-      y: rect.top - hexRect.top + 120
-    });
-    setHoveredPillar(pillar);
-  };
-
-  const handleNodeLeave = () => {
-    setHoveredPillar(null);
-  };
-
-  return (
-    <Box sx={{ py: 2, backgroundColor: '#f9fafb' }}>
-      <Container maxWidth="lg">        
-        <ValueHexagonContainer className="value-hexagon">
-          {/* Central Counter */}
-          <ValueCounter>
-            <Box>
-              <Typography variant="inherit" component="div">
-                ${currentValue.toLocaleString()}
-              </Typography>
-              <Typography variant="body2" component="div" sx={{ fontSize: { xs: '12px', sm: '14px' } }}>
-                Value Unlocked
-              </Typography>
-            </Box>
-          </ValueCounter>
-
-          {/* Connection Lines */}
-          {connections.map((conn, index) => {
-            const p1 = nodePositions[conn[0]];
-            const p2 = nodePositions[conn[1]];
-            const length = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
-            const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
-            
-            return (
-              <Connector
-                key={index}
-                length={length}
-                angle={angle}
-                startX={p1.x}
-                startY={p1.y}
-              />
-            );
-          })}
-
-          {/* Pillar Nodes */}
-          {pillars.map((pillar) => (
-            <HexNode
-              key={pillar.id}
-              color={pillar.color}
-              position={pillar.position}
-              onMouseEnter={(e) => handleNodeHover(pillar, e)}
-              onMouseLeave={handleNodeLeave}
-            >
-              {pillar.icon}
-              <HexLabel variant="body2">
-                {pillar.title}
-              </HexLabel>
-            </HexNode>
-          ))}
-
-          {/* Tooltip */}
-          {hoveredPillar && (
-            <HexTooltip
-              show={!!hoveredPillar}
-              x={tooltipPosition.x}
-              y={tooltipPosition.y}
-            >
-              <Typography variant="h6" sx={{ color: hoveredPillar.color, mb: 1 }}>
-                {hoveredPillar.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {hoveredPillar.description}
-              </Typography>
-            </HexTooltip>
-          )}
-        </ValueHexagonContainer>
-      </Container>
-    </Box>
-  );
-};
 
 const NewLandingPage = () => {
   const theme = useTheme();
   const [animate, setAnimate] = useState(false);
+  const [hoveredBox, setHoveredBox] = useState(null);
+  const [popupExiting, setPopupExiting] = useState(false);
 
   // Trigger animation when component mounts
   useEffect(() => {
     const timer = setTimeout(() => {
       setAnimate(true);
-    }, 500); // Start animation after 500ms
-
+    }, 500);
     return () => clearTimeout(timer);
   }, []);
 
   // Add useEffect to log image loading status
   React.useEffect(() => {
-    // Check if the stock chart image exists
     const img = new Image();
     img.onload = () => console.log("Stock chart image loaded successfully");
     img.onerror = () => console.error("Failed to load stock chart image");
     img.src = "/images/stock-chart.jpg";
     
-    // Also check robot logo
     const robotImg = new Image();
     robotImg.onload = () => console.log("Robot logo loaded successfully");
     robotImg.onerror = () => console.error("Failed to load robot logo");
     robotImg.src = "/images/robot-logo.svg";
   }, []);
+
+  // Get popup content based on hovered box
+  const getPopupContent = (boxType) => {
+    switch (boxType) {
+      case 'blockchain':
+        return {
+          title: 'Blockchain Tracking',
+          description: 'Immutable device-to-value journey verification with GPS-validated custody transfers'
+        };
+      case 'profit':
+        return {
+          title: 'Profit Sharing',
+          description: 'Profit share on refurbished sales through our global network'
+        };
+      case 'compliance':
+        return {
+          title: 'Compliance',
+          description: 'Audit-proof R2/e-Stewards certified processing. Immutable recycling certificates. Chain-of-custody documentation. Data destruction certification.'
+        };
+      case 'esg':
+        return {
+          title: 'ESG Impact',
+          description: 'SDG-aligned impact metrics for sustainability disclosures and reporting'
+        };
+
+      case 'tax':
+        return {
+          title: 'Tax Strategies',
+          description: 'Automated IRS Form 8283 preparation and fair market value documentation'
+        };
+      default:
+        return { title: '', description: '' };
+    }
+  };
+
+  // Handle smooth popup exit animation
+  const handleMouseLeave = () => {
+    if (hoveredBox === 'blockchain' || hoveredBox === 'profit' || hoveredBox === 'compliance' || hoveredBox === 'esg' || hoveredBox === 'tax') {
+      setPopupExiting(true);
+      setTimeout(() => {
+        setHoveredBox(null);
+        setPopupExiting(false);
+      }, 450); // Match the exit animation duration
+    }
+  };
+
+  // Value proposition data
+  const valuePropositions = [
+    {
+      id: 'blockchain',
+      title: 'Blockchain\nTracking',
+      icon: <LinkIcon />,
+      position: { top: '-600px', left: '345px' }, // Moved up by 50px (-550px - 50px = -600px)
+      connectTo: 'compliance'
+    },
+    {
+      id: 'profit',
+      title: 'Profit\nSharing',
+      icon: <AttachMoneyIcon />,
+      position: { top: '-600px', left: '640px' }, // Moved left by 40px total (680px - 40px = 640px)
+      connectTo: 'blockchain'
+    },
+    {
+      id: 'tax',
+      title: 'Tax\nStrategies',
+      icon: <AssignmentIcon />,
+      position: { top: '-500px', left: '640px' }, // Moved left by 40px total (680px - 40px = 640px)
+    },
+    {
+      id: 'esg',
+      title: 'ESG\nImpact',
+      icon: <StarIcon />,
+      position: { top: '-500px', left: '50px' } // Moved right by 50px total (0px + 50px = 50px)
+    },
+    {
+      id: 'compliance',
+      title: 'Compliance',
+      icon: <ShieldIcon />,
+      position: { top: '-600px', left: '50px' } // Moved right by 50px total (0px + 50px = 50px)
+    }
+  ];
 
   // Service offerings data
   const services = [
@@ -562,69 +569,464 @@ const NewLandingPage = () => {
     <Box>
       {/* Hero Section */}
       <HeroSection>
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, display: 'flex', justifyContent: 'center' }}>
-          <AnimatedContentBox animate={animate} sx={{ textAlign: 'center' }}>
-            <Typography 
-              variant="h1" 
-              component="h1" 
-              gutterBottom 
-              sx={{ 
-                fontWeight: 'bold',
-                fontSize: { xs: '0.8575rem', sm: '1.225rem', md: '1.8375rem' },
-                lineHeight: { xs: 1.2, sm: 1.3, md: 1.2 },
-                mb: { xs: 2, sm: 3 },
-                textAlign: 'center',
-                margin: 0,
-                marginBottom: { xs: 2, sm: 3 },
-                background: 'linear-gradient(90deg, #FB8C00 0%, #FDD835 6.67%, #94F1F1 13.33%, #62CBD0 20%, #418D91 26.67%, #2A7074 33.33%, #185B5F 40%, #073C3F 46.67%, #185B5F 53.33%, #2A7074 60%, #418D91 66.67%, #62CBD0 73.33%, #94F1F1 80%, #FDD835 86.67%, #FB8C00 93.33%, #FB8C00 100%)',
-                backgroundSize: '300% 100%',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                animation: `${pulsatingGradient} 10s linear infinite`
-              }}
-            >
-              One Platform. Six Dimensions of Value.
-            </Typography>
-            <Typography 
-              variant="h2" 
-              component="h2" 
-              gutterBottom 
-              color="text.primary" 
-              sx={{ 
-                fontWeight: 'bold',
-                fontSize: { xs: '0.6125rem', sm: '0.8575rem', md: '1.225rem' },
-                lineHeight: { xs: 1.2, sm: 1.3, md: 1.2 },
-                mb: { xs: 2, sm: 3 },
-                textAlign: 'center',
-                margin: 0,
-                marginBottom: { xs: 2, sm: 3 }
-              }}
-            >
-              Blockchain-Verified E-Waste Intelligence: Profit • ESG • Compliance
-            </Typography>
-            <Typography 
-              variant="body1" 
-              paragraph 
-              color="text.primary" 
-              sx={{ 
-                mb: { xs: 3, sm: 4 },
-                fontSize: { xs: '14px', sm: '16px' },
-                lineHeight: { xs: 1.4, sm: 1.5 },
-                textAlign: 'center',
-                margin: 0,
-                marginBottom: { xs: 3, sm: 4 }
-              }}
-            >
-              RYGNeco's unified platform transforms retired electronics into measurable business value through integrated blockchain tracking, profit recovery, tax optimization, carbon credits, ESG impact, and ironclad compliance.
-            </Typography>
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <AnimatedContentBox animate={animate} sx={{ 
+            textAlign: 'center',
+            margin: { xs: '0 16px', sm: '0 auto', md: '0 auto' },
+            maxWidth: { xs: 'calc(100% - 32px)', sm: '720px', md: '800px' },
+            width: { xs: 'calc(100% - 32px)', sm: '720px', md: '800px' },
+            borderRadius: '20px',
+            [theme.breakpoints.up('md')]: {
+              borderRadius: '20px',
+            },
+            [theme.breakpoints.down('sm')]: {
+              borderRadius: '15px'
+            }
+          }}>
+              <Typography 
+                variant="h1" 
+                component="h1" 
+                gutterBottom 
+                sx={{ 
+                  fontWeight: 'bold',
+                  fontSize: { xs: '0.8575rem', sm: '1.225rem', md: '1.8375rem' },
+                  lineHeight: { xs: 1.2, sm: 1.3, md: 1.2 },
+                  mb: { xs: 2, sm: 3 },
+                  textAlign: 'center',
+                  margin: 0,
+                  marginBottom: { xs: 2, sm: 3 },
+                  background: 'linear-gradient(90deg, #FB8C00 0%, #FDD835 6.67%, #94F1F1 13.33%, #62CBD0 20%, #418D91 26.67%, #2A7074 33.33%, #185B5F 40%, #073C3F 46.67%, #185B5F 53.33%, #2A7074 60%, #418D91 66.67%, #62CBD0 73.33%, #94F1F1 80%, #FDD835 86.67%, #FB8C00 93.33%, #FB8C00 100%)',
+                  backgroundSize: '300% 100%',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  animation: `${pulsatingGradient} 10s linear infinite`
+                }}
+              >
+                One Platform. Six Dimensions of Value.
+              </Typography>
+              <Typography 
+                variant="body1" 
+                paragraph 
+                color="text.primary" 
+                sx={{ 
+                  mb: { xs: 3, sm: 4 },
+                  fontSize: { xs: '0.6125rem', sm: '0.8575rem', md: '1.225rem' },
+                  fontWeight: 'bold',
+                  fontFamily: 'inherit',
+                  lineHeight: { xs: 1.2, sm: 1.3, md: 1.2 },
+                  textAlign: 'center',
+                  textDecoration: 'none',
+                  margin: 0,
+                  marginBottom: { xs: 3, sm: 4 }
+                }}
+              >
+                Engine That Transforms Retired Electronics into Business Value
+              </Typography>
 
-          </AnimatedContentBox>
+            </AnimatedContentBox>
+
+          {/* Central Content Box */}
+          <Box sx={{ 
+            position: 'absolute',
+            top: 'calc(60% - 100px)', // Moved up by 100px
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 3,
+            maxWidth: { xs: 'calc(100% - 48px)', sm: '650px', md: '720px' },
+            width: { xs: 'calc(100% - 48px)', sm: '650px', md: '720px' },
+            height: { xs: '350px', sm: '400px', md: '420px' }
+          }}>
+            <Box sx={{
+              position: 'relative',
+              borderRadius: '16px',
+              padding: '3px',
+              background: 'linear-gradient(90deg, #FB8C00 0%, #FDD835 6.67%, #94F1F1 13.33%, #62CBD0 20%, #418D91 26.67%, #2A7074 33.33%, #185B5F 40%, #073C3F 46.67%, #185B5F 53.33%, #2A7074 60%, #418D91 66.67%, #62CBD0 73.33%, #94F1F1 80%, #FDD835 86.67%, #FB8C00 93.33%, #FB8C00 100%)',
+              backgroundSize: '300% 100%',
+              animation: `${pulsatingGradient} 10s linear infinite`
+            }}>
+              <Box sx={{
+                borderRadius: '13px',
+                padding: '32px',
+                height: { xs: '344px', sm: '394px', md: '414px' },
+                display: 'flex',
+                flexDirection: 'column',
+                backgroundColor: '#ffffff',
+                backdropFilter: 'blur(10px)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+              }}>
+                {/* Header Row */}
+                <Box sx={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  marginBottom: '20px'
+                }}>
+                  <Typography sx={{ 
+                    fontSize: '0.75rem',
+                    fontWeight: 'bold',
+                    fontFamily: 'inherit',
+                    textAlign: 'left',
+                    color: 'text.primary',
+                    lineHeight: 1.2,
+                    whiteSpace: 'pre-line'
+                  }}>
+                    Impact Dashboard
+                  </Typography>
+                  <Box sx={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '4px'
+                  }}>
+                    <Box sx={{
+                      width: '6px',
+                      height: '6px',
+                      borderRadius: '50%',
+                      backgroundColor: '#DC2626',
+                      animation: `${livePulse} 2s ease-in-out infinite`
+                    }} />
+                    <Typography sx={{ 
+                      fontSize: '0.75rem',
+                      fontWeight: 'bold',
+                      fontFamily: 'inherit',
+                      textAlign: 'right',
+                      color: 'text.primary',
+                      lineHeight: 1.2,
+                      whiteSpace: 'pre-line'
+                    }}>
+                      Live Tracking
+                    </Typography>
+                  </Box>
+                </Box>
+
+                {/* Content Grid */}
+                <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {/* Top Row - Boxes 1 & 2 */}
+                  <Box sx={{ display: 'flex', gap: '12px', height: '45%' }}>
+                    <Box sx={{
+                      flex: 1,
+                      background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 60%, rgba(255, 255, 255, 0.3) 80%, rgba(255, 255, 255, 0.1) 95%, rgba(255, 255, 255, 0) 100%)',
+                      borderRadius: '12px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                      padding: '8px'
+                    }}>
+                      <Typography sx={{ 
+                        fontWeight: 'bold',
+                        fontSize: { xs: '0.6125rem', sm: '0.8575rem', md: '1.225rem' },
+                        lineHeight: { xs: 1.2, sm: 1.3, md: 1.2 },
+                        color: 'text.primary',
+                        textAlign: 'center',
+                        marginBottom: '4px'
+                      }}>
+                        2,847
+                      </Typography>
+                      <Typography sx={{ 
+                        fontSize: '0.75rem',
+                        fontWeight: 'normal',
+                        fontFamily: 'inherit',
+                        color: 'text.primary',
+                        lineHeight: 1.2,
+                        textAlign: 'center'
+                      }}>
+                        Devices processed and tracked
+                      </Typography>
+                    </Box>
+                    <Box sx={{
+                      flex: 1,
+                      background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 60%, rgba(255, 255, 255, 0.3) 80%, rgba(255, 255, 255, 0.1) 95%, rgba(255, 255, 255, 0) 100%)',
+                      borderRadius: '12px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                      padding: '8px'
+                    }}>
+                      <Typography sx={{ 
+                        fontWeight: 'bold',
+                        fontSize: { xs: '0.6125rem', sm: '0.8575rem', md: '1.225rem' },
+                        lineHeight: { xs: 1.2, sm: 1.3, md: 1.2 },
+                        color: 'text.primary',
+                        textAlign: 'center',
+                        marginBottom: '4px'
+                      }}>
+                        $127k
+                      </Typography>
+                      <Typography sx={{ 
+                        fontSize: '0.75rem',
+                        fontWeight: 'normal',
+                        fontFamily: 'inherit',
+                        color: 'text.primary',
+                        lineHeight: 1.2,
+                        textAlign: 'center'
+                      }}>
+                        Value Recovered
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  {/* Middle Row - Boxes 3 & 4 */}
+                  <Box sx={{ display: 'flex', gap: '12px', height: '45%' }}>
+                    <Box sx={{
+                      flex: 1,
+                      background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 60%, rgba(255, 255, 255, 0.3) 80%, rgba(255, 255, 255, 0.1) 95%, rgba(255, 255, 255, 0) 100%)',
+                      borderRadius: '12px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                      padding: '8px'
+                    }}>
+                      <Typography sx={{ 
+                        fontWeight: 'bold',
+                        fontSize: { xs: '0.6125rem', sm: '0.8575rem', md: '1.225rem' },
+                        lineHeight: { xs: 1.2, sm: 1.3, md: 1.2 },
+                        color: 'text.primary',
+                        textAlign: 'center',
+                        marginBottom: '4px'
+                      }}>
+                        185t
+                      </Typography>
+                      <Typography sx={{ 
+                        fontSize: '0.75rem',
+                        fontWeight: 'normal',
+                        fontFamily: 'inherit',
+                        color: 'text.primary',
+                        lineHeight: 1.2,
+                        textAlign: 'center'
+                      }}>
+                        CO<sub>2</sub> Avoided
+                      </Typography>
+                    </Box>
+                    <Box sx={{
+                      flex: 1,
+                      background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 60%, rgba(255, 255, 255, 0.3) 80%, rgba(255, 255, 255, 0.1) 95%, rgba(255, 255, 255, 0) 100%)',
+                      borderRadius: '12px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                      padding: '8px'
+                    }}>
+                      <Typography sx={{ 
+                        fontWeight: 'bold',
+                        fontSize: { xs: '0.6125rem', sm: '0.8575rem', md: '1.225rem' },
+                        lineHeight: { xs: 1.2, sm: 1.3, md: 1.2 },
+                        color: 'text.primary',
+                        textAlign: 'center',
+                        marginBottom: '4px'
+                      }}>
+                        98%
+                      </Typography>
+                      <Typography sx={{ 
+                        fontSize: '0.75rem',
+                        fontWeight: 'normal',
+                        fontFamily: 'inherit',
+                        color: 'text.primary',
+                        lineHeight: 1.2,
+                        textAlign: 'center'
+                      }}>
+                        Landfill Diverted
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  {/* Bottom Row - Box 5 (Full Width) */}
+                  <Box sx={{
+                    height: '45%',
+                    background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 60%, rgba(255, 255, 255, 0.3) 80%, rgba(255, 255, 255, 0.1) 95%, rgba(255, 255, 255, 0) 100%)',
+                    borderRadius: '12px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                    padding: '16px',
+                    gap: '12px'
+                  }}>
+                    <Typography sx={{ 
+                      fontSize: '0.75rem',
+                      fontWeight: 'bold',
+                      fontFamily: 'inherit',
+                      color: 'text.primary',
+                      lineHeight: 1.2,
+                      textAlign: 'center'
+                    }}>
+                      Value Stream Breakdown
+                    </Typography>
+                    
+                    <Box sx={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      paddingLeft: '16px',
+                      paddingRight: '16px',
+                      width: '100%'
+                    }}>
+                      <Typography sx={{ 
+                        fontSize: '0.75rem',
+                        fontWeight: 'normal',
+                        fontFamily: 'inherit',
+                        color: 'text.primary',
+                        lineHeight: 1.2,
+                        minWidth: '70px'
+                      }}>
+                        Refurbished
+                      </Typography>
+                      <Box sx={{
+                        width: '550px',
+                        height: '12px',
+                        backgroundColor: 'rgba(0,0,0,0.1)',
+                        borderRadius: '6px',
+                        overflow: 'hidden',
+                        mx: 2
+                      }}>
+                        <Box sx={{
+                          width: '75%',
+                          height: '100%',
+                          background: 'linear-gradient(to right, #ffffff, #185B5F)',
+                          borderRadius: '6px'
+                        }} />
+                      </Box>
+                      <Typography sx={{ 
+                        fontSize: '0.75rem',
+                        fontWeight: 'normal',
+                        fontFamily: 'inherit',
+                        color: 'text.primary',
+                        lineHeight: 1.2,
+                        minWidth: '30px',
+                        textAlign: 'right'
+                      }}>
+                        75%
+                      </Typography>
+                    </Box>
+
+                    <Box sx={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      paddingLeft: '16px',
+                      paddingRight: '16px',
+                      width: '100%'
+                    }}>
+                      <Typography sx={{ 
+                        fontSize: '0.75rem',
+                        fontWeight: 'normal',
+                        fontFamily: 'inherit',
+                        color: 'text.primary',
+                        lineHeight: 1.2,
+                        minWidth: '70px'
+                      }}>
+                        Recycled
+                      </Typography>
+                      <Box sx={{
+                        width: '550px',
+                        height: '12px',
+                        backgroundColor: 'rgba(0,0,0,0.1)',
+                        borderRadius: '6px',
+                        overflow: 'hidden',
+                        mx: 2
+                      }}>
+                        <Box sx={{
+                          width: '60%',
+                          height: '100%',
+                          background: 'linear-gradient(to right, #ffffff, #185B5F)',
+                          borderRadius: '6px'
+                        }} />
+                      </Box>
+                      <Typography sx={{ 
+                        fontSize: '0.75rem',
+                        fontWeight: 'normal',
+                        fontFamily: 'inherit',
+                        color: 'text.primary',
+                        lineHeight: 1.2,
+                        minWidth: '30px',
+                        textAlign: 'right'
+                      }}>
+                        60%
+                      </Typography>
+                    </Box>
+
+                    <Box sx={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      paddingLeft: '16px',
+                      paddingRight: '16px',
+                      width: '100%'
+                    }}>
+                      <Typography sx={{ 
+                        fontSize: '0.75rem',
+                        fontWeight: 'normal',
+                        fontFamily: 'inherit',
+                        color: 'text.primary',
+                        lineHeight: 1.2,
+                        minWidth: '70px'
+                      }}>
+                        Donated
+                      </Typography>
+                      <Box sx={{
+                        width: '550px',
+                        height: '12px',
+                        backgroundColor: 'rgba(0,0,0,0.1)',
+                        borderRadius: '6px',
+                        overflow: 'hidden',
+                        mx: 2
+                      }}>
+                        <Box sx={{
+                          width: '25%',
+                          height: '100%',
+                          background: 'linear-gradient(to right, #ffffff, #185B5F)',
+                          borderRadius: '6px'
+                        }} />
+                      </Box>
+                      <Typography sx={{ 
+                        fontSize: '0.75rem',
+                        fontWeight: 'normal',
+                        fontFamily: 'inherit',
+                        color: 'text.primary',
+                        lineHeight: 1.2,
+                        minWidth: '30px',
+                        textAlign: 'right'
+                      }}>
+                        25%
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+
+          {/* Value Propositions - Integrated into Hero */}
+          <ValuePropContainer>
+            {valuePropositions.map((prop) => (
+              <ValuePropBox
+                key={prop.id}
+                boxId={prop.id}
+                position={prop.position}
+                connectTo={prop.connectTo}
+                verticalConnectToContent={prop.verticalConnectToContent}
+                onMouseEnter={() => (prop.id === 'blockchain' || prop.id === 'profit' || prop.id === 'compliance' || prop.id === 'esg' || prop.id === 'tax') && setHoveredBox(prop.id)}
+                onMouseLeave={handleMouseLeave}
+              >
+                <ValuePropIcon>
+                  {prop.icon}
+                </ValuePropIcon>
+                <ValuePropLabel>
+                  {prop.title}
+                </ValuePropLabel>
+              </ValuePropBox>
+            ))}
+          </ValuePropContainer>
         </Container>
       </HeroSection>
-      
-      {/* Value Ecosystem Hexagon Section */}
-      <ValueEcosystemHexagon />
       
       {/* What We Offer Section */}
       <Container maxWidth="lg" sx={{ py: 8 }}>
@@ -755,7 +1157,7 @@ const NewLandingPage = () => {
             </Grid>
           ))}
           
-          {/* Impact Section - Reorganized to match width and move button right */}
+          {/* Impact Section */}
           <Grid item xs={12}>
             <Box
               sx={{
@@ -774,7 +1176,6 @@ const NewLandingPage = () => {
                 textAlign: { xs: 'center', sm: 'left' }
               }}
             >
-              {/* Icon */}
               <Box
                 sx={{
                   width: 64,
@@ -791,7 +1192,6 @@ const NewLandingPage = () => {
                 <BarChartIcon fontSize="large" />
               </Box>
               
-              {/* Content area */}
               <Box sx={{ flex: 1 }}>
                 <Typography 
                   variant="h6" 
@@ -810,7 +1210,6 @@ const NewLandingPage = () => {
                 </Typography>
               </Box>
               
-              {/* Button */}
               <Box sx={{ flexShrink: 0, mt: { xs: 2, sm: 0 } }}>
                 <Button 
                   variant="contained"
@@ -833,6 +1232,33 @@ const NewLandingPage = () => {
           </Grid>
         </Grid>
       </Container>
+
+      {/* Hover Popup for Value Propositions */}
+      {((hoveredBox === 'blockchain' || hoveredBox === 'profit' || hoveredBox === 'compliance' || hoveredBox === 'esg' || hoveredBox === 'tax') || popupExiting) && (
+        <PopupBackdrop exiting={popupExiting}>
+          <PopupTextBox exiting={popupExiting}>
+            <Typography 
+              sx={{ 
+                fontWeight: 'bold',
+                fontSize: '1.125rem',
+                marginBottom: '12px',
+                color: '#073C3F'
+              }}
+            >
+              {getPopupContent(hoveredBox).title}
+            </Typography>
+            <Typography 
+              sx={{ 
+                fontSize: '0.875rem',
+                lineHeight: 1.5,
+                color: 'text.secondary'
+              }}
+            >
+              {getPopupContent(hoveredBox).description}
+            </Typography>
+          </PopupTextBox>
+        </PopupBackdrop>
+      )}
     </Box>
   );
 };
