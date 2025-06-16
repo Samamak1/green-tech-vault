@@ -161,8 +161,8 @@ const ValuePropContainer = styled(Box)(({ theme }) => ({
 
 const ValuePropBox = styled(Box)(({ theme, position, connectTo, verticalConnectToContent, boxId }) => ({
   position: 'absolute',
-  width: '110px',
-  height: boxId === 'blockchain' ? '175px' : '75px',
+  width: boxId === 'blockchain' ? '130px' : '110px',
+  height: boxId === 'blockchain' ? '195px' : '75px',
   backgroundColor: 'rgba(255, 255, 255, 0.2)',
   backdropFilter: 'blur(10px)',
   WebkitBackdropFilter: 'blur(10px)',
@@ -174,46 +174,18 @@ const ValuePropBox = styled(Box)(({ theme, position, connectTo, verticalConnectT
   alignItems: 'center',
   cursor: 'pointer',
   transition: 'all 0.3s ease',
-  boxShadow: '0 4px 12px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1)',
+  boxShadow: boxId === 'blockchain' 
+    ? '0 0 8px rgba(251, 140, 0, 0.4), 0 0 16px rgba(253, 216, 53, 0.3), 0 0 24px rgba(187, 95, 182, 0.3), 0 0 32px rgba(243, 109, 178, 0.2), 0 0 40px rgba(224, 80, 80, 0.2), 0 0 48px rgba(240, 211, 81, 0.2), inset 0 0 0 1px rgba(251, 140, 0, 0.1)'
+    : '0 4px 12px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1)',
   padding: '4px',
   zIndex: 10, // Higher z-index to appear in front of hero text container
   ...position,
 
-  // Add connecting line for profit box to blockchain box
-  ...(connectTo === 'blockchain' && {
-    '&::before': {
-      content: '""',
-      position: 'absolute',
-      top: '50%',
-      left: '-185px',
-      width: '185px',
-      height: '2px',
-      background: 'linear-gradient(90deg, #d1d5db 0%, #d1d5db 20%, #ffffff 50%, #d1d5db 80%, #d1d5db 100%)',
-      backgroundSize: '200% 100%',
-      animation: `${travelingLineGradient} 2s linear infinite`,
-      zIndex: 5,
-      transform: 'translateY(-50%)',
-    }
-  }),
 
 
 
-  // Add connecting line for blockchain box to compliance box
-  ...(connectTo === 'compliance' && {
-    '&::before': {
-      content: '""',
-      position: 'absolute',
-      top: '50%',
-      left: '-185px',
-      width: '185px',
-      height: '2px',
-      background: 'linear-gradient(90deg, #d1d5db 0%, #d1d5db 20%, #ffffff 50%, #d1d5db 80%, #d1d5db 100%)',
-      backgroundSize: '200% 100%',
-      animation: `${travelingLineGradient} 2s linear infinite`,
-      zIndex: 5,
-      transform: 'translateY(-50%)',
-    }
-  }),
+
+
 
 
 
@@ -226,18 +198,20 @@ const ValuePropBox = styled(Box)(({ theme, position, connectTo, verticalConnectT
     backdropFilter: 'blur(15px)',
     WebkitBackdropFilter: 'blur(15px)',
     border: '1px solid rgba(255, 255, 255, 0.4)',
-    boxShadow: '0 6px 20px rgba(0,0,0,0.15), 0 12px 24px rgba(0,0,0,0.1)',
+    boxShadow: boxId === 'blockchain'
+      ? '0 0 12px rgba(251, 140, 0, 0.5), 0 0 24px rgba(253, 216, 53, 0.4), 0 0 36px rgba(187, 95, 182, 0.4), 0 0 48px rgba(243, 109, 178, 0.3), 0 0 60px rgba(224, 80, 80, 0.3), 0 0 72px rgba(240, 211, 81, 0.3), inset 0 0 0 1px rgba(251, 140, 0, 0.2)'
+      : '0 6px 20px rgba(0,0,0,0.15), 0 12px 24px rgba(0,0,0,0.1)',
   },
   [theme.breakpoints.down('md')]: {
-    width: '88px',
-    height: boxId === 'blockchain' ? '140px' : '60px',
+    width: boxId === 'blockchain' ? '104px' : '88px',
+    height: boxId === 'blockchain' ? '160px' : '60px',
     padding: '3px',
     top: position.top ? `${parseInt(position.top) * 0.8}px` : position.top,
     left: position.left ? `${parseInt(position.left) * 0.8}px` : position.left,
   },
   [theme.breakpoints.down('sm')]: {
-    width: '66px',
-    height: boxId === 'blockchain' ? '105px' : '45px',
+    width: boxId === 'blockchain' ? '78px' : '66px',
+    height: boxId === 'blockchain' ? '125px' : '45px',
     padding: '2px',
     top: position.top ? `${parseInt(position.top) * 0.6}px` : position.top,
     left: position.left ? `${parseInt(position.left) * 0.6}px` : position.left,
@@ -479,15 +453,13 @@ const NewLandingPage = () => {
       id: 'blockchain',
       title: 'Blockchain\nTracking',
       icon: <LinkIcon />,
-      position: { top: '-600px', left: '345px' }, // Moved up by 50px (-550px - 50px = -600px)
-      connectTo: 'compliance'
+      position: { top: '-610px', left: '345px' }, // Moved up by 60px (-550px - 60px = -610px)
     },
     {
       id: 'profit',
       title: 'Profit\nSharing',
       icon: <AttachMoneyIcon />,
       position: { top: '-600px', left: '640px' }, // Moved left by 40px total (680px - 40px = 640px)
-      connectTo: 'blockchain'
     },
     {
       id: 'tax',
