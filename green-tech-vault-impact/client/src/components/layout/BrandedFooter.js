@@ -20,8 +20,9 @@ const BrandedFooter = () => {
           <Grid item xs={12} md={4}>
             <Box sx={{ 
               mb: 2,
-              // Align logo top with header text baseline
-              mt: { xs: 0, md: '-4px' } // Slight negative margin to align with h6 text baseline
+              // Align logo top with header text baseline - more aggressive positioning
+              mt: { xs: 0, md: '-12px' }, // More negative margin
+              transform: { xs: 'none', md: 'translateY(-4px)' } // Additional transform adjustment
             }}>
               <Box 
                 sx={{ 

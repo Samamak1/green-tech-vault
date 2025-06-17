@@ -22,6 +22,8 @@ const Footer = () => {
   
   // Log footer color to verify it's correctly set
   console.log('Footer background color set to:', footerBgColor);
+  // Cache bust for alignment fix
+  console.log('Footer alignment fix applied - v2');
   
   // Footer sections
   const corporateLinks = [
@@ -62,15 +64,17 @@ const Footer = () => {
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={4}>
+        <Grid container spacing={4} sx={{ alignItems: 'baseline' }}>
           {/* Logo only - no text */}
           <Grid item xs={12} sm={3}>
             <Box sx={{ 
               display: 'flex', 
-              alignItems: 'flex-start', 
+              alignItems: 'baseline', 
               mb: 2,
-              // Align logo top with header text baseline
-              mt: { xs: 0, sm: '-4px' } // Slight negative margin to align with h6 text baseline
+              // Align logo top with header text baseline - more aggressive positioning
+              mt: { xs: 0, sm: '-16px' }, // Even more negative margin
+              transform: { xs: 'none', sm: 'translateY(-8px)' }, // More transform adjustment
+              height: 'fit-content'
             }}>
               <Box
                 component={RouterLink}
