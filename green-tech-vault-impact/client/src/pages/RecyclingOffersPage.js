@@ -21,9 +21,6 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney'; // For turning e-
 import GroupIcon from '@mui/icons-material/Group'; // For referrals
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'; // For challenges/winning
 
-// Import components
-import RecyclingIcon from '../components/branding/RecyclingIcon';
-
 // Animation for dropdown
 const dropDown = keyframes`
   0% {
@@ -55,7 +52,7 @@ const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
 const HeroSection = styled(Box)({
   position: 'relative',
   minHeight: '100vh',
-  backgroundImage: 'url(https://images.unsplash.com/photo-1601972599748-4a2ce8e8f6c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80)', // E-waste phones background
+  backgroundImage: 'url(/images/umberto-jXd2FSvcRr8-unsplash.jpg)', // Fixed to use local image instead of external URL
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
@@ -129,7 +126,7 @@ const RecyclingOffersPage = () => {
                 variant="contained" 
                 size="large"
                 component={RouterLink}
-                to="/register"
+                to="/schedule-pickup"
                 sx={{ 
                   bgcolor: theme.palette.teal.main,
                   color: 'white',
@@ -141,26 +138,7 @@ const RecyclingOffersPage = () => {
                   }
                 }}
               >
-                REGISTER
-              </Button>
-              <Button 
-                variant="outlined"
-                size="large"
-                component={RouterLink}
-                to="/login"
-                sx={{ 
-                  color: theme.palette.teal.main,
-                  borderColor: theme.palette.teal.main,
-                  fontWeight: 'bold',
-                  px: 4,
-                  py: 1.5,
-                  '&:hover': {
-                    borderColor: theme.palette.teal.dark,
-                    backgroundColor: 'rgba(0,0,0,0.04)'
-                  }
-                }}
-              >
-                CLIENT LOGIN
+                SCHEDULE A PICKUP
               </Button>
             </Box>
           </AnimatedContentBox>
@@ -188,7 +166,17 @@ const RecyclingOffersPage = () => {
           </Grid>
           <Grid item xs={12} md={5} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Box sx={{ width: '100%', maxWidth: 300 }}>
-              <RecyclingIcon size={300} color="black" />
+              <Box
+                component="img"
+                src="/images/Handsin.jpg"
+                alt="Hands coming together representing teamwork and collaboration in e-waste recycling"
+                sx={{
+                  width: '100%',
+                  height: 'auto',
+                  borderRadius: 2,
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+                }}
+              />
             </Box>
           </Grid>
         </Grid>
