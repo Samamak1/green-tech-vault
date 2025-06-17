@@ -35,11 +35,12 @@ const dropDown = keyframes`
 
 // Styled animated content box
 const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
-  backgroundColor: 'white',
+  backgroundColor: 'rgba(255, 255, 255, 0.4)',
   borderRadius: '0 0 20px 20px',
   padding: theme.spacing(6),
   maxWidth: '600px',
-  margin: '0 auto',
+  margin: '0',
+  marginLeft: '10%',
   position: 'relative',
   zIndex: 2,
   animation: animate ? `${dropDown} 1.2s ease-out forwards` : 'none',
@@ -121,7 +122,7 @@ const RecyclingOffersPage = () => {
               Ready to make a real impact? Sign up or login now to start recycling your e-waste and track 
               your contribution to a greener, cleaner future!
             </Typography>
-            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-start' }}> 
               <Button 
                 variant="contained" 
                 size="large"
@@ -363,7 +364,7 @@ const RecyclingOffersPage = () => {
                   Partner With Us
                 </Typography>
                 <Typography variant="body2">
-                  Are you a business, school, or organization looking to make a meaningful impact with e-waste recycling? Join our network of partners, and make a difference.
+                  Are you looking to make a meaningful impact with e-waste recycling? Join our network of partners, and make a difference.
                 </Typography>
                 <Button 
                   variant="outlined" 
