@@ -18,21 +18,14 @@ const BrandedFooter = () => {
       <Container maxWidth="lg">
         <Grid container spacing={4}>
           <Grid item xs={12} md={4}>
-            <Box sx={{ 
-              mb: 2,
-              // Align logo top with header text baseline - more aggressive positioning
-              mt: { xs: 0, md: '-12px' }, // More negative margin
-              transform: { xs: 'none', md: 'translateY(-4px)' } // Additional transform adjustment
-            }}>
+            <Box sx={{ mb: 2 }}>
               <Box 
                 sx={{ 
-                  width: 90, // Reverted from 270 back to 90
-                  height: 90, // Reverted from 270 back to 90
+                  width: 90,
+                  height: 90,
                   display: 'flex',
-                  alignItems: 'flex-start', // Changed from 'center' to 'flex-start'
-                  justifyContent: 'flex-start',
-                  // Ensure consistent alignment across screen sizes
-                  lineHeight: 1
+                  alignItems: 'center',
+                  justifyContent: 'center'
                 }}
               >
                 <Logo variant="light" size="medium" showText={false} showTagline={false} />
@@ -84,9 +77,7 @@ const BrandedFooter = () => {
             <Typography variant="h6" sx={{ 
               fontWeight: 'bold', 
               mb: 2, 
-              color: '#8cc63f',
-              lineHeight: 1.2,
-              mt: { xs: 0, md: 0 } // Ensure consistent top alignment
+              color: '#8cc63f'
             }}>
               OUR SERVICES
             </Typography>
@@ -105,9 +96,7 @@ const BrandedFooter = () => {
             <Typography variant="h6" sx={{ 
               fontWeight: 'bold', 
               mb: 2, 
-              color: '#8cc63f',
-              lineHeight: 1.2,
-              mt: { xs: 0, md: 0 } // Ensure consistent top alignment
+              color: '#8cc63f'
             }}>
               CONTACT US
             </Typography>

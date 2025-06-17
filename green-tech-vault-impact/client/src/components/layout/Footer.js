@@ -22,8 +22,6 @@ const Footer = () => {
   
   // Log footer color to verify it's correctly set
   console.log('Footer background color set to:', footerBgColor);
-  // Cache bust for alignment fix
-  console.log('Footer alignment fix applied - v2');
   
   // Footer sections
   const corporateLinks = [
@@ -64,24 +62,20 @@ const Footer = () => {
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={4} sx={{ alignItems: 'baseline' }}>
+        <Grid container spacing={4}>
           {/* Logo only - no text */}
           <Grid item xs={12} sm={3}>
             <Box sx={{ 
               display: 'flex', 
-              alignItems: 'baseline', 
-              mb: 2,
-              // Align logo top with header text baseline - more aggressive positioning
-              mt: { xs: 0, sm: '-16px' }, // Even more negative margin
-              transform: { xs: 'none', sm: 'translateY(-8px)' }, // More transform adjustment
-              height: 'fit-content'
+              alignItems: 'center', 
+              mb: 2
             }}>
               <Box
                 component={RouterLink}
                 to="/"
                 sx={{
                   display: 'flex',
-                  alignItems: 'flex-start',
+                  alignItems: 'center',
                   textDecoration: 'none',
                   color: 'white'
                 }}
@@ -91,10 +85,8 @@ const Footer = () => {
                     width: 90,
                     height: 90,
                     display: 'flex',
-                    alignItems: 'flex-start',
-                    justifyContent: 'flex-start',
-                    // Ensure consistent alignment across screen sizes
-                    lineHeight: 1
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   }}
                 >
                   <Logo variant="light" size="medium" showText={false} linkTo={null} />
@@ -106,9 +98,7 @@ const Footer = () => {
           {/* Explore Information */}
           <Grid item xs={12} sm={3}>
             <Typography variant="h6" gutterBottom sx={{ 
-              fontWeight: 'bold',
-              lineHeight: 1.2,
-              mt: { xs: 0, sm: 0 } // Ensure consistent top alignment
+              fontWeight: 'bold'
             }}>
               Explore
             </Typography>
@@ -131,9 +121,7 @@ const Footer = () => {
           {/* E-Waste Information */}
           <Grid item xs={12} sm={3}>
             <Typography variant="h6" gutterBottom sx={{ 
-              fontWeight: 'bold',
-              lineHeight: 1.2,
-              mt: { xs: 0, sm: 0 } // Ensure consistent top alignment
+              fontWeight: 'bold'
             }}>
               E-Waste
             </Typography>
@@ -156,9 +144,7 @@ const Footer = () => {
           {/* Contact Information */}
           <Grid item xs={12} sm={3}>
             <Typography variant="h6" gutterBottom sx={{ 
-              fontWeight: 'bold',
-              lineHeight: 1.2,
-              mt: { xs: 0, sm: 0 } // Ensure consistent top alignment
+              fontWeight: 'bold'
             }}>
               Contact
             </Typography>
