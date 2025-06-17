@@ -72,6 +72,22 @@ const HeroSection = styled(Box)({
   }
 });
 
+// Content wrapper with increased margins for better readability
+const ContentContainer = styled(Container)(({ theme }) => ({
+  maxWidth: '960px !important', // Narrower than default lg (1200px)
+  paddingLeft: '5vw',
+  paddingRight: '5vw',
+  margin: '0 auto',
+  [theme.breakpoints.down('sm')]: {
+    paddingLeft: '4vw',
+    paddingRight: '4vw',
+  },
+  [theme.breakpoints.down('xs')]: {
+    paddingLeft: '3vw',
+    paddingRight: '3vw',
+  }
+}));
+
 const RecyclingOffersPage = () => {
   const theme = useTheme();
   const [animate, setAnimate] = useState(false);
@@ -147,7 +163,7 @@ const RecyclingOffersPage = () => {
       </HeroSection>
       
       {/* Movement Section - Moved to come first */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
+      <ContentContainer sx={{ py: 8 }}>
         <Grid container spacing={6}>
           <Grid item xs={12} md={7}>
             <Typography variant="h3" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
@@ -181,10 +197,10 @@ const RecyclingOffersPage = () => {
             </Box>
           </Grid>
         </Grid>
-      </Container>
+      </ContentContainer>
       
       {/* Recycling Made Accessible Section with Updated Image */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
+      <ContentContainer sx={{ py: 8 }}>
         <Grid container spacing={6} alignItems="center">
           <Grid item xs={12} md={6}>
             <Box
@@ -228,11 +244,11 @@ const RecyclingOffersPage = () => {
             </Typography>
           </Grid>
         </Grid>
-      </Container>
+      </ContentContainer>
       
       {/* Recycling Offers Section */}
       <Box sx={{ bgcolor: '#f5f5f5', py: 6 }}>
-        <Container maxWidth="lg">
+        <ContentContainer>
           <Typography variant="h2" component="h2" align="center" gutterBottom sx={{ fontWeight: 'bold', mb: 6 }}>
             Recycling Offers
           </Typography>
@@ -274,7 +290,7 @@ const RecyclingOffersPage = () => {
               </Grid>
             ))}
           </Grid>
-        </Container>
+        </ContentContainer>
       </Box>
       
       {/* CTA Section */}
@@ -285,7 +301,7 @@ const RecyclingOffersPage = () => {
           py: 6
         }}
       >
-        <Container maxWidth="lg">
+        <ContentContainer>
           <Grid container spacing={4} alignItems="center">
             <Grid item xs={12} md={8}>
               <Typography variant="h4" component="h2" gutterBottom>
@@ -326,11 +342,11 @@ const RecyclingOffersPage = () => {
               </Button>
             </Grid>
           </Grid>
-        </Container>
+        </ContentContainer>
       </Box>
       
       {/* Ways to Contribute Section */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
+      <ContentContainer sx={{ py: 8 }}>
         <Typography variant="h4" component="h2" gutterBottom sx={{ textAlign: 'center', mb: 5, fontWeight: 'bold' }}>
           Ways to Make a Difference
         </Typography>
@@ -461,7 +477,7 @@ const RecyclingOffersPage = () => {
             </Card>
           </Grid>
         </Grid>
-      </Container>
+      </ContentContainer>
     </Box>
   );
 };
