@@ -18,14 +18,20 @@ const BrandedFooter = () => {
       <Container maxWidth="lg">
         <Grid container spacing={4}>
           <Grid item xs={12} md={4}>
-            <Box sx={{ mb: 2 }}>
+            <Box sx={{ 
+              mb: 2,
+              // Align logo top with header text baseline
+              mt: { xs: 0, md: '-4px' } // Slight negative margin to align with h6 text baseline
+            }}>
               <Box 
                 sx={{ 
                   width: 90, // Reverted from 270 back to 90
                   height: 90, // Reverted from 270 back to 90
                   display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-start'
+                  alignItems: 'flex-start', // Changed from 'center' to 'flex-start'
+                  justifyContent: 'flex-start',
+                  // Ensure consistent alignment across screen sizes
+                  lineHeight: 1
                 }}
               >
                 <Logo variant="light" size="medium" showText={false} showTagline={false} />
@@ -74,7 +80,13 @@ const BrandedFooter = () => {
           </Grid>
           
           <Grid item xs={12} md={4}>
-            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2, color: '#8cc63f' }}>
+            <Typography variant="h6" sx={{ 
+              fontWeight: 'bold', 
+              mb: 2, 
+              color: '#8cc63f',
+              lineHeight: 1.2,
+              mt: { xs: 0, md: 0 } // Ensure consistent top alignment
+            }}>
               OUR SERVICES
             </Typography>
             <Typography variant="body2" component="div" sx={{ color: 'rgba(255,255,255,0.8)' }}>
@@ -89,7 +101,13 @@ const BrandedFooter = () => {
           </Grid>
           
           <Grid item xs={12} md={4}>
-            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2, color: '#8cc63f' }}>
+            <Typography variant="h6" sx={{ 
+              fontWeight: 'bold', 
+              mb: 2, 
+              color: '#8cc63f',
+              lineHeight: 1.2,
+              mt: { xs: 0, md: 0 } // Ensure consistent top alignment
+            }}>
               CONTACT US
             </Typography>
             <Typography variant="body2" sx={{ mb: 1, color: 'rgba(255,255,255,0.8)' }}>
