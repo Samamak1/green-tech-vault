@@ -21,9 +21,6 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney'; // For turning e-
 import GroupIcon from '@mui/icons-material/Group'; // For referrals
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'; // For challenges/winning
 
-// Import components
-import RecyclingIcon from '../components/branding/RecyclingIcon';
-
 // Animation for dropdown
 const dropDown = keyframes`
   0% {
@@ -38,11 +35,12 @@ const dropDown = keyframes`
 
 // Styled animated content box
 const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
-  backgroundColor: 'white',
+  backgroundColor: 'rgba(255, 255, 255, 0.4)',
   borderRadius: '0 0 20px 20px',
   padding: theme.spacing(6),
   maxWidth: '600px',
-  margin: '0 auto',
+  margin: '0',
+  marginLeft: '10%',
   position: 'relative',
   zIndex: 2,
   animation: animate ? `${dropDown} 1.2s ease-out forwards` : 'none',
@@ -55,7 +53,7 @@ const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
 const HeroSection = styled(Box)({
   position: 'relative',
   minHeight: '100vh',
-  backgroundImage: 'url(https://images.unsplash.com/photo-1601972599748-4a2ce8e8f6c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80)', // E-waste phones background
+  backgroundImage: 'url(/images/umberto-jXd2FSvcRr8-unsplash.jpg)', // Fixed to use local image instead of external URL
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
@@ -73,6 +71,22 @@ const HeroSection = styled(Box)({
     zIndex: 1
   }
 });
+
+// Content wrapper with increased margins for better readability
+const ContentContainer = styled(Container)(({ theme }) => ({
+  maxWidth: '960px !important', // Narrower than default lg (1200px)
+  paddingLeft: '5vw',
+  paddingRight: '5vw',
+  margin: '0 auto',
+  [theme.breakpoints.down('sm')]: {
+    paddingLeft: '4vw',
+    paddingRight: '4vw',
+  },
+  [theme.breakpoints.down('xs')]: {
+    paddingLeft: '3vw',
+    paddingRight: '3vw',
+  }
+}));
 
 const RecyclingOffersPage = () => {
   const theme = useTheme();
@@ -124,12 +138,12 @@ const RecyclingOffersPage = () => {
               Ready to make a real impact? Sign up or login now to start recycling your e-waste and track 
               your contribution to a greener, cleaner future!
             </Typography>
-            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-start' }}> 
               <Button 
                 variant="contained" 
                 size="large"
                 component={RouterLink}
-                to="/register"
+                to="/schedule-pickup"
                 sx={{ 
                   bgcolor: theme.palette.teal.main,
                   color: 'white',
@@ -141,26 +155,7 @@ const RecyclingOffersPage = () => {
                   }
                 }}
               >
-                REGISTER
-              </Button>
-              <Button 
-                variant="outlined"
-                size="large"
-                component={RouterLink}
-                to="/login"
-                sx={{ 
-                  color: theme.palette.teal.main,
-                  borderColor: theme.palette.teal.main,
-                  fontWeight: 'bold',
-                  px: 4,
-                  py: 1.5,
-                  '&:hover': {
-                    borderColor: theme.palette.teal.dark,
-                    backgroundColor: 'rgba(0,0,0,0.04)'
-                  }
-                }}
-              >
-                CLIENT LOGIN
+                SCHEDULE A PICKUP
               </Button>
             </Box>
           </AnimatedContentBox>
@@ -168,7 +163,7 @@ const RecyclingOffersPage = () => {
       </HeroSection>
       
       {/* Movement Section - Moved to come first */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
+      <ContentContainer sx={{ py: 8 }}>
         <Grid container spacing={6}>
           <Grid item xs={12} md={7}>
             <Typography variant="h3" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
@@ -188,14 +183,24 @@ const RecyclingOffersPage = () => {
           </Grid>
           <Grid item xs={12} md={5} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Box sx={{ width: '100%', maxWidth: 300 }}>
-              <RecyclingIcon size={300} color="black" />
+              <Box
+                component="img"
+                src="/images/Handsin.jpg"
+                alt="Hands coming together representing teamwork and collaboration in e-waste recycling"
+                sx={{
+                  width: '100%',
+                  height: 'auto',
+                  borderRadius: 2,
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+                }}
+              />
             </Box>
           </Grid>
         </Grid>
-      </Container>
+      </ContentContainer>
       
       {/* Recycling Made Accessible Section with Updated Image */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
+      <ContentContainer sx={{ py: 8 }}>
         <Grid container spacing={6} alignItems="center">
           <Grid item xs={12} md={6}>
             <Box
@@ -239,11 +244,11 @@ const RecyclingOffersPage = () => {
             </Typography>
           </Grid>
         </Grid>
-      </Container>
+      </ContentContainer>
       
       {/* Recycling Offers Section */}
       <Box sx={{ bgcolor: '#f5f5f5', py: 6 }}>
-        <Container maxWidth="lg">
+        <ContentContainer>
           <Typography variant="h2" component="h2" align="center" gutterBottom sx={{ fontWeight: 'bold', mb: 6 }}>
             Recycling Offers
           </Typography>
@@ -285,7 +290,7 @@ const RecyclingOffersPage = () => {
               </Grid>
             ))}
           </Grid>
-        </Container>
+        </ContentContainer>
       </Box>
       
       {/* CTA Section */}
@@ -296,7 +301,7 @@ const RecyclingOffersPage = () => {
           py: 6
         }}
       >
-        <Container maxWidth="lg">
+        <ContentContainer>
           <Grid container spacing={4} alignItems="center">
             <Grid item xs={12} md={8}>
               <Typography variant="h4" component="h2" gutterBottom>
@@ -337,11 +342,11 @@ const RecyclingOffersPage = () => {
               </Button>
             </Grid>
           </Grid>
-        </Container>
+        </ContentContainer>
       </Box>
       
       {/* Ways to Contribute Section */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
+      <ContentContainer sx={{ py: 8 }}>
         <Typography variant="h4" component="h2" gutterBottom sx={{ textAlign: 'center', mb: 5, fontWeight: 'bold' }}>
           Ways to Make a Difference
         </Typography>
@@ -375,7 +380,7 @@ const RecyclingOffersPage = () => {
                   Partner With Us
                 </Typography>
                 <Typography variant="body2">
-                  Are you a business, school, or organization looking to make a meaningful impact with e-waste recycling? Join our network of partners, and make a difference.
+                  Are you looking to make a meaningful impact with e-waste recycling? Join our network of partners, and make a difference.
                 </Typography>
                 <Button 
                   variant="outlined" 
@@ -472,7 +477,7 @@ const RecyclingOffersPage = () => {
             </Card>
           </Grid>
         </Grid>
-      </Container>
+      </ContentContainer>
     </Box>
   );
 };

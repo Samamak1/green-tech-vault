@@ -21,11 +21,11 @@ const BrandedFooter = () => {
             <Box sx={{ mb: 2 }}>
               <Box 
                 sx={{ 
-                  width: 90, // Reverted from 270 back to 90
-                  height: 90, // Reverted from 270 back to 90
+                  width: 90,
+                  height: 90,
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'flex-start'
+                  justifyContent: 'center'
                 }}
               >
                 <Logo variant="light" size="medium" showText={false} showTagline={false} />
@@ -74,7 +74,11 @@ const BrandedFooter = () => {
           </Grid>
           
           <Grid item xs={12} md={4}>
-            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2, color: '#8cc63f' }}>
+            <Typography variant="h6" sx={{ 
+              fontWeight: 'bold', 
+              mb: 2, 
+              color: '#8cc63f'
+            }}>
               OUR SERVICES
             </Typography>
             <Typography variant="body2" component="div" sx={{ color: 'rgba(255,255,255,0.8)' }}>
@@ -89,7 +93,11 @@ const BrandedFooter = () => {
           </Grid>
           
           <Grid item xs={12} md={4}>
-            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2, color: '#8cc63f' }}>
+            <Typography variant="h6" sx={{ 
+              fontWeight: 'bold', 
+              mb: 2, 
+              color: '#8cc63f'
+            }}>
               CONTACT US
             </Typography>
             <Typography variant="body2" sx={{ mb: 1, color: 'rgba(255,255,255,0.8)' }}>

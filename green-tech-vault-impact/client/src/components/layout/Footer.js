@@ -65,13 +65,17 @@ const Footer = () => {
         <Grid container spacing={4}>
           {/* Logo only - no text */}
           <Grid item xs={12} sm={3}>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              mb: 2
+            }}>
               <Box
                 component={RouterLink}
                 to="/"
                 sx={{
                   display: 'flex',
-                  alignItems: 'flex-start',
+                  alignItems: 'center',
                   textDecoration: 'none',
                   color: 'white'
                 }}
@@ -81,8 +85,8 @@ const Footer = () => {
                     width: 90,
                     height: 90,
                     display: 'flex',
-                    alignItems: 'flex-start',
-                    justifyContent: 'flex-start'
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   }}
                 >
                   <Logo variant="light" size="medium" showText={false} linkTo={null} />
@@ -93,7 +97,9 @@ const Footer = () => {
 
           {/* Explore Information */}
           <Grid item xs={12} sm={3}>
-            <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+            <Typography variant="h6" gutterBottom sx={{ 
+              fontWeight: 'bold'
+            }}>
               Explore
             </Typography>
             <Stack spacing={1}>
@@ -114,7 +120,9 @@ const Footer = () => {
 
           {/* E-Waste Information */}
           <Grid item xs={12} sm={3}>
-            <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+            <Typography variant="h6" gutterBottom sx={{ 
+              fontWeight: 'bold'
+            }}>
               E-Waste
             </Typography>
             <Stack spacing={1}>
@@ -135,7 +143,9 @@ const Footer = () => {
 
           {/* Contact Information */}
           <Grid item xs={12} sm={3}>
-            <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+            <Typography variant="h6" gutterBottom sx={{ 
+              fontWeight: 'bold'
+            }}>
               Contact
             </Typography>
             <Stack spacing={1}>
