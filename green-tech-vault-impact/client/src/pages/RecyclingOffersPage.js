@@ -35,7 +35,7 @@ const dropDown = keyframes`
 
 // Styled animated content box
 const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
-  backgroundColor: 'rgba(255, 255, 255, 0.4)',
+  backgroundColor: 'rgba(255, 255, 255, 0.6)',
   borderRadius: '0 0 20px 20px',
   padding: theme.spacing(6),
   maxWidth: '600px',
@@ -46,7 +46,9 @@ const AnimatedContentBox = styled(Box)(({ theme, animate }) => ({
   animation: animate ? `${dropDown} 1.2s ease-out forwards` : 'none',
   transform: animate ? 'translateY(0)' : 'translateY(-100%)',
   opacity: animate ? 1 : 0,
-  boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+  boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+  paddingTop: theme.spacing(8),
+  marginTop: 0
 }));
 
 // Hero section with background image
@@ -129,7 +131,7 @@ const RecyclingOffersPage = () => {
     <Box>
       {/* Hero Section with Animated Dropdown */}
       <HeroSection>
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 8 }}>
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 0 }}>
           <AnimatedContentBox animate={animate}>
             <Typography variant="h2" component="h1" gutterBottom color="text.primary" sx={{ fontWeight: 'bold' }}>
               Join Us Today!
@@ -164,8 +166,8 @@ const RecyclingOffersPage = () => {
       
       {/* Movement Section - Moved to come first */}
       <ContentContainer sx={{ py: 8 }}>
-        <Grid container spacing={6}>
-          <Grid item xs={12} md={7}>
+        <Grid container spacing={6} alignItems="stretch">
+          <Grid item xs={12} md={7} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <Typography variant="h3" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
               Join The Movement<br />
               Towards Cleaner Tech
@@ -182,7 +184,18 @@ const RecyclingOffersPage = () => {
             </Typography>
           </Grid>
           <Grid item xs={12} md={5} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Box sx={{ width: '100%', maxWidth: 300 }}>
+            <Box sx={{ 
+              width: '100%', 
+              maxWidth: 350,
+              height: 'auto',
+              [theme.breakpoints.down('md')]: {
+                maxWidth: '100%',
+                marginBottom: 2
+              },
+              [theme.breakpoints.down('sm')]: {
+                maxWidth: 280
+              }
+            }}>
               <Box
                 component="img"
                 src="/images/Handsin.jpg"
@@ -190,8 +203,13 @@ const RecyclingOffersPage = () => {
                 sx={{
                   width: '100%',
                   height: 'auto',
+                  maxHeight: 280,
+                  objectFit: 'cover',
                   borderRadius: 2,
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                  [theme.breakpoints.down('md')]: {
+                    maxHeight: 'none'
+                  }
                 }}
               />
             </Box>
@@ -201,21 +219,39 @@ const RecyclingOffersPage = () => {
       
       {/* Recycling Made Accessible Section with Updated Image */}
       <ContentContainer sx={{ py: 8 }}>
-        <Grid container spacing={6} alignItems="center">
-          <Grid item xs={12} md={6}>
-            <Box
-              component="img"
-              src="/images/elly-filho-prFmxl4FPP4-unsplash.jpg" // Updated to use the new worker image
-              alt="Recycling team at work"
-              sx={{
-                width: '100%',
-                height: 'auto',
-                borderRadius: 2,
-                boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
-              }}
-            />
+        <Grid container spacing={6} alignItems="stretch">
+          <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Box sx={{ 
+              width: '100%', 
+              maxWidth: 400,
+              height: 'auto',
+              [theme.breakpoints.down('md')]: {
+                maxWidth: '100%',
+                marginBottom: 2
+              },
+              [theme.breakpoints.down('sm')]: {
+                maxWidth: 300
+              }
+            }}>
+              <Box
+                component="img"
+                src="/images/elly-filho-prFmxl4FPP4-unsplash.jpg"
+                alt="Recycling team at work"
+                sx={{
+                  width: '100%',
+                  height: 'auto',
+                  maxHeight: 320,
+                  objectFit: 'cover',
+                  borderRadius: 2,
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                  [theme.breakpoints.down('md')]: {
+                    maxHeight: 'none'
+                  }
+                }}
+              />
+            </Box>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
               Recycling made Accessible
             </Typography>
