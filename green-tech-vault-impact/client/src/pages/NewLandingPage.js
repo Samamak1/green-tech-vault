@@ -1015,17 +1015,20 @@ const NewLandingPage = () => {
                 {/* Logo */}
                 <Box sx={{
                   position: 'absolute',
-                  top: '32px',
-                  left: '32px',
-                  zIndex: 10,
+                  top: '16px',
+                  left: '16px',
+                  zIndex: 20,
                   display: 'flex',
                   alignItems: 'center',
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  padding: '4px 8px',
+                  borderRadius: '4px',
                 }}>
                   <img 
                     src="/images/logo.png" 
                     alt="Logo"
                     style={{
-                      height: '22px',
+                      height: '32px',
                       width: 'auto',
                       objectFit: 'contain'
                     }}

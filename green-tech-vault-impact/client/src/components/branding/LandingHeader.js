@@ -203,7 +203,7 @@ const LandingHeader = () => {
         sx={{ 
           borderBottom: 'none',
           boxShadow: 'none',
-          background: 'linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.7) 70%, rgba(255, 255, 255, 0.6) 85%, rgba(255, 255, 255, 0.35) 95%, rgba(255, 255, 255, 0.25) 100%)',
+          background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.55) 70%, rgba(255, 255, 255, 0.45) 85%, rgba(255, 255, 255, 0.15) 95%, rgba(255, 255, 255, 0.05) 100%)',
           zIndex: 1100
         }}
       >
