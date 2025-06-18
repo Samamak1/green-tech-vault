@@ -64,7 +64,7 @@ const Logo = ({ variant = 'default', size = 'medium', showText = true, showTagli
   const LogoIcon = () => (
     <Box 
       component="img"
-      src="/images/unnamed.png"
+      src="/images/logo.png"
       alt="RYGNeco Logo"
       sx={{ 
         width: iconSize * 5.4,
