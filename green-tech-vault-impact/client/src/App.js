@@ -63,6 +63,7 @@ import SamaMushtaqProfile from './pages/SamaMushtaqProfile';
 import EwasteItemDetailPage from './pages/EwasteItemDetailPage';
 import GetInvolvedPage from './pages/GetInvolvedPage';
 import EducationPage from './pages/EducationPage';
+import ComingSoonPage from './pages/ComingSoonPage';
 
 // Admin Pages
 import AdminLogin from './pages/AdminLogin';
@@ -477,6 +478,9 @@ function ConditionalLayout() {
               <SchedulePickup />
             </MainLayout>
           } />
+          
+          {/* Coming Soon Page */}
+          <Route path="/coming-soon" element={<ComingSoonPage />} />
           
           {/* Auth Routes */}
           <Route path="/login" element={<ClientLogin />} />
