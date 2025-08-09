@@ -36,11 +36,10 @@ const AnimatedBox = styled(Box)(({ delay = 0 }) => ({
 
 const GradientBackground = styled(Box)(({ theme }) => ({
   minHeight: '100vh',
-  background: `linear-gradient(135deg, 
-    ${theme.palette.primary.main}ee 0%, 
-    ${theme.palette.success.main}dd 50%, 
-    ${theme.palette.secondary.main}ee 100%
-  )`,
+  backgroundImage: 'url("/images/maybe.png")',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center center',
+  backgroundRepeat: 'no-repeat',
   position: 'relative',
   overflow: 'hidden',
   '&::before': {
@@ -50,10 +49,12 @@ const GradientBackground = styled(Box)(({ theme }) => ({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundImage: 'url("/images/blockchain-tracking.svg")',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    opacity: 0.05,
+    background: `linear-gradient(135deg, 
+      ${theme.palette.primary.main}ee 0%, 
+      ${theme.palette.success.main}dd 50%, 
+      ${theme.palette.secondary.main}ee 100%
+    )`,
+    opacity: 0.85,
     zIndex: 1,
   }
 }));

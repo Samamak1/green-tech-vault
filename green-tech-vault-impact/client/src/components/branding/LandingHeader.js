@@ -36,12 +36,14 @@ import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 
 // Import or create a logo component
 import Logo from './Logo';
+import { useAuth } from '../../context/AuthContext';
 
 const LandingHeader = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery('(max-width:720px)'); // Custom breakpoint for navigation crowding
   const [menuOpen, setMenuOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
+  const { user } = useAuth();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -190,6 +192,52 @@ const LandingHeader = () => {
             />
           </ListItem>
         ))}
+
+        {!user && (
+          <>
+            <Divider sx={{ my: 2 }} />
+            <ListItem 
+              component={RouterLink} 
+              to="/login"
+              onClick={toggleMenu}
+              sx={{ py: 2 }}
+            >
+              <ListItemText 
+                primary="Sign In" 
+                primaryTypographyProps={{
+                  fontSize: '16px',
+                  fontWeight: '500',
+                  color: 'primary.main'
+                }}
+              />
+            </ListItem>
+            <ListItem 
+              component={RouterLink} 
+              to="/register"
+              onClick={toggleMenu}
+              sx={{ 
+                py: 2,
+                mx: 2,
+                mb: 2,
+                backgroundColor: 'primary.main',
+                borderRadius: 2,
+                '&:hover': {
+                  backgroundColor: 'primary.dark'
+                }
+              }}
+            >
+              <ListItemText 
+                primary="Register" 
+                primaryTypographyProps={{
+                  fontSize: '16px',
+                  fontWeight: '500',
+                  color: 'white',
+                  textAlign: 'center'
+                }}
+              />
+            </ListItem>
+          </>
+        )}
       </List>
     </Drawer>
   );
@@ -306,6 +354,41 @@ const LandingHeader = () => {
                       {item.text}
                     </Typography>
                   )
+                )}
+
+                {!user && (
+                  <Box sx={{ display: 'flex', alignItems: 'center', ml: 2, gap: 1.5 }}>
+                    <Button
+                      component={RouterLink}
+                      to="/login"
+                      variant="outlined"
+                      sx={{ 
+                        borderRadius: '20px',
+                        px: 3,
+                        textTransform: 'none',
+                        color: 'text.primary',
+                        borderColor: '#e0e0e0',
+                        fontSize: '14px'
+                      }}
+                    >
+                      Sign in
+                    </Button>
+                    <Button
+                      component={RouterLink}
+                      to="/register"
+                      variant="contained"
+                      sx={{ 
+                        borderRadius: '20px',
+                        px: 3,
+                        textTransform: 'none',
+                        bgcolor: '#333',
+                        fontSize: '14px',
+                        '&:hover': { bgcolor: '#555' }
+                      }}
+                    >
+                      Register
+                    </Button>
+                  </Box>
                 )}
               </>
             )}
