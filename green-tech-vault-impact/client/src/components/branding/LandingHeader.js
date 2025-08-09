@@ -356,40 +356,38 @@ const LandingHeader = () => {
                   )
                 )}
 
-                {!user && (
-                  <Box sx={{ display: 'flex', alignItems: 'center', ml: 2, gap: 1.5 }}>
-                    <Button
-                      component={RouterLink}
-                      to="/login"
-                      variant="outlined"
-                      sx={{ 
-                        borderRadius: '20px',
-                        px: 3,
-                        textTransform: 'none',
-                        color: 'text.primary',
-                        borderColor: '#e0e0e0',
-                        fontSize: '14px'
-                      }}
-                    >
-                      Sign in
-                    </Button>
-                    <Button
-                      component={RouterLink}
-                      to="/register"
-                      variant="contained"
-                      sx={{ 
-                        borderRadius: '20px',
-                        px: 3,
-                        textTransform: 'none',
-                        bgcolor: '#333',
-                        fontSize: '14px',
-                        '&:hover': { bgcolor: '#555' }
-                      }}
-                    >
-                      Register
-                    </Button>
-                  </Box>
-                )}
+                <Box sx={{ display: 'flex', alignItems: 'center', ml: 2, gap: 1.5 }}>
+                  <Button
+                    component={RouterLink}
+                    to="/login"
+                    variant="outlined"
+                    sx={{ 
+                      borderRadius: '20px',
+                      px: 3,
+                      textTransform: 'none',
+                      color: 'text.primary',
+                      borderColor: '#e0e0e0',
+                      fontSize: '14px'
+                    }}
+                  >
+                    Sign in
+                  </Button>
+                  <Button
+                    component={RouterLink}
+                    to="/register"
+                    variant="contained"
+                    sx={{ 
+                      borderRadius: '20px',
+                      px: 3,
+                      textTransform: 'none',
+                      bgcolor: '#333',
+                      fontSize: '14px',
+                      '&:hover': { bgcolor: '#555' }
+                    }}
+                  >
+                    Register
+                  </Button>
+                </Box>
               </>
             )}
 

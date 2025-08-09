@@ -401,11 +401,21 @@ function ConditionalLayout() {
       <main style={{ flex: 1 }}>
         <Routes>
           {/* Public Routes with MainLayout */}
-          <Route path="/" element={<ComingSoonPage />} />
+          <Route path="/" element={
+            <MainLayout>
+              <ComingSoonPage />
+            </MainLayout>
+          } />
           
           <Route path="/old-landing" element={
             <MainLayout>
               <NewLandingPage />
+            </MainLayout>
+          } />
+          
+          <Route path="/coming-soon" element={
+            <MainLayout>
+              <ComingSoonPage />
             </MainLayout>
           } />
           
